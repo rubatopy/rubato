@@ -1,5 +1,5 @@
 # TODO: Make this so that everything runs on it. One Function takes in their screen and makes it as the display.
-import pygame, sys
+import pygame, sys, webbrowser
 from pygame.locals import *
 
 mainClock = pygame.time.Clock()
@@ -47,6 +47,106 @@ def game():
     pygame.display.update()
     mainClock.tick(40)
 
+text_size = 25
+myfont = pygame.font.SysFont('Comic Sans MS', text_size)
+cursor = 0
+STATES = {
+    "Menu": 1,
+    "Running": 2,
+    "Finished": 3,
+}
+current_state = STATES["Menu"]
+white, black = (255, 255, 255), (0, 0, 0)
+
+def DoMenu():
+    MenuText = [
+        "ALEXA TURN ON THE 2D PLATFORMER!!!",
+        "",
+        "Play",
+        "About us",
+    ]
+    # input
+    global cursor, current_state
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            keypressed = pygame.key.get_pressed()
+            if keypressed[pygame.K_DOWN]:
+                cursor += 1
+            if keypressed[pygame.K_UP]:
+                cursor -= 1
+            if keypressed[pygame.K_RETURN]:
+                if cursor == 0:
+                    current_state = STATES["Running"]
+
+                if cursor == 1:
+                    webbrowser.open("https://curriculum.applied-computing.org/MathAndPythonJamesClass/MMM/ourclass.md")
+    if cursor > 1:
+        cursor = 0
+    if cursor < 0:
+        cursor = 1
+    # update
+    # draw
+    screen.fill(white)
+    index = 0
+    for text in MenuText:
+        if index - 2 == cursor:
+            text = "> " + text
+        text_color = black
+        text_image = myfont.render(text, False, text_color)
+        screen.blit(text_image, (20, 20 + index * text_size))
+        index += 1
+    pygame.display.flip()
+    pass
+
+def DoEndScreen():
+    MenuText = [
+        "ALEXA TURN ON THE 2D PLATFORMER!!!",
+        "",
+        "Congrats on finishing the game!",
+        "",
+        "Back to main menu",
+        "About us",
+    ]
+    global cursor
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            keypressed = pygame.key.get_pressed()
+            if keypressed[pygame.K_DOWN]:
+                cursor += 1
+            if keypressed[pygame.K_UP]:
+                cursor -= 1
+            if keypressed[pygame.K_RETURN]:
+                if cursor == 0:
+                    current_state = STATES["Menu"]
+                if cursor == 1:
+                    webbrowser.open("https://curriculum.applied-computing.org/MathAndPythonJamesClass/MMM/ourclass.md")
+    if cursor > 1:
+        cursor = 0
+    if cursor < 0:
+        cursor = 1
+    # update
+    # draw
+    screen.fill(white)
+    index = 0
+    for text in MenuText:
+        if index - 4 == cursor:
+            text = "> " + text
+        text_color = black
+        text_image = myfont.render(text, False, text_color)
+        screen.blit(text_image, (20, 20 + index * text_size))
+        index += 1
+    pygame.display.flip()
+    pass
+
 
 while True:
-    game()
+    if current_state == STATES["Running"]:
+        game()
+    if current_state == STATES["Menu"]:
+        DoMenu()
+    if current_state == STATES["Finished"]:
+        DoEndScreen()
