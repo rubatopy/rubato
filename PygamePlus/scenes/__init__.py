@@ -1,3 +1,3 @@
-from Scene import Scene
-from SceneManager import SceneManager
+from PygamePlus.scenes.Scene import Scene
+from PygamePlus.scenes.SceneManager import SceneManager
 

@@ -1,13 +1,13 @@
 import pygame, sys
 from PygamePlus.utils import STATE
-
+from PygamePlus.scenes.SceneManager import SceneManager
 
 class Game:
     """
     Main Game object. Controls everything in the game
     """
 
-    def __init__(self, window_width, window_height):
+    def __init__(self, window_width, window_height, reset_display=True):
         pygame.init()
 
         self.state = STATE.RUNNING
@@ -19,7 +19,8 @@ class Game:
         self.screen = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
         self.display = pygame.Surface((window_width, window_height))
 
-        # self.scene_manager =
+        self.scene_manager = SceneManager()
+        self.reset_display = reset_display
 
     def update(self):
         """
@@ -57,7 +58,7 @@ class Game:
         """
         Draw loop for the game
         """
-        self.display.fill((255, 255, 255)) # TODO make this optional somehow
+        if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
 
     def runGame(self):
