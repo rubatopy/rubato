@@ -26,6 +26,7 @@ def binary_search(arr, low, high, x):
             return ~(high+1)  # this way it will be negative if it is not present
         else:
             return ~len(arr)
+        # 0000 0111
 
 
 class Action:
@@ -37,21 +38,30 @@ class Action:
     def add(self, func):
         self.actions.append(func)
 
+    def add_wparam(self, func, param):  # need to implement a list of params
+        self.actions.append([func, param])
+
     def remove(self, func):
         self.actions.remove(func)
 
     def invoke(self):
         for func in self.actions:
-            if isinstance(func, Action):
+            if isinstance(func, list):
+                # func with param
+                param = func[1]
+                a = func[0]
+                eval("a" + "(" + "param" + ")")
+            elif isinstance(func, Action):
                 func.invoke()
-            func()
+            else:
+                func()
 
 
 @total_ordering
 class TimerTask:
     def __init__(self, when, action: Action):
         self.when = when
-        self.what : Action = action
+        self.what: Action = action
 
     def __lt__(self, other):
         if other.__class__ is self.__class__:
@@ -82,13 +92,23 @@ class Timer(object):
         self._deltatime = 0
         self.tasks: [TimerTask] = []
 
-    def add_task(self, delay, func):
+    def add_task(self, delay, func, params=None):
+        '''
+            :param delay: delay in seconds until the function is called
+            :return: None
+        '''
         if not isinstance(func, Action):
-            temp_action = Action()
-            temp_action.add(func)
-            task = TimerTask(delay + self.now, temp_action)
+            if params:
+                temp_action = Action()
+                temp_action.add_wparam(func, params)
+                task = TimerTask(delay + self.now, temp_action)
+            else:
+                temp_action = Action()
+                temp_action.add(func)
+                task = TimerTask(delay + self.now, temp_action)
         else:
             task = TimerTask(delay + self.now, func)
+
         self.add_task_from_timer(task)
 
     def add_task_from_timer(self, task:TimerTask):
@@ -98,11 +118,14 @@ class Timer(object):
         self.tasks.insert(proper_index, task)
 
     def update(self):
-        while len(self.tasks) > 0 and self.now > self.tasks[len(self.tasks)-1].when:
-            index = len(self.tasks)-1
+        index = len(self.tasks)-1
+        while len(self.tasks) > 0 and self.now > self.tasks[index].when:
+            print(self.tasks)
             task: TimerTask = self.tasks[index]
             self.tasks.pop(index)
             task.what.invoke()
+            print(self.tasks)
+            print("should have called function from timer")
         try:
             self._deltatime = float(self.now) - self._last_update_time
             self._last_update_time = self.now
