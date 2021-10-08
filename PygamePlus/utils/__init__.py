@@ -1,1 +1,1 @@
-from STATE import STATE
+from PygamePlus.utils.STATE import STATE

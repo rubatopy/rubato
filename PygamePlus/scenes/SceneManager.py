@@ -4,18 +4,25 @@ from Scene import Scene
 class SceneManager:
     """
     A Scene Manager houses a collection of scenes and allows switching between different scenes.
-    Also handles the drawing and updating of a scene.
+    Also handles the drawing and updating of current scene.
     """
     def __init__(self):
         self.scenes = {}
         self.current = 0
 
-    def new(self):
+    def new(self, scene_id):
         """
         Creates a new scene and adds it to the scene manager
+
+        :param scene_id: the id for the new scene
+        :return: the newly created scene class
         """
-        new_scene = Scene()  # TODO Make parameters
-        self.scenes["id"] = new_scene  # TODO Actually set the ID
+        if scene_id in self.scenes.keys():
+            raise ValueError(f"The id {scene_id} is not unique in this scene manager. Scene id's must be unique")
+        else:
+            new_scene = Scene(scene_id)
+            self.scenes[scene_id] = new_scene
+            return new_scene
 
     def set(self, scene_id):
         """
@@ -37,10 +44,11 @@ class SceneManager:
         """
         Calls the update function of the current scene
         """
-        pass  # TODO call update function of current scene
+        self.currentScene().update()
 
     def draw(self):
         """
         Calls the draw function of the current scene
         """
-        pass  # TODO call the draw function of the current scene
+        self.currentScene().draw()
+
