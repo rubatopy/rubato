@@ -14,6 +14,7 @@ class Sprite:
     def __init__(self, x: int, y: int, image_location: str):
         self.position = (x, y)
         self.image = load(image_location)
+        self.state = {}
 
     def update(self):
         """The update loop"""
