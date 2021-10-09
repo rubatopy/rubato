@@ -4,8 +4,7 @@ from pgp import Sprite, Input, Point, Scene
 game = pgp.Game()
 
 scene = Scene()
-scene.camera.pos.x = 100
-scene.camera.pos.y = 100
+scene.camera.pos.translate(100, 100)
 game.scene_manager.add_scene(scene)
 
 sprite = Sprite("./Tinmarr.jpg", Point(100, 100))
