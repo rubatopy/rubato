@@ -1,2 +1,2 @@
-# pygame-game-engine
+# PGP
 Name TBD

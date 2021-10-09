@@ -1,6 +1,6 @@
-import PygamePlus as PP
-from PygamePlus import Sprite, Input, GD
-from PygamePlus.scenes import Scene
+import pgp as PP
+from pgp import Sprite, Input, GD
+from pgp.scenes import Scene
 
 game = PP.Game()
 

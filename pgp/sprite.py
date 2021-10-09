@@ -1,6 +1,6 @@
 from pygame.image import load
-from PygamePlus.utils.DISPLAY import GD
-from PygamePlus.input import Input
+from pgp.utils.DISPLAY import GD
+from pgp.input import Input
 
 class Sprite:
     """

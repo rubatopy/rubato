@@ -1,11 +1,11 @@
 import pygame
 from sys import exit
-from PygamePlus.utils import STATE, GD
-from PygamePlus.scenes.scene_manager import SceneManager
-from PygamePlus.broadcast import Broadcast
-from PygamePlus.sprite import Sprite
-from PygamePlus.group import Group
-from PygamePlus.input import Input
+from pgp.utils import STATE, GD
+from pgp.scenes.scene_manager import SceneManager
+from pgp.broadcast import Broadcast
+from pgp.sprite import Sprite
+from pgp.group import Group
+from pgp.input import Input
 
 
 class Game:

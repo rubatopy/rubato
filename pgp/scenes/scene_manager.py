@@ -1,4 +1,4 @@
-from PygamePlus.scenes.scene import Scene
+from pgp.scenes.scene import Scene
 
 
 class SceneManager:
