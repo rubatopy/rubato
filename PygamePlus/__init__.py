@@ -11,6 +11,7 @@ class Game:
     """
     Main Game object. Controls everything in the game.
 
+    :param name: The name of the window.
     :param window_width: The starting width of the window.
     :param window_height: The starting height of the window.
     :param reset_display: Whether to clear the display every frame before drawing.
