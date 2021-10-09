@@ -12,27 +12,24 @@ class Game:
     """
     Main Game object. Controls everything in the game.
 
-    :param name: The name of the window.
-    :param window_width: The starting width of the window.
-    :param window_height: The starting height of the window.
-    :param reset_display: Whether to clear the display every frame before drawing.
+    :param options: The config used to generate the game instance.
     """
 
-    def __init__(self, name: str, window_width: int, window_height: int, reset_display: bool = True):
+    def __init__(self, options: dict = {}):
         pygame.init()
 
-        self.name = name
+        self.name = options.get("name") or "Untitled Game"
+        self.window_width = options.get("window_width") or 600
+        self.window_height = options.get("window_height") or 400
+        self.aspect_ratio = options.get("aspect_ratio") or 1.5
+        self.fps = options.get("fps") or 60
+        self.reset_display = options.get("reset_display") or True
 
         self.state = STATE.STOPPED
-        self.window_width = window_width
-        self.window_height = window_height
-        self.aspect_ratio = 1.5
-        self.fps = 60
-
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
-        self.display = pygame.Surface((window_width, window_height))
-        pygame.display.set_caption(name)
+        self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
+        self.display = pygame.Surface((self.window_width, self.window_height))
+        pygame.display.set_caption(self.name)
 
         GD.set(self.display)
 
