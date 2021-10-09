@@ -1,24 +1,27 @@
-import pgp as PP
-from pgp import Sprite, Input, GD
-from pgp.scenes import Scene
+import pgp as pgp
+from pgp import Sprite, Input, Point, Scene
 
-game = PP.Game()
+game = pgp.Game()
 
 scene = Scene()
-scene.camera.x = 100
-scene.camera.y = 100
+scene.camera.pos.x = 100
+scene.camera.pos.y = 100
 game.scene_manager.add_scene(scene)
 
-sprite = Sprite("./Tinmarr.jpg" ,100, 100, 0)
+sprite = Sprite("./Tinmarr.jpg", Point(100, 100))
+
 
 def custom_update():
-    sprite.z_index = 1 - Input.is_pressed("SPACE")
+    sprite.pos.z = 1 - Input.is_pressed("SPACE")
+
 
 sprite.update = custom_update
 scene.sprites.append(sprite)
 
+
 def test_handler():
     print("Yeet")
+
 
 game.broadcast.add_listener("test", test_handler)
 game.broadcast.add_listener("w_down", test_handler)

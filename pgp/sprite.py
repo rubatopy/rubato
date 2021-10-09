@@ -1,5 +1,5 @@
 from pygame.image import load
-from pgp.utils.DISPLAY import GD
+from pgp.utils import GD, Point
 from pgp.input import Input
 
 class Sprite:
@@ -11,10 +11,9 @@ class Sprite:
     :param image_location: The location of the sprite.
     """
 
-    def __init__(self, image_location: str, x: int, y: int, z: int = 0):
+    def __init__(self, image_location: str, pos: Point):
         self.image = load(image_location)
-        self.pos = (x, y)
-        self.z_index = z
+        self.pos = pos
         self.state = {}
 
     def update(self):
@@ -23,4 +22,5 @@ class Sprite:
 
     def draw(self, camera):
         """The draw loop"""
-        if camera.z >= self.z_index: GD.update(self.image, (self.pos[0] - camera.x, self.pos[1] - camera.y))
+        if camera.pos.z >= self.pos.z:
+            GD.update(self.image, self.pos.offset2(camera.pos).to_tuple())
