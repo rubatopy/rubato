@@ -34,3 +34,6 @@ class Point:
         Returns the x and y coordinates of the point as a tuple
         """
         return self.x, self.y
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
