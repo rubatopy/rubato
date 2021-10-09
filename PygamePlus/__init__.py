@@ -50,8 +50,6 @@ class Game:
                 self.window_height = event.size[1]
                 self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
 
-        self.broadcast_system.keys = pygame.key.get_pressed()
-
         ratio = (self.window_width / self.window_height) < self.aspect_ratio
         width = (self.window_height * self.aspect_ratio, self.window_width)[ratio]
         height = (self.window_height, self.window_width / self.aspect_ratio)[ratio]

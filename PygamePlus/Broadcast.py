@@ -9,7 +9,6 @@ class Broadcast:
     def __init__(self):
         self.events = []
         self.listeners = {}
-        self.keys = []
 
     def add_listener(self, event: str, func):
         """
@@ -32,10 +31,6 @@ class Broadcast:
             if event in self.events:
                 for func in self.listeners.get(event, []):
                     func()
-            elif "_down" in event:
-                if self.isPressed(event.split("_")[0]):
-                    for func in self.listeners.get(event, []):
-                        func()
 
     def add_event(self, event: str):
         """
@@ -46,12 +41,3 @@ class Broadcast:
         self.events.append(event)
         for func in self.listeners.get(event, []):
             func()
-
-    def is_pressed(self, key: str):
-        """
-        Check if a key is pressed.
-
-        :param key: A key name.
-        :return: boolean.
-        """
-        return self.keys[key_code(key)]
