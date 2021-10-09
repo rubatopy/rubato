@@ -11,13 +11,13 @@ class SceneManager:
         self.min_id = 0
         self.current = 0
 
-    def add_scene(self, scene: Scene, scene_id=None):
+    def add_scene(self, scene: Scene, scene_id: int or str = None) -> int or str:
         """
-        Creates a new scene and adds it to the scene manager
+        Creates a new scene and adds it to the scene manager.
 
-        :param scene: a scene object
-        :param scene_id: the id for the new scene. defaults to an incrementing value
-        :return: the scene's id value
+        :param scene: A scene object.
+        :param scene_id: The id for the new scene. defaults to an incrementing value.
+        :return: The scene's id value.
         """
         if scene_id is None:
             scene_id = self.min_id
@@ -30,41 +30,41 @@ class SceneManager:
         return scene_id
 
     @property
-    def is_empty(self):
+    def is_empty(self) -> bool:
         """
-        property method to make sure the
+        Property method to check if the scene is empty.
 
-        :return: returns whether the scene list is empty
+        :return: Returns whether the scene list is empty.
         """
         return not bool(self.scenes.keys())
 
-    def set(self, scene_id):
+    def set(self, scene_id: int or str):
         """
-        Changes the current scene to a new scene
+        Changes the current scene to a new scene.
 
-        :param scene_id: The id of the new scene
+        :param scene_id: The id of the new scene.
         """
         self.current = scene_id
 
     @property
-    def current_scene(self):
+    def current_scene(self) -> Scene:
         """
-        Get the Scene class of the current scene
+        Get the Scene class of the current scene.
 
-        :return: The Scene class of the current scene
+        :return: The Scene class of the current scene.
         """
         return self.scenes.get(self.current)
 
     def update(self):
         """
-        Calls the update function of the current scene
+        Calls the update function of the current scene.
         """
         if self.is_empty: return
         self.current_scene().update()
 
     def draw(self):
         """
-        Calls the draw function of the current scene
+        Calls the draw function of the current scene.
         """
         if self.is_empty: return
         self.current_scene().draw()

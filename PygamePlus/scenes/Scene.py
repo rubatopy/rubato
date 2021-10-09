@@ -8,10 +8,10 @@ class Scene:
 
     def update(self):
         """
-        The update loop for this scene
+        The update loop for this scene.
         """
 
     def draw(self):
         """
-        The draw loop for this scene
+        The draw loop for this scene.
         """
