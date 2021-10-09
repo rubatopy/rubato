@@ -30,6 +30,8 @@ class Game:
         self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
         self.display = pygame.Surface((self.window_width, self.window_height))
         pygame.display.set_caption(self.name)
+        if options.get("icon"):
+            pygame.display.set_icon(pygame.image.load(options.get("icon")))
 
         GD.set(self.display)
 
