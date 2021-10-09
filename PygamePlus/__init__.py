@@ -12,7 +12,7 @@ class Game:
     def __init__(self, window_width, window_height, reset_display=True):
         pygame.init()
 
-        self.state = STATE.RUNNING
+        self.state = STATE.STOPPED
         self.window_width = window_width
         self.window_height = window_height
         self.fps = 60
@@ -74,6 +74,7 @@ class Game:
         """
         Actually runs the game
         """
+        self.state = STATE.RUNNING
         while self.state == STATE.RUNNING:
             self.update()
 
