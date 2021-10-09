@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame
+from sys import exit
 from PygamePlus.utils import STATE
 from PygamePlus.scenes.SceneManager import SceneManager
 from PygamePlus.Broadcast import Broadcast
@@ -31,7 +32,7 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit(1)
+                exit(1)
             if event.type == pygame.VIDEORESIZE:
                 self.window_width = event.size[0]
                 self.window_height = event.size[1]
