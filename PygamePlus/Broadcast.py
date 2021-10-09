@@ -11,7 +11,7 @@ class Broadcast:
         self.listeners = {}
         self.keys = []
 
-    def addListener(self, event, func):
+    def addListener(self, event: str, func):
         """
         Allows you to call a function everytime a specific event occurs.
 
@@ -37,7 +37,7 @@ class Broadcast:
                     for func in self.listeners.get(event, []):
                         func()
 
-    def addEvent(self, event):
+    def addEvent(self, event: str):
         """
         Add an event to the event buffer and handle that events subscriptions
 
@@ -47,7 +47,7 @@ class Broadcast:
         for func in self.listeners.get(event, []):
             func()
 
-    def isPressed(self, key):
+    def isPressed(self, key: str):
         """
         Check if a key is pressed
 

@@ -5,11 +5,9 @@ from PygamePlus.scenes.SceneManager import SceneManager
 from PygamePlus.Broadcast import Broadcast
 
 class Game:
-    """
-    Main Game object. Controls everything in the game
-    """
+    """Main Game object. Controls everything in the game"""
 
-    def __init__(self, window_width, window_height, reset_display=True):
+    def __init__(self, window_width: int, window_height: int, reset_display: bool=True):
         pygame.init()
 
         self.state = STATE.RUNNING
@@ -26,9 +24,7 @@ class Game:
         self.broadcast_system = Broadcast()
 
     def update(self):
-        """
-        Update loop for the game
-        """
+        """Update loop for the game"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -64,15 +60,11 @@ class Game:
         self.broadcast_system.events = []
 
     def draw(self):
-        """
-        Draw loop for the game
-        """
+        """Draw loop for the game"""
         if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
 
     def runGame(self):
-        """
-        Actually runs the game
-        """
+        """Actually runs the game"""
         while self.state == STATE.RUNNING:
             self.update()
