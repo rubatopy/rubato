@@ -5,6 +5,7 @@ from PygamePlus.scenes.scene_manager import SceneManager
 from PygamePlus.broadcast import Broadcast
 from PygamePlus.sprite import Sprite
 from PygamePlus.group import Group
+from PygamePlus.input import Input
 
 
 class Game:
@@ -33,7 +34,8 @@ class Game:
         GD.set(self.display)
 
         self.scene_manager = SceneManager()
-        self.broadcast_system = Broadcast()
+        self.reset_display = reset_display
+        self.broadcast = Broadcast()
 
     def update(self):
         """Update loop for the game."""
@@ -54,13 +56,13 @@ class Game:
         self.draw()
         self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), top_right)
 
-        self.broadcast_system.handle_events()
+        self.broadcast.handle_events()
 
         self.scene_manager.update()
 
         pygame.display.flip()
         self.clock.tick(self.fps)
-        self.broadcast_system.events = []
+        self.broadcast.events = []
 
     def draw(self):
         """Draw loop for the game."""

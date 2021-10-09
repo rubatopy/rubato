@@ -1,5 +1,6 @@
 from pygame.image import load
 from PygamePlus.utils.DISPLAY import GD
+from PygamePlus.input import Input
 
 class Sprite:
     """
