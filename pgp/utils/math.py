@@ -11,3 +11,6 @@ class Point:
 
     def to_tuple2(self):
         return self.x, self.y
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"

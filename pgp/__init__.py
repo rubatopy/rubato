@@ -1,9 +1,9 @@
 import pygame
 from sys import exit
-from pgp.utils import STATE, GD, Point
+from pgp.utils import STATE, GD, Point, Time
 from pgp.scenes import SceneManager, Scene
 from pgp.radio import Radio
-from pgp.sprite import Sprite, Image
+from pgp.sprite import Sprite, Image, RigidBody
 from pgp.group import Group
 from pgp.input import Input
 
@@ -18,17 +18,22 @@ class Game:
     def __init__(self, options: dict = {}):
         pygame.init()
 
-        self.name = options.get("name") or "Untitled Game"
-        self.window_width = options.get("window_width") or 600
-        self.window_height = options.get("window_height") or 400
-        self.aspect_ratio = options.get("aspect_ratio") or 1.5
-        self.fps = options.get("fps") or 60
-        self.reset_display = options.get("reset_display") or True
+        self.name = options.get("name", "Untitled Game")
+        self.window_width = options.get("window_width", 600)
+        self.window_height = options.get("window_height", 400)
+        self.aspect_ratio = options.get("aspect_ratio", 1.5)
+        self.fps = options.get("fps", 60)
+        self.reset_display = options.get("reset_display", True)
+        self.use_better_clock = options.get("better_clock", True)
 
         self.state = STATE.STOPPED
+
         self.clock = pygame.time.Clock()
+        Time.set(self.clock)
+
         self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
         self.display = pygame.Surface((self.window_width, self.window_height))
+
         pygame.display.set_caption(self.name)
         if options.get("icon"):
             pygame.display.set_icon(pygame.image.load(options.get("icon")))
@@ -64,8 +69,12 @@ class Game:
         self.scenes.update()
 
         pygame.display.flip()
-        self.clock.tick(self.fps)
         self.radio.events = []
+
+        if self.use_better_clock:
+            self.clock.tick_busy_loop(self.fps)
+        else:
+            self.clock.tick(self.fps)
 
     def draw(self):
         """Draw loop for the game."""

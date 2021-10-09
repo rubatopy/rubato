@@ -4,7 +4,7 @@ from pgp.utils import GD, Point
 
 class Image(Sprite):
     def __init__(self, image_location: str, pos: Point = Point()):
-        self.image = load(image_location)
+        self.image = load(image_location if image_location != "" else "pgp/static/default.png")
         super().__init__(pos)
 
     def update(self):
