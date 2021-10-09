@@ -3,12 +3,8 @@ class Scene:
     A scene is a collection of sprites. Interactions between sprites is handled here.
     """
 
-    def __init__(self, scene_id):
-        """
-        :param scene_id: A unique ID for the scene
-        """
+    def __init__(self):
         self.sprites = []
-        self.id = id
 
     def update(self):
         """

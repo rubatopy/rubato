@@ -19,7 +19,7 @@ class Game:
     def __init__(self, window_width: int, window_height: int, reset_display: bool=True):
         pygame.init()
 
-        self.state = STATE.RUNNING
+        self.state = STATE.STOPPED
         self.window_width = window_width
         self.window_height = window_height
         self.fps = 60
@@ -60,9 +60,9 @@ class Game:
         self.draw()
         self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), (width_center, height_center))
 
-        self.broadcast_system.handleEvents()
+        self.broadcast_system.handle_events()
 
-        # Update Code Here
+        self.scene_manager.update()
 
         pygame.display.flip()
         self.clock.tick(self.fps)
@@ -73,7 +73,12 @@ class Game:
         if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
 
-    def runGame(self):
-        """Actually runs the game."""
+
+    def begin(self):
+        """
+        Actually runs the game
+        """
+        self.state = STATE.RUNNING
         while self.state == STATE.RUNNING:
             self.update()
+
