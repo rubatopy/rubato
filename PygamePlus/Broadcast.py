@@ -8,33 +8,33 @@ class Broadcast:
 
     def __init__(self):
         self.events = []
-        self.subscriptions = {}
+        self.listeners = {}
         self.keys = []
 
-    def subscribeToEvent(self, event, func):
+    def addListener(self, event, func):
         """
         Allows you to call a function everytime a specific event occurs.
 
         :param event: The event code to subscribe to
         :param func: The function that needs to run once the event occurs
         """
-        if event in self.subscriptions.keys():
-            self.subscriptions.get(event).append(func)
+        if event in self.listeners.keys():
+            self.listeners.get(event).append(func)
         else:
-            self.subscriptions[event] = [func]
+            self.listeners[event] = [func]
 
     def handleEvents(self):
         """
         Function that checks if events with subscriptions have occurred and runs their corresponding functions as
         needed.
         """
-        for event in self.subscriptions.keys():
+        for event in self.listeners.keys():
             if event in self.events:
-                for func in self.subscriptions.get(event, []):
+                for func in self.listeners.get(event, []):
                     func()
             elif "_down" in event:
                 if self.isPressed(event.split("_")[0]):
-                    for func in self.subscriptions.get(event, []):
+                    for func in self.listeners.get(event, []):
                         func()
 
     def addEvent(self, event):
@@ -44,7 +44,7 @@ class Broadcast:
         :param event: The event code to add
         """
         self.events.append(event)
-        for func in self.subscriptions.get(event, []):
+        for func in self.listeners.get(event, []):
             func()
 
     def isPressed(self, key):
