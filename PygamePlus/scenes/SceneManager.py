@@ -3,26 +3,31 @@ from PygamePlus.scenes.Scene import Scene
 
 class SceneManager:
     """
-    A Scene Manager houses a collection of scenes and allows switching between different scenes.
+    The Scene Manager houses a collection of scenes and allows switching between different scenes.
     Also handles the drawing and updating of current scene.
     """
     def __init__(self):
         self.scenes = {}
+        self.min_id = 0
         self.current = 0
 
-    def new(self, scene_id):
+    def add_scene(self, scene: Scene, scene_id=None):
         """
         Creates a new scene and adds it to the scene manager
 
-        :param scene_id: the id for the new scene
-        :return: the newly created scene class
+        :param scene: a scene object
+        :param scene_id: the id for the new scene. defaults to an incrementing value
+        :return: the scene's id value
         """
+        if scene_id is None:
+            scene_id = self.min_id
+            self.min_id += 1
+
         if scene_id in self.scenes.keys():
             raise ValueError(f"The id {scene_id} is not unique in this scene manager. Scene id's must be unique")
-        else:
-            new_scene = Scene(scene_id)
-            self.scenes[scene_id] = new_scene
-            return new_scene
+
+        self.scenes[scene_id] = scene
+        return scene_id
 
     def set(self, scene_id):
         """
@@ -32,6 +37,7 @@ class SceneManager:
         """
         self.current = scene_id
 
+    @property
     def current_scene(self):
         """
         Get the Scene class of the current scene

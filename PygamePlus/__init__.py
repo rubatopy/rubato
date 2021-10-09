@@ -57,7 +57,7 @@ class Game:
 
         self.broadcast_system.handle_events()
 
-        # Update Code Here
+        self.scene_manager.update()
 
         pygame.display.flip()
         self.clock.tick(self.fps)
@@ -76,3 +76,4 @@ class Game:
         """
         while self.state == STATE.RUNNING:
             self.update()
+
