@@ -16,17 +16,21 @@ class Game:
     :param reset_display: Whether to clear the display every frame before drawing.
     """
 
-    def __init__(self, window_width: int, window_height: int, reset_display: bool=True):
+    def __init__(self, name: str, window_width: int, window_height: int, reset_display: bool = True):
         pygame.init()
+
+        self.name = name
 
         self.state = STATE.STOPPED
         self.window_width = window_width
         self.window_height = window_height
+        self.aspect_ratio = 1.5
         self.fps = 60
 
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
         self.display = pygame.Surface((window_width, window_height))
+        pygame.display.set_caption(name)
 
         self.scene_manager = SceneManager()
         self.reset_display = reset_display
@@ -45,20 +49,13 @@ class Game:
 
         self.broadcast_system.keys = pygame.key.get_pressed()
 
-        ratio = self.window_width / self.window_height
-        height_center = 0
-        width_center = 0
-        if ratio < 1.5:
-            width = self.window_width
-            height = self.window_width / 1.5
-            height_center = int((self.window_height - height) / 2)
-        else:
-            height = self.window_height
-            width = self.window_height * 1.5
-            width_center = int((self.window_width - width) / 2)
+        ratio = (self.window_width / self.window_height) < self.aspect_ratio
+        width = (self.window_height * self.aspect_ratio, self.window_width)[ratio]
+        height = (self.window_height, self.window_width / self.aspect_ratio)[ratio]
+        top_right = (((self.window_width - width) // 2, 0), (0, (self.window_height - height) // 2))[ratio]
 
         self.draw()
-        self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), (width_center, height_center))
+        self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), top_right)
 
         self.broadcast_system.handle_events()
 
@@ -73,7 +70,6 @@ class Game:
         if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
 
-
     def begin(self):
         """
         Actually runs the game
@@ -81,4 +77,3 @@ class Game:
         self.state = STATE.RUNNING
         while self.state == STATE.RUNNING:
             self.update()
-

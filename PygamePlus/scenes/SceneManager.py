@@ -60,12 +60,12 @@ class SceneManager:
         Calls the update function of the current scene.
         """
         if self.is_empty: return
-        self.current_scene().update()
+        self.current_scene.update()
 
     def draw(self):
         """
         Calls the draw function of the current scene.
         """
         if self.is_empty: return
-        self.current_scene().draw()
+        self.current_scene.draw()
 
