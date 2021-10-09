@@ -32,7 +32,7 @@ class SceneManager:
         """
         self.current = scene_id
 
-    def currentScene(self):
+    def current_scene(self):
         """
         Get the Scene class of the current scene
 
@@ -44,11 +44,11 @@ class SceneManager:
         """
         Calls the update function of the current scene
         """
-        self.currentScene().update()
+        self.current_scene().update()
 
     def draw(self):
         """
         Calls the draw function of the current scene
         """
-        self.currentScene().draw()
+        self.current_scene().draw()
 

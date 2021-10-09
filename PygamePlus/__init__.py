@@ -55,7 +55,7 @@ class Game:
         self.draw()
         self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), (width_center, height_center))
 
-        self.broadcast_system.handleEvents()
+        self.broadcast_system.handle_events()
 
         # Update Code Here
 
@@ -70,7 +70,7 @@ class Game:
         if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
 
-    def runGame(self):
+    def begin(self):
         """
         Actually runs the game
         """
