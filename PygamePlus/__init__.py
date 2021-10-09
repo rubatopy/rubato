@@ -1,6 +1,6 @@
 import pygame
 from sys import exit
-from PygamePlus.utils import STATE
+from PygamePlus.utils import STATE, GD
 from PygamePlus.scenes.SceneManager import SceneManager
 from PygamePlus.Broadcast import Broadcast
 from PygamePlus.Sprite import Sprite
@@ -28,6 +28,8 @@ class Game:
         self.screen = pygame.display.set_mode((window_width, window_height), pygame.RESIZABLE)
         self.display = pygame.Surface((window_width, window_height))
 
+        GD.set(self.display)
+
         self.scene_manager = SceneManager()
         self.reset_display = reset_display
         self.broadcast_system = Broadcast()
@@ -36,7 +38,7 @@ class Game:
         """Update loop for the game."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                pygame.quit() # TODO Pass and handle quit event through broadcast system first
                 exit(1)
             if event.type == pygame.VIDEORESIZE:
                 self.window_width = event.size[0]
@@ -72,6 +74,8 @@ class Game:
         """Draw loop for the game."""
         if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
+        self.scene_manager.draw()
+        self.display = GD.display()
 
 
     def begin(self):
