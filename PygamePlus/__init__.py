@@ -46,6 +46,10 @@ class Game:
                 self.window_width = event.size[0]
                 self.window_height = event.size[1]
                 self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
+            if event.type == pygame.KEYDOWN:
+                self.broadcast.broadcast_event(Input.key.name(event.key)+"_down")
+            if event.type == pygame.KEYUP:
+                self.broadcast.broadcast_event(Input.key.name(event.key)+"_up")
 
         ratio = (self.window_width / self.window_height) < self.aspect_ratio
         width = (self.window_height * self.aspect_ratio, self.window_width)[ratio]
