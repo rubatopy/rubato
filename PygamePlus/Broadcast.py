@@ -39,9 +39,9 @@ class Broadcast:
 
     def addEvent(self, event: str):
         """
-        Add an event to the event buffer and handle that events subscriptions
+        Add an event to the event buffer and handle that events subscriptions.
 
-        :param event: The event code to add
+        :param event: The event code to add.
         """
         self.events.append(event)
         for func in self.listeners.get(event, []):
@@ -49,9 +49,9 @@ class Broadcast:
 
     def isPressed(self, key: str):
         """
-        Check if a key is pressed
+        Check if a key is pressed.
 
-        :param key: A key name
-        :return: boolean
+        :param key: A key name.
+        :return: boolean.
         """
         return self.keys[key_code(key)]
