@@ -38,7 +38,7 @@ class Time:
         Time.clock = clock
 
     @staticmethod
-    def milli_to_sec(milli: int) -> int:
+    def milli_to_sec(milli: int) -> float:
         """
         Converts milliseconds to seconds.
         :param milli: A number in milliseconds.
