@@ -34,7 +34,6 @@ class Game:
         GD.set(self.display)
 
         self.scene_manager = SceneManager()
-        self.reset_display = reset_display
         self.broadcast = Broadcast()
 
     def update(self):
