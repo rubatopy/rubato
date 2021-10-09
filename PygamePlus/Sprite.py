@@ -1,5 +1,5 @@
 from pygame.image import load
-
+from PygamePlus.utils.DISPLAY import GD
 
 class Sprite:
     """
@@ -20,4 +20,4 @@ class Sprite:
 
     def draw(self):
         """The draw loop"""
-        pass
+        GD.update(self.image, self.position)
