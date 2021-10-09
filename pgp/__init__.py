@@ -3,7 +3,7 @@ from sys import exit
 from pgp.utils import STATE, GD, Point
 from pgp.scenes import SceneManager, Scene
 from pgp.broadcast import Broadcast
-from pgp.sprite import Sprite
+from pgp.sprite import Sprite, Image
 from pgp.group import Group
 from pgp.input import Input
 
