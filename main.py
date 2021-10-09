@@ -5,18 +5,16 @@ from pgp.scenes import Scene
 game = PP.Game()
 
 scene = Scene()
+scene.camera.x = 100
+scene.camera.y = 100
 game.scene_manager.add_scene(scene)
 
-sprite = Sprite(100, 100, "./Tinmarr.jpg")
+sprite = Sprite("./Tinmarr.jpg" ,100, 100, 0)
 
 def custom_update():
-    sprite.state["show"] = Input.is_pressed("SPACE")
-
-def custom_draw():
-    if sprite.state.get("show"): GD.update(sprite.image, sprite.position)
+    sprite.z_index = 1 - Input.is_pressed("SPACE")
 
 sprite.update = custom_update
-sprite.draw = custom_draw
 scene.sprites.append(sprite)
 
 def test_handler():
