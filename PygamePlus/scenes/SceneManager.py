@@ -29,6 +29,15 @@ class SceneManager:
         self.scenes[scene_id] = scene
         return scene_id
 
+    @property
+    def is_empty(self):
+        """
+        property method to make sure the
+
+        :return: returns whether the scene list is empty
+        """
+        return not bool(self.scenes.keys())
+
     def set(self, scene_id):
         """
         Changes the current scene to a new scene
@@ -50,11 +59,13 @@ class SceneManager:
         """
         Calls the update function of the current scene
         """
+        if self.is_empty: return
         self.current_scene().update()
 
     def draw(self):
         """
         Calls the draw function of the current scene
         """
+        if self.is_empty: return
         self.current_scene().draw()
 
