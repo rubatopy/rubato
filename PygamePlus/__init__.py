@@ -1,10 +1,10 @@
 import pygame
 from sys import exit
 from PygamePlus.utils import STATE, GD
-from PygamePlus.scenes.SceneManager import SceneManager
-from PygamePlus.Broadcast import Broadcast
-from PygamePlus.Sprite import Sprite
-from PygamePlus.Group import Group
+from PygamePlus.scenes.scene_manager import SceneManager
+from PygamePlus.broadcast import Broadcast
+from PygamePlus.sprite import Sprite
+from PygamePlus.group import Group
 
 
 class Game:

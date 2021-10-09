@@ -1,4 +1,4 @@
-from PygamePlus.Sprite import Sprite
+from PygamePlus.sprite import Sprite
 
 
 class Group:
