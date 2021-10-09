@@ -9,7 +9,7 @@ class Image(Sprite):
     :param image_location: The path to the image.
     :param pos: The position of the sprite.
     """
-
+    # TODO Sprite Scaling
     def __init__(self, image_location: str, pos: Point = Point()):
         self.image = load(image_location if image_location != "" else "pgp/static/default.png")
         super().__init__(pos)

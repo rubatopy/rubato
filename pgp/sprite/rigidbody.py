@@ -19,6 +19,7 @@ class RigidBody(Sprite):
 
         self.render = Image(options.get("img", ""), self.pos)
 
+    # TODO Collisions
     def physics(self):
         """A physics implementation"""
         # Update Velocity

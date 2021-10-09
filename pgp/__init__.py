@@ -7,7 +7,8 @@ from pgp.sprite import Sprite, Image, RigidBody
 from pgp.group import Group
 from pgp.input import Input
 
-
+# TODO Sound manager
+# TODO Better "config" management
 class Game:
     """
     Main Game object. Controls everything in the game.
