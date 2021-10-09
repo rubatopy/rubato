@@ -23,5 +23,4 @@ class Image(Sprite):
 
         :param camera: The current Camera viewing the scene
         """
-        if camera.pos.z >= self.pos.z:
-            GD.update(self.image, camera.transform(self.pos))
+        GD.update(self.image, camera.transform(self.pos))
