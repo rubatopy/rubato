@@ -1,6 +1,3 @@
-from pygame.key import key_code
-
-
 class Broadcast:
     """
     Broadcast system manages all events and inter-class communication. Has a buffer system and a handler system.
@@ -9,6 +6,16 @@ class Broadcast:
     def __init__(self):
         self.events = []
         self.listeners = {}
+
+    def broadcast_event(self, event: str):
+        """
+        Broadcast a custom event.
+
+        :param event: The name of your custom event.
+        """
+        self.events.append(event)
+        for func in self.listeners.get(event, []):
+            func()
 
     def add_listener(self, event: str, func):
         """
@@ -31,13 +38,3 @@ class Broadcast:
             if event in self.events:
                 for func in self.listeners.get(event, []):
                     func()
-
-    def add_event(self, event: str):
-        """
-        Add an event to the event buffer and handle that events subscriptions.
-
-        :param event: The event code to add.
-        """
-        self.events.append(event)
-        for func in self.listeners.get(event, []):
-            func()
