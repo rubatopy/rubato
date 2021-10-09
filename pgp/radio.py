@@ -1,4 +1,4 @@
-class Broadcast:
+class Radio:
     """
     Broadcast system manages all events and inter-class communication. Has a buffer system and a handler system.
     """
@@ -17,7 +17,7 @@ class Broadcast:
         for func in self.listeners.get(event, []):
             func()
 
-    def add_listener(self, event: str, func):
+    def listen(self, event: str, func):
         """
         Allows you to call a function everytime a specific event occurs.
 

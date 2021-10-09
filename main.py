@@ -5,7 +5,7 @@ game = pgp.Game()
 
 scene = Scene()
 scene.camera.pos.translate(-100, -100)
-game.scene_manager.add_scene(scene)
+game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
 
@@ -22,7 +22,7 @@ def test_handler():
     print("Yeet")
 
 
-game.broadcast.add_listener("test", test_handler)
-game.broadcast.add_listener("w_down", test_handler)
+game.radio.listen("test", test_handler)
+game.radio.listen("w_down", test_handler)
 
 game.begin()

@@ -11,7 +11,7 @@ class SceneManager:
         self.min_id = 0
         self.current = 0
 
-    def add_scene(self, scene: Scene, scene_id: int or str = None) -> int or str:
+    def add(self, scene: Scene, scene_id: int or str = None) -> int or str:
         """
         Creates a new scene and adds it to the scene manager.
 

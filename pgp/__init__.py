@@ -2,7 +2,7 @@ import pygame
 from sys import exit
 from pgp.utils import STATE, GD, Point
 from pgp.scenes import SceneManager, Scene
-from pgp.broadcast import Broadcast
+from pgp.radio import Radio
 from pgp.sprite import Sprite, Image
 from pgp.group import Group
 from pgp.input import Input
@@ -35,8 +35,8 @@ class Game:
 
         GD.set(self.display)
 
-        self.scene_manager = SceneManager()
-        self.broadcast = Broadcast()
+        self.scenes = SceneManager()
+        self.radio = Radio()
 
     def update(self):
         """Update loop for the game."""
@@ -49,9 +49,9 @@ class Game:
                 self.window_height = event.size[1]
                 self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
             if event.type == pygame.KEYDOWN:
-                self.broadcast.broadcast_event(Input.key.name(event.key)+"_down")
+                self.radio.broadcast_event(Input.key.name(event.key) + "_down")
             if event.type == pygame.KEYUP:
-                self.broadcast.broadcast_event(Input.key.name(event.key)+"_up")
+                self.radio.broadcast_event(Input.key.name(event.key) + "_up")
 
         ratio = (self.window_width / self.window_height) < self.aspect_ratio
         width = (self.window_height * self.aspect_ratio, self.window_width)[ratio]
@@ -61,17 +61,17 @@ class Game:
         self.draw()
         self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), top_right)
 
-        self.scene_manager.update()
+        self.scenes.update()
 
         pygame.display.flip()
         self.clock.tick(self.fps)
-        self.broadcast.events = []
+        self.radio.events = []
 
     def draw(self):
         """Draw loop for the game."""
         if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
-        self.scene_manager.draw()
+        self.scenes.draw()
         self.display = GD.display()
 
     def begin(self):
