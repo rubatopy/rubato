@@ -1,6 +1,7 @@
 import pygame, sys
 from PygamePlus.utils import STATE
 from PygamePlus.scenes.SceneManager import SceneManager
+from PygamePlus.Broadcast import Broadcast
 
 class Game:
     """
@@ -21,6 +22,7 @@ class Game:
 
         self.scene_manager = SceneManager()
         self.reset_display = reset_display
+        self.broadcast_system = Broadcast()
 
     def update(self):
         """
@@ -34,6 +36,8 @@ class Game:
                 self.window_width = event.size[0]
                 self.window_height = event.size[1]
                 self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
+
+        self.broadcast_system.keys = pygame.key.get_pressed()
 
         ratio = self.window_width / self.window_height
         height_center = 0
@@ -50,9 +54,13 @@ class Game:
         self.draw()
         self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), (width_center, height_center))
 
+        self.broadcast_system.handleEvents()
+
+        # Update Code Here
 
         pygame.display.flip()
         self.clock.tick(self.fps)
+        self.broadcast_system.events = []
 
     def draw(self):
         """
