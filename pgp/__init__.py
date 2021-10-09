@@ -42,16 +42,16 @@ class Game:
         """Update loop for the game."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit() # TODO Pass and handle quit event through broadcast system first
+                pygame.quit()  # TODO Pass and handle quit event through broadcast system first
                 exit(1)
             if event.type == pygame.VIDEORESIZE:
                 self.window_width = event.size[0]
                 self.window_height = event.size[1]
                 self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
             if event.type == pygame.KEYDOWN:
-                self.radio.broadcast_event(Input.key.name(event.key) + "_down")
+                self.radio.broadcast(Input.key.name(event.key) + "_down")
             if event.type == pygame.KEYUP:
-                self.radio.broadcast_event(Input.key.name(event.key) + "_up")
+                self.radio.broadcast(Input.key.name(event.key) + "_up")
 
         ratio = (self.window_width / self.window_height) < self.aspect_ratio
         width = (self.window_height * self.aspect_ratio, self.window_width)[ratio]

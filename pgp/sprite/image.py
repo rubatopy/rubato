@@ -3,6 +3,13 @@ from pygame.image import load
 from pgp.utils import GD, Point
 
 class Image(Sprite):
+    """
+    A subclass of Sprite that handles Images.
+
+    :param image_location: The path to the image.
+    :param pos: The position of the sprite.
+    """
+
     def __init__(self, image_location: str, pos: Point = Point()):
         self.image = load(image_location)
         super().__init__(pos)
@@ -11,5 +18,10 @@ class Image(Sprite):
         pass
 
     def draw(self, camera):
+        """
+        Draws the image if the z index is below the camera's
+
+        :param camera: The current Camera viewing the scene
+        """
         if camera.pos.z >= self.pos.z:
             GD.update(self.image, camera.transform(self.pos))

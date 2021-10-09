@@ -7,7 +7,7 @@ class Radio:
         self.events = []
         self.listeners = {}
 
-    def broadcast_event(self, event: str):
+    def broadcast(self, event: str):
         """
         Broadcast a custom event.
 

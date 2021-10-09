@@ -10,8 +10,13 @@ class Scene:
         self.sprites = []
         self.camera = Camera()
 
-    # TODO Sprite remove function
+    # TODO Sprite remove function. Also, index sprites by ID like in scenemanager
     def add(self, sprite: Sprite):
+        """
+        Adds a sprite to the scene.
+
+        :param sprite: The sprite object to be added.
+        """
         self.sprites.append(sprite)
 
     def update(self):
