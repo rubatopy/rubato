@@ -13,7 +13,7 @@ class Sprite:
 
     def __init__(self, image_location: str, x: int, y: int, z: int = 0):
         self.image = load(image_location)
-        self.position = (x, y)
+        self.pos = (x, y)
         self.z_index = z
         self.state = {}
 
@@ -23,4 +23,4 @@ class Sprite:
 
     def draw(self, camera):
         """The draw loop"""
-        if camera.z >= self.z_index: GD.update(self.image, self.position)
+        if camera.z >= self.z_index: GD.update(self.image, (self.pos[0] - camera.x, self.pos[1] - camera.y))

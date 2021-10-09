@@ -5,6 +5,8 @@ from pgp.scenes import Scene
 game = PP.Game()
 
 scene = Scene()
+scene.camera.x = 100
+scene.camera.y = 100
 game.scene_manager.add_scene(scene)
 
 sprite = Sprite("./Tinmarr.jpg" ,100, 100, 0)
