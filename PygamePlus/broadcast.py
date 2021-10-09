@@ -28,13 +28,3 @@ class Broadcast:
             self.listeners.get(event).append(func)
         else:
             self.listeners[event] = [func]
-
-    def handle_events(self):
-        """
-        Function that checks if events with subscriptions have occurred and runs their corresponding functions as
-        needed.
-        """
-        for event in self.listeners.keys():
-            if event in self.events:
-                for func in self.listeners.get(event, []):
-                    func()

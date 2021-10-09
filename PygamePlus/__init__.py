@@ -59,8 +59,6 @@ class Game:
         self.draw()
         self.screen.blit(pygame.transform.scale(self.display, (int(width), int(height))), top_right)
 
-        self.broadcast.handle_events()
-
         self.scene_manager.update()
 
         pygame.display.flip()
