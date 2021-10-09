@@ -1,13 +1,13 @@
 import pgp as pgp
-from pgp import Sprite, Input, Point, Scene
+from pgp import Sprite, Input, Scene
 
 game = pgp.Game()
 
 scene = Scene()
-scene.camera.pos.translate(100, 100)
+scene.camera.pos.translate(-100, -100)
 game.scene_manager.add_scene(scene)
 
-sprite = Sprite("./Tinmarr.jpg", Point(100, 100))
+sprite = Sprite("./Tinmarr.jpg")
 
 
 def custom_update():
@@ -15,7 +15,7 @@ def custom_update():
 
 
 sprite.update = custom_update
-scene.sprites.append(sprite)
+scene.add(sprite)
 
 
 def test_handler():

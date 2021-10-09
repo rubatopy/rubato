@@ -1,4 +1,5 @@
-from pgp.scenes.camera import Camera
+from pgp.scenes import Camera
+from pgp.sprite import Sprite
 
 class Scene:
     """
@@ -9,7 +10,10 @@ class Scene:
         self.sprites = []
         self.camera = Camera()
 
-    # TODO Sprite add and remove functions
+    # TODO Sprite remove function
+    def add(self, sprite: Sprite):
+        self.sprites.append(sprite)
+
     def update(self):
         """
         The update loop for this scene.
