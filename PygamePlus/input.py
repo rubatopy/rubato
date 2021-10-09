@@ -7,3 +7,7 @@ class Input:
     """
     key = key
     mouse = mouse
+
+    @staticmethod
+    def is_pressed(char: str):
+        return Input.key.get_pressed()[Input.key.key_code(char)]
