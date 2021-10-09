@@ -12,7 +12,8 @@ setup(
     license="MIT",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=["pygame"],
+    install_requires=open("requirements.txt").read().split("\n"),
     python_requires=">=3.9",
 )
