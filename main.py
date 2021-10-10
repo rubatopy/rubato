@@ -9,21 +9,19 @@ game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
 
-rigidboy = RigidBody({"pos": Point(100, 0), "mass": 100})
+rigidboy = RigidBody({"pos": Point(100, 0, 0), "mass": 100})
 
 def custom_update():
-    sprite.pos.z = 1 - Input.is_pressed("SPACE")
+    # sprite.pos.z = 1 - Input.is_pressed("SPACE")
+
+    if Input.is_pressed("w"):
+        scene.camera.scale_zoom(1.01)
+    elif Input.is_pressed("s"):
+        scene.camera.scale_zoom(0.99)
 
 
 sprite.update = custom_update
 scene.add(sprite)
 scene.add(rigidboy)
-
-def test_handler():
-    print("Yeet")
-
-
-game.radio.listen("test", test_handler)
-game.radio.listen("w_down", test_handler)
 
 game.begin()
