@@ -4,12 +4,12 @@ from pgp.utils import Vector
 class Collider:
     def __init__(self, x1, x2, y1, y2):
         self.rect = [x1, x2, y1, y2]
-        if not self.good_input():
+        if not self.valid():
             raise Exception("x1 needs to be smaller than x2 and y1 needs to be smaller than y2")
         self.enabled = True
 
-    def good_input(self):
-        return self.x1 < self.x2 and self.y1 < self.y2
+    def valid(self):
+        return self.x1 <= self.x2 and self.y1 <= self.y2
 
     def collide_point(self, x, y):
         return self.x1 < x < self.x2 and self.y1 < y < self.y2
