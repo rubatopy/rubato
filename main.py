@@ -8,9 +8,7 @@ scene.camera.pos.translate(0, 0)
 game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
-
-
-rigidboy = RigidBody({"pos": Vector(100, 0), "mass": 100})
+rigid = RigidBody({"pos": Vector(100, 0), "mass": 100})
 
 def custom_update():
     # sprite.pos.z = 1 - Input.is_pressed("SPACE")
@@ -22,20 +20,18 @@ def custom_update():
     else:
         scene.camera.zoom = 1
 
-
 sprite.update = custom_update
 scene.add(sprite)
-bebe = scene.add(rigidboy)
-
+bebe = scene.add(rigid)
 
 def w_handler():
-    rigidboy.velocity.y = -100
+    rigid.velocity.y = -100
 
 def a_handler():
-    rigidboy.velocity.x = -100
+    rigid.velocity.x = -100
 
 def d_handler():
-    rigidboy.velocity.x = 100
+    rigid.velocity.x = 100
 
 game.radio.listen("w_down", w_handler)
 game.radio.listen("a_down", a_handler)
