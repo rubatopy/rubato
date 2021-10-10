@@ -44,10 +44,18 @@ class Collider:
 
     @property
     def x_vector(self):
+        """
+        Vector that describes the width of the collider
+        :return:
+        """
         return Vector(self.x1, self.x2)
 
     @property
     def y_vector(self):
+        """
+        Vector that describes the height of the collider
+        :return:
+        """
         return Vector(self.y1, self.y2)
 
     @property
@@ -68,9 +76,19 @@ class Collider:
 
     @property
     def vectors(self):
+        """
+        vectors describing the width and height of the collider
+        :return: (self.x_vector, self.y_vector)
+        """
         return self.x_vector, self.y_vector
 
-    def set_topleft(self, x, y):
+    def set_topleft(self, x, y) -> None:
+        """
+        Sets the topleft of the collider to the xy position
+        :param x: new xpos
+        :param y: new ypos
+        :return:
+        """
         x_mag = self.x_vector.magnitude()
         y_mag = self.y_vector.magnitude()
         self.rect[0] = x
