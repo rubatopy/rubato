@@ -1,6 +1,6 @@
 import pygame
 from sys import exit
-from pgp.utils import STATE, DISPLAY, Vector, Time
+from pgp.utils import STATE, Display, Vector, Time
 from pgp.scenes import SceneManager, Scene
 from pgp.radio import Radio
 from pgp.sprite import Sprite, Image, RigidBody
@@ -48,7 +48,7 @@ class Game:
         if options.get("icon"):
             pygame.display.set_icon(pygame.image.load(options.get("icon")))
 
-        DISPLAY.set(self.display)
+        Display.set(self.display)
 
         self.scenes = SceneManager()
         self.radio = Radio()
@@ -93,7 +93,7 @@ class Game:
         self.screen.fill((0, 0, 0))
         if self.reset_display: self.display.fill((255, 255, 255))
         self.scenes.draw()
-        self.display = DISPLAY.display()
+        self.display = Display.display()
 
     def begin(self):
         """
