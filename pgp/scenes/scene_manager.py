@@ -24,7 +24,7 @@ class SceneManager:
             self.min_id += 1
 
         if scene_id in self.scenes.keys():
-            raise ValueError(f"The id {scene_id} is not unique in this scene manager. Scene id's must be unique")
+            raise ValueError(f"The scene id {scene_id} is not unique in this manager")
 
         self.scenes[scene_id] = scene
         return scene_id
