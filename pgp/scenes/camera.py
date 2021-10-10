@@ -9,8 +9,7 @@ class Camera:
     :param pos: The coordinates of the Camera
     :param zoom: The initial zoom of the Camera as a number
     """
-    def __init__(self, pos: Vector = Vector(), zoom: int = 100):
-
+    def __init__(self, pos: Vector = Vector(), zoom: int = 1):
         self.pos = pos
         self.zoom = zoom
 
@@ -23,26 +22,22 @@ class Camera:
         """
         return point.offset2(self.pos).to_tuple2()
 
-    def set_zoom(self, new_zoom: float):
+    @property
+    def zoom(self):
+        return self._zoom
+
+    @zoom.setter
+    def zoom(self, value: float):
         """
         Sets the zoom of the camera.
 
-        :param new_zoom: The new zoom as a number
+        :param value: The new zoom as a float
         """
-        self.zoom = new_zoom
-        self.process_zoom()
-
-    def scale_zoom(self, zoom_factor: float):
-        """
-        Scales the zoom by the zoom factor.
-
-        :param zoom_factor: The number to scale the zoom by
-        """
-        self.zoom *= zoom_factor
+        self._zoom = value
         self.process_zoom()
 
     def process_zoom(self):
         """Process changes to the camera's zoom"""
         window_width, window_height = GD.display().get_size()
-        new_size = (round(window_width / (self.zoom / 100)), round(window_height / (self.zoom/100)))
+        new_size = (round(window_width / self.zoom), round(window_height / self.zoom))
         GD.set(scale(GD.display(), new_size))

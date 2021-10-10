@@ -16,9 +16,11 @@ def custom_update():
     # sprite.pos.z = 1 - Input.is_pressed("SPACE")
 
     if Input.is_pressed("w"):
-        scene.camera.scale_zoom(1.01)
+        scene.camera.zoom = 2
     elif Input.is_pressed("s"):
-        scene.camera.scale_zoom(0.99)
+        scene.camera.zoom = 0.5
+    else:
+        scene.camera.zoom = 1
 
 
 sprite.update = custom_update
