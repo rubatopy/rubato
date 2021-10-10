@@ -1,3 +1,7 @@
+def clamp(a, upper, lower):
+    return min(max(a, lower), upper)
+
+
 class Point:
     """
     A Point object that defines a 3D point in space
@@ -37,3 +41,52 @@ class Point:
 
     def __str__(self):
         return f"({self.x}, {self.y})"
+
+    @staticmethod
+    @property
+    def ZERO():
+        return Point(0, 0)
+
+    @staticmethod
+    @property
+    def ONE():
+        return Point(1, 1)
+
+    @staticmethod
+    @property
+    def TWO():
+        return Point(2, 2)
+
+    @staticmethod
+    @property
+    def UP():
+        return Point(0, -1)
+
+    @staticmethod
+    @property
+    def LEFT():
+        return Point(-1, 0)
+
+    @staticmethod
+    @property
+    def DOWN():
+        return Point(0, 1)
+
+    @staticmethod
+    @property
+    def RIGHT():
+        return Point(1, 0)
+
+    def __equals(self, c):
+        return self.y_pos == c.y_pos and self.x_pos == c.x_pos
+
+    def clamp(self, lower, upper):
+        if type(lower) != type(Point):
+            Point(*lower)
+        if type(upper) != type(Point):
+            Point(*upper)
+        self.x_pos = clamp(self.x_pos, lower.x, upper.x)
+        self.y_pos = clamp(self.y_pos, lower.y, upper.y)
+
+    def __eq__(self, other):
+        return False if (other is None or type(other) != type(Point)) else self.__equals(other)
