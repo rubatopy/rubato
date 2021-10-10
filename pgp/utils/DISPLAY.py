@@ -3,7 +3,7 @@ import os
 import pygame.display as display
 
 
-class GD:
+class DISPLAY:
     """Global display class that allows any file to access the displayed screen."""
     global_display = Surface((0, 0))
 
@@ -14,15 +14,15 @@ class GD:
 
         :param new_surface: The new surface to set.
         """
-        GD.global_display = new_surface
+        DISPLAY.global_display = new_surface
 
     @staticmethod
     def display() -> Surface:
-        return GD.global_display
+        return DISPLAY.global_display
 
     @staticmethod
     def update(surface: Surface, pos: (int, int)):
-        GD.global_display.blit(surface, pos)
+        DISPLAY.global_display.blit(surface, pos)
 
     @staticmethod
     def set_window_position(x, y):

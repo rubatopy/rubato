@@ -1,6 +1,6 @@
 from pgp.sprite.sprite import Sprite
 from pygame.image import load
-from pgp.utils import GD, Vector
+from pgp.utils import DISPLAY, Vector
 
 class Image(Sprite):
     """
@@ -23,4 +23,4 @@ class Image(Sprite):
 
         :param camera: The current Camera viewing the scene
         """
-        GD.update(self.image, camera.transform(self.pos))
+        DISPLAY.update(self.image, camera.transform(self.pos))

@@ -1,5 +1,5 @@
 from pygame.transform import scale
-from pgp.utils import Vector, GD
+from pgp.utils import Vector, DISPLAY
 
 
 class Camera:
@@ -43,6 +43,6 @@ class Camera:
 
     def process_zoom(self):
         """Process changes to the camera's zoom"""
-        window_width, window_height = GD.display().get_size()
+        window_width, window_height = DISPLAY.display().get_size()
         new_size = (round(window_width / (self.zoom / 100)), round(window_height / (self.zoom/100)))
-        GD.set(scale(GD.display(), new_size))
+        DISPLAY.set(scale(DISPLAY.display(), new_size))
