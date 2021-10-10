@@ -1,4 +1,4 @@
-from pgp.utils import Point
+from pgp.utils import Vector
 
 class Camera:
     """
@@ -7,7 +7,7 @@ class Camera:
     :param pos: The coordinates of the Camera
     """
     # TODO Zoom
-    def __init__(self, pos: Point = Point()):
+    def __init__(self, pos: Vector = Vector()):
         self.pos = pos
 
     def transform(self, point):

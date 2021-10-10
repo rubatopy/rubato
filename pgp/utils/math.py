@@ -1,8 +1,9 @@
+# from pygame.math import Vector2
 def clamp(a, upper, lower):
     return min(max(a, lower), upper)
 
 
-class Point:
+class Vector():#Vector2):
     """
     A Point object that defines a 3D point in space
 
@@ -31,7 +32,7 @@ class Point:
         :param other: Another point
         :return: A new point with the translated x and y coordinates
         """
-        return Point(self.x - other.x, self.y - other.y, self.z)
+        return Vector(self.x - other.x, self.y - other.y, self.z)
 
     def to_tuple2(self):
         """
@@ -45,48 +46,48 @@ class Point:
     @staticmethod
     @property
     def ZERO():
-        return Point(0, 0)
+        return Vector(0, 0)
 
     @staticmethod
     @property
     def ONE():
-        return Point(1, 1)
+        return Vector(1, 1)
 
     @staticmethod
     @property
     def TWO():
-        return Point(2, 2)
+        return Vector(2, 2)
 
     @staticmethod
     @property
     def UP():
-        return Point(0, -1)
+        return Vector(0, -1)
 
     @staticmethod
     @property
     def LEFT():
-        return Point(-1, 0)
+        return Vector(-1, 0)
 
     @staticmethod
     @property
     def DOWN():
-        return Point(0, 1)
+        return Vector(0, 1)
 
     @staticmethod
     @property
     def RIGHT():
-        return Point(1, 0)
+        return Vector(1, 0)
 
-    def __equals(self, c):
-        return self.y_pos == c.y_pos and self.x_pos == c.x_pos
+    def __equals(self, v):
+        return self.y == v.y and self.x == v.y
 
     def clamp(self, lower, upper):
-        if type(lower) != type(Point):
-            Point(*lower)
-        if type(upper) != type(Point):
-            Point(*upper)
-        self.x_pos = clamp(self.x_pos, lower.x, upper.x)
-        self.y_pos = clamp(self.y_pos, lower.y, upper.y)
+        if type(lower) != type(Vector):
+            Vector(*lower)
+        if type(upper) != type(Vector):
+            Vector(*upper)
+        self.x = clamp(self.x, lower.x, upper.x)
+        self.y = clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other):
-        return False if (other is None or type(other) != type(Point)) else self.__equals(other)
+        return False if (other is None or type(other) != type(Vector)) else self.__equals(other)
