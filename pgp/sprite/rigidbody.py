@@ -67,7 +67,7 @@ class RigidBody(Sprite):
             if self.velocity[0] < 0:
                 self.rectangle.left = hit.right
         self.rectangle.y += self.velocity[1]
-        hitted = self.hit(platforms)
+        hitted = self.hit(other)
         for hit in hitted:
             # if we are going up and hit our head
             if self.velocity[1] < 0:
