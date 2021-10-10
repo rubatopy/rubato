@@ -1,6 +1,9 @@
 # from pygame.math import Vector2
-def clamp(a, upper, lower):
-    return min(max(a, lower), upper)
+
+class PgpMath:
+    @staticmethod
+    def clamp(a, upper, lower):
+        return min(max(a, lower), upper)
 
 
 class Vector():#Vector2):
@@ -86,8 +89,8 @@ class Vector():#Vector2):
             Vector(*lower)
         if type(upper) != type(Vector):
             Vector(*upper)
-        self.x = clamp(self.x, lower.x, upper.x)
-        self.y = clamp(self.y, lower.y, upper.y)
+        self.x = PgpMath.clamp(self.x, lower.x, upper.x)
+        self.y = PgpMath.clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other):
         return False if (other is None or type(other) != type(Vector)) else self.__equals(other)
