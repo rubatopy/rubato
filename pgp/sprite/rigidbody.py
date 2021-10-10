@@ -9,13 +9,23 @@ class RigidBody(Sprite):
 
     :param options: A dictionary of options
     """
+
+    default_options = {
+        "mass": 1,
+        "box": [0, 0, 0, 0],
+        "do_physics": True,
+        "gravity": 100
+    }
+
     def __init__(self, options: dict = {}):
         super().__init__(options.get("pos", Vector()))
 
         self.velocity = Vector()
         self.acceleration = Vector()
-        self.mass = options.get("mass", 1)
-        self.box = options.get("box", [0, 0, 0, 0])
+        self.mass = options.get("mass", RigidBody.default_options["mass"])
+        self.box = options.get("box", RigidBody.default_options["box"])
+
+        self.params = options
 
         self.render = Image(options.get("img", ""), self.pos)
 
@@ -31,7 +41,7 @@ class RigidBody(Sprite):
         self.pos.y += self.velocity.y * Time.delta_time("sec")
 
         # Gravity for the next frame
-        self.acceleration.y = 98
+        self.acceleration.y = self.params.get("gravity", RigidBody.default_options["gravity"])
 
     def set_force(self, force: Vector):
         """
@@ -44,8 +54,8 @@ class RigidBody(Sprite):
 
     def update(self):
         """The update loop"""
-        self.physics()
-        self.render.pos = self.pos
+        if self.params.get("do_physics", RigidBody.default_options["do_physics"]):
+            self.physics()
 
     def draw(self, camera):
         """
@@ -53,4 +63,5 @@ class RigidBody(Sprite):
 
         :param camera: The current camera
         """
+        self.render.pos = self.pos
         self.render.draw(camera)
