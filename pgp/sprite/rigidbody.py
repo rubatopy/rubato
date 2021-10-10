@@ -1,5 +1,6 @@
-from pgp.sprite.sprite import Sprite
-from pgp.sprite.image import Image
+from pgp.sprite import Sprite
+from pgp.sprite import Image
+from pgp.sprite import Collider
 from pgp.utils import Vector, Time
 
 
@@ -15,7 +16,7 @@ class RigidBody(Sprite):
         self.velocity = Vector()
         self.acceleration = Vector()
         self.mass = options.get("mass", 1)
-        self.box = options.get("box", [0, 0, 0, 0])
+        self.collider = Collider(*options.get("box", [0, 0, 0, 0]))
 
         self.render = Image(options.get("img", ""), self.pos)
 
@@ -54,3 +55,31 @@ class RigidBody(Sprite):
         :param camera: The current camera
         """
         self.render.draw(camera)
+
+    def collide_rb(self, other: []):
+        if type(other) is not type(list[self]):
+            raise Exception("other must be a rigidbody")
+        hitted = self.hit(other)
+        for hit in hitted:
+            # if moving right
+            if self.velocity[0] > 0:
+                self.rectangle.right = hit.left
+            if self.velocity[0] < 0:
+                self.rectangle.left = hit.right
+        self.rectangle.y += self.velocity[1]
+        hitted = self.hit(platforms)
+        for hit in hitted:
+            # if we are going up and hit our head
+            if self.velocity[1] < 0:
+                self.rectangle.top = hit.bottom
+            # if we are going down and hit our feet
+            if self.velocity[1] > 0:
+                self.velocity[1] = 0
+                self.rectangle.bottom = hit.top
+
+    def hit(self, others):
+        hitted = []
+        for other in others:
+            if self.collider.collide(other.collider):
+                hitted.append(other)
+        return hitted
