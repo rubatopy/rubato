@@ -1,8 +1,12 @@
 # from pygame.math import Vector2
 
 class PgpMath:
+
     @staticmethod
     def clamp(a, upper, lower):
+        """
+        Clamps a to the bounds of upper and lower
+        """
         return min(max(a, lower), upper)
 
 
@@ -85,6 +89,12 @@ class Vector():#Vector2):
         return self.y == v.y and self.x == v.y
 
     def clamp(self, lower, upper):
+        """
+        clams x and y between the two vectors given
+        :param lower: the lower bound
+        :param upper: the upper bound
+        :return: None
+        """
         if type(lower) != type(Vector):
             Vector(*lower)
         if type(upper) != type(Vector):
