@@ -60,6 +60,13 @@ class RigidBody(Sprite):
         """
         self.acceleration.x = force.x / self.mass
         self.acceleration.y = force.y / self.mass
+        print(self.acceleration)
+
+    def set_impulse(self, force: Vector, time: int):
+        self.set_force(force)
+        print(force)
+        print(self.mass)
+        Time.delayed_call(time, lambda: self.set_force(Vector()))
 
     def update(self):
         """The update loop"""
