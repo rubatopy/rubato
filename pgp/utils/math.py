@@ -3,7 +3,7 @@
 class PgpMath:
 
     @staticmethod
-    def clamp(a, upper, lower):
+    def clamp(a, lower, upper):
         """
         Clamps a to the bounds of upper and lower
         """
@@ -109,12 +109,12 @@ class Vector:
         :param upper: The upper bound
         :return: None
         """
-        if type(lower) != type(Vector):
+        if not isinstance(lower, Vector):
             Vector(*lower)
-        if type(upper) != type(Vector):
+        if not isinstance(upper, Vector):
             Vector(*upper)
         self.x = PgpMath.clamp(self.x, lower.x, upper.x)
         self.y = PgpMath.clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other):
-        return False if (other is None or type(other) != type(Vector)) else self.__equals(other)
+        return False if (other is None or not isinstance(other, Vector)) else self.__equals(other)

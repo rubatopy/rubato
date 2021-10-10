@@ -14,7 +14,9 @@ class RigidBody(Sprite):
         "mass": 1,
         "box": [0, 0, 0, 0],
         "do_physics": True,
-        "gravity": 100
+        "gravity": 100,
+        "max_speed": Vector(1000, 1000),
+        "min_speed": Vector(-1000, -1000)
     }
 
     def __init__(self, options: dict = {}):
@@ -35,6 +37,9 @@ class RigidBody(Sprite):
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
         self.velocity.y += (self.acceleration.y + self.params.get("gravity", RigidBody.default_options["gravity"])) * Time.delta_time("sec")
+
+        self.velocity.clamp(self.params.get("min_speed", RigidBody.default_options["min_speed"]),
+                            self.params.get("max_speed", RigidBody.default_options["max_speed"]))
 
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
