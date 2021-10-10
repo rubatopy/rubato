@@ -8,7 +8,7 @@ class Collider:
             raise Exception("x1 needs to be smaller than x2 and y1 needs to be smaller than y2")
         self.enabled = True
 
-    def good_input(self):
+    def valid(self):
         return self.x1 < self.x2 and self.y1 < self.y2
 
     def collide_point(self, x, y):
