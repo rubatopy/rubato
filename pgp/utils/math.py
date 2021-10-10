@@ -1,4 +1,4 @@
-# from pygame.math import Vector2
+from pygame.math import Vector2
 
 class PgpMath:
 
@@ -20,7 +20,7 @@ class PgpMath:
         return (t * upper) + ((1 - t) * lower)
 
 
-class Vector:
+class Vector(Vector2):
     """
     A Vector object that defines a 3D point in space
 
