@@ -19,8 +19,6 @@ def custom_update():
         scene.camera.zoom = 2
     elif Input.is_pressed("s"):
         scene.camera.zoom = 0.5
-    else:
-        scene.camera.zoom = 1
 
 
 sprite.update = custom_update

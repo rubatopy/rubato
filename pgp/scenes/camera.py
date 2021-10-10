@@ -1,5 +1,4 @@
-from pygame.transform import scale
-from pgp.utils import Vector, DISPLAY
+from pgp.utils import Vector
 
 
 class Camera:
@@ -21,23 +20,3 @@ class Camera:
         :return: A new offset point in the form of a 2D tuple
         """
         return point.offset2(self.pos).to_tuple2()
-
-    @property
-    def zoom(self):
-        return self._zoom
-
-    @zoom.setter
-    def zoom(self, value: float):
-        """
-        Sets the zoom of the camera.
-
-        :param value: The new zoom as a float
-        """
-        self._zoom = value
-        self.process_zoom()
-
-    def process_zoom(self):
-        """Process changes to the camera's zoom"""
-        window_width, window_height = DISPLAY.display().get_size()
-        new_size = (round(window_width / self.zoom), round(window_height / self.zoom))
-        DISPLAY.set(scale(DISPLAY.display(), new_size))
