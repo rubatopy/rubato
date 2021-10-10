@@ -34,14 +34,11 @@ class RigidBody(Sprite):
         """A physics implementation"""
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
-        self.velocity.y += self.acceleration.y * Time.delta_time("sec")
+        self.velocity.y += (self.acceleration.y + self.params.get("gravity", RigidBody.default_options["gravity"])) * Time.delta_time("sec")
 
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
-
-        # Gravity for the next frame
-        self.acceleration.y = self.params.get("gravity", RigidBody.default_options["gravity"])
 
     def set_force(self, force: Vector):
         """
