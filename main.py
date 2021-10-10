@@ -1,5 +1,5 @@
 import pgp as pgp
-from pgp import Image, Input, Scene, RigidBody, Point
+from pgp import Image, Input, Scene, RigidBody, Vector
 
 game = pgp.Game()
 
@@ -9,7 +9,7 @@ game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
 
-rigidboy = RigidBody({"pos": Point(100, 0), "mass": 100})
+rigidboy = RigidBody({"pos": Vector(100, 0), "mass": 100})
 
 def custom_update():
     sprite.pos.z = 1 - Input.is_pressed("SPACE")

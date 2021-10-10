@@ -1,4 +1,4 @@
-from pgp.utils import Point
+from pgp.utils import Vector
 
 class Sprite:
     """
@@ -7,7 +7,7 @@ class Sprite:
     :param pos: The position of the sprite on screen. Defaults to (0, 0, 0)
     """
 
-    def __init__(self, pos: Point = Point()):
+    def __init__(self, pos: Vector = Vector()):
         self.pos = pos
         self.state = {}
 

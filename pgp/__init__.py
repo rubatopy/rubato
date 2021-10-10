@@ -1,6 +1,6 @@
 import pygame
 from sys import exit
-from pgp.utils import STATE, GD, Point, Time
+from pgp.utils import STATE, GD, Vector, Time
 from pgp.scenes import SceneManager, Scene
 from pgp.radio import Radio
 from pgp.sprite import Sprite, Image, RigidBody
