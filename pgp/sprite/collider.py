@@ -5,7 +5,7 @@ class Collider:
     def __init__(self, x1, x2, y1, y2):
         self.rect = [x1, x2, y1, y2]
         if not self.valid():
-            raise Exception("x1 needs to be smaller than x2 and y1 needs to be smaller than y2")
+            raise Exception("Collider x1 must be smaller than x2, same with y")
         self.enabled = True
 
     def valid(self):
@@ -16,7 +16,7 @@ class Collider:
 
     def collide(self, other):
         if not isinstance(other, Collider):
-            raise Exception("other should always be another collider when trying to collide with another collider")
+            raise Exception("Attempted colliding with a non-collider object")
         for x, y in other.vectors:
             if not self.x1 < x < self.x2 and self.y1 < y < self.y2:
                 return False
