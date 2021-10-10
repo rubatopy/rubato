@@ -69,3 +69,11 @@ class Collider:
     @property
     def vectors(self):
         return self.x_vector, self.y_vector
+
+    def set_topleft(self, x, y):
+        x_mag = self.x_vector.magnitude()
+        y_mag = self.y_vector.magnitude()
+        self.rect[0] = x
+        self.rect[2] = y
+        self.rect[1] = x + x_mag
+        self.rect[3] = y + y_mag

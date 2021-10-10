@@ -30,6 +30,7 @@ class RigidBody(Sprite):
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
+        self.collider.set_topleft(*self.pos.to_tuple2())
 
         # Gravity for the next frame
         self.acceleration.y = 98
@@ -61,21 +62,19 @@ class RigidBody(Sprite):
             raise Exception("other must be a rigidbody list")
         hitted = self.hit(other)
         for hit in hitted:
-            # if moving right
             if self.velocity[0] > 0:
-                self.rectangle.right = hit.left
+                # your right becomes hits left
+                pass
             if self.velocity[0] < 0:
-                self.rectangle.left = hit.right
-        self.rectangle.y += self.velocity[1]
-        hitted = self.hit(other)
-        for hit in hitted:
-            # if we are going up and hit our head
-            if self.velocity[1] < 0:
-                self.rectangle.top = hit.bottom
-            # if we are going down and hit our feet
-            if self.velocity[1] > 0:
-                self.velocity[1] = 0
-                self.rectangle.bottom = hit.top
+                pass
+        # self.rectangle.y += self.velocity[1]
+        # hitted = self.hit(other)
+        # for hit in hitted:
+        #     if self.velocity[1] < 0:
+        #         self.rectangle.top = hit.bottom
+        #     if self.velocity[1] > 0:
+        #         self.velocity[1] = 0
+        #         self.rectangle.bottom = hit.top
 
     def hit(self, others):
         hitted = []
