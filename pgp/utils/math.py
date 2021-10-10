@@ -9,6 +9,16 @@ class PgpMath:
         """
         return min(max(a, lower), upper)
 
+    @staticmethod
+    def lerp(lower, upper, t):
+        """
+        interpolates between lower and upper by t
+        :param lower: the lower bound
+        :param upper: the upper bound
+        :param t: how far you go between lower and upper
+        """
+        return (t * upper) + ((1 - t) * lower)
+
 
 class Vector:
     """
