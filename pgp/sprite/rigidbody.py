@@ -17,7 +17,8 @@ class RigidBody(Sprite):
         "gravity": 100,
         "max_speed": Vector(1000, 1000),
         "min_speed": Vector(-1000, -1000),
-        "friction": Vector(1, 1)
+        "friction": Vector(1, 1),
+        "img": ""
     }
 
     def __init__(self, options: dict = {}):
@@ -30,7 +31,7 @@ class RigidBody(Sprite):
 
         self.params = options
 
-        self.render = Image(options.get("img", ""), self.pos)
+        self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos)
 
     # TODO Collisions
     def physics(self):
