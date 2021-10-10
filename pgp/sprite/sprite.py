@@ -1,4 +1,5 @@
-from pgp.utils import Vector
+from pgp.utils import DISPLAY, Vector
+from pygame.transform import scale
 
 class Sprite:
     """
@@ -15,6 +16,8 @@ class Sprite:
         """The update loop"""
         pass
 
-    def draw(self, camera):
-        """The draw loop"""
-        pass
+    def draw(self, surface, camera):
+        """A generalized draw functions for any surface"""
+        width, height = surface.get_size()
+        new_size = (round(width * camera.zoom), round(height * camera.zoom))
+        DISPLAY.update(scale(surface, new_size), camera.transform(self.pos*camera.zoom))

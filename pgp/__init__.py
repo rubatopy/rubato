@@ -1,6 +1,6 @@
 import pygame
 from sys import exit
-from pgp.utils import STATE, GD, Vector, Time
+from pgp.utils import STATE, DISPLAY, Vector, Time
 from pgp.scenes import SceneManager, Scene
 from pgp.radio import Radio
 from pgp.sprite import Sprite, Image, RigidBody
@@ -8,7 +8,6 @@ from pgp.group import Group
 from pgp.input import Input
 
 # TODO Sound manager
-# TODO Better "config" management
 class Game:
     """
     Main Game object. Controls everything in the game.
@@ -16,16 +15,26 @@ class Game:
     :param options: The config used to generate the game instance.
     """
 
+    default_options = {
+        "name": "Untitled Game",
+        "window_width": 600,
+        "window_height": 400,
+        "aspect_ratio": 1.5,
+        "fps": 60,
+        "reset_display": True,
+        "better_clock": True,
+    }
+
     def __init__(self, options: dict = {}):
         pygame.init()
 
-        self.name = options.get("name", "Untitled Game")
-        self.window_width = options.get("window_width", 600)
-        self.window_height = options.get("window_height", 400)
-        self.aspect_ratio = options.get("aspect_ratio", 1.5)
-        self.fps = options.get("fps", 60)
-        self.reset_display = options.get("reset_display", True)
-        self.use_better_clock = options.get("better_clock", True)
+        self.name = options.get("name", Game.default_options["name"])
+        self.window_width = options.get("window_width", Game.default_options["window_width"])
+        self.window_height = options.get("window_height", Game.default_options["window_height"])
+        self.aspect_ratio = options.get("aspect_ratio", Game.default_options["aspect_ratio"])
+        self.fps = options.get("fps", Game.default_options["fps"])
+        self.reset_display = options.get("reset_display", Game.default_options["reset_display"])
+        self.use_better_clock = options.get("better_clock", Game.default_options["better_clock"])
 
         self.state = STATE.STOPPED
 
@@ -39,7 +48,7 @@ class Game:
         if options.get("icon"):
             pygame.display.set_icon(pygame.image.load(options.get("icon")))
 
-        GD.set(self.display)
+        DISPLAY.set(self.display)
 
         self.scenes = SceneManager()
         self.radio = Radio()
@@ -48,7 +57,8 @@ class Game:
         """Update loop for the game."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()  # TODO Pass and handle quit event through broadcast system first
+                self.radio.broadcast("EXIT")
+                pygame.quit()
                 exit(1)
             if event.type == pygame.VIDEORESIZE:
                 self.window_width = event.size[0]
@@ -79,10 +89,10 @@ class Game:
 
     def draw(self):
         """Draw loop for the game."""
-        if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
+        if self.reset_display: self.display.fill((255, 255, 255))
         self.scenes.draw()
-        self.display = GD.display()
+        self.display = DISPLAY.display()
 
     def begin(self):
         """

@@ -8,28 +8,35 @@ scene.camera.pos.translate(0, 0)
 game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
-
-
-rigidboy = RigidBody({"pos": Vector(100, 0), "mass": 100})
+rigid = RigidBody({"pos": Vector(100, 0), "mass": 100})
 
 def custom_update():
     # sprite.pos.z = 1 - Input.is_pressed("SPACE")
 
-    if Input.is_pressed("w"):
-        scene.camera.scale_zoom(1.01)
-    elif Input.is_pressed("s"):
-        scene.camera.scale_zoom(0.99)
-
+    if Input.is_pressed("="):
+        scene.camera.zoom = 2
+    elif Input.is_pressed("-"):
+        scene.camera.zoom = 0.5
+    else:
+        scene.camera.zoom = 1
 
 sprite.update = custom_update
 scene.add(sprite)
-bebe = scene.add(rigidboy)
+bebe = scene.add(rigid)
 
+def w_handler():
+    rigid.velocity.y = -100
 
-def test_handler():
-    rigidboy.velocity.y = -50
+def a_handler():
+    rigid.velocity.x = -100
 
+def d_handler():
+    rigid.velocity.x = 100
 
-game.radio.listen("w_down", test_handler)
+game.radio.listen("w_down", w_handler)
+game.radio.listen("a_down", a_handler)
+game.radio.listen("d_down", d_handler)
+
+game.radio.listen("EXIT", lambda: print("ya-yeet"))
 
 game.begin()
