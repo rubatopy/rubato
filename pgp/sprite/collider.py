@@ -9,16 +9,16 @@ class Collider:
         self.enabled = True
 
     def good_input(self):
-        return self.x1 < self.x2 and self.y1 < self.y2
+        return self.x1 <= self.x2 and self.y1 <= self.y2
 
     def collide_point(self, x, y):
-        return self.x1 < x < self.x2 and self.y1 < y < self.y2
+        return self.x1 <= x <= self.x2 and self.y1 <= y <= self.y2
 
     def collide(self, other):
         if not isinstance(other, Collider):
             raise Exception("other should always be another collider when trying to collide with another collider")
         for x, y in other.vectors:
-            if not self.x1 < x < self.x2 and self.y1 < y < self.y2:
+            if not self.collide_point(x,y):
                 return False
         return True
 
