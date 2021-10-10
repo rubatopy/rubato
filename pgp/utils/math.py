@@ -60,6 +60,9 @@ class Vector:
     def __str__(self):
         return f"({self.x}, {self.y})"
 
+    def __mul__(self, other):
+        return Vector(self.x * other, self.y * other, self.z)
+
     @staticmethod
     @property
     def ZERO():
