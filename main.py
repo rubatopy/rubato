@@ -41,4 +41,6 @@ game.radio.listen("w_down", w_handler)
 game.radio.listen("a_down", a_handler)
 game.radio.listen("d_down", d_handler)
 
+game.radio.listen("EXIT", lambda: print("ya-yeet"))
+
 game.begin()

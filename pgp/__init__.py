@@ -57,7 +57,8 @@ class Game:
         """Update loop for the game."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()  # TODO Pass and handle quit event through broadcast system first
+                self.radio.broadcast("EXIT")
+                pygame.quit()
                 exit(1)
             if event.type == pygame.VIDEORESIZE:
                 self.window_width = event.size[0]
