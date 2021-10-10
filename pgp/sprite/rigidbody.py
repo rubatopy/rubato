@@ -1,6 +1,6 @@
 from pgp.sprite.sprite import Sprite
 from pgp.sprite.image import Image
-from pgp.utils import Point, Time
+from pgp.utils import Vector, Time
 
 
 class RigidBody(Sprite):
@@ -10,10 +10,10 @@ class RigidBody(Sprite):
     :param options: A dictionary of options
     """
     def __init__(self, options: dict = {}):
-        super().__init__(options.get("pos", Point()))
+        super().__init__(options.get("pos", Vector()))
 
-        self.velocity = Point()
-        self.acceleration = Point()
+        self.velocity = Vector()
+        self.acceleration = Vector()
         self.mass = options.get("mass", 1)
         self.box = options.get("box", [0, 0, 0, 0])
 
@@ -33,7 +33,7 @@ class RigidBody(Sprite):
         # Gravity for the next frame
         self.acceleration.y = 98
 
-    def set_force(self, force: Point):
+    def set_force(self, force: Vector):
         """
         Sets a force on the RigidBody
 

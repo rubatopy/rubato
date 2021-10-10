@@ -1,5 +1,5 @@
 from pygame.transform import scale
-from pgp.utils import Point, GD
+from pgp.utils import Vector, GD
 
 
 class Camera:
@@ -9,7 +9,8 @@ class Camera:
     :param pos: The coordinates of the Camera
     :param zoom: The initial zoom of the Camera as a number
     """
-    def __init__(self, pos: Point = Point(), zoom: int = 100):
+    def __init__(self, pos: Vector = Vector(), zoom: int = 100):
+
         self.pos = pos
         self.zoom = zoom
 

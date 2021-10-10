@@ -1,6 +1,6 @@
 from pgp.sprite.sprite import Sprite
 from pygame.image import load
-from pgp.utils import GD, Point
+from pgp.utils import GD, Vector
 
 class Image(Sprite):
     """
@@ -10,7 +10,7 @@ class Image(Sprite):
     :param pos: The position of the sprite.
     """
     # TODO Sprite Scaling
-    def __init__(self, image_location: str, pos: Point = Point()):
+    def __init__(self, image_location: str, pos: Vector = Vector()):
         self.image = load(image_location if image_location != "" else "pgp/static/default.png")
         super().__init__(pos)
 

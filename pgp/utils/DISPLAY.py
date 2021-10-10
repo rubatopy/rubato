@@ -1,4 +1,6 @@
 from pygame import Surface
+import os
+import pygame.display as display
 
 
 class GD:
@@ -21,3 +23,11 @@ class GD:
     @staticmethod
     def update(surface: Surface, pos: (int, int)):
         GD.global_display.blit(surface, pos)
+
+    @staticmethod
+    def set_window_position(x, y):
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '%d, %d' % (x, y)
+
+    @staticmethod
+    def set_window_name(name):
+        display.set_caption(name)
