@@ -61,7 +61,10 @@ class Vector:
         return f"({self.x}, {self.y})"
 
     def __mul__(self, other):
-        return Vector(self.x * other, self.y * other, self.z)
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector(self.x * other, self.y * other, self.z)
+        if isinstance(other, Vector):
+            return Vector(self.x * other.x, self.y * other.y, self.z)
 
     @staticmethod
     @property
