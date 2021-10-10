@@ -15,16 +15,26 @@ class Game:
     :param options: The config used to generate the game instance.
     """
 
+    default_options = {
+        "name": "Untitled Game",
+        "window_width": 600,
+        "window_height": 400,
+        "aspect_ratio": 1.5,
+        "fps": 60,
+        "reset_display": True,
+        "better_clock": True,
+    }
+
     def __init__(self, options: dict = {}):
         pygame.init()
 
-        self.name = options.get("name", "Untitled Game")
-        self.window_width = options.get("window_width", 600)
-        self.window_height = options.get("window_height", 400)
-        self.aspect_ratio = options.get("aspect_ratio", 1.5)
-        self.fps = options.get("fps", 60)
-        self.reset_display = options.get("reset_display", True)
-        self.use_better_clock = options.get("better_clock", True)
+        self.name = options.get("name", Game.default_options["name"])
+        self.window_width = options.get("window_width", Game.default_options["window_width"])
+        self.window_height = options.get("window_height", Game.default_options["window_height"])
+        self.aspect_ratio = options.get("aspect_ratio", Game.default_options["aspect_ratio"])
+        self.fps = options.get("fps", Game.default_options["fps"])
+        self.reset_display = options.get("reset_display", Game.default_options["reset_display"])
+        self.use_better_clock = options.get("better_clock", Game.default_options["better_clock"])
 
         self.state = STATE.STOPPED
 
@@ -78,8 +88,8 @@ class Game:
 
     def draw(self):
         """Draw loop for the game."""
-        if self.reset_display: self.display.fill((255, 255, 255))
         self.screen.fill((0, 0, 0))
+        if self.reset_display: self.display.fill((255, 255, 255))
         self.scenes.draw()
         self.display = DISPLAY.display()
 
