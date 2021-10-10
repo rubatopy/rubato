@@ -17,10 +17,10 @@ def custom_update():
 
 sprite.update = custom_update
 scene.add(sprite)
-scene.add(rigidboy)
+bebe = scene.add(rigidboy)
 
 def test_handler():
-    print("Yeet")
+    game.scenes.current_scene.remove(bebe)
 
 
 game.radio.listen("test", test_handler)

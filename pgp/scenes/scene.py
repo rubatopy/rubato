@@ -1,6 +1,7 @@
 from pgp.scenes import Camera
 from pgp.sprite import Sprite
 
+
 class Scene:
     """
     A scene is a collection of sprites. Interactions between sprites is handled here.
@@ -11,7 +12,6 @@ class Scene:
         self.min_id = 0
         self.camera = Camera()
 
-    # TODO Sprite remove function. Also, index sprites by ID like in scenemanager
     def add(self, sprite: Sprite, sprite_id: int or str = None):
         """
         Adds a sprite to the scene.
@@ -28,6 +28,17 @@ class Scene:
 
         self.sprites[sprite_id] = sprite
         return sprite_id
+
+    def remove(self, sprite_id: int or str):
+        """
+        Removes a sprite with a given sprite id
+
+        :param sprite_id: The id of the sprite to remove
+        """
+        if sprite_id not in self.sprites.keys():
+            raise ValueError(f"The sprite corresponding to {sprite_id} does not exist in this scene")
+
+        del self.sprites[sprite_id]
 
     def update(self):
         """
