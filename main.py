@@ -20,10 +20,9 @@ scene.add(sprite)
 bebe = scene.add(rigidboy)
 
 def test_handler():
-    game.scenes.current_scene.remove(bebe)
+    rigidboy.velocity.y = -50
 
 
-game.radio.listen("test", test_handler)
 game.radio.listen("w_down", test_handler)
 
 game.begin()

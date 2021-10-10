@@ -100,9 +100,10 @@ class Vector:
 
     def clamp(self, lower, upper):
         """
-        clams x and y between the two vectors given
-        :param lower: the lower bound
-        :param upper: the upper bound
+        Clamps x and y between the two vectors given
+
+        :param lower: The lower bound
+        :param upper: The upper bound
         :return: None
         """
         if type(lower) != type(Vector):
