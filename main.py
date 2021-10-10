@@ -1,5 +1,5 @@
 import pgp as pgp
-from pgp import Image, Input, Scene, RigidBody, Vector
+from pgp import Image, Input, Scene, RigidBody, Vector, Time
 
 game = pgp.Game()
 
@@ -38,5 +38,10 @@ game.radio.listen("a_down", a_handler)
 game.radio.listen("d_down", d_handler)
 
 game.radio.listen("EXIT", lambda: print("ya-yeet"))
+
+def later():
+    print("LOL")
+
+Time.delayed_call(1000, later)
 
 game.begin()
