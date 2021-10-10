@@ -10,9 +10,9 @@ class PgpMath:
         return min(max(a, lower), upper)
 
 
-class Vector():#Vector2):
+class Vector:
     """
-    A Point object that defines a 3D point in space
+    A Vector object that defines a 3D point in space
 
     :param x: The x coordinate.
     :param y: The y coordinate.
@@ -24,7 +24,7 @@ class Vector():#Vector2):
 
     def translate(self, x: int, y: int, z: int = 0):
         """
-        Translates the point's x y and z coordinates by some constants
+        Translates the vector's x y and z coordinates by some constants
 
         :param x: The change in x.
         :param y: The change in y.
@@ -34,7 +34,7 @@ class Vector():#Vector2):
 
     def offset2(self, other):
         """
-        Offsets the x and y coordinates of a point by those of another point
+        Offsets the x and y coordinates of a vector by those of another vector
 
         :param other: Another point
         :return: A new point with the translated x and y coordinates
@@ -43,7 +43,7 @@ class Vector():#Vector2):
 
     def to_tuple2(self):
         """
-        Returns the x and y coordinates of the point as a tuple
+        Returns the x and y coordinates of the vector as a tuple
         """
         return self.x, self.y
 
