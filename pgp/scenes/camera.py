@@ -14,7 +14,7 @@ class Camera:
         self.pos = pos
         self.zoom = zoom
 
-    def transform(self, point: Point) -> Point:
+    def transform(self, point: Vector) -> Vector:
         """
         Translates a given set of coordinates by the camera's.
 
