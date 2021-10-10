@@ -57,8 +57,8 @@ class RigidBody(Sprite):
         self.render.draw(camera)
 
     def collide_rb(self, other: []):
-        if type(other) is not type(list[self]):
-            raise Exception("other must be a rigidbody")
+        if not isinstance(other[0], RigidBody):
+            raise Exception("other must be a rigidbody list")
         hitted = self.hit(other)
         for hit in hitted:
             # if moving right

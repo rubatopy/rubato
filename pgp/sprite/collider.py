@@ -15,9 +15,9 @@ class Collider:
         return self.x1 < x < self.x2 and self.y1 < y < self.y2
 
     def collide(self, other):
-        if type(other) is not type(Collider):
+        if not isinstance(other, Collider):
             raise Exception("other should always be another collider when trying to collide with another collider")
-        for x,y in other.vectors:
+        for x, y in other.vectors:
             if not self.x1 < x < self.x2 and self.y1 < y < self.y2:
                 return False
         return True
@@ -49,6 +49,22 @@ class Collider:
     @property
     def y_vector(self):
         return Vector(self.y1, self.y2)
+
+    @property
+    def left(self):
+        return self.x1
+
+    @property
+    def top(self):
+        return self.y1
+
+    @property
+    def right(self):
+        return self.x2
+
+    @property
+    def bottom(self):
+        return self.y2
 
     @property
     def vectors(self):
