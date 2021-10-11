@@ -2,7 +2,7 @@ from os import environ
 environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 from sys import exit
-from pgp.utils import STATE, Display, Vector, Time
+from pgp.utils import STATE, Display, Vector, PMath, Time
 from pgp.scenes import SceneManager, Scene
 from pgp.radio import Radio
 from pgp.sprite import Sprite, Image, RigidBody

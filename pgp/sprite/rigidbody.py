@@ -1,7 +1,7 @@
 from pgp.sprite import Sprite
 from pgp.sprite import Image
 from pgp.sprite import Collider
-from pgp.utils import Vector, Time
+from pgp.utils import Vector, Time, PMath
 
 
 class RigidBody(Sprite):
@@ -16,8 +16,8 @@ class RigidBody(Sprite):
         "box": [0, 0, 0, 0],
         "do_physics": True,
         "gravity": 100,
-        "max_speed": Vector(1000, 1000),
-        "min_speed": Vector(-1000, -1000),
+        "max_speed": Vector(PMath.infinity(), PMath.infinity()),
+        "min_speed": Vector(-PMath.infinity(), -PMath.infinity()),
         "friction": Vector(1, 1),
         "img": ""
     }

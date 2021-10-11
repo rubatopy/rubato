@@ -1,8 +1,6 @@
 import math
-from pygame.math import Vector2
 
-
-class PgpMath:
+class PMath:
 
     @staticmethod
     def clamp(a, lower, upper):
@@ -13,7 +11,7 @@ class PgpMath:
 
     @staticmethod
     def abs_clamp(a, lower, upper):
-        return PgpMath.sign(a) * PgpMath.clamp(abs(a), lower, upper)
+        return PMath.sign(a) * PMath.clamp(abs(a), lower, upper)
 
     @staticmethod
     def sign(n):
@@ -38,8 +36,11 @@ class PgpMath:
     def rad_to_deg(rad):
         return rad * 180 / math.pi
 
+    @staticmethod
+    def infinity():
+        return 2147483647
 
-class Vector(Vector2):
+class Vector:
     """
     A Vector object that defines a 3D point in space
 
@@ -84,6 +85,8 @@ class Vector(Vector2):
             return Vector(self.x * other, self.y * other, self.z)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y, self.z)
+
+    __rmul__ = __mul__
 
     @staticmethod
     def ZERO():
@@ -130,14 +133,17 @@ class Vector(Vector2):
         if not isinstance(upper, Vector):
             upper = Vector(*upper)
         if not absolute:
-            self.x = PgpMath.clamp(self.x, lower.x, upper.x)
-            self.y = PgpMath.clamp(self.y, lower.y, upper.y)
+            self.x = PMath.clamp(self.x, lower.x, upper.x)
+            self.y = PMath.clamp(self.y, lower.y, upper.y)
         else:
-            self.x = PgpMath.abs_clamp(self.x, lower.x, upper.x)
-            self.y = PgpMath.abs_clamp(self.y, lower.y, upper.y)
+            self.x = PMath.abs_clamp(self.x, lower.x, upper.x)
+            self.y = PMath.abs_clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other):
         return False if (other is None or not isinstance(other, Vector)) else self.__equals2(other)
+
+    def magnitude(self):
+        return math.sqrt(self.x**2 + self.y**2)
 
     @staticmethod
     def from_radial(angle: float, magnitude: float):

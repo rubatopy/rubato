@@ -1,5 +1,5 @@
 import pgp as pgp
-from pgp import Image, Input, Scene, RigidBody, Vector, Time
+from pgp import Image, Input, Scene, RigidBody, Vector, Time, PMath
 
 game = pgp.Game()
 
@@ -8,7 +8,11 @@ scene.camera.pos.translate(0, 0)
 game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
-rigid = RigidBody({"pos": Vector(100, 0), "mass": 1, "friction": Vector(0.99, 1), "max_speed": Vector(80, 1000)})
+rigid = RigidBody({"pos": Vector(100, 0),
+                   "mass": 1,
+                   "friction": Vector(0.99, 1),
+                   "max_speed": Vector(80, PMath.infinity())
+                   })
 
 def custom_update():
     if Input.is_pressed("="):
@@ -31,6 +35,8 @@ def rigid_update():
         rigid.acceleration.x = -500
     elif Input.is_pressed("d"):
         rigid.acceleration.x = 500
+    else:
+        rigid.acceleration.x = 0
         
     if rigid.pos.y > 350:
         rigid.pos.y = 349
