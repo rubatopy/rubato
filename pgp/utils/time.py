@@ -1,4 +1,5 @@
 from pygame.time import Clock, get_ticks
+from pgp.utils import ClassProperty
 
 
 class Time:
@@ -23,8 +24,8 @@ class Time:
         else:
             raise ValueError(f"Style {form} is not valid")
 
-    @staticmethod
-    def now() -> int:
+    @ClassProperty
+    def now(self) -> int:
         """
         Gets the time since the start of the game, in milliseconds.
 
@@ -59,7 +60,7 @@ class Time:
         :param delta_time: The time in milliseconds to run the function at.
         :param func: The function to call.
         """
-        run_at = Time.now() + delta_time
+        run_at = Time.now + delta_time
 
         if Time.calls.get(run_at):
             Time.calls[run_at].append(func)
@@ -70,7 +71,7 @@ class Time:
     def process_calls():
         """Processes the calls needed"""
         for call in sorted(Time.calls.keys()):
-            if call <= Time.now():
+            if call <= Time.now:
                 for func in Time.calls[call]:
                     func()
                 del Time.calls[call]

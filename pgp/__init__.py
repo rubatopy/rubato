@@ -95,7 +95,7 @@ class Game:
         self.screen.fill((0, 0, 0))
         if self.reset_display: self.display.fill((255, 255, 255))
         self.scenes.draw()
-        self.display = Display.display()
+        self.display = Display.display
 
     def begin(self):
         """

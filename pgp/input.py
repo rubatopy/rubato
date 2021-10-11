@@ -1,5 +1,5 @@
 from pygame import key, mouse
-
+from pgp.utils import ClassProperty
 
 class Input:
     """
@@ -12,9 +12,8 @@ class Input:
     def is_pressed(char: str):
         return Input.key.get_pressed()[Input.key.key_code(char)]
 
-    @property
-    @staticmethod
-    def keys():
+    @ClassProperty
+    def keys(self):
         return ['K_BACKSPACE', 'K_TAB', 'K_CLEAR', 'K_RETURN', 'K_PAUSE', 'K_ESCAPE', 'K_SPACE', 'K_EXCLAIM', 'K_QUOTEDBL',
          'K_HASH', 'K_DOLLAR', 'K_AMPERSAND', 'K_QUOTE', 'K_LEFTPAREN', 'K_RIGHTPAREN', 'K_ASTERISK', 'K_PLUS',
          'K_COMMA', 'K_MINUS', 'K_PERIOD', 'K_SLASH', 'K_0', 'K_1', 'K_2', 'K_3', 'K_4', 'K_5', 'K_6', 'K_7', 'K_8',

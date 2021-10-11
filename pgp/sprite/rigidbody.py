@@ -16,8 +16,8 @@ class RigidBody(Sprite):
         "box": [0, 0, 0, 0],
         "do_physics": True,
         "gravity": 100,
-        "max_speed": Vector(PMath.infinity(), PMath.infinity()),
-        "min_speed": Vector(-PMath.infinity(), -PMath.infinity()),
+        "max_speed": Vector(PMath.INFINITY, PMath.INFINITY),
+        "min_speed": Vector(-PMath.INFINITY, -PMath.INFINITY),
         "friction": Vector(1, 1),
         "img": ""
     }

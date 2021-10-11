@@ -11,7 +11,7 @@ sprite = Image("./Tinmarr.jpg")
 rigid = RigidBody({"pos": Vector(100, 0),
                    "mass": 1,
                    "friction": Vector(0.99, 1),
-                   "max_speed": Vector(80, PMath.infinity())
+                   "max_speed": Vector(80, PMath.INFINITY)
                    })
 
 def custom_update():
