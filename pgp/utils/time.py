@@ -1,5 +1,5 @@
 from pygame.time import Clock, get_ticks
-from pgp.utils import ClassProperty
+from pgp.utils import classproperty
 
 
 class Time:
@@ -24,7 +24,7 @@ class Time:
         else:
             raise ValueError(f"Style {form} is not valid")
 
-    @ClassProperty
+    @classproperty
     def now(self) -> int:
         """
         Gets the time since the start of the game, in milliseconds.

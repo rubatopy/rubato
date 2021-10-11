@@ -1,4 +1,4 @@
-from pgp.utils import PMath, ClassProperty
+from pgp.utils import PMath, classproperty
 import math
 
 class Vector:
@@ -49,35 +49,35 @@ class Vector:
 
     __rmul__ = __mul__
 
-    @ClassProperty
+    @classproperty
     def ZERO(self):
         return Vector(0, 0)
 
-    @ClassProperty
+    @classproperty
     def ONE(self):
         return Vector(1, 1)
 
-    @ClassProperty
+    @classproperty
     def TWO(self):
         return Vector(2, 2)
 
-    @ClassProperty
+    @classproperty
     def UP(self):
         return Vector(0, -1)
 
-    @ClassProperty
+    @classproperty
     def LEFT(self):
         return Vector(-1, 0)
 
-    @ClassProperty
+    @classproperty
     def DOWN(self):
         return Vector(0, 1)
 
-    @ClassProperty
+    @classproperty
     def RIGHT(self):
         return Vector(1, 0)
 
-    @ClassProperty
+    @classproperty
     def INFINITY(self):
         return Vector(PMath.INFINITY, PMath.INFINITY)
 

@@ -1,7 +1,7 @@
 from pygame import Surface
 import os
 import pygame.display as display
-from pgp.utils import ClassProperty
+from pgp.utils import classproperty
 
 
 class Display:
@@ -17,7 +17,7 @@ class Display:
         """
         Display.global_display = new_surface
 
-    @ClassProperty
+    @classproperty
     def display(self) -> Surface:
         return Display.global_display
 

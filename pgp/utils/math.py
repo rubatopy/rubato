@@ -1,6 +1,6 @@
 import math
 
-class ClassProperty(property):
+class classproperty(property):
     def __get__(self, cls, owner):
         return classmethod(self.fget).__get__(None, owner)()
 
@@ -40,6 +40,6 @@ class PMath:
     def rad_to_deg(rad):
         return rad * 180 / math.pi
 
-    @ClassProperty
+    @classproperty
     def INFINITY(self):
         return 2147483647
