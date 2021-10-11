@@ -8,11 +8,9 @@ scene.camera.pos.translate(0, 0)
 game.scenes.add(scene)
 
 sprite = Image("./Tinmarr.jpg")
-rigid = RigidBody({"pos": Vector(100, 0), "mass": 1, "friction":Vector(0.9, 1)})
+rigid = RigidBody({"pos": Vector(100, 0), "mass": 1, "friction": Vector(0.99, 1), "max_speed": Vector(80, 1000)})
 
 def custom_update():
-    # sprite.pos.z = 1 - Input.is_pressed("SPACE")
-
     if Input.is_pressed("="):
         scene.camera.zoom = 2
     elif Input.is_pressed("-"):
@@ -30,9 +28,9 @@ def w_handler():
 def rigid_update():
     rigid.physics()
     if Input.is_pressed("a"):
-        rigid.velocity.x = -100
+        rigid.acceleration.x = -500
     elif Input.is_pressed("d"):
-        rigid.velocity.x = 100
+        rigid.acceleration.x = 500
         
     if rigid.pos.y > 350:
         rigid.pos.y = 349
@@ -45,10 +43,3 @@ game.radio.listen("EXIT", lambda: print("ya-yeet"))
 Time.delayed_call(1000, lambda: print("LOL"))
 
 game.begin()
-
-# TODO: get rid of hello from pygame message
-"""
-from os import environ
-environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
-Before importing pygame
-"""

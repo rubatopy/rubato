@@ -12,13 +12,21 @@ class PgpMath:
         return min(max(a, lower), upper)
 
     @staticmethod
+    def abs_clamp(a, lower, upper):
+        return PgpMath.sign(a) * PgpMath.clamp(abs(a), lower, upper)
+
+    @staticmethod
+    def sign(n):
+        return (n > 0) - (n < 0)
+
+    @staticmethod
     def lerp(lower, upper, t):
         """
         Linearly interpolates between lower and upper bounds by t
 
         :param lower: The lower bound
         :param upper: The upper bound
-        :param t: How far you go between lower and upper
+        :param t: Distance between upper and lower (1 gives upper, 0 gives lower)
         """
         return (t * upper) + ((1 - t) * lower)
 
@@ -108,10 +116,11 @@ class Vector(Vector2):
     def __equals2(self, v):
         return self.y == v.y and self.x == v.x
 
-    def clamp(self, lower, upper):
+    def clamp(self, lower, upper, absolute: bool = False):
         """
         Clamps x and y between the two vectors given
 
+        :param absolute: Whether to clamp the absolute value of the vector instead of the actual value
         :param lower: The lower bound
         :param upper: The upper bound
         :return: None
@@ -120,8 +129,12 @@ class Vector(Vector2):
             lower = Vector(*lower)
         if not isinstance(upper, Vector):
             upper = Vector(*upper)
-        self.x = PgpMath.clamp(self.x, lower.x, upper.x)
-        self.y = PgpMath.clamp(self.y, lower.y, upper.y)
+        if not absolute:
+            self.x = PgpMath.clamp(self.x, lower.x, upper.x)
+            self.y = PgpMath.clamp(self.y, lower.y, upper.y)
+        else:
+            self.x = PgpMath.abs_clamp(self.x, lower.x, upper.x)
+            self.y = PgpMath.abs_clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other):
         return False if (other is None or not isinstance(other, Vector)) else self.__equals2(other)

@@ -1,3 +1,5 @@
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame
 from sys import exit
 from pgp.utils import STATE, Display, Vector, Time
