@@ -1,97 +1,79 @@
-from pgp.utils import Vector
+from __future__ import annotations
+from pgp import Vector
 
 
 class Collider:
-    def __init__(self, x1, x2, y1, y2):
-        self.rect = [x1, x2, y1, y2]
+    """
+    A collider for a rigid body.
+
+    :param rect: An array with 4 values representing the x and y displacement of the collider
+     (with respect to the top left corner of the rigid body) and the width and the height of the collider.
+    :param rb_pos: The function that returns the position of the rigid body that this collider is attached to.
+    """
+    def __init__(self, rect, rb_pos):
+        self.rect = rect
+        self.rb_pos = rb_pos
         if not self.valid():
-            raise Exception("Collider x1 must be smaller than x2, same with y")
-        self.enabled = True
+            raise Exception("The width and height of the collider must be greater than zero.")
 
-    def valid(self):
-        return self.x1 <= self.x2 and self.y1 <= self.y2
+    def valid(self) -> bool:
+        """
+        Checks if the bounding box is valid.
 
-    def collide_point(self, x, y):
-        return self.x1 <= x <= self.x2 and self.y1 <= y <= self.y2
+        :return: A boolean.
+        """
+        return self.width > 0 and self.height > 0
 
-    def collide(self, other):
-        if not isinstance(other, Collider):
-            raise Exception("Attempted colliding with a non-collider object")
-        for x, y in other.vectors:
-            if not self.collide_point(x,y):
-                return False
-        return True
+    def collide_point(self, x, y) -> bool:
+        return self.top_left.x <= x <= self.bottom_right.x and self.top_left.y <= y <= self.bottom_right.y
+
+    def collide(self, other: Collider) -> bool or str:
+        inside_eo = self.top_left.x in range(int(other.top_left.x), int(other.top_right.x))
+        print(inside_eo)
+        if inside_eo:
+            if self.top_collide(other):
+                return "top"
+            elif self.right_collide(other):
+                return "right"
+            elif self.left_collide(other):
+                return "left"
+            elif self.bottom_collide(other):
+                return "bottom"
+        else:
+            return False
 
     @property
-    def collider(self):
-        return self.rect if self.enabled else None
+    def top_left(self) -> Vector:
+        return self.rb_pos()
 
     @property
-    def x1(self):
-        return self.rect[0]
+    def top_right(self) -> Vector:
+        return self.rb_pos() + Vector(self.width)
 
     @property
-    def x2(self):
-        return self.rect[1]
+    def bottom_left(self) -> Vector:
+        return self.rb_pos() + Vector(0, self.height)
 
     @property
-    def y1(self):
+    def bottom_right(self) -> Vector:
+        return self.top_left + Vector(self.width, self.height)
+
+    @property
+    def width(self) -> int:
         return self.rect[2]
 
     @property
-    def y2(self):
+    def height(self) -> int:
         return self.rect[3]
 
-    @property
-    def x_vector(self):
-        """
-        Vector that describes the width of the collider
-        :return:
-        """
-        return Vector(self.x1, self.x2)
+    def top_collide(self, other: Collider) -> bool:
+        return self.bottom_right.y < other.top_left.y and not self.right_collide(other) and not self.left_collide(other)
 
-    @property
-    def y_vector(self):
-        """
-        Vector that describes the height of the collider
-        :return:
-        """
-        return Vector(self.y1, self.y2)
+    def right_collide(self, other: Collider) -> bool:
+        return False
 
-    @property
-    def left(self):
-        return self.x1
+    def left_collide(self, other: Collider) -> bool:
+        return False
 
-    @property
-    def top(self):
-        return self.y1
-
-    @property
-    def right(self):
-        return self.x2
-
-    @property
-    def bottom(self):
-        return self.y2
-
-    @property
-    def vectors(self):
-        """
-        vectors describing the width and height of the collider
-        :return: (self.x_vector, self.y_vector)
-        """
-        return self.x_vector, self.y_vector
-
-    def set_topleft(self, x, y) -> None:
-        """
-        Sets the topleft of the collider to the xy position
-        :param x: new xpos
-        :param y: new ypos
-        :return:
-        """
-        x_mag = self.x_vector.magnitude()
-        y_mag = self.y_vector.magnitude()
-        self.rect[0] = x
-        self.rect[2] = y
-        self.rect[1] = x + x_mag
-        self.rect[3] = y + y_mag
+    def bottom_collide(self, other: Collider) -> bool:
+        return self.bottom_right.y > other.top_left.y and not self.right_collide(other) and not self.left_collide(other)
