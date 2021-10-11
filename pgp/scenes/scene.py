@@ -1,3 +1,4 @@
+from pgp import check_types
 from pgp.scenes import Camera
 from pgp.sprite import Sprite
 
@@ -8,18 +9,20 @@ class Scene:
     """
 
     def __init__(self):
+        check_types(Scene.__init__, locals())
         self.sprites = {}
         self.min_id = 0
         self.camera = Camera()
 
-    def add(self, sprite: Sprite, sprite_id: int or str = None):
+    def add(self, sprite: Sprite, sprite_id: int or str = ""):
         """
         Adds a sprite to the scene.
 
         :param sprite_id: The id of the sprite
         :param sprite: The sprite object to be added.
         """
-        if sprite_id is None:
+        check_types(Scene.add, locals())
+        if sprite_id is "":
             sprite_id = self.min_id
             self.min_id += 1
 
@@ -35,6 +38,7 @@ class Scene:
 
         :param sprite_id: The id of the sprite to remove
         """
+        check_types(Scene.remove, locals())
         if sprite_id not in self.sprites.keys():
             raise ValueError(f"The sprite corresponding to {sprite_id} does not exist in this scene")
 
@@ -44,6 +48,7 @@ class Scene:
         """
         The update loop for this scene.
         """
+        check_types(Scene.update, locals())
         for sprite in self.sprites.values():
             sprite.update()
 
@@ -51,6 +56,7 @@ class Scene:
         """
         The draw loop for this scene.
         """
+        check_types(Scene.draw, locals())
         for sprite in sorted(self.sprites.values(), key=lambda spr: spr.pos.z):
             if sprite.pos.z > self.camera.pos.z:
                 break

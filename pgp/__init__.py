@@ -1,9 +1,9 @@
 from os import environ
-environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 import pygame
 from sys import exit
-from pgp.utils import STATE, Display, Vector, PMath, Time, Process
-from pgp.scenes import SceneManager, Scene
+from pgp.utils import STATE, Display, Vector, PMath, Time, check_types
+from pgp.scenes import SceneManager, Scene, Camera
 from pgp.radio import Radio
 from pgp.sprite import Sprite, Image, RigidBody
 from pgp.group import Group

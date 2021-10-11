@@ -1,5 +1,6 @@
 from pgp.sprite import Sprite, Image, Collider
-from pgp.utils import Vector, Time, PMath
+from pgp.utils import Vector, Time, PMath, check_types
+from pgp.scenes import Camera
 
 
 class RigidBody(Sprite):
@@ -21,6 +22,7 @@ class RigidBody(Sprite):
     }
 
     def __init__(self, options: dict = {}):
+        check_types(RigidBody.__init__, locals())
         super().__init__(options.get("pos", Vector()))
 
         self.velocity = Vector()
@@ -36,6 +38,7 @@ class RigidBody(Sprite):
     # TODO Collisions
     def physics(self):
         """A physics implementation"""
+        check_types(RigidBody.physics, locals())
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
         self.velocity.y += (self.acceleration.y + self.params.get("gravity", RigidBody.default_options[
@@ -52,30 +55,37 @@ class RigidBody(Sprite):
 
     def set_force(self, force: Vector):
         """
-        Sets a force on the RigidBody
+        Sets a force on the RigidBody.
 
-        :param force: A Point object representing the added force to the object
+        :param force: A Point object representing the added force to the object.
         """
+        check_types(RigidBody.set_force, locals())
         self.acceleration.x = force.x / self.mass
         self.acceleration.y = force.y / self.mass
-        print(self.acceleration)
 
     def set_impulse(self, force: Vector, time: int):
+        """
+        Sets an impulse on the rigid body
+
+        :param force: The force of the impulse
+        :param time: The duration of the impulse
+        """
+        check_types(RigidBody.set_impulse, locals())
         self.set_force(force)
-        print(force)
-        print(self.mass)
         Time.delayed_call(time, lambda: self.set_force(Vector()))
 
     def update(self):
         """The update loop"""
+        check_types(RigidBody.update, locals())
         if self.params.get("do_physics", RigidBody.default_options["do_physics"]):
             self.physics()
 
-    def draw(self, camera):
+    def draw(self, camera: Camera):
         """
         The draw loop
 
         :param camera: The current camera
         """
+        check_types(RigidBody.draw, locals())
         self.render.pos = self.pos
         self.render.draw(camera)

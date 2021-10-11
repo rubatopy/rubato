@@ -1,3 +1,4 @@
+from pgp import check_types
 from pgp.utils import Vector
 
 
@@ -9,6 +10,7 @@ class Camera:
     :param zoom: The initial zoom of the Camera as a number
     """
     def __init__(self, pos: Vector = Vector(), zoom: int = 1):
+        check_types(Camera.__init__, locals())
         self.pos = pos
         self.zoom = zoom
 
@@ -19,4 +21,5 @@ class Camera:
         :param point: The point to be transformed
         :return: A new offset point in the form of a 2D tuple
         """
+        check_types(Camera.transform, locals())
         return point.offset2(self.pos).to_tuple2()
