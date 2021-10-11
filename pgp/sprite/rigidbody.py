@@ -11,7 +11,7 @@ class RigidBody(Sprite):
 
     default_options = {
         "mass": 1,
-        "box": [0, 0, 1, 1],
+        "box": [0, 0, 16, 16],
         "do_physics": True,
         "gravity": 100,
         "max_speed": Vector(PMath.INFINITY, PMath.INFINITY),

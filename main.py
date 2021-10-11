@@ -49,7 +49,7 @@ def rigid_update():
     if rigid.pos.y > 350:
         rigid.pos.y = 349
 
-    rigid.collider.collide(rigid_2.collider)
+    print(rigid.collider.collide(rigid_2.collider))
 
 rigid.update = rigid_update
 game.radio.listen("w_down", w_handler)

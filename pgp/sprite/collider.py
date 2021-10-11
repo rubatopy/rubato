@@ -28,9 +28,10 @@ class Collider:
         return self.top_left.x <= x <= self.bottom_right.x and self.top_left.y <= y <= self.bottom_right.y
 
     def collide(self, other: Collider) -> bool or str:
-        inside_eo = self.top_left.x in range(int(other.top_left.x), int(other.top_right.x))
-        print(inside_eo)
-        if inside_eo:
+        inside_eo_x = not (self.rb_pos().x > (other.rb_pos().x + other.width) or (self.rb_pos().x + self.width) < other.rb_pos().x)
+        inside_eo_y = not (self.rb_pos().y > (other.rb_pos().y + other.height) or (self.rb_pos().y + self.height) < other.rb_pos().y)
+
+        if inside_eo_x and inside_eo_y:
             if self.top_collide(other):
                 return "top"
             elif self.right_collide(other):

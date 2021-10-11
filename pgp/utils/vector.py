@@ -137,3 +137,6 @@ class Vector:
         :return: Vector from the given direction and distance
         """
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
+
+    def to_int(self):
+        return Vector(int(self.x), int(self.y), self.z)
