@@ -22,7 +22,7 @@ class Scene:
         :param sprite: The sprite object to be added.
         """
         check_types(Scene.add, locals())
-        if sprite_id is "":
+        if sprite_id == "":
             sprite_id = self.min_id
             self.min_id += 1
 
@@ -32,7 +32,7 @@ class Scene:
         self.sprites[sprite_id] = sprite
         return sprite_id
 
-    def remove(self, sprite_id: int or str):
+    def remove(self, sprite_id: int | str):
         """
         Removes a sprite with a given sprite id
 

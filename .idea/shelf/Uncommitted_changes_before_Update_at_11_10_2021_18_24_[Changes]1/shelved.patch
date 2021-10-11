@@ -1,0 +1,128 @@
+Index: pgp/sprite/collider.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from __future__ import annotations\r\nfrom pgp import Vector\r\n\r\n\r\nclass Collider:\r\n    \"\"\"\r\n    A collider for a rigid body.\r\n\r\n    :param rect: An array with 4 values representing the x and y displacement of the collider\r\n     (with respect to the top left corner of the rigid body) and the width and the height of the collider.\r\n    :param pos: The function that returns the position of the rigid body that this collider is attached to.\r\n    \"\"\"\r\n    def __init__(self, rect, pos):\r\n        self.offset, self.dims, self.pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos\r\n\r\n    def overlap_point(self, x, y) -> bool:\r\n        return self.top_left.x <= x <= self.bottom_right.x and self.top_left.y <= y <= self.bottom_right.y\r\n\r\n    def overlap(self, other: Collider, fast: bool = True) -> bool or str:\r\n        tl, otl = self.top_left, other.top_left\r\n        br, obr = tl + self.dims, otl + other.dims\r\n\r\n        if tl.x > obr.x or br.x < otl.x or tl.y > obr.y or br.y < otl.y: return False\r\n        if fast: return True\r\n\r\n        distances = {\r\n            \"top\": min(abs(otl.y - tl.y), abs(otl.y - br.y)),\r\n            \"bottom\": min(abs(obr.y - tl.y), abs(obr.y - br.y)),\r\n            \"left\": min(abs(otl.x - tl.x), abs(otl.x - br.x)),\r\n            \"right\": min(abs(obr.x - tl.x), abs(obr.x - br.x))\r\n        }\r\n\r\n        return min(distances, key=lambda dim: distances[dim])\r\n\r\n    @property\r\n    def top_left(self) -> Vector:\r\n        return self.pos() + self.offset\r\n\r\n    @property\r\n    def bottom_right(self) -> Vector:\r\n        return self.top_left + self.dims\r\n\r\n    @property\r\n    def width(self) -> int:\r\n        return self.dims.x\r\n\r\n    @property\r\n    def height(self) -> int:\r\n        return self.dims.y\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pgp/sprite/collider.py b/pgp/sprite/collider.py
+--- a/pgp/sprite/collider.py	
++++ b/pgp/sprite/collider.py	
+@@ -1,5 +1,5 @@
+ from __future__ import annotations
+-from pgp import Vector
++from pgp import Vector, check_types
+ 
+ 
+ class Collider:
+@@ -10,7 +10,8 @@
+      (with respect to the top left corner of the rigid body) and the width and the height of the collider.
+     :param pos: The function that returns the position of the rigid body that this collider is attached to.
+     """
+-    def __init__(self, rect, pos):
++    def __init__(self, rect: list, pos: type(lambda:None)):
++        check_types(Collider.__init__, locals())
+         self.offset, self.dims, self.pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos
+ 
+     def overlap_point(self, x, y) -> bool:
+Index: pgp/scenes/scene.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from pgp import check_types\r\nfrom pgp.scenes import Camera\r\nfrom pgp.sprite import Sprite\r\n\r\n\r\nclass Scene:\r\n    \"\"\"\r\n    A scene is a collection of sprites. Interactions between sprites is handled here.\r\n    \"\"\"\r\n\r\n    def __init__(self):\r\n        check_types(Scene.__init__, locals())\r\n        self.sprites = {}\r\n        self.min_id = 0\r\n        self.camera = Camera()\r\n\r\n    def add(self, sprite: Sprite, sprite_id: int | str = \"\"):\r\n        \"\"\"\r\n        Adds a sprite to the scene.\r\n\r\n        :param sprite_id: The id of the sprite\r\n        :param sprite: The sprite object to be added.\r\n        \"\"\"\r\n        check_types(Scene.add, locals())\r\n        if sprite_id is \"\":\r\n            sprite_id = self.min_id\r\n            self.min_id += 1\r\n\r\n        if sprite_id in self.sprites.keys():\r\n            raise ValueError(f\"The sprite id {sprite_id} is not unique in this scene\")\r\n\r\n        self.sprites[sprite_id] = sprite\r\n        return sprite_id\r\n\r\n    def remove(self, sprite_id: int or str):\r\n        \"\"\"\r\n        Removes a sprite with a given sprite id\r\n\r\n        :param sprite_id: The id of the sprite to remove\r\n        \"\"\"\r\n        check_types(Scene.remove, locals())\r\n        if sprite_id not in self.sprites.keys():\r\n            raise ValueError(f\"The sprite corresponding to {sprite_id} does not exist in this scene\")\r\n\r\n        del self.sprites[sprite_id]\r\n\r\n    def update(self):\r\n        \"\"\"\r\n        The update loop for this scene.\r\n        \"\"\"\r\n        check_types(Scene.update, locals())\r\n        for sprite in self.sprites.values():\r\n            sprite.update()\r\n\r\n    def draw(self):\r\n        \"\"\"\r\n        The draw loop for this scene.\r\n        \"\"\"\r\n        check_types(Scene.draw, locals())\r\n        for sprite in sorted(self.sprites.values(), key=lambda spr: spr.pos.z):\r\n            if sprite.pos.z > self.camera.pos.z:\r\n                break\r\n            sprite.draw(self.camera)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pgp/scenes/scene.py b/pgp/scenes/scene.py
+--- a/pgp/scenes/scene.py	
++++ b/pgp/scenes/scene.py	
+@@ -22,7 +22,7 @@
+         :param sprite: The sprite object to be added.
+         """
+         check_types(Scene.add, locals())
+-        if sprite_id is "":
++        if sprite_id == "":
+             sprite_id = self.min_id
+             self.min_id += 1
+ 
+@@ -32,7 +32,7 @@
+         self.sprites[sprite_id] = sprite
+         return sprite_id
+ 
+-    def remove(self, sprite_id: int or str):
++    def remove(self, sprite_id: int | str):
+         """
+         Removes a sprite with a given sprite id
+ 
+Index: pgp/scenes/scene_manager.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from pgp.scenes.scene import Scene\r\n\r\n\r\nclass SceneManager:\r\n    \"\"\"\r\n    The Scene Manager houses a collection of scenes and allows switching between different scenes.\r\n    Also handles the drawing and updating of current scene.\r\n    \"\"\"\r\n    def __init__(self):\r\n        self.scenes = {}\r\n        self.min_id = 0\r\n        self.current = 0\r\n\r\n    def add(self, scene: Scene, scene_id: int or str = None) -> int or str:\r\n        \"\"\"\r\n        Creates a new scene and adds it to the scene manager.\r\n\r\n        :param scene: A scene object.\r\n        :param scene_id: The id for the new scene. defaults to an incrementing value.\r\n        :return: The scene's id value.\r\n        \"\"\"\r\n        if scene_id is None:\r\n            scene_id = self.min_id\r\n            self.min_id += 1\r\n\r\n        if scene_id in self.scenes.keys():\r\n            raise ValueError(f\"The scene id {scene_id} is not unique in this manager\")\r\n\r\n        self.scenes[scene_id] = scene\r\n        return scene_id\r\n\r\n    @property\r\n    def is_empty(self) -> bool:\r\n        \"\"\"\r\n        Property method to check if the scene is empty.\r\n\r\n        :return: Returns whether the scene list is empty.\r\n        \"\"\"\r\n        return not bool(self.scenes.keys())\r\n\r\n    def set(self, scene_id: int or str):\r\n        \"\"\"\r\n        Changes the current scene to a new scene.\r\n\r\n        :param scene_id: The id of the new scene.\r\n        \"\"\"\r\n        self.current = scene_id\r\n\r\n    @property\r\n    def current_scene(self) -> Scene:\r\n        \"\"\"\r\n        Get the Scene class of the current scene.\r\n\r\n        :return: The Scene class of the current scene.\r\n        \"\"\"\r\n        return self.scenes.get(self.current)\r\n\r\n    def update(self):\r\n        \"\"\"\r\n        Calls the update function of the current scene.\r\n        \"\"\"\r\n        if self.is_empty: return\r\n        self.current_scene.update()\r\n\r\n    def draw(self):\r\n        \"\"\"\r\n        Calls the draw function of the current scene.\r\n        \"\"\"\r\n        if self.is_empty: return\r\n        self.current_scene.draw()\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pgp/scenes/scene_manager.py b/pgp/scenes/scene_manager.py
+--- a/pgp/scenes/scene_manager.py	
++++ b/pgp/scenes/scene_manager.py	
+@@ -1,3 +1,4 @@
++from pgp import check_types
+ from pgp.scenes.scene import Scene
+ 
+ 
+@@ -11,7 +12,7 @@
+         self.min_id = 0
+         self.current = 0
+ 
+-    def add(self, scene: Scene, scene_id: int or str = None) -> int or str:
++    def add(self, scene: Scene, scene_id: int | str = "") -> int | str:
+         """
+         Creates a new scene and adds it to the scene manager.
+ 
+@@ -19,7 +20,8 @@
+         :param scene_id: The id for the new scene. defaults to an incrementing value.
+         :return: The scene's id value.
+         """
+-        if scene_id is None:
++        check_types(SceneManager.add, locals())
++        if scene_id == "":
+             scene_id = self.min_id
+             self.min_id += 1
+ 
+@@ -36,6 +38,7 @@
+ 
+         :return: Returns whether the scene list is empty.
+         """
++        check_types(SceneManager.is_empty, locals())
+         return not bool(self.scenes.keys())
+ 
+     def set(self, scene_id: int or str):
+@@ -44,6 +47,7 @@
+ 
+         :param scene_id: The id of the new scene.
+         """
++        check_types(SceneManager.set, locals())
+         self.current = scene_id
+ 
+     @property
+@@ -53,12 +57,14 @@
+ 
+         :return: The Scene class of the current scene.
+         """
++        check_types(SceneManager.current_scene, locals())
+         return self.scenes.get(self.current)
+ 
+     def update(self):
+         """
+         Calls the update function of the current scene.
+         """
++        check_types(SceneManager.update, locals())
+         if self.is_empty: return
+         self.current_scene.update()
+ 
+@@ -66,6 +72,7 @@
+         """
+         Calls the draw function of the current scene.
+         """
++        check_types(SceneManager.draw, locals())
+         if self.is_empty: return
+         self.current_scene.draw()
+ 

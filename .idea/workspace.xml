@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="da1364ab-67f2-436e-81dc-2464d0f47f6a" name="Changes" comment="" />
+    <list default="true" id="da1364ab-67f2-436e-81dc-2464d0f47f6a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pgp/scenes/scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/pgp/scenes/scene.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pgp/scenes/scene_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pgp/scenes/scene_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pgp/sprite/collider.py" beforeDir="false" afterPath="$PROJECT_DIR$/pgp/sprite/collider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pgp/utils/processing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pgp/utils/processing.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,7 +20,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1zNWMXalLElK5zTx4jRxJoGlJBR" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -58,5 +70,17 @@
       <updated>1633988979611</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
