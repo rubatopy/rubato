@@ -47,6 +47,8 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y, self.z)
 
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
     __rmul__ = __mul__
 
     @classproperty
