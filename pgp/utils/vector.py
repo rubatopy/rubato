@@ -49,7 +49,22 @@ class Vector:
 
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y)
+
     __rmul__ = __mul__
+    __radd__ = __add__
+
+    def __sub__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector(self.x - other, self.y - other, self.z)
+        if isinstance(other, Vector):
+            return Vector(self.x - other.x, self.y - other.y, self.z)
+
+    def __rsub__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector(other - self.x, other - self.y, self.z)
+
+    def __neg__(self):
+        return Vector(-self.x, -self.y, self.z)
 
     @classproperty
     def ZERO(self):
