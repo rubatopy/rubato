@@ -8,73 +8,42 @@ class Collider:
 
     :param rect: An array with 4 values representing the x and y displacement of the collider
      (with respect to the top left corner of the rigid body) and the width and the height of the collider.
-    :param rb_pos: The function that returns the position of the rigid body that this collider is attached to.
+    :param pos: The function that returns the position of the rigid body that this collider is attached to.
     """
-    def __init__(self, rect, rb_pos):
-        self.rect = rect
-        self.rb_pos = rb_pos
-        if not self.valid():
-            raise Exception("The width and height of the collider must be greater than zero.")
+    def __init__(self, rect, pos):
+        self.offset, self.dims, self.pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos
 
-    def valid(self) -> bool:
-        """
-        Checks if the bounding box is valid.
-
-        :return: A boolean.
-        """
-        return self.width > 0 and self.height > 0
-
-    def collide_point(self, x, y) -> bool:
+    def overlap_point(self, x, y) -> bool:
         return self.top_left.x <= x <= self.bottom_right.x and self.top_left.y <= y <= self.bottom_right.y
 
-    def collide(self, other: Collider) -> bool or str:
-        inside_eo_x = not (self.rb_pos().x > (other.rb_pos().x + other.width) or (self.rb_pos().x + self.width) < other.rb_pos().x)
-        inside_eo_y = not (self.rb_pos().y > (other.rb_pos().y + other.height) or (self.rb_pos().y + self.height) < other.rb_pos().y)
+    def overlap(self, other: Collider, fast: bool = True) -> bool or str:
+        tl, otl = self.top_left, other.top_left
+        br, obr = tl + self.dims, otl + other.dims
 
-        if inside_eo_x and inside_eo_y:
-            if self.top_collide(other):
-                return "top"
-            elif self.right_collide(other):
-                return "right"
-            elif self.left_collide(other):
-                return "left"
-            elif self.bottom_collide(other):
-                return "bottom"
-        else:
-            return False
+        if tl.x > obr.x or br.x < otl.x or tl.y > obr.y or br.y < otl.y: return False
+        if fast: return True
+
+        distances = {
+            "top": min(abs(otl.y - tl.y), abs(otl.y - br.y)),
+            "bottom": min(abs(obr.y - tl.y), abs(obr.y - br.y)),
+            "left": min(abs(otl.x - tl.x), abs(otl.x - br.x)),
+            "right": min(abs(obr.x - tl.x), abs(obr.x - br.x))
+        }
+
+        return min(distances, key=lambda dim: distances[dim])
 
     @property
     def top_left(self) -> Vector:
-        return self.rb_pos()
-
-    @property
-    def top_right(self) -> Vector:
-        return self.rb_pos() + Vector(self.width)
-
-    @property
-    def bottom_left(self) -> Vector:
-        return self.rb_pos() + Vector(0, self.height)
+        return self.pos() + self.offset
 
     @property
     def bottom_right(self) -> Vector:
-        return self.top_left + Vector(self.width, self.height)
+        return self.top_left + self.dims
 
     @property
     def width(self) -> int:
-        return self.rect[2]
+        return self.dims.x
 
     @property
     def height(self) -> int:
-        return self.rect[3]
-
-    def top_collide(self, other: Collider) -> bool:
-        return self.bottom_right.y < other.top_left.y and not self.right_collide(other) and not self.left_collide(other)
-
-    def right_collide(self, other: Collider) -> bool:
-        return False
-
-    def left_collide(self, other: Collider) -> bool:
-        return False
-
-    def bottom_collide(self, other: Collider) -> bool:
-        return self.bottom_right.y > other.top_left.y and not self.right_collide(other) and not self.left_collide(other)
+        return self.dims.y

@@ -27,7 +27,7 @@ class RigidBody(Sprite):
         self.acceleration = Vector()
 
         self.mass = options.get("mass", RigidBody.default_options["mass"])
-        self.collider = Collider(options.get("box", RigidBody.default_options["box"]), lambda:self.pos)
+        self.collider = Collider(options.get("box", RigidBody.default_options["box"]), lambda: self.pos)
 
         self.params = options
 
