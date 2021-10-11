@@ -4,6 +4,8 @@ class Process:
         for arg in args.keys():
             if arg != "self" and arg[:2] != "__":
                 try:
+                    if func.__annotations__[arg] == any:
+                        continue
                     if not isinstance(args[arg], func.__annotations__[arg]):
                         raise TypeError(f"{args[arg]} is not of type {func.__annotations__[arg].__name__}")
                 except KeyError:
