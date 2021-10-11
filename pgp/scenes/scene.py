@@ -14,7 +14,7 @@ class Scene:
         self.min_id = 0
         self.camera = Camera()
 
-    def add(self, sprite: Sprite, sprite_id: int or str = ""):
+    def add(self, sprite: Sprite, sprite_id: int | str = ""):
         """
         Adds a sprite to the scene.
 
