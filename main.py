@@ -45,3 +45,10 @@ game.radio.listen("EXIT", lambda: print("ya-yeet"))
 Time.delayed_call(1000, lambda: print("LOL"))
 
 game.begin()
+
+# TODO: get rid of hello from pygame message
+"""
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+Before importing pygame
+"""

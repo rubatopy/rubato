@@ -1,4 +1,6 @@
+import math
 from pygame.math import Vector2
+
 
 class PgpMath:
 
@@ -19,6 +21,14 @@ class PgpMath:
         """
         return (t * upper) + ((1 - t) * lower)
 
+    @staticmethod
+    def deg_2_rad(deg):
+        return deg * math.pi / 180
+
+    @staticmethod
+    def rad_2_deg(rad):
+        return rad * 180 / math.pi
+
 
 class Vector(Vector2):
     """
@@ -29,10 +39,11 @@ class Vector(Vector2):
     :param z: The z coordinate.
     """
 
-    def __init__(self, x: int = 0, y: int = 0, z: int = 0):
+    # TODO ask tomer if its ok to have float precision in the Vectors was int
+    def __init__(self, x: float = 0, y: float = 0, z: float = 0):
         self.x, self.y, self.z = x, y, z
 
-    def translate(self, x: int, y: int, z: int = 0):
+    def translate(self, x: float, y: float, z: float = 0):
         """
         Translates the vector's x y and z coordinates by some constants
 
@@ -121,3 +132,14 @@ class Vector(Vector2):
 
     def __eq__(self, other):
         return False if (other is None or not isinstance(other, Vector)) else self.__equals(other)
+
+    @staticmethod
+    def from_direction_distance(direction: float, distance: float):
+        """
+        Gives you a Vector from the given direction and distance
+        :param direction: direction of vector in radians
+        :param distance: length of vector
+        :return: Vector from the given direction and distance
+        """
+        x, y = math.cos(direction) * distance, math.sin(direction) * distance
+        return Vector(x, y)
