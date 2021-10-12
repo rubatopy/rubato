@@ -1,4 +1,6 @@
 import math
+from json.encoder import INFINITY
+
 from pgp.utils.processing import check_types
 
 
@@ -7,6 +9,8 @@ class classproperty(property):
         return classmethod(self.fget).__get__(None, owner)()
 
 class PMath:
+
+    INFINITY = math.pow(2, 99)
 
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
@@ -79,7 +83,3 @@ class PMath:
         """
         check_types(PMath.rad_to_deg, locals())
         return rad * 180 / math.pi
-
-    @classproperty
-    def INFINITY(self):
-        return 2147483647
