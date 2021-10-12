@@ -1,6 +1,4 @@
 import math
-from json.encoder import INFINITY
-
 from pgp.utils.processing import check_types
 
 
