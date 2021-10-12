@@ -13,6 +13,10 @@ class Collider:
         check_types(Collider.__init__, locals())
         self.offset, self.dims, self._pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos
 
+    def collide(self):
+        # TODO: PLEASE DO ME HARD AS SOON AS POSSIBLE
+        pass
+
     def overlap_point(self, x: float | int, y: float | int) -> bool:
         """
         Checks if the collider overlaps with a point.
