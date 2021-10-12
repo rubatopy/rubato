@@ -1,11 +1,13 @@
-import pgp as pgp
-from pgp import Image, Input, Scene, RigidBody, Vector, Time, PMath
+from pgp import Game, Image, Input, Scene, RigidBody, Vector, Time, PMath, Group
 
-game = pgp.Game()
+game = Game()
 
 scene = Scene()
 scene.camera.pos.translate(0, 0)
 game.scenes.add(scene)
+
+group = Group()
+scene.add(group)
 
 sprite = Image("./Tinmarr.jpg")
 rigid = RigidBody({
@@ -33,7 +35,7 @@ def custom_update():
 
 
 sprite.update = custom_update
-scene.add(sprite)
+group.add(sprite)
 
 
 # Rigid
@@ -53,12 +55,12 @@ def rigid_update():
     if rigid.pos.y > 350:
         rigid.pos.y = 349
 
-    print(rigid.collider.overlap(rigid_2.collider))
+    rigid.collider.overlap(rigid_2.collider)
 
 
 rigid.update = rigid_update
 game.radio.listen("w_down", w_handler)
-scene.add(rigid)
+group.add(rigid)
 
 
 # Rigid 2
@@ -68,7 +70,7 @@ def rigid_2_update():
 
 
 rigid_2.update = rigid_2_update
-scene.add(rigid_2)
+group.add(rigid_2)
 
 game.radio.listen("EXIT", lambda: print("ya-yeet"))
 

@@ -1,6 +1,7 @@
 from pgp import check_types
 from pgp.scenes import Camera
 from pgp.sprite import Sprite
+from pgp.group import Group
 
 
 class Scene:
@@ -14,7 +15,7 @@ class Scene:
         self.min_id = 0
         self.camera = Camera()
 
-    def add(self, sprite: Sprite, sprite_id: int | str = ""):
+    def add(self, sprite: Sprite | Group, sprite_id: int | str = ""):
         """
         Adds a sprite to the scene.
 
@@ -48,7 +49,6 @@ class Scene:
         """
         The update loop for this scene.
         """
-        check_types(Scene.update, locals())
         for sprite in self.sprites.values():
             sprite.update()
 
@@ -56,7 +56,6 @@ class Scene:
         """
         The draw loop for this scene.
         """
-        check_types(Scene.draw, locals())
         for sprite in sorted(self.sprites.values(), key=lambda spr: spr.pos.z):
             if sprite.pos.z > self.camera.pos.z:
                 break

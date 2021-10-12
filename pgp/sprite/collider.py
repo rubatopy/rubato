@@ -1,4 +1,3 @@
-from __future__ import annotations
 from pgp import Vector, check_types
 
 
@@ -10,14 +9,16 @@ class Collider:
      (with respect to the top left corner of the rigid body) and the width and the height of the collider.
     :param pos: The function that returns the position of the rigid body that this collider is attached to.
     """
-    def __init__(self, rect: list, pos: any):
+    def __init__(self, rect: list, pos: type(lambda:None)):
         check_types(Collider.__init__, locals())
         self.offset, self.dims, self._pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos
 
     def overlap_point(self, x, y) -> bool:
+        check_types(Collider.overlap_point, locals())
         return self.top_left.x <= x <= self.bottom_right.x and self.top_left.y <= y <= self.bottom_right.y
 
-    def overlap(self, other: Collider, fast: bool = True) -> bool or str:
+    def overlap(self, other: "Collider", fast: bool = True) -> bool | str:
+        check_types(Collider.overlap, locals())
         tl, otl = self.top_left, other.top_left
         br, obr = tl + self.dims, otl + other.dims
 

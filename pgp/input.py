@@ -1,5 +1,5 @@
 from pygame import key, mouse
-from pgp.utils import classproperty
+from pgp.utils import classproperty, check_types
 
 class Input:
     """
@@ -9,21 +9,22 @@ class Input:
     mouse = mouse
 
     @staticmethod
-    def is_pressed(char: str):
+    def is_pressed(char: str) -> bool:
+        check_types(Input.is_pressed, locals())
         return Input.key.get_pressed()[Input.key.key_code(char)]
 
     @classproperty
-    def keys(self):
-        return ['K_BACKSPACE', 'K_TAB', 'K_CLEAR', 'K_RETURN', 'K_PAUSE', 'K_ESCAPE', 'K_SPACE', 'K_EXCLAIM', 'K_QUOTEDBL',
-         'K_HASH', 'K_DOLLAR', 'K_AMPERSAND', 'K_QUOTE', 'K_LEFTPAREN', 'K_RIGHTPAREN', 'K_ASTERISK', 'K_PLUS',
-         'K_COMMA', 'K_MINUS', 'K_PERIOD', 'K_SLASH', 'K_0', 'K_1', 'K_2', 'K_3', 'K_4', 'K_5', 'K_6', 'K_7', 'K_8',
-         'K_9', 'K_COLON', 'K_SEMICOLON', 'K_LESS', 'K_EQUALS', 'K_GREATER', 'K_QUESTION', 'K_AT', 'K_LEFTBRACKET',
-         'K_BACKSLASH', 'K_RIGHTBRACKET', 'K_CARET', 'K_UNDERSCORE', 'K_BACKQUOTE', 'K_a', 'K_b', 'K_c', 'K_d', 'K_e',
-         'K_f', 'K_g', 'K_h', 'K_i', 'K_j', 'K_k', 'K_l', 'K_m', 'K_n', 'K_o', 'K_p', 'K_q', 'K_r', 'K_s', 'K_t', 'K_u',
-         'K_v', 'K_w', 'K_x', 'K_y', 'K_z', 'K_DELETE', 'K_KP0', 'K_KP1', 'K_KP2', 'K_KP3', 'K_KP4', 'K_KP5', 'K_KP6',
-         'K_KP7', 'K_KP8', 'K_KP9', 'K_KP_PERIOD', 'K_KP_DIVIDE', 'K_KP_MULTIPLY', 'K_KP_MINUS', 'K_KP_PLUS',
-         'K_KP_ENTER', 'K_KP_EQUALS', 'K_UP', 'K_DOWN', 'K_RIGHT', 'K_LEFT', 'K_INSERT', 'K_HOME', 'K_END', 'K_PAGEUP',
-         'K_PAGEDOWN', 'K_F1', 'K_F2', 'K_F3', 'K_F4', 'K_F5', 'K_F6', 'K_F7', 'K_F8', 'K_F9', 'K_F10', 'K_F11',
-         'K_F12', 'K_F13', 'K_F14', 'K_F15', 'K_NUMLOCK', 'K_CAPSLOCK', 'K_SCROLLOCK', 'K_RSHIFT', 'K_LSHIFT',
-         'K_RCTRL', 'K_LCTRL', 'K_RALT', 'K_LALT', 'K_RMETA', 'K_LMETA', 'K_LSUPER', 'K_RSUPER', 'K_MODE', 'K_HELP',
-         'K_PRINT', 'K_SYSREQ', 'K_BREAK', 'K_MENU', 'K_POWER', 'K_EURO']
+    def KEYS(self):
+        return ['BACKSPACE', 'TAB', 'CLEAR', 'RETURN', 'PAUSE', 'ESCAPE', 'SPACE', 'EXCLAIM', 'QUOTEDBL',
+         'HASH', 'DOLLAR', 'AMPERSAND', 'QUOTE', 'LEFTPAREN', 'RIGHTPAREN', 'ASTERISK', 'PLUS',
+         'COMMA', 'MINUS', 'PERIOD', 'SLASH', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+         '9', 'COLON', 'SEMICOLON', 'LESS', 'EQUALS', 'GREATER', 'QUESTION', 'AT', 'LEFTBRACKET',
+         'BACKSLASH', 'RIGHTBRACKET', 'CARET', 'UNDERSCORE', 'BACKQUOTE', 'a', 'b', 'c', 'd', 'e',
+         'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+         'v', 'w', 'x', 'y', 'z', 'DELETE', 'KP0', 'KP1', 'KP2', 'KP3', 'KP4', 'KP5', 'KP6',
+         'KP7', 'KP8', 'KP9', 'KP_PERIOD', 'KP_DIVIDE', 'KP_MULTIPLY', 'KP_MINUS', 'KP_PLUS',
+         'KP_ENTER', 'KP_EQUALS', 'UP', 'DOWN', 'RIGHT', 'LEFT', 'INSERT', 'HOME', 'END', 'PAGEUP',
+         'PAGEDOWN', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11',
+         'F12', 'F13', 'F14', 'F15', 'NUMLOCK', 'CAPSLOCK', 'SCROLLOCK', 'RSHIFT', 'LSHIFT',
+         'RCTRL', 'LCTRL', 'RALT', 'LALT', 'RMETA', 'LMETA', 'LSUPER', 'RSUPER', 'MODE', 'HELP',
+         'PRINT', 'SYSREQ', 'BREAK', 'MENU', 'POWER', 'EURO']

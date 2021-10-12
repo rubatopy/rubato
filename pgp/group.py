@@ -1,11 +1,16 @@
+from pgp import Vector
+from pgp.scenes import Camera
 from pgp.sprite import Sprite
+from pgp.utils import check_types
 
 
 class Group:
     """
     A group of sprites. Can render and update all of them at once.
     """
-    def __init__(self):
+    def __init__(self, z: int=0):
+        check_types(Group.__init__, locals())
+        self.pos = Vector(0, 0, z)
         self.sprites = []
 
     def add(self, sprite: Sprite):
@@ -15,6 +20,7 @@ class Group:
         :param sprite: A sprite class to add to the group.
         :return: The sprite that was added.
         """
+        check_types(Group.add, locals())
         self.sprites.append(sprite)
         return sprite
 
@@ -23,7 +29,10 @@ class Group:
         for sprite in self.sprites:
             sprite.update()
 
-    def draw(self):
+    def draw(self, camera: Camera):
         """Draws all the sprites in the group."""
-        for sprite in self.sprites:
-            sprite.draw()
+        check_types(Group.draw, locals())
+        for sprite in sorted(self.sprites, key=lambda spr: spr.pos.z):
+            if sprite.pos.z > camera.pos.z:
+                break
+            sprite.draw(camera)

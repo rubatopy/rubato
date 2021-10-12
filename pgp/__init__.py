@@ -29,6 +29,7 @@ class Game:
     }
 
     def __init__(self, options: dict = {}):
+        check_types(Game.__init__, locals())
         pygame.init()
 
         self.name = options.get("name", Game.default_options["name"])

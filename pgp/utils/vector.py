@@ -1,4 +1,4 @@
-from pgp.utils import PMath, classproperty
+from pgp.utils import PMath, classproperty, check_types
 import math
 
 class Vector:
@@ -10,10 +10,11 @@ class Vector:
     :param z: The z coordinate.
     """
 
-    def __init__(self, x: float = 0, y: float = 0, z: float = 0):
+    def __init__(self, x: float | int = 0, y: float | int = 0, z: float | int = 0):
+        check_types(Vector.__init__, locals())
         self.x, self.y, self.z = x, y, z
 
-    def translate(self, x: float, y: float, z: float = 0):
+    def translate(self, x: float | int, y: float | int, z: float | int = 0):
         """
         Translates the vector's x y and z coordinates by some constants
 
@@ -21,49 +22,54 @@ class Vector:
         :param y: The change in y.
         :param z: The change in z.
         """
+        check_types(Vector.translate, locals())
         self.x, self.y, self.z = self.x + x, self.y + y, self.z + z
 
-    def offset2(self, other):
+    def offset(self, other: "Vector") -> "Vector":
         """
         Offsets the x and y coordinates of a vector by those of another vector
 
-        :param other: Another point
-        :return: A new point with the translated x and y coordinates
+        :param other: Another vector
+        :return: A new vector with the translated x and y coordinates
         """
+        check_types(Vector.offset, locals())
         return Vector(self.x - other.x, self.y - other.y, self.z)
 
-    def to_tuple2(self):
+    def to_tuple(self) -> tuple:
         """
         Returns the x and y coordinates of the vector as a tuple
         """
         return self.x, self.y
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"({self.x}, {self.y}, {self.z})"
 
-    def __mul__(self, other):
+    def __mul__(self, other: any) -> "Vector":
+        check_types(Vector.__mul__, locals())
         if isinstance(other, int) or isinstance(other, float):
             return Vector(self.x * other, self.y * other, self.z)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y, self.z)
 
-    def __add__(self, other):
+    def __add__(self, other: "Vector") -> "Vector":
+        check_types(Vector.__add__, locals())
         return Vector(self.x + other.x, self.y + other.y)
 
     __rmul__ = __mul__
     __radd__ = __add__
 
-    def __sub__(self, other):
+    def __sub__(self, other: any) -> "Vector":
+        check_types(Vector.__sub__, locals())
         if isinstance(other, int) or isinstance(other, float):
             return Vector(self.x - other, self.y - other, self.z)
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y, self.z)
 
-    def __rsub__(self, other):
-        if isinstance(other, int) or isinstance(other, float):
-            return Vector(other - self.x, other - self.y, self.z)
+    def __rsub__(self, other: int | float) -> "Vector":
+        check_types(Vector.__rsub__, locals())
+        return Vector(other - self.x, other - self.y, self.z)
 
-    def __neg__(self):
+    def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y, self.z)
 
     @classproperty
@@ -98,18 +104,25 @@ class Vector:
     def INFINITY(self):
         return Vector(PMath.INFINITY, PMath.INFINITY)
 
-    def __equals2(self, v):
+    def __equals(self, v: "Vector") -> bool:
+        """
+        Determines if if the x and y components of the vector are equal.
+
+        :param v: The vector to compare.
+        :return: True if the x and y components of the vector are equal
+        """
+        check_types(Vector.__equals, locals())
         return self.y == v.y and self.x == v.x
 
-    def clamp(self, lower, upper, absolute: bool = False):
+    def clamp(self, lower: any, upper: any, absolute: bool = False):
         """
         Clamps x and y between the two vectors given
 
         :param absolute: Whether to clamp the absolute value of the vector instead of the actual value
         :param lower: The lower bound
         :param upper: The upper bound
-        :return: None
         """
+        check_types(Vector.clamp, locals())
         if not isinstance(lower, Vector):
             lower = Vector(*lower)
         if not isinstance(upper, Vector):
@@ -121,14 +134,16 @@ class Vector:
             self.x = PMath.abs_clamp(self.x, lower.x, upper.x)
             self.y = PMath.abs_clamp(self.y, lower.y, upper.y)
 
-    def __eq__(self, other):
-        return False if (other is None or not isinstance(other, Vector)) else self.__equals2(other)
+    def __eq__(self, other: "Vector") -> bool:
+        check_types(Vector.__eq__, locals())
+        return False if (other is None or not isinstance(other, Vector)) else self.__equals(other)
 
-    def magnitude(self):
+    def magnitude(self) -> float:
+        """Returns the magnitude of the vector"""
         return math.sqrt(self.x**2 + self.y**2)
 
     @staticmethod
-    def from_radial(angle: float, magnitude: float):
+    def from_radial(angle: float, magnitude: float) -> "Vector":
         """
         Gives you a Vector from the given direction and distance
 
@@ -136,7 +151,8 @@ class Vector:
         :param magnitude: Length of vector
         :return: Vector from the given direction and distance
         """
+        check_types(Vector.from_radial, locals())
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
 
-    def to_int(self):
+    def to_int(self) -> "Vector":
         return Vector(int(self.x), int(self.y), self.z)
