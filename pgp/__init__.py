@@ -10,7 +10,6 @@ from pgp.group import Group
 from pgp.input import Input
 
 # TODO Sound manager
-# TODO General type checking for every function
 class Game:
     """
     Main Game object. Controls everything in the game.
