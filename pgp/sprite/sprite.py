@@ -22,7 +22,12 @@ class Sprite:
         pass
 
     def draw(self, surface: Surface, camera: Camera):
-        """A generalized draw functions for any surface"""
+        """
+        A generalized draw functions for any surface
+
+        :param surface: The surface to draw the sprite on.
+        :param camera: The camera to render the sprites with.
+        """
         check_types(Sprite.draw, locals())
         width, height = surface.get_size()
         new_size = (round(width * camera.zoom), round(height * camera.zoom))

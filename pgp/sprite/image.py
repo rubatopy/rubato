@@ -18,7 +18,6 @@ class Image(Sprite):
         self.image = load(image_location if image_location != "" else "pgp/static/default.png")
 
     def update(self):
-        check_types(Image.update, locals())
         pass
 
     def draw(self, camera: Camera):
