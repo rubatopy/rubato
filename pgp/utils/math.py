@@ -8,7 +8,7 @@ class classproperty(property):
 
 class PMath:
 
-    INFINITY = math.pow(2, 99)
+    INFINITY = 2**99
 
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
