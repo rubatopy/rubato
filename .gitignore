@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 # PyCharm workspace
-.idea/
+.idea/workspace.xml
 
 .DS_Store
