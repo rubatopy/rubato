@@ -129,8 +129,6 @@ dmypy.json
 .pyre/
 
 # PyCharm workspace
-.idea/workspace.xml
-.idea/misc.xml
-.idea/pygame-game-engine.iml
+.idea
 
 .DS_Store
