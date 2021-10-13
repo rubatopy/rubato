@@ -1,7 +1,10 @@
-from pgp import Game, Image, Input, Scene, RigidBody, Vector, Time, PMath, Group
+from pgp import Game, Image, Input, Scene, RigidBody, Vector, Time, PMath, Group, Polygon
 
 game = Game()
 
+poly = Polygon.generate_polygon(5, 1)
+print(poly.clone())
+"""
 scene = Scene()
 scene.camera.pos.translate(0, 0)
 game.scenes.add(scene)
@@ -78,3 +81,4 @@ game.radio.listen("EXIT", lambda: print("ya-yeet"))
 Time.delayed_call(1000, lambda: print("LOL"))
 
 game.begin()
+"""

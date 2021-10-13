@@ -141,7 +141,19 @@ class Vector:
     @property
     def magnitude(self) -> float:
         """Returns the magnitude of the vector"""
-        return math.sqrt(self.x**2 + self.y**2)
+        return (self.x**2 + self.y**2)**.5
+
+    @magnitude.setter
+    def magnitude(self, value):
+        """Sets the magnitude of a vector"""
+        mag = self.magnitude
+        if mag == 0: return
+        ratio = value / mag
+        self.x *= ratio
+        self.y *= ratio
+
+    def normalize(self):
+        self.magnitude = 1
 
     @staticmethod
     def from_radial(angle: float, magnitude: float) -> "Vector":
@@ -158,14 +170,17 @@ class Vector:
     @property
     def angle(self) -> float:
         """Returns the angle of the vector"""
-        angle = math.tan(self.y / self.x)
-        if PMath.sign(self.x) == -1:
-            angle += 180
-        if PMath.sign(angle) == -1:
-            angle += 360
+        return math.atan2(self.y, self.x)
 
-        return angle
+    def transform(self, scale, rotation):
+        newVector = self.clone()
+        if rotation != 0:
+            hyp, angle = self.magnitude, self.angle + this.rotation * math.pi / 180;
+            newVector.x, newVector.y = math.cos(angle) * hyp, math.sin(angle) * hyp
 
+        newVector.x *= scale
+        newVector.y *= scale
+        return newVector
 
     def invert(self, axis: str):
         """
@@ -186,3 +201,6 @@ class Vector:
 
     def to_int(self) -> "Vector":
         return Vector(int(self.x), int(self.y), self.z)
+
+    def clone(self) -> "Vector":
+        return Vector(self.x, self.y, self.z)
