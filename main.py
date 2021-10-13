@@ -56,8 +56,8 @@ def rigid_update():
         rigid.acceleration.x = 0
 
     if rigid.pos.y > 350:
-        rigid.pos.y = 349
-
+        rigid.pos.y = 350
+        rigid.velocity.y = 0
     rigid.collider.overlap(rigid_2.collider, False)
 
 
@@ -70,6 +70,7 @@ group.add(rigid)
 # Rigid 2
 def rigid_2_update():
     # rigid_2.physics()
+    # rigid_2.render.scale(Vector(1.1, 0.9))
     rigid_2.pos = Vector(Input.mouse.get_pos()[0], Input.mouse.get_pos()[1])
 
 
