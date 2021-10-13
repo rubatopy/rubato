@@ -57,9 +57,9 @@ class RigidBody(Sprite):
 
         for rigid in self.collides_with:
             if side := self.collider.overlap(rigid.collider, False):
-                if side == "top" or side == "bottom":
+                if (side == "top" and PMath.sign(self.velocity.y) == 1 ) or (side == "bottom" and PMath.sign(self.velocity.y) == -1):
                     self.velocity.invert("y")
-                if side == "right" or side == "left":
+                if (side == "right" and PMath.sign(self.velocity.x) == -1) or (side == "left" and PMath.sign(self.velocity.x) == 1):
                     self.velocity.invert("x")
 
         self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
