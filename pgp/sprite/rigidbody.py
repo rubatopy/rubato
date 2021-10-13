@@ -60,29 +60,7 @@ class RigidBody(Sprite):
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
 
-        for rigid in self.collides_with:
-            if side := self.collider.overlap(rigid.collider, False):
-                # Side is the side that rigid has collided with. NOT SELF
-                if (side == "top" and PMath.sign(self.velocity.y) == 1 ) or \
-                        (side == "bottom" and PMath.sign(self.velocity.y) == -1):
-                    if self.collider.type == COL_TYPE.STATIC:
-                        if side == "top":
-                            self.pos.y = rigid.collider.pos.y - self.collider.width + 1
-                        if side == "bottom":
-                            pass
-                        self.velocity.y = -self.params.get("gravity", RigidBody.default_options["gravity"]) * Time.delta_time("sec")
-                    if self.collider.type == COL_TYPE.BOUNCY:
-                        self.velocity.invert("y")
-                if (side == "right" and PMath.sign(self.velocity.x) == -1) or \
-                        (side == "left" and PMath.sign(self.velocity.x) == 1):
-                    if self.collider.type == COL_TYPE.STATIC:
-                        if side == "right":
-                            self.pos.x = rigid.collider.pos.x + rigid.collider.width
-                        if side == "left":
-                            self.pos.x = rigid.collider.pos.x - self.collider.width
-                        self.velocity.x = 0
-                    if self.collider.type == COL_TYPE.BOUNCY:
-                        self.velocity.invert("x")
+        self.collide()
 
         self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
 
@@ -93,8 +71,6 @@ class RigidBody(Sprite):
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
 
-
-
     def set_force(self, force: Vector):
         """
         Sets a force on the RigidBody.
@@ -104,6 +80,38 @@ class RigidBody(Sprite):
         check_types(RigidBody.set_force, locals())
         self.acceleration.x = force.x / self.mass
         self.acceleration.y = force.y / self.mass
+
+    def collide(self):
+        """A simple collision engine for most use cases."""
+        for rigid in self.collides_with:
+            if side := self.collider.overlap(rigid.collider, False):
+                # Side is the side that rigid has collided with. NOT SELF
+
+                # Static
+                if self.collider.type == COL_TYPE.STATIC or rigid.collider.type == COL_TYPE.STATIC:
+                    if side == "top":
+                        self.pos.y = rigid.collider.pos.y - self.collider.height
+                        self.velocity.y = 0
+                    if side == "bottom":
+                        self.pos.y = rigid.collider.pos.y + rigid.collider.height
+                        self.velocity.y = 0
+                    if side == "right":
+                        self.pos.x = rigid.collider.pos.x + rigid.collider.width
+                        self.velocity.x = 0
+                    if side == "left":
+                        self.pos.x = rigid.collider.pos.x - self.collider.width
+                        self.velocity.x = 0
+
+                # Elastic
+                elif self.collider.type == COL_TYPE.ELASTIC and rigid.collider.type == COL_TYPE.ELASTIC:
+                    # Vertical Collisions
+                    if (side == "top" and PMath.sign(self.velocity.y) == 1 ) or \
+                            (side == "bottom" and PMath.sign(self.velocity.y) == -1):
+                            self.velocity.invert("y")
+                    # Horizontal Collisions
+                    if (side == "right" and PMath.sign(self.velocity.x) == -1) or \
+                            (side == "left" and PMath.sign(self.velocity.x) == 1):
+                            self.velocity.invert("x")
 
     def set_impulse(self, force: Vector, time: int):
         """

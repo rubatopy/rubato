@@ -14,15 +14,16 @@ sprite = Image("./Tinmarr.jpg")
 rigid = RigidBody({
     "pos": Vector(100, 0),
     "mass": 1,
-    "friction": Vector(1, 1),
+    "friction": Vector(0.9, 1),
     "max_speed": Vector(80, PMath.INFINITY),
-    "col_type": COL_TYPE.BOUNCY
+    "col_type": COL_TYPE.ELASTIC
 })
 
 rigid_2 = RigidBody({
     "pos": Vector(200, 300),
     "mass": 1,
     "friction": Vector(1, 1),
+    "col_type": COL_TYPE.STATIC,
 })
 
 
