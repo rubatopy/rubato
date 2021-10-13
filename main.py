@@ -57,7 +57,7 @@ def rigid_update():
         rigid.acceleration.x = 500
     else:
         rigid.acceleration.x = 0
-
+    print(rigid.grounded)
     rigid.collider.overlap(ground.collider, False)
 
 

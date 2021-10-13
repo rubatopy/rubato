@@ -39,11 +39,12 @@ class RigidBody(Sprite):
 
         self.collides_with = []
 
+        self.grounded = False
+
         self.params = options
 
         self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]))
 
-    # TODO Collisions
     def physics(self):
         """A physics implementation"""
         check_types(RigidBody.physics, locals())
@@ -84,10 +85,11 @@ class RigidBody(Sprite):
 
     def collide(self):
         """A simple collision engine for most use cases."""
+        self.grounded = False
         for rigid in self.collides_with:
             if side := self.collider.overlap(rigid.collider, False):
                 # Side is the side that rigid has collided with. NOT SELF
-
+                self.grounded = side == "top"
                 # Static
                 if self.collider.type == COL_TYPE.STATIC or rigid.collider.type == COL_TYPE.STATIC:
                     if side == "top":
