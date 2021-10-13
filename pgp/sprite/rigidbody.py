@@ -1,5 +1,5 @@
 from pgp.sprite import Sprite, Image, Collider
-from pgp.utils import Vector, Time, PMath, check_types
+from pgp.utils import Vector, Time, PMath, check_types, COL_TYPE
 from pgp.scenes import Camera
 
 
@@ -18,7 +18,8 @@ class RigidBody(Sprite):
         "max_speed": Vector(PMath.INFINITY, PMath.INFINITY),
         "min_speed": Vector(-PMath.INFINITY, -PMath.INFINITY),
         "friction": Vector(1, 1),
-        "img": ""
+        "img": "",
+        "col_type": COL_TYPE.STATIC
     }
 
     def __init__(self, options: dict = {}):
@@ -29,7 +30,11 @@ class RigidBody(Sprite):
         self.acceleration = Vector()
 
         self.mass = options.get("mass", RigidBody.default_options["mass"])
-        self.collider = Collider(options.get("box", RigidBody.default_options["box"]), lambda: self.pos)
+        self.collider = Collider(
+            options.get("box", RigidBody.default_options["box"]),
+            lambda: self.pos,
+            options.get("col_type", RigidBody.default_options["col_type"])
+        )
 
         self.collides_with = []
 
@@ -43,8 +48,8 @@ class RigidBody(Sprite):
         check_types(RigidBody.physics, locals())
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
-        self.velocity.y += (self.acceleration.y + self.params.get("gravity", RigidBody.default_options[
-            "gravity"])) * Time.delta_time("sec")
+        self.velocity.y += (self.acceleration.y +
+                            self.params.get("gravity", RigidBody.default_options["gravity"])) * Time.delta_time("sec")
 
         self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
 
@@ -57,10 +62,27 @@ class RigidBody(Sprite):
 
         for rigid in self.collides_with:
             if side := self.collider.overlap(rigid.collider, False):
-                if (side == "top" and PMath.sign(self.velocity.y) == 1 ) or (side == "bottom" and PMath.sign(self.velocity.y) == -1):
-                    self.velocity.invert("y")
-                if (side == "right" and PMath.sign(self.velocity.x) == -1) or (side == "left" and PMath.sign(self.velocity.x) == 1):
-                    self.velocity.invert("x")
+                # Side is the side that rigid has collided with. NOT SELF
+                if (side == "top" and PMath.sign(self.velocity.y) == 1 ) or \
+                        (side == "bottom" and PMath.sign(self.velocity.y) == -1):
+                    if self.collider.type == COL_TYPE.STATIC:
+                        if side == "top":
+                            self.pos.y = rigid.collider.pos.y - self.collider.width + 1
+                        if side == "bottom":
+                            pass
+                        self.velocity.y = -self.params.get("gravity", RigidBody.default_options["gravity"]) * Time.delta_time("sec")
+                    if self.collider.type == COL_TYPE.BOUNCY:
+                        self.velocity.invert("y")
+                if (side == "right" and PMath.sign(self.velocity.x) == -1) or \
+                        (side == "left" and PMath.sign(self.velocity.x) == 1):
+                    if self.collider.type == COL_TYPE.STATIC:
+                        if side == "right":
+                            self.pos.x = rigid.collider.pos.x + rigid.collider.width
+                        if side == "left":
+                            self.pos.x = rigid.collider.pos.x - self.collider.width
+                        self.velocity.x = 0
+                    if self.collider.type == COL_TYPE.BOUNCY:
+                        self.velocity.invert("x")
 
         self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
 

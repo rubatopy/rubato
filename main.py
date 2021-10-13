@@ -1,4 +1,5 @@
 from pgp import Game, Image, Input, Scene, RigidBody, Vector, Time, PMath, Group
+from pgp.utils import COL_TYPE
 
 game = Game()
 
@@ -13,8 +14,9 @@ sprite = Image("./Tinmarr.jpg")
 rigid = RigidBody({
     "pos": Vector(100, 0),
     "mass": 1,
-    "friction": Vector(0.9, 1),
-    "max_speed": Vector(80, PMath.INFINITY)
+    "friction": Vector(1, 1),
+    "max_speed": Vector(80, PMath.INFINITY),
+    "col_type": COL_TYPE.BOUNCY
 })
 
 rigid_2 = RigidBody({

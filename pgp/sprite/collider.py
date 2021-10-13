@@ -1,4 +1,5 @@
 from pgp import Vector, check_types
+from pgp.utils import COL_TYPE
 
 
 class Collider:
@@ -8,10 +9,12 @@ class Collider:
     :param rect: An array with 4 values representing the x and y displacement of the collider
      (with respect to the top left corner of the rigid body) and the width and the height of the collider.
     :param pos: The function that returns the position of the rigid body that this collider is attached to.
+    :param col_type: The type of collision that needs to happen
     """
-    def __init__(self, rect: list, pos: type(lambda:None)):
+    def __init__(self, rect: list, pos: type(lambda:None), col_type: COL_TYPE):
         check_types(Collider.__init__, locals())
         self.offset, self.dims, self._pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos
+        self.type = col_type
 
     def overlap_point(self, x: float | int, y: float | int) -> bool:
         """
@@ -39,14 +42,14 @@ class Collider:
         if tl.x > obr.x or br.x < otl.x or tl.y > obr.y or br.y < otl.y: return False
         if fast: return True
 
-        distances = {
+        sides = {
             "top": abs(otl.y - br.y),
             "bottom": abs(obr.y - tl.y),
             "left": abs(otl.x - br.x),
             "right": abs(obr.x - tl.x),
         }
 
-        return min(distances, key=lambda dim: distances[dim])
+        return min(sides, key=lambda dim: sides[dim])
 
     @property
     def pos(self):
