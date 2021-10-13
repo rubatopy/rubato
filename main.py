@@ -19,11 +19,14 @@ rigid = RigidBody({
     "col_type": COL_TYPE.ELASTIC
 })
 
-rigid_2 = RigidBody({
-    "pos": Vector(200, 300),
+ground = RigidBody({
+    "pos": Vector(0, 400-16),
     "mass": 1,
     "friction": Vector(1, 1),
     "col_type": COL_TYPE.STATIC,
+    "scale": Vector(600/16, 1),
+    "box": [0, 0, 600, 16],
+    "gravity": 0
 })
 
 
@@ -55,27 +58,14 @@ def rigid_update():
     else:
         rigid.acceleration.x = 0
 
-    if rigid.pos.y > 350:
-        rigid.pos.y = 350
-        rigid.velocity.y = 0
-    rigid.collider.overlap(rigid_2.collider, False)
+    rigid.collider.overlap(ground.collider, False)
 
 
 rigid.update = rigid_update
-rigid.collides_with.append(rigid_2)
+rigid.collides_with.append(ground)
 game.radio.listen("w_down", w_handler)
 group.add(rigid)
-
-
-# Rigid 2
-def rigid_2_update():
-    # rigid_2.physics()
-    # rigid_2.render.scale(Vector(1.1, 0.9))
-    rigid_2.pos = Vector(Input.mouse.get_pos()[0], Input.mouse.get_pos()[1])
-
-
-rigid_2.update = rigid_2_update
-group.add(rigid_2)
+group.add(ground)
 
 game.radio.listen("EXIT", lambda: print("ya-yeet"))
 
