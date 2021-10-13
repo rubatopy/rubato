@@ -20,7 +20,7 @@ rigid = RigidBody({
 rigid_2 = RigidBody({
     "pos": Vector(200, 300),
     "mass": 1,
-    "friction": Vector(0.9, 1),
+    "friction": Vector(1, 1),
 })
 
 
@@ -55,10 +55,11 @@ def rigid_update():
     if rigid.pos.y > 350:
         rigid.pos.y = 349
 
-    rigid.collider.overlap(rigid_2.collider)
+    rigid.collider.overlap(rigid_2.collider, False)
 
 
 rigid.update = rigid_update
+rigid.collides_with.append(rigid_2)
 game.radio.listen("w_down", w_handler)
 group.add(rigid)
 
