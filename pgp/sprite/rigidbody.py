@@ -77,11 +77,21 @@ class RigidBody(Sprite):
         """
         Sets a force on the RigidBody.
 
-        :param force: A Point object representing the added force to the object.
+        :param force: A Point object representing force set to the object.
         """
         check_types(RigidBody.set_force, locals())
         self.acceleration.x = force.x / self.mass
         self.acceleration.y = force.y / self.mass
+
+    def add_force(self, force: Vector):
+        """
+        Adds a force to the RigidBody.
+
+        :param force: A Point object representing the added force to the object.
+        """
+        check_types(RigidBody.add_force, locals())
+        self.acceleration.x = self.acceleration.x + force.x / self.mass
+        self.acceleration.y = self.acceleration.y + force.y / self.mass
 
     def collide(self):
         """A simple collision engine for most use cases."""

@@ -1,6 +1,6 @@
 from pgp.sprite.sprite import Sprite
 from pygame.image import load
-from pygame.transform import scale
+from pygame.transform import scale, flip
 from pgp.utils import Vector, check_types
 from pgp.scenes import Camera
 
@@ -36,9 +36,10 @@ class Image(Sprite):
 
         :param scale_factor: A Vector describing the scale in the x and y direction relative to its current size
         """
+
         check_types(Image.scale, locals())
-        if (new_x := self.image.get_width() * scale_factor.x) < 1:
+        if abs(new_x := self.image.get_width() * scale_factor.x) < 1:
             new_x = 1
-        if (new_y := self.image.get_height() * scale_factor.y) < 1:
+        if abs(new_y := self.image.get_height() * scale_factor.y) < 1:
             new_y = 1
-        self.image = scale(self.image, (new_x, new_y))
+        self.image = flip(scale(self.image, (abs(new_x), abs(new_y))), new_x < 0, new_y < 0)
