@@ -31,6 +31,8 @@ class RigidBody(Sprite):
         self.mass = options.get("mass", RigidBody.default_options["mass"])
         self.collider = Collider(options.get("box", RigidBody.default_options["box"]), lambda: self.pos)
 
+        self.collides_with = []
+
         self.params = options
 
         self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos)
@@ -52,6 +54,24 @@ class RigidBody(Sprite):
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
+
+        for rigid in self.collides_with:
+            if side := self.collider.overlap(rigid.collider, False):
+                if side == "top" or side == "bottom":
+                    self.velocity.invert("y")
+                if side == "right" or side == "left":
+                    self.velocity.invert("x")
+
+        self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
+
+        self.velocity.clamp(self.params.get("min_speed", RigidBody.default_options["min_speed"]),
+                            self.params.get("max_speed", RigidBody.default_options["max_speed"]), True)
+
+        # Update position
+        self.pos.x += self.velocity.x * Time.delta_time("sec")
+        self.pos.y += self.velocity.y * Time.delta_time("sec")
+
+
 
     def set_force(self, force: Vector):
         """

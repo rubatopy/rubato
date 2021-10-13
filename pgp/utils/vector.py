@@ -138,6 +138,7 @@ class Vector:
         check_types(Vector.__eq__, locals())
         return False if (other is None or not isinstance(other, Vector)) else self.__equals(other)
 
+    @property
     def magnitude(self) -> float:
         """Returns the magnitude of the vector"""
         return math.sqrt(self.x**2 + self.y**2)
@@ -153,6 +154,35 @@ class Vector:
         """
         check_types(Vector.from_radial, locals())
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
+
+    @property
+    def angle(self) -> float:
+        """Returns the angle of the vector"""
+        angle = math.tan(self.y / self.x)
+        if PMath.sign(self.x) == -1:
+            angle += 180
+        if PMath.sign(angle) == -1:
+            angle += 360
+
+        return angle
+
+
+    def invert(self, axis: str):
+        """
+        Inverts the vector in the axis given
+
+        :param axis: The axis to invert the vector in
+        """
+        check_types(Vector.invert, locals())
+
+        if axis == "x":
+            self.x = -self.x
+        elif axis == "y":
+            self.y = -self.y
+        elif axis == "z":
+            self.z = -self.z
+        else:
+            raise ValueError(f"{axis} is not a valid axis")
 
     def to_int(self) -> "Vector":
         return Vector(int(self.x), int(self.y), self.z)

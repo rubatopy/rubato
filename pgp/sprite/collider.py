@@ -13,10 +13,6 @@ class Collider:
         check_types(Collider.__init__, locals())
         self.offset, self.dims, self._pos = Vector(rect[0], rect[1]), Vector(rect[2], rect[3]), pos
 
-    def collide(self):
-        # TODO: PLEASE DO ME HARD AS SOON AS POSSIBLE
-        pass
-
     def overlap_point(self, x: float | int, y: float | int) -> bool:
         """
         Checks if the collider overlaps with a point.
@@ -44,10 +40,10 @@ class Collider:
         if fast: return True
 
         distances = {
-            "top": min(abs(otl.y - tl.y), abs(otl.y - br.y)),
-            "bottom": min(abs(obr.y - tl.y), abs(obr.y - br.y)),
-            "left": min(abs(otl.x - tl.x), abs(otl.x - br.x)),
-            "right": min(abs(obr.x - tl.x), abs(obr.x - br.x))
+            "top": abs(otl.y - br.y),
+            "bottom": abs(obr.y - tl.y),
+            "left": abs(otl.x - br.x),
+            "right": abs(obr.x - tl.x),
         }
 
         return min(distances, key=lambda dim: distances[dim])
