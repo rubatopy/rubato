@@ -41,6 +41,9 @@ class Vector:
         """
         return self.x, self.y
 
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y
+
     def __str__(self) -> str:
         return f"({self.x}, {self.y}, {self.z})"
 
