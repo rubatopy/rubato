@@ -1,4 +1,4 @@
-from rubato.utils import Vector, PMath
+from rubato.utils import Vector, PMath, check_types
 import math
 
 # Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson
@@ -14,13 +14,15 @@ class Polygon:
     :param rotation: The rotation angle of the polygon in degrees
     """
 
-    def __init__(self, verts, pos = lambda: Vector(), scale = 1, rotation = 0):
+    def __init__(self, verts: list, pos: type(lambda:None) = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
+        check_types(Polygon.__init__, locals())
         self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
 
     @staticmethod
-    def generate_polygon(num_sides, radius=1):
+    def generate_polygon(num_sides: int, radius: float | int =1):
         """Creates a normal polygon with a specified number of sides and an optional radius"""
 
+        check_types(Polygon.generate_polygon, locals())
         if num_sides < 3:
             raise "Can't create a polygon with less than three sides"
 
@@ -40,7 +42,7 @@ class Polygon:
 
     def clone(self):
         """Creates a copy of the Polygon at the current position"""
-        return Polygon(list(map((lambda v: v.clone()), self.verts)), self.pos.clone(), self.scale, self.rotation)
+        return Polygon(list(map((lambda v: v.clone()), self.verts)), lambda: self.pos.clone(), self.scale, self.rotation)
 
     def transformed_verts(self):
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -55,6 +57,7 @@ class Circle:
     """
 
     def __init__(self, pos = lambda: Vector(), radius = 1, scale = 1):
+        check_types(Circle.__init__, locals())
         self._pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
 
     @property
@@ -97,6 +100,8 @@ class SAT:
 
         :returns: None or CollisionInfo object
         """
+
+        check_types(SAT.overlap, locals())
 
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
             return SAT._circle_circle_test(shape_a, shape_b)
