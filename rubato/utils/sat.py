@@ -52,8 +52,6 @@ class CollisionInfo:
 class SAT:
     @staticmethod
     def overlap(shape_a: Polygon | Circle, shape_b: Polygon | Circle):
-        isinstance(shape_a, Circle)
-
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
             return SAT._circle_circle_test(shape_a, shape_b)
 
