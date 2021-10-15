@@ -173,8 +173,7 @@ class SAT:
 
             SAT._check_ranges_for_containment(a_range, b_range, result, flip)
 
-            min_dist = a_range["min"] - b_range["max"]
-            if flip: min_dist = b_range["min"] - a_range["max"]
+            min_dist = (b_range["min"] - a_range["max"]) if flip else (a_range["min"] - b_range["max"])
 
             abs_min = abs(min_dist)
             if abs_min < shortest_dist:
