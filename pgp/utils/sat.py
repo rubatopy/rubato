@@ -5,18 +5,22 @@ import math
 # https://github.com/sevdanski/SAT_JS
 
 class Polygon:
-    def __init__(self, num_sides, radius, pos = Vector(), scale = 1, rotation = 0):
+    def __init__(self, verts, pos = Vector(), scale = 1, rotation = 0):
+        self.verts, self.pos, self.scale, self.rotation = verts, pos, scale, rotation
+
+    @staticmethod
+    def generate_polygon(num_sides, radius=1):
         if num_sides < 3:
             raise "Can't create a polygon with less than three sides"
 
         rotangle = 2 * math.pi / num_sides
-        angle, self.verts = 0, []
+        angle, verts = 0, []
 
         for i in range(num_sides):
             angle = (i * rotangle) + (math.pi - rotangle)/2
-            self.verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
+            verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
-        self.pos, self.scale, self.rotation = pos, scale, rotation
+        return Polygon(verts)
 
     def clone(self):
         return Polygon(list(map((lambda v: v.clone()), self.verts)), self.pos.clone(), self.scale, self.rotation)
