@@ -207,3 +207,23 @@ class Vector:
 
     def clone(self) -> "Vector":
         return Vector(self.x, self.y, self.z)
+      
+    def lerp(self, target: "Vector", t: float):
+        """
+        changes its values x and y to fit the target vector by amount t
+        :param target: the target velocity
+        :param t: the amount you lerp between 0 and 1
+        """
+        check_types(Vector.lerp, locals())
+        t = PMath.clamp(t, 0, 1)
+        self.x = PMath.lerp(self.x, target.x, t)
+        self.y = PMath.lerp(self.y, target.y, t)
+
+    def round(self, decimal_places):
+        """
+        rounds x and y to decimal_places
+        :param decimal_places: the amount of decimal places rounded to.
+        """
+        check_types(Vector.round, locals())
+        self.x = round(self.x, decimal_places)
+        self.y = round(self.y, decimal_places)

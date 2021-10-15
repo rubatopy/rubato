@@ -1,4 +1,10 @@
 def check_types(func, args):
+    """
+    Checks to see if the inputs matches the type annotations of a function.
+
+    :param func: The function instance to check.
+    :param args: The call of local() in the scope of the function
+    """
     for arg in args.keys():
         if arg != "self" and arg[:2] != "__":
             try:
