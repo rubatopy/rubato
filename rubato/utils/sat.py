@@ -35,11 +35,11 @@ class Circle:
     def __init__(self, pos = Vector(0, 0), radius = 1, scale = 1):
         self.pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
 
-    def clone():
+    def clone(self):
         return Circle(self.pos.clone(), self.radius, self.scale)
 
     def transformed_radius(self):
-        return this.radius * this.scale
+        return self.radius * self.scale
 
 class CollisionInfo:
     def __init__(self):
