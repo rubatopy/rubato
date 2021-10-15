@@ -72,6 +72,17 @@ class Vector:
         check_types(Vector.__rsub__, locals())
         return Vector(other - self.x, other - self.y, self.z)
 
+    def __truediv__(self, other: any) -> "Vector":
+        check_types(Vector.__truediv__, locals())
+        if isinstance(other, int) or isinstance(other, float):
+            return Vector(self.x / other, self.y / other, self.z)
+        if isinstance(other, Vector):
+            return Vector(self.x / other.x, self.y / other.y, self.z)
+    
+    def __rtruediv__(self, other: int | float) -> "Vector":
+        check_types(Vector.__rtruediv__, locals())
+        return Vector(other / self.x, other / self.y, self.z)
+
     def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y, self.z)
 
@@ -211,6 +222,7 @@ class Vector:
     def lerp(self, target: "Vector", t: float):
         """
         changes its values x and y to fit the target vector by amount t
+
         :param target: the target velocity
         :param t: the amount you lerp between 0 and 1
         """
@@ -219,11 +231,23 @@ class Vector:
         self.x = PMath.lerp(self.x, target.x, t)
         self.y = PMath.lerp(self.y, target.y, t)
 
-    def round(self, decimal_places: int):
+    def round(self, decimal_places: int) -> "Vector":
         """
         rounds x and y to decimal_places
+        
         :param decimal_places: the amount of decimal places rounded to.
+        :return: The rounded vector
         """
         check_types(Vector.round, locals())
         self.x = round(self.x, decimal_places)
         self.y = round(self.y, decimal_places)
+        return self
+
+    def ceil(self) -> "Vector":
+        """
+        Returns the cieled vector
+
+        :return: The vector
+        """
+
+        return Vector(math.ceil(self.x), math.ceil(self.y), self.z)

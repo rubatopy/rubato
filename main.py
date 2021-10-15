@@ -10,25 +10,25 @@ game.scenes.add(scene)
 group = Group()
 scene.add(group)
 
-sprite = Image("./Tinmarr.jpg")
+sprite = Image("./Tinmarr.jpg", Vector(300,200))
 rigid = RigidBody({
     "pos": Vector(100, 0),
     "mass": 1,
     "friction": Vector(0.9, 1),
     "max_speed": Vector(80, PMath.INFINITY),
     "col_type": COL_TYPE.ELASTIC,
-    "hitbox": Polygon.generate_polygon(4, 16)
+    "hitbox": Polygon([Vector(-8, 8), Vector(8, 8), Vector(8, -8), Vector(-8, -8)]),
+    "debug": False
 })
 
 ground = RigidBody({
-    "pos": Vector(0, 400-16),
+    "pos": Vector(300, 400-8),
     "mass": 1,
     "friction": Vector(1, 1),
-    "col_type": COL_TYPE.ELASTIC,
+    "col_type": COL_TYPE.STATIC,
     "scale": Vector(600/16, 1),
-    "box": [0, 0, 600, 16],
     "gravity": 0,
-    "hitbox": Polygon.generate_polygon(4, 100)
+    "hitbox": Polygon([Vector(-300, 8), Vector(300, 8), Vector(300, -8), Vector(-300, -8)])
 })
 
 

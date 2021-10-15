@@ -32,6 +32,10 @@ class Polygon:
     def transformed_verts(self):
         return list(map(lambda v: v.transform(self.scale, self.rotation), self.verts))
 
+    def real_verts(self):
+        """Returns the a list of vertices in absolute coordinates"""
+        return list(map(lambda v: self.pos + v.transform(self.scale, self.rotation), self.verts))
+
     def __str__(self):
         return f"{list(map(lambda v: str(v), self.verts))}, {self.pos}, {self.scale}, {self.rotation}"
 

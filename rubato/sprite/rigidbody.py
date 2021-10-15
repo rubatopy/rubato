@@ -1,6 +1,8 @@
 from rubato.sprite import Sprite, Image, Collider
-from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE, Polygon, SAT
+from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
+from pygame import Surface
+from pygame.draw import polygon
 
 
 class RigidBody(Sprite):
@@ -21,6 +23,7 @@ class RigidBody(Sprite):
         "img": "",
         "col_type": COL_TYPE.STATIC,
         "scale": Vector(1, 1),
+        "debug": False,
     }
 
     def __init__(self, options: dict = {}):
@@ -49,6 +52,8 @@ class RigidBody(Sprite):
         self.params = options
 
         self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]))
+
+        self.debug = options.get("debug", RigidBody.default_options["debug"])
 
     def physics(self):
         """A physics implementation"""
@@ -136,5 +141,12 @@ class RigidBody(Sprite):
         :param camera: The current camera
         """
         check_types(RigidBody.draw, locals())
+
         self.render.pos = self.pos
         self.render.draw(camera)
+
+        if self.debug:
+            polygon(Display.global_display, (255, 0, 0), list(map(lambda v: (v.x, v.y), self.hitbox.real_verts())), 1)
+            
+
+        
