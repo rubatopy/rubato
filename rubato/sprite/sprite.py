@@ -32,3 +32,11 @@ class Sprite:
         width, height = surface.get_size()
         new_size = (round(width * camera.zoom), round(height * camera.zoom))
         Display.update(scale(surface, new_size), camera.transform(self.pos * camera.zoom))
+
+    @staticmethod
+    def tl_to_center(top_left, dims):
+        pass
+
+    @staticmethod
+    def center_to_tl(center, dims):
+        pass

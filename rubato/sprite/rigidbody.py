@@ -69,15 +69,6 @@ class RigidBody(Sprite):
 
         self.collide()
 
-        self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
-
-        self.velocity.clamp(self.params.get("min_speed", RigidBody.default_options["min_speed"]),
-                            self.params.get("max_speed", RigidBody.default_options["max_speed"]), True)
-
-        # Update position
-        self.pos.x += self.velocity.x * Time.delta_time("sec")
-        self.pos.y += self.velocity.y * Time.delta_time("sec")
-
     def set_force(self, force: Vector):
         """
         Sets a force on the RigidBody.
@@ -104,38 +95,22 @@ class RigidBody(Sprite):
         for rigid in self.collides_with:
             if col_info := SAT.overlap(self.hitbox, rigid.hitbox):
                 # col_info is all in reference to self
-                self.grounded = True
-                col_info.separation.round(2)
-
-                self.pos -= col_info.separation
-                self.velocity.y = 0
+                col_info.separation.round(4)
+                # TODO make grounded check
                 # Static
                 if self.col_type == COL_TYPE.STATIC or rigid.col_type == COL_TYPE.STATIC:
-                    pass
-                    # if col_info == "top":
-                    #     self.pos.y = rigid.hitbox.pos.y - self.hitbox.height
-                    #     self.velocity.y = 0
-                    # if col_info == "bottom":
-                    #     self.pos.y = rigid.hitbox.pos.y + rigid.hitbox.height
-                    #     self.velocity.y = 0
-                    # if col_info == "right":
-                    #     self.pos.x = rigid.hitbox.pos.x + rigid.hitbox.width
-                    #     self.velocity.x = 0
-                    # if col_info == "left":
-                    #     self.pos.x = rigid.hitbox.pos.x - self.hitbox.width
-                    #     self.velocity.x = 0
-
+                    self.pos -= col_info.separation
+                    if col_info.separation.y != 0:
+                        self.velocity.y = 0
+                    if col_info.separation.x != 0:
+                        self.velocity.x = 0
                 # Elastic
-                elif self.hitbox.type == COL_TYPE.ELASTIC and rigid.collider.type == COL_TYPE.ELASTIC:
-                    pass
-                    # # Vertical Collisions
-                    # if (col_info == "top" and PMath.sign(self.velocity.y) == 1 ) or \
-                    #         (col_info == "bottom" and PMath.sign(self.velocity.y) == -1):
-                    #         self.velocity.invert("y")
-                    # # Horizontal Collisions
-                    # if (col_info == "right" and PMath.sign(self.velocity.x) == -1) or \
-                    #         (col_info == "left" and PMath.sign(self.velocity.x) == 1):
-                    #         self.velocity.invert("x")
+                elif self.col_type == COL_TYPE.ELASTIC and rigid.col_type == COL_TYPE.ELASTIC:
+                    self.pos -= col_info.separation
+                    if col_info.separation.y != 0:
+                        self.velocity.invert("y")
+                    if col_info.separation.x != 0:
+                        self.velocity.invert("x")
 
     def set_impulse(self, force: Vector, time: int):
         """

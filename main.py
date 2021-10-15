@@ -24,7 +24,7 @@ ground = RigidBody({
     "pos": Vector(0, 400-16),
     "mass": 1,
     "friction": Vector(1, 1),
-    "col_type": COL_TYPE.STATIC,
+    "col_type": COL_TYPE.ELASTIC,
     "scale": Vector(600/16, 1),
     "box": [0, 0, 600, 16],
     "gravity": 0,
