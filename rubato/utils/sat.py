@@ -5,15 +5,22 @@ import math
 # https://github.com/sevdanski/SAT_JS
 
 class Polygon:
+    """
+    A custom polygon class with an arbitrary number of vertices
+
+    :param verts: A list of the vertices in the Polygon, in either clockwise or anticlockwise direction
+    :param pos: The position of the center of the Polygon as a function
+    :param scale: The scale of the polygon
+    :param rotation: The rotation angle of the polygon in degrees
+    """
+
     def __init__(self, verts, pos = lambda: Vector(), scale = 1, rotation = 0):
         self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
 
-    @property
-    def pos(self):
-        return self._pos()
-
     @staticmethod
     def generate_polygon(num_sides, radius=1):
+        """Creates a normal polygon with a specified number of sides and an optional radius"""
+
         if num_sides < 3:
             raise "Can't create a polygon with less than three sides"
 
@@ -26,26 +33,48 @@ class Polygon:
 
         return Polygon(verts)
 
+    @property
+    def pos(self):
+        """The getter method for the position of the Polygon's center"""
+        return self._pos()
+
     def clone(self):
+        """Creates a copy of the Polygon at the current position"""
         return Polygon(list(map((lambda v: v.clone()), self.verts)), self.pos.clone(), self.scale, self.rotation)
 
     def transformed_verts(self):
+        """Maps each vertex with the Polygon's scale and rotation"""
         return list(map(lambda v: v.transform(self.scale, self.rotation), self.verts))
 
     def __str__(self):
         return f"{list(map(lambda v: str(v), self.verts))}, {self.pos}, {self.scale}, {self.rotation}"
 
 class Circle:
-    def __init__(self, pos = Vector(0, 0), radius = 1, scale = 1):
-        self.pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
+    """
+    A custom circle class defined by a position, radius, and scale
+    """
+
+    def __init__(self, pos = lambda: Vector(), radius = 1, scale = 1):
+        self._pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
+
+    @property
+    def pos(self):
+        """The getter method for the position of the circle's center"""
+        return self._pos()
 
     def clone(self):
+        """Creates a copy of the circle at the current position"""
         return Circle(self.pos.clone(), self.radius, self.scale)
 
     def transformed_radius(self):
+        """Gets the true radius of the circle"""
         return self.radius * self.scale
 
 class CollisionInfo:
+    """
+    A class that represents information returned in a successful collision
+    """
+
     def __init__(self):
         self.shape_a, self.shape_b, self.distance, self.vector = None, None, 0, Vector()
         self.a_contained, self.b_contained, self.separation = False, False, Vector()
@@ -54,8 +83,21 @@ class CollisionInfo:
         return f"{self.distance}, {self.vector}, {self.a_contained}, {self.b_contained}, {self.separation}"
 
 class SAT:
+    """
+    A general class that does the collision detection math between circles and polygons
+    """
+
     @staticmethod
     def overlap(shape_a: Polygon | Circle, shape_b: Polygon | Circle):
+        """
+        Checks for overlap between any two shapes (Polygon or Circle)
+
+        :param shape_a: The first shape
+        :param shape_b: The second shape
+
+        :returns: None or CollisionInfo object
+        """
+
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
             return SAT._circle_circle_test(shape_a, shape_b)
 
@@ -86,6 +128,15 @@ class SAT:
 
     @staticmethod
     def _polygon_polygon_test(shape_a, shape_b, flip = False):
+        """
+        Checks for overlap between two polygons
+
+        :param shape_a: The first shape
+        :param shape_b: The second shape
+
+        :returns: None or CollisionInfo object
+        """
+
         shortest_dist = PMath.INFINITY
 
         result = CollisionInfo()
@@ -127,6 +178,8 @@ class SAT:
 
     @staticmethod
     def _check_ranges_for_containment(a_range, b_range, result, flip):
+        """Checks if either shape is inside the other"""
+
         if flip:
             if (a_range["max"] < b_range["max"]) or (a_range["min"] > b_range["min"]): result.a_contained = False
             if (b_range["max"] < a_range["max"]) or (b_range["min"] > a_range["min"]): result.b_contained = False
@@ -136,6 +189,8 @@ class SAT:
 
     @staticmethod
     def _get_perpendicular_axis(verts, index):
+        """Finds a vector perpendicular to a side"""
+
         pt_1, pt_2 = verts[index], verts[0] if index >= len(verts)-1 else verts[index+1]
         axis = Vector(pt_1.y - pt_2.y, pt_2.x - pt_1.x)
         axis.normalize()
@@ -143,6 +198,8 @@ class SAT:
 
     @staticmethod
     def _project_verts_for_min_max(axis, verts):
+        """Projects the vertices onto a given axis"""
+
         min = max = axis.dot(verts[0])
 
         for j in range(len(verts)):
