@@ -35,7 +35,7 @@ triangle = RigidBody({
     "pos": Vector(200, 200),
     "mass": 1,
     "friction": Vector(1, 1),
-    "col_type": COL_TYPE.STATIC,
+    "col_type": COL_TYPE.ELASTIC,
     "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46),
     "img": "empty",
     "debug": True,
@@ -71,6 +71,7 @@ def rigid_update():
         rigid.acceleration.x = 0
 
     rigid.collide(triangle)
+    print(rigid.grounded)
 
 
 rigid.update = rigid_update

@@ -1,4 +1,5 @@
-from rubato.sprite import Sprite, Image, Collider
+from typing import Callable
+from rubato.sprite import Sprite, Image
 from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
 from rubato.group import Group
@@ -36,11 +37,6 @@ class RigidBody(Sprite):
         self.acceleration = Vector()
 
         self.mass = options.get("mass", RigidBody.default_options["mass"])
-        # self.collider = Collider(
-        #     options.get("box", RigidBody.default_options["box"]),
-        #     lambda: self.pos,
-        #     options.get("col_type", RigidBody.default_options["col_type"])
-        # )
 
         self.hitbox = options.get("hitbox", RigidBody.default_options["hitbox"]).clone()
         self.hitbox._pos = lambda: self.pos
@@ -52,6 +48,8 @@ class RigidBody(Sprite):
         self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]))
 
         self.debug = options.get("debug", RigidBody.default_options["debug"])
+
+        self.grounded = False
 
     def physics(self):
         """A physics implementation"""
@@ -89,13 +87,14 @@ class RigidBody(Sprite):
         self.acceleration.x = self.acceleration.x + force.x / self.mass
         self.acceleration.y = self.acceleration.y + force.y / self.mass
 
-    def collide(self, other: "RigidBody", callback: type(lambda c:None) = lambda c:None):
+    def collide(self, other: "RigidBody", callback: Callable = lambda c:None):
         """A simple collision engine for most use cases."""
         check_types(RigidBody.collide, locals())
+        self.grounded = False
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
             # col_info is all in reference to self
             col_info.separation.round(4)
-            # TODO: make grounded check
+            self.grounded = PMath.sign(col_info.separation.y) == 1
             if self.col_type == COL_TYPE.STATIC or other.col_type == COL_TYPE.STATIC:
                 # Static
                 self.pos -= col_info.separation
@@ -114,7 +113,7 @@ class RigidBody(Sprite):
         if col_info is not None: callback(col_info)
         return col_info
 
-    def overlap(self, other: "RigidBody", callback: type(lambda c:None) = lambda c:None):
+    def overlap(self, other: "RigidBody", callback: Callable = lambda c:None):
         """Checks for collision but does not handle it."""
         check_types(RigidBody.overlap, locals())
         col_info = SAT.overlap(self.hitbox, other.hitbox)
