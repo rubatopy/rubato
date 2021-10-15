@@ -4,6 +4,7 @@ import math
 # Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson
 # https://github.com/sevdanski/SAT_JS
 
+# TODO Helper functions
 class Polygon:
     """
     A custom polygon class with an arbitrary number of vertices
@@ -55,6 +56,7 @@ class Polygon:
     def __str__(self):
         return f"{list(map(lambda v: str(v), self.verts))}, {self.pos}, {self.scale}, {self.rotation}"
 
+# TODO make circles work
 class Circle:
     """
     A custom circle class defined by a position, radius, and scale

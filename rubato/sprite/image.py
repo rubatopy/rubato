@@ -15,7 +15,13 @@ class Image(Sprite):
     def __init__(self, image_location: str, pos: Vector = Vector(), scale_factor: Vector = Vector(1, 1)):
         check_types(Image.__init__, locals())
         super().__init__(pos)
-        self.image = load(image_location if image_location != "" else "rubato/static/default.png")
+        if image_location == "" or image_location == "default":
+            self.image = load("rubato/static/default.png")
+        elif image_location == "empty":
+            self.image = load("rubato/static/empty.png")
+        else:
+            self.image = load(image_location)
+            
         self.scale(scale_factor)
 
     def update(self):

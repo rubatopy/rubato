@@ -4,6 +4,7 @@ from rubato.scenes import Camera
 from pygame import Surface
 from pygame.draw import polygon
 
+# TODO Implement a Force based physics
 
 class RigidBody(Sprite):
     """
@@ -20,7 +21,7 @@ class RigidBody(Sprite):
         "max_speed": Vector(PMath.INFINITY, PMath.INFINITY),
         "min_speed": Vector(-PMath.INFINITY, -PMath.INFINITY),
         "friction": Vector(1, 1),
-        "img": "",
+        "img": "default",
         "col_type": COL_TYPE.STATIC,
         "scale": Vector(1, 1),
         "debug": False,

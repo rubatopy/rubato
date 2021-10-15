@@ -1,6 +1,7 @@
 from rubato.utils import PMath, classproperty, check_types
 import math
 
+# TODO Get rid of z in vector
 class Vector:
     """
     A Vector object that defines a 3D point in space
@@ -189,7 +190,7 @@ class Vector:
     def transform(self, scale, rotation):
         newVector = self.clone()
         if rotation != 0:
-            hyp, angle = self.magnitude, self.angle + this.rotation * math.pi / 180;
+            hyp, angle = self.magnitude, self.angle + rotation * math.pi / 180
             newVector.x, newVector.y = math.cos(angle) * hyp, math.sin(angle) * hyp
 
         newVector.x *= scale
