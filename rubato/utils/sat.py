@@ -157,7 +157,7 @@ class SAT:
         verts_1 = shape_a.transformed_verts()
         verts_2 = shape_b.transformed_verts()
 
-        offset = Vector(shape_a.pos.x - shape_b.pos.x, shape_a.pos.y - shape_b.pos.y)
+        offset = shape_a.pos - shape_b.pos
 
         for i in range(len(verts_1)):
             axis = SAT._get_perpendicular_axis(verts_1, i)
@@ -180,7 +180,7 @@ class SAT:
                 shortest_dist = abs_min
                 result.distance, result.vector = min_dist, axis
 
-        result.separation = Vector(result.vector.x * result.distance, result.vector.y * result.distance)
+        result.separation = result.vector.clone() * result.distance
 
         return result
 
