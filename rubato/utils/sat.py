@@ -1,10 +1,10 @@
+from typing import Callable
 from rubato.utils import Vector, PMath, check_types
 import math
 
 # Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson
 # https://github.com/sevdanski/SAT_JS
 
-# TODO Helper functions
 class Polygon:
     """
     A custom polygon class with an arbitrary number of vertices
@@ -15,14 +15,26 @@ class Polygon:
     :param rotation: The rotation angle of the polygon in degrees
     """
 
-    def __init__(self, verts: list, pos: type(lambda:None) = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
+    def __init__(self, verts: list, pos: Callable = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
         check_types(Polygon.__init__, locals())
         self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
 
     @staticmethod
-    def generate_polygon(num_sides: int, radius: float | int =1):
-        """Creates a normal polygon with a specified number of sides and an optional radius"""
+    def generate_rect(w: int = 16, h: int = 16) -> "Polygon":
+        """
+        Creates a rectangle from its dimensions
+        
+        :param w: The width of the hitbox
+        :param h: The height of the hitbox
+        :return: The polygon
+        """
+        check_types(Polygon.generate_rect, locals()) 
 
+        return Polygon([Vector(-w/2, -h/2), Vector(w/2, -h/2), Vector(w/2, h/2), Vector(-w/2, h/2)])
+
+    @staticmethod
+    def generate_polygon(num_sides: int, radius: float | int =1) -> "Polygon":
+        """Creates a normal polygon with a specified number of sides and an optional radius"""
         check_types(Polygon.generate_polygon, locals())
         if num_sides < 3:
             raise "Can't create a polygon with less than three sides"
