@@ -89,7 +89,7 @@ class RigidBody(Sprite):
         self.acceleration.x = self.acceleration.x + force.x / self.mass
         self.acceleration.y = self.acceleration.y + force.y / self.mass
 
-    def collide(self, other: "RigidBody"):
+    def collide(self, other: "RigidBody", callback: type(lambda c:None) = lambda c:None):
         """A simple collision engine for most use cases."""
         check_types(RigidBody.collide, locals())
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
@@ -110,6 +110,16 @@ class RigidBody(Sprite):
                     self.velocity.invert("y")
                 if col_info.separation.x != 0:
                     self.velocity.invert("x")
+
+        if col_info is not None: callback(col_info)
+        return col_info
+
+    def overlap(self, other: "RigidBody", callback: type(lambda c:None) = lambda c:None):
+        """Checks for collision but does not handle it."""
+        check_types(RigidBody.overlap, locals())
+        col_info = SAT.overlap(self.hitbox, other.hitbox)
+        if col_info is not None: callback(col_info)
+        return col_info
 
     def set_impulse(self, force: Vector, time: int):
         """
