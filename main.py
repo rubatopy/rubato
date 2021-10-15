@@ -16,7 +16,8 @@ rigid = RigidBody({
     "mass": 1,
     "friction": Vector(0.9, 1),
     "max_speed": Vector(80, PMath.INFINITY),
-    "col_type": COL_TYPE.ELASTIC
+    "col_type": COL_TYPE.ELASTIC,
+    "hitbox": Polygon.generate_polygon(4, 16)
 })
 
 ground = RigidBody({
@@ -26,7 +27,8 @@ ground = RigidBody({
     "col_type": COL_TYPE.STATIC,
     "scale": Vector(600/16, 1),
     "box": [0, 0, 600, 16],
-    "gravity": 0
+    "gravity": 0,
+    "hitbox": Polygon.generate_polygon(4, 100)
 })
 
 
@@ -57,8 +59,6 @@ def rigid_update():
         rigid.acceleration.x = 500
     else:
         rigid.acceleration.x = 0
-
-    rigid.collider.overlap(ground.collider, False)
 
 
 rigid.update = rigid_update

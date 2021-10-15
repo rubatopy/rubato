@@ -1,5 +1,5 @@
 from rubato.sprite import Sprite, Image, Collider
-from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE
+from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE, Polygon, SAT
 from rubato.scenes import Camera
 
 
@@ -12,7 +12,7 @@ class RigidBody(Sprite):
 
     default_options = {
         "mass": 1,
-        "box": [0, 0, 16, 16],
+        "hitbox": Polygon.generate_polygon(4),
         "do_physics": True,
         "gravity": 100,
         "max_speed": Vector(PMath.INFINITY, PMath.INFINITY),
@@ -31,11 +31,16 @@ class RigidBody(Sprite):
         self.acceleration = Vector()
 
         self.mass = options.get("mass", RigidBody.default_options["mass"])
-        self.collider = Collider(
-            options.get("box", RigidBody.default_options["box"]),
-            lambda: self.pos,
-            options.get("col_type", RigidBody.default_options["col_type"])
-        )
+        # self.collider = Collider(
+        #     options.get("box", RigidBody.default_options["box"]),
+        #     lambda: self.pos,
+        #     options.get("col_type", RigidBody.default_options["col_type"])
+        # )
+
+        self.hitbox = options.get("hitbox", RigidBody.default_options["hitbox"]).clone()
+        self.hitbox._pos = lambda: self.pos
+
+        self.col_type = options.get("col_type", RigidBody.default_options["col_type"])
 
         self.collides_with = []
 
@@ -97,34 +102,39 @@ class RigidBody(Sprite):
         """A simple collision engine for most use cases."""
         self.grounded = False
         for rigid in self.collides_with:
-            if side := self.collider.overlap(rigid.collider, False):
-                # Side is the side that rigid has collided with. NOT SELF
-                self.grounded = side == "top"
+            if col_info := SAT.overlap(self.hitbox, rigid.hitbox):
+                # col_info is all in reference to self
+                self.grounded = True
+                print(col_info)
+                self.pos += col_info.separation
+                self.velocity = Vector()
                 # Static
-                if self.collider.type == COL_TYPE.STATIC or rigid.collider.type == COL_TYPE.STATIC:
-                    if side == "top":
-                        self.pos.y = rigid.collider.pos.y - self.collider.height
-                        self.velocity.y = 0
-                    if side == "bottom":
-                        self.pos.y = rigid.collider.pos.y + rigid.collider.height
-                        self.velocity.y = 0
-                    if side == "right":
-                        self.pos.x = rigid.collider.pos.x + rigid.collider.width
-                        self.velocity.x = 0
-                    if side == "left":
-                        self.pos.x = rigid.collider.pos.x - self.collider.width
-                        self.velocity.x = 0
+                if self.col_type == COL_TYPE.STATIC or rigid.col_type == COL_TYPE.STATIC:
+                    pass
+                    # if col_info == "top":
+                    #     self.pos.y = rigid.hitbox.pos.y - self.hitbox.height
+                    #     self.velocity.y = 0
+                    # if col_info == "bottom":
+                    #     self.pos.y = rigid.hitbox.pos.y + rigid.hitbox.height
+                    #     self.velocity.y = 0
+                    # if col_info == "right":
+                    #     self.pos.x = rigid.hitbox.pos.x + rigid.hitbox.width
+                    #     self.velocity.x = 0
+                    # if col_info == "left":
+                    #     self.pos.x = rigid.hitbox.pos.x - self.hitbox.width
+                    #     self.velocity.x = 0
 
                 # Elastic
-                elif self.collider.type == COL_TYPE.ELASTIC and rigid.collider.type == COL_TYPE.ELASTIC:
-                    # Vertical Collisions
-                    if (side == "top" and PMath.sign(self.velocity.y) == 1 ) or \
-                            (side == "bottom" and PMath.sign(self.velocity.y) == -1):
-                            self.velocity.invert("y")
-                    # Horizontal Collisions
-                    if (side == "right" and PMath.sign(self.velocity.x) == -1) or \
-                            (side == "left" and PMath.sign(self.velocity.x) == 1):
-                            self.velocity.invert("x")
+                elif self.hitbox.type == COL_TYPE.ELASTIC and rigid.collider.type == COL_TYPE.ELASTIC:
+                    pass
+                    # # Vertical Collisions
+                    # if (col_info == "top" and PMath.sign(self.velocity.y) == 1 ) or \
+                    #         (col_info == "bottom" and PMath.sign(self.velocity.y) == -1):
+                    #         self.velocity.invert("y")
+                    # # Horizontal Collisions
+                    # if (col_info == "right" and PMath.sign(self.velocity.x) == -1) or \
+                    #         (col_info == "left" and PMath.sign(self.velocity.x) == 1):
+                    #         self.velocity.invert("x")
 
     def set_impulse(self, force: Vector, time: int):
         """
