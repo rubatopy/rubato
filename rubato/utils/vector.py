@@ -1,30 +1,27 @@
 from rubato.utils import PMath, classproperty, check_types
 import math
 
-# TODO Get rid of z in vector
 class Vector:
     """
-    A Vector object that defines a 3D point in space
+    A Vector object that defines a 2D point in space
 
     :param x: The x coordinate.
     :param y: The y coordinate.
-    :param z: The z coordinate.
     """
 
-    def __init__(self, x: float | int = 0, y: float | int = 0, z: float | int = 0):
+    def __init__(self, x: float | int = 0, y: float | int = 0):
         check_types(Vector.__init__, locals())
-        self.x, self.y, self.z = x, y, z
+        self.x, self.y = x, y
 
-    def translate(self, x: float | int, y: float | int, z: float | int = 0):
+    def translate(self, x: float | int, y: float | int):
         """
         Translates the vector's x y and z coordinates by some constants
 
         :param x: The change in x.
         :param y: The change in y.
-        :param z: The change in z.
         """
         check_types(Vector.translate, locals())
-        self.x, self.y, self.z = self.x + x, self.y + y, self.z + z
+        self.x, self.y = self.x + x, self.y + y
 
     def offset(self, other: "Vector") -> "Vector":
         """
@@ -34,7 +31,7 @@ class Vector:
         :return: A new vector with the translated x and y coordinates
         """
         check_types(Vector.offset, locals())
-        return Vector(self.x - other.x, self.y - other.y, self.z)
+        return Vector(self.x - other.x, self.y - other.y)
 
     def to_tuple(self) -> tuple:
         """
@@ -46,14 +43,14 @@ class Vector:
         return self.x * other.x + self.y * other.y
 
     def __str__(self) -> str:
-        return f"({self.x}, {self.y}, {self.z})"
+        return f"({self.x}, {self.y})"
 
     def __mul__(self, other: any) -> "Vector":
         check_types(Vector.__mul__, locals())
         if isinstance(other, int) or isinstance(other, float):
-            return Vector(self.x * other, self.y * other, self.z)
+            return Vector(self.x * other, self.y * other)
         if isinstance(other, Vector):
-            return Vector(self.x * other.x, self.y * other.y, self.z)
+            return Vector(self.x * other.x, self.y * other.y)
 
     def __add__(self, other: "Vector") -> "Vector":
         check_types(Vector.__add__, locals())
@@ -65,27 +62,27 @@ class Vector:
     def __sub__(self, other: any) -> "Vector":
         check_types(Vector.__sub__, locals())
         if isinstance(other, int) or isinstance(other, float):
-            return Vector(self.x - other, self.y - other, self.z)
+            return Vector(self.x - other, self.y - other)
         if isinstance(other, Vector):
-            return Vector(self.x - other.x, self.y - other.y, self.z)
+            return Vector(self.x - other.x, self.y - other.y)
 
     def __rsub__(self, other: int | float) -> "Vector":
         check_types(Vector.__rsub__, locals())
-        return Vector(other - self.x, other - self.y, self.z)
+        return Vector(other - self.x, other - self.y)
 
     def __truediv__(self, other: any) -> "Vector":
         check_types(Vector.__truediv__, locals())
         if isinstance(other, int) or isinstance(other, float):
-            return Vector(self.x / other, self.y / other, self.z)
+            return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
-            return Vector(self.x / other.x, self.y / other.y, self.z)
+            return Vector(self.x / other.x, self.y / other.y)
     
     def __rtruediv__(self, other: int | float) -> "Vector":
         check_types(Vector.__rtruediv__, locals())
-        return Vector(other / self.x, other / self.y, self.z)
+        return Vector(other / self.x, other / self.y)
 
     def __neg__(self) -> "Vector":
-        return Vector(-self.x, -self.y, self.z)
+        return Vector(-self.x, -self.y)
 
     @classproperty
     def ZERO(self):
@@ -209,16 +206,14 @@ class Vector:
             self.x = -self.x
         elif axis == "y":
             self.y = -self.y
-        elif axis == "z":
-            self.z = -self.z
         else:
             raise ValueError(f"{axis} is not a valid axis")
 
     def to_int(self) -> "Vector":
-        return Vector(int(self.x), int(self.y), self.z)
+        return Vector(int(self.x), int(self.y))
 
     def clone(self) -> "Vector":
-        return Vector(self.x, self.y, self.z)
+        return Vector(self.x, self.y)
       
     def lerp(self, target: "Vector", t: float):
         """
@@ -251,4 +246,4 @@ class Vector:
         :return: The vector
         """
 
-        return Vector(math.ceil(self.x), math.ceil(self.y), self.z)
+        return Vector(math.ceil(self.x), math.ceil(self.y))

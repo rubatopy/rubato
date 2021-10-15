@@ -12,10 +12,11 @@ class Sprite:
     :param pos: The position of the sprite on screen. Defaults to (0, 0, 0)
     """
 
-    def __init__(self, pos: Vector = Vector()):
+    def __init__(self, pos: Vector = Vector(), z_index: int = 0):
         check_types(Sprite.__init__, locals())
         self.pos = pos
         self.state = {}
+        self.z_index = z_index
 
     def update(self):
         """The update loop"""

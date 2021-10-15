@@ -1,3 +1,4 @@
+from typing import Callable
 from pygame.time import Clock, get_ticks
 from rubato.utils import classproperty, check_types
 
@@ -56,7 +57,7 @@ class Time:
         return milli / 1000
 
     @staticmethod
-    def delayed_call(delta_time: int, func: type(lambda:None)):
+    def delayed_call(delta_time: int, func: Callable):
         """
         Calls the function func at a later time.
 

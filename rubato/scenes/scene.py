@@ -56,7 +56,7 @@ class Scene:
         """
         The draw loop for this scene.
         """
-        for sprite in sorted(self.sprites.values(), key=lambda spr: spr.pos.z):
-            if sprite.pos.z > self.camera.pos.z:
+        for sprite in sorted(self.sprites.values(), key=lambda spr: spr.z_index):
+            if sprite.z_index > self.camera.z_index:
                 break
             sprite.draw(self.camera)

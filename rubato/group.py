@@ -10,7 +10,8 @@ class Group:
     """
     def __init__(self, z: int=0):
         check_types(Group.__init__, locals())
-        self.pos = Vector(0, 0, z)
+        self.pos = Vector(0, 0)
+        self.z_index = z
         self.sprites = []
 
     def add(self, sprite: Sprite):
@@ -32,7 +33,7 @@ class Group:
     def draw(self, camera: Camera):
         """Draws all the sprites in the group."""
         check_types(Group.draw, locals())
-        for sprite in sorted(self.sprites, key=lambda spr: spr.pos.z):
-            if sprite.pos.z > camera.pos.z:
+        for sprite in sorted(self.sprites, key=lambda spr: spr.z_index):
+            if sprite.z_index > camera.z_index:
                 break
             sprite.draw(camera)

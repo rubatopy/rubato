@@ -71,7 +71,6 @@ def rigid_update():
         rigid.acceleration.x = 0
 
     rigid.collide(triangle)
-    print(rigid.grounded)
 
 
 rigid.update = rigid_update
