@@ -159,7 +159,7 @@ class SAT:
         verts_1 = shape_a.transformed_verts()
         verts_2 = shape_b.transformed_verts()
 
-        offset = Vector(shape_a.pos.x - shape_b.pos.x, shape_a.pos.y - shape_b.pos.y)
+        offset = shape_a.pos - shape_b.pos
 
         for i in range(len(verts_1)):
             axis = SAT._get_perpendicular_axis(verts_1, i)
@@ -175,15 +175,14 @@ class SAT:
 
             SAT._check_ranges_for_containment(a_range, b_range, result, flip)
 
-            min_dist = a_range["min"] - b_range["max"]
-            if flip: min_dist = b_range["min"] - a_range["max"]
+            min_dist = (b_range["min"] - a_range["max"]) if flip else (a_range["min"] - b_range["max"])
 
             abs_min = abs(min_dist)
             if abs_min < shortest_dist:
                 shortest_dist = abs_min
                 result.distance, result.vector = min_dist, axis
 
-        result.separation = Vector(result.vector.x * result.distance, result.vector.y * result.distance)
+        result.separation = result.vector.clone() * result.distance
 
         return result
 
