@@ -105,9 +105,10 @@ class RigidBody(Sprite):
             if col_info := SAT.overlap(self.hitbox, rigid.hitbox):
                 # col_info is all in reference to self
                 self.grounded = True
-                print(col_info)
-                self.pos += col_info.separation
-                self.velocity = Vector()
+                col_info.separation.round(2)
+
+                self.pos -= col_info.separation
+                self.velocity.y = 0
                 # Static
                 if self.col_type == COL_TYPE.STATIC or rigid.col_type == COL_TYPE.STATIC:
                     pass

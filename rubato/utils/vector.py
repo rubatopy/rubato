@@ -219,7 +219,7 @@ class Vector:
         self.x = PMath.lerp(self.x, target.x, t)
         self.y = PMath.lerp(self.y, target.y, t)
 
-    def round(self, decimal_places):
+    def round(self, decimal_places: int):
         """
         rounds x and y to decimal_places
         :param decimal_places: the amount of decimal places rounded to.
