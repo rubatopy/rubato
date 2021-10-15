@@ -1,7 +1,7 @@
-from pgp.utils import Display, Vector, check_types
+from rubato.utils import Display, Vector, check_types
 from pygame.transform import scale
 from pygame.surface import Surface
-from pgp.scenes import Camera
+from rubato.scenes import Camera
 
 
 class Sprite:

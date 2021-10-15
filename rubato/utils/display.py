@@ -1,7 +1,7 @@
 from pygame import Surface
 import os
 import pygame.display as display
-from pgp.utils import classproperty, check_types
+from rubato.utils import classproperty, check_types
 
 
 class Display:

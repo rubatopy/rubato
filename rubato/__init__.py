@@ -2,12 +2,12 @@ from os import environ
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 import pygame
 from sys import exit
-from pgp.utils import STATE, Display, Vector, PMath, Time, check_types, Polygon, Circle, SAT
-from pgp.scenes import SceneManager, Scene, Camera
-from pgp.radio import Radio
-from pgp.sprite import Sprite, Image, RigidBody
-from pgp.group import Group
-from pgp.input import Input
+from rubato.utils import STATE, Display, Vector, PMath, Time, check_types, Polygon, Circle, SAT
+from rubato.scenes import SceneManager, Scene, Camera
+from rubato.radio import Radio
+from rubato.sprite import Sprite, Image, RigidBody
+from rubato.group import Group
+from rubato.input import Input
 
 # TODO Sound manager
 class Game:

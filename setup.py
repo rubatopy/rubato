@@ -5,7 +5,7 @@ DESCRIPTION = "This is a Pygame Game Engine"
 LONG_DESCRIPTION = open("README.md").read() + "\n\n" + open("CHANGELOG.md").read()
 
 setup(
-    name="pgp",
+    name="rubato",
     version=VERSION,
     author="Martin Chaperot, Yamm Elnekave, Tomer Sedan",
     author_email="m.artin.chapino@gmail.com",

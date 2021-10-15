@@ -1,5 +1,5 @@
-from pgp import Vector, check_types
-from pgp.utils import COL_TYPE
+from rubato import Vector, check_types
+from rubato.utils import COL_TYPE
 
 
 class Collider:

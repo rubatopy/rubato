@@ -1,5 +1,5 @@
 from pygame.time import Clock, get_ticks
-from pgp.utils import classproperty, check_types
+from rubato.utils import classproperty, check_types
 
 
 class Time:

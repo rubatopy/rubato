@@ -1,5 +1,5 @@
-from pgp import check_types
-from pgp.scenes.scene import Scene
+from rubato import check_types
+from rubato.scenes.scene import Scene
 
 
 class SceneManager:

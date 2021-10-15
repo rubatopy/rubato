@@ -1,9 +1,9 @@
 from pygame import key, mouse
-from pgp.utils import classproperty, check_types
+from rubato.utils import classproperty, check_types
 
 class Input:
     """
-    An abstraction of the PyGame input system. Slightly optimized and plays nice with the rest of pgp.
+    An abstraction of the PyGame input system. Slightly optimized and plays nice with the rest of rubato.
     """
     key = key
     mouse = mouse

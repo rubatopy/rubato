@@ -1,6 +1,6 @@
-from pgp.sprite import Sprite, Image, Collider
-from pgp.utils import Vector, Time, PMath, check_types, COL_TYPE
-from pgp.scenes import Camera
+from rubato.sprite import Sprite, Image, Collider
+from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE
+from rubato.scenes import Camera
 
 
 class RigidBody(Sprite):

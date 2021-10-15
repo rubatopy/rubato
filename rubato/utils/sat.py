@@ -1,4 +1,4 @@
-from pgp.utils import Vector, PMath
+from rubato.utils import Vector, PMath
 import math
 
 # Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson

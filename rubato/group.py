@@ -1,7 +1,7 @@
-from pgp import Vector
-from pgp.scenes import Camera
-from pgp.sprite import Sprite
-from pgp.utils import check_types
+from rubato import Vector
+from rubato.scenes import Camera
+from rubato.sprite import Sprite
+from rubato.utils import check_types
 
 
 class Group:

@@ -1,8 +1,8 @@
-from pgp.sprite.sprite import Sprite
+from rubato.sprite.sprite import Sprite
 from pygame.image import load
 from pygame.transform import scale, flip
-from pgp.utils import Vector, check_types
-from pgp.scenes import Camera
+from rubato.utils import Vector, check_types
+from rubato.scenes import Camera
 
 
 class Image(Sprite):
@@ -15,7 +15,7 @@ class Image(Sprite):
     def __init__(self, image_location: str, pos: Vector = Vector(), scale_factor: Vector = Vector(1, 1)):
         check_types(Image.__init__, locals())
         super().__init__(pos)
-        self.image = load(image_location if image_location != "" else "pgp/static/default.png")
+        self.image = load(image_location if image_location != "" else "rubato/static/default.png")
         self.scale(scale_factor)
 
     def update(self):

@@ -1,5 +1,5 @@
-from pgp import check_types
-from pgp.utils import Vector
+from rubato import check_types
+from rubato.utils import Vector
 
 
 class Camera:
