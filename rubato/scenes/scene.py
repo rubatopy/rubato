@@ -1,4 +1,3 @@
-from rubato import check_types
 from rubato.scenes import Camera
 from rubato.sprite import Sprite
 from rubato.group import Group
@@ -10,7 +9,6 @@ class Scene:
     """
 
     def __init__(self):
-        check_types(Scene.__init__, locals())
         self.sprites = {}
         self.min_id = 0
         self.camera = Camera()
@@ -22,7 +20,6 @@ class Scene:
         :param sprite_id: The id of the sprite
         :param sprite: The sprite object to be added.
         """
-        check_types(Scene.add, locals())
         if sprite_id == "":
             sprite_id = self.min_id
             self.min_id += 1
@@ -39,7 +36,6 @@ class Scene:
 
         :param sprite_id: The id of the sprite to remove
         """
-        check_types(Scene.remove, locals())
         if sprite_id not in self.sprites.keys():
             raise ValueError(f"The sprite corresponding to {sprite_id} does not exist in this scene")
 

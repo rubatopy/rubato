@@ -1,5 +1,6 @@
 from pygame import key, mouse
-from rubato.utils import classproperty, check_types
+from rubato.utils import classproperty
+
 
 class Input:
     """
@@ -10,7 +11,6 @@ class Input:
 
     @staticmethod
     def is_pressed(char: str) -> bool:
-        check_types(Input.is_pressed, locals())
         return Input.key.get_pressed()[Input.key.key_code(char)]
 
     @classproperty

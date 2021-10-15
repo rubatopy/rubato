@@ -1,6 +1,7 @@
 from typing import Callable
-from rubato.utils import Vector, PMath, check_types
+from rubato.utils import Vector, PMath
 import math
+
 
 # Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson
 # https://github.com/sevdanski/SAT_JS
@@ -16,7 +17,6 @@ class Polygon:
     """
 
     def __init__(self, verts: list, pos: Callable = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
-        check_types(Polygon.__init__, locals())
         self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
 
     @staticmethod
@@ -27,15 +27,13 @@ class Polygon:
         :param w: The width of the hitbox
         :param h: The height of the hitbox
         :return: The polygon
-        """
-        check_types(Polygon.generate_rect, locals()) 
+        """ 
 
         return Polygon([Vector(-w/2, -h/2), Vector(w/2, -h/2), Vector(w/2, h/2), Vector(-w/2, h/2)])
 
     @staticmethod
     def generate_polygon(num_sides: int, radius: float | int =1) -> "Polygon":
         """Creates a normal polygon with a specified number of sides and an optional radius"""
-        check_types(Polygon.generate_polygon, locals())
         if num_sides < 3:
             raise "Can't create a polygon with less than three sides"
 
@@ -75,7 +73,6 @@ class Circle:
     """
 
     def __init__(self, pos = lambda: Vector(), radius = 1, scale = 1):
-        check_types(Circle.__init__, locals())
         self._pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
 
     @property
@@ -91,6 +88,7 @@ class Circle:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 
+
 class CollisionInfo:
     """
     A class that represents information returned in a successful collision
@@ -102,6 +100,7 @@ class CollisionInfo:
 
     def __str__(self):
         return f"{self.distance}, {self.vector}, {self.a_contained}, {self.b_contained}, {self.separation}"
+
 
 class SAT:
     """
@@ -119,7 +118,6 @@ class SAT:
         :returns: None or CollisionInfo object
         """
 
-        check_types(SAT.overlap, locals())
 
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
             return SAT._circle_circle_test(shape_a, shape_b)

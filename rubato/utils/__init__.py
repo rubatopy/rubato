@@ -1,5 +1,4 @@
 from rubato.utils.math import PMath, classproperty
-from rubato.utils.processing import check_types
 from rubato.utils.STATE import STATE
 from rubato.utils.display import Display
 from rubato.utils.vector import Vector

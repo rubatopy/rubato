@@ -1,5 +1,6 @@
-from rubato.utils import PMath, classproperty, check_types
+from rubato.utils import PMath, classproperty
 import math
+
 
 class Vector:
     """
@@ -10,7 +11,6 @@ class Vector:
     """
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
-        check_types(Vector.__init__, locals())
         self.x, self.y = x, y
 
     def translate(self, x: float | int, y: float | int):
@@ -20,7 +20,6 @@ class Vector:
         :param x: The change in x.
         :param y: The change in y.
         """
-        check_types(Vector.translate, locals())
         self.x, self.y = self.x + x, self.y + y
 
     def offset(self, other: "Vector") -> "Vector":
@@ -30,7 +29,6 @@ class Vector:
         :param other: Another vector
         :return: A new vector with the translated x and y coordinates
         """
-        check_types(Vector.offset, locals())
         return Vector(self.x - other.x, self.y - other.y)
 
     def to_tuple(self) -> tuple:
@@ -46,39 +44,33 @@ class Vector:
         return f"({self.x}, {self.y})"
 
     def __mul__(self, other: any) -> "Vector":
-        check_types(Vector.__mul__, locals())
         if isinstance(other, int) or isinstance(other, float):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
 
     def __add__(self, other: "Vector") -> "Vector":
-        check_types(Vector.__add__, locals())
         return Vector(self.x + other.x, self.y + other.y)
 
     __rmul__ = __mul__
     __radd__ = __add__
 
     def __sub__(self, other: any) -> "Vector":
-        check_types(Vector.__sub__, locals())
         if isinstance(other, int) or isinstance(other, float):
             return Vector(self.x - other, self.y - other)
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y)
 
     def __rsub__(self, other: int | float) -> "Vector":
-        check_types(Vector.__rsub__, locals())
         return Vector(other - self.x, other - self.y)
 
     def __truediv__(self, other: any) -> "Vector":
-        check_types(Vector.__truediv__, locals())
         if isinstance(other, int) or isinstance(other, float):
             return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
     
     def __rtruediv__(self, other: int | float) -> "Vector":
-        check_types(Vector.__rtruediv__, locals())
         return Vector(other / self.x, other / self.y)
 
     def __neg__(self) -> "Vector":
@@ -123,7 +115,6 @@ class Vector:
         :param v: The vector to compare.
         :return: True if the x and y components of the vector are equal
         """
-        check_types(Vector.__equals, locals())
         return self.y == v.y and self.x == v.x
 
     def clamp(self, lower: any, upper: any, absolute: bool = False):
@@ -134,7 +125,6 @@ class Vector:
         :param lower: The lower bound
         :param upper: The upper bound
         """
-        check_types(Vector.clamp, locals())
         if not isinstance(lower, Vector):
             lower = Vector(*lower)
         if not isinstance(upper, Vector):
@@ -147,7 +137,6 @@ class Vector:
             self.y = PMath.abs_clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other: "Vector") -> bool:
-        check_types(Vector.__eq__, locals())
         return False if (other is None or not isinstance(other, Vector)) else self.__equals(other)
 
     @property
@@ -176,7 +165,6 @@ class Vector:
         :param magnitude: Length of vector
         :return: Vector from the given direction and distance
         """
-        check_types(Vector.from_radial, locals())
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
 
     @property
@@ -200,7 +188,6 @@ class Vector:
 
         :param axis: The axis to invert the vector in
         """
-        check_types(Vector.invert, locals())
 
         if axis == "x":
             self.x = -self.x
@@ -222,7 +209,6 @@ class Vector:
         :param target: the target velocity
         :param t: the amount you lerp between 0 and 1
         """
-        check_types(Vector.lerp, locals())
         t = PMath.clamp(t, 0, 1)
         self.x = PMath.lerp(self.x, target.x, t)
         self.y = PMath.lerp(self.y, target.y, t)
@@ -234,7 +220,6 @@ class Vector:
         :param decimal_places: the amount of decimal places rounded to.
         :return: The rounded vector
         """
-        check_types(Vector.round, locals())
         self.x = round(self.x, decimal_places)
         self.y = round(self.y, decimal_places)
         return self

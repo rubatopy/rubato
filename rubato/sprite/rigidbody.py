@@ -1,13 +1,13 @@
 from typing import Callable
 from rubato.sprite import Sprite, Image
-from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE, Polygon, SAT, Display
+from rubato.utils import Vector, Time, PMath, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
 from rubato.group import Group
 from pygame import Surface
 from pygame.draw import polygon
 
-# TODO Implement a Force based physics
 
+# TODO Implement a Force based physics
 class RigidBody(Sprite):
     """
     A RigidBody implementation with built in physics and collisions.
@@ -30,7 +30,6 @@ class RigidBody(Sprite):
     }
 
     def __init__(self, options: dict = {}):
-        check_types(RigidBody.__init__, locals())
         super().__init__(options.get("pos", Vector()))
 
         self.velocity = Vector()
@@ -73,7 +72,6 @@ class RigidBody(Sprite):
 
         :param force: A Point object representing force set to the object.
         """
-        check_types(RigidBody.set_force, locals())
         self.acceleration.x = force.x / self.mass
         self.acceleration.y = force.y / self.mass
 
@@ -83,13 +81,11 @@ class RigidBody(Sprite):
 
         :param force: A Point object representing the added force to the object.
         """
-        check_types(RigidBody.add_force, locals())
         self.acceleration.x = self.acceleration.x + force.x / self.mass
         self.acceleration.y = self.acceleration.y + force.y / self.mass
 
     def collide(self, other: "RigidBody", callback: Callable = lambda c:None):
         """A simple collision engine for most use cases."""
-        check_types(RigidBody.collide, locals())
         self.grounded = False
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
             # col_info is all in reference to self
@@ -115,7 +111,6 @@ class RigidBody(Sprite):
 
     def overlap(self, other: "RigidBody", callback: Callable = lambda c:None):
         """Checks for collision but does not handle it."""
-        check_types(RigidBody.overlap, locals())
         col_info = SAT.overlap(self.hitbox, other.hitbox)
         if col_info is not None: callback(col_info)
         return col_info
@@ -127,13 +122,11 @@ class RigidBody(Sprite):
         :param force: The force of the impulse
         :param time: The duration of the impulse
         """
-        check_types(RigidBody.set_impulse, locals())
         self.set_force(force)
         Time.delayed_call(time, lambda: self.set_force(Vector()))
 
     def update(self):
         """The update loop"""
-        check_types(RigidBody.update, locals())
         if self.params.get("do_physics", RigidBody.default_options["do_physics"]):
             self.physics()
 
@@ -143,8 +136,6 @@ class RigidBody(Sprite):
 
         :param camera: The current camera
         """
-        check_types(RigidBody.draw, locals())
-
         self.render.pos = self.pos
         self.render.draw(camera)
 
