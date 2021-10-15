@@ -2,6 +2,24 @@ from rubato.utils import PMath
 
 
 class Color:
+    # colors from https://www.rapidtables.com/web/color/RGB_Color.html
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    red = (255, 0, 0)
+    lime = (0, 255, 0)
+    blue = (0, 0, 255)
+    yellow = (255, 255, 0)
+    cyan = aqua = (0, 255, 255)
+    magenta = fuchsia = (255, 0, 255)
+    silver = (192, 192, 192)
+    gray = (128, 128, 128)
+    maroon = (128, 0, 0)
+    olive = (128, 128, 0)
+    green = (0, 128, 0)
+    purple = (128, 0, 128)
+    teal = (0, 128, 128)
+    navy = (0, 0, 128)
+
     class HSV:
         def __init__(self, h, s, v):
             self.h: float = h
@@ -29,7 +47,6 @@ class Color:
             self.h = PMath.clamp(self.h, 0, 255)
             self.s = PMath.clamp(self.s, 0, 255)
             self.v = PMath.clamp(self.v, 0, 255)
-
 
     class RGB:
         def __init__(self, r, g, b):
@@ -136,4 +153,3 @@ class Color:
             out.b = q
 
         return out
-
