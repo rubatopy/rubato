@@ -108,3 +108,10 @@ class Game:
         self.state = STATE.RUNNING
         while self.state == STATE.RUNNING:
             self.update()
+
+    @property
+    def window_size(self):
+        """
+        return the size of the game window
+        """
+        return Vector(self.window_width, self.window_height)

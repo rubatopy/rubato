@@ -1,6 +1,6 @@
 from rubato import Vector
 from rubato.scenes import Camera
-from rubato.sprite import Sprite
+from rubato.sprite import Sprite, RigidBody
 
 
 class Group:
@@ -33,3 +33,17 @@ class Group:
             if sprite.z_index > camera.z_index:
                 break
             sprite.draw(camera)
+    
+    def collide_rb(self, rb: RigidBody):
+        for sprite in self.sprites:
+            sprite.collide(rb)
+
+    def collide_group(self, group: "Group"):
+        for sprite in self.sprites:
+            group.collide_rb(sprite)
+
+    def collide_self(self):
+        for sprite in self.sprites:
+            for sprite2 in self.sprites:
+                if sprite != sprite2:
+                    sprite.collide(sprite2)

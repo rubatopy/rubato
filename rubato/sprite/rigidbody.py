@@ -2,7 +2,6 @@ from typing import Callable
 from rubato.sprite import Sprite, Image
 from rubato.utils import Vector, Time, PMath, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
-from rubato.group import Group
 from pygame import Surface
 from pygame.draw import polygon
 
@@ -27,10 +26,12 @@ class RigidBody(Sprite):
         "col_type": COL_TYPE.STATIC,
         "scale": Vector(1, 1),
         "debug": False,
+        "z_index": 0,
+        "rotation": 0,
     }
 
     def __init__(self, options: dict = {}):
-        super().__init__(options.get("pos", Vector()))
+        super().__init__(options.get("pos", Vector()), options.get("z_index", RigidBody.default_options["z_index"]))
 
         self.velocity = Vector()
         self.acceleration = Vector()
@@ -44,7 +45,7 @@ class RigidBody(Sprite):
 
         self.params = options
 
-        self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]))
+        self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]), options.get("z_index", RigidBody.default_options["z_index"]), options.get("rotation", RigidBody.default_options["rotation"]))
 
         self.debug = options.get("debug", RigidBody.default_options["debug"])
 
@@ -91,20 +92,28 @@ class RigidBody(Sprite):
             # col_info is all in reference to self
             col_info.separation.round(4)
             self.grounded = PMath.sign(col_info.separation.y) == 1
+
+            if other.col_type == COL_TYPE.STATIC:
+                self.pos -= col_info.separation
+            else:
+                other.pos += col_info.separation
+            
             if self.col_type == COL_TYPE.STATIC or other.col_type == COL_TYPE.STATIC:
                 # Static
-                self.pos -= col_info.separation
                 if col_info.separation.y != 0:
                     self.velocity.y = 0
+                    other.velocity.y = 0
                 if col_info.separation.x != 0:
                     self.velocity.x = 0
+                    other.velocity.x = 0
             else:
                 # Elastic
-                self.pos -= col_info.separation
                 if col_info.separation.y != 0:
                     self.velocity.invert("y")
+                    other.velocity.invert("y")
                 if col_info.separation.x != 0:
                     self.velocity.invert("x")
+                    other.velocity.invert("x")
 
         if col_info is not None: callback(col_info)
         return col_info
@@ -140,4 +149,4 @@ class RigidBody(Sprite):
         self.render.draw(camera)
 
         if self.debug:
-            polygon(Display.global_display, (0, 255, 0), list(map(lambda v: (v.x, v.y), self.hitbox.real_verts())), 3)
+            polygon(Display.global_display, (0, 255, 0), list(map(lambda v: camera.transform(v * camera.zoom), self.hitbox.real_verts())), 3)

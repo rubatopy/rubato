@@ -15,7 +15,7 @@ rigid = RigidBody({
     "mass": 1,
     "friction": Vector(1, 1),
     "max_speed": Vector(100, PMath.INFINITY),
-    "col_type": COL_TYPE.ELASTIC,
+    "col_type": COL_TYPE.STATIC,
     "hitbox": Polygon.generate_rect(),
     "debug": True
 })
@@ -27,7 +27,7 @@ ground = RigidBody({
     "col_type": COL_TYPE.STATIC,
     "scale": Vector(600/16, 1),
     "gravity": 0,
-    "hitbox": Polygon.generate_rect(600, 16)
+    "hitbox": Polygon.generate_rect(600, 16),
 })
 
 triangle = RigidBody({

@@ -35,7 +35,7 @@ class Polygon:
     def generate_polygon(num_sides: int, radius: float | int =1) -> "Polygon":
         """Creates a normal polygon with a specified number of sides and an optional radius"""
         if num_sides < 3:
-            raise "Can't create a polygon with less than three sides"
+            raise Exception("Can't create a polygon with less than three sides")
 
         rotangle = 2 * math.pi / num_sides
         angle, verts = 0, []
