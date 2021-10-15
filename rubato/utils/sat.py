@@ -1,5 +1,7 @@
-from rubato.utils import Vector, PMath, check_types
+from typing import Callable
+from rubato.utils import Vector, PMath
 import math
+
 
 # Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson
 # https://github.com/sevdanski/SAT_JS
@@ -14,15 +16,24 @@ class Polygon:
     :param rotation: The rotation angle of the polygon in degrees
     """
 
-    def __init__(self, verts: list, pos: type(lambda:None) = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
-        check_types(Polygon.__init__, locals())
+    def __init__(self, verts: list, pos: Callable = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
         self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
 
     @staticmethod
-    def generate_polygon(num_sides: int, radius: float | int =1):
-        """Creates a normal polygon with a specified number of sides and an optional radius"""
+    def generate_rect(w: int = 16, h: int = 16) -> "Polygon":
+        """
+        Creates a rectangle from its dimensions
+        
+        :param w: The width of the hitbox
+        :param h: The height of the hitbox
+        :return: The polygon
+        """ 
 
-        check_types(Polygon.generate_polygon, locals())
+        return Polygon([Vector(-w/2, -h/2), Vector(w/2, -h/2), Vector(w/2, h/2), Vector(-w/2, h/2)])
+
+    @staticmethod
+    def generate_polygon(num_sides: int, radius: float | int =1) -> "Polygon":
+        """Creates a normal polygon with a specified number of sides and an optional radius"""
         if num_sides < 3:
             raise "Can't create a polygon with less than three sides"
 
@@ -55,13 +66,13 @@ class Polygon:
     def __str__(self):
         return f"{list(map(lambda v: str(v), self.verts))}, {self.pos}, {self.scale}, {self.rotation}"
 
+# TODO make circles work
 class Circle:
     """
     A custom circle class defined by a position, radius, and scale
     """
 
     def __init__(self, pos = lambda: Vector(), radius = 1, scale = 1):
-        check_types(Circle.__init__, locals())
         self._pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
 
     @property
@@ -77,6 +88,7 @@ class Circle:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 
+
 class CollisionInfo:
     """
     A class that represents information returned in a successful collision
@@ -88,6 +100,7 @@ class CollisionInfo:
 
     def __str__(self):
         return f"{self.distance}, {self.vector}, {self.a_contained}, {self.b_contained}, {self.separation}"
+
 
 class SAT:
     """
@@ -105,17 +118,16 @@ class SAT:
         :returns: None or CollisionInfo object
         """
 
-        check_types(SAT.overlap, locals())
 
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
             return SAT._circle_circle_test(shape_a, shape_b)
 
         if isinstance(shape_a, Polygon) and isinstance(shape_b, Polygon):
             test_a_b = SAT._polygon_polygon_test(shape_a, shape_b)
-            if not test_a_b: return None
+            if test_a_b is None: return None
 
             test_b_a = SAT._polygon_polygon_test(shape_b, shape_a, True)
-            if not test_b_a: return None
+            if test_b_a is None: return None
 
             result = test_a_b if abs(test_a_b.distance) < abs(test_b_a.distance) else test_b_a
 
@@ -157,7 +169,7 @@ class SAT:
         verts_1 = shape_a.transformed_verts()
         verts_2 = shape_b.transformed_verts()
 
-        offset = Vector(shape_a.pos.x - shape_b.pos.x, shape_a.pos.y - shape_b.pos.y)
+        offset = shape_a.pos - shape_b.pos
 
         for i in range(len(verts_1)):
             axis = SAT._get_perpendicular_axis(verts_1, i)
@@ -173,15 +185,14 @@ class SAT:
 
             SAT._check_ranges_for_containment(a_range, b_range, result, flip)
 
-            min_dist = a_range["min"] - b_range["max"]
-            if flip: min_dist *= -1
+            min_dist = (b_range["min"] - a_range["max"]) if flip else (a_range["min"] - b_range["max"])
 
             abs_min = abs(min_dist)
             if abs_min < shortest_dist:
                 shortest_dist = abs_min
                 result.distance, result.vector = min_dist, axis
 
-        result.separation = Vector(result.vector.x * result.distance, result.vector.y * result.distance)
+        result.separation = result.vector.clone() * result.distance
 
         return result
 

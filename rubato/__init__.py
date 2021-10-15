@@ -2,12 +2,15 @@ from os import environ
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 import pygame
 from sys import exit
-from rubato.utils import STATE, Display, Vector, PMath, Time, check_types, Polygon, Circle, SAT
+from typeguard.importhook import install_import_hook
+# install_import_hook("rubato")
+from rubato.utils import STATE, Display, Vector, PMath, Time, Polygon, Circle, SAT
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Image, RigidBody
 from rubato.group import Group
 from rubato.input import Input
+
 
 # TODO Sound manager
 class Game:
@@ -28,7 +31,6 @@ class Game:
     }
 
     def __init__(self, options: dict = {}):
-        check_types(Game.__init__, locals())
         pygame.init()
 
         self.name = options.get("name", Game.default_options["name"])

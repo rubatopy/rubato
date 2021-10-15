@@ -1,5 +1,6 @@
+from typing import Callable
 from pygame.time import Clock, get_ticks
-from rubato.utils import classproperty, check_types
+from rubato.utils import classproperty
 
 
 class Time:
@@ -17,7 +18,6 @@ class Time:
         :param form: The format the output should be (sec, milli)
         :return: Time since the last frame, in the given form.
         """
-        check_types(Time.delta_time, locals())
         if form == "sec":
             return Time.milli_to_sec(Time.clock.get_time())
         elif form == "milli":
@@ -25,8 +25,8 @@ class Time:
         else:
             raise ValueError(f"Style {form} is not valid")
 
-    @classproperty
-    def now(self) -> int:
+    @staticmethod
+    def now() -> int:
         """
         Gets the time since the start of the game, in milliseconds.
 
@@ -41,7 +41,6 @@ class Time:
 
         :param clock: A pygame Clock object.
         """
-        check_types(Time.set, locals())
         Time.clock = clock
 
     @staticmethod
@@ -52,19 +51,17 @@ class Time:
         :param milli: A number in milliseconds.
         :return: The converted number in seconds.
         """
-        check_types(Time.milli_to_sec, locals())
         return milli / 1000
 
     @staticmethod
-    def delayed_call(delta_time: int, func: type(lambda:None)):
+    def delayed_call(delta_time: int, func: Callable):
         """
         Calls the function func at a later time.
 
         :param delta_time: The time in milliseconds to run the function at.
         :param func: The function to call.
         """
-        check_types(Time.delayed_call, locals())
-        run_at = Time.now + delta_time
+        run_at = delta_time + Time.now()
 
         if Time.calls.get(run_at):
             Time.calls[run_at].append(func)
@@ -75,7 +72,7 @@ class Time:
     def process_calls():
         """Processes the calls needed"""
         for call in sorted(Time.calls.keys()):
-            if call <= Time.now:
+            if call <= Time.now():
                 for func in Time.calls[call]:
                     func()
                 del Time.calls[call]

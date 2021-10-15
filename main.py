@@ -14,11 +14,11 @@ sprite = Image("./Tinmarr.jpg", Vector(300,200))
 rigid = RigidBody({
     "pos": Vector(100, 0),
     "mass": 1,
-    "friction": Vector(0.9, 1),
-    "max_speed": Vector(80, PMath.INFINITY),
+    "friction": Vector(1, 1),
+    "max_speed": Vector(100, PMath.INFINITY),
     "col_type": COL_TYPE.ELASTIC,
-    "hitbox": Polygon([Vector(-8, 8), Vector(8, 8), Vector(8, -8), Vector(-8, -8)]),
-    "debug": False
+    "hitbox": Polygon.generate_rect(),
+    "debug": True
 })
 
 ground = RigidBody({
@@ -28,9 +28,19 @@ ground = RigidBody({
     "col_type": COL_TYPE.STATIC,
     "scale": Vector(600/16, 1),
     "gravity": 0,
-    "hitbox": Polygon([Vector(-300, 8), Vector(300, 8), Vector(300, -8), Vector(-300, -8)])
+    "hitbox": Polygon.generate_rect(600, 16)
 })
 
+triangle = RigidBody({
+    "pos": Vector(200, 200),
+    "mass": 1,
+    "friction": Vector(1, 1),
+    "col_type": COL_TYPE.ELASTIC,
+    "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46),
+    "img": "empty",
+    "debug": True,
+    "gravity": 0,
+})
 
 # Sprite
 def custom_update():
@@ -60,12 +70,17 @@ def rigid_update():
     else:
         rigid.acceleration.x = 0
 
+    rigid.collide(triangle)
+
 
 rigid.update = rigid_update
-rigid.collides_with.append(ground)
+
 game.radio.listen("w_down", w_handler)
 group.add(rigid)
-group.add(ground)
+
+# group.add(ground)
+
+group.add(triangle)
 
 game.radio.listen("EXIT", lambda: print("ya-yeet"))
 

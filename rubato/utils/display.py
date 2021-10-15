@@ -1,7 +1,7 @@
 from pygame import Surface
 import os
 import pygame.display as display
-from rubato.utils import classproperty, check_types
+from rubato.utils import classproperty
 
 
 class Display:
@@ -15,7 +15,6 @@ class Display:
 
         :param new_surface: The new surface to set.
         """
-        check_types(Display.set, locals())
         Display.global_display = new_surface
 
     @classproperty
@@ -31,7 +30,6 @@ class Display:
         :param surface: The surface to draw on the display.
         :param pos: The position to draw the surface on.
         """
-        check_types(Display.update, locals())
         Display.global_display.blit(surface, pos)
 
     @staticmethod
@@ -42,7 +40,6 @@ class Display:
         :param x: The x position
         :param y: The y position
         """
-        check_types(Display.set_window_position, locals())
         os.environ['SDL_VIDEO_WINDOW_POS'] = '%d, %d' % (x, y)
 
     @staticmethod
@@ -52,5 +49,4 @@ class Display:
 
         :param name: The name of the PyGame window.
         """
-        check_types(Display.set_window_name, locals())
         display.set_caption(name)

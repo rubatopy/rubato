@@ -1,5 +1,4 @@
 import math
-from rubato.utils.processing import check_types
 
 
 class classproperty(property):
@@ -20,7 +19,6 @@ class PMath:
         :param upper: The upper bound of the clamp
         :return: The clamped result
         """
-        check_types(PMath.clamp, locals())
         return min(max(a, lower), upper)
 
     @staticmethod
@@ -33,7 +31,6 @@ class PMath:
         :param upper: The upper bound of the clamp
         :return: The clamped result
         """
-        check_types(PMath.abs_clamp, locals())
         return PMath.sign(a) * PMath.clamp(abs(a), lower, upper)
 
     @staticmethod
@@ -44,7 +41,6 @@ class PMath:
         :param n: A number
         :return: The sign of the number
         """
-        check_types(PMath.sign, locals())
         return (n > 0) - (n < 0)
 
     @staticmethod
@@ -57,7 +53,6 @@ class PMath:
         :param t: Distance between upper and lower (1 gives upper, 0 gives lower)
         :return: The lerped value
         """
-        check_types(PMath.lerp, locals())
         return (t * upper) + ((1 - t) * lower)
 
     @staticmethod
@@ -68,7 +63,6 @@ class PMath:
         :param deg: The number in degrees to convert
         :return: The resulting number in radians
         """
-        check_types(PMath.deg_to_rad, locals())
         return deg * math.pi / 180
 
     @staticmethod
@@ -79,5 +73,4 @@ class PMath:
         :param rad: The number in radians to convert
         :return: The resulting number in degrees
         """
-        check_types(PMath.rad_to_deg, locals())
         return rad * 180 / math.pi

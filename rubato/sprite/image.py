@@ -1,7 +1,7 @@
 from rubato.sprite.sprite import Sprite
 from pygame.image import load
 from pygame.transform import scale, flip
-from rubato.utils import Vector, check_types
+from rubato.utils import Vector
 from rubato.scenes import Camera
 
 
@@ -13,9 +13,14 @@ class Image(Sprite):
     :param pos: The position of the sprite.
     """
     def __init__(self, image_location: str, pos: Vector = Vector(), scale_factor: Vector = Vector(1, 1)):
-        check_types(Image.__init__, locals())
         super().__init__(pos)
-        self.image = load(image_location if image_location != "" else "rubato/static/default.png")
+        if image_location == "" or image_location == "default":
+            self.image = load("rubato/static/default.png")
+        elif image_location == "empty":
+            self.image = load("rubato/static/empty.png")
+        else:
+            self.image = load(image_location)
+            
         self.scale(scale_factor)
 
     def update(self):
@@ -27,7 +32,6 @@ class Image(Sprite):
 
         :param camera: The current Camera viewing the scene.
         """
-        check_types(Image.draw, locals())
         super().draw(self.image, camera)
 
     def scale(self, scale_factor: Vector):
@@ -36,8 +40,6 @@ class Image(Sprite):
 
         :param scale_factor: A Vector describing the scale in the x and y direction relative to its current size
         """
-
-        check_types(Image.scale, locals())
         if abs(new_x := self.image.get_width() * scale_factor.x) < 1:
             new_x = 1
         if abs(new_y := self.image.get_height() * scale_factor.y) < 1:
