@@ -112,10 +112,10 @@ class SAT:
 
         if isinstance(shape_a, Polygon) and isinstance(shape_b, Polygon):
             test_a_b = SAT._polygon_polygon_test(shape_a, shape_b)
-            if not test_a_b: return None
+            if test_a_b is None: return None
 
             test_b_a = SAT._polygon_polygon_test(shape_b, shape_a, True)
-            if not test_b_a: return None
+            if test_b_a is None: return None
 
             result = test_a_b if abs(test_a_b.distance) < abs(test_b_a.distance) else test_b_a
 
@@ -174,7 +174,7 @@ class SAT:
             SAT._check_ranges_for_containment(a_range, b_range, result, flip)
 
             min_dist = a_range["min"] - b_range["max"]
-            if flip: min_dist *= -1
+            if flip: min_dist = b_range["min"] - a_range["max"]
 
             abs_min = abs(min_dist)
             if abs_min < shortest_dist:
