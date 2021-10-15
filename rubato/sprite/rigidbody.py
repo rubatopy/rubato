@@ -1,6 +1,7 @@
 from rubato.sprite import Sprite, Image, Collider
 from rubato.utils import Vector, Time, PMath, check_types, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
+from rubato.group import Group
 from pygame import Surface
 from pygame.draw import polygon
 
@@ -46,10 +47,6 @@ class RigidBody(Sprite):
 
         self.col_type = options.get("col_type", RigidBody.default_options["col_type"])
 
-        self.collides_with = []
-
-        self.grounded = False
-
         self.params = options
 
         self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]))
@@ -58,7 +55,6 @@ class RigidBody(Sprite):
 
     def physics(self):
         """A physics implementation"""
-        check_types(RigidBody.physics, locals())
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
         self.velocity.y += (self.acceleration.y +
@@ -72,8 +68,6 @@ class RigidBody(Sprite):
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
-
-        self.collide()
 
     def set_force(self, force: Vector):
         """
@@ -95,28 +89,27 @@ class RigidBody(Sprite):
         self.acceleration.x = self.acceleration.x + force.x / self.mass
         self.acceleration.y = self.acceleration.y + force.y / self.mass
 
-    def collide(self):
+    def collide(self, other: "RigidBody"):
         """A simple collision engine for most use cases."""
-        self.grounded = False
-        for rigid in self.collides_with:
-            if col_info := SAT.overlap(self.hitbox, rigid.hitbox):
-                # col_info is all in reference to self
-                col_info.separation.round(4)
-                # TODO make grounded check
+        check_types(RigidBody.collide, locals())
+        if col_info := SAT.overlap(self.hitbox, other.hitbox):
+            # col_info is all in reference to self
+            col_info.separation.round(4)
+            # TODO: make grounded check
+            if self.col_type == COL_TYPE.STATIC or other.col_type == COL_TYPE.STATIC:
                 # Static
-                if self.col_type == COL_TYPE.STATIC or rigid.col_type == COL_TYPE.STATIC:
-                    self.pos -= col_info.separation
-                    if col_info.separation.y != 0:
-                        self.velocity.y = 0
-                    if col_info.separation.x != 0:
-                        self.velocity.x = 0
+                self.pos -= col_info.separation
+                if col_info.separation.y != 0:
+                    self.velocity.y = 0
+                if col_info.separation.x != 0:
+                    self.velocity.x = 0
+            else:
                 # Elastic
-                elif self.col_type == COL_TYPE.ELASTIC and rigid.col_type == COL_TYPE.ELASTIC:
-                    self.pos -= col_info.separation
-                    if col_info.separation.y != 0:
-                        self.velocity.invert("y")
-                    if col_info.separation.x != 0:
-                        self.velocity.invert("x")
+                self.pos -= col_info.separation
+                if col_info.separation.y != 0:
+                    self.velocity.invert("y")
+                if col_info.separation.x != 0:
+                    self.velocity.invert("x")
 
     def set_impulse(self, force: Vector, time: int):
         """

@@ -70,16 +70,16 @@ def rigid_update():
     else:
         rigid.acceleration.x = 0
 
+    rigid.collide(triangle)
+
 
 rigid.update = rigid_update
-# rigid.collides_with.append(ground)
-rigid.collides_with.append(triangle)
+
 game.radio.listen("w_down", w_handler)
 group.add(rigid)
 
 # group.add(ground)
 
-# triangle.collides_with.append(ground)
 group.add(triangle)
 
 game.radio.listen("EXIT", lambda: print("ya-yeet"))
