@@ -5,8 +5,12 @@ import math
 # https://github.com/sevdanski/SAT_JS
 
 class Polygon:
-    def __init__(self, verts, pos = Vector(), scale = 1, rotation = 0):
-        self.verts, self.pos, self.scale, self.rotation = verts, pos, scale, rotation
+    def __init__(self, verts, pos = lambda: Vector(), scale = 1, rotation = 0):
+        self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
+
+    @property
+    def pos(self):
+        return self._pos()
 
     @staticmethod
     def generate_polygon(num_sides, radius=1):
@@ -56,7 +60,6 @@ class SAT:
             return SAT._circle_circle_test(shape_a, shape_b)
 
         if isinstance(shape_a, Polygon) and isinstance(shape_b, Polygon):
-            print("polygon test")
             test_a_b = SAT._polygon_polygon_test(shape_a, shape_b)
             if not test_a_b: return None
 
