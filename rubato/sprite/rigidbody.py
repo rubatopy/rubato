@@ -101,6 +101,7 @@ class RigidBody(Sprite):
             if col_info := SAT.overlap(self.hitbox, rigid.hitbox):
                 # col_info is all in reference to self
                 col_info.separation.round(4)
+                print(col_info)
                 # TODO make grounded check
                 # Static
                 if self.col_type == COL_TYPE.STATIC or rigid.col_type == COL_TYPE.STATIC:
@@ -146,7 +147,7 @@ class RigidBody(Sprite):
         self.render.draw(camera)
 
         if self.debug:
-            polygon(Display.global_display, (255, 0, 0), list(map(lambda v: (v.x, v.y), self.hitbox.real_verts())), 1)
+            polygon(Display.global_display, (0, 255, 0), list(map(lambda v: (v.x, v.y), self.hitbox.real_verts())), 3)
             
 
         

@@ -31,6 +31,17 @@ ground = RigidBody({
     "hitbox": Polygon([Vector(-300, 8), Vector(300, 8), Vector(300, -8), Vector(-300, -8)])
 })
 
+triangle = RigidBody({
+    "pos": Vector(200, 200),
+    "mass": 1,
+    "friction": Vector(1, 1),
+    "col_type": COL_TYPE.STATIC,
+    "scale": Vector(5, 5),
+    "hitbox": Polygon([Vector(40, 40), Vector(40, -40), Vector(-40, 40)]),
+    "img": "rubato/static/default_triangle.png",
+    "debug": True,
+    "gravity": 0,
+})
 
 # Sprite
 def custom_update():
@@ -62,10 +73,15 @@ def rigid_update():
 
 
 rigid.update = rigid_update
-rigid.collides_with.append(ground)
+# rigid.collides_with.append(ground)
+rigid.collides_with.append(triangle)
 game.radio.listen("w_down", w_handler)
 group.add(rigid)
-group.add(ground)
+
+# group.add(ground)
+
+# triangle.collides_with.append(ground)
+group.add(triangle)
 
 game.radio.listen("EXIT", lambda: print("ya-yeet"))
 
