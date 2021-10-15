@@ -1,5 +1,4 @@
-from rubato import Game, Image, Input, Scene, RigidBody, Vector, Time, PMath, Group, Polygon, SAT
-from rubato.utils import COL_TYPE
+from rubato import Game, Image, Input, Scene, RigidBody, Vector, Time, PMath, Group, Polygon, SAT, COL_TYPE
 
 game = Game()
 

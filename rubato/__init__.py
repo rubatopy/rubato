@@ -4,7 +4,7 @@ import pygame
 from sys import exit
 from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
-from rubato.utils import STATE, Display, Vector, PMath, Time, Polygon, Circle, SAT
+from rubato.utils import STATE, Display, Vector, PMath, Time, Polygon, Circle, SAT, COL_TYPE
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Image, RigidBody
