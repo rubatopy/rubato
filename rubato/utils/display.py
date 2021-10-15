@@ -2,6 +2,7 @@ from pygame import Surface
 import os
 import pygame.display as display
 from rubato.utils import classproperty
+from rubato.utils.vector import Vector
 
 
 class Display:

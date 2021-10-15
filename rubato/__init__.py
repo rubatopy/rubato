@@ -1,5 +1,6 @@
 from os import environ
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+environ["PYTHONOPTIMIZE"] = "1" # Makes sure that typechecking is run at the start of runtime instead of all the time
 import pygame
 from sys import exit
 from typeguard.importhook import install_import_hook

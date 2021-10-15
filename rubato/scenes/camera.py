@@ -12,7 +12,7 @@ class Camera:
         self.zoom = zoom
         self.z_index = 0
 
-    def transform(self, point: Vector) -> Vector:
+    def transform(self, point: Vector) -> tuple:
         """
         Translates a given set of coordinates by the camera's.
 
