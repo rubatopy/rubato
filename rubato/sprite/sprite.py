@@ -6,7 +6,8 @@ import math
 
 class Sprite:
     """
-    The base sprite class.
+    The base sprite class. This is to be regarded as an abstract class. Please do not make an instance of Sprite.
+    As it will most likely be a cause of Errors.
 
     :param pos: The position of the sprite on screen. Defaults to (0, 0, 0)
     """

@@ -30,12 +30,22 @@ ground = RigidBody({
     "hitbox": Polygon.generate_rect(600, 16),
 })
 
+# triangle = RigidBody({
+#     "pos": Vector(200, 200),
+#     "mass": 1,
+#     "friction": Vector(1, 1),
+#     "col_type": COL_TYPE.ELASTIC,
+#     "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46),
+#     "img": "empty",
+#     "debug": True,
+#     "gravity": 0,
+# })
 triangle = RigidBody({
     "pos": Vector(200, 200),
     "mass": 1,
     "friction": Vector(1, 1),
     "col_type": COL_TYPE.ELASTIC,
-    "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46),
+    "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40),  Vector(0, 50)], rotation=46),
     "img": "empty",
     "debug": True,
     "gravity": 0,
