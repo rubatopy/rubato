@@ -1,5 +1,5 @@
 from pygame import key, mouse
-from rubato.utils import classproperty
+from rubato.utils import classproperty, Vector
 
 
 class Input:
@@ -12,6 +12,20 @@ class Input:
     @staticmethod
     def is_pressed(char: str) -> bool:
         return Input.key.get_pressed()[Input.key.key_code(char)]
+
+    @staticmethod
+    def mouse_over(center: Vector, dims: Vector = Vector(1,1)) -> bool:
+        """
+        Returns if the mouse is inside a rectangle defined by its center and dimensions.
+
+        :param center: The center of the rectangle
+        :param dims: The dimensions of the rectangle (Defaulted to 1 pixel if you need to check if the mouse is over a specific coord)
+        """
+        top_left = (center-dims/2).ceil()
+        bottom_right = (center+dims/2).ceil()
+        mouse_pos = Vector(Input.mouse.get_pos()[0], Input.mouse.get_pos()[1])
+
+        return top_left.x <= mouse_pos.x <= bottom_right.x and top_left.y <= mouse_pos.y <= bottom_right.y
 
     @classproperty
     def KEYS(self):

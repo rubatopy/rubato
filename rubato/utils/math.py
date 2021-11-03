@@ -8,7 +8,15 @@ class classproperty(property):
 class PMath:
 
     INFINITY = 2**99
+    @staticmethod
+    def abs(a:float | int):
+        """
+        absolute value of a given
 
+        :param a: float or an int that will be absolute valued
+        :return: absolute value of a
+        """
+        return math.fabs(a)
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
         """

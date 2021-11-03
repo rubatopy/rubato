@@ -2,12 +2,10 @@ from rubato.utils import Display, Vector
 from pygame.transform import scale
 from pygame.surface import Surface
 from rubato.scenes import Camera
-import math
 
 class Sprite:
     """
-    The base sprite class. This is to be regarded as an abstract class. Please do not make an instance of Sprite.
-    As it will most likely be a cause of Errors.
+    The base sprite class.
 
     :param pos: The position of the sprite on screen. Defaults to (0, 0, 0)
     """
@@ -16,6 +14,7 @@ class Sprite:
         self.pos = pos
         self.state = {}
         self.z_index = z_index
+        self.in_frame = False
 
     def update(self):
         """The update loop"""
@@ -41,3 +40,15 @@ class Sprite:
         :param dims: The width and the height of the item as a sprite as a Vector
         """
         return (center - (dims/2)).ceil()
+
+    def is_in_frame(self, camera: Camera, game) -> bool:
+        draw_area_tl = (camera.pos - game.window_size).ceil()
+        draw_area_br = (camera.pos + game.window_size).ceil()
+        try:
+            sprite_tl = (self.pos - Vector(self.image.image.get_width(), self.image.image.get_height())).ceil()
+            sprite_br = (self.pos + Vector(self.image.image.get_width(), self.image.image.get_height())).ceil()
+        except AttributeError:
+            sprite_tl = (self.pos - Vector(self.image.get_width(), self.image.get_height())).ceil()
+            sprite_br = (self.pos + Vector(self.image.get_width(), self.image.get_height())).ceil()
+
+        return not (sprite_tl.x > draw_area_br.x or sprite_br.x < draw_area_tl.x or sprite_tl.y > draw_area_br.y or sprite_br.y < draw_area_tl.y)

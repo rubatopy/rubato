@@ -1,6 +1,7 @@
 from rubato.scenes import Camera
-from rubato.sprite import Sprite
+from rubato.sprite import Sprite, RigidBody
 from rubato.group import Group
+from rubato.utils import Vector
 
 
 class Scene:
@@ -12,6 +13,7 @@ class Scene:
         self.sprites = {}
         self.min_id = 0
         self.camera = Camera()
+        self.id = ""
 
     def add(self, sprite: Sprite | Group, sprite_id: int | str = ""):
         """
@@ -48,11 +50,16 @@ class Scene:
         for sprite in self.sprites.values():
             sprite.update()
 
-    def draw(self):
+    def draw(self, game):
         """
         The draw loop for this scene.
         """
         for sprite in sorted(self.sprites.values(), key=lambda spr: spr.z_index):
-            if sprite.z_index > self.camera.z_index:
-                break
-            sprite.draw(self.camera)
+            if sprite.z_index <= self.camera.z_index:
+                if isinstance(sprite, Group):
+                    sprite.draw(self.camera, game)
+                elif sprite.is_in_frame(self.camera, game):
+                    sprite.draw(self.camera)
+                    sprite.in_frame = True
+                else:
+                    sprite.in_frame = False
