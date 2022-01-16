@@ -27,6 +27,7 @@ class SceneManager:
             raise ValueError(f"The scene id {scene_id} is not unique in this manager")
 
         self.scenes[scene_id] = scene
+        scene.id = scene_id
         return scene_id
 
     @property
@@ -62,10 +63,10 @@ class SceneManager:
         if self.is_empty: return
         self.current_scene.update()
 
-    def draw(self):
+    def draw(self, game):
         """
         Calls the draw function of the current scene.
         """
         if self.is_empty: return
-        self.current_scene.draw()
+        self.current_scene.draw(game)
 

@@ -16,23 +16,24 @@ class Polygon:
     :param rotation: The rotation angle of the polygon in degrees
     """
 
-    def __init__(self, verts: list, pos: Callable = lambda: Vector(), scale: float | int = 1, rotation: float | int = 0):
+    def __init__(self, verts: list, pos: Callable = lambda: Vector(), scale: float | int = 1,
+                 rotation: float | int = 0):
         self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
 
     @staticmethod
     def generate_rect(w: int = 16, h: int = 16) -> "Polygon":
         """
         Creates a rectangle from its dimensions
-        
+
         :param w: The width of the hitbox
         :param h: The height of the hitbox
         :return: The polygon
-        """ 
+        """
 
-        return Polygon([Vector(-w/2, -h/2), Vector(w/2, -h/2), Vector(w/2, h/2), Vector(-w/2, h/2)])
+        return Polygon([Vector(-w / 2, -h / 2), Vector(w / 2, -h / 2), Vector(w / 2, h / 2), Vector(-w / 2, h / 2)])
 
     @staticmethod
-    def generate_polygon(num_sides: int, radius: float | int =1) -> "Polygon":
+    def generate_polygon(num_sides: int, radius: float | int = 1) -> "Polygon":
         """Creates a normal polygon with a specified number of sides and an optional radius"""
         if num_sides < 3:
             raise Exception("Can't create a polygon with less than three sides")
@@ -41,7 +42,7 @@ class Polygon:
         angle, verts = 0, []
 
         for i in range(num_sides):
-            angle = (i * rotangle) + (math.pi - rotangle)/2
+            angle = (i * rotangle) + (math.pi - rotangle) / 2
             verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
         return Polygon(verts)
@@ -53,7 +54,8 @@ class Polygon:
 
     def clone(self):
         """Creates a copy of the Polygon at the current position"""
-        return Polygon(list(map((lambda v: v.clone()), self.verts)), lambda: self.pos.clone(), self.scale, self.rotation)
+        return Polygon(list(map((lambda v: v.clone()), self.verts)), lambda: self.pos.clone(), self.scale,
+                       self.rotation)
 
     def transformed_verts(self):
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -66,13 +68,20 @@ class Polygon:
     def __str__(self):
         return f"{list(map(lambda v: str(v), self.verts))}, {self.pos}, {self.scale}, {self.rotation}"
 
+    def bounding_box_dimensions(self):
+        real_verts = self.real_verts()
+        x_dir = SAT._project_verts_for_min_max(Vector(1, 0), real_verts)
+        y_dir = SAT._project_verts_for_min_max(Vector(0, 1), real_verts)
+        return Vector(x_dir["max"] - x_dir["min"], y_dir["max"] - y_dir["min"])
+
+
 # TODO make circles work
 class Circle:
     """
     A custom circle class defined by a position, radius, and scale
     """
 
-    def __init__(self, pos = lambda: Vector(), radius = 1, scale = 1):
+    def __init__(self, pos=lambda: Vector(), radius=1, scale=1):
         self._pos, self.radius, self.scale, self.rotation = pos, radius, scale, 0
 
     @property
@@ -118,7 +127,6 @@ class SAT:
         :returns: None or CollisionInfo object
         """
 
-
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
             return SAT._circle_circle_test(shape_a, shape_b)
 
@@ -137,7 +145,8 @@ class SAT:
             return result
 
         a_is_circle = isinstance(shape_a, Circle)
-        return SAT._circle_polygon_test(shape_a if a_is_circle else shape_b, shape_b if a_is_circle else shape_a, not a_is_circle)
+        return SAT._circle_polygon_test(shape_a if a_is_circle else shape_b, shape_b if a_is_circle else shape_a,
+                                        not a_is_circle)
 
     @staticmethod
     def _circle_circle_test(shape_a, shape_b):
@@ -148,7 +157,7 @@ class SAT:
         pass
 
     @staticmethod
-    def _polygon_polygon_test(shape_a, shape_b, flip = False):
+    def _polygon_polygon_test(shape_a, shape_b, flip=False):
         """
         Checks for overlap between two polygons
 
@@ -211,7 +220,7 @@ class SAT:
     def _get_perpendicular_axis(verts, index):
         """Finds a vector perpendicular to a side"""
 
-        pt_1, pt_2 = verts[index], verts[0] if index >= len(verts)-1 else verts[index+1]
+        pt_1, pt_2 = verts[index], verts[0] if index >= len(verts) - 1 else verts[index + 1]
         axis = Vector(pt_1.y - pt_2.y, pt_2.x - pt_1.x)
         axis.normalize()
         return axis

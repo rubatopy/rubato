@@ -46,3 +46,15 @@ class Image(Sprite):
         if abs(new_y := self.image.get_height() * scale_factor.y) < 1:
             new_y = 1
         self.image = flip(scale(self.image, (abs(new_x), abs(new_y))), new_x < 0, new_y < 0)
+
+    def scale_abs(self, new_size: Vector):
+        """
+        Let's you rescale the Image to a given scale.
+
+        :param new_size: A Vector describing the scale in the x and y direction relative to its current size
+        """
+        if abs(new_size.x) < 1:
+            new_size.x = 1
+        if abs(new_size.y) < 1:
+            new_size.y = 1
+        self.image = flip(scale(self.image, (abs(new_size.x), abs(new_size.y))), new_size.x < 0, new_size.y < 0)

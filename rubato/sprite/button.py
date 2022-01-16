@@ -1,7 +1,7 @@
 from rubato.sprite import Text
 from rubato.utils import Vector, Color
 from rubato.scenes import Camera
-import pygame
+from rubato.input import Input
 
 class Button(Text):
     """
@@ -22,9 +22,8 @@ class Button(Text):
     def __init__(self, options=default_options):
         super().__init__(options)
 
-    # TODO: properly implement how to create a collider for button
-    def mouse_is_over(self, mouse_pos):
-        pass
+    def mouse_is_over(self) -> bool:
+        return Input.mouse_over(self.pos, Vector(self.image.get_width(), self.image.get_height()))
 
     def draw(self, camera: Camera):
         """

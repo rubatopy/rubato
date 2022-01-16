@@ -252,4 +252,33 @@ class Vector:
         distance = math.sqrt(d_x**2 + d_y**2)
         return distance
 
+    def absolute(self):
+        """
+        :return: a vector representing the absolute values of the current vector
+        """
+        return Vector(abs(self.x), abs(self.y))
+
+    def __gt__(self, other) -> bool:
+        """
+        :return: bool value indicating whether both values of a are greater than b
+        """
+        return self.x > other.x and self.y > other.y
+
+    def __lt__(self, other) -> bool:
+        """
+        :return: bool value indicating whether both values of a are small than b
+        """
+        return self.x < other.x and self.y < other.y
+
+    def __ge__(self, other) -> bool:
+        """
+        :return: bool value indicating whether both values of a are greater or equal than b
+        """
+        return self.x >= other.x and self.y >= other.y
+
+    def __le__(self, other) -> bool:
+        """
+        :return: bool value indicating whether both values of a are smaller than or equal to b
+        """
+        return self.x <= other.x and self.y <= other.y
 

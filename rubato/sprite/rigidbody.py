@@ -3,6 +3,7 @@ from rubato.sprite import Sprite, Image
 from rubato.utils import Vector, Time, PMath, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
 from pygame import Surface
+import pygame
 from pygame.draw import polygon
 
 
@@ -44,8 +45,13 @@ class RigidBody(Sprite):
         self.col_type = options.get("col_type", RigidBody.default_options["col_type"])
 
         self.params = options
+        
+        self.img = options.get("img", RigidBody.default_options["img"])
 
-        self.render = Image(options.get("img", RigidBody.default_options["img"]), self.pos, options.get("scale", RigidBody.default_options["scale"]), options.get("z_index", RigidBody.default_options["z_index"]), options.get("rotation", RigidBody.default_options["rotation"]))
+        if isinstance(self.img, tuple):
+            self.image = Image("empty", self.pos, z_index=options.get("z_index", RigidBody.default_options["z_index"]))
+        else:
+            self.image = Image(self.img, self.pos, options.get("scale", RigidBody.default_options["scale"]), options.get("z_index", RigidBody.default_options["z_index"]), options.get("rotation", RigidBody.default_options["rotation"]))
 
         self.debug = options.get("debug", RigidBody.default_options["debug"])
 
@@ -136,8 +142,13 @@ class RigidBody(Sprite):
 
     def update(self):
         """The update loop"""
-        if self.params.get("do_physics", RigidBody.default_options["do_physics"]):
+        if self.params.get("do_physics", RigidBody.default_options["do_physics"]) and self.in_frame:
             self.physics()
+            
+        self.custom_update()
+
+    def custom_update(self):
+        pass
 
     def draw(self, camera: Camera):
         """
@@ -145,8 +156,15 @@ class RigidBody(Sprite):
 
         :param camera: The current camera
         """
-        self.render.pos = self.pos
-        self.render.draw(camera)
+        self.image.pos = self.pos
+        self.image.draw(camera)
+
+        if isinstance(self.img, tuple):
+            temp = Surface(self.hitbox.bounding_box_dimensions().to_tuple())
+            temp.set_alpha(self.img[3])
+            temp.fill(self.img[:3])
+            polygon(temp, self.img[:3], list(map(lambda v: v.to_tuple(), self.hitbox.transformed_verts())))
+            Display.update(temp, camera.transform(super().center_to_tl(self.pos, self.hitbox.bounding_box_dimensions()) * camera.zoom))
 
         if self.debug:
             polygon(Display.global_display, (0, 255, 0), list(map(lambda v: camera.transform(v * camera.zoom), self.hitbox.real_verts())), 3)

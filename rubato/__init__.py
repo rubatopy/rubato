@@ -3,17 +3,29 @@ environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 environ["PYTHONOPTIMIZE"] = "1" # Makes sure that typechecking is run at the start of runtime instead of all the time
 import pygame
 from sys import exit
-from typeguard.importhook import install_import_hook
+# from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
 from rubato.utils import STATE, Display, Vector, PMath, Time, Polygon, Circle, SAT, COL_TYPE
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
-from rubato.sprite import Sprite, Image, RigidBody
+from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, Text
 from rubato.group import Group
 from rubato.input import Input
 
+game = None
+
+def init(options: dict = {}):
+    global game
+    game = Game(options)
+
+def begin():
+    if game is not None:
+        game.start_loop()
+    else:
+        raise RuntimeError("You have not initialized rubato. Make sure to run rubato.init() right after importing the library")
 
 # TODO Sound manager
+# TODO make it so that the 0,0 coordinate is the center of the inital screen and that positive y is up
 class Game:
     """
     Main Game object. Controls everything in the game.
@@ -48,7 +60,7 @@ class Game:
         Time.set(self.clock)
 
         self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
-        self.display = pygame.Surface((self.window_width, self.window_height))
+        self.display = pygame.Surface((self.window_width, self.window_height), pygame.SRCALPHA)
 
         pygame.display.set_caption(self.name)
         if options.get("icon"):
@@ -98,10 +110,10 @@ class Game:
         """Draw loop for the game."""
         self.screen.fill((0, 0, 0))
         if self.reset_display: self.display.fill((255, 255, 255))
-        self.scenes.draw()
+        self.scenes.draw(game)
         self.display = Display.display
 
-    def begin(self):
+    def start_loop(self):
         """
         Actually runs the game
         """

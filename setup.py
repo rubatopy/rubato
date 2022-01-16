@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.1.0"
-DESCRIPTION = "This is a Pygame Game Engine"
+VERSION = "0.0.1"
+DESCRIPTION = "Rubato is a Python game engine that builds off of PyGame to make a cleaner and more efficient game engine."
 LONG_DESCRIPTION = open("README.md").read() + "\n\n" + open("CHANGELOG.md").read()
 
 setup(
@@ -13,6 +13,7 @@ setup(
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
+    url="https://github.com/tinmarr/rubato",
     packages=find_packages(),
     install_requires=open("requirements.txt").read().split("\n"),
     python_requires=">=3.10",
