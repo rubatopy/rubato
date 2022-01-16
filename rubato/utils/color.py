@@ -80,22 +80,21 @@ class Color:
     teal = (0, 128, 128)
     navy = (0, 0, 128)
 
-    # @staticmethod
-    # def lerp(a: Color.RGB, b: Color.RGB, t):
-    #     t = PMath.clamp(t, 0, 1)
-    #     return RGB(
-    #     a.r + (b.r - a.r) * t,
-    #     a.g + (b.g - a.g) * t,
-    #     a.b + (b.b - a.b) * t,
-    #     a.a + (b.a - a.a) * t
-    #     )
+    @staticmethod
+    def lerp(a: RGB, b: RGB, t):
+        t = PMath.clamp(t, 0, 1)
+        return RGB(
+            a.r + (b.r - a.r) * t,
+            a.g + (b.g - a.g) * t,
+            a.b + (b.b - a.b) * t,
+        )
 
     class HSV(HSV):
-        def __init__(self, h, s, v):
-            super().__init__(h,s,v)
+        def __init__(self, h=0, s=0, v=0):
+            super().__init__(h, s, v)
 
     class RGB(RGB):
-        def __init__(self, r, g, b):
+        def __init__(self, r=0, g=0, b=0):
             super().__init__(r, g, b)
 
     @staticmethod
