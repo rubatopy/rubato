@@ -1,22 +1,27 @@
 name: Build Documentation
 
 on:
-  push:
-    branches: [ main ]
+    push:
+        branches: [main]
 
-  workflow_dispatch:
+    workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - with:
-         python-version: '3.10.x'
-      
-      - name: install dependencies
-        run: pip install -r requirements.txt
-      - name: build docs
-        run: cd docs && make html
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-python@v2
+              with:
+                  python-version: "3.x"
+
+            - name: install dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+
+            - name: build docs
+              run: cd docs && make html
