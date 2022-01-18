@@ -6,12 +6,14 @@ class classproperty(property):
         return classmethod(self.fget).__get__(None, owner)()
 
 class PMath:
-
+    """
+    A more complete math class
+    """
     INFINITY = 2**99
     @staticmethod
     def abs(a:float | int):
         """
-        absolute value of a given
+        Absolute value of a given value
 
         :param a: float or an int that will be absolute valued
         :return: absolute value of a

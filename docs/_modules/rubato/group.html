@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rubato.group &mdash; rubato 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> rubato
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Full API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">rubato</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+          <li><a href="../rubato.html">rubato</a> &raquo;</li>
+      <li>rubato.group</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for rubato.group</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">rubato</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">RigidBody</span>
+
+
+<div class="viewcode-block" id="Group"><a class="viewcode-back" href="../../api/index.html#rubato.Group">[docs]</a><span class="k">class</span> <span class="nc">Group</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A group of sprites. Can render and update all of them at once.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_index</span> <span class="o">=</span> <span class="n">z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Group.add"><a class="viewcode-back" href="../../api/index.html#rubato.Group.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite</span><span class="p">:</span> <span class="n">Sprite</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a sprite to the groups.</span>
+
+<span class="sd">        :param sprite: A sprite class to add to the group.</span>
+<span class="sd">        :return: The sprite that was added.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sprite</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sprite</span></div>
+
+<div class="viewcode-block" id="Group.update"><a class="viewcode-back" href="../../api/index.html#rubato.Group.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates all the sprites in the group.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
+            <span class="n">sprite</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Group.draw"><a class="viewcode-back" href="../../api/index.html#rubato.Group.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draws all the sprites in the group.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spr</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">z_index</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">z_index</span> <span class="o">&lt;=</span> <span class="n">camera</span><span class="o">.</span><span class="n">z_index</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">Group</span><span class="p">):</span>
+                    <span class="n">sprite</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">sprite</span><span class="o">.</span><span class="n">is_in_frame</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+                    <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">sprite</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span> <span class="o">=</span> <span class="kc">False</span></div>
+    
+    <span class="k">def</span> <span class="nf">collide_rb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rb</span><span class="p">:</span> <span class="n">RigidBody</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
+                <span class="n">sprite</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">collide_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="s2">&quot;Group&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
+                <span class="n">group</span><span class="o">.</span><span class="n">collide_rb</span><span class="p">(</span><span class="n">sprite</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">collide_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">sprite2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sprite</span> <span class="o">!=</span> <span class="n">sprite2</span> <span class="ow">and</span> <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span> <span class="ow">and</span> <span class="n">sprite2</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
+                    <span class="n">sprite</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">sprite2</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

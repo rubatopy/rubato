@@ -1,16 +1,19 @@
-Welcome to rubato's documentation!
-==================================
+Home
+====
 
-.. automodule:: rubato
-    :members:
+Welcome to Rubato
+-----------------
+
+Rubato is a Python game engine that builds off of PyGame to make a cleaner and more efficient game engine.
+We aim to make game development in Python much easier than it currently is. Even though we use PyGame in the backend, when using Rubato, you do not need to ever touch PyGame.
+
+*Rubato is a music term that indicates a phrase that should be performed expressively and freely. Our library is named this way because it allows developers to freely make games.*
+
+.. warning::
+    This library is still in it's very alpha stages and will be buggy
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Contents
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   api/index

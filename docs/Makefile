@@ -20,6 +20,12 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 html: Makefile
+	@mkdir ./temp
+	@mv ./source ./temp && mv ./doctrees ./temp && mv make.bat ./temp && mv Makefile ./temp && mv .nojekyll ./temp
+	@find ! -regex '^./temp\(/.*\)?' ! -regex '.' -delete
+	@mv ./temp/source . && mv ./temp/doctrees . && mv ./temp/make.bat . && mv ./temp/Makefile . && mv ./temp/.nojekyll .
+	@rmdir ./temp
+	@rm -rf ./source/generated
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-	@mv -v ./html/* .
-	@rm -rf ./html
+	@mv -v ./html/* . && rm -rf ./html
+

@@ -5,20 +5,28 @@ import pygame
 from sys import exit
 # from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
-from rubato.utils import STATE, Display, Vector, PMath, Time, Polygon, Circle, SAT, COL_TYPE
+from rubato.utils import PMath, classproperty, STATE, Display, Vector, Time, Polygon, Circle, SAT, COL_TYPE, Color
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
-from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, Text
+from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, Text, Empty
 from rubato.group import Group
 from rubato.input import Input
 
 game = None
 
 def init(options: dict = {}):
+    """
+    Initializes rubato.
+
+    :param options: The config used to generate the game instance.
+    """
     global game
     game = Game(options)
 
 def begin():
+    """
+    Starts the main game loop.
+    """
     if game is not None:
         game.start_loop()
     else:

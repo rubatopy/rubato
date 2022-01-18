@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rubato &mdash; rubato 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> rubato
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">Full API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">rubato</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>rubato</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for rubato</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYGAME_HIDE_SUPPORT_PROMPT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+<span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PYTHONOPTIMIZE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span> <span class="c1"># Makes sure that typechecking is run at the start of runtime instead of all the time</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">exit</span>
+<span class="c1"># from typeguard.importhook import install_import_hook</span>
+<span class="c1"># install_import_hook(&quot;rubato&quot;)</span>
+<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">classproperty</span><span class="p">,</span> <span class="n">STATE</span><span class="p">,</span> <span class="n">Display</span><span class="p">,</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">SAT</span><span class="p">,</span> <span class="n">COL_TYPE</span><span class="p">,</span> <span class="n">Color</span>
+<span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">SceneManager</span><span class="p">,</span> <span class="n">Scene</span><span class="p">,</span> <span class="n">Camera</span>
+<span class="kn">from</span> <span class="nn">rubato.radio</span> <span class="kn">import</span> <span class="n">Radio</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">RigidBody</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Empty</span>
+<span class="kn">from</span> <span class="nn">rubato.group</span> <span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span> <span class="nn">rubato.input</span> <span class="kn">import</span> <span class="n">Input</span>
+
+<span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../api/index.html#rubato.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes rubato.</span>
+
+<span class="sd">    :param options: The config used to generate the game instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">game</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="begin"><a class="viewcode-back" href="../api/index.html#rubato.begin">[docs]</a><span class="k">def</span> <span class="nf">begin</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts the main game loop.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">game</span><span class="o">.</span><span class="n">start_loop</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;You have not initialized rubato. Make sure to run rubato.init() right after importing the library&quot;</span><span class="p">)</span></div>
+
+<span class="c1"># TODO Sound manager</span>
+<span class="c1"># TODO make it so that the 0,0 coordinate is the center of the inital screen and that positive y is up</span>
+<div class="viewcode-block" id="Game"><a class="viewcode-back" href="../api/index.html#rubato.Game">[docs]</a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main Game object. Controls everything in the game.</span>
+
+<span class="sd">    :param options: The config used to generate the game instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Untitled Game&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;window_width&quot;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
+        <span class="s2">&quot;window_height&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+        <span class="s2">&quot;aspect_ratio&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
+        <span class="s2">&quot;fps&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+        <span class="s2">&quot;reset_display&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;better_clock&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;window_width&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;window_width&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;window_height&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;window_height&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aspect_ratio&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;aspect_ratio&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;fps&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_display</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reset_display&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;reset_display&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_better_clock</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;better_clock&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;better_clock&quot;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+        <span class="n">Time</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;icon&quot;</span><span class="p">):</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_icon</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;icon&quot;</span><span class="p">)))</span>
+
+        <span class="n">Display</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radio</span> <span class="o">=</span> <span class="n">Radio</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Game.update"><a class="viewcode-back" href="../api/index.html#rubato.Game.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update loop for the game.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="s2">&quot;EXIT&quot;</span><span class="p">)</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+                <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">VIDEORESIZE</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">Input</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_down&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYUP</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">Input</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_up&quot;</span><span class="p">)</span>
+
+        <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">)[</span><span class="n">ratio</span><span class="p">]</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span><span class="p">)[</span><span class="n">ratio</span><span class="p">]</span>
+        <span class="n">top_right</span> <span class="o">=</span> <span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">-</span> <span class="n">width</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))[</span><span class="n">ratio</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">))),</span> <span class="n">top_right</span><span class="p">)</span>
+
+        <span class="n">Time</span><span class="o">.</span><span class="n">process_calls</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_better_clock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">tick_busy_loop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Game.draw"><a class="viewcode-back" href="../api/index.html#rubato.Game.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw loop for the game.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_display</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display</span> <span class="o">=</span> <span class="n">Display</span><span class="o">.</span><span class="n">display</span></div>
+
+<div class="viewcode-block" id="Game.start_loop"><a class="viewcode-back" href="../api/index.html#rubato.Game.start_loop">[docs]</a>    <span class="k">def</span> <span class="nf">start_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Actually runs the game</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        return the size of the game window</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
