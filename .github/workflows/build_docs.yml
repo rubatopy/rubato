@@ -24,4 +24,16 @@ jobs:
                   pip install -r requirements.txt
 
             - name: build docs
-              run: cd docs && make html
+              run: cd docs && make html && cd ..
+              
+            - name: GitHub Commit & Push with Rebase
+              # You may pin to the exact commit or the version.
+              # uses: benkaiser/rebase-commit-push@2e4425afdbe0e3573d7c75ae76947d99a85117a3
+              uses: benkaiser/rebase-commit-push@v1.1
+              with:
+                # Commit message.
+                message: build documentation
+                # Destination branch to push changes
+                branch: main
+                # Allow empty commit
+                empty: true
