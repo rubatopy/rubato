@@ -9,6 +9,8 @@ We aim to make game development in Python much easier than it currently is. Even
 
 *Rubato is a music term that indicates a phrase that should be performed expressively and freely. Our library is named this way because it allows developers to freely make games.*
 
+Repository: https://github.com/tinmarr/rubato
+
 .. warning::
     This library is still in it's very alpha stages and will be buggy
 
@@ -16,4 +18,4 @@ We aim to make game development in Python much easier than it currently is. Even
    :maxdepth: 1
    :caption: Contents
 
-   api/index
+   api
