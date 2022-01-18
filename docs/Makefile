@@ -14,11 +14,6 @@ help:
 
 .PHONY: help Makefile
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
 html: Makefile
 	@mkdir ./temp
 	@mv ./source ./temp && mv ./doctrees ./temp && mv make.bat ./temp && mv Makefile ./temp && mv .nojekyll ./temp
