@@ -12,7 +12,7 @@ We aim to make game development in Python much easier than it currently is. Even
 Repository: https://github.com/tinmarr/rubato
 
 .. warning::
-    This library is still in it's very alpha stages and will be buggy
+    This library is still in it's very alpha stages and will be very buggy!
 
 .. toctree::
    :maxdepth: 1
