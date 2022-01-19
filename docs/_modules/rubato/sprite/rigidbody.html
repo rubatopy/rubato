@@ -36,7 +36,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">Full API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../defaults.html">Default Options</a></li>
 </ul>
 
         </div>
@@ -65,7 +67,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for rubato.sprite.rigidbody</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span></span><span class="kn">from</span> <span class="nn">email.policy</span> <span class="kn">import</span> <span class="n">default</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">stat</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">COL_TYPE</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">SAT</span><span class="p">,</span> <span class="n">Display</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
@@ -79,10 +83,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A RigidBody implementation with built in physics and collisions.</span>
 
-<span class="sd">    :param options: A dictionary of options</span>
+<span class="sd">    :param options: A rigidbody :ref:`config &lt;defaultrigidbody&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span>
         <span class="s2">&quot;mass&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
         <span class="s2">&quot;hitbox&quot;</span><span class="p">:</span> <span class="n">Polygon</span><span class="o">.</span><span class="n">generate_polygon</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
         <span class="s2">&quot;do_physics&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -99,28 +104,28 @@
     <span class="p">}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="n">Vector</span><span class="p">()),</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;z_index&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;z_index&quot;</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">],</span> <span class="s2">&quot;z_index&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;z_index&quot;</span><span class="p">]})</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mass&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;mass&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;mass&quot;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hitbox&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;hitbox&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;hitbox&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">col_type</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;col_type&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;col_type&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">col_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;col_type&quot;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">options</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;img&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;img&quot;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">z_index</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;z_index&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;z_index&quot;</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">({</span><span class="s2">&quot;image_location&quot;</span><span class="p">:</span> <span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="s2">&quot;z_index&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">(</span><span class="s2">&quot;z_index&quot;</span><span class="p">)})</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]),</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;z_index&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;z_index&quot;</span><span class="p">]),</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rotation&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">({</span><span class="s2">&quot;image_location&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="s2">&quot;scale_factor&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span> <span class="s2">&quot;z_index&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;z_index&quot;</span><span class="p">],</span> <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;rotation&quot;</span><span class="p">]})</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -170,7 +175,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">other</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span>
-            
+
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_type</span> <span class="o">==</span> <span class="n">COL_TYPE</span><span class="o">.</span><span class="n">STATIC</span> <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">col_type</span> <span class="o">==</span> <span class="n">COL_TYPE</span><span class="o">.</span><span class="n">STATIC</span><span class="p">:</span>
                 <span class="c1"># Static</span>
                 <span class="k">if</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -211,7 +216,7 @@
         <span class="sd">&quot;&quot;&quot;The update loop&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;do_physics&quot;</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;do_physics&quot;</span><span class="p">])</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">()</span>
-            
+
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_update</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">custom_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

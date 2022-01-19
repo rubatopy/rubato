@@ -11,7 +11,7 @@ rb.game.scenes.add(scene)
 group = Group()
 scene.add(group)
 
-sprite = Image("", Vector(300,200))
+sprite = Image({"image_location":"", "pos":Vector(300,200)})
 rigid = RigidBody({
     "pos": Vector(100, 0),
     "mass": 1,

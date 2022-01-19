@@ -36,7 +36,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">Full API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../defaults.html">Default Options</a></li>
 </ul>
 
         </div>
@@ -80,31 +82,13 @@
 
 <span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="init"><a class="viewcode-back" href="../api.html#rubato.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initializes rubato.</span>
-
-<span class="sd">    :param options: The config used to generate the game instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">game</span>
-    <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="begin"><a class="viewcode-back" href="../api.html#rubato.begin">[docs]</a><span class="k">def</span> <span class="nf">begin</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Starts the main game loop.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">game</span><span class="o">.</span><span class="n">start_loop</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;You have not initialized rubato. Make sure to run rubato.init() right after importing the library&quot;</span><span class="p">)</span></div>
-
 <span class="c1"># TODO Sound manager</span>
 <span class="c1"># TODO make it so that the 0,0 coordinate is the center of the inital screen and that positive y is up</span>
 <div class="viewcode-block" id="Game"><a class="viewcode-back" href="../api.html#rubato.Game">[docs]</a><span class="k">class</span> <span class="nc">Game</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main Game object. Controls everything in the game.</span>
 
-<span class="sd">    :param options: The config used to generate the game instance.</span>
+<span class="sd">    :param options: The :ref:`config &lt;defaultgame&gt;` used to generate the game instance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
@@ -119,14 +103,15 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;window_width&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;window_width&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;window_height&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;window_height&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;aspect_ratio&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;aspect_ratio&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fps&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;fps&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reset_display</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reset_display&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;reset_display&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_better_clock</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;better_clock&quot;</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">&quot;better_clock&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;window_width&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;window_height&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;aspect_ratio&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;fps&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_display</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;reset_display&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_better_clock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;better_clock&quot;</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span>
 
@@ -201,6 +186,25 @@
 <span class="sd">        return the size of the game window</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../api.html#rubato.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes rubato.</span>
+
+<span class="sd">    :param options: The :ref:`config &lt;defaultgame&gt;` used to generate the game instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">game</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="begin"><a class="viewcode-back" href="../api.html#rubato.begin">[docs]</a><span class="k">def</span> <span class="nf">begin</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Starts the main game loop.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">game</span><span class="o">.</span><span class="n">start_loop</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;You have not initialized rubato. Make sure to run rubato.init() right after importing the library&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

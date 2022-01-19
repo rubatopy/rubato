@@ -8,7 +8,7 @@ class Text(Sprite):
     """
     A subclass of Sprite that handles Text.
 
-    :param options: A dictionary of options
+    :param options: A text :ref:`config <defaulttext>`
     """
 
     default_options = {
@@ -22,14 +22,16 @@ class Text(Sprite):
         "onto_surface": None,
     }
 
-    def __init__(self, options=default_options):
-        super().__init__(options.get("pos", Text.default_options["pos"]), options.get("z_index", Text.default_options["z_index"]))
-        self.text = options.get("text", Text.default_options["text"])
-        self.size = options.get("size", Text.default_options["size"])
-        self.font_name = options.get("font_name", Text.default_options["font_name"])
-        self.color = options.get("color", Text.default_options["color"])
-        self.static = options.get("static", Text.default_options["static"])
-        self.onto_surface = options.get("onto_surface", Text.default_options["onto_surface"])
+    def __init__(self, options={}):
+        self.params = Sprite.merge_params(options, Text.default_options)
+        super().__init__({"pos": self.params["pos"], "z_index": self.params["z_index"]})
+        self.text = self.params["text"]
+        self.size = self.params["size"]
+        self.font_name = self.params["font_name"]
+        self.color = self.params["color"]
+        self.static = self.params["static"]
+        self.onto_surface = self.params["onto_surface"]
+
         if self.onto_surface:
             self.draw = self.draw_onto_surface
         try:

@@ -7,13 +7,19 @@ class Sprite:
     """
     The base sprite class.
 
-    :param pos: The position of the sprite on screen. Defaults to (0, 0, 0)
+    :param options: A sprite :ref:`config <defaultsprite>`
     """
 
-    def __init__(self, pos: Vector = Vector(), z_index: int = 0):
-        self.pos = pos
+    default_options = {
+        "pos": Vector(),
+        "z_index": 0
+    }
+
+    def __init__(self, options: dict = {}):
+        self.param = Sprite.merge_params(options, Sprite.default_options)
+        self.pos = self.param["pos"]
         self.state = {}
-        self.z_index = z_index
+        self.z_index = self.param["z_index"]
         self.in_frame = False
 
     def update(self):
@@ -40,6 +46,24 @@ class Sprite:
         :param dims: The width and the height of the item as a sprite as a Vector
         """
         return (center - (dims/2)).ceil()
+
+    @staticmethod
+    def merge_params(options: dict, defaults: dict) -> dict:
+        """
+        Merges an incomplete options dictionary with the defaults dictionary
+
+        :param options: The incomplete options dictionary
+        :param defaults: The default dictionary
+        :return: The merged dictionary
+        """
+        merged = {}
+        keys = defaults.keys()
+
+        for key in keys:
+            merged[key] = options.get(key, defaults[key])
+
+        return merged
+
 
     def is_in_frame(self, camera: Camera, game) -> bool:
         draw_area_tl = (camera.pos - game.window_size).ceil()

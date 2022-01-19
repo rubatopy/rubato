@@ -14,31 +14,13 @@ from rubato.input import Input
 
 game = None
 
-def init(options: dict = {}):
-    """
-    Initializes rubato.
-
-    :param options: The config used to generate the game instance.
-    """
-    global game
-    game = Game(options)
-
-def begin():
-    """
-    Starts the main game loop.
-    """
-    if game is not None:
-        game.start_loop()
-    else:
-        raise RuntimeError("You have not initialized rubato. Make sure to run rubato.init() right after importing the library")
-
 # TODO Sound manager
 # TODO make it so that the 0,0 coordinate is the center of the inital screen and that positive y is up
 class Game:
     """
     Main Game object. Controls everything in the game.
 
-    :param options: The config used to generate the game instance.
+    :param options: The :ref:`config <defaultgame>` used to generate the game instance.
     """
 
     default_options = {
@@ -53,14 +35,15 @@ class Game:
 
     def __init__(self, options: dict = {}):
         pygame.init()
+        self.params = Sprite.merge_params(options, Game.default_options)
 
-        self.name = options.get("name", Game.default_options["name"])
-        self.window_width = options.get("window_width", Game.default_options["window_width"])
-        self.window_height = options.get("window_height", Game.default_options["window_height"])
-        self.aspect_ratio = options.get("aspect_ratio", Game.default_options["aspect_ratio"])
-        self.fps = options.get("fps", Game.default_options["fps"])
-        self.reset_display = options.get("reset_display", Game.default_options["reset_display"])
-        self.use_better_clock = options.get("better_clock", Game.default_options["better_clock"])
+        self.name = self.params["name"]
+        self.window_width = self.params["window_width"]
+        self.window_height = self.params["window_height"]
+        self.aspect_ratio = self.params["aspect_ratio"]
+        self.fps = self.params["fps"]
+        self.reset_display = self.params["reset_display"]
+        self.use_better_clock = self.params["better_clock"]
 
         self.state = STATE.STOPPED
 
@@ -135,3 +118,22 @@ class Game:
         return the size of the game window
         """
         return Vector(self.window_width, self.window_height)
+
+
+def init(options: dict = {}):
+    """
+    Initializes rubato.
+
+    :param options: The :ref:`config <defaultgame>` used to generate the game instance.
+    """
+    global game
+    game = Game(options)
+
+def begin():
+    """
+    Starts the main game loop.
+    """
+    if game is not None:
+        game.start_loop()
+    else:
+        raise RuntimeError("You have not initialized rubato. Make sure to run rubato.init() right after importing the library")

@@ -9,20 +9,30 @@ class Image(Sprite):
     """
     A subclass of Sprite that handles Images.
 
-    :param image_location: The path to the image.
-    :param pos: The position of the sprite.
+    :param options: An image :ref:`config <defaultimage>`
     """
-    def __init__(self, image_location: str, pos: Vector = Vector(), scale_factor: Vector = Vector(1, 1), z_index: int = 0, rotation: int = 0):
-        super().__init__(pos, z_index)
-        if image_location == "" or image_location == "default":
+
+    default_options = {
+        "image_location": "default",
+        "pos": Vector(),
+        "scale_factor": Vector(1, 1),
+        "z_index": 0,
+        "rotation": 0
+    }
+
+    def __init__(self, options: dict = {}):
+        self.params = Sprite.merge_params(options, Image.default_options)
+        super().__init__({"pos": self.params["pos"], "z_index": self.params["z_index"]})
+
+        if self.params["image_location"] == "" or self.params["image_location"] == "default":
             self.image = load("rubato/static/default.png")
-        elif image_location == "empty":
+        elif self.params["image_location"] == "empty":
             self.image = load("rubato/static/empty.png")
         else:
-            self.image = load(image_location)
-        
-        self.image = rotate(self.image, rotation)
-        self.scale(scale_factor)
+            self.image = load(self.params["image_location"])
+
+        self.image = rotate(self.image, self.params["rotation"])
+        self.scale(self.params["scale_factor"])
 
     def update(self):
         pass

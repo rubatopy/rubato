@@ -1,3 +1,5 @@
+from email.policy import default
+from os import stat
 from typing import Callable
 from rubato.sprite import Sprite, Image
 from rubato.utils import Vector, Time, PMath, COL_TYPE, Polygon, SAT, Display
@@ -12,10 +14,11 @@ class RigidBody(Sprite):
     """
     A RigidBody implementation with built in physics and collisions.
 
-    :param options: A dictionary of options
+    :param options: A rigidbody :ref:`config <defaultrigidbody>`
     """
 
     default_options = {
+        "pos": Vector(),
         "mass": 1,
         "hitbox": Polygon.generate_polygon(4),
         "do_physics": True,
@@ -32,28 +35,28 @@ class RigidBody(Sprite):
     }
 
     def __init__(self, options: dict = {}):
-        super().__init__(options.get("pos", Vector()), options.get("z_index", RigidBody.default_options["z_index"]))
+        self.params = Sprite.merge_params(options, RigidBody.default_options)
+
+        super().__init__({"pos": self.params["pos"], "z_index": self.params["z_index"]})
 
         self.velocity = Vector()
         self.acceleration = Vector()
 
-        self.mass = options.get("mass", RigidBody.default_options["mass"])
+        self.mass = self.params["mass"]
 
-        self.hitbox = options.get("hitbox", RigidBody.default_options["hitbox"]).clone()
+        self.hitbox = self.params["hitbox"].clone()
         self.hitbox._pos = lambda: self.pos
 
-        self.col_type = options.get("col_type", RigidBody.default_options["col_type"])
+        self.col_type = self.params["col_type"]
 
-        self.params = options
-        
-        self.img = options.get("img", RigidBody.default_options["img"])
+        self.img = self.params["img"]
 
         if isinstance(self.img, tuple):
-            self.image = Image("empty", self.pos, z_index=options.get("z_index", RigidBody.default_options["z_index"]))
+            self.image = Image({"image_location": "empty", "pos": self.pos, "z_index":self.params("z_index")})
         else:
-            self.image = Image(self.img, self.pos, options.get("scale", RigidBody.default_options["scale"]), options.get("z_index", RigidBody.default_options["z_index"]), options.get("rotation", RigidBody.default_options["rotation"]))
+            self.image = Image({"image_location": self.img, "pos": self.pos, "scale_factor": self.params["scale"], "z_index": self.params["z_index"], "rotation": self.params["rotation"]})
 
-        self.debug = options.get("debug", RigidBody.default_options["debug"])
+        self.debug = self.params["debug"]
 
         self.grounded = False
 
@@ -103,7 +106,7 @@ class RigidBody(Sprite):
                 self.pos -= col_info.separation
             else:
                 other.pos += col_info.separation
-            
+
             if self.col_type == COL_TYPE.STATIC or other.col_type == COL_TYPE.STATIC:
                 # Static
                 if col_info.separation.y != 0:
@@ -144,7 +147,7 @@ class RigidBody(Sprite):
         """The update loop"""
         if self.params.get("do_physics", RigidBody.default_options["do_physics"]) and self.in_frame:
             self.physics()
-            
+
         self.custom_update()
 
     def custom_update(self):

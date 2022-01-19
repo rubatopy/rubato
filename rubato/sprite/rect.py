@@ -1,11 +1,27 @@
 from rubato.sprite import Image
-from rubato.utils import Vector
+from rubato.sprite.sprite import Sprite
+from rubato.utils import Vector, Color
 from pygame.surface import Surface
 from pygame.draw import rect
 
 class Rectangle(Image):
-    def __init__(self, center: Vector, dims: Vector, color: tuple, z_index: int = 0):
-        super().__init__("empty", center, z_index=z_index)
-        self.image = Surface(dims.to_tuple())
+    """
+    A class that creates a colored rectangle
 
-        rect(self.image, color, [0, 0, *dims.to_tuple()])
+    :param options: A rectangle :ref:`config <defaultrectangle>`
+    """
+
+    default_options = {
+        "pos": Vector(),
+        "dims": Vector(),
+        "color": Color.black,
+        "z_index": 0
+    }
+
+    def __init__(self, options: dict = {}):
+        self.params = Sprite.merge_params(options, Rectangle.default_options)
+        super().__init__({"image_location" : "", "pos": self.params["pos"], "z_index": self.params["z_index"]})
+        self.params = Sprite.merge_params(options, Rectangle.default_options)
+        self.image = Surface(self.params["dims"].to_tuple())
+
+        rect(self.image, self.params["color"], [0, 0, *self.params["dims"].to_tuple()])

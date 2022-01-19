@@ -7,7 +7,7 @@ class Button(Text):
     """
     A subclass of Text that is a button.
 
-    :param options: A dictionary of options
+    :param options: A button :ref:`config <defaultbutton>`
     """
 
     default_options = {
@@ -16,10 +16,10 @@ class Button(Text):
         "size": 16,
         "z_index": 0,
         "font_name": 'Arial',
-        "color": Color.red
+        "color": Color.black
     }
 
-    def __init__(self, options=default_options):
+    def __init__(self, options={}):
         super().__init__(options)
 
     def mouse_is_over(self) -> bool:
