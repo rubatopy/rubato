@@ -40,6 +40,12 @@ class Vector:
     def dot(self, other):
         return self.x * other.x + self.y * other.y
 
+    def cross(self, other):
+        return self.x * other.y - self.y * other.x
+
+    def crossp(self):
+        return Vector(self.y, -self.x)
+
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"
 
@@ -69,7 +75,7 @@ class Vector:
             return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
-    
+
     def __rtruediv__(self, other: int | float) -> "Vector":
         return Vector(other / self.x, other / self.y)
 
@@ -156,6 +162,11 @@ class Vector:
     def normalize(self):
         self.magnitude = 1
 
+    def unit(self):
+        copy = self.clone()
+        copy.normalize()
+        return copy
+
     @staticmethod
     def from_radial(angle: float, magnitude: float) -> "Vector":
         """
@@ -201,7 +212,7 @@ class Vector:
 
     def clone(self) -> "Vector":
         return Vector(self.x, self.y)
-      
+
     def lerp(self, target: "Vector", t: float):
         """
         changes its values x and y to fit the target vector by amount t
@@ -215,7 +226,7 @@ class Vector:
     def round(self, decimal_places: int) -> "Vector":
         """
         rounds x and y to decimal_places
-        
+
         :param decimal_places: the amount of decimal places rounded to.
         :return: The rounded vector
         """
@@ -281,4 +292,3 @@ class Vector:
         :return: bool value indicating whether both values of a are smaller than or equal to b
         """
         return self.x <= other.x and self.y <= other.y
-

@@ -13,13 +13,14 @@ scene.add(group)
 
 sprite = Image({"image_location":"", "pos":Vector(300,200)})
 rigid = RigidBody({
-    "pos": Vector(100, 0),
+    "pos": Vector(200, 0),
     "mass": 1,
-    "friction": Vector(1, 1),
+    "friction": Vector(1,1),
     "max_speed": Vector(100, PMath.INFINITY),
-    "col_type": COL_TYPE.STATIC,
+    "col_type": COL_TYPE.ELASTIC,
     "hitbox": Polygon.generate_rect(),
-    "debug": True
+    "debug": True,
+    "rotation": 0
 })
 
 ground = RigidBody({
@@ -37,7 +38,7 @@ triangle = RigidBody({
     "pos": Vector(200, 200),
     "mass": 1,
     "friction": Vector(1, 1),
-    "col_type": COL_TYPE.ELASTIC,
+    "col_type": COL_TYPE.STATIC,
     "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46),
     "img": "empty",
     "debug": True,

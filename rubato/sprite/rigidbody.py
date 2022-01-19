@@ -42,10 +42,14 @@ class RigidBody(Sprite):
         self.velocity = Vector()
         self.acceleration = Vector()
 
+        self.angvel = 0
+        self.rotation = options.get("rotation", RigidBody.default_options["rotation"])
+
         self.mass = self.params["mass"]
 
         self.hitbox = self.params["hitbox"].clone()
         self.hitbox._pos = lambda: self.pos
+        self.hitbox._rotation = lambda: self.rotation
 
         self.col_type = self.params["col_type"]
 
@@ -54,7 +58,7 @@ class RigidBody(Sprite):
         if isinstance(self.img, tuple):
             self.image = Image({"image_location": "empty", "pos": self.pos, "z_index":self.params("z_index")})
         else:
-            self.image = Image({"image_location": self.img, "pos": self.pos, "scale_factor": self.params["scale"], "z_index": self.params["z_index"], "rotation": self.params["rotation"]})
+            self.image = Image({"image_location": self.img, "pos": self.pos, "scale_factor": self.params["scale"], "z_index": self.params["z_index"], "rotation": self.rotation})
 
         self.debug = self.params["debug"]
 
@@ -75,6 +79,9 @@ class RigidBody(Sprite):
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
         self.pos.y += self.velocity.y * Time.delta_time("sec")
+
+        # Update rotation
+        self.rotation += self.angvel * Time.delta_time("sec")
 
     def set_force(self, force: Vector):
         """
@@ -104,10 +111,24 @@ class RigidBody(Sprite):
 
             if other.col_type == COL_TYPE.STATIC:
                 self.pos -= col_info.separation
-            else:
+            elif self.col_type == COL_TYPE.STATIC:
                 other.pos += col_info.separation
+            else:
+                self.pos -= col_info.separation / 2
+                other.pos += col_info.separation / 2
 
-            if self.col_type == COL_TYPE.STATIC or other.col_type == COL_TYPE.STATIC:
+            if col_info.vertex_a is not None:
+                perpendicular = self.velocity.unit() * col_info.vertex_a.crossp().unit()
+                self.angvel = -perpendicular.magnitude * self.velocity.magnitude
+                self.velocity -= col_info.separation.unit() * self.velocity.magnitude * 2
+
+                #self.angvel = round(Vector.cross(self.velocity.unit(), col_info.vertex_a.unit()) * self.velocity.magnitude, 3)
+                #self.velocity.y -= col_info.vertex_a.y * col_info.separation.unit().y * 5
+                #self.velocity.x -= col_info.vertex_a.x * col_info.separation.unit().x * 5
+                # vertex_a in direction of separation => velocity
+                # perpendicular component => angular
+
+            """if self.col_type == COL_TYPE.STATIC or other.col_type == COL_TYPE.STATIC:
                 # Static
                 if col_info.separation.y != 0:
                     self.velocity.y = 0
@@ -122,7 +143,7 @@ class RigidBody(Sprite):
                     other.velocity.invert("y")
                 if col_info.separation.x != 0:
                     self.velocity.invert("x")
-                    other.velocity.invert("x")
+                    other.velocity.invert("x")"""
 
         if col_info is not None: callback(col_info)
         return col_info

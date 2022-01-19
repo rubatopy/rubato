@@ -17,11 +17,11 @@ class Polygon:
     """
 
     def __init__(self, verts: list, pos: Callable = lambda: Vector(), scale: float | int = 1,
-                 rotation: float | int = 0):
-        self.verts, self._pos, self.scale, self.rotation = verts, pos, scale, rotation
+                 rotation: Callable = lambda: 0):
+        self.verts, self._pos, self.scale, self._rotation = verts, pos, scale, rotation
 
     @staticmethod
-    def generate_rect(w: int = 16, h: int = 16) -> "Polygon":
+    def generate_rect(w: int = 32, h: int = 32) -> "Polygon":
         """
         Creates a rectangle from its dimensions
 
@@ -52,10 +52,15 @@ class Polygon:
         """The getter method for the position of the Polygon's center"""
         return self._pos()
 
+    @property
+    def rotation(self):
+        """The getter method for the rotation of the Polygon"""
+        return self._rotation()
+
     def clone(self):
         """Creates a copy of the Polygon at the current position"""
         return Polygon(list(map((lambda v: v.clone()), self.verts)), lambda: self.pos.clone(), self.scale,
-                       self.rotation)
+                       lambda: self.rotation.clone())
 
     def transformed_verts(self):
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -137,10 +142,15 @@ class SAT:
             test_b_a = SAT._polygon_polygon_test(shape_b, shape_a, True)
             if test_b_a is None: return None
 
-            result = test_a_b if abs(test_a_b.distance) < abs(test_b_a.distance) else test_b_a
+            regular = abs(test_a_b.distance) < abs(test_b_a.distance)
 
-            result.a_contained = test_a_b.a_contained and test_b_a.a_contained
-            result.b_contained = test_a_b.b_contained and test_b_a.b_contained
+            result = test_a_b if regular else test_b_a
+
+            result.a_contained = test_b_a.a_contained if regular else test_a_b.a_contained
+            result.b_contained = test_b_a.b_contained if regular else test_a_b.b_contained
+
+            result.vertex_b = test_a_b.vertex
+            result.vertex_a = test_b_a.vertex
 
             return result
 
@@ -180,6 +190,8 @@ class SAT:
 
         offset = shape_a.pos - shape_b.pos
 
+        v_contact = []
+
         for i in range(len(verts_1)):
             axis = SAT._get_perpendicular_axis(verts_1, i)
 
@@ -196,12 +208,29 @@ class SAT:
 
             min_dist = (b_range["min"] - a_range["max"]) if flip else (a_range["min"] - b_range["max"])
 
+            mincheck = b_range["min"] > a_range["min"] and b_range["max"] > a_range["max"]
+            maxcheck = b_range["min"] < a_range["min"] and b_range["max"] < a_range["max"]
+            if mincheck or maxcheck: v_contact.append(b_range["mindex" if mincheck else "maxdex"])
+
             abs_min = abs(min_dist)
             if abs_min < shortest_dist:
                 shortest_dist = abs_min
                 result.distance, result.vector = min_dist, axis
 
-        result.separation = result.vector.clone() * result.distance
+        result.separation = result.vector * result.distance
+        if v_contact is None:
+            result.vertex = None
+        else:
+            #print(v_contact, flip)
+            final_verts = []
+            for i in v_contact:
+                valid = True
+                for j in range(len(i)):
+                    if i[0] != i[j]: valid = False
+                if valid:
+                    final_verts.append(i)
+            print(final_verts, flip)
+            result.vertex = verts_2[final_verts[0][0]] if len(final_verts) > 0 else None
 
         return result
 
@@ -220,7 +249,7 @@ class SAT:
     def _get_perpendicular_axis(verts, index):
         """Finds a vector perpendicular to a side"""
 
-        pt_1, pt_2 = verts[index], verts[0] if index >= len(verts) - 1 else verts[index + 1]
+        pt_1, pt_2 = verts[index], verts[(index + 1) % len(verts)]
         axis = Vector(pt_1.y - pt_2.y, pt_2.x - pt_1.x)
         axis.normalize()
         return axis
@@ -229,11 +258,18 @@ class SAT:
     def _project_verts_for_min_max(axis, verts):
         """Projects the vertices onto a given axis"""
 
-        min = max = axis.dot(verts[0])
+        min, max = PMath.INFINITY, -PMath.INFINITY
+        mindex = maxdex = []
 
         for j in range(len(verts)):
             temp = axis.dot(verts[j])
-            if temp < min: min = temp
-            if temp > max: max = temp
+            if temp < min:
+                min = temp
+                mindex = [j]
+            elif temp == min: mindex.append(j)
+            if temp > max:
+                max = temp
+                maxdex = [j]
+            elif temp == max: maxdex.append(j)
 
-        return {"min": min, "max": max}
+        return {"min": min, "max": max, "mindex": mindex, "maxdex": maxdex}

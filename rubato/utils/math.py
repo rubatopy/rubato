@@ -10,6 +10,7 @@ class PMath:
     A more complete math class
     """
     INFINITY = 2**99
+    pi = math.pi
     @staticmethod
     def abs(a:float | int):
         """
