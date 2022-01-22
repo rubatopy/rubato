@@ -1,4 +1,6 @@
-# ![logo](https://user-images.githubusercontent.com/52299477/142954570-79da6553-6242-45c7-a09a-f55f156b7796.png)
+# ![logo](https://github.com/tinmarr/rubato/blob/main/docs/source/_static/logo_long.png?raw=true)
+
+[![Documentation Status](https://readthedocs.org/projects/rubato/badge/?version=latest)](https://rubato.readthedocs.io/en/latest/?badge=latest)
 
 Rubato is a Python game engine that builds off of PyGame to make a cleaner and more efficient game engine. We aim to make game development in Python much easier than it currently is. Even though we use PyGame in the backend, when using Rubato, you do not need to ever touch PyGame.
 
