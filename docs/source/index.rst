@@ -1,6 +1,6 @@
 .. raw:: html
 
-    <br>
+    <br><br>
 
 .. image:: _static/logo_text.png
 
