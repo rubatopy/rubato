@@ -1,0 +1,3 @@
+# Leave this file blank
+# It will be auto generated on build by readthedocs
+# This file will allow us to hide older versions of our docs
