@@ -6,7 +6,8 @@
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
-BUILDDIR      = .
+BUILDDIR      = ./build
+LIVEBUILDDIR  = ./build/_html
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -15,14 +16,7 @@ help:
 .PHONY: help Makefile
 
 html: Makefile
-	@mkdir ./temp
-	@mv ./source ./temp && mv ./doctrees ./temp && mv make.bat ./temp && mv Makefile ./temp && mv .nojekyll ./temp
-	@find ! -regex '^./temp\(/.*\)?' ! -regex '.' -delete
-	@mv ./temp/source . && mv ./temp/doctrees . && mv ./temp/make.bat . && mv ./temp/Makefile . && mv ./temp/.nojekyll .
-	@rmdir ./temp
-	@rm -rf ./source/generated
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-	@mv -v ./html/* . && rm -rf ./html
 
 livehtml:
-	@sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) --watch ./source
+	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ./source

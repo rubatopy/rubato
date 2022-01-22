@@ -10,6 +10,17 @@ build:
         # nodejs: "16"
         # rust: "1.55"
         # golang: "1.17"
+    apt_packages:
+        - libsdl2-dev
+        - libsdl2-image-dev
+        - libsdl2-mixer-dev
+        - libsdl2-ttf-dev
+        - libfreetype6-dev
+        - libportmidi-dev
+        - libjpeg-dev
+        - python3-setuptools
+        - python3-dev
+        - python3-numpy
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
@@ -22,4 +33,5 @@ sphinx:
 # Optionally declare the Python requirements required to build your docs
 python:
     install:
-        - requirements: requirements.txt
+        - requirements: docs/requirements.txt
+    system_packages: true
