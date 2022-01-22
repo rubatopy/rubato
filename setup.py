@@ -15,6 +15,6 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/tinmarr/rubato",
     packages=find_packages(),
-    install_requires=["pygame==2.0.2", "typeguard==2.13.0"],
+    install_requires=open("requirements.txt").read().split("\n"),
     python_requires=">=3.10",
 )
