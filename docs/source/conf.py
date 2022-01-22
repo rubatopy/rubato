@@ -83,6 +83,5 @@ html_short_title = f"{project} Docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
-ogp_site_url = "https://tinmarr.github.io/rubato/"
-ogp_description_length = 200
+ogp_description_length = 300
 ogp_image = "_static/logo_long.png"
