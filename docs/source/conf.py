@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'rubato'
+project = 'Rubato'
 copyright = '2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave'
 author = 'Martin Chaperot, Tomer Sedan, Yamm Elnekave'
 
@@ -31,7 +31,7 @@ release = '0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 'sphinx.ext.githubpages', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode'
+    'sphinx.ext.autodoc', 'sphinx.ext.githubpages', 'sphinx.ext.autosummary', 'sphinx.ext.viewcode', 'sphinx_copybutton', 'sphinx_inline_tabs', 'sphinxext.opengraph'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -48,9 +48,40 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'furo'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+add_module_names = False
+
+html_logo = "_static/logo_img_small.png"
+
+html_favicon = "_static/logo_img.png"
+
+html_theme_options = {
+    'navigation_with_keys': True,
+    "sidebar_hide_name": True,
+    "light_css_variables": {
+        "color-brand-primary": "#e61e43", # Default: 2962ff (41, 98, 255)
+        "color-brand-content": "#e61e43", # Default: 2a5adf (42, 90, 223)
+    },
+    "dark_css_variables": {
+        "color-brand-primary": "var(--color-problematic)", # Default: 2962ff (41, 98, 255)
+        "color-brand-content": "var(--color-problematic)", # Default: 2a5adf (42, 90, 223)
+    }
+}
+
+html_use_index = False
+
+html_title = f"{project} {release} Documentation"
+
+html_short_title = f"{project} Docs"
+
+html_show_sphinx = False
+
+ogp_site_url = "https://tinmarr.github.io/rubato/"
+ogp_description_length = 200
+ogp_image = "_static/logo_long.png"
