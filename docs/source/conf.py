@@ -54,7 +54,6 @@ html_theme = 'furo'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
-html_extra_path = ["../robots.txt"]
 
 add_module_names = False
 
@@ -84,5 +83,6 @@ html_short_title = f"{project} Docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
+ogp_site_url = "tinmarr.github.io"
 ogp_description_length = 300
 ogp_image = "_static/logo_long.png"

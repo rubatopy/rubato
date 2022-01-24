@@ -8,6 +8,7 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = ./build
 LIVEBUILDDIR  = ./build/_html
+ver		  = latest
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -15,8 +16,31 @@ help:
 
 .PHONY: help Makefile
 
-html: Makefile
+html:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+savelatest:
+	@make html
+	@rm -rf latest
+	@cp -r ./build/html/ ./latest/
+
+
+save:
+	@make html
+	@if [ "$(ver)" = "latest" ]; then \
+		rm -rf latest; \
+		cp -r ./build/html/ ./latest/; \
+	else \
+		rm -rf ./vers/$(ver); \
+		cp -r ./build/html/ ./vers/$(ver); \
+	fi
+
+remove:
+	@if [ "$(ver)" = "latest" ]; then \
+		rm -rf latest; \
+	else \
+		rm -rf ./vers/$(ver); \
+	fi
 
 livehtml:
 	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ./source

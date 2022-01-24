@@ -1,5 +1,11 @@
 # For Developers
 
+### To update docs
+
+```
+$ make save ver=<version.number>
+```
+
 ### To publish to PyPi
 
 Bump version number in setup.py<br>
