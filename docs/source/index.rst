@@ -25,3 +25,4 @@ Repository: https://github.com/tinmarr/rubato
     intro
     api
     defaults
+    versions

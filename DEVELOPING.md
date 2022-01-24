@@ -2,6 +2,8 @@
 
 ### To update docs
 
+Add the version link to `docs/source/versions.rst`
+
 ```
 $ make save ver=<version.number>
 ```

@@ -38,7 +38,7 @@ class Group:
                     sprite.draw(camera)
                 else:
                     sprite.in_frame = False
-    
+
     def collide_rb(self, rb: RigidBody):
         for sprite in self.sprites:
             if sprite.in_frame:

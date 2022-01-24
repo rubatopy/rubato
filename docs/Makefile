@@ -31,16 +31,18 @@ save:
 		rm -rf latest; \
 		cp -r ./build/html/ ./latest/; \
 	else \
-		rm -rf ./vers/$(ver); \
-		cp -r ./build/html/ ./vers/$(ver); \
+		rm -rf ./versions/$(ver); \
+		cp -r ./build/html/ ./versions/$(ver); \
 	fi
+	@echo "Saved version $(ver)"
 
 remove:
 	@if [ "$(ver)" = "latest" ]; then \
 		rm -rf latest; \
 	else \
-		rm -rf ./vers/$(ver); \
+		rm -rf ./versions/$(ver); \
 	fi
+	@echo "Removed version $(ver)"
 
 livehtml:
 	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ./source
