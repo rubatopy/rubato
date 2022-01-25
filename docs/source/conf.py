@@ -87,6 +87,7 @@ html_title = f"{project} {release} Documentation"
 
 html_short_title = f"{project} Docs"
 
+html_show_sphinx = False
 html_show_sourcelink = False
 
 # Open Graph
