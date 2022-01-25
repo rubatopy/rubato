@@ -1,4 +1,0 @@
-Versions
-========
-
-`Latest <https://tinmarr.github.io/rubato/latest>`_

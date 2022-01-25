@@ -1,6 +1,6 @@
 # For Developers
 
-### To update docs
+### To update docs (REQUIRES A UNIX BASED SYSTEM)
 
 Add the version link to `docs/source/versions.rst`
 

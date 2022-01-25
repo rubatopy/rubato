@@ -87,19 +87,18 @@ html_title = f"{project} {release} Documentation"
 
 html_short_title = f"{project} Docs"
 
-html_show_sphinx = False
 html_show_sourcelink = False
 
 # Open Graph
-ogp_site_url = "tinmarr.github.io"
+ogp_site_url = "https://tinmarr.github.io"
 ogp_description_length = 300
 ogp_image = "_static/logo_long.png"
 
-# External Links
-extlinks = {
-    "version": (
-        "https://tinmarr.github.io/rubato/versions/%s",
-        "Version %s"
-    ),
-}
+rst_prolog = f"""
+.. only:: dev
 
+    .. caution::
+
+        | You are currently looking at the dev version of the docs.
+        | Click `here <https://tinmarr.github.io/rubato/stable>`_ to return the stable version.
+"""
