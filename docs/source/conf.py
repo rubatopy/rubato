@@ -98,7 +98,7 @@ ogp_image = "_static/logo_long.png"
 # External Links
 extlinks = {
     "version": (
-        "/versions/%s",
+        "https://tinmarr.github.io/rubato/versions/%s",
         "Version %s"
     ),
 }

@@ -8,7 +8,7 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = ./build
 LIVEBUILDDIR  = ./build/_html
-ver		  = latest
+ver		      = dev
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -19,11 +19,13 @@ help:
 html:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-savelatest:
-	@make html
-	@rm -rf latest
-	@cp -r ./build/html/ ./latest/
-
+bump:
+	@read -p "What version should the current latest go to?" oldver
+	@if [ -d latest ]; then \
+		mv latest/ versions/$(oldver); \
+	fi
+	@make save ver=latest
+	@make save
 
 save:
 	@make html
