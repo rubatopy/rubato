@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -12,18 +13,17 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath("../.."))
 
+sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
 project = "Rubato"
-copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"
+cpyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
 # The full version, including alpha/beta/rc tags
 release = "0.0.1"
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -31,14 +31,9 @@ release = "0.0.1"
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.githubpages",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.viewcode",
-    "sphinx_copybutton",
-    "sphinx_inline_tabs",
-    "sphinxext.opengraph",
-    "sphinx.ext.extlinks"
+    "sphinx.ext.autodoc", "sphinx.ext.githubpages", "sphinx.ext.autosummary",
+    "sphinx.ext.viewcode", "sphinx_copybutton", "sphinx_inline_tabs",
+    "sphinxext.opengraph", "sphinx.ext.extlinks", "sphinx.ext.napoleon"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -48,7 +43,6 @@ templates_path = ["_templates"]
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -72,12 +66,14 @@ html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
     "light_css_variables": {
-        "color-brand-primary": "#e61e43", # Default: 2962ff (41, 98, 255)
-        "color-brand-content": "#e61e43", # Default: 2a5adf (42, 90, 223)
+        "color-brand-primary": "#e61e43",  # Default: 2962ff (41, 98, 255)
+        "color-brand-content": "#e61e43",  # Default: 2a5adf (42, 90, 223)
     },
     "dark_css_variables": {
-        "color-brand-primary": "var(--color-problematic)", # Default: 2962ff (41, 98, 255)
-        "color-brand-content": "var(--color-problematic)", # Default: 2a5adf (42, 90, 223)
+        "color-brand-primary":
+        "var(--color-problematic)",  # Default: 2962ff (41, 98, 255)
+        "color-brand-content":
+        "var(--color-problematic)",  # Default: 2a5adf (42, 90, 223)
     }
 }
 
@@ -95,7 +91,7 @@ ogp_site_url = "https://tinmarr.github.io"
 ogp_description_length = 300
 ogp_image = "_static/logo_long.png"
 
-rst_prolog = f"""
+rst_prolog = """
 .. only:: dev
 
     .. caution::
@@ -103,3 +99,23 @@ rst_prolog = f"""
         | You are currently looking at the dev version of the docs.
         | Click `here <https://tinmarr.github.io/rubato/stable>`_ to return the stable version.
 """
+
+rst_epilog = """"""
+
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+napoleon_include_init_with_doc = True
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = True
+napoleon_use_admonition_for_notes = True
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_preprocess_types = True
+napoleon_type_aliases = {
+    "List[Sprite]": "List[ :meth:`rubato.Sprite` ]",
+}
+napoleon_attr_annotations = True

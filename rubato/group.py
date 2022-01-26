@@ -1,3 +1,9 @@
+"""
+The Group class defines a group of sprites. This can used to quickly update
+and render a lot of sprites at the same time. Collisions can also be applied
+to entire groups.
+"""
+import typing
 from rubato import Vector
 from rubato.scenes import Camera
 from rubato.sprite import Sprite, RigidBody
@@ -5,20 +11,33 @@ from rubato.sprite import Sprite, RigidBody
 
 class Group:
     """
-    A group of sprites. Can render and update all of them at once.
+    A group of sprites.
+
+    Attributes:
+        z_index (int): The z-index of the entire group.
+        sprites (List[Sprite]): The list of sprites in this group.
     """
 
-    def __init__(self, z: int=0):
-        self.pos = Vector(0, 0)
-        self.z_index = z
-        self.sprites = []
-
-    def add(self, sprite: Sprite):
+    def __init__(self, z: int = 0):
         """
-        Adds a sprite to the groups.
+        Initializes a group.
 
-        :param sprite: A sprite class to add to the group.
-        :return: The sprite that was added.
+        Args:
+            z (int, optional): The z-index of the group. Defaults to 0.
+        """
+        self._pos = Vector(0, 0)
+        self.z_index = z
+        self.sprites: typing.List[Sprite] = []
+
+    def add(self, sprite: Sprite) -> Sprite:
+        """
+        Add a sprite to the group.
+
+        Args:
+            sprite (rubato.Sprite): The sprite to add to the group
+
+        Returns:
+            Sprite: The sprite that was added
         """
         self.sprites.append(sprite)
         return sprite
@@ -41,16 +60,31 @@ class Group:
                     sprite.in_frame = False
 
     def collide_rb(self, rb: RigidBody):
+        """
+        Run a collision between the whole group and a :meth:`rubato.Rigidbody`.
+
+        Args:
+            rb (rubato.RigidBody): The rigidbody to collide with.
+        """
         for sprite in self.sprites:
             if sprite.in_frame:
                 sprite.collide(rb)
 
     def collide_group(self, group: "Group"):
+        """
+        Run a collision between this group and another.
+
+        Args:
+            group (rubato.Group): The group to collide with.
+        """
         for sprite in self.sprites:
             if sprite.in_frame:
                 group.collide_rb(sprite)
 
     def collide_self(self):
+        """
+        Run a collision between members of this group.
+        """
         for sprite in self.sprites:
             for sprite2 in self.sprites:
                 if sprite != sprite2 and sprite.in_frame and sprite2.in_frame:

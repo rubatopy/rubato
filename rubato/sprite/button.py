@@ -1,7 +1,7 @@
 from rubato.sprite import Text
 from rubato.utils import Vector, Color
 from rubato.scenes import Camera
-from rubato.input import Input
+import rubato.input as Input
 
 class Button(Text):
     """

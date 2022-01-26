@@ -1,3 +1,37 @@
 {
-    "restructuredtext.confPath": "${workspaceFolder}/docs/source"
+    "restructuredtext.confPath": "${workspaceFolder}/docs/source",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "cSpell.words": [
+        "autoclass",
+        "automodule",
+        "blit",
+        "cpyright",
+        "Elnekave",
+        "furo",
+        "ivar",
+        "KEYUP",
+        "LALT",
+        "LCTRL",
+        "LEFTPAREN",
+        "LMETA",
+        "LSUPER",
+        "NUMLOCK",
+        "PAGEUP",
+        "pmath",
+        "RALT",
+        "RCTRL",
+        "RIGHTPAREN",
+        "rigidbody",
+        "RMETA",
+        "RSUPER",
+        "rtype",
+        "scenemanager",
+        "SCROLLOCK",
+        "Sevenson",
+        "SRCALPHA",
+        "SYSREQ",
+        "Tomer",
+        "Yamm"
+    ]
 }

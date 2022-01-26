@@ -253,25 +253,47 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"img"</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">({</span><span class="s2">"image_location"</span><span class="p">:</span> <span class="s2">"empty"</span><span class="p">,</span> <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="s2">"z_index"</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">(</span><span class="s2">"z_index"</span><span class="p">)})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">"image_location"</span><span class="p">:</span> <span class="s2">"empty"</span><span class="p">,</span>
+                    <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span>
+                    <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">(</span><span class="s2">"z_index"</span><span class="p">),</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">({</span><span class="s2">"image_location"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="s2">"scale_factor"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">],</span> <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">],</span> <span class="s2">"rotation"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">"image_location"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span>
+                    <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span>
+                    <span class="s2">"scale_factor"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">],</span>
+                    <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">],</span>
+                    <span class="s2">"rotation"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="RigidBody.physics"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.physics">[docs]</a>    <span class="k">def</span> <span class="nf">physics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
         <span class="sd">"""A physics implementation"""</span>
         <span class="c1"># Update Velocity</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"gravity"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"gravity"</span><span class="p">]))</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"gravity"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"gravity"</span><span class="p">])</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"friction"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"friction"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"friction"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"friction"</span><span class="p">]</span>
+        <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_speed"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"min_speed"</span><span class="p">]),</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_speed"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"max_speed"</span><span class="p">]),</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_speed"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"min_speed"</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_speed"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"max_speed"</span><span class="p">]),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
 
         <span class="c1"># Update position</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span>
@@ -298,7 +320,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">force</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">force</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span></div>
 
-<div class="viewcode-block" id="RigidBody.collide"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.collide">[docs]</a>    <span class="k">def</span> <span class="nf">collide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.collide"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.collide">[docs]</a>    <span class="k">def</span> <span class="nf">collide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""A simple collision engine for most use cases."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">col_info</span> <span class="o">:=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">hitbox</span><span class="p">):</span>
@@ -317,11 +339,13 @@
             <span class="k">if</span> <span class="n">col_info</span><span class="o">.</span><span class="n">vertex_a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">perpendicular</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span> <span class="o">*</span> <span class="n">col_info</span><span class="o">.</span><span class="n">vertex_a</span><span class="o">.</span><span class="n">crossp</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">angvel</span> <span class="o">=</span> <span class="o">-</span><span class="n">perpendicular</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">magnitude</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="p">(</span>
+                    <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="p">)</span>
 
-                <span class="c1">#self.angvel = round(Vector.cross(self.velocity.unit(), col_info.vertex_a.unit()) * self.velocity.magnitude, 3)</span>
-                <span class="c1">#self.velocity.y -= col_info.vertex_a.y * col_info.separation.unit().y * 5</span>
-                <span class="c1">#self.velocity.x -= col_info.vertex_a.x * col_info.separation.unit().x * 5</span>
+                <span class="c1"># self.angvel = round(Vector.cross(self.velocity.unit(), col_info.vertex_a.unit()) * self.velocity.magnitude, 3)</span>
+                <span class="c1"># self.velocity.y -= col_info.vertex_a.y * col_info.separation.unit().y * 5</span>
+                <span class="c1"># self.velocity.x -= col_info.vertex_a.x * col_info.separation.unit().x * 5</span>
                 <span class="c1"># vertex_a in direction of separation =&gt; velocity</span>
                 <span class="c1"># perpendicular component =&gt; angular</span>
 
@@ -342,13 +366,15 @@
 <span class="sd">                    self.velocity.invert("x")</span>
 <span class="sd">                    other.velocity.invert("x")"""</span>
 
-        <span class="k">if</span> <span class="n">col_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">col_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">col_info</span></div>
 
-<div class="viewcode-block" id="RigidBody.overlap"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.overlap">[docs]</a>    <span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.overlap"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.overlap">[docs]</a>    <span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""Checks for collision but does not handle it."""</span>
         <span class="n">col_info</span> <span class="o">=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">hitbox</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">col_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">col_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">col_info</span></div>
 
 <div class="viewcode-block" id="RigidBody.set_impulse"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.set_impulse">[docs]</a>    <span class="k">def</span> <span class="nf">set_impulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
@@ -363,7 +389,10 @@
 
 <div class="viewcode-block" id="RigidBody.update"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""The update loop"""</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"do_physics"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"do_physics"</span><span class="p">])</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"do_physics"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"do_physics"</span><span class="p">])</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_frame</span>
+        <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_update</span><span class="p">()</span></div>
@@ -384,11 +413,33 @@
             <span class="n">temp</span> <span class="o">=</span> <span class="n">Surface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">bounding_box_dimensions</span><span class="p">()</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">())</span>
             <span class="n">temp</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
             <span class="n">temp</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
-            <span class="n">polygon</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">transformed_verts</span><span class="p">())))</span>
-            <span class="n">Display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">bounding_box_dimensions</span><span class="p">())</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span>
+            <span class="n">polygon</span><span class="p">(</span>
+                <span class="n">temp</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
+                <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">transformed_verts</span><span class="p">())),</span>
+            <span class="p">)</span>
+            <span class="n">Display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">temp</span><span class="p">,</span>
+                <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+                    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">bounding_box_dimensions</span><span class="p">()</span>
+                    <span class="p">)</span>
+                    <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
-            <span class="n">polygon</span><span class="p">(</span><span class="n">Display</span><span class="o">.</span><span class="n">global_display</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">real_verts</span><span class="p">())),</span> <span class="mi">3</span><span class="p">)</span></div></div>
+            <span class="n">polygon</span><span class="p">(</span>
+                <span class="n">Display</span><span class="o">.</span><span class="n">global_display</span><span class="p">,</span>
+                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="nb">list</span><span class="p">(</span>
+                    <span class="nb">map</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">real_verts</span><span class="p">(),</span>
+                    <span class="p">)</span>
+                <span class="p">),</span>
+                <span class="mi">3</span><span class="p">,</span>
+            <span class="p">)</span></div></div>
 </pre></div>
         </article>
       </div>
@@ -401,7 +452,7 @@
 
         <div class="related-information">
               Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

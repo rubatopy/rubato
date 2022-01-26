@@ -18,8 +18,8 @@ save:
 	@echo "Saved $(ver) version"
 
 
-livehtml:
-	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ./source
+live:
+	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
 
 clear:
 	@rm -rf build

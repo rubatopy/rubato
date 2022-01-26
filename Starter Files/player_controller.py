@@ -22,6 +22,7 @@ class Collider:
     @property
     def collider(self):
         return self.rect if self.enabled else None
+
     @staticmethod
     def hit():
         pass
@@ -46,13 +47,15 @@ class Collider:
                         continue
                     collide_check = Collider.colliders[str(i)]
                     if collide_check[SELF].enabled:
-                        if collide_check[SELF].rect.colliderect(pair[SELF].rect):
+                        if collide_check[SELF].rect.colliderect(
+                                pair[SELF].rect):
                             pair[hit_info] = True
                             collide_check[hit_info] = True
                             break
 
 
 class RigidBody2D:
+
     def __init__(self, rect):
         self.collider = Collider(rect)
         self.velocity = pygame.math.Vector2()
@@ -73,18 +76,23 @@ class RigidBody2D:
 
     def moverb(self):
         # self.collider.rect = self.collider.rect.move(self.velocity[0],self.velocity[1])
-        collision_types = {'top': False, 'bottom': False, 'right': False, 'left': False}
+        collision_types = {
+            'top': False,
+            'bottom': False,
+            'right': False,
+            'left': False
+        }
         self.collider.rect.x += int(self.velocity[0])
         Collider.recalculate_colliders()
         # hit_list = self.collision_test(self.collider.rect, tiles)
         # for tile in hit_list:
         #     print("here", hit_list)
-            # if self.velocity[0] > 0:
-            #     self.collider.rect.right = tile.left
-            #     collision_types['right'] = True
-            # elif self.velocity[0] < 0:
-            #     self.collider.rect.left = tile.right
-            #     collision_types['left'] = True
+        # if self.velocity[0] > 0:
+        #     self.collider.rect.right = tile.left
+        #     collision_types['right'] = True
+        # elif self.velocity[0] < 0:
+        #     self.collider.rect.left = tile.right
+        #     collision_types['left'] = True
         self.collider.rect.y += self.velocity[1]
         # hit_list = self.collision_test(self.collider.rect, tiles)
         # for tile in hit_list:
@@ -101,12 +109,18 @@ class CharacterController2D:
     k_GroundedRadius: float = .2  # Radius of the overlap circle to determine if grounded
     k_CeilingRadius: float = .2  # Radius of the overlap circle to determine if the player can stand up
 
-    def __init__(self, rb: RigidBody2D, jump_force=400, crouch_speed=.36, smoothing=.6, air_control=True):
+    def __init__(self,
+                 rb: RigidBody2D,
+                 jump_force=400,
+                 crouch_speed=.36,
+                 smoothing=.6,
+                 air_control=True):
         self.m_JumpForce: float = jump_force  # Amount of force added when the player jumps.
         self.m_CrouchSpeed: float = crouch_speed  # Amount of maxSpeed applied to crouching movement. 1 = 100%
         self.m_MovementSmoothing: float = 1 - smoothing  # How much to smooth out the movement
         self.m_AirControl: bool = air_control  # Whether or not a player can steer while jumping
-        self.m_WhatIsGround = list()  # A list determining what is ground to the character
+        self.m_WhatIsGround = list(
+        )  # A list determining what is ground to the character
         self.m_BodyCollider = rb.collider
         self.m_CrouchCollider = None  # A collider that will be disabled when crouching
         self.m_wasCrouching = False  # whether the player was crouching
@@ -175,11 +189,15 @@ class CharacterController2D:
                     self.m_wasCrouching = False
 
             # Move the character by finding the target velocity
-            targetVelocity = pygame.math.Vector2(move * 10, self.m_Rigidbody2D.velocity.y)  # fix
+            targetVelocity = pygame.math.Vector2(
+                move * 10, self.m_Rigidbody2D.velocity.y)  # fix
             # And then smoothing it out and applying it to the character
-            self.m_Rigidbody2D.velocity = self.m_Rigidbody2D.velocity.lerp(targetVelocity, self.m_MovementSmoothing)
-            self.m_Rigidbody2D.velocity[0] = round(self.m_Rigidbody2D.velocity[0], 2)
-            self.m_Rigidbody2D.velocity[1] = round(self.m_Rigidbody2D.velocity[1], 2)
+            self.m_Rigidbody2D.velocity = self.m_Rigidbody2D.velocity.lerp(
+                targetVelocity, self.m_MovementSmoothing)
+            self.m_Rigidbody2D.velocity[0] = round(
+                self.m_Rigidbody2D.velocity[0], 2)
+            self.m_Rigidbody2D.velocity[1] = round(
+                self.m_Rigidbody2D.velocity[1], 2)
             self.m_Rigidbody2D.update()
 
             # If the input is moving the player right and the player is facing left...
@@ -214,8 +232,10 @@ class CharacterController2D:
 
 
 class Player:
+
     def __init__(self):
-        self.controller = CharacterController2D(RigidBody2D(pygame.Rect(200, 0, 10, 10)))
+        self.controller = CharacterController2D(
+            RigidBody2D(pygame.Rect(200, 0, 10, 10)))
         self.horizontal = None
         self.crouch = None
         self.jump = None
