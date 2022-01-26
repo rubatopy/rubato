@@ -15,7 +15,9 @@ Jinja2==3.0.3
 livereload==2.6.3
 MarkupSafe==2.0.1
 networkx==2.6.3
+numpy==1.22.1
 packaging==21.3
+pygame==2.0.2
 Pygments==2.11.2
 pymongo==3.12.3
 pyparsing==3.0.6
@@ -45,5 +47,3 @@ typing_extensions==4.0.1
 ujson==1.35
 urllib3==1.26.8
 watchdog==1.0.2
-pygame==2.0.2
-typeguard==2.13.0

@@ -20,6 +20,7 @@ class PMath:
         :return: absolute value of a
         """
         return math.fabs(a)
+
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
         """
@@ -31,18 +32,6 @@ class PMath:
         :return: The clamped result
         """
         return min(max(a, lower), upper)
-
-    @staticmethod
-    def abs_clamp(a: float | int, lower: float | int, upper: float | int) -> float:
-        """
-        Clamps a to the bounds of lower and upper and takes the absolute value
-
-        :param a: The number to clamp
-        :param lower: The lower bound of the clamp
-        :param upper: The upper bound of the clamp
-        :return: The clamped result
-        """
-        return PMath.sign(a) * PMath.clamp(abs(a), lower, upper)
 
     @staticmethod
     def sign(n: float | int) -> int:

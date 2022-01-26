@@ -1,4 +1,16 @@
-from rubato import Image, Input, Scene, RigidBody, Vector, Time, PMath, Group, Polygon, SAT, COL_TYPE
+from rubato import (
+    Image,
+    Input,
+    Scene,
+    RigidBody,
+    Vector,
+    Time,
+    PMath,
+    Group,
+    Polygon,
+    SAT,
+    COL_TYPE,
+)
 import rubato as rb
 
 rb.init()
@@ -11,39 +23,47 @@ rb.game.scenes.add(scene)
 group = Group()
 scene.add(group)
 
-sprite = Image({"image_location":"", "pos":Vector(300,200)})
-rigid = RigidBody({
-    "pos": Vector(200, 0),
-    "mass": 1,
-    "friction": Vector(1,1),
-    "max_speed": Vector(100, PMath.INFINITY),
-    "col_type": COL_TYPE.ELASTIC,
-    "hitbox": Polygon.generate_rect(),
-    "debug": True,
-    "rotation": 0
-})
+sprite = Image({"image_location": "", "pos": Vector(300, 200)})
+rigid = RigidBody(
+    {
+        "pos": Vector(200, 0),
+        "mass": 1,
+        "friction": Vector(1, 1),
+        "max_speed": Vector(100, PMath.INFINITY),
+        "col_type": COL_TYPE.ELASTIC,
+        "hitbox": Polygon.generate_rect(),
+        "debug": True,
+        "rotation": 0,
+    }
+)
 
-ground = RigidBody({
-    "pos": Vector(300, 400-8),
-    "mass": 1,
-    "friction": Vector(1, 1),
-    "col_type": COL_TYPE.STATIC,
-    "scale": Vector(600/16, 1),
-    "gravity": 0,
-    "hitbox": Polygon.generate_rect(600, 16),
-    "debug": True
-})
+ground = RigidBody(
+    {
+        "pos": Vector(300, 400 - 8),
+        "mass": 1,
+        "friction": Vector(1, 1),
+        "col_type": COL_TYPE.STATIC,
+        "scale": Vector(600 / 16, 1),
+        "gravity": 0,
+        "hitbox": Polygon.generate_rect(600, 16),
+        "debug": True,
+    }
+)
 
-triangle = RigidBody({
-    "pos": Vector(200, 200),
-    "mass": 1,
-    "friction": Vector(1, 1),
-    "col_type": COL_TYPE.STATIC,
-    "hitbox": Polygon([Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46),
-    "img": "empty",
-    "debug": True,
-    "gravity": 0,
-})
+triangle = RigidBody(
+    {
+        "pos": Vector(200, 200),
+        "mass": 1,
+        "friction": Vector(1, 1),
+        "col_type": COL_TYPE.STATIC,
+        "hitbox": Polygon(
+            [Vector(40, 40), Vector(40, -100), Vector(0, 40)], rotation=46
+        ),
+        "img": "empty",
+        "debug": True,
+        "gravity": 0,
+    }
+)
 # triangle = RigidBody({
 #     "pos": Vector(200, 200),
 #     "mass": 1,

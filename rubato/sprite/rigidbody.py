@@ -56,25 +56,47 @@ class RigidBody(Sprite):
         self.img = self.params["img"]
 
         if isinstance(self.img, tuple):
-            self.image = Image({"image_location": "empty", "pos": self.pos, "z_index":self.params("z_index")})
+            self.image = Image(
+                {
+                    "image_location": "empty",
+                    "pos": self.pos,
+                    "z_index": self.params("z_index"),
+                }
+            )
         else:
-            self.image = Image({"image_location": self.img, "pos": self.pos, "scale_factor": self.params["scale"], "z_index": self.params["z_index"], "rotation": self.rotation})
+            self.image = Image(
+                {
+                    "image_location": self.img,
+                    "pos": self.pos,
+                    "scale_factor": self.params["scale"],
+                    "z_index": self.params["z_index"],
+                    "rotation": self.rotation,
+                }
+            )
 
         self.debug = self.params["debug"]
 
         self.grounded = False
 
     def physics(self):
+
         """A physics implementation"""
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
-        self.velocity.y += (self.acceleration.y +
-                            self.params.get("gravity", RigidBody.default_options["gravity"])) * Time.delta_time("sec")
+        self.velocity.y += (
+            self.acceleration.y
+            + self.params.get("gravity", RigidBody.default_options["gravity"])
+        ) * Time.delta_time("sec")
 
-        self.velocity *= self.params.get("friction", RigidBody.default_options["friction"])
+        self.velocity *= self.params.get(
+            "friction", RigidBody.default_options["friction"]
+        )
 
-        self.velocity.clamp(self.params.get("min_speed", RigidBody.default_options["min_speed"]),
-                            self.params.get("max_speed", RigidBody.default_options["max_speed"]), True)
+        self.velocity.clamp(
+            self.params.get("min_speed", RigidBody.default_options["min_speed"]),
+            self.params.get("max_speed", RigidBody.default_options["max_speed"]),
+        )
+        self.velocity.absolute()
 
         # Update position
         self.pos.x += self.velocity.x * Time.delta_time("sec")
@@ -101,7 +123,7 @@ class RigidBody(Sprite):
         self.acceleration.x = self.acceleration.x + force.x / self.mass
         self.acceleration.y = self.acceleration.y + force.y / self.mass
 
-    def collide(self, other: "RigidBody", callback: Callable = lambda c:None):
+    def collide(self, other: "RigidBody", callback: Callable = lambda c: None):
         """A simple collision engine for most use cases."""
         self.grounded = False
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
@@ -120,11 +142,13 @@ class RigidBody(Sprite):
             if col_info.vertex_a is not None:
                 perpendicular = self.velocity.unit() * col_info.vertex_a.crossp().unit()
                 self.angvel = -perpendicular.magnitude * self.velocity.magnitude
-                self.velocity -= col_info.separation.unit() * self.velocity.magnitude * 2
+                self.velocity -= (
+                    col_info.separation.unit() * self.velocity.magnitude * 2
+                )
 
-                #self.angvel = round(Vector.cross(self.velocity.unit(), col_info.vertex_a.unit()) * self.velocity.magnitude, 3)
-                #self.velocity.y -= col_info.vertex_a.y * col_info.separation.unit().y * 5
-                #self.velocity.x -= col_info.vertex_a.x * col_info.separation.unit().x * 5
+                # self.angvel = round(Vector.cross(self.velocity.unit(), col_info.vertex_a.unit()) * self.velocity.magnitude, 3)
+                # self.velocity.y -= col_info.vertex_a.y * col_info.separation.unit().y * 5
+                # self.velocity.x -= col_info.vertex_a.x * col_info.separation.unit().x * 5
                 # vertex_a in direction of separation => velocity
                 # perpendicular component => angular
 
@@ -145,13 +169,15 @@ class RigidBody(Sprite):
                     self.velocity.invert("x")
                     other.velocity.invert("x")"""
 
-        if col_info is not None: callback(col_info)
+        if col_info is not None:
+            callback(col_info)
         return col_info
 
-    def overlap(self, other: "RigidBody", callback: Callable = lambda c:None):
+    def overlap(self, other: "RigidBody", callback: Callable = lambda c: None):
         """Checks for collision but does not handle it."""
         col_info = SAT.overlap(self.hitbox, other.hitbox)
-        if col_info is not None: callback(col_info)
+        if col_info is not None:
+            callback(col_info)
         return col_info
 
     def set_impulse(self, force: Vector, time: int):
@@ -166,7 +192,10 @@ class RigidBody(Sprite):
 
     def update(self):
         """The update loop"""
-        if self.params.get("do_physics", RigidBody.default_options["do_physics"]) and self.in_frame:
+        if (
+            self.params.get("do_physics", RigidBody.default_options["do_physics"])
+            and self.in_frame
+        ):
             self.physics()
 
         self.custom_update()
@@ -187,8 +216,30 @@ class RigidBody(Sprite):
             temp = Surface(self.hitbox.bounding_box_dimensions().to_tuple())
             temp.set_alpha(self.img[3])
             temp.fill(self.img[:3])
-            polygon(temp, self.img[:3], list(map(lambda v: v.to_tuple(), self.hitbox.transformed_verts())))
-            Display.update(temp, camera.transform(super().center_to_tl(self.pos, self.hitbox.bounding_box_dimensions()) * camera.zoom))
+            polygon(
+                temp,
+                self.img[:3],
+                list(map(lambda v: v.to_tuple(), self.hitbox.transformed_verts())),
+            )
+            Display.update(
+                temp,
+                camera.transform(
+                    super().center_to_tl(
+                        self.pos, self.hitbox.bounding_box_dimensions()
+                    )
+                    * camera.zoom
+                ),
+            )
 
         if self.debug:
-            polygon(Display.global_display, (0, 255, 0), list(map(lambda v: camera.transform(v * camera.zoom), self.hitbox.real_verts())), 3)
+            polygon(
+                Display.global_display,
+                (0, 255, 0),
+                list(
+                    map(
+                        lambda v: camera.transform(v * camera.zoom),
+                        self.hitbox.real_verts(),
+                    )
+                ),
+                3,
+            )

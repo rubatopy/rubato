@@ -195,8 +195,10 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.utils.vector</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">classproperty</span>
+<span></span><span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">response</span>
+<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">classproperty</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="Vector"><a class="viewcode-back" href="../../../api.html#rubato.Vector">[docs]</a><span class="k">class</span> <span class="nc">Vector</span><span class="p">:</span>
@@ -208,25 +210,35 @@
 <span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Returns the x dimension of the vector"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Returns the y dimension of the vector"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Vector.translate"><a class="viewcode-back" href="../../../api.html#rubato.Vector.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Translates the vector's x y and z coordinates by some constants</span>
+<span class="sd">        Translates the vector's x and y compenents by some constants</span>
 
 <span class="sd">        :param x: The change in x.</span>
 <span class="sd">        :param y: The change in y.</span>
 <span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">y</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Vector.offset"><a class="viewcode-back" href="../../../api.html#rubato.Vector.offset">[docs]</a>    <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Offsets the x and y coordinates of a vector by those of another vector</span>
 
-<span class="sd">        :param other: Another vector</span>
+<span class="sd">        :param other: Another Vector</span>
 <span class="sd">        :return: A new vector with the translated x and y coordinates</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span></div>
 
 <div class="viewcode-block" id="Vector.to_tuple"><a class="viewcode-back" href="../../../api.html#rubato.Vector.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -234,50 +246,33 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span></div>
 
-    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+<div class="viewcode-block" id="Vector.dot"><a class="viewcode-back" href="../../../api.html#rubato.Vector.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Calculates the dot product of the vector with another</span>
 
-    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span>
+<span class="sd">        :param other: The other vector</span>
+<span class="sd">        :return: The dot product as a float</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">crossp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<div class="viewcode-block" id="Vector.cross"><a class="viewcode-back" href="../../../api.html#rubato.Vector.cross">[docs]</a>    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Calculates the cross product of the vector with another</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">)"</span>
+<span class="sd">        :param other: The other Vector</span>
+<span class="sd">        :return: The cross product as a Vector</span>
+<span class="sd">        """</span>
+        <span class="n">cross</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">cross</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cross</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<div class="viewcode-block" id="Vector.crossp"><a class="viewcode-back" href="../../../api.html#rubato.Vector.crossp">[docs]</a>    <span class="k">def</span> <span class="nf">crossp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Returns a vector perpendicular to the vector</span>
 
-    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="sd">        :return: The perpendicular vector</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span></div>
 
-    <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
-    <span class="fm">__radd__</span> <span class="o">=</span> <span class="fm">__add__</span>
-
-    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">other</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">other</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">other</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">other</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 
     <span class="nd">@classproperty</span>
     <span class="k">def</span> <span class="nf">ZERO</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -311,58 +306,37 @@
     <span class="k">def</span> <span class="nf">INFINITY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">PMath</span><span class="o">.</span><span class="n">INFINITY</span><span class="p">,</span> <span class="n">PMath</span><span class="o">.</span><span class="n">INFINITY</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Determines if if the x and y components of the vector are equal.</span>
-
-<span class="sd">        :param v: The vector to compare.</span>
-<span class="sd">        :return: True if the x and y components of the vector are equal</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">x</span>
-
-<div class="viewcode-block" id="Vector.clamp"><a class="viewcode-back" href="../../../api.html#rubato.Vector.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">absolute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.clamp"><a class="viewcode-back" href="../../../api.html#rubato.Vector.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Clamps x and y between the two vectors given</span>
 
-<span class="sd">        :param absolute: Whether to clamp the absolute value of the vector instead of the actual value</span>
 <span class="sd">        :param lower: The lower bound</span>
 <span class="sd">        :param upper: The upper bound</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
-            <span class="n">lower</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="o">*</span><span class="n">lower</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">upper</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
-            <span class="n">upper</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="o">*</span><span class="n">upper</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">absolute</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">lower</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">upper</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">lower</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">upper</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">abs_clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">lower</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">upper</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">abs_clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">lower</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">upper</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span> <span class="k">if</span> <span class="p">(</span><span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">))</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">__equals</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">"""Returns the magnitude of the vector"""</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">.5</span>
+        <span class="sd">"""</span>
+<span class="sd">        Calculates the magnitude/normal of the vector</span>
 
-    <span class="nd">@magnitude</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">"""Sets the magnitude of a vector"""</span>
-        <span class="n">mag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span>
-        <span class="k">if</span> <span class="n">mag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span>
-        <span class="n">ratio</span> <span class="o">=</span> <span class="n">value</span> <span class="o">/</span> <span class="n">mag</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*=</span> <span class="n">ratio</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*=</span> <span class="n">ratio</span>
+<span class="sd">        :return: The magnitude as a float</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_vector</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">=</span> <span class="mi">1</span>
+<div class="viewcode-block" id="Vector.normalize"><a class="viewcode-back" href="../../../api.html#rubato.Vector.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""Normalizes the vector"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span></div>
 
-    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.unit"><a class="viewcode-back" href="../../../api.html#rubato.Vector.unit">[docs]</a>    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Calculates the corresponding unit vector</span>
+
+<span class="sd">        :return: The unit vector</span>
+<span class="sd">        """</span>
         <span class="n">copy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="n">copy</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">copy</span>
+        <span class="k">return</span> <span class="n">copy</span></div>
 
 <div class="viewcode-block" id="Vector.from_radial"><a class="viewcode-back" href="../../../api.html#rubato.Vector.from_radial">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_radial</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
@@ -377,10 +351,22 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">"""Returns the angle of the vector"""</span>
-        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="sd">"""</span>
+<span class="sd">        Returns the angle of the vector</span>
 
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">rotation</span><span class="p">):</span>
+<span class="sd">        :return: a float</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Vector.transform"><a class="viewcode-back" href="../../../api.html#rubato.Vector.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Makes a new vector that is scaled and rotated</span>
+
+<span class="sd">        :param scale: The scale factor</span>
+<span class="sd">        :param rotation: The rotation in degrees</span>
+<span class="sd">        :return: The new transformed vector</span>
+<span class="sd">        :rtype: Vector</span>
+<span class="sd">        """</span>
         <span class="n">newVector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">rotation</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">hyp</span><span class="p">,</span> <span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">+</span> <span class="n">rotation</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
@@ -388,7 +374,7 @@
 
         <span class="n">newVector</span><span class="o">.</span><span class="n">x</span> <span class="o">*=</span> <span class="n">scale</span>
         <span class="n">newVector</span><span class="o">.</span><span class="n">y</span> <span class="o">*=</span> <span class="n">scale</span>
-        <span class="k">return</span> <span class="n">newVector</span>
+        <span class="k">return</span> <span class="n">newVector</span></div>
 
 <div class="viewcode-block" id="Vector.invert"><a class="viewcode-back" href="../../../api.html#rubato.Vector.invert">[docs]</a>    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -488,7 +474,68 @@
         <span class="sd">"""</span>
 <span class="sd">        :return: bool value indicating whether both values of a are smaller than or equal to b</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+
+    <span class="k">def</span> <span class="nf">__equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Determines if if the x and y components of the vector are equal.</span>
+
+<span class="sd">        :param other: The vector to compare.</span>
+<span class="sd">        :return: True if the x and y components of the vector are equal</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span> <span class="k">if</span> <span class="p">(</span><span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">))</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">__equals</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">)"</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">*</span> <span class="n">other</span>
+
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">+</span> <span class="n">other</span>
+
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
+    <span class="fm">__radd__</span> <span class="o">=</span> <span class="fm">__add__</span>
+
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">-</span> <span class="n">other</span>
+
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">other</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">_vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span> <span class="o">/</span> <span class="n">other</span>
+
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">other</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
@@ -501,7 +548,7 @@
 
         <div class="related-information">
               Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

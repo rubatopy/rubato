@@ -4,6 +4,7 @@ from rubato.scenes import Camera
 import pygame
 from pygame.transform import scale
 
+
 class Text(Sprite):
     """
     A subclass of Sprite that handles Text.
@@ -16,7 +17,7 @@ class Text(Sprite):
         "pos": Vector(),
         "size": 16,
         "z_index": 0,
-        "font_name": 'Arial',
+        "font_name": "Arial",
         "color": Color.black,
         "static": False,
         "onto_surface": None,
@@ -37,7 +38,9 @@ class Text(Sprite):
         try:
             font = pygame.font.SysFont(self.font_name, self.size)
         except pygame.error:
-            raise Exception(f"The font {self.font_name} is not supported on your system")
+            raise Exception(
+                f"The font {self.font_name} is not supported on your system"
+            )
         self.image = font.render(self.text, True, self.color)
 
     def remake_image(self):
@@ -52,8 +55,13 @@ class Text(Sprite):
         """
         width, height = self.image.get_size()
         new_size = (round(width * camera.zoom), round(height * camera.zoom))
-        Display.update(scale(self.image, new_size),
-        camera.transform(Sprite.center_to_tl(camera.pos + self.pos, Vector(width, height)) * camera.zoom))
+        Display.update(
+            scale(self.image, new_size),
+            camera.transform(
+                Sprite.center_to_tl(camera.pos + self.pos, Vector(width, height))
+                * camera.zoom
+            ),
+        )
 
     def draw_onto_surface(self, camera: Camera):
         """
@@ -63,8 +71,12 @@ class Text(Sprite):
         """
         width, height = self.image.get_size()
         new_size = (round(width * camera.zoom), round(height * camera.zoom))
-        self.onto_surface.blit(scale(self.image, new_size),
-                               (Sprite.center_to_tl(self.pos, Vector(width, height)) * camera.zoom).to_tuple())
+        self.onto_surface.blit(
+            scale(self.image, new_size),
+            (
+                Sprite.center_to_tl(self.pos, Vector(width, height)) * camera.zoom
+            ).to_tuple(),
+        )
 
     def is_in_frame(self, camera: Camera, game) -> bool:
         if self.static:

@@ -7,6 +7,7 @@ class Group:
     """
     A group of sprites. Can render and update all of them at once.
     """
+
     def __init__(self, z: int=0):
         self.pos = Vector(0, 0)
         self.z_index = z

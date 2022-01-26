@@ -1,2 +1,2 @@
+numpy==1.22.1
 pygame==2.0.2
-typeguard==2.13.0

@@ -785,23 +785,6 @@ Also handles the drawing and updating of current scene.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.PMath.abs_clamp">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abs_clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/rubato/utils/math.html#PMath.abs_clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.PMath.abs_clamp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clamps a to the bounds of lower and upper and takes the absolute value</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> – The number to clamp</p></li>
-<li><p><strong>lower</strong> – The lower bound of the clamp</p></li>
-<li><p><strong>upper</strong> – The upper bound of the clamp</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The clamped result</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
 <dt class="sig sig-object py" id="rubato.PMath.clamp">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/rubato/utils/math.html#PMath.clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.PMath.clamp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clamps a to the bounds of upper and lower</p>
@@ -965,6 +948,11 @@ Also handles the drawing and updating of current scene.</p>
 <dt class="sig sig-object py" id="rubato.Vector.angle">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#rubato.Vector.angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the angle of the vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a float</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.Vector.ceil">
@@ -978,15 +966,37 @@ Also handles the drawing and updating of current scene.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.Vector.clamp">
-<span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">absolute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.clamp" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.clamp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clamps x and y between the two vectors given</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>absolute</strong> – Whether to clamp the absolute value of the vector instead of the actual value</p></li>
 <li><p><strong>lower</strong> – The lower bound</p></li>
 <li><p><strong>upper</strong> – The upper bound</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.cross">
+<span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Vector" title="rubato.utils.vector.Vector"><span class="pre">rubato.utils.vector.Vector</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubato.Vector" title="rubato.utils.vector.Vector"><span class="pre">rubato.utils.vector.Vector</span></a></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.cross" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the cross product of the vector with another</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – The other Vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The cross product as a Vector</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.crossp">
+<span class="sig-name descname"><span class="pre">crossp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubato.Vector" title="rubato.utils.vector.Vector"><span class="pre">rubato.utils.vector.Vector</span></a></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.crossp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.crossp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector perpendicular to the vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The perpendicular vector</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1001,6 +1011,19 @@ Also handles the drawing and updating of current scene.</p>
 <span class="sig-name descname"><span class="pre">distance_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.distance_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.distance_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>treating vectors as points the distance to the new point from the current point
 :return: distance to new point</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.dot">
+<span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Vector" title="rubato.utils.vector.Vector"><span class="pre">rubato.utils.vector.Vector</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the dot product of the vector with another</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – The other vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dot product as a float</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.Vector.from_radial">
@@ -1044,7 +1067,17 @@ Also handles the drawing and updating of current scene.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rubato.Vector.magnitude">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">magnitude</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#rubato.Vector.magnitude" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the magnitude of the vector</p>
+<dd><p>Calculates the magnitude/normal of the vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The magnitude as a float</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes the vector</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.Vector.offset">
@@ -1052,7 +1085,7 @@ Also handles the drawing and updating of current scene.</p>
 <dd><p>Offsets the x and y coordinates of a vector by those of another vector</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>other</strong> – Another vector</p>
+<dd class="field-odd"><p><strong>other</strong> – Another Vector</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A new vector with the translated x and y coordinates</p>
@@ -1078,9 +1111,28 @@ Also handles the drawing and updating of current scene.</p>
 <dd><p>Returns the x and y coordinates of the vector as a tuple</p>
 </dd></dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubato.Vector" title="rubato.utils.vector.Vector"><span class="pre">rubato.utils.vector.Vector</span></a></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a new vector that is scaled and rotated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scale</strong> – The scale factor</p></li>
+<li><p><strong>rotation</strong> – The rotation in degrees</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new transformed vector</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rubato.Vector" title="rubato.Vector">Vector</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="rubato.Vector.translate">
 <span class="sig-name descname"><span class="pre">translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.translate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.translate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Translates the vector’s x y and z coordinates by some constants</p>
+<dd><p>Translates the vector’s x and y compenents by some constants</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1089,6 +1141,26 @@ Also handles the drawing and updating of current scene.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubato.Vector" title="rubato.utils.vector.Vector"><span class="pre">rubato.utils.vector.Vector</span></a></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.unit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the corresponding unit vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The unit vector</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="rubato.Vector.x">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#rubato.Vector.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the x dimension of the vector</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="rubato.Vector.y">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#rubato.Vector.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the y dimension of the vector</p>
 </dd></dl>
 </dd></dl>
 </section>
