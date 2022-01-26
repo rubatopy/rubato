@@ -217,6 +217,7 @@
 <span class="sd">        :return: absolute value of a</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="PMath.clamp"><a class="viewcode-back" href="../../../api.html#rubato.PMath.clamp">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -228,18 +229,6 @@
 <span class="sd">        :return: The clamped result</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">lower</span><span class="p">),</span> <span class="n">upper</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="PMath.abs_clamp"><a class="viewcode-back" href="../../../api.html#rubato.PMath.abs_clamp">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">abs_clamp</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Clamps a to the bounds of lower and upper and takes the absolute value</span>
-
-<span class="sd">        :param a: The number to clamp</span>
-<span class="sd">        :param lower: The lower bound of the clamp</span>
-<span class="sd">        :param upper: The upper bound of the clamp</span>
-<span class="sd">        :return: The clamped result</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">PMath</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PMath.sign"><a class="viewcode-back" href="../../../api.html#rubato.PMath.sign">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -294,7 +283,7 @@
 
         <div class="related-information">
               Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

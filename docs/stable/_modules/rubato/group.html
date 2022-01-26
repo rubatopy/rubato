@@ -195,36 +195,56 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.group</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">The Group class defines a group of sprites. This can used to quickly update</span>
+<span class="sd">and render a lot of sprites at the same time. Collisions can also be applied</span>
+<span class="sd">to entire groups.</span>
+<span class="sd">"""</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">from</span> <span class="nn">rubato</span> <span class="kn">import</span> <span class="n">Vector</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
 <span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">RigidBody</span>
 
 
-<div class="viewcode-block" id="Group"><a class="viewcode-back" href="../../api.html#rubato.Group">[docs]</a><span class="k">class</span> <span class="nc">Group</span><span class="p">:</span>
+<div class="viewcode-block" id="Group"><a class="viewcode-back" href="../../api.html#rubato.group.Group">[docs]</a><span class="k">class</span> <span class="nc">Group</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    A group of sprites. Can render and update all of them at once.</span>
+<span class="sd">    A group of sprites.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        z_index (int): The z-index of the entire group.</span>
+<span class="sd">        sprites (List[Sprite]): The list of sprites in this group.</span>
 <span class="sd">    """</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z_index</span> <span class="o">=</span> <span class="n">z</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="Group.add"><a class="viewcode-back" href="../../api.html#rubato.Group.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite</span><span class="p">:</span> <span class="n">Sprite</span><span class="p">):</span>
+<div class="viewcode-block" id="Group.__init__"><a class="viewcode-back" href="../../api.html#rubato.group.Group.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Adds a sprite to the groups.</span>
+<span class="sd">        Initializes a group.</span>
 
-<span class="sd">        :param sprite: A sprite class to add to the group.</span>
-<span class="sd">        :return: The sprite that was added.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            z (int, optional): The z-index of the group. Defaults to 0.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">z_index</span> <span class="o">=</span> <span class="n">z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Sprite</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Group.add"><a class="viewcode-back" href="../../api.html#rubato.group.Group.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite</span><span class="p">:</span> <span class="n">Sprite</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sprite</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Add a sprite to the group.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sprite (rubato.Sprite): The sprite to add to the group</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Sprite: The sprite that was added</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sprite</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sprite</span></div>
 
-<div class="viewcode-block" id="Group.update"><a class="viewcode-back" href="../../api.html#rubato.Group.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Group.update"><a class="viewcode-back" href="../../api.html#rubato.group.Group.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Updates all the sprites in the group."""</span>
         <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
             <span class="n">sprite</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Group.draw"><a class="viewcode-back" href="../../api.html#rubato.Group.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+<div class="viewcode-block" id="Group.draw"><a class="viewcode-back" href="../../api.html#rubato.group.Group.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
         <span class="sd">"""Draws all the sprites in the group."""</span>
         <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spr</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">z_index</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">z_index</span> <span class="o">&lt;=</span> <span class="n">camera</span><span class="o">.</span><span class="n">z_index</span><span class="p">:</span>
@@ -236,21 +256,36 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-    <span class="k">def</span> <span class="nf">collide_rb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rb</span><span class="p">:</span> <span class="n">RigidBody</span><span class="p">):</span>
+<div class="viewcode-block" id="Group.collide_rb"><a class="viewcode-back" href="../../api.html#rubato.group.Group.collide_rb">[docs]</a>    <span class="k">def</span> <span class="nf">collide_rb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rb</span><span class="p">:</span> <span class="n">RigidBody</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Run a collision between the whole group and a :meth:`rubato.Rigidbody`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rb (rubato.RigidBody): The rigidbody to collide with.</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
-                <span class="n">sprite</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span>
+                <span class="n">sprite</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">rb</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">collide_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="s2">"Group"</span><span class="p">):</span>
+<div class="viewcode-block" id="Group.collide_group"><a class="viewcode-back" href="../../api.html#rubato.group.Group.collide_group">[docs]</a>    <span class="k">def</span> <span class="nf">collide_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="s2">"Group"</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Run a collision between this group and another.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            group (rubato.Group): The group to collide with.</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
-                <span class="n">group</span><span class="o">.</span><span class="n">collide_rb</span><span class="p">(</span><span class="n">sprite</span><span class="p">)</span>
+                <span class="n">group</span><span class="o">.</span><span class="n">collide_rb</span><span class="p">(</span><span class="n">sprite</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">collide_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Group.collide_self"><a class="viewcode-back" href="../../api.html#rubato.group.Group.collide_self">[docs]</a>    <span class="k">def</span> <span class="nf">collide_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Run a collision between members of this group.</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sprite2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">sprite</span> <span class="o">!=</span> <span class="n">sprite2</span> <span class="ow">and</span> <span class="n">sprite</span><span class="o">.</span><span class="n">in_frame</span> <span class="ow">and</span> <span class="n">sprite2</span><span class="o">.</span><span class="n">in_frame</span><span class="p">:</span>
-                    <span class="n">sprite</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">sprite2</span><span class="p">)</span></div>
+                    <span class="n">sprite</span><span class="o">.</span><span class="n">collide</span><span class="p">(</span><span class="n">sprite2</span><span class="p">)</span></div></div>
 </pre></div>
         </article>
       </div>
@@ -262,8 +297,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

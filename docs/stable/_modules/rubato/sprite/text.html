@@ -201,6 +201,7 @@
 <span class="kn">import</span> <span class="nn">pygame</span>
 <span class="kn">from</span> <span class="nn">pygame.transform</span> <span class="kn">import</span> <span class="n">scale</span>
 
+
 <div class="viewcode-block" id="Text"><a class="viewcode-back" href="../../../api.html#rubato.Text">[docs]</a><span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    A subclass of Sprite that handles Text.</span>
@@ -213,7 +214,7 @@
         <span class="s2">"pos"</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span>
         <span class="s2">"size"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
         <span class="s2">"z_index"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">"font_name"</span><span class="p">:</span> <span class="s1">'Arial'</span><span class="p">,</span>
+        <span class="s2">"font_name"</span><span class="p">:</span> <span class="s2">"Arial"</span><span class="p">,</span>
         <span class="s2">"color"</span><span class="p">:</span> <span class="n">Color</span><span class="o">.</span><span class="n">black</span><span class="p">,</span>
         <span class="s2">"static"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
         <span class="s2">"onto_surface"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
@@ -221,7 +222,10 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{}):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Text</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span> <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]})</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span>
+            <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]</span>
+        <span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">font_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"font_name"</span><span class="p">]</span>
@@ -234,7 +238,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The font </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="si">}</span><span class="s2"> is not supported on your system"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"The font </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="si">}</span><span class="s2"> is not supported on your system"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">remake_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -249,8 +254,12 @@
 <span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
         <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span>
-        <span class="n">Display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">new_size</span><span class="p">),</span>
-        <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Sprite</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span></div>
+        <span class="n">Display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">new_size</span><span class="p">),</span>
+            <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+                <span class="n">Sprite</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span>
+                    <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Text.draw_onto_surface"><a class="viewcode-back" href="../../../api.html#rubato.Text.draw_onto_surface">[docs]</a>    <span class="k">def</span> <span class="nf">draw_onto_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -260,8 +269,11 @@
 <span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
         <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">onto_surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">new_size</span><span class="p">),</span>
-                               <span class="p">(</span><span class="n">Sprite</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">)</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">())</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onto_surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span>
+            <span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">new_size</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">Sprite</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span> <span class="o">*</span>
+             <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">)</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">(),</span>
+        <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span><span class="p">:</span>
@@ -279,7 +291,7 @@
 
         <div class="related-information">
               Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

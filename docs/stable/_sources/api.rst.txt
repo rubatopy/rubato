@@ -1,26 +1,27 @@
 Full API Documentation
 ======================
+.. automodule:: rubato
+    :members: init, begin
 
 .. _game:
 
 Game
 ----
-.. automodule:: rubato
+.. automodule:: rubato.game
     :members:
-
 
 .. _input:
 
 Input
 -----
-.. autoclass:: rubato.Input
+.. automodule:: rubato.input
     :members:
 
 .. _radio:
 
 Radio
 -----
-.. autoclass:: rubato.Radio
+.. automodule:: rubato.radio
     :members:
 
 .. _sprite:
@@ -76,7 +77,7 @@ _________
 
 Group
 -----
-.. autoclass:: rubato.Group
+.. automodule:: rubato.group
     :members:
 
 .. _scene:

@@ -195,33 +195,57 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.radio</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="Radio"><a class="viewcode-back" href="../../api.html#rubato.Radio">[docs]</a><span></span><span class="k">class</span> <span class="nc">Radio</span><span class="p">:</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">The Radio module is a system used to communicate to all parts of the game.</span>
+<span class="sd">This is similar to event systems in other game engines.</span>
+
+<span class="sd">To use this, first you need to listen for a specific key using the</span>
+<span class="sd">:meth:`Radio.listen` function. Then from anywhere else in the code, you can</span>
+<span class="sd">broadcast that event key using the :meth:`Radio.broadcast` function.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span> <span class="nn">typing</span>
+
+
+<div class="viewcode-block" id="Radio"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio">[docs]</a><span class="k">class</span> <span class="nc">Radio</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    Broadcast system manages all events and inter-class communication. Has a buffer system and a handler system.</span>
+<span class="sd">    Broadcast system manages all events and inter-class communication.</span>
+<span class="sd">    Has a buffer system and a handler system.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        events (List[str]): A list with all the event keys in the queue.</span>
+<span class="sd">        listeners (dict[str, typing.Callable]): A dictionary with all of the</span>
+<span class="sd">            active listeners.</span>
 <span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="Radio.broadcast"><a class="viewcode-back" href="../../api.html#rubato.Radio.broadcast">[docs]</a>    <span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="Radio.broadcast"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio.broadcast">[docs]</a>    <span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Broadcast a custom event.</span>
+<span class="sd">        Broadcast an event to be caught by listeners.</span>
 
-<span class="sd">        :param event: The name of your custom event.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event (str): The event key to broadcast.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[]):</span>
             <span class="n">func</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Radio.listen"><a class="viewcode-back" href="../../api.html#rubato.Radio.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span><span class="kc">None</span><span class="p">)):</span>
+<div class="viewcode-block" id="Radio.listen"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Allows you to call a function everytime a specific event occurs.</span>
+<span class="sd">        Creates an event listener.</span>
 
-<span class="sd">        :param event: The event code to subscribe to</span>
-<span class="sd">        :param func: The function that needs to run once the event occurs</span>
+<span class="sd">        Args:</span>
+<span class="sd">            event (str): The event key to listen for.</span>
+<span class="sd">            func (typing.Callable): The function to run once the event is</span>
+<span class="sd">                broadcast.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            You **CANNOT** currently delete an event listener once it's created.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">]</span></div></div>
@@ -236,8 +260,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

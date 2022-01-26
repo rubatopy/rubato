@@ -7,7 +7,7 @@
   <meta property="og:title" content="Full API Documentation" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://tinmarr.github.io/api.html" />
-  <meta property="og:description" content="Game: Input: Radio: Sprite: Empty: Image: Rectangle: RigidBody: Text: Button: Group: Scene: SceneManager: Camera: Utilities: PMath: STATE: Display: Vector: Time: Polygon: Circle: COL_TYPE: Color: Separating Axis Theorem: Credit for original JavaScript separating axis theorem implementation to And..." />
+  <meta property="og:description" content="Rubato is a clean and efficient game engine. Rubato is a Python game engine that builds off of PyGame to make a cleaner and more efficient game engine. We aim to make game development in Python much easier than it currently is. Even though we use PyGame in the backend, when using Rubato, you do n..." />
   <meta property="og:image" content="https://tinmarr.github.io/_static/logo_long.png" />
   <meta property="og:image:alt" content="Full API Documentation" />
   <link rel="search" title="Search" href="search.html" /><link rel="next" title="Default Options" href="defaults.html" /><link rel="prev" title="&lt;no title&gt;" href="index.html" />
@@ -202,44 +202,22 @@
           </label>
         </div>
         <article role="main">
-          <section id="full-api-documentation">
-<h1>Full API Documentation<a class="headerlink" href="#full-api-documentation" title="Permalink to this headline">¶</a></h1>
-<section id="game">
-<span id="id1"></span><h2>Game<a class="headerlink" href="#game" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-rubato"></span><dl class="py class">
-<dt class="sig sig-object py" id="rubato.Game">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato.html#Game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Game" title="Permalink to this definition">¶</a></dt>
-<dd><p>Main Game object. Controls everything in the game.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>options</strong> – The <a class="reference internal" href="defaults.html#defaultgame"><span class="std std-ref">config</span></a> used to generate the game instance.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.Game.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato.html#Game.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Game.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw loop for the game.</p>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.Game.start_loop">
-<span class="sig-name descname"><span class="pre">start_loop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato.html#Game.start_loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Game.start_loop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Actually runs the game</p>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.Game.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato.html#Game.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Game.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update loop for the game.</p>
-</dd></dl>
-<dl class="py property">
-<dt class="sig sig-object py" id="rubato.Game.window_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">window_size</span></span><a class="headerlink" href="#rubato.Game.window_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the size of the game window</p>
-</dd></dl>
-</dd></dl>
+          <section id="module-rubato">
+<span id="full-api-documentation"></span><h1>Full API Documentation<a class="headerlink" href="#module-rubato" title="Permalink to this headline">¶</a></h1>
+<p>Rubato is a clean and efficient game engine.</p>
+<p>Rubato is a Python game engine that builds off of PyGame to make a cleaner and
+more efficient game engine. We aim to make game development in Python much
+easier than it currently is. Even though we use PyGame in the backend, when
+using Rubato, you do not need to ever touch PyGame.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubato.begin">
 <span class="sig-name descname"><span class="pre">begin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato.html#begin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.begin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts the main game loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – Rubato has not been initialized before calling.</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubato.init">
@@ -247,68 +225,256 @@
 <dd><p>Initializes rubato.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>options</strong> – The <a class="reference internal" href="defaults.html#defaultgame"><span class="std std-ref">config</span></a> used to generate the game instance.</p>
+<dd class="field-odd"><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict,</span> <span class="pre">optional</span></code>) – A game config.
+Defaults to the <a class="reference internal" href="defaults.html#defaultgame"><span class="std std-ref">default game options</span></a>.</p>
 </dd>
 </dl>
+</dd></dl>
+<section id="game">
+<span id="id1"></span><h2>Game<a class="headerlink" href="#game" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-rubato.game"></span><p>The Game class houses the global variable for the game and controls the main
+game loop.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubato.game.Game">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.game.Game" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main game class. It controls everything in the game.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.scenes">
+<span class="sig-name descname"><span class="pre">scenes</span></span><a class="headerlink" href="#rubato.game.Game.scenes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The global scene manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rubato.SceneManager" title="rubato.SceneManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.SceneManager</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.radio">
+<span class="sig-name descname"><span class="pre">radio</span></span><a class="headerlink" href="#rubato.game.Game.radio" title="Permalink to this definition">¶</a></dt>
+<dd><p>The global radio system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.Radio</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#rubato.game.Game.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The title of the game window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.fps">
+<span class="sig-name descname"><span class="pre">fps</span></span><a class="headerlink" href="#rubato.game.Game.fps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The target fps of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.reset_display">
+<span class="sig-name descname"><span class="pre">reset_display</span></span><a class="headerlink" href="#rubato.game.Game.reset_display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controls whether or not the display should reset
+every frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#rubato.game.Game.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current state of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rubato.STATE" title="rubato.STATE"><code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.STATE</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Changing most of the above attributes will not update them in the game.
+For all intensive purposes, all the attributes in this class can be
+considered as read only.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.game.Game.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.game.Game.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes a game. Should only be called by <a class="reference internal" href="#rubato.init" title="rubato.init"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rubato.init()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict,</span> <span class="pre">optional</span></code>) – A game config.
+Defaults to the <a class="reference internal" href="defaults.html#defaultgame"><span class="std std-ref">default game options</span></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.game.Game.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.game.Game.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw loop for the game. Called automatically every frame</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.game.Game.start_loop">
+<span class="sig-name descname"><span class="pre">start_loop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game.start_loop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.game.Game.start_loop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the game loop. Should only be called by <a class="reference internal" href="#rubato.begin" title="rubato.begin"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rubato.begin()</span></code></a></p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.game.Game.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.game.Game.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>The update loop for the game. Called automatically every frame</p>
+</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="rubato.game.Game.window_size">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">window_size</span></span><a class="headerlink" href="#rubato.game.Game.window_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current size of the window</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A vector with x representing the width and</dt><dd><p>y representing the height</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#rubato.Vector" title="rubato.Vector">rubato.Vector</a></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This currently only returns the initial window size</p>
+</div>
+</dd></dl>
 </dd></dl>
 </section>
 <section id="input">
 <span id="id2"></span><h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="rubato.Input">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Input</span></span><a class="reference internal" href="_modules/rubato/input.html#Input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Input" title="Permalink to this definition">¶</a></dt>
-<dd><p>An abstraction of the PyGame input system. Slightly optimized and plays nice with the rest of rubato.</p>
+<span class="target" id="module-rubato.input"></span><p>The Input module is the way you collect input from the user.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="rubato.Input.key">
-<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'pygame.key'</span> <span class="pre">from</span> <span class="pre">'/home/martin/.pyenv/versions/3.10.0/envs/rubato-docs/lib/python3.10/site-packages/pygame/key.cpython-310-x86_64-linux-gnu.so'&gt;</span></em><a class="headerlink" href="#rubato.Input.key" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="rubato.Input.mouse">
-<span class="sig-name descname"><span class="pre">mouse</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'pygame.mouse'</span> <span class="pre">from</span> <span class="pre">'/home/martin/.pyenv/versions/3.10.0/envs/rubato-docs/lib/python3.10/site-packages/pygame/mouse.cpython-310-x86_64-linux-gnu.so'&gt;</span></em><a class="headerlink" href="#rubato.Input.mouse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.Input.mouse_over">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mouse_over</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center:</span> <span class="pre">rubato.utils.vector.Vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims:</span> <span class="pre">rubato.utils.vector.Vector</span> <span class="pre">=</span> <span class="pre">&lt;rubato.utils.vector.Vector</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/input.html#Input.mouse_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Input.mouse_over" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns if the mouse is inside a rectangle defined by its center and dimensions.</p>
+<dt class="sig sig-object py" id="rubato.input.key">
+<span class="sig-name descname"><span class="pre">key</span></span><a class="headerlink" href="#rubato.input.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>The pygame key module.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>center</strong> – The center of the rectangle</p></li>
-<li><p><strong>dims</strong> – The dimensions of the rectangle (Defaulted to 1 pixel if you need to check if the mouse is over a specific coord)</p></li>
-</ul>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pygame.key</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.input.mouse">
+<span class="sig-name descname"><span class="pre">mouse</span></span><a class="headerlink" href="#rubato.input.mouse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The pygame mouse module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pygame.mouse</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.input.is_pressed">
+<span class="sig-name descname"><span class="pre">is_pressed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">char</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/input.html#is_pressed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.input.is_pressed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a key is pressed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>char</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the key to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether or not the key is pressed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.input.mouse_over">
+<span class="sig-name descname"><span class="pre">mouse_over</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center:</span> <span class="pre">rubato.utils.vector.Vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims:</span> <span class="pre">rubato.utils.vector.Vector</span> <span class="pre">=</span> <span class="pre">&lt;rubato.utils.vector.Vector</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/input.html#mouse_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.input.mouse_over" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the mouse is inside a rectangle defined by its center
+and dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>center</strong> (<a class="reference internal" href="#rubato.Vector" title="rubato.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.Vector</span></code></a>) – The center of the rectangle.</p></li>
+<li><p><strong>dims</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.Vector,</span> <span class="pre">optional</span></code>) – The dimensions of the rectangle.
+Defaults to Vector(1, 1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether or not the mouse is in the defined rectangle.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 </section>
 <section id="radio">
 <span id="id3"></span><h2>Radio<a class="headerlink" href="#radio" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-rubato.radio"></span><p>The Radio module is a system used to communicate to all parts of the game.
+This is similar to event systems in other game engines.</p>
+<p>To use this, first you need to listen for a specific key using the
+<a class="reference internal" href="#rubato.radio.Radio.listen" title="rubato.radio.Radio.listen"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Radio.listen()</span></code></a> function. Then from anywhere else in the code, you can
+broadcast that event key using the <a class="reference internal" href="#rubato.radio.Radio.broadcast" title="rubato.radio.Radio.broadcast"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Radio.broadcast()</span></code></a> function.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="rubato.Radio">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Radio</span></span><a class="reference internal" href="_modules/rubato/radio.html#Radio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Radio" title="Permalink to this definition">¶</a></dt>
-<dd><p>Broadcast system manages all events and inter-class communication. Has a buffer system and a handler system.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.Radio.broadcast">
-<span class="sig-name descname"><span class="pre">broadcast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/radio.html#Radio.broadcast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Radio.broadcast" title="Permalink to this definition">¶</a></dt>
-<dd><p>Broadcast a custom event.</p>
+<dt class="sig sig-object py" id="rubato.radio.Radio">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Radio</span></span><a class="reference internal" href="_modules/rubato/radio.html#Radio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.radio.Radio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Broadcast system manages all events and inter-class communication.
+Has a buffer system and a handler system.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.radio.Radio.events">
+<span class="sig-name descname"><span class="pre">events</span></span><a class="headerlink" href="#rubato.radio.Radio.events" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list with all the event keys in the queue.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>event</strong> – The name of your custom event.</p>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List[str]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.radio.Radio.listeners">
+<span class="sig-name descname"><span class="pre">listeners</span></span><a class="headerlink" href="#rubato.radio.Radio.listeners" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary with all of the
+active listeners.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Callable]</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.Radio.listen">
-<span class="sig-name descname"><span class="pre">listen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/radio.html#Radio.listen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Radio.listen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allows you to call a function everytime a specific event occurs.</p>
+<dt class="sig sig-object py" id="rubato.radio.Radio.broadcast">
+<span class="sig-name descname"><span class="pre">broadcast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/radio.html#Radio.broadcast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.radio.Radio.broadcast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Broadcast an event to be caught by listeners.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The event key to broadcast.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.radio.Radio.listen">
+<span class="sig-name descname"><span class="pre">listen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/radio.html#Radio.listen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.radio.Radio.listen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an event listener.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>event</strong> – The event code to subscribe to</p></li>
-<li><p><strong>func</strong> – The function that needs to run once the event occurs</p></li>
+<li><p><strong>event</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The event key to listen for.</p></li>
+<li><p><strong>func</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">typing.Callable</span></code>) – The function to run once the event is
+broadcast.</p></li>
 </ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You <strong>CANNOT</strong> currently delete an event listener once it’s created.</p>
+</div>
 </dd></dl>
 </dd></dl>
 </section>
@@ -592,31 +758,92 @@
 </section>
 <section id="group">
 <span id="id11"></span><h2>Group<a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-rubato.group"></span><p>The Group class defines a group of sprites. This can used to quickly update
+and render a lot of sprites at the same time. Collisions can also be applied
+to entire groups.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="rubato.Group">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Group" title="Permalink to this definition">¶</a></dt>
-<dd><p>A group of sprites. Can render and update all of them at once.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.Group.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Sprite" title="rubato.sprite.sprite.Sprite"><span class="pre">rubato.sprite.sprite.Sprite</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Group.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a sprite to the groups.</p>
+<dt class="sig sig-object py" id="rubato.group.Group">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group" title="Permalink to this definition">¶</a></dt>
+<dd><p>A group of sprites.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.group.Group.z_index">
+<span class="sig-name descname"><span class="pre">z_index</span></span><a class="headerlink" href="#rubato.group.Group.z_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>The z-index of the entire group.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sprite</strong> – A sprite class to add to the group.</p>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The sprite that was added.</p>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.group.Group.sprites">
+<span class="sig-name descname"><span class="pre">sprites</span></span><a class="headerlink" href="#rubato.group.Group.sprites" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of sprites in this group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[ <a class="reference internal" href="#rubato.Sprite" title="rubato.Sprite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rubato.Sprite()</span></code></a> ]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.Group.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Camera" title="rubato.scenes.camera.Camera"><span class="pre">rubato.scenes.camera.Camera</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Group.draw" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.group.Group.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes a group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>z</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int,</span> <span class="pre">optional</span></code>) – The z-index of the group. Defaults to 0.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.group.Group.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Sprite" title="rubato.sprite.sprite.Sprite"><span class="pre">rubato.sprite.sprite.Sprite</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference internal" href="#rubato.Sprite" title="rubato.sprite.sprite.Sprite"><span class="pre">rubato.sprite.sprite.Sprite</span></a></span></span><a class="reference internal" href="_modules/rubato/group.html#Group.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a sprite to the group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sprite</strong> (<a class="reference internal" href="#rubato.Sprite" title="rubato.Sprite"><code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.Sprite</span></code></a>) – The sprite to add to the group</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The sprite that was added</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#rubato.Sprite" title="rubato.Sprite">Sprite</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.group.Group.collide_group">
+<span class="sig-name descname"><span class="pre">collide_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.group.Group" title="rubato.group.Group"><span class="pre">rubato.group.Group</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.collide_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a collision between this group and another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.Group</span></code>) – The group to collide with.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.group.Group.collide_rb">
+<span class="sig-name descname"><span class="pre">collide_rb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.RigidBody" title="rubato.sprite.rigidbody.RigidBody"><span class="pre">rubato.sprite.rigidbody.RigidBody</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_rb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.collide_rb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a collision between the whole group and a <code class="xref py py-meth docutils literal notranslate"><span class="pre">rubato.Rigidbody()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rb</strong> (<a class="reference internal" href="#rubato.RigidBody" title="rubato.RigidBody"><code class="xref py py-class docutils literal notranslate"><span class="pre">rubato.RigidBody</span></code></a>) – The rigidbody to collide with.</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.group.Group.collide_self">
+<span class="sig-name descname"><span class="pre">collide_self</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_self"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.collide_self" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a collision between members of this group.</p>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.group.Group.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Camera" title="rubato.scenes.camera.Camera"><span class="pre">rubato.scenes.camera.Camera</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws all the sprites in the group.</p>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.Group.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Group.update" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.group.Group.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates all the sprites in the group.</p>
 </dd></dl>
 </dd></dl>
@@ -629,7 +856,7 @@
 <dd><p>A scene is a collection of sprites. Interactions between sprites is handled here.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.Scene.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Sprite" title="rubato.sprite.sprite.Sprite"><span class="pre">rubato.sprite.sprite.Sprite</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#rubato.Group" title="rubato.group.Group"><span class="pre">rubato.group.Group</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sprite_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/scenes/scene.html#Scene.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Scene.add" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rubato.Sprite" title="rubato.sprite.sprite.Sprite"><span class="pre">rubato.sprite.sprite.Sprite</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#rubato.group.Group" title="rubato.group.Group"><span class="pre">rubato.group.Group</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sprite_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/scenes/scene.html#Scene.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Scene.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a sprite to the scene.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -774,23 +1001,6 @@ Also handles the drawing and updating of current scene.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>absolute value of a</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.PMath.abs_clamp">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abs_clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/rubato/utils/math.html#PMath.abs_clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.PMath.abs_clamp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clamps a to the bounds of lower and upper and takes the absolute value</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> – The number to clamp</p></li>
-<li><p><strong>lower</strong> – The lower bound of the clamp</p></li>
-<li><p><strong>upper</strong> – The upper bound of the clamp</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The clamped result</p>
 </dd>
 </dl>
 </dd></dl>
@@ -945,6 +1155,42 @@ Also handles the drawing and updating of current scene.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.__ge__">
+<span class="sig-name descname"><span class="pre">__ge__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.__ge__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bool value indicating whether both values of a are greater or equal than b</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.__gt__">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.__gt__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bool value indicating whether both values of a are greater than b</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.__le__">
+<span class="sig-name descname"><span class="pre">__le__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.__le__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bool value indicating whether both values of a are smaller than or equal to b</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.Vector.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.__lt__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bool value indicating whether both values of a are small than b</p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.Vector.absolute">
 <span class="sig-name descname"><span class="pre">absolute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.absolute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.Vector.absolute" title="Permalink to this definition">¶</a></dt>
@@ -1402,7 +1648,7 @@ Also handles the drawing and updating of current scene.</p>
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
+              Copyright &#169;  |
           Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
