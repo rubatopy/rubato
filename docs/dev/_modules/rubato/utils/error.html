@@ -2,15 +2,15 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="search" title="Search" href="../../search.html" />
+    <meta name="color-scheme" content="light dark"><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/logo_img.png"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
-        <title>rubato.input - Rubato 0.0.1 Documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
+    <link rel="shortcut icon" href="../../../_static/logo_img.png"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
+        <title>rubato.utils.error - Rubato 0.0.1 Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=fade93df149f7c5fedb3ff897f799dc7d283b420" />
     
     
 
@@ -130,7 +130,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">Rubato 0.0.1 Documentation</div></a>
+      <a href="../../../index.html"><div class="brand">Rubato 0.0.1 Documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -150,14 +150,14 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo" src="../../_static/logo_img_small.png" alt="Logo"/>
+    <img class="sidebar-logo" src="../../../_static/logo_img_small.png" alt="Logo"/>
   </div>
   
   
-</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
@@ -165,9 +165,9 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api.html">Full API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../defaults.html">Default Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">Full API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../defaults.html">Default Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Getting Started</a></li>
 </ul>
 
 </div>
@@ -194,52 +194,13 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for rubato.input</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""</span>
-<span class="sd">The Input module is the way you collect input from the user.</span>
-
-<span class="sd">Attributes:</span>
-<span class="sd">    key (pygame.key): The pygame key module.</span>
-<span class="sd">    mouse (pygame.mouse): The pygame mouse module.</span>
-<span class="sd">"""</span>
-<span class="kn">import</span> <span class="nn">pygame</span> <span class="k">as</span> <span class="nn">pg</span>
-<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span>
-
-<span class="n">key</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">key</span>
-<span class="n">mouse</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">mouse</span>
+          <h1>Source code for rubato.utils.error</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../../api.html#rubato.utils.error.Error">[docs]</a><span></span><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="is_pressed"><a class="viewcode-back" href="../../api.html#rubato.input.is_pressed">[docs]</a><span class="k">def</span> <span class="nf">is_pressed</span><span class="p">(</span><span class="n">char</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    Checks if a key is pressed.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        char: The name of the key to check.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        bool: Whether or not the key is pressed.</span>
-<span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">get_pressed</span><span class="p">()[</span><span class="n">key</span><span class="o">.</span><span class="n">key_code</span><span class="p">(</span><span class="n">char</span><span class="p">)]</span></div>
-
-
-<div class="viewcode-block" id="mouse_over"><a class="viewcode-back" href="../../api.html#rubato.input.mouse_over">[docs]</a><span class="k">def</span> <span class="nf">mouse_over</span><span class="p">(</span><span class="n">center</span><span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">dims</span><span class="p">:</span> <span class="n">Vector</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    Checks if the mouse is inside a rectangle defined by its center</span>
-<span class="sd">    and dimensions</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        center: The center of the rectangle.</span>
-<span class="sd">        dims: The dimensions of the rectangle. Defaults to Vector(1, 1).</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        bool: Whether or not the mouse is in the defined rectangle.</span>
-<span class="sd">    """</span>
-    <span class="n">top_left</span> <span class="o">=</span> <span class="p">(</span><span class="n">center</span> <span class="o">-</span> <span class="n">dims</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-    <span class="n">bottom_right</span> <span class="o">=</span> <span class="p">(</span><span class="n">center</span> <span class="o">+</span> <span class="n">dims</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-    <span class="n">mouse_pos</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="n">mouse</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mouse</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">top_left</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">mouse_pos</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">bottom_right</span><span class="o">.</span><span class="n">x</span>
-            <span class="ow">and</span> <span class="n">top_left</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">mouse_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">bottom_right</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
+<div class="viewcode-block" id="IdError"><a class="viewcode-back" href="../../../api.html#rubato.utils.error.IdError">[docs]</a><span class="k">class</span> <span class="nc">IdError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
 </pre></div>
         </article>
       </div>
@@ -264,13 +225,13 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/tabs.js"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/scripts/furo.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/tabs.js"></script>
     </body>
 </html>

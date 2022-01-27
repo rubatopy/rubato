@@ -213,15 +213,15 @@
 <span class="sd">    The main game class. It controls everything in the game.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        scenes (rubato.SceneManager): The global scene manager.</span>
-<span class="sd">        radio (rubato.Radio): The global radio system.</span>
+<span class="sd">        scenes (SceneManager): The global scene manager.</span>
+<span class="sd">        radio (Radio): The global radio system.</span>
 <span class="sd">        name (str): The title of the game window.</span>
 <span class="sd">        fps (int): The target fps of the game.</span>
 <span class="sd">        reset_display (bool): Controls whether or not the display should reset</span>
 <span class="sd">            every frame.</span>
-<span class="sd">        state (rubato.STATE): The current state of the game.</span>
+<span class="sd">        state (STATE): The current state of the game.</span>
 
-<span class="sd">    Note:</span>
+<span class="sd">    Warning:</span>
 <span class="sd">        Changing most of the above attributes will not update them in the game.</span>
 <span class="sd">        For all intensive purposes, all the attributes in this class can be</span>
 <span class="sd">        considered as read only.</span>
@@ -242,19 +242,19 @@
 <span class="sd">        Initializes a game. Should only be called by :meth:`rubato.init`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            options (dict, optional): A game config.</span>
+<span class="sd">            options: A game config.</span>
 <span class="sd">                Defaults to the :ref:`default game options &lt;defaultgame&gt;`.</span>
 <span class="sd">        """</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"window_width"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"window_height"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_aspect_ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"aspect_ratio"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"fps"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_display</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"reset_display"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_use_better_clock</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"better_clock"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"window_width"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"window_height"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aspect_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"aspect_ratio"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"fps"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_display</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"reset_display"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_better_clock</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"better_clock"</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span>
 
@@ -281,13 +281,21 @@
 <span class="sd">        The current size of the window</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            rubato.Vector: A vector with x representing the width and</span>
+<span class="sd">            Vector: A vector with x representing the width and</span>
 <span class="sd">                y representing the height</span>
 
-<span class="sd">        Note:</span>
+<span class="sd">        Warning:</span>
 <span class="sd">            This currently only returns the initial window size</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Game.start_loop"><a class="viewcode-back" href="../../api.html#rubato.game.Game.start_loop">[docs]</a>    <span class="k">def</span> <span class="nf">start_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Starts the game loop. Should only be called by :meth:`rubato.begin`</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Game.update"><a class="viewcode-back" href="../../api.html#rubato.game.Game.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""The update loop for the game. Called automatically every frame"""</span>
@@ -336,15 +344,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reset_display</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_display</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_display</span> <span class="o">=</span> <span class="n">Display</span><span class="o">.</span><span class="n">display</span></div>
-
-<div class="viewcode-block" id="Game.start_loop"><a class="viewcode-back" href="../../api.html#rubato.game.Game.start_loop">[docs]</a>    <span class="k">def</span> <span class="nf">start_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">"""</span>
-<span class="sd">        Starts the game loop. Should only be called by :meth:`rubato.begin`</span>
-<span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_display</span> <span class="o">=</span> <span class="n">Display</span><span class="o">.</span><span class="n">display</span></div></div>
 </pre></div>
         </article>
       </div>

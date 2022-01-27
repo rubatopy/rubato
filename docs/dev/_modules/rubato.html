@@ -201,6 +201,14 @@
 <span class="sd">more efficient game engine. We aim to make game development in Python much</span>
 <span class="sd">easier than it currently is. Even though we use PyGame in the backend, when</span>
 <span class="sd">using Rubato, you do not need to ever touch PyGame.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">    Every single class can be accessed through the top level or through the full</span>
+<span class="sd">    module path.</span>
+
+<span class="sd">Attributes:</span>
+<span class="sd">    game (Game): The global game class that can be accessed anywhere.</span>
+<span class="sd">        Initialized when :meth:`rubato.init()` is called.</span>
 <span class="sd">"""</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
 <span class="c1"># This needs to be set before pygame    pylint: disable=wrong-import-position</span>
@@ -209,7 +217,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="c1"># from typeguard.importhook import install_import_hook</span>
 <span class="c1"># install_import_hook("rubato")</span>
-<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">classproperty</span><span class="p">,</span> <span class="n">STATE</span><span class="p">,</span> <span class="n">Display</span><span class="p">,</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">SAT</span><span class="p">,</span> <span class="n">COL_TYPE</span><span class="p">,</span> <span class="n">Color</span>
+<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">classproperty</span><span class="p">,</span> <span class="n">STATE</span><span class="p">,</span> <span class="n">Display</span><span class="p">,</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">SAT</span><span class="p">,</span> <span class="n">COL_TYPE</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">Error</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">SceneManager</span><span class="p">,</span> <span class="n">Scene</span><span class="p">,</span> <span class="n">Camera</span>
 <span class="kn">from</span> <span class="nn">rubato.radio</span> <span class="kn">import</span> <span class="n">Radio</span>
 <span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">RigidBody</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Empty</span>
@@ -217,7 +225,39 @@
 <span class="kn">import</span> <span class="nn">rubato.input</span> <span class="k">as</span> <span class="nn">Input</span>
 <span class="kn">from</span> <span class="nn">rubato.game</span> <span class="kn">import</span> <span class="n">Game</span>
 
-<span class="n">game</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="c1"># This variable tells python which things are included in the library.</span>
+<span class="c1"># Apparently just importing them isn't enough.</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"PMath"</span><span class="p">,</span>
+    <span class="s2">"classproperty"</span><span class="p">,</span>
+    <span class="s2">"STATE"</span><span class="p">,</span>
+    <span class="s2">"Display"</span><span class="p">,</span>
+    <span class="s2">"Vector"</span><span class="p">,</span>
+    <span class="s2">"Time"</span><span class="p">,</span>
+    <span class="s2">"Polygon"</span><span class="p">,</span>
+    <span class="s2">"Circle"</span><span class="p">,</span>
+    <span class="s2">"SAT"</span><span class="p">,</span>
+    <span class="s2">"COL_TYPE"</span><span class="p">,</span>
+    <span class="s2">"Color"</span><span class="p">,</span>
+    <span class="s2">"Error"</span><span class="p">,</span>
+    <span class="s2">"SceneManager"</span><span class="p">,</span>
+    <span class="s2">"Scene"</span><span class="p">,</span>
+    <span class="s2">"Camera"</span><span class="p">,</span>
+    <span class="s2">"Radio"</span><span class="p">,</span>
+    <span class="s2">"Sprite"</span><span class="p">,</span>
+    <span class="s2">"Image"</span><span class="p">,</span>
+    <span class="s2">"RigidBody"</span><span class="p">,</span>
+    <span class="s2">"Button"</span><span class="p">,</span>
+    <span class="s2">"Rectangle"</span><span class="p">,</span>
+    <span class="s2">"Text"</span><span class="p">,</span>
+    <span class="s2">"Empty"</span><span class="p">,</span>
+    <span class="s2">"Group"</span><span class="p">,</span>
+    <span class="s2">"Input"</span><span class="p">,</span>
+    <span class="s2">"Game"</span><span class="p">,</span>
+    <span class="s2">"color"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="c1"># TODO Sound manager</span>
 <span class="c1"># TODO make it so that the 0,0 coordinate is the center the screen</span>
@@ -231,7 +271,7 @@
 <span class="sd">    Initializes rubato.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        options (dict, optional): A game config.</span>
+<span class="sd">        options: A game config.</span>
 <span class="sd">                Defaults to the :ref:`default game options &lt;defaultgame&gt;`.</span>
 <span class="sd">    """</span>
     <span class="k">global</span> <span class="n">game</span>
