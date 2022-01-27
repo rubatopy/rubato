@@ -1,3 +1,7 @@
+"""
+This is a demo file :)
+"""
+
 import rubato as rb
 from rubato import Group, Scene, Vector, Input
 
@@ -13,7 +17,11 @@ rb.game.scenes.add(main_scene)
 group = Group()
 main_scene.add(group)
 
-sprite = rb.Rectangle(Vector(300, 200), Vector(100, 100), rb.color.yellow)
+sprite = rb.Rectangle({
+    "pos": Vector(300, 200),
+    "dims": Vector(100, 100),
+    "color": rb.color.yellow
+})
 empty = rb.Empty()
 
 
@@ -37,7 +45,7 @@ def custom_update():
 empty.update = custom_update
 group.add(sprite)
 
-text = rb.Text({'text': 'hi', 'onto_surface': sprite.image})
+text = rb.Text({"text": "hi", "onto_surface": sprite.image})
 group.add(text)
 
 main_scene.add(group)
