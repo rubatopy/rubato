@@ -198,17 +198,17 @@
 <span></span><span class="kn">import</span> <span class="nn">math</span>
 
 
-<span class="k">class</span> <span class="nc">classproperty</span><span class="p">(</span><span class="nb">property</span><span class="p">):</span>
+<div class="viewcode-block" id="classproperty"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.classproperty">[docs]</a><span class="k">class</span> <span class="nc">classproperty</span><span class="p">(</span><span class="nb">property</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">classmethod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="p">)</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner</span><span class="p">)()</span>
+        <span class="k">return</span> <span class="nb">classmethod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="p">)</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner</span><span class="p">)()</span></div>
 
-<div class="viewcode-block" id="PMath"><a class="viewcode-back" href="../../../api.html#rubato.PMath">[docs]</a><span class="k">class</span> <span class="nc">PMath</span><span class="p">:</span>
+<div class="viewcode-block" id="PMath"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath">[docs]</a><span class="k">class</span> <span class="nc">PMath</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A more complete math class</span>
 <span class="sd">    """</span>
     <span class="n">INFINITY</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">99</span>
     <span class="n">pi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
-<div class="viewcode-block" id="PMath.abs"><a class="viewcode-back" href="../../../api.html#rubato.PMath.abs">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PMath.abs"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath.abs">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Absolute value of a given value</span>
@@ -218,7 +218,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PMath.clamp"><a class="viewcode-back" href="../../../api.html#rubato.PMath.clamp">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PMath.clamp"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath.clamp">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Clamps a to the bounds of upper and lower</span>
@@ -230,7 +230,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">lower</span><span class="p">),</span> <span class="n">upper</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PMath.sign"><a class="viewcode-back" href="../../../api.html#rubato.PMath.sign">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PMath.sign"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath.sign">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Checks the sign of n</span>
@@ -240,7 +240,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PMath.lerp"><a class="viewcode-back" href="../../../api.html#rubato.PMath.lerp">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PMath.lerp"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath.lerp">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">lower</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Linearly interpolates between lower and upper bounds by t</span>
@@ -252,7 +252,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">upper</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">lower</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PMath.deg_to_rad"><a class="viewcode-back" href="../../../api.html#rubato.PMath.deg_to_rad">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PMath.deg_to_rad"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath.deg_to_rad">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">deg_to_rad</span><span class="p">(</span><span class="n">deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Convert a number from degrees to radians</span>
@@ -262,7 +262,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">deg</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span></div>
 
-<div class="viewcode-block" id="PMath.rad_to_deg"><a class="viewcode-back" href="../../../api.html#rubato.PMath.rad_to_deg">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="PMath.rad_to_deg"><a class="viewcode-back" href="../../../api.html#rubato.utils.math.PMath.rad_to_deg">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">rad_to_deg</span><span class="p">(</span><span class="n">rad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Convert a number from radians to degrees</span>
@@ -282,7 +282,7 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
+              Copyright &#169;  |
           Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>

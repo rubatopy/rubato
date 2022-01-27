@@ -202,7 +202,7 @@
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
 
 
-<div class="viewcode-block" id="Image"><a class="viewcode-back" href="../../../api.html#rubato.Image">[docs]</a><span class="k">class</span> <span class="nc">Image</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
+<div class="viewcode-block" id="Image"><a class="viewcode-back" href="../../../api.html#rubato.sprite.image.Image">[docs]</a><span class="k">class</span> <span class="nc">Image</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    A subclass of Sprite that handles Images.</span>
 
@@ -217,7 +217,7 @@
         <span class="s2">"rotation"</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+<div class="viewcode-block" id="Image.__init__"><a class="viewcode-back" href="../../../api.html#rubato.sprite.image.Image.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span> <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]})</span>
 
@@ -229,12 +229,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"image_location"</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"rotation"</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale_factor"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale_factor"</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Image.update"><a class="viewcode-back" href="../../../api.html#rubato.Image.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Image.update"><a class="viewcode-back" href="../../../api.html#rubato.sprite.image.Image.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Image.draw"><a class="viewcode-back" href="../../../api.html#rubato.Image.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
+<div class="viewcode-block" id="Image.draw"><a class="viewcode-back" href="../../../api.html#rubato.sprite.image.Image.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Draws the image if the z index is below the camera's.</span>
 
@@ -242,7 +242,7 @@
 <span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">camera</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Image.scale"><a class="viewcode-back" href="../../../api.html#rubato.Image.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
+<div class="viewcode-block" id="Image.scale"><a class="viewcode-back" href="../../../api.html#rubato.sprite.image.Image.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Let's you rescale the Image to a given scale factor.</span>
 
@@ -254,7 +254,7 @@
             <span class="n">new_y</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">flip</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">new_x</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">new_y</span><span class="p">))),</span> <span class="n">new_x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">new_y</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Image.scale_abs"><a class="viewcode-back" href="../../../api.html#rubato.Image.scale_abs">[docs]</a>    <span class="k">def</span> <span class="nf">scale_abs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_size</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
+<div class="viewcode-block" id="Image.scale_abs"><a class="viewcode-back" href="../../../api.html#rubato.sprite.image.Image.scale_abs">[docs]</a>    <span class="k">def</span> <span class="nf">scale_abs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_size</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Let's you rescale the Image to a given scale.</span>
 
@@ -276,8 +276,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

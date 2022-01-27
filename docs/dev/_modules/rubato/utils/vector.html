@@ -199,7 +199,7 @@
 <span class="kn">import</span> <span class="nn">math</span>
 
 
-<div class="viewcode-block" id="Vector"><a class="viewcode-back" href="../../../api.html#rubato.Vector">[docs]</a><span class="k">class</span> <span class="nc">Vector</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector">[docs]</a><span class="k">class</span> <span class="nc">Vector</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A Vector object that defines a 2D point in space</span>
 
@@ -207,10 +207,10 @@
 <span class="sd">    :param y: The y coordinate.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<div class="viewcode-block" id="Vector.__init__"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span></div>
 
-<div class="viewcode-block" id="Vector.translate"><a class="viewcode-back" href="../../../api.html#rubato.Vector.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.translate"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Translates the vector's x y and z coordinates by some constants</span>
 
@@ -219,7 +219,7 @@
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">y</span></div>
 
-<div class="viewcode-block" id="Vector.offset"><a class="viewcode-back" href="../../../api.html#rubato.Vector.offset">[docs]</a>    <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.offset"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.offset">[docs]</a>    <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Offsets the x and y coordinates of a vector by those of another vector</span>
 
@@ -228,7 +228,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Vector.to_tuple"><a class="viewcode-back" href="../../../api.html#rubato.Vector.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.to_tuple"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Returns the x and y coordinates of the vector as a tuple</span>
 <span class="sd">        """</span>
@@ -320,7 +320,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">v</span><span class="o">.</span><span class="n">x</span>
 
-<div class="viewcode-block" id="Vector.clamp"><a class="viewcode-back" href="../../../api.html#rubato.Vector.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">absolute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.clamp"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">any</span><span class="p">,</span> <span class="n">absolute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Clamps x and y between the two vectors given</span>
 
@@ -364,7 +364,7 @@
         <span class="n">copy</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">copy</span>
 
-<div class="viewcode-block" id="Vector.from_radial"><a class="viewcode-back" href="../../../api.html#rubato.Vector.from_radial">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Vector.from_radial"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.from_radial">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_radial</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Gives you a Vector from the given direction and distance</span>
@@ -390,7 +390,7 @@
         <span class="n">newVector</span><span class="o">.</span><span class="n">y</span> <span class="o">*=</span> <span class="n">scale</span>
         <span class="k">return</span> <span class="n">newVector</span>
 
-<div class="viewcode-block" id="Vector.invert"><a class="viewcode-back" href="../../../api.html#rubato.Vector.invert">[docs]</a>    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.invert"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.invert">[docs]</a>    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Inverts the vector in the axis given</span>
 
@@ -410,7 +410,7 @@
     <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Vector.lerp"><a class="viewcode-back" href="../../../api.html#rubato.Vector.lerp">[docs]</a>    <span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.lerp"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.lerp">[docs]</a>    <span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">"Vector"</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        changes its values x and y to fit the target vector by amount t</span>
 
@@ -420,7 +420,7 @@
         <span class="n">t</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">PMath</span><span class="o">.</span><span class="n">lerp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span> <span class="n">PMath</span><span class="o">.</span><span class="n">lerp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Vector.round"><a class="viewcode-back" href="../../../api.html#rubato.Vector.round">[docs]</a>    <span class="k">def</span> <span class="nf">round</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decimal_places</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.round"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.round">[docs]</a>    <span class="k">def</span> <span class="nf">round</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decimal_places</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        rounds x and y to decimal_places</span>
 
@@ -431,7 +431,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">decimal_places</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Vector.ceil"><a class="viewcode-back" href="../../../api.html#rubato.Vector.ceil">[docs]</a>    <span class="k">def</span> <span class="nf">ceil</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.ceil"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.ceil">[docs]</a>    <span class="k">def</span> <span class="nf">ceil</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Vector"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Returns the cieled vector</span>
 
@@ -440,7 +440,7 @@
 
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Vector.direction_to"><a class="viewcode-back" href="../../../api.html#rubato.Vector.direction_to">[docs]</a>    <span class="k">def</span> <span class="nf">direction_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.direction_to"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.direction_to">[docs]</a>    <span class="k">def</span> <span class="nf">direction_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        treating vectors as points the direction to the new point from the current point</span>
 <span class="sd">        :return: direction to new point</span>
@@ -450,7 +450,7 @@
         <span class="n">direction</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">d_y</span><span class="p">,</span> <span class="n">d_x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">direction</span></div>
 
-<div class="viewcode-block" id="Vector.distance_to"><a class="viewcode-back" href="../../../api.html#rubato.Vector.distance_to">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.distance_to"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.distance_to">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        treating vectors as points the distance to the new point from the current point</span>
 <span class="sd">        :return: distance to new point</span>
@@ -460,35 +460,35 @@
         <span class="n">distance</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d_y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">distance</span></div>
 
-<div class="viewcode-block" id="Vector.absolute"><a class="viewcode-back" href="../../../api.html#rubato.Vector.absolute">[docs]</a>    <span class="k">def</span> <span class="nf">absolute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.absolute"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.absolute">[docs]</a>    <span class="k">def</span> <span class="nf">absolute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        :return: a vector representing the absolute values of the current vector</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.__gt__"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.__gt__">[docs]</a>    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        :return: bool value indicating whether both values of a are greater than b</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
 
-    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.__lt__"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.__lt__">[docs]</a>    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        :return: bool value indicating whether both values of a are small than b</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
 
-    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.__ge__"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.__ge__">[docs]</a>    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        :return: bool value indicating whether both values of a are greater or equal than b</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
 
-    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Vector.__le__"><a class="viewcode-back" href="../../../api.html#rubato.utils.vector.Vector.__le__">[docs]</a>    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        :return: bool value indicating whether both values of a are smaller than or equal to b</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span></div></div>
 </pre></div>
         </article>
       </div>
@@ -500,7 +500,7 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
+              Copyright &#169;  |
           Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>

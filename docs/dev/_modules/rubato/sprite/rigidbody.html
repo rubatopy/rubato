@@ -207,7 +207,7 @@
 
 
 <span class="c1"># TODO Implement a Force based physics</span>
-<div class="viewcode-block" id="RigidBody"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody">[docs]</a><span class="k">class</span> <span class="nc">RigidBody</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody">[docs]</a><span class="k">class</span> <span class="nc">RigidBody</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    A RigidBody implementation with built in physics and collisions.</span>
 
@@ -231,7 +231,7 @@
         <span class="s2">"rotation"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+<div class="viewcode-block" id="RigidBody.__init__"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span> <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]})</span>
@@ -273,9 +273,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="RigidBody.physics"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.physics">[docs]</a>    <span class="k">def</span> <span class="nf">physics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.physics"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.physics">[docs]</a>    <span class="k">def</span> <span class="nf">physics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
         <span class="sd">"""A physics implementation"""</span>
         <span class="c1"># Update Velocity</span>
@@ -302,7 +302,7 @@
         <span class="c1"># Update rotation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angvel</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RigidBody.set_force"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.set_force">[docs]</a>    <span class="k">def</span> <span class="nf">set_force</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.set_force"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.set_force">[docs]</a>    <span class="k">def</span> <span class="nf">set_force</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Sets a force on the RigidBody.</span>
 
@@ -311,7 +311,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">force</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span></div>
 
-<div class="viewcode-block" id="RigidBody.add_force"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.add_force">[docs]</a>    <span class="k">def</span> <span class="nf">add_force</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.add_force"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.add_force">[docs]</a>    <span class="k">def</span> <span class="nf">add_force</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Adds a force to the RigidBody.</span>
 
@@ -320,7 +320,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">force</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">force</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span></div>
 
-<div class="viewcode-block" id="RigidBody.collide"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.collide">[docs]</a>    <span class="k">def</span> <span class="nf">collide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.collide"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.collide">[docs]</a>    <span class="k">def</span> <span class="nf">collide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""A simple collision engine for most use cases."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">col_info</span> <span class="o">:=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">hitbox</span><span class="p">):</span>
@@ -370,14 +370,14 @@
             <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">col_info</span></div>
 
-<div class="viewcode-block" id="RigidBody.overlap"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.overlap">[docs]</a>    <span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.overlap"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.overlap">[docs]</a>    <span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""Checks for collision but does not handle it."""</span>
         <span class="n">col_info</span> <span class="o">=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">hitbox</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">col_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">col_info</span></div>
 
-<div class="viewcode-block" id="RigidBody.set_impulse"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.set_impulse">[docs]</a>    <span class="k">def</span> <span class="nf">set_impulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.set_impulse"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.set_impulse">[docs]</a>    <span class="k">def</span> <span class="nf">set_impulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Sets an impulse on the rigid body</span>
 
@@ -387,7 +387,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">set_force</span><span class="p">(</span><span class="n">force</span><span class="p">)</span>
         <span class="n">Time</span><span class="o">.</span><span class="n">delayed_call</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_force</span><span class="p">(</span><span class="n">Vector</span><span class="p">()))</span></div>
 
-<div class="viewcode-block" id="RigidBody.update"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.update"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""The update loop"""</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"do_physics"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"do_physics"</span><span class="p">])</span>
@@ -400,7 +400,7 @@
     <span class="k">def</span> <span class="nf">custom_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="RigidBody.draw"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
+<div class="viewcode-block" id="RigidBody.draw"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rigidbody.RigidBody.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        The draw loop</span>
 
@@ -451,7 +451,7 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
+              Copyright &#169;  |
           Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>

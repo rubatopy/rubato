@@ -203,7 +203,7 @@
 <span class="c1"># Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson</span>
 <span class="c1"># https://github.com/sevdanski/SAT_JS</span>
 
-<div class="viewcode-block" id="Polygon"><a class="viewcode-back" href="../../../api.html#rubato.Polygon">[docs]</a><span class="k">class</span> <span class="nc">Polygon</span><span class="p">:</span>
+<div class="viewcode-block" id="Polygon"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon">[docs]</a><span class="k">class</span> <span class="nc">Polygon</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A custom polygon class with an arbitrary number of vertices</span>
 
@@ -213,11 +213,11 @@
 <span class="sd">    :param rotation: The rotation angle of the polygon in degrees</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verts</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<div class="viewcode-block" id="Polygon.__init__"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verts</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                  <span class="n">rotation</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotation</span> <span class="o">=</span> <span class="n">verts</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">rotation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotation</span> <span class="o">=</span> <span class="n">verts</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">rotation</span></div>
 
-<div class="viewcode-block" id="Polygon.generate_rect"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.generate_rect">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Polygon.generate_rect"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon.generate_rect">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">generate_rect</span><span class="p">(</span><span class="n">w</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Polygon"</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Creates a rectangle from its dimensions</span>
@@ -229,7 +229,7 @@
 
         <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span><span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Vector</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Vector</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)])</span></div>
 
-<div class="viewcode-block" id="Polygon.generate_polygon"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.generate_polygon">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Polygon.generate_polygon"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon.generate_polygon">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">generate_polygon</span><span class="p">(</span><span class="n">num_sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Polygon"</span><span class="p">:</span>
         <span class="sd">"""Creates a normal polygon with a specified number of sides and an optional radius"""</span>
         <span class="k">if</span> <span class="n">num_sides</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
@@ -254,16 +254,16 @@
         <span class="sd">"""The getter method for the rotation of the Polygon"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotation</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Polygon.clone"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Polygon.clone"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Creates a copy of the Polygon at the current position"""</span>
         <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">clone</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">)),</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
                        <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Polygon.transformed_verts"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.transformed_verts">[docs]</a>    <span class="k">def</span> <span class="nf">transformed_verts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Polygon.transformed_verts"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon.transformed_verts">[docs]</a>    <span class="k">def</span> <span class="nf">transformed_verts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Maps each vertex with the Polygon's scale and rotation"""</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Polygon.real_verts"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.real_verts">[docs]</a>    <span class="k">def</span> <span class="nf">real_verts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Polygon.real_verts"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Polygon.real_verts">[docs]</a>    <span class="k">def</span> <span class="nf">real_verts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Returns the a list of vertices in absolute coordinates"""</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span></div>
 
@@ -278,47 +278,47 @@
 
 
 <span class="c1"># TODO make circles work</span>
-<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../../api.html#rubato.Circle">[docs]</a><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
+<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Circle">[docs]</a><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A custom circle class defined by a position, radius, and scale</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="mi">0</span>
+<div class="viewcode-block" id="Circle.__init__"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Circle.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="mi">0</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""The getter method for the position of the circle's center"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Circle.clone"><a class="viewcode-back" href="../../../api.html#rubato.Circle.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Circle.clone"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Circle.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Creates a copy of the circle at the current position"""</span>
         <span class="k">return</span> <span class="n">Circle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Circle.transformed_radius"><a class="viewcode-back" href="../../../api.html#rubato.Circle.transformed_radius">[docs]</a>    <span class="k">def</span> <span class="nf">transformed_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Circle.transformed_radius"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.Circle.transformed_radius">[docs]</a>    <span class="k">def</span> <span class="nf">transformed_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Gets the true radius of the circle"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span></div></div>
 
 
-<div class="viewcode-block" id="CollisionInfo"><a class="viewcode-back" href="../../../api.html#rubato.CollisionInfo">[docs]</a><span class="k">class</span> <span class="nc">CollisionInfo</span><span class="p">:</span>
+<div class="viewcode-block" id="CollisionInfo"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.CollisionInfo">[docs]</a><span class="k">class</span> <span class="nc">CollisionInfo</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A class that represents information returned in a successful collision</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="CollisionInfo.__init__"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.CollisionInfo.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shape_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Vector</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">separation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">Vector</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">separation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">Vector</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">a_contained</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">b_contained</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">separation</span><span class="si">}</span><span class="s2">"</span></div>
 
 
-<div class="viewcode-block" id="SAT"><a class="viewcode-back" href="../../../api.html#rubato.SAT">[docs]</a><span class="k">class</span> <span class="nc">SAT</span><span class="p">:</span>
+<div class="viewcode-block" id="SAT"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.SAT">[docs]</a><span class="k">class</span> <span class="nc">SAT</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A general class that does the collision detection math between circles and polygons</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="SAT.overlap"><a class="viewcode-back" href="../../../api.html#rubato.SAT.overlap">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SAT.overlap"><a class="viewcode-back" href="../../../api.html#rubato.utils.sat.SAT.overlap">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">overlap</span><span class="p">(</span><span class="n">shape_a</span><span class="p">:</span> <span class="n">Polygon</span> <span class="o">|</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">shape_b</span><span class="p">:</span> <span class="n">Polygon</span> <span class="o">|</span> <span class="n">Circle</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Checks for overlap between any two shapes (Polygon or Circle)</span>
@@ -481,8 +481,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         
