@@ -1,54 +1,76 @@
 """
-We create the Scene class which is is a collection of sprites. Interactions
-between sprites is handled here.
+A Scene is a collection of sprites, groups and a camera. They are used to
+render and update a large group of sprites at once. They are also useful to
+compartmentalize different aspects of a game.
 """
 
+from typing import Union
 from rubato.scenes import Camera
 from rubato.sprite import Sprite
 from rubato.group import Group
+from rubato.utils.error import IdError
 
 
 class Scene:
     """
-    A scene is a collection of sprites. Interactions between sprites is
-    handled here.
+    A scene is a collection of sprites. Interactions between sprites is handled
+    here.
+
+    Attributes:
+        sprites (dict[Union[int, str], Union[Sprite, Group]]): The collection
+            of sprites housed in this scene.
+        camera (Camera): The camera of this scene.
+        id (Union[str, int]): The id of this scene.
     """
 
     def __init__(self):
-        self.sprites = {}
-        self.min_id = 0
+        """
+        Initializes a scene with an empty collection of sprites, a new camera,
+        and a blank id.
+        """
+        self.sprites: dict[Union[int, str], Union[Sprite, Group]] = {}
+        self.__min_id = 0
         self.camera = Camera()
-        self.id = ""
+        self.id: Union[str, int] = ""
 
-    def add(self, sprite: Sprite | Group, sprite_id: int | str = ""):
+    def add(self,
+            sprite: Union[Sprite, Group],
+            sprite_id: Union[int, str] = None) -> Union[str, int]:
         """
-        Adds a sprite to the scene.
+        Adds a sprite or a group to the scene.
 
-        :param sprite_id: The id of the sprite
-        :param sprite: The sprite object to be added.
+        Args:
+            sprite: The sprite or group to add to the scene.
+            sprite_id: The i dof the sprite or group. Defaults to None.
+
+        Raises:
+            IdError: The given id is already used.
+
+        Returns:
+            Union[str, int]: The id of the added sprite or group
         """
-        if sprite_id == "":
-            sprite_id = self.min_id
-            self.min_id += 1
+        if sprite_id is None:
+            sprite_id = self.__min_id
+            self.__min_id += 1
 
         if sprite_id in self.sprites.keys():
-            raise ValueError(f"The sprite id {sprite_id} is not unique in this "
-                             f"scene")
+            raise IdError(
+                f"The sprite id {sprite_id} is not unique in this scene")
 
         self.sprites[sprite_id] = sprite
         return sprite_id
 
-    def remove(self, sprite_id: int | str):
+    def remove(self, sprite_id: Union[int, str]):
         """
-        Removes a sprite with a given sprite id
+        Removes a sprite or group from the scene.
 
-        :param sprite_id: The id of the sprite to remove
+        Args:
+            sprite_id: The id of the sprite or group.
         """
-        if sprite_id not in self.sprites.keys():
-            raise ValueError(f"The sprite corresponding to {sprite_id} does not"
-                             f" exist in this scene")
-
-        del self.sprites[sprite_id]
+        try:
+            del self.sprites[sprite_id]
+        except KeyError:
+            pass
 
     def update(self):
         """
@@ -60,6 +82,9 @@ class Scene:
     def draw(self, game):
         """
         The draw loop for this scene.
+
+        Args:
+            game (Game): The game to draw too.
         """
         for sprite in sorted(self.sprites.values(),
                              key=lambda spr: spr.z_index):

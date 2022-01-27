@@ -31,9 +31,18 @@ release = "0.0.1"
 # extensions coming with Sphinx (named "sphinx.ext.*") or your custom
 # ones.
 extensions = [
-    "sphinx.ext.autodoc", "sphinx.ext.githubpages", "sphinx.ext.autosummary",
-    "sphinx.ext.viewcode", "sphinx_copybutton", "sphinx_inline_tabs",
-    "sphinxext.opengraph", "sphinx.ext.extlinks", "sphinx.ext.napoleon"
+    "sphinx.ext.autodoc",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.viewcode",
+    "sphinx_copybutton",
+    "sphinx_inline_tabs",
+    "sphinxext.opengraph",
+    "sphinx.ext.extlinks",
+    "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",  # This need to be after napoleon
+    "sphinx.ext.todo",
+    "sphinx_sitemap",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -43,6 +52,15 @@ templates_path = ["_templates"]
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
+
+add_module_names = False
+
+# Auto Class Config
+autodoc_class_signature = "separated"
+autodoc_member_order = "bysource"
+autodoc_mock_imports = ["pygame"]
+autodoc_typehints_format = "short"
+autodoc_preserve_defaults = True
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -86,6 +104,8 @@ html_short_title = f"{project} Docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
+html_baseurl = "https://tinmarr.github.io/rubato/"
+
 # Open Graph
 ogp_site_url = "https://tinmarr.github.io"
 ogp_description_length = 300
@@ -100,11 +120,13 @@ rst_prolog = """
         | Click `here <https://tinmarr.github.io/rubato/stable>`_ to return the stable version.
 """
 
-rst_epilog = """"""
+# rst_epilog = """
+# .. RigidBody replace:: :meth:`RigidBody <rubato.sprite.rigidbody.RigidBody>`
+# """
 
 # Napoleon settings
 napoleon_google_docstring = True
-napoleon_numpy_docstring = False
+napoleon_numpy_docstring = True
 napoleon_include_init_with_doc = True
 napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
@@ -116,6 +138,16 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_preprocess_types = True
 napoleon_type_aliases = {
-    "List[Sprite]": "List[ :meth:`rubato.Sprite` ]",
+    "List[Sprite]": "List[ :meth:`Sprite <rubato.sprite.sprite.Sprite>` ]",
+    "SceneManager":
+    ":meth:`SceneManager <rubato.scenes.scene_manager.SceneManager>`",
+    "Radio": ":meth:`Radio <rubato.radio.Radio>`",
+    "STATE": ":meth:`STATE <rubato.utils.STATE.STATE>`",
+    "Game": ":meth:`Game <rubato.game.Game>`",
+    "Vector": ":meth:`Vector <rubato.utils.vector.Vector>`",
+    "Camera": ":meth:`Camera <rubato.scenes.camera.Camera>`"
 }
 napoleon_attr_annotations = True
+
+# TODOs
+todo_include_todos = True

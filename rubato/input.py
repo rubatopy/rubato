@@ -17,7 +17,7 @@ def is_pressed(char: str) -> bool:
     Checks if a key is pressed.
 
     Args:
-        char (str): The name of the key to check.
+        char: The name of the key to check.
 
     Returns:
         bool: Whether or not the key is pressed.
@@ -31,9 +31,8 @@ def mouse_over(center: Vector, dims: Vector = Vector(1, 1)) -> bool:
     and dimensions
 
     Args:
-        center (rubato.Vector): The center of the rectangle.
-        dims (rubato.Vector, optional): The dimensions of the rectangle.
-            Defaults to Vector(1, 1).
+        center: The center of the rectangle.
+        dims: The dimensions of the rectangle. Defaults to Vector(1, 1).
 
     Returns:
         bool: Whether or not the mouse is in the defined rectangle.
