@@ -20,9 +20,9 @@ jobs:
                   pip install -r requirements.txt
 
             - name: Build the sphinx documentation and posts warnings as github comments.
-                  uses: rickstaa/sphinx-action@master
-                  with:
-                    docs-folder: "./docs"
+              uses: rickstaa/sphinx-action@master
+              with:
+                  docs-folder: "./docs"
 
             - name: Commit files
               run: |
