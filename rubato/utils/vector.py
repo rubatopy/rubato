@@ -53,7 +53,7 @@ class Vector:
         return f"({self.x}, {self.y})"
 
     def __mul__(self, other: any) -> "Vector":
-        if isinstance(other, int) or isinstance(other, float):
+        if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
@@ -65,7 +65,7 @@ class Vector:
     __radd__ = __add__
 
     def __sub__(self, other: any) -> "Vector":
-        if isinstance(other, int) or isinstance(other, float):
+        if isinstance(other, (int, float)):
             return Vector(self.x - other, self.y - other)
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y)
@@ -74,7 +74,7 @@ class Vector:
         return Vector(other - self.x, other - self.y)
 
     def __truediv__(self, other: any) -> "Vector":
-        if isinstance(other, int) or isinstance(other, float):
+        if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)

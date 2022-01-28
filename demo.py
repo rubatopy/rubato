@@ -1,6 +1,7 @@
 """
 This is a demo file :)
 """
+# pylint: disable=all
 
 import rubato as rb
 from rubato import Group, Scene, Vector, Input
@@ -11,7 +12,6 @@ main_scene = Scene()
 
 # To see any Rubato Class's default options, you can print them
 print(rb.Text.default_options)
-
 
 rb.game.scenes.add(main_scene)
 group = Group()

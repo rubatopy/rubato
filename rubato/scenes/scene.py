@@ -53,7 +53,7 @@ class Scene:
             sprite_id = self.__min_id
             self.__min_id += 1
 
-        if sprite_id in self.sprites.keys():
+        if sprite_id in self.sprites:
             raise IdError(
                 f"The sprite id {sprite_id} is not unique in this scene")
 

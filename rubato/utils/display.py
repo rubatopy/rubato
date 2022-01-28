@@ -3,7 +3,7 @@ A global display class.
 """
 from pygame import Surface
 import os
-import pygame.display as display
+from pygame import display
 from rubato.utils import classproperty
 
 
