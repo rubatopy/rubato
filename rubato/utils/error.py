@@ -1,3 +1,8 @@
+"""
+Some custom errors
+"""
+
+
 class Error(RuntimeError):
     pass
 

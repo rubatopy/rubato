@@ -1,3 +1,7 @@
+# pylint: disable=invalid-name
+"""
+A state tracker
+"""
 from enum import Enum
 
 

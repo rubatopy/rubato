@@ -1,3 +1,6 @@
+"""
+A vector implementation.
+"""
 from rubato.utils import PMath, classproperty
 import math
 
@@ -82,6 +85,7 @@ class Vector:
     def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y)
 
+    # pylint: disable=invalid-name
     @classproperty
     def ZERO(self):
         return Vector(0, 0)
@@ -127,7 +131,8 @@ class Vector:
         """
         Clamps x and y between the two vectors given
 
-        :param absolute: Whether to clamp the absolute value of the vector instead of the actual value
+        :param absolute: Whether to clamp the absolute value of the vector
+            instead of the actual value
         :param lower: The lower bound
         :param upper: The upper bound
         """
@@ -143,7 +148,8 @@ class Vector:
             self.y = PMath.abs_clamp(self.y, lower.y, upper.y)
 
     def __eq__(self, other: "Vector") -> bool:
-        return False if (other is None or not isinstance(other, Vector)) else self.__equals(other)
+        return False if (other is None or not isinstance(other, Vector)
+                         ) else self.__equals(other)
 
     @property
     def magnitude(self) -> float:
@@ -187,7 +193,8 @@ class Vector:
         newVector = self.clone()
         if rotation != 0:
             hyp, angle = self.magnitude, self.angle + rotation * math.pi / 180
-            newVector.x, newVector.y = math.cos(angle) * hyp, math.sin(angle) * hyp
+            newVector.x, newVector.y = math.cos(angle) * hyp, math.sin(
+                angle) * hyp
 
         newVector.x *= scale
         newVector.y *= scale
@@ -221,7 +228,8 @@ class Vector:
         :param t: the amount you lerp between 0 and 1
         """
         t = PMath.clamp(t, 0, 1)
-        return Vector(PMath.lerp(self.x, target.x, t), PMath.lerp(self.y, target.y, t))
+        return Vector(PMath.lerp(self.x, target.x, t),
+                      PMath.lerp(self.y, target.y, t))
 
     def round(self, decimal_places: int) -> "Vector":
         """
@@ -245,7 +253,8 @@ class Vector:
 
     def direction_to(self, vector):
         """
-        treating vectors as points the direction to the new point from the current point
+        treating vectors as points the direction to the new point from the
+            current point
         :return: direction to new point
         """
         d_x = self.x - vector.x
@@ -255,7 +264,8 @@ class Vector:
 
     def distance_to(self, vector):
         """
-        treating vectors as points the distance to the new point from the current point
+        treating vectors as points the distance to the new point from
+            the current point
         :return: distance to new point
         """
         d_x = self.x - vector.x
@@ -271,7 +281,8 @@ class Vector:
 
     def __gt__(self, other) -> bool:
         """
-        :return: bool value indicating whether both values of a are greater than b
+        :return: bool value indicating whether both values of a are greater
+            than b
         """
         return self.x > other.x and self.y > other.y
 
@@ -283,12 +294,14 @@ class Vector:
 
     def __ge__(self, other) -> bool:
         """
-        :return: bool value indicating whether both values of a are greater or equal than b
+        :return: bool value indicating whether both values of a are greater
+            or equal than b
         """
         return self.x >= other.x and self.y >= other.y
 
     def __le__(self, other) -> bool:
         """
-        :return: bool value indicating whether both values of a are smaller than or equal to b
+        :return: bool value indicating whether both values of a are smaller
+            than or equal to b
         """
         return self.x <= other.x and self.y <= other.y
