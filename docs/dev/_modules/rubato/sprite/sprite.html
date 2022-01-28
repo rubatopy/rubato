@@ -195,63 +195,122 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.sprite.sprite</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Display</span><span class="p">,</span> <span class="n">Vector</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">The default sprite class.</span>
+<span class="sd">"""</span>
 <span class="kn">from</span> <span class="nn">pygame.transform</span> <span class="kn">import</span> <span class="n">scale</span>
 <span class="kn">from</span> <span class="nn">pygame.surface</span> <span class="kn">import</span> <span class="n">Surface</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
+<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Display</span><span class="p">,</span> <span class="n">Vector</span>
 
-<div class="viewcode-block" id="Sprite"><a class="viewcode-back" href="../../../api.html#rubato.sprite.sprite.Sprite">[docs]</a><span class="k">class</span> <span class="nc">Sprite</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Sprite"><a class="viewcode-back" href="../../../api.html#rubato.Sprite">[docs]</a><span class="k">class</span> <span class="nc">Sprite</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    The base sprite class.</span>
 
-<span class="sd">    :param options: A sprite :ref:`config &lt;defaultsprite&gt;`</span>
+<span class="sd">    Warning:</span>
+<span class="sd">        This class should not be instantiated. Instead, a class should inherit</span>
+<span class="sd">        from this.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        param (dict[str, any]): A dictionary with all of the parameters of the</span>
+<span class="sd">            sprite.</span>
+<span class="sd">        pos (Vector): The current position of the sprite.</span>
+<span class="sd">        z_index (int): The z_index of the sprite.</span>
+<span class="sd">        in_frame (bool): Whether or not the sprite is in the frame.</span>
 <span class="sd">    """</span>
 
-    <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"pos"</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span>
-        <span class="s2">"z_index"</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">}</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"pos"</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="s2">"z_index"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 
-<div class="viewcode-block" id="Sprite.__init__"><a class="viewcode-back" href="../../../api.html#rubato.sprite.sprite.Sprite.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+<div class="viewcode-block" id="Sprite.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Sprite.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Initializes a sprite.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            options: A sprite config. Defaults to the</span>
+<span class="sd">                :ref:`default sprite options &lt;defaultsprite&gt;`.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">in_frame</span> <span class="o">=</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="Sprite.update"><a class="viewcode-back" href="../../../api.html#rubato.sprite.sprite.Sprite.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Sprite.is_in_frame"><a class="viewcode-back" href="../../../api.html#rubato.Sprite.is_in_frame">[docs]</a>    <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Checks if the sprite is in the frame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            camera: The camera to check with.</span>
+<span class="sd">            game (Game): The game the sprite is in.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Whether or not the sprite is in the frame.</span>
+<span class="sd">        """</span>
+        <span class="n">draw_area_tl</span> <span class="o">=</span> <span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">game</span><span class="o">.</span><span class="n">window_size</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+        <span class="n">draw_area_br</span> <span class="o">=</span> <span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">game</span><span class="o">.</span><span class="n">window_size</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sprite_tl</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span>
+                         <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+            <span class="n">sprite_br</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span>
+                         <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">sprite_tl</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+            <span class="n">sprite_br</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">sprite_tl</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">draw_area_br</span><span class="o">.</span><span class="n">x</span>
+                    <span class="ow">or</span> <span class="n">sprite_br</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">draw_area_tl</span><span class="o">.</span><span class="n">x</span>
+                    <span class="ow">or</span> <span class="n">sprite_tl</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">draw_area_br</span><span class="o">.</span><span class="n">y</span>
+                    <span class="ow">or</span> <span class="n">sprite_br</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">draw_area_tl</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Sprite.update"><a class="viewcode-back" href="../../../api.html#rubato.Sprite.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""The update loop"""</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Sprite.draw"><a class="viewcode-back" href="../../../api.html#rubato.sprite.sprite.Sprite.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surface</span><span class="p">:</span> <span class="n">Surface</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
+<div class="viewcode-block" id="Sprite.draw"><a class="viewcode-back" href="../../../api.html#rubato.Sprite.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surface</span><span class="p">:</span> <span class="n">Surface</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        A generalized draw functions for any surface</span>
+<span class="sd">        A generalized draw function for any surface</span>
 
-<span class="sd">        :param surface: The surface to draw the sprite on.</span>
-<span class="sd">        :param camera: The camera to render the sprites with.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            surface: The surface to draw.</span>
+<span class="sd">            camera: The camera to draw onto.</span>
 <span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
         <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span>
-        <span class="n">Display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">scale</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">new_size</span><span class="p">),</span> <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Sprite</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span></div>
+        <span class="n">Display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">scale</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">new_size</span><span class="p">),</span>
+            <span class="n">camera</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+                <span class="n">Sprite</span><span class="o">.</span><span class="n">center_to_tl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span> <span class="o">*</span>
+                <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Sprite.center_to_tl"><a class="viewcode-back" href="../../../api.html#rubato.sprite.sprite.Sprite.center_to_tl">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Sprite.center_to_tl"><a class="viewcode-back" href="../../../api.html#rubato.Sprite.center_to_tl">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">center_to_tl</span><span class="p">(</span><span class="n">center</span><span class="p">:</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">dims</span><span class="p">:</span> <span class="n">Vector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Converts center coordinates to top left coordinates</span>
 
-<span class="sd">        :param center: The top left coordinate as a Vector</span>
-<span class="sd">        :param dims: The width and the height of the item as a sprite as a Vector</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">center</span> <span class="o">-</span> <span class="p">(</span><span class="n">dims</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span></div>
+<span class="sd">        Args:</span>
+<span class="sd">            center: The top left coordinate as a Vector</span>
+<span class="sd">            dims: The width and the height of the item as a sprite as a Vector</span>
 
-<div class="viewcode-block" id="Sprite.merge_params"><a class="viewcode-back" href="../../../api.html#rubato.sprite.sprite.Sprite.merge_params">[docs]</a>    <span class="nd">@staticmethod</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Vector: The new coordinates.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">center</span> <span class="o">-</span> <span class="p">(</span><span class="n">dims</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Sprite.merge_params"><a class="viewcode-back" href="../../../api.html#rubato.Sprite.merge_params">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">defaults</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Merges an incomplete options dictionary with the defaults dictionary</span>
 
-<span class="sd">        :param options: The incomplete options dictionary</span>
-<span class="sd">        :param defaults: The default dictionary</span>
-<span class="sd">        :return: The merged dictionary</span>
+<span class="sd">        Args:</span>
+<span class="sd">            options: The incomplete options dictionary</span>
+<span class="sd">            defaults: The default dictionary</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The merged dictionary</span>
 <span class="sd">        """</span>
         <span class="n">merged</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -259,20 +318,7 @@
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
             <span class="n">merged</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">defaults</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">merged</span></div>
-
-
-    <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="n">draw_area_tl</span> <span class="o">=</span> <span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">game</span><span class="o">.</span><span class="n">window_size</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-        <span class="n">draw_area_br</span> <span class="o">=</span> <span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">game</span><span class="o">.</span><span class="n">window_size</span><span class="p">)</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">sprite_tl</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-            <span class="n">sprite_br</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">sprite_tl</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-            <span class="n">sprite_br</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span><span class="o">.</span><span class="n">ceil</span><span class="p">()</span>
-
-        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">sprite_tl</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">draw_area_br</span><span class="o">.</span><span class="n">x</span> <span class="ow">or</span> <span class="n">sprite_br</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">draw_area_tl</span><span class="o">.</span><span class="n">x</span> <span class="ow">or</span> <span class="n">sprite_tl</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">draw_area_br</span><span class="o">.</span><span class="n">y</span> <span class="ow">or</span> <span class="n">sprite_br</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">draw_area_tl</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">merged</span></div></div>
 </pre></div>
         </article>
       </div>

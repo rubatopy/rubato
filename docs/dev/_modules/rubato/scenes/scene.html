@@ -208,7 +208,7 @@
 <span class="kn">from</span> <span class="nn">rubato.utils.error</span> <span class="kn">import</span> <span class="n">IdError</span>
 
 
-<div class="viewcode-block" id="Scene"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene.Scene">[docs]</a><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>
+<div class="viewcode-block" id="Scene"><a class="viewcode-back" href="../../../api.html#rubato.Scene">[docs]</a><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A scene is a collection of sprites. Interactions between sprites is handled</span>
 <span class="sd">    here.</span>
@@ -220,7 +220,7 @@
 <span class="sd">        id (Union[str, int]): The id of this scene.</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="Scene.__init__"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene.Scene.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Scene.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Initializes a scene with an empty collection of sprites, a new camera,</span>
 <span class="sd">        and a blank id.</span>
@@ -230,7 +230,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span></div>
 
-<div class="viewcode-block" id="Scene.add"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene.Scene.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Scene.add"><a class="viewcode-back" href="../../../api.html#rubato.Scene.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">sprite</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sprite</span><span class="p">,</span> <span class="n">Group</span><span class="p">],</span>
             <span class="n">sprite_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -257,7 +257,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">[</span><span class="n">sprite_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">sprite</span>
         <span class="k">return</span> <span class="n">sprite_id</span></div>
 
-<div class="viewcode-block" id="Scene.remove"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene.Scene.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+<div class="viewcode-block" id="Scene.remove"><a class="viewcode-back" href="../../../api.html#rubato.Scene.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
         <span class="sd">"""</span>
 <span class="sd">        Removes a sprite or group from the scene.</span>
 
@@ -269,14 +269,14 @@
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Scene.update"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene.Scene.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.update"><a class="viewcode-back" href="../../../api.html#rubato.Scene.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        The update loop for this scene.</span>
 <span class="sd">        """</span>
         <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">sprite</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Scene.draw"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene.Scene.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.draw"><a class="viewcode-back" href="../../../api.html#rubato.Scene.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        The draw loop for this scene.</span>
 

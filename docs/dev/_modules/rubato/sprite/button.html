@@ -195,16 +195,18 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.sprite.button</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Text</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">A simple button. A button is a text sprite that has mouse over detection.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Text</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Color</span>
-<span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
 <span class="kn">import</span> <span class="nn">rubato.input</span> <span class="k">as</span> <span class="nn">Input</span>
 
-<div class="viewcode-block" id="Button"><a class="viewcode-back" href="../../../api.html#rubato.sprite.button.Button">[docs]</a><span class="k">class</span> <span class="nc">Button</span><span class="p">(</span><span class="n">Text</span><span class="p">):</span>
-    <span class="sd">"""</span>
-<span class="sd">    A subclass of Text that is a button.</span>
 
-<span class="sd">    :param options: A button :ref:`config &lt;defaultbutton&gt;`</span>
+<div class="viewcode-block" id="Button"><a class="viewcode-back" href="../../../api.html#rubato.Button">[docs]</a><span class="k">class</span> <span class="nc">Button</span><span class="p">(</span><span class="n">Text</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    The button class. It inherits from the text class.</span>
 <span class="sd">    """</span>
 
     <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
@@ -212,25 +214,30 @@
         <span class="s2">"pos"</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span>
         <span class="s2">"size"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
         <span class="s2">"z_index"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">"font_name"</span><span class="p">:</span> <span class="s1">'Arial'</span><span class="p">,</span>
+        <span class="s2">"font_name"</span><span class="p">:</span> <span class="s2">"Arial"</span><span class="p">,</span>
         <span class="s2">"color"</span><span class="p">:</span> <span class="n">Color</span><span class="o">.</span><span class="n">black</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="Button.__init__"><a class="viewcode-back" href="../../../api.html#rubato.sprite.button.Button.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">mouse_is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Input</span><span class="o">.</span><span class="n">mouse_over</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span>
-
-<div class="viewcode-block" id="Button.draw"><a class="viewcode-back" href="../../../api.html#rubato.sprite.button.Button.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
+<div class="viewcode-block" id="Button.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Button.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{}):</span>
         <span class="sd">"""</span>
-<span class="sd">        Draws the text if the z index is below the camera's.</span>
+<span class="sd">        Initializes a button.</span>
 
-<span class="sd">        :param camera: The current Camera viewing the scene.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            options: A button config. Defaults to the</span>
+<span class="sd">                :ref:`default button config &lt;defaultbutton&gt;`.</span>
 <span class="sd">        """</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Button</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="Button.mouse_is_over"><a class="viewcode-back" href="../../../api.html#rubato.Button.mouse_is_over">[docs]</a>    <span class="k">def</span> <span class="nf">mouse_is_over</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Checks if the mouse is above the button.</span>
 
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the mouse is over the button. False otherwise.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">Input</span><span class="o">.</span><span class="n">mouse_over</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()))</span></div></div>
 </pre></div>
         </article>
       </div>

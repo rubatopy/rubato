@@ -195,22 +195,36 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.sprite.empty</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">An empty sprite. Doesn't draw or update anything by default. This useful for</span>
+<span class="sd">running miscellaneous code every frame.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
 
 
-<div class="viewcode-block" id="Empty"><a class="viewcode-back" href="../../../api.html#rubato.sprite.empty.Empty">[docs]</a><span class="k">class</span> <span class="nc">Empty</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
-<div class="viewcode-block" id="Empty.__init__"><a class="viewcode-back" href="../../../api.html#rubato.sprite.empty.Empty.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Empty"><a class="viewcode-back" href="../../../api.html#rubato.Empty">[docs]</a><span class="k">class</span> <span class="nc">Empty</span><span class="p">(</span><span class="n">Sprite</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    An empty sprite.</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="Empty.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Empty.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Empty.update"><a class="viewcode-back" href="../../../api.html#rubato.sprite.empty.Empty.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Empty.update"><a class="viewcode-back" href="../../../api.html#rubato.Empty.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        The update loop.</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Empty.draw"><a class="viewcode-back" href="../../../api.html#rubato.sprite.empty.Empty.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Empty.draw"><a class="viewcode-back" href="../../../api.html#rubato.Empty.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        The draw loop.</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="Empty.is_in_frame"><a class="viewcode-back" href="../../../api.html#rubato.Empty.is_in_frame">[docs]</a>    <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
 </pre></div>
         </article>
       </div>
