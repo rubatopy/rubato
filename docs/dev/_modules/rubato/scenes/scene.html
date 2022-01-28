@@ -250,7 +250,7 @@
             <span class="n">sprite_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">if</span> <span class="n">sprite_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">sprite_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">IdError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">"The sprite id </span><span class="si">{</span><span class="n">sprite_id</span><span class="si">}</span><span class="s2"> is not unique in this scene"</span><span class="p">)</span>
 
