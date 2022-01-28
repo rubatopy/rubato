@@ -62,6 +62,11 @@ autodoc_mock_imports = ["pygame"]
 autodoc_typehints_format = "short"
 autodoc_preserve_defaults = True
 
+autodoc_default_options = {
+    "show-inheritance": True,
+    "members": True,
+}
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -145,7 +150,10 @@ napoleon_type_aliases = {
     "STATE": ":meth:`STATE <rubato.utils.STATE.STATE>`",
     "Game": ":meth:`Game <rubato.game.Game>`",
     "Vector": ":meth:`Vector <rubato.utils.vector.Vector>`",
-    "Camera": ":meth:`Camera <rubato.scenes.camera.Camera>`"
+    "Camera": ":meth:`Camera <rubato.scenes.camera.Camera>`",
+    "Polygon": ":meth:`Polygon <rubato.utils.sat.Polygon>`",
+    "COL_TYPE": ":meth:`COL_TYPE <rubato.utils.COL_TYPE.COL_TYPE>`",
+    "Image": ":meth:`Image <rubato.sprite.image.Image>`",
 }
 napoleon_attr_annotations = True
 

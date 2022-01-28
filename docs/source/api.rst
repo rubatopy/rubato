@@ -2,6 +2,7 @@ Full API Documentation
 ======================
 .. automodule:: rubato
     :members: init, begin
+    :noindex:
 
 .. _game_class:
 
