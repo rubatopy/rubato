@@ -195,12 +195,20 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.utils.math</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">A math thing.</span>
+<span class="sd">"""</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 
-<div class="viewcode-block" id="classproperty"><a class="viewcode-back" href="../../../api.html#rubato.classproperty">[docs]</a><span class="k">class</span> <span class="nc">classproperty</span><span class="p">(</span><span class="nb">property</span><span class="p">):</span>
+<div class="viewcode-block" id="classproperty"><a class="viewcode-back" href="../../../api.html#rubato.classproperty">[docs]</a><span class="k">class</span> <span class="nc">classproperty</span><span class="p">(</span><span class="nb">property</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
+    <span class="sd">"""</span>
+<span class="sd">    A class property implementation</span>
+<span class="sd">    """</span>
+
     <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">classmethod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fget</span><span class="p">)</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">owner</span><span class="p">)()</span></div>
+
 
 <div class="viewcode-block" id="PMath"><a class="viewcode-back" href="../../../api.html#rubato.PMath">[docs]</a><span class="k">class</span> <span class="nc">PMath</span><span class="p">:</span>
     <span class="sd">"""</span>
@@ -208,8 +216,9 @@
 <span class="sd">    """</span>
     <span class="n">INFINITY</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">99</span>
     <span class="n">pi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+
 <div class="viewcode-block" id="PMath.abs"><a class="viewcode-back" href="../../../api.html#rubato.PMath.abs">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Absolute value of a given value</span>
 
@@ -247,7 +256,8 @@
 
 <span class="sd">        :param lower: The lower bound</span>
 <span class="sd">        :param upper: The upper bound</span>
-<span class="sd">        :param t: Distance between upper and lower (1 gives upper, 0 gives lower)</span>
+<span class="sd">        :param t: Distance between upper and lower</span>
+<span class="sd">            (1 gives upper, 0 gives lower)</span>
 <span class="sd">        :return: The lerped value</span>
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">upper</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">lower</span><span class="p">)</span></div>

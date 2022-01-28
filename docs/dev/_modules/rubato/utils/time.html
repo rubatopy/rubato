@@ -195,9 +195,11 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.utils.time</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">A time class</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">pygame.time</span> <span class="kn">import</span> <span class="n">Clock</span><span class="p">,</span> <span class="n">get_ticks</span>
-<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">classproperty</span>
 
 
 <div class="viewcode-block" id="Time"><a class="viewcode-back" href="../../../api.html#rubato.Time">[docs]</a><span class="k">class</span> <span class="nc">Time</span><span class="p">:</span>

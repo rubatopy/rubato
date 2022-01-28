@@ -295,7 +295,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lower</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">UnionType</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The lower bound</p></li>
 <li><p><strong>upper</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">UnionType</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The upper bound</p></li>
-<li><p><strong>t</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Distance between upper and lower (1 gives upper, 0 gives lower)</p></li>
+<li><p><strong>t</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Distance between upper and lower
+(1 gives upper, 0 gives lower)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -343,6 +344,7 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">classproperty</span></span><a class="reference internal" href="_modules/rubato/utils/math.html#classproperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">property</span></code></p>
+<p>A class property implementation</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py">
@@ -354,7 +356,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Display</span></span><a class="reference internal" href="_modules/rubato/utils/display.html#Display"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Global display class that allows any file to access the displayed screen.</p>
+<p>Global display class that allows any file to access the
+displayed screen.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_surface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
@@ -465,7 +468,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>absolute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to clamp the absolute value of the vector instead of the actual value</p></li>
+<li><p><strong>absolute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to clamp the absolute value of the vector
+instead of the actual value</p></li>
 <li><p><strong>lower</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">any</span></code>) – The lower bound</p></li>
 <li><p><strong>upper</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">any</span></code>) – The upper bound</p></li>
 </ul>
@@ -566,14 +570,28 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">direction_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.direction_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>treating vectors as points the direction to the new point from the current point
-:return: direction to new point</p>
+<dd><dl class="simple">
+<dt>treating vectors as points the direction to the new point from the</dt><dd><p>current point</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>direction to new point</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">distance_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.distance_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>treating vectors as points the distance to the new point from the current point
-:return: distance to new point</p>
+<dd><dl class="simple">
+<dt>treating vectors as points the distance to the new point from</dt><dd><p>the current point</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>distance to new point</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -592,7 +610,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>bool value indicating whether both values of a are greater than b</p>
+<dd class="field-even"><p>bool value indicating whether both values of a are greater
+than b</p>
 </dd>
 </dl>
 </dd></dl>
@@ -616,7 +635,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>bool value indicating whether both values of a are greater or equal than b</p>
+<dd class="field-even"><p>bool value indicating whether both values of a are greater
+or equal than b</p>
 </dd>
 </dl>
 </dd></dl>
@@ -628,7 +648,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>bool value indicating whether both values of a are smaller than or equal to b</p>
+<dd class="field-even"><p>bool value indicating whether both values of a are smaller
+than or equal to b</p>
 </dd>
 </dl>
 </dd></dl>
@@ -720,7 +741,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>verts</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of the vertices in the Polygon, in either clockwise or anticlockwise direction</p></li>
+<li><p><strong>verts</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of the vertices in the Polygon, in either clockwise
+or anticlockwise direction</p></li>
 <li><p><strong>pos</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The position of the center of the Polygon as a function</p></li>
 <li><p><strong>scale</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">UnionType</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The scale of the polygon</p></li>
 <li><p><strong>rotation</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The rotation angle of the polygon in degrees</p></li>
@@ -753,7 +775,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dl class="py method">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_sides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/sat.html#Polygon.generate_polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Creates a normal polygon with a specified number of sides and an optional radius</p>
+<dd><p>Creates a normal polygon with a specified number of sides and
+an optional radius</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#rubato.utils.sat.Polygon" title="rubato.utils.sat.Polygon"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polygon</span></code></a></p>
@@ -815,7 +838,8 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SAT</span></span><a class="reference internal" href="_modules/rubato/utils/sat.html#SAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A general class that does the collision detection math between circles and polygons</p>
+<p>A general class that does the collision detection math between
+circles and polygons</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/sat.html#SAT.overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
@@ -838,6 +862,12 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">COL_TYPE</span></span><a class="reference internal" href="_modules/rubato/utils/COL_TYPE.html#COL_TYPE"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>An enumeration.</p>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Color</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#Color"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A color implementation</p>
 </dd></dl>
 <dl class="py exception">
 <dt class="sig sig-object py">
@@ -3331,10 +3361,12 @@ same type that is given.</p>
 <h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
 <section id="pmath">
 <span id="id14"></span><h3>PMath<a class="headerlink" href="#pmath" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.math"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.math"></span><p>A math thing.</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.math.classproperty">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">classproperty</span></span><a class="reference internal" href="_modules/rubato/utils/math.html#classproperty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.math.classproperty" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">property</span></code></p>
+<p>A class property implementation</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.math.PMath">
@@ -3399,7 +3431,8 @@ same type that is given.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lower</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">UnionType</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The lower bound</p></li>
 <li><p><strong>upper</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">UnionType</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The upper bound</p></li>
-<li><p><strong>t</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Distance between upper and lower (1 gives upper, 0 gives lower)</p></li>
+<li><p><strong>t</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Distance between upper and lower
+(1 gives upper, 0 gives lower)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -3446,7 +3479,8 @@ same type that is given.</p>
 </section>
 <section id="state">
 <span id="id15"></span><h3>STATE<a class="headerlink" href="#state" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.STATE"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.STATE"></span><p>A state tracker</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.STATE.STATE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">STATE</span></span><a class="reference internal" href="_modules/rubato/utils/STATE.html#STATE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.STATE.STATE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
@@ -3455,11 +3489,13 @@ same type that is given.</p>
 </section>
 <section id="display">
 <span id="id16"></span><h3>Display<a class="headerlink" href="#display" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.display"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.display"></span><p>A global display class.</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.display.Display">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Display</span></span><a class="reference internal" href="_modules/rubato/utils/display.html#Display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Global display class that allows any file to access the displayed screen.</p>
+<p>Global display class that allows any file to access the
+displayed screen.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.display.Display.set">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_surface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display.set" title="Permalink to this definition">¶</a></dt>
@@ -3510,7 +3546,8 @@ same type that is given.</p>
 </section>
 <section id="vector">
 <span id="id17"></span><h3>Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.vector"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.vector"></span><p>A vector implementation.</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.vector.Vector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Vector</span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.vector.Vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -3573,7 +3610,8 @@ same type that is given.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>absolute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to clamp the absolute value of the vector instead of the actual value</p></li>
+<li><p><strong>absolute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to clamp the absolute value of the vector
+instead of the actual value</p></li>
 <li><p><strong>lower</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">any</span></code>) – The lower bound</p></li>
 <li><p><strong>upper</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">any</span></code>) – The upper bound</p></li>
 </ul>
@@ -3674,14 +3712,28 @@ same type that is given.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.vector.Vector.direction_to">
 <span class="sig-name descname"><span class="pre">direction_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.direction_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.vector.Vector.direction_to" title="Permalink to this definition">¶</a></dt>
-<dd><p>treating vectors as points the direction to the new point from the current point
-:return: direction to new point</p>
+<dd><dl class="simple">
+<dt>treating vectors as points the direction to the new point from the</dt><dd><p>current point</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>direction to new point</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.vector.Vector.distance_to">
 <span class="sig-name descname"><span class="pre">distance_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector.distance_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.vector.Vector.distance_to" title="Permalink to this definition">¶</a></dt>
-<dd><p>treating vectors as points the distance to the new point from the current point
-:return: distance to new point</p>
+<dd><dl class="simple">
+<dt>treating vectors as points the distance to the new point from</dt><dd><p>the current point</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>distance to new point</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.vector.Vector.absolute">
@@ -3700,7 +3752,8 @@ same type that is given.</p>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>bool value indicating whether both values of a are greater than b</p>
+<dd class="field-even"><p>bool value indicating whether both values of a are greater
+than b</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3724,7 +3777,8 @@ same type that is given.</p>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>bool value indicating whether both values of a are greater or equal than b</p>
+<dd class="field-even"><p>bool value indicating whether both values of a are greater
+or equal than b</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3736,7 +3790,8 @@ same type that is given.</p>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>bool value indicating whether both values of a are smaller than or equal to b</p>
+<dd class="field-even"><p>bool value indicating whether both values of a are smaller
+than or equal to b</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3744,7 +3799,8 @@ same type that is given.</p>
 </section>
 <section id="time">
 <span id="id18"></span><h3>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.time"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.time"></span><p>A time class</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.time.Time">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Time</span></span><a class="reference internal" href="_modules/rubato/utils/time.html#Time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -3826,7 +3882,8 @@ same type that is given.</p>
 </section>
 <section id="col-type">
 <span id="polygon"></span><span id="id19"></span><h3>COL_TYPE<a class="headerlink" href="#col-type" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.COL_TYPE"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.COL_TYPE"></span><p>The collision type</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.COL_TYPE.COL_TYPE">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">COL_TYPE</span></span><a class="reference internal" href="_modules/rubato/utils/COL_TYPE.html#COL_TYPE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.COL_TYPE.COL_TYPE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
@@ -3835,9 +3892,37 @@ same type that is given.</p>
 </section>
 <section id="color">
 <span id="id20"></span><h3>Color<a class="headerlink" href="#color" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.color"></span></section>
+<span class="target" id="module-rubato.utils.color"></span><p>A Color class</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubato.utils.color.HSV">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HSV</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#HSV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.HSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An HSV implementation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.utils.color.HSV.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#HSV.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.HSV.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubato.utils.color.RGB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RGB</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#RGB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.RGB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An RGB implentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.utils.color.RGB.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#RGB.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.RGB.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="rubato.utils.color.Color">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Color</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#Color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.Color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A color implementation</p>
+</dd></dl>
+</section>
 <section id="module-rubato.utils.error">
 <span id="errors"></span><h3>Errors<a class="headerlink" href="#module-rubato.utils.error" title="Permalink to this headline">¶</a></h3>
+<p>Some custom errors</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="rubato.utils.error.Error">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Error</span></span><a class="reference internal" href="_modules/rubato/utils/error.html#Error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.error.Error" title="Permalink to this definition">¶</a></dt>
@@ -3854,7 +3939,8 @@ same type that is given.</p>
 <span id="sat"></span><h2>Separating Axis Theorem<a class="headerlink" href="#separating-axis-theorem" title="Permalink to this headline">¶</a></h2>
 <p>Credit for original JavaScript separating axis theorem implementation to Andrew Sevensonn
 <a class="reference external" href="https://github.com/sevdanski/SAT_JS">https://github.com/sevdanski/SAT_JS</a></p>
-<span class="target" id="module-rubato.utils.sat"></span><dl class="py class">
+<span class="target" id="module-rubato.utils.sat"></span><p>An SAT implementation</p>
+<dl class="py class">
 <dt class="sig sig-object py" id="rubato.utils.sat.Polygon">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Polygon</span></span><a class="reference internal" href="_modules/rubato/utils/sat.html#Polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.sat.Polygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -3862,7 +3948,8 @@ same type that is given.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>verts</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of the vertices in the Polygon, in either clockwise or anticlockwise direction</p></li>
+<li><p><strong>verts</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of the vertices in the Polygon, in either clockwise
+or anticlockwise direction</p></li>
 <li><p><strong>pos</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The position of the center of the Polygon as a function</p></li>
 <li><p><strong>scale</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">UnionType</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The scale of the polygon</p></li>
 <li><p><strong>rotation</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The rotation angle of the polygon in degrees</p></li>
@@ -3895,7 +3982,8 @@ same type that is given.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.sat.Polygon.generate_polygon">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_sides</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/sat.html#Polygon.generate_polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.sat.Polygon.generate_polygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a normal polygon with a specified number of sides and an optional radius</p>
+<dd><p>Creates a normal polygon with a specified number of sides and
+an optional radius</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#rubato.utils.sat.Polygon" title="rubato.utils.sat.Polygon"><code class="xref py py-class docutils literal notranslate"><span class="pre">Polygon</span></code></a></p>
@@ -3967,7 +4055,8 @@ same type that is given.</p>
 <dt class="sig sig-object py" id="rubato.utils.sat.SAT">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SAT</span></span><a class="reference internal" href="_modules/rubato/utils/sat.html#SAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.sat.SAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A general class that does the collision detection math between circles and polygons</p>
+<p>A general class that does the collision detection math between
+circles and polygons</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.sat.SAT.overlap">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/sat.html#SAT.overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.sat.SAT.overlap" title="Permalink to this definition">¶</a></dt>
