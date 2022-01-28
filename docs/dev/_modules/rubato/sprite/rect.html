@@ -195,17 +195,19 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.sprite.rect</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Image</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">The Rectangle class draws a colored rectangle. It inherits from the image class.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">rubato.sprite.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Color</span>
 <span class="kn">from</span> <span class="nn">pygame.surface</span> <span class="kn">import</span> <span class="n">Surface</span>
 <span class="kn">from</span> <span class="nn">pygame.draw</span> <span class="kn">import</span> <span class="n">rect</span>
 
-<div class="viewcode-block" id="Rectangle"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rect.Rectangle">[docs]</a><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">(</span><span class="n">Image</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Rectangle"><a class="viewcode-back" href="../../../api.html#rubato.Rectangle">[docs]</a><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">(</span><span class="n">Image</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    A class that creates a colored rectangle</span>
-
-<span class="sd">    :param options: A rectangle :ref:`config &lt;defaultrectangle&gt;`</span>
 <span class="sd">    """</span>
 
     <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
@@ -215,13 +217,25 @@
         <span class="s2">"z_index"</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="Rectangle.__init__"><a class="viewcode-back" href="../../../api.html#rubato.sprite.rect.Rectangle.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+<div class="viewcode-block" id="Rectangle.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Rectangle.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Initializes a rectangle class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            options: A rectangle config. Defaults to the</span>
+<span class="sd">                :ref:`default rectangle options &lt;defaultrectangle&gt;`.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Rectangle</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="s2">"image_location"</span> <span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span> <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]})</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
+            <span class="s2">"image_location"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span>
+            <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]</span>
+        <span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Rectangle</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Surface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"dims"</span><span class="p">]</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">())</span>
 
-        <span class="n">rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"dims"</span><span class="p">]</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">()])</span></div></div>
+        <span class="n">rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
+             <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"dims"</span><span class="p">]</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">()])</span></div></div>
 </pre></div>
         </article>
       </div>
