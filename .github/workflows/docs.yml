@@ -32,7 +32,7 @@ jobs:
                   if [[ `git status --porcelain` ]]; then
                     git commit -m "Build Docs" -a
                   fi
-                  
+
             - name: Push changes
               uses: ad-m/github-push-action@master
               with:

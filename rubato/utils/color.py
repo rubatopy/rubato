@@ -8,7 +8,7 @@ from rubato.utils import PMath
 
 class HSV:
     """
-    An HSV implementation.
+    A HSV implementation.
     """
 
     def __init__(self, h=0.0, s=0.0, v=0.0):
@@ -94,6 +94,16 @@ navy = (0, 0, 128)
 
 
 def lerp(a: RGB, b: RGB, t):
+    """
+    lerps between two RGBs
+    Args:
+        a: first color
+        b: second color
+        t: interval between the two colors, clamped from 0 to 1
+
+    Returns: a new RGB that is between the two colors
+
+    """
     t = PMath.clamp(t, 0, 1)
     return RGB(
         a.r + (b.r - a.r) * t,
@@ -103,6 +113,14 @@ def lerp(a: RGB, b: RGB, t):
 
 
 def rgb_to_hsv(color_in: RGB):
+    """
+    rgb to hsv conversion
+    Args:
+        color_in: input color rubato.Color RGB
+
+    Returns:
+        HSV value from input
+    """
     out = HSV()
 
     cmax = max(color_in.r, color_in.g, color_in.b)  # maximum of r, g, b
@@ -135,6 +153,14 @@ def rgb_to_hsv(color_in: RGB):
 
 
 def hsv_to_rgb(color_in: HSV):
+    """
+    hsv to rgb conversion
+    Args:
+        color_in: input color rubato.Color HSV
+
+    Returns:
+        RGB value from input
+    """
     out = RGB()
     if color_in.s == 0:
         out.set(color_in.v)
@@ -178,112 +204,3 @@ def hsv_to_rgb(color_in: HSV):
 
     return out
 
-
-class Color:
-    """
-    A color implementation
-    """
-    # colors from https://www.rapidtables.com/web/color/RGB_Color.html
-    black = (0, 0, 0)
-    white = (255, 255, 255)
-    red = (255, 0, 0)
-    lime = (0, 255, 0)
-    blue = (0, 0, 255)
-    yellow = (255, 255, 0)
-    cyan = aqua = (0, 255, 255)
-    magenta = fuchsia = (255, 0, 255)
-    silver = (192, 192, 192)
-    gray = (128, 128, 128)
-    maroon = (128, 0, 0)
-    olive = (128, 128, 0)
-    green = (0, 128, 0)
-    purple = (128, 0, 128)
-    teal = (0, 128, 128)
-    navy = (0, 0, 128)
-
-    @staticmethod
-    def lerp(a: RGB, b: RGB, t):
-        t = PMath.clamp(t, 0, 1)
-        return RGB(
-            a.r + (b.r - a.r) * t,
-            a.g + (b.g - a.g) * t,
-            a.b + (b.b - a.b) * t,
-        )
-
-    @staticmethod
-    def rgb_to_hsv(color_in: RGB):
-        out = Color.HSV()
-
-        cmax = max(color_in.r, color_in.g, color_in.b)  # maximum of r, g, b
-        cmin = min(color_in.r, color_in.g, color_in.b)  # minimum of r, g, b
-
-        out.v = cmax
-        delta = cmax - cmin
-        if delta == 0:
-            return out
-        if cmax > 0.0:
-            out.s = (delta / cmax)
-        else:
-            return out
-
-        if color_in.r == cmax:
-            out.h = (color_in.g -
-                     color_in.b) / delta  # between yellow & magenta
-        elif color_in.g == cmax:
-            out.h = 2.0 + (color_in.b -
-                           color_in.r) / delta  # between cyan & yellow
-        else:
-            out.h = 4.0 + (color_in.r -
-                           color_in.g) / delta  # between magenta & cyan
-
-        out.h *= 60.0  # degrees
-
-        if out.h < 0.0:
-            out.h += 360.0
-
-        return out
-
-    @staticmethod
-    def hsv_to_rgb(color_in: HSV):
-        out = Color.RGB()
-        if color_in.s == 0:
-            out.set(color_in.v)
-        hh = color_in.h
-        if hh >= 360.0:
-            hh = 0.0
-        hh /= 60.0
-        i = int(hh)
-        ff = hh - i
-        p = color_in.v * (1.0 - color_in.s)
-        q = color_in.v * (1.0 - (color_in.s * ff))
-        t = color_in.v * (1.0 - (color_in.s * (1.0 - ff)))
-        if i == 0:
-            out.r = color_in.v
-            out.g = t
-            out.b = p
-        elif i == 1:
-            out.r = q
-            out.g = color_in.v
-            out.b = p
-        elif i == 2:
-            out.r = p
-            out.g = color_in.v
-            out.b = t
-        elif i == 3:
-            out.r = p
-            out.g = q
-            out.b = color_in.v
-        elif i == 4:
-            out.r = t
-            out.g = p
-            out.b = color_in.v
-        elif i == 5:
-            out.r = color_in.v
-            out.g = p
-            out.b = q
-        else:
-            out.r = color_in.v
-            out.g = p
-            out.b = q
-
-        return out

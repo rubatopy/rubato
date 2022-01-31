@@ -20,7 +20,8 @@ import pygame
 import sys
 # from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
-from rubato.utils import PMath, classproperty, STATE, Display, Vector, Time, Polygon, Circle, SAT, COL_TYPE, Color, color, Error
+from rubato.utils import PMath, classproperty, STATE, Display, Vector, Time, \
+    Polygon, Circle, SAT, COL_TYPE, Color, Error, Sorting
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, Text, Empty
@@ -56,7 +57,7 @@ __all__ = [
     "Group",
     "Input",
     "Game",
-    "color",
+    "Sorting"
 ]
 
 game: Game = None

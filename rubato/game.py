@@ -62,7 +62,7 @@ class Game:
         self.state = STATE.STOPPED
 
         self._clock = pygame.time.Clock()
-        Time.set(self._clock)
+        Time.set_clock(self._clock)
 
         self._screen = pygame.display.set_mode(
             (self._window_width, self._window_height), pygame.RESIZABLE)
