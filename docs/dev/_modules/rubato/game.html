@@ -220,11 +220,8 @@
 <span class="sd">        reset_display (bool): Controls whether or not the display should reset</span>
 <span class="sd">            every frame.</span>
 <span class="sd">        state (STATE): The current state of the game.</span>
-
-<span class="sd">    Warning:</span>
-<span class="sd">        Changing most of the above attributes will not update them in the game.</span>
-<span class="sd">        For all intensive purposes, all the attributes in this class can be</span>
-<span class="sd">        considered as read only.</span>
+<span class="sd">        window_width (int): The width of the game window.</span>
+<span class="sd">        window_height (int): The height of the game window.</span>
 <span class="sd">    """</span>
 
     <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
@@ -246,34 +243,49 @@
 <span class="sd">                Defaults to the :ref:`default game options &lt;defaultgame&gt;`.</span>
 <span class="sd">        """</span>
         <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Game</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"window_width"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"window_height"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_aspect_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"aspect_ratio"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"fps"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_display</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"reset_display"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_use_better_clock</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_params</span><span class="p">[</span><span class="s2">"better_clock"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"window_width"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"window_height"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__aspect_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"aspect_ratio"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"fps"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_display</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"reset_display"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__use_better_clock</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">"better_clock"</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
-        <span class="n">Time</span><span class="o">.</span><span class="n">set_clock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clock</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+        <span class="n">Time</span><span class="o">.</span><span class="n">set_clock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__clock</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_display</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span>
-            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__display</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">)</span>
 
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"icon"</span><span class="p">):</span>
             <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_icon</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"icon"</span><span class="p">)))</span>
 
-        <span class="n">Display</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_display</span><span class="p">)</span>
+        <span class="n">Display</span><span class="o">.</span><span class="n">set_display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__display</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span> <span class="o">=</span> <span class="n">SceneManager</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">radio</span> <span class="o">=</span> <span class="n">Radio</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radio</span> <span class="o">=</span> <span class="n">Radio</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved_dims</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__state</span>
+
+    <span class="nd">@state</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_state</span><span class="p">:</span> <span class="n">STATE</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">=</span> <span class="n">new_state</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_loop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span><span class="p">:</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">window_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -282,19 +294,16 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Vector: A vector with x representing the width and</span>
-<span class="sd">                y representing the height</span>
-
-<span class="sd">        Warning:</span>
-<span class="sd">            This currently only returns the initial window size</span>
+<span class="sd">            y representing the height</span>
 <span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Game.start_loop"><a class="viewcode-back" href="../../api.html#rubato.Game.start_loop">[docs]</a>    <span class="k">def</span> <span class="nf">start_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Starts the game loop. Should only be called by :meth:`rubato.begin`</span>
 <span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">__state</span> <span class="o">==</span> <span class="n">STATE</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Game.update"><a class="viewcode-back" href="../../api.html#rubato.Game.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -305,28 +314,32 @@
                 <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">VIDEORESIZE</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
-                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">),</span>
-                    <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">Input</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"_down"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYUP</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="n">Input</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"_up"</span><span class="p">)</span>
 
-        <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aspect_ratio</span>
-        <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aspect_ratio</span><span class="p">,</span>
-                 <span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">)[</span><span class="n">ratio</span><span class="p">]</span>
-        <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">,</span>
-                  <span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aspect_ratio</span><span class="p">)[</span><span class="n">ratio</span><span class="p">]</span>
-        <span class="n">top_right</span> <span class="o">=</span> <span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span> <span class="o">-</span> <span class="n">width</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))[</span><span class="n">ratio</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__saved_dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__saved_dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
+
+        <span class="n">ratio</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aspect_ratio</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aspect_ratio</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">)[</span><span class="n">ratio</span><span class="p">]</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">__aspect_ratio</span><span class="p">)[</span><span class="n">ratio</span><span class="p">]</span>
+        <span class="n">top_right</span> <span class="o">=</span> <span class="p">(((</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span> <span class="o">-</span> <span class="n">width</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                     <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_height</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))[</span><span class="n">ratio</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span>
-            <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_display</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">))),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__display</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">))),</span>
             <span class="n">top_right</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved_dims</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_height</span><span class="p">]</span>
 
         <span class="n">Time</span><span class="o">.</span><span class="n">process_calls</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
@@ -334,17 +347,17 @@
         <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">radio</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_better_clock</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_clock</span><span class="o">.</span><span class="n">tick_busy_loop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__use_better_clock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__clock</span><span class="o">.</span><span class="n">tick_busy_loop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fps</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Game.draw"><a class="viewcode-back" href="../../api.html#rubato.Game.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Draw loop for the game. Called automatically every frame"""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reset_display</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_display</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_display</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__display</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_display</span> <span class="o">=</span> <span class="n">Display</span><span class="o">.</span><span class="n">display</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__display</span> <span class="o">=</span> <span class="n">Display</span><span class="o">.</span><span class="n">global_display</span></div></div>
 </pre></div>
         </article>
       </div>

@@ -45,17 +45,14 @@ class Text(Sprite):
         Raises:
             Exception: The font provided is not supported on the system.
         """
-        self.params = Sprite.merge_params(options, Text.default_options)
-        super().__init__({
-            "pos": self.params["pos"],
-            "z_index": self.params["z_index"]
-        })
-        self.text = self.params["text"]
-        self.size = self.params["size"]
-        self.font_name = self.params["font_name"]
-        self.color = self.params["color"]
-        self.static = self.params["static"]
-        self.onto_surface = self.params["onto_surface"]
+        param = Sprite.merge_params(options, Text.default_options)
+        super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
+        self.text = param["text"]
+        self.size = param["size"]
+        self.font_name = param["font_name"]
+        self.color = param["color"]
+        self.static = param["static"]
+        self.onto_surface = param["onto_surface"]
 
         if self.onto_surface:
             self.draw = self.draw_onto_surface

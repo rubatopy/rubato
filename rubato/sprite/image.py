@@ -25,22 +25,19 @@ class Image(Sprite):
     }
 
     def __init__(self, options: dict = {}):
-        self.params = Sprite.merge_params(options, Image.default_options)
-        super().__init__({
-            "pos": self.params["pos"],
-            "z_index": self.params["z_index"]
-        })
+        param = Sprite.merge_params(options, Image.default_options)
+        super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
 
-        if self.params["image_location"] == "" or self.params[
-            "image_location"] == "default":
+        if param["image_location"] == "" or param[
+                "image_location"] == "default":
             self.image = load("rubato/static/default.png").convert_alpha()
-        elif self.params["image_location"] == "empty":
+        elif param["image_location"] == "empty":
             self.image = load("rubato/static/empty.png").convert_alpha()
         else:
-            self.image = load(self.params["image_location"]).convert_alpha()
+            self.image = load(param["image_location"]).convert_alpha()
 
-        self.image = rotate(self.image, self.params["rotation"])
-        self.scale(self.params["scale_factor"])
+        self.image = rotate(self.image, param["rotation"])
+        self.scale(param["scale_factor"])
 
     def scale(self, scale_factor: Vector):
         """

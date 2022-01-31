@@ -250,11 +250,11 @@
 <span class="sd">            options: A rigidbody config. Defaults to the</span>
 <span class="sd">                :ref:`default rigidbody options &lt;defaultrigidbody&gt;`.</span>
 <span class="sd">        """</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
-            <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span>
-            <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]</span>
+            <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span>
+            <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">]</span>
         <span class="p">})</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span>
@@ -264,32 +264,32 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"rotation"</span><span class="p">,</span>
                                     <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"rotation"</span><span class="p">])</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"mass"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"mass"</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"hitbox"</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"hitbox"</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="o">.</span><span class="n">_rotation</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">col_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"col_type"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">col_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"col_type"</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"img"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"img"</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">({</span>
                 <span class="s2">"image_location"</span><span class="p">:</span> <span class="s2">"empty"</span><span class="p">,</span>
                 <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span>
-                <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">],</span>
+                <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">],</span>
             <span class="p">})</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">({</span>
                 <span class="s2">"image_location"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="p">,</span>
                 <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span>
-                <span class="s2">"scale_factor"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">],</span>
-                <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">],</span>
+                <span class="s2">"scale_factor"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"scale"</span><span class="p">],</span>
+                <span class="s2">"z_index"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"z_index"</span><span class="p">],</span>
                 <span class="s2">"rotation"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
             <span class="p">})</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span></div>
 
@@ -297,18 +297,18 @@
         <span class="sd">"""A physics implementation"""</span>
         <span class="c1"># Update Velocity</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">acceleration</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="s2">"gravity"</span><span class="p">,</span>
             <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"gravity"</span><span class="p">]))</span> <span class="o">*</span> <span class="n">Time</span><span class="o">.</span><span class="n">delta_time</span><span class="p">(</span><span class="s2">"sec"</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"friction"</span><span class="p">,</span>
-                                         <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"friction"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">"friction"</span><span class="p">,</span> <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"friction"</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_speed"</span><span class="p">,</span>
-                            <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"min_speed"</span><span class="p">]),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_speed"</span><span class="p">,</span>
-                            <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"max_speed"</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"min_speed"</span><span class="p">,</span>
+                              <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"min_speed"</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_speed"</span><span class="p">,</span>
+                              <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"max_speed"</span><span class="p">]),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
 
@@ -485,8 +485,8 @@
 
 <div class="viewcode-block" id="RigidBody.update"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""The update loop"""</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"do_physics"</span><span class="p">,</span>
-                            <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"do_physics"</span><span class="p">])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"do_physics"</span><span class="p">,</span>
+                              <span class="n">RigidBody</span><span class="o">.</span><span class="n">default_options</span><span class="p">[</span><span class="s2">"do_physics"</span><span class="p">])</span>
                 <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_frame</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">physics</span><span class="p">()</span>
 

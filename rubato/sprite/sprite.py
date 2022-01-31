@@ -33,9 +33,9 @@ class Sprite:
             options: A sprite config. Defaults to the
                 :ref:`default sprite options <defaultsprite>`.
         """
-        self.param = Sprite.merge_params(options, Sprite.default_options)
-        self.pos = self.param["pos"]
-        self.z_index = self.param["z_index"]
+        param = Sprite.merge_params(options, Sprite.default_options)
+        self.pos = param["pos"]
+        self.z_index = param["z_index"]
         self.in_frame = False
 
     def is_in_frame(self, camera: Camera, game) -> bool:

@@ -354,59 +354,6 @@ Initialized when <code class="xref py py-meth docutils literal notranslate"><spa
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Display</span></span><a class="reference internal" href="_modules/rubato/utils/display.html#Display"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Global display class that allows any file to access the
-displayed screen.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_surface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set the global display.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_surface</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Surface</span></code>) – The new surface to set.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Update the current display.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>surface</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Surface</span></code>) – The surface to draw on the display.</p></li>
-<li><p><strong>pos</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – The position to draw the surface on.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_window_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set_window_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set the position of the Pygame window.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The x position</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The y position</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_window_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set_window_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Set the title of the PyGame window.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the PyGame window.</p>
-</dd>
-</dl>
-</dd></dl>
-</dd></dl>
-<dl class="py class">
-<dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Vector</span></span><a class="reference internal" href="_modules/rubato/utils/vector.html#Vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A Vector object that defines a 2D point in space</p>
@@ -1922,12 +1869,26 @@ every frame.</p>
 </dd>
 </dl>
 </dd></dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Changing most of the above attributes will not update them in the game.
-For all intensive purposes, all the attributes in this class can be
-considered as read only.</p>
-</div>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">window_width</span></span></dt>
+<dd><p>The width of the game window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">window_height</span></span></dt>
+<dd><p>The height of the game window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
@@ -1945,20 +1906,13 @@ Defaults to the <a class="reference internal" href="defaults.html#defaultgame"><
 <dd><p>The current size of the window</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>A vector with x representing the width and</dt><dd><p>y representing the height</p>
-</dd>
-</dl>
-</p>
+<dd class="field-odd"><p>A vector with x representing the width and
+y representing the height</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#rubato.utils.vector.Vector" title="rubato.utils.vector.Vector">Vector</a></p>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This currently only returns the initial window size</p>
-</div>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -2046,12 +2000,26 @@ every frame.</p>
 </dd>
 </dl>
 </dd></dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Changing most of the above attributes will not update them in the game.
-For all intensive purposes, all the attributes in this class can be
-considered as read only.</p>
-</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.window_width">
+<span class="sig-name descname"><span class="pre">window_width</span></span><a class="headerlink" href="#rubato.game.Game.window_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the game window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rubato.game.Game.window_height">
+<span class="sig-name descname"><span class="pre">window_height</span></span><a class="headerlink" href="#rubato.game.Game.window_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>The height of the game window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.game.Game.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/game.html#Game.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.game.Game.__init__" title="Permalink to this definition">¶</a></dt>
@@ -2069,20 +2037,13 @@ Defaults to the <a class="reference internal" href="defaults.html#defaultgame"><
 <dd><p>The current size of the window</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>A vector with x representing the width and</dt><dd><p>y representing the height</p>
-</dd>
-</dl>
-</p>
+<dd class="field-odd"><p>A vector with x representing the width and
+y representing the height</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#rubato.utils.vector.Vector" title="rubato.utils.vector.Vector">Vector</a></p>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This currently only returns the initial window size</p>
-</div>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.game.Game.start_loop">
@@ -3433,16 +3394,11 @@ same type that is given.</p>
 </section>
 <section id="display">
 <span id="id16"></span><h3>Display<a class="headerlink" href="#display" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.display"></span><p>A global display class.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="rubato.utils.display.Display">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Display</span></span><a class="reference internal" href="_modules/rubato/utils/display.html#Display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Global display class that allows any file to access the
+<span class="target" id="module-rubato.utils.display"></span><p>Global display class that allows any file to access the
 displayed screen.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.display.Display.set">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_surface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display.set" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.display.set_display">
+<span class="sig-name descname"><span class="pre">set_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_surface</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#set_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.set_display" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the global display.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3450,9 +3406,9 @@ displayed screen.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.display.Display.update">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display.update" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.display.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the current display.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3463,29 +3419,28 @@ displayed screen.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.display.Display.set_window_position">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_window_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set_window_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display.set_window_position" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.display.set_window_position">
+<span class="sig-name descname"><span class="pre">set_window_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#set_window_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.set_window_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the position of the Pygame window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The x position</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The y position</p></li>
+<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The x position.</p></li>
+<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The y position.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.display.Display.set_window_name">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_window_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#Display.set_window_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.Display.set_window_name" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.display.set_window_name">
+<span class="sig-name descname"><span class="pre">set_window_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/display.html#set_window_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.display.set_window_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the title of the PyGame window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the PyGame window.</p>
 </dd>
 </dl>
-</dd></dl>
 </dd></dl>
 </section>
 <section id="vector">
