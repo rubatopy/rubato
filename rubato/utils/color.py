@@ -1,5 +1,7 @@
 """
 A Color class
+
+:ref:`List of colors <defaultcolors>`
 """
 from rubato.utils import PMath
 

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="search" title="Search" href="../search.html" />
 
     <link rel="shortcut icon" href="../_static/logo_img.png"/><meta name="generator" content="sphinx-4.4.0, furo 2022.01.02"/>
-        <title>Overview: module code - Rubato 0.0.1 Documentation</title>
+        <title>rubato - Rubato 0.0.1 Documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=df49af52631e7917044a9c21a57f7b83170a6dd0" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
@@ -194,32 +194,104 @@
           </label>
         </div>
         <article role="main">
-          <h1>All modules for which code is available</h1>
-<ul><li><a href="pygame.html">pygame</a></li>
-<li><a href="rubato/game.html">rubato.game</a></li>
-<li><a href="rubato/input.html">rubato.input</a></li>
-<li><a href="rubato/radio.html">rubato.radio</a></li>
-<li><a href="rubato/scenes/camera.html">rubato.scenes.camera</a></li>
-<li><a href="rubato/scenes/scene.html">rubato.scenes.scene</a></li>
-<li><a href="rubato/scenes/scene_manager.html">rubato.scenes.scene_manager</a></li>
-<li><a href="rubato/sprite/button.html">rubato.sprite.button</a></li>
-<li><a href="rubato/sprite/empty.html">rubato.sprite.empty</a></li>
-<li><a href="rubato/sprite/group.html">rubato.sprite.group</a></li>
-<li><a href="rubato/sprite/image.html">rubato.sprite.image</a></li>
-<li><a href="rubato/sprite/rect.html">rubato.sprite.rect</a></li>
-<li><a href="rubato/sprite/rigidbody.html">rubato.sprite.rigidbody</a></li>
-<li><a href="rubato/sprite/sprite.html">rubato.sprite.sprite</a></li>
-<li><a href="rubato/sprite/text.html">rubato.sprite.text</a></li>
-<li><a href="rubato/utils/COL_TYPE.html">rubato.utils.COL_TYPE</a></li>
-<li><a href="rubato/utils/STATE.html">rubato.utils.STATE</a></li>
-<li><a href="rubato/utils/color.html">rubato.utils.color</a></li>
-<li><a href="rubato/utils/display.html">rubato.utils.display</a></li>
-<li><a href="rubato/utils/error.html">rubato.utils.error</a></li>
-<li><a href="rubato/utils/math.html">rubato.utils.math</a></li>
-<li><a href="rubato/utils/sat.html">rubato.utils.sat</a></li>
-<li><a href="rubato/utils/time.html">rubato.utils.time</a></li>
-<li><a href="rubato/utils/vector.html">rubato.utils.vector</a></li>
-</ul>
+          <h1>Source code for rubato</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Rubato is a clean and efficient game engine.</span>
+
+<span class="sd">Rubato is a Python game engine that builds off of PyGame to make a cleaner and</span>
+<span class="sd">more efficient game engine. We aim to make game development in Python much</span>
+<span class="sd">easier than it currently is. Even though we use PyGame in the backend, when</span>
+<span class="sd">using Rubato, you do not need to ever touch PyGame.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">    Every single class can be accessed through the top level or through the full</span>
+<span class="sd">    module path.</span>
+
+<span class="sd">Attributes:</span>
+<span class="sd">    game (Game): The global game class that can be accessed anywhere.</span>
+<span class="sd">        Initialized when :meth:`rubato.init()` is called.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<span class="c1"># This needs to be set before pygame    pylint: disable=wrong-import-position</span>
+<span class="n">environ</span><span class="p">[</span><span class="s2">"PYGAME_HIDE_SUPPORT_PROMPT"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"1"</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1"># from typeguard.importhook import install_import_hook</span>
+<span class="c1"># install_import_hook("rubato")</span>
+<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span><span class="p">,</span> <span class="n">classproperty</span><span class="p">,</span> <span class="n">STATE</span><span class="p">,</span> <span class="n">Display</span><span class="p">,</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">,</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">SAT</span><span class="p">,</span> <span class="n">COL_TYPE</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">Error</span>
+<span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">SceneManager</span><span class="p">,</span> <span class="n">Scene</span><span class="p">,</span> <span class="n">Camera</span>
+<span class="kn">from</span> <span class="nn">rubato.radio</span> <span class="kn">import</span> <span class="n">Radio</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">RigidBody</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Empty</span>
+<span class="kn">from</span> <span class="nn">rubato.group</span> <span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">import</span> <span class="nn">rubato.input</span> <span class="k">as</span> <span class="nn">Input</span>
+<span class="kn">from</span> <span class="nn">rubato.game</span> <span class="kn">import</span> <span class="n">Game</span>
+
+<span class="c1"># This variable tells python which things are included in the library.</span>
+<span class="c1"># Apparently just importing them isn't enough.</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"PMath"</span><span class="p">,</span>
+    <span class="s2">"classproperty"</span><span class="p">,</span>
+    <span class="s2">"STATE"</span><span class="p">,</span>
+    <span class="s2">"Display"</span><span class="p">,</span>
+    <span class="s2">"Vector"</span><span class="p">,</span>
+    <span class="s2">"Time"</span><span class="p">,</span>
+    <span class="s2">"Polygon"</span><span class="p">,</span>
+    <span class="s2">"Circle"</span><span class="p">,</span>
+    <span class="s2">"SAT"</span><span class="p">,</span>
+    <span class="s2">"COL_TYPE"</span><span class="p">,</span>
+    <span class="s2">"Color"</span><span class="p">,</span>
+    <span class="s2">"Error"</span><span class="p">,</span>
+    <span class="s2">"SceneManager"</span><span class="p">,</span>
+    <span class="s2">"Scene"</span><span class="p">,</span>
+    <span class="s2">"Camera"</span><span class="p">,</span>
+    <span class="s2">"Radio"</span><span class="p">,</span>
+    <span class="s2">"Sprite"</span><span class="p">,</span>
+    <span class="s2">"Image"</span><span class="p">,</span>
+    <span class="s2">"RigidBody"</span><span class="p">,</span>
+    <span class="s2">"Button"</span><span class="p">,</span>
+    <span class="s2">"Rectangle"</span><span class="p">,</span>
+    <span class="s2">"Text"</span><span class="p">,</span>
+    <span class="s2">"Empty"</span><span class="p">,</span>
+    <span class="s2">"Group"</span><span class="p">,</span>
+    <span class="s2">"Input"</span><span class="p">,</span>
+    <span class="s2">"Game"</span><span class="p">,</span>
+    <span class="s2">"color"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># TODO Sound manager</span>
+<span class="c1"># TODO make it so that the 0,0 coordinate is the center the screen</span>
+<span class="c1"># TODO Y position is up</span>
+<span class="c1"># TODO update various game parameters live</span>
+<span class="c1"># TODO window size doesn't update live</span>
+
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../api.html#rubato.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initializes rubato.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        options: A game config.</span>
+<span class="sd">                Defaults to the :ref:`default game options &lt;defaultgame&gt;`.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">game</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="begin"><a class="viewcode-back" href="../api.html#rubato.begin">[docs]</a><span class="k">def</span> <span class="nf">begin</span><span class="p">():</span>
+    <span class="sd">"""</span>
+<span class="sd">    Starts the main game loop.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        RuntimeError: Rubato has not been initialized before calling.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">game</span><span class="o">.</span><span class="n">start_loop</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">"You have not initialized rubato. Make sure to run rubato.init() right after importing the library"</span>  <span class="c1"># pylint: disable=line-too-long</span>
+        <span class="p">)</span></div>
+</pre></div>
         </article>
       </div>
       <footer>
