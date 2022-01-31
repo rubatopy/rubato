@@ -59,7 +59,7 @@ def delayed_call(time_delta: int, func: Callable):
     Calls the function func at a later
 
     :param time_delta: The time from now (in milliseconds)
-    to run the function at.
+        to run the function at.
     :param func: The function to call.
     """
     run_at = time_delta + now()

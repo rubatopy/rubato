@@ -64,7 +64,6 @@ autodoc_preserve_defaults = True
 
 autodoc_default_options = {
     "show-inheritance": True,
-    "members": True,
 }
 
 # -- Options for HTML output -------------------------------------------------
