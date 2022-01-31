@@ -17,9 +17,13 @@ save:
 	@cp -r ./build/html/ ./$(ver)/
 	@echo "Saved $(ver) version"
 
-
 live:
 	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
 
 clear:
 	@rm -rf build
+
+html:
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) -t dev
+	@rm -rf dev
+	@cp -r ./build/html/ ./dev/

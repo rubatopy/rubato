@@ -1,4 +1,6 @@
-from rubato.sprite.sprite import Sprite
+"""
+The image class renders an image from the file system.
+"""
 from pygame.image import load
 from pygame.transform import scale, flip, rotate
 from rubato.utils import Vector
@@ -9,7 +11,8 @@ class Image(Sprite):
     """
     A subclass of Sprite that handles Images.
 
-    :param options: An image :ref:`config <defaultimage>`
+    Attributes:
+        image (pygame.Surface): The pygame surface containing the image.
     """
 
     default_options = {
@@ -22,7 +25,10 @@ class Image(Sprite):
 
     def __init__(self, options: dict = {}):
         self.params = Sprite.merge_params(options, Image.default_options)
-        super().__init__({"pos": self.params["pos"], "z_index": self.params["z_index"]})
+        super().__init__({
+            "pos": self.params["pos"],
+            "z_index": self.params["z_index"]
+        })
 
         if self.params["image_location"] == "" or self.params["image_location"] == "default":
             self.image = load("rubato/static/default.png").convert_alpha()
@@ -47,24 +53,41 @@ class Image(Sprite):
 
     def scale(self, scale_factor: Vector):
         """
-        Let's you rescale the Image to a given scale factor.
+        Scales the image.
 
-        :param scale_factor: A Vector describing the scale in the x and y direction relative to its current size
+        Args:
+            scale_factor: The 2-d scale factor relative to it's current size.
         """
         if abs(new_x := self.image.get_width() * scale_factor.x) < 1:
             new_x = 1
         if abs(new_y := self.image.get_height() * scale_factor.y) < 1:
             new_y = 1
-        self.image = flip(scale(self.image, (abs(new_x), abs(new_y))), new_x < 0, new_y < 0)
+        self.image = flip(scale(self.image, (abs(new_x), abs(new_y))),
+                          new_x < 0, new_y < 0)
 
-    def scale_abs(self, new_size: Vector):
+    def resize(self, new_size: Vector):
         """
-        Let's you rescale the Image to a given scale.
+        Resize the image to a given size in pixels.
 
-        :param new_size: A Vector describing the scale in the x and y direction relative to its current size
+        Args:
+            new_size: The new size of the image in pixels.
         """
         if abs(new_size.x) < 1:
             new_size.x = 1
         if abs(new_size.y) < 1:
             new_size.y = 1
-        self.image = flip(scale(self.image, (abs(new_size.x), abs(new_size.y))), new_size.x < 0, new_size.y < 0)
+        self.image = flip(
+            scale(self.image, (abs(new_size.x), abs(new_size.y))),
+            new_size.x < 0, new_size.y < 0)
+
+    def update(self):
+        pass
+
+    def draw(self, camera: Camera):
+        """
+        Draws the image to the camera.
+
+        Args:
+            camera: The camera to draw too.
+        """
+        super().draw(self.image, camera)

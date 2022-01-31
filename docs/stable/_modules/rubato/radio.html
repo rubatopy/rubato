@@ -204,7 +204,7 @@
 <span class="sd">broadcast that event key using the :meth:`Radio.broadcast` function.</span>
 <span class="sd">"""</span>
 
-<span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
 
 
 <div class="viewcode-block" id="Radio"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio">[docs]</a><span class="k">class</span> <span class="nc">Radio</span><span class="p">:</span>
@@ -214,41 +214,42 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        events (List[str]): A list with all the event keys in the queue.</span>
-<span class="sd">        listeners (dict[str, typing.Callable]): A dictionary with all of the</span>
+<span class="sd">        listeners (dict[str, Callable]): A dictionary with all of the</span>
 <span class="sd">            active listeners.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="viewcode-block" id="Radio.__init__"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">"Initializes the Radio class"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Radio.listen"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Creates an event listener.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            event: The event key to listen for.</span>
+<span class="sd">            func: The function to run once the event is</span>
+<span class="sd">                broadcast.</span>
+
+<span class="sd">        Warning:</span>
+<span class="sd">            You **CANNOT** currently delete an event listener once it's created.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Radio.broadcast"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio.broadcast">[docs]</a>    <span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Broadcast an event to be caught by listeners.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            event (str): The event key to broadcast.</span>
+<span class="sd">            event: The event key to broadcast.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="p">[]):</span>
-            <span class="n">func</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="Radio.listen"><a class="viewcode-back" href="../../api.html#rubato.radio.Radio.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">):</span>
-        <span class="sd">"""</span>
-<span class="sd">        Creates an event listener.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            event (str): The event key to listen for.</span>
-<span class="sd">            func (typing.Callable): The function to run once the event is</span>
-<span class="sd">                broadcast.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            You **CANNOT** currently delete an event listener once it's created.</span>
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">event</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">listeners</span><span class="p">[</span><span class="n">event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">]</span></div></div>
+            <span class="n">func</span><span class="p">()</span></div></div>
 </pre></div>
         </article>
       </div>

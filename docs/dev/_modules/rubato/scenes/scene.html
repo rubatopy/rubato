@@ -195,50 +195,79 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.scenes.scene</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
-<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span><span class="p">,</span> <span class="n">RigidBody</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">A Scene is a collection of sprites, groups and a camera. They are used to</span>
+<span class="sd">render and update a large group of sprites at once. They are also useful to</span>
+<span class="sd">compartmentalize different aspects of a game.</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
 <span class="kn">from</span> <span class="nn">rubato.group</span> <span class="kn">import</span> <span class="n">Group</span>
-<span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span>
+<span class="kn">from</span> <span class="nn">rubato.utils.error</span> <span class="kn">import</span> <span class="n">IdError</span>
 
 
 <div class="viewcode-block" id="Scene"><a class="viewcode-back" href="../../../api.html#rubato.Scene">[docs]</a><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    A scene is a collection of sprites. Interactions between sprites is handled here.</span>
+<span class="sd">    A scene is a collection of sprites. Interactions between sprites is handled</span>
+<span class="sd">    here.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        sprites (dict[Union[int, str], Union[Sprite, Group]]): The collection</span>
+<span class="sd">            of sprites housed in this scene.</span>
+<span class="sd">        camera (Camera): The camera of this scene.</span>
+<span class="sd">        id (Union[str, int]): The id of this scene.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">min_id</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="s2">""</span>
-
-<div class="viewcode-block" id="Scene.add"><a class="viewcode-back" href="../../../api.html#rubato.Scene.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite</span><span class="p">:</span> <span class="n">Sprite</span> <span class="o">|</span> <span class="n">Group</span><span class="p">,</span> <span class="n">sprite_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Scene.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Adds a sprite to the scene.</span>
-
-<span class="sd">        :param sprite_id: The id of the sprite</span>
-<span class="sd">        :param sprite: The sprite object to be added.</span>
+<span class="sd">        Initializes a scene with an empty collection of sprites, a new camera,</span>
+<span class="sd">        and a blank id.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">sprite_id</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
-            <span class="n">sprite_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_id</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">min_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sprite</span><span class="p">,</span> <span class="n">Group</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">""</span></div>
 
-        <span class="k">if</span> <span class="n">sprite_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sprite id </span><span class="si">{</span><span class="n">sprite_id</span><span class="si">}</span><span class="s2"> is not unique in this scene"</span><span class="p">)</span>
+<div class="viewcode-block" id="Scene.add"><a class="viewcode-back" href="../../../api.html#rubato.Scene.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">sprite</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sprite</span><span class="p">,</span> <span class="n">Group</span><span class="p">],</span>
+            <span class="n">sprite_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Adds a sprite or a group to the scene.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sprite: The sprite or group to add to the scene.</span>
+<span class="sd">            sprite_id: The i dof the sprite or group. Defaults to None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IdError: The given id is already used.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[str, int]: The id of the added sprite or group</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">sprite_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sprite_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">sprite_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IdError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"The sprite id </span><span class="si">{</span><span class="n">sprite_id</span><span class="si">}</span><span class="s2"> is not unique in this scene"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">[</span><span class="n">sprite_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">sprite</span>
         <span class="k">return</span> <span class="n">sprite_id</span></div>
 
-<div class="viewcode-block" id="Scene.remove"><a class="viewcode-back" href="../../../api.html#rubato.Scene.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="Scene.remove"><a class="viewcode-back" href="../../../api.html#rubato.Scene.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sprite_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
         <span class="sd">"""</span>
-<span class="sd">        Removes a sprite with a given sprite id</span>
+<span class="sd">        Removes a sprite or group from the scene.</span>
 
-<span class="sd">        :param sprite_id: The id of the sprite to remove</span>
+<span class="sd">        Args:</span>
+<span class="sd">            sprite_id: The id of the sprite or group.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">sprite_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The sprite corresponding to </span><span class="si">{</span><span class="n">sprite_id</span><span class="si">}</span><span class="s2"> does not exist in this scene"</span><span class="p">)</span>
-
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">[</span><span class="n">sprite_id</span><span class="p">]</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="p">[</span><span class="n">sprite_id</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Scene.update"><a class="viewcode-back" href="../../../api.html#rubato.Scene.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -250,8 +279,12 @@
 <div class="viewcode-block" id="Scene.draw"><a class="viewcode-back" href="../../../api.html#rubato.Scene.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        The draw loop for this scene.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            game (Game): The game to draw too.</span>
 <span class="sd">        """</span>
-        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spr</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">z_index</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">sprite</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sprites</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">spr</span><span class="p">:</span> <span class="n">spr</span><span class="o">.</span><span class="n">z_index</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">sprite</span><span class="o">.</span><span class="n">z_index</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">z_index</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">Group</span><span class="p">):</span>
                     <span class="n">sprite</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
@@ -271,8 +304,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

@@ -1,12 +1,17 @@
+"""
+A global display class.
+"""
 from pygame import Surface
 import os
-import pygame.display as display
+from pygame import display
 from rubato.utils import classproperty
-from rubato.utils.vector import Vector
 
 
 class Display:
-    """Global display class that allows any file to access the displayed screen."""
+    """
+    Global display class that allows any file to access the
+    displayed screen.
+    """
 
     global_display = Surface((0, 0))
 
@@ -42,7 +47,7 @@ class Display:
         :param x: The x position
         :param y: The y position
         """
-        os.environ["SDL_VIDEO_WINDOW_POS"] = "%d, %d" % (x, y)
+        os.environ["SDL_VIDEO_WINDOW_POS"] = f"{x}, {y}"
 
     @staticmethod
     def set_window_name(name: str):

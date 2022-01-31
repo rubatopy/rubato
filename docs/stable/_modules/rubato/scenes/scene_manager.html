@@ -195,78 +195,108 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.scenes.scene_manager</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.scenes.scene</span> <span class="kn">import</span> <span class="n">Scene</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">The Scene Manager houses a collection of scenes and allows switching between</span>
+<span class="sd">different scenes. Each Game object has a scene manager. It also handles drawing</span>
+<span class="sd">and updating the current scene.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">rubato.scenes.scene</span> <span class="kn">import</span> <span class="n">Scene</span>
+<span class="kn">from</span> <span class="nn">rubato.utils.error</span> <span class="kn">import</span> <span class="n">IdError</span>
 
 
-<div class="viewcode-block" id="SceneManager"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager">[docs]</a><span class="k">class</span> <span class="nc">SceneManager</span><span class="p">:</span>
+<div class="viewcode-block" id="SceneManager"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager">[docs]</a><span class="k">class</span> <span class="nc">SceneManager</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    The Scene Manager houses a collection of scenes and allows switching between different scenes.</span>
-<span class="sd">    Also handles the drawing and updating of current scene.</span>
+<span class="sd">    The Scene Manager containts and handle multiple scenes.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        scenes (dict[Union[int, str], Scene]): The collection of scenes in the</span>
+<span class="sd">            manager. Accessed by scene id.</span>
+<span class="sd">        current (Union[int, str]): The id of the current scene.</span>
 <span class="sd">    """</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">min_id</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="SceneManager.add"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene</span><span class="p">:</span> <span class="n">Scene</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="SceneManager.__init__"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Creates a new scene and adds it to the scene manager.</span>
-
-<span class="sd">        :param scene: A scene object.</span>
-<span class="sd">        :param scene_id: The id for the new scene. defaults to an incrementing value.</span>
-<span class="sd">        :return: The scene's id value.</span>
+<span class="sd">        Initializes the scene manager with an empty scenes dictionary</span>
+<span class="sd">        and current set to 0.</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">scene_id</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
-            <span class="n">scene_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_id</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">min_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Scene</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="mi">0</span></div>
 
-        <span class="k">if</span> <span class="n">scene_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The scene id </span><span class="si">{</span><span class="n">scene_id</span><span class="si">}</span><span class="s2"> is not unique in this manager"</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Checks if the scene manager contains no scene.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the scene is empty. False otherwise.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scene</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Gets the current scene.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Scene: The current scene.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SceneManager.add"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">scene</span><span class="p">:</span> <span class="n">Scene</span><span class="p">,</span>
+            <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Add a scene to the current scene manager.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scene: The scene to add to the manager.</span>
+<span class="sd">            scene_id: The id of the scene. Defaults to None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IdError: The given scene id is already used.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[str, int]: Returns the id of the added scene.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">scene_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">scene_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__min_id</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">scene_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IdError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"The scene id </span><span class="si">{</span><span class="n">scene_id</span><span class="si">}</span><span class="s2"> is not unique in this manager"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="n">scene_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">scene</span>
         <span class="n">scene</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">scene_id</span>
         <span class="k">return</span> <span class="n">scene_id</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="SceneManager.set"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
         <span class="sd">"""</span>
-<span class="sd">        Property method to check if the scene is empty.</span>
+<span class="sd">        Changes the current scene.</span>
 
-<span class="sd">        :return: Returns whether the scene list is empty.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-
-<div class="viewcode-block" id="SceneManager.set"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">"""</span>
-<span class="sd">        Changes the current scene to a new scene.</span>
-
-<span class="sd">        :param scene_id: The id of the new scene.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            scene_id: The id of the new scene.</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">scene_id</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">current_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scene</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Get the Scene class of the current scene.</span>
-
-<span class="sd">        :return: The Scene class of the current scene.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
-
-<div class="viewcode-block" id="SceneManager.update"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.update"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Calls the update function of the current scene.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">:</span> <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="SceneManager.draw"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.draw"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Calls the draw function of the current scene.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            game (Game): The game to draw to.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">:</span> <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">game</span><span class="p">)</span></div></div>
-
 </pre></div>
         </article>
       </div>
@@ -278,8 +308,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

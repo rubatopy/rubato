@@ -195,7 +195,10 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.sprite.text</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">A sprite used to render text.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">Display</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
 <span class="kn">import</span> <span class="nn">pygame</span>
@@ -206,7 +209,15 @@
     <span class="sd">"""</span>
 <span class="sd">    A subclass of Sprite that handles Text.</span>
 
-<span class="sd">    :param options: A text :ref:`config &lt;defaulttext&gt;`</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        text (str): The text to render.</span>
+<span class="sd">        size (int): The font size of the text.</span>
+<span class="sd">        font_name (str): The name of the font.</span>
+<span class="sd">        color (Color): The color of the text</span>
+<span class="sd">        static (bool): Whether or not the text should be unloaded.</span>
+<span class="sd">        onto_surface (Union[pygame.Surface, None]): The surface to draw the</span>
+<span class="sd">            text onto.</span>
+<span class="sd">        image (pygame.Surface): The rendered text.</span>
 <span class="sd">    """</span>
 
     <span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
@@ -220,7 +231,17 @@
         <span class="s2">"onto_surface"</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{}):</span>
+<div class="viewcode-block" id="Text.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Text.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Initializes a text class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            options: A text config. Defaults to the</span>
+<span class="sd">                :ref:`default text options &lt;defaulttext&gt;`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            Exception: The font provided is not supported on the system.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Sprite</span><span class="o">.</span><span class="n">merge_params</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">Text</span><span class="o">.</span><span class="n">default_options</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span>
             <span class="s2">"pos"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">],</span>
@@ -239,18 +260,23 @@
             <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"The font </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="si">}</span><span class="s2"> is not supported on your system"</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">"The font </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="si">}</span><span class="s2"> is not supported on your system"</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">pygame.error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">remake_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Text.remake_image"><a class="viewcode-back" href="../../../api.html#rubato.Text.remake_image">[docs]</a>    <span class="k">def</span> <span class="nf">remake_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Rerender the text (after updating the text string for example).</span>
+<span class="sd">        """</span>
         <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">font_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Text.draw"><a class="viewcode-back" href="../../../api.html#rubato.Text.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Draws the text if the z index is below the camera's.</span>
 
-<span class="sd">        :param camera: The current Camera viewing the scene.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            camera: The current Camera viewing the scene.</span>
 <span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
         <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span>
@@ -263,9 +289,10 @@
 
 <div class="viewcode-block" id="Text.draw_onto_surface"><a class="viewcode-back" href="../../../api.html#rubato.Text.draw_onto_surface">[docs]</a>    <span class="k">def</span> <span class="nf">draw_onto_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Draws the text if the z index is below the camera's.</span>
+<span class="sd">        Draws the text onto a surface.</span>
 
-<span class="sd">        :param camera: The current Camera viewing the scene.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            camera: The current Camera viewing the scene.</span>
 <span class="sd">        """</span>
         <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
         <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">))</span>
@@ -275,10 +302,10 @@
              <span class="n">camera</span><span class="o">.</span><span class="n">zoom</span><span class="p">)</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">(),</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Text.is_in_frame"><a class="viewcode-back" href="../../../api.html#rubato.Text.is_in_frame">[docs]</a>    <span class="k">def</span> <span class="nf">is_in_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">static</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">is_in_frame</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">is_in_frame</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span></div></div>
 </pre></div>
         </article>
       </div>
@@ -290,7 +317,7 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
+              Copyright &#169;  |
           Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>

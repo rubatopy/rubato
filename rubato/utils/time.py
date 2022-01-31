@@ -1,6 +1,8 @@
+"""
+A time class
+"""
 from typing import Callable
 from pygame.time import Clock, get_ticks
-from rubato.utils import classproperty
 
 
 class Time:

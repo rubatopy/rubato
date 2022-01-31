@@ -2,8 +2,9 @@ Full API Documentation
 ======================
 .. automodule:: rubato
     :members: init, begin
+    :noindex:
 
-.. _game:
+.. _game_class:
 
 Game
 ----
@@ -28,49 +29,49 @@ Radio
 
 Sprite
 ------
-.. autoclass:: rubato.Sprite
+.. automodule:: rubato.sprite.sprite
     :members:
 
 .. _empty:
 
 Empty
 _________
-.. autoclass:: rubato.Empty
+.. automodule:: rubato.sprite.empty
     :members:
 
 .. _image:
 
 Image
 _________
-.. autoclass:: rubato.Image
+.. automodule:: rubato.sprite.image
     :members:
 
 .. _rectangle:
 
 Rectangle
 _________
-.. autoclass:: rubato.Rectangle
+.. automodule:: rubato.sprite.rect
     :members:
 
 .. _rigidbody:
 
 RigidBody
 _________
-.. autoclass:: rubato.RigidBody
+.. automodule:: rubato.sprite.rigidbody
     :members:
 
 .. _text:
 
 Text
 _________
-.. autoclass:: rubato.Text
+.. automodule:: rubato.sprite.text
     :members:
 
 .. _button:
 
 Button
 _________
-.. autoclass:: rubato.Button
+.. automodule:: rubato.sprite.button
     :members:
 
 .. _group:
@@ -84,21 +85,21 @@ Group
 
 Scene
 -----
-.. autoclass:: rubato.Scene
+.. automodule:: rubato.scenes.scene
     :members:
 
 .. _scenemanager:
 
 SceneManager
 -------------
-.. autoclass:: rubato.SceneManager
+.. automodule:: rubato.scenes.scene_manager
     :members:
 
 .. _camera:
 
 Camera
 ------
-.. autoclass:: rubato.Camera
+.. automodule:: rubato.scenes.camera
     :members:
 
 Utilities
@@ -108,63 +109,56 @@ Utilities
 
 PMath
 _____________
-.. autoclass:: rubato.PMath
+.. automodule:: rubato.utils.math
     :members:
 
 .. _state:
 
 STATE
 _____________
-.. autoclass:: rubato.STATE
+.. automodule:: rubato.utils.STATE
     :members:
 
 .. _display:
 
 Display
 _____________
-.. autoclass:: rubato.Display
+.. automodule:: rubato.utils.display
     :members:
 
 .. _vector:
 
 Vector
 _____________
-.. autoclass:: rubato.Vector
+.. automodule:: rubato.utils.vector
     :members:
 
 .. _time:
 
 Time
 _____________
-.. autoclass:: rubato.Time
+.. automodule:: rubato.utils.time
     :members:
 
 .. _polygon:
-
-Polygon
-_____________
-.. autoclass:: rubato.Polygon
-    :members:
-
-.. _circle:
-
-Circle
-_____________
-.. autoclass:: rubato.Circle
-    :members:
 
 .. _col_type:
 
 COL_TYPE
 _____________
-.. autoclass:: rubato.COL_TYPE
+.. automodule:: rubato.utils.COL_TYPE
     :members:
 
 .. _color:
 
 Color
 _____________
-.. autoclass:: rubato.Color
+.. automodule:: rubato.utils.color
+    :members:
+
+Errors
+_____________
+.. automodule:: rubato.utils.error
     :members:
 
 .. _sat:

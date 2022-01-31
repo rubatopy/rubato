@@ -195,15 +195,20 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.utils.display</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pygame</span> <span class="kn">import</span> <span class="n">Surface</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">A global display class.</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">pygame</span> <span class="kn">import</span> <span class="n">Surface</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pygame.display</span> <span class="k">as</span> <span class="nn">display</span>
+<span class="kn">from</span> <span class="nn">pygame</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">classproperty</span>
-<span class="kn">from</span> <span class="nn">rubato.utils.vector</span> <span class="kn">import</span> <span class="n">Vector</span>
 
 
 <div class="viewcode-block" id="Display"><a class="viewcode-back" href="../../../api.html#rubato.Display">[docs]</a><span class="k">class</span> <span class="nc">Display</span><span class="p">:</span>
-    <span class="sd">"""Global display class that allows any file to access the displayed screen."""</span>
+    <span class="sd">"""</span>
+<span class="sd">    Global display class that allows any file to access the</span>
+<span class="sd">    displayed screen.</span>
+<span class="sd">    """</span>
 
     <span class="n">global_display</span> <span class="o">=</span> <span class="n">Surface</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
@@ -239,7 +244,7 @@
 <span class="sd">        :param x: The x position</span>
 <span class="sd">        :param y: The y position</span>
 <span class="sd">        """</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SDL_VIDEO_WINDOW_POS"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">, </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"SDL_VIDEO_WINDOW_POS"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">"</span></div>
 
 <div class="viewcode-block" id="Display.set_window_name"><a class="viewcode-back" href="../../../api.html#rubato.Display.set_window_name">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">set_window_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -260,7 +265,7 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
+              Copyright &#169;  |
           Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>

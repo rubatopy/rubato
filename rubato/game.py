@@ -16,15 +16,15 @@ class Game:
     The main game class. It controls everything in the game.
 
     Attributes:
-        scenes (rubato.SceneManager): The global scene manager.
-        radio (rubato.Radio): The global radio system.
+        scenes (SceneManager): The global scene manager.
+        radio (Radio): The global radio system.
         name (str): The title of the game window.
         fps (int): The target fps of the game.
         reset_display (bool): Controls whether or not the display should reset
             every frame.
-        state (rubato.STATE): The current state of the game.
+        state (STATE): The current state of the game.
 
-    Note:
+    Warning:
         Changing most of the above attributes will not update them in the game.
         For all intensive purposes, all the attributes in this class can be
         considered as read only.
@@ -45,19 +45,19 @@ class Game:
         Initializes a game. Should only be called by :meth:`rubato.init`.
 
         Args:
-            options (dict, optional): A game config.
+            options: A game config.
                 Defaults to the :ref:`default game options <defaultgame>`.
         """
         pygame.init()
         self._params = Sprite.merge_params(options, Game.default_options)
 
-        self.name = self._params["name"]
-        self._window_width = self._params["window_width"]
-        self._window_height = self._params["window_height"]
-        self._aspect_ratio = self._params["aspect_ratio"]
-        self.fps = self._params["fps"]
-        self._reset_display = self._params["reset_display"]
-        self._use_better_clock = self._params["better_clock"]
+        self.name: str = self._params["name"]
+        self._window_width: int = self._params["window_width"]
+        self._window_height: int = self._params["window_height"]
+        self._aspect_ratio: float = self._params["aspect_ratio"]
+        self.fps: int = self._params["fps"]
+        self._reset_display: bool = self._params["reset_display"]
+        self._use_better_clock: float = self._params["better_clock"]
 
         self.state = STATE.STOPPED
 
@@ -84,13 +84,21 @@ class Game:
         The current size of the window
 
         Returns:
-            rubato.Vector: A vector with x representing the width and
+            Vector: A vector with x representing the width and
                 y representing the height
 
-        Note:
+        Warning:
             This currently only returns the initial window size
         """
         return Vector(self._window_width, self._window_height)
+
+    def start_loop(self):
+        """
+        Starts the game loop. Should only be called by :meth:`rubato.begin`
+        """
+        self.state = STATE.RUNNING
+        while self.state == STATE.RUNNING:
+            self.update()
 
     def update(self):
         """The update loop for the game. Called automatically every frame"""
@@ -140,11 +148,3 @@ class Game:
         if self._reset_display: self._display.fill((255, 255, 255))
         self.scenes.draw(self)
         self._display = Display.display
-
-    def start_loop(self):
-        """
-        Starts the game loop. Should only be called by :meth:`rubato.begin`
-        """
-        self.state = STATE.RUNNING
-        while self.state == STATE.RUNNING:
-            self.update()

@@ -195,27 +195,36 @@
         </div>
         <article role="main">
           <h1>Source code for rubato.utils.sat</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span></span><span class="sd">"""</span>
+<span class="sd">An SAT implementation</span>
+<span class="sd">"""</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">PMath</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
-
-<span class="c1"># Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson</span>
+<span class="c1"># Credit for original JavaScript SAT implementation to Andrew Sevenson</span>
 <span class="c1"># https://github.com/sevdanski/SAT_JS</span>
+
 
 <div class="viewcode-block" id="Polygon"><a class="viewcode-back" href="../../../api.html#rubato.Polygon">[docs]</a><span class="k">class</span> <span class="nc">Polygon</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    A custom polygon class with an arbitrary number of vertices</span>
 
-<span class="sd">    :param verts: A list of the vertices in the Polygon, in either clockwise or anticlockwise direction</span>
+<span class="sd">    :param verts: A list of the vertices in the Polygon, in either clockwise</span>
+<span class="sd">        or anticlockwise direction</span>
 <span class="sd">    :param pos: The position of the center of the Polygon as a function</span>
 <span class="sd">    :param scale: The scale of the polygon</span>
 <span class="sd">    :param rotation: The rotation angle of the polygon in degrees</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verts</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-                 <span class="n">rotation</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotation</span> <span class="o">=</span> <span class="n">verts</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">rotation</span>
+<div class="viewcode-block" id="Polygon.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">verts</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+            <span class="n">pos</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span>  <span class="c1"># pylint: disable=unnecessary-lambda</span>
+            <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">rotation</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="n">verts</span><span class="p">,</span> <span class="n">pos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotation</span> <span class="o">=</span> <span class="n">scale</span><span class="p">,</span> <span class="n">rotation</span></div>
 
 <div class="viewcode-block" id="Polygon.generate_rect"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.generate_rect">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">generate_rect</span><span class="p">(</span><span class="n">w</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Polygon"</span><span class="p">:</span>
@@ -227,20 +236,31 @@
 <span class="sd">        :return: The polygon</span>
 <span class="sd">        """</span>
 
-        <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span><span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Vector</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Vector</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)])</span></div>
+        <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span>
+            <span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">Vector</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">Vector</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">Vector</span><span class="p">(</span><span class="o">-</span><span class="n">w</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">h</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">])</span></div>
 
 <div class="viewcode-block" id="Polygon.generate_polygon"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.generate_polygon">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">generate_polygon</span><span class="p">(</span><span class="n">num_sides</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"Polygon"</span><span class="p">:</span>
-        <span class="sd">"""Creates a normal polygon with a specified number of sides and an optional radius"""</span>
+        <span class="sd">"""</span>
+<span class="sd">        Creates a normal polygon with a specified number of sides and</span>
+<span class="sd">        an optional radius</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">num_sides</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Can't create a polygon with less than three sides"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">"Can't create a polygon with less than three sides"</span><span class="p">)</span>
 
         <span class="n">rotangle</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">num_sides</span>
         <span class="n">angle</span><span class="p">,</span> <span class="n">verts</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_sides</span><span class="p">):</span>
             <span class="n">angle</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">rotangle</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">-</span> <span class="n">rotangle</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-            <span class="n">verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Vector</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))</span>
+            <span class="n">verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Vector</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
+                       <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">verts</span><span class="p">)</span></div>
 
@@ -256,21 +276,28 @@
 
 <div class="viewcode-block" id="Polygon.clone"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Creates a copy of the Polygon at the current position"""</span>
-        <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">clone</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">)),</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
-                       <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
+        <span class="c1"># pylint: disable=unnecessary-lambda</span>
+        <span class="k">return</span> <span class="n">Polygon</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">((</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">clone</span><span class="p">()),</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">)),</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Polygon.transformed_verts"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.transformed_verts">[docs]</a>    <span class="k">def</span> <span class="nf">transformed_verts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Maps each vertex with the Polygon's scale and rotation"""</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Polygon.real_verts"><a class="viewcode-back" href="../../../api.html#rubato.Polygon.real_verts">[docs]</a>    <span class="k">def</span> <span class="nf">real_verts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""Returns the a list of vertices in absolute coordinates"""</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">v</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=unnecessary-lambda, line-too-long</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">verts</span><span class="p">))</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="si">}</span><span class="s2">"</span>
 
     <span class="k">def</span> <span class="nf">bounding_box_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=protected-access</span>
         <span class="n">real_verts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_verts</span><span class="p">()</span>
         <span class="n">x_dir</span> <span class="o">=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">_project_verts_for_min_max</span><span class="p">(</span><span class="n">Vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">real_verts</span><span class="p">)</span>
         <span class="n">y_dir</span> <span class="o">=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">_project_verts_for_min_max</span><span class="p">(</span><span class="n">Vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">real_verts</span><span class="p">)</span>
@@ -283,8 +310,9 @@
 <span class="sd">    A custom circle class defined by a position, radius, and scale</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="mi">0</span>
+<div class="viewcode-block" id="Circle.__init__"><a class="viewcode-back" href="../../../api.html#rubato.Circle.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">Vector</span><span class="p">(),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>  <span class="c1"># pylint: disable=unnecessary-lambda</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">pos</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -305,17 +333,21 @@
 <span class="sd">    A class that represents information returned in a successful collision</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shape_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Vector</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">separation</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">Vector</span><span class="p">()</span>
+<div class="viewcode-block" id="CollisionInfo.__init__"><a class="viewcode-back" href="../../../api.html#rubato.CollisionInfo.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a_contained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separation</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=line-too-long</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">a_contained</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">b_contained</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">separation</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 <div class="viewcode-block" id="SAT"><a class="viewcode-back" href="../../../api.html#rubato.SAT">[docs]</a><span class="k">class</span> <span class="nc">SAT</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    A general class that does the collision detection math between circles and polygons</span>
+<span class="sd">    A general class that does the collision detection math between</span>
+<span class="sd">    circles and polygons</span>
 <span class="sd">    """</span>
 
 <div class="viewcode-block" id="SAT.overlap"><a class="viewcode-back" href="../../../api.html#rubato.SAT.overlap">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -343,8 +375,10 @@
 
             <span class="n">result</span> <span class="o">=</span> <span class="n">test_a_b</span> <span class="k">if</span> <span class="n">regular</span> <span class="k">else</span> <span class="n">test_b_a</span>
 
-            <span class="n">result</span><span class="o">.</span><span class="n">a_contained</span> <span class="o">=</span> <span class="n">test_b_a</span><span class="o">.</span><span class="n">a_contained</span> <span class="k">if</span> <span class="n">regular</span> <span class="k">else</span> <span class="n">test_a_b</span><span class="o">.</span><span class="n">a_contained</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="n">test_b_a</span><span class="o">.</span><span class="n">b_contained</span> <span class="k">if</span> <span class="n">regular</span> <span class="k">else</span> <span class="n">test_a_b</span><span class="o">.</span><span class="n">b_contained</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">a_contained</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_b_a</span><span class="o">.</span><span class="n">a_contained</span>
+                                  <span class="k">if</span> <span class="n">regular</span> <span class="k">else</span> <span class="n">test_a_b</span><span class="o">.</span><span class="n">a_contained</span><span class="p">)</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_b_a</span><span class="o">.</span><span class="n">b_contained</span>
+                                  <span class="k">if</span> <span class="n">regular</span> <span class="k">else</span> <span class="n">test_a_b</span><span class="o">.</span><span class="n">b_contained</span><span class="p">)</span>
 
             <span class="n">result</span><span class="o">.</span><span class="n">vertex_b</span> <span class="o">=</span> <span class="n">test_a_b</span><span class="o">.</span><span class="n">vertex</span>
             <span class="n">result</span><span class="o">.</span><span class="n">vertex_a</span> <span class="o">=</span> <span class="n">test_b_a</span><span class="o">.</span><span class="n">vertex</span>
@@ -352,7 +386,8 @@
             <span class="k">return</span> <span class="n">result</span>
 
         <span class="n">a_is_circle</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape_a</span><span class="p">,</span> <span class="n">Circle</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">SAT</span><span class="o">.</span><span class="n">_circle_polygon_test</span><span class="p">(</span><span class="n">shape_a</span> <span class="k">if</span> <span class="n">a_is_circle</span> <span class="k">else</span> <span class="n">shape_b</span><span class="p">,</span> <span class="n">shape_b</span> <span class="k">if</span> <span class="n">a_is_circle</span> <span class="k">else</span> <span class="n">shape_a</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">SAT</span><span class="o">.</span><span class="n">_circle_polygon_test</span><span class="p">(</span><span class="n">shape_a</span> <span class="k">if</span> <span class="n">a_is_circle</span> <span class="k">else</span> <span class="n">shape_b</span><span class="p">,</span>
+                                        <span class="n">shape_b</span> <span class="k">if</span> <span class="n">a_is_circle</span> <span class="k">else</span> <span class="n">shape_a</span><span class="p">,</span>
                                         <span class="ow">not</span> <span class="n">a_is_circle</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
@@ -399,15 +434,22 @@
             <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">+=</span> <span class="n">scalar_offset</span>
             <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">+=</span> <span class="n">scalar_offset</span>
 
-            <span class="k">if</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]):</span> <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span>
+                                                     <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]):</span>
+                <span class="k">return</span> <span class="kc">None</span>
 
             <span class="n">SAT</span><span class="o">.</span><span class="n">_check_ranges_for_containment</span><span class="p">(</span><span class="n">a_range</span><span class="p">,</span> <span class="n">b_range</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">flip</span><span class="p">)</span>
 
-            <span class="n">min_dist</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">-</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="k">if</span> <span class="n">flip</span> <span class="k">else</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">-</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span>
+            <span class="n">min_dist</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">-</span>
+                        <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="k">if</span> <span class="n">flip</span> <span class="k">else</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">-</span>
+                                                      <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span>
 
-            <span class="n">mincheck</span> <span class="o">=</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span>
-            <span class="n">maxcheck</span> <span class="o">=</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">mincheck</span> <span class="ow">or</span> <span class="n">maxcheck</span><span class="p">:</span> <span class="n">v_contact</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"mindex"</span> <span class="k">if</span> <span class="n">mincheck</span> <span class="k">else</span> <span class="s2">"maxdex"</span><span class="p">])</span>
+            <span class="n">mincheck</span> <span class="o">=</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">b_range</span><span class="p">[</span>
+                <span class="s2">"max"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span>
+            <span class="n">maxcheck</span> <span class="o">=</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">b_range</span><span class="p">[</span>
+                <span class="s2">"max"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mincheck</span> <span class="ow">or</span> <span class="n">maxcheck</span><span class="p">:</span>
+                <span class="n">v_contact</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"mindex"</span> <span class="k">if</span> <span class="n">mincheck</span> <span class="k">else</span> <span class="s2">"maxdex"</span><span class="p">])</span>
 
             <span class="n">abs_min</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">min_dist</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">abs_min</span> <span class="o">&lt;</span> <span class="n">shortest_dist</span><span class="p">:</span>
@@ -427,7 +469,8 @@
                 <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
                     <span class="n">final_verts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">final_verts</span><span class="p">,</span> <span class="n">flip</span><span class="p">)</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">vertex</span> <span class="o">=</span> <span class="n">verts_2</span><span class="p">[</span><span class="n">final_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">final_verts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">vertex</span> <span class="o">=</span> <span class="n">verts_2</span><span class="p">[</span><span class="n">final_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                                    <span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">final_verts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="n">result</span>
 
@@ -436,11 +479,19 @@
         <span class="sd">"""Checks if either shape is inside the other"""</span>
 
         <span class="k">if</span> <span class="n">flip</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span> <span class="n">result</span><span class="o">.</span><span class="n">a_contained</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span> <span class="n">result</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span>
+                                                     <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">a_contained</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&gt;</span>
+                                                     <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span> <span class="n">result</span><span class="o">.</span><span class="n">a_contained</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span> <span class="n">result</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&lt;</span>
+                                                     <span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">a_contained</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a_range</span><span class="p">[</span><span class="s2">"max"</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]</span> <span class="o">&lt;</span>
+                                                     <span class="n">a_range</span><span class="p">[</span><span class="s2">"min"</span><span class="p">]):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">b_contained</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_perpendicular_axis</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
@@ -455,21 +506,28 @@
     <span class="k">def</span> <span class="nf">_project_verts_for_min_max</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">verts</span><span class="p">):</span>
         <span class="sd">"""Projects the vertices onto a given axis"""</span>
 
-        <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">INFINITY</span><span class="p">,</span> <span class="o">-</span><span class="n">PMath</span><span class="o">.</span><span class="n">INFINITY</span>
+        <span class="n">minval</span><span class="p">,</span> <span class="n">maxval</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">INFINITY</span><span class="p">,</span> <span class="o">-</span><span class="n">PMath</span><span class="o">.</span><span class="n">INFINITY</span>
         <span class="n">mindex</span> <span class="o">=</span> <span class="n">maxdex</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">verts</span><span class="p">)):</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="n">axis</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">verts</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">:</span>
-                <span class="nb">min</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="k">if</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">minval</span><span class="p">:</span>
+                <span class="n">minval</span> <span class="o">=</span> <span class="n">temp</span>
                 <span class="n">mindex</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">temp</span> <span class="o">==</span> <span class="nb">min</span><span class="p">:</span> <span class="n">mindex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">temp</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
-                <span class="nb">max</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="k">elif</span> <span class="n">temp</span> <span class="o">==</span> <span class="n">minval</span><span class="p">:</span>
+                <span class="n">mindex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">temp</span> <span class="o">&gt;</span> <span class="n">maxval</span><span class="p">:</span>
+                <span class="n">maxval</span> <span class="o">=</span> <span class="n">temp</span>
                 <span class="n">maxdex</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">temp</span> <span class="o">==</span> <span class="nb">max</span><span class="p">:</span> <span class="n">maxdex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">temp</span> <span class="o">==</span> <span class="n">maxval</span><span class="p">:</span>
+                <span class="n">maxdex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"min"</span><span class="p">:</span> <span class="nb">min</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="nb">max</span><span class="p">,</span> <span class="s2">"mindex"</span><span class="p">:</span> <span class="n">mindex</span><span class="p">,</span> <span class="s2">"maxdex"</span><span class="p">:</span> <span class="n">maxdex</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"min"</span><span class="p">:</span> <span class="n">minval</span><span class="p">,</span>
+            <span class="s2">"max"</span><span class="p">:</span> <span class="n">maxval</span><span class="p">,</span>
+            <span class="s2">"mindex"</span><span class="p">:</span> <span class="n">mindex</span><span class="p">,</span>
+            <span class="s2">"maxdex"</span><span class="p">:</span> <span class="n">maxdex</span>
+        <span class="p">}</span></div>
 </pre></div>
         </article>
       </div>
@@ -481,8 +539,8 @@
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave |
-          Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              Copyright &#169;  |
+          Created using <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
           <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
         </div>
         

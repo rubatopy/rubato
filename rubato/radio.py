@@ -7,7 +7,7 @@ To use this, first you need to listen for a specific key using the
 broadcast that event key using the :meth:`Radio.broadcast` function.
 """
 
-import typing
+from typing import Callable, List
 
 
 class Radio:
@@ -17,38 +17,39 @@ class Radio:
 
     Attributes:
         events (List[str]): A list with all the event keys in the queue.
-        listeners (dict[str, typing.Callable]): A dictionary with all of the
+        listeners (dict[str, Callable]): A dictionary with all of the
             active listeners.
     """
 
     def __init__(self):
-        self.events: typing.List[str] = []
-        self.listeners: dict[str, typing.Callable] = {}
+        "Initializes the Radio class"
+        self.events: List[str] = []
+        self.listeners: dict[str, Callable] = {}
 
-    def broadcast(self, event: str):
-        """
-        Broadcast an event to be caught by listeners.
-
-        Args:
-            event (str): The event key to broadcast.
-        """
-        self.events.append(event)
-        for func in self.listeners.get(event, []):
-            func()
-
-    def listen(self, event: str, func: typing.Callable):
+    def listen(self, event: str, func: Callable):
         """
         Creates an event listener.
 
         Args:
-            event (str): The event key to listen for.
-            func (typing.Callable): The function to run once the event is
+            event: The event key to listen for.
+            func: The function to run once the event is
                 broadcast.
 
-        Note:
+        Warning:
             You **CANNOT** currently delete an event listener once it's created.
         """
         if event in self.listeners:
             self.listeners.get(event).append(func)
         else:
             self.listeners[event] = [func]
+
+    def broadcast(self, event: str):
+        """
+        Broadcast an event to be caught by listeners.
+
+        Args:
+            event: The event key to broadcast.
+        """
+        self.events.append(event)
+        for func in self.listeners.get(event, []):
+            func()

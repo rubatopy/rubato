@@ -1,9 +1,17 @@
+"""
+A math thing.
+"""
 import math
 
 
-class classproperty(property):
+class classproperty(property):  # pylint: disable=invalid-name
+    """
+    A class property implementation
+    """
+
     def __get__(self, cls, owner):
         return classmethod(self.fget).__get__(None, owner)()
+
 
 class PMath:
     """
@@ -11,8 +19,9 @@ class PMath:
     """
     INFINITY = 2**99
     pi = math.pi
+
     @staticmethod
-    def abs(a:float | int):
+    def abs(a: float | int):
         """
         Absolute value of a given value
 
@@ -50,7 +59,8 @@ class PMath:
 
         :param lower: The lower bound
         :param upper: The upper bound
-        :param t: Distance between upper and lower (1 gives upper, 0 gives lower)
+        :param t: Distance between upper and lower
+            (1 gives upper, 0 gives lower)
         :return: The lerped value
         """
         return (t * upper) + ((1 - t) * lower)

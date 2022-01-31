@@ -1,4 +1,5 @@
 alabaster==0.7.12
+astroid==2.9.3
 Babel==2.9.1
 beautifulsoup4==4.10.0
 certifi==2021.10.8
@@ -11,14 +12,19 @@ fett==0.3.2
 furo==2022.1.2
 idna==3.3
 imagesize==1.3.0
+isort==5.10.1
 Jinja2==3.0.3
+lazy-object-proxy==1.7.1
 livereload==2.6.3
 MarkupSafe==2.0.1
+mccabe==0.6.1
 networkx==2.6.3
 numpy==1.22.1
 packaging==21.3
+platformdirs==2.4.1
 pygame==2.0.2
 Pygments==2.11.2
+pylint==2.12.2
 pymongo==3.12.3
 pyparsing==3.0.6
 python-jsonrpc-server==0.3.4
@@ -32,7 +38,9 @@ snowballstemmer==2.2.0
 soupsieve==2.3.1
 Sphinx==4.4.0
 sphinx-autobuild==2021.3.14
+sphinx-autodoc-typehints==1.16.0
 sphinx-copybutton==0.4.0
+sphinx-sitemap==2.2.0
 sphinx_inline_tabs==2022.1.2b11
 sphinxcontrib-applehelp==1.0.2
 sphinxcontrib-devhelp==1.0.2
@@ -47,3 +55,5 @@ typing_extensions==4.0.1
 ujson==1.35
 urllib3==1.26.8
 watchdog==1.0.2
+wrapt==1.13.3
+yapf==0.32.0

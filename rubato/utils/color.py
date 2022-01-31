@@ -1,70 +1,14 @@
+"""
+A Color class
+"""
 from rubato.utils import PMath
 
 
 class HSV:
-    def __init__(self, h, s, v):
-        self.h: float = h
-        self.s: float = s
-        self.v: float = v
+    """
+    An HSV implementation.
+    """
 
-    def set(self, value):
-        self.h = value
-        self.s = value
-        self.v = value
-
-    def __eq__(self, other):
-        if type(other) == type(self):
-            return \
-                abs(self.h - other.h) < 0.0001 and \
-                abs(self.s - other.s) < 0.0001 and \
-                abs(self.v - other.v) < 0.0001
-        return False
-
-    @property
-    def values(self):
-        return [self.h, self.s, self.v]
-
-    def check_values(self):
-        self.h = PMath.clamp(self.h, 0, 255)
-        self.s = PMath.clamp(self.s, 0, 255)
-        self.v = PMath.clamp(self.v, 0, 255)
-
-
-class RGB:
-    def __init__(self, r, g, b):
-        self.r = r
-        self.g = g
-        self.b = b
-        self.check_values()
-
-    def set(self, value):
-        self.r = value
-        self.g = value
-        self.b = value
-        self.check_values()
-
-    def __eq__(self, other):
-        if type(other) == type(self):
-            return \
-                abs(self.r - other.r) < 0.0001 and \
-                abs(self.g - other.g) < 0.0001 and \
-                abs(self.b - other.b) < 0.0001
-        return False
-
-    @property
-    def values(self):
-        return [self.r, self.g, self.b]
-
-    def check_values(self):
-        self.r = PMath.clamp(self.r, 0, 255)
-        self.g = PMath.clamp(self.b, 0, 255)
-        self.b = PMath.clamp(self.g, 0, 255)
-
-
-from rubato.utils import PMath
-
-
-class HSV:
     def __init__(self, h=0.0, s=0.0, v=0.0):
         self.h: float = h
         self.s: float = s
@@ -76,7 +20,7 @@ class HSV:
         self.v = value
 
     def __eq__(self, other):
-        if type(other) == type(self):
+        if isinstance(other, type(HSV)):
             return \
                 abs(self.h - other.h) < 0.0001 and \
                 abs(self.s - other.s) < 0.0001 and \
@@ -94,6 +38,10 @@ class HSV:
 
 
 class RGB:
+    """
+    An RGB implentation
+    """
+
     def __init__(self, r=0.0, g=0.0, b=0.0):
         self.r: float = r
         self.g: float = g
@@ -107,7 +55,7 @@ class RGB:
         self.check_values()
 
     def __eq__(self, other):
-        if type(other) == type(self):
+        if isinstance(other, type(RGB)):
             return \
                 abs(self.r - other.r) < 0.0001 and \
                 abs(self.g - other.g) < 0.0001 and \
@@ -157,7 +105,6 @@ def rgb_to_hsv(color_in: RGB):
 
     cmax = max(color_in.r, color_in.g, color_in.b)  # maximum of r, g, b
     cmin = min(color_in.r, color_in.g, color_in.b)  # minimum of r, g, b
-    diff = cmax - cmin  # diff of cmax and cmin.
 
     out.v = cmax
     delta = cmax - cmin
@@ -171,9 +118,11 @@ def rgb_to_hsv(color_in: RGB):
     if color_in.r == cmax:
         out.h = (color_in.g - color_in.b) / delta  # between yellow & magenta
     elif color_in.g == cmax:
-        out.h = 2.0 + (color_in.b - color_in.r) / delta  # between cyan & yellow
+        out.h = 2.0 + (color_in.b -
+                       color_in.r) / delta  # between cyan & yellow
     else:
-        out.h = 4.0 + (color_in.r - color_in.g) / delta  # between magenta & cyan
+        out.h = 4.0 + (color_in.r -
+                       color_in.g) / delta  # between magenta & cyan
 
     out.h *= 60.0  # degrees
 
@@ -229,6 +178,9 @@ def hsv_to_rgb(color_in: HSV):
 
 
 class Color:
+    """
+    A color implementation
+    """
     # colors from https://www.rapidtables.com/web/color/RGB_Color.html
     black = (0, 0, 0)
     white = (255, 255, 255)
@@ -256,21 +208,12 @@ class Color:
             a.b + (b.b - a.b) * t,
         )
 
-    class HSV(HSV):
-        def __init__(self, h=0, s=0, v=0):
-            super().__init__(h, s, v)
-
-    class RGB(RGB):
-        def __init__(self, r=0, g=0, b=0):
-            super().__init__(r, g, b)
-
     @staticmethod
     def rgb_to_hsv(color_in: RGB):
         out = Color.HSV()
 
         cmax = max(color_in.r, color_in.g, color_in.b)  # maximum of r, g, b
         cmin = min(color_in.r, color_in.g, color_in.b)  # minimum of r, g, b
-        diff = cmax - cmin  # diff of cmax and cmin.
 
         out.v = cmax
         delta = cmax - cmin
@@ -282,11 +225,14 @@ class Color:
             return out
 
         if color_in.r == cmax:
-            out.h = (color_in.g - color_in.b) / delta  # between yellow & magenta
+            out.h = (color_in.g -
+                     color_in.b) / delta  # between yellow & magenta
         elif color_in.g == cmax:
-            out.h = 2.0 + (color_in.b - color_in.r) / delta  # between cyan & yellow
+            out.h = 2.0 + (color_in.b -
+                           color_in.r) / delta  # between cyan & yellow
         else:
-            out.h = 4.0 + (color_in.r - color_in.g) / delta  # between magenta & cyan
+            out.h = 4.0 + (color_in.r -
+                           color_in.g) / delta  # between magenta & cyan
 
         out.h *= 60.0  # degrees
 
