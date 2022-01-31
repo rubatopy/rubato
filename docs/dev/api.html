@@ -644,85 +644,6 @@ than or equal to b</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Time</span></span><a class="reference internal" href="_modules/rubato/utils/time.html#Time"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A time class to monitor time and to call functions in the future.</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'milli'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.delta_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Gets the time since the last frame, in milliseconds.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>form</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The format the output should be (sec, milli)</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Time since the last frame, in the given form.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.now"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Gets the time since the start of the game, in milliseconds.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Time since the start of the game, in milliseconds.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clock</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Allows you to set the clock object property to a Pygame Clock object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>clock</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Clock</span></code>) – A pygame Clock object.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">milli_to_sec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">milli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.milli_to_sec"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Converts milliseconds to seconds.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>milli</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – A number in milliseconds.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The converted number in seconds.</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delayed_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.delayed_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Calls the function func at a later time.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>delta_time</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The time in milliseconds to run the function at.</p></li>
-<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The function to call.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_calls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.process_calls"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Processes the calls needed</p>
-</dd></dl>
-</dd></dl>
-<dl class="py class">
-<dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Polygon</span></span><a class="reference internal" href="_modules/rubato/utils/sat.html#Polygon"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A custom polygon class with an arbitrary number of vertices</p>
@@ -850,12 +771,6 @@ circles and polygons</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">COL_TYPE</span></span><a class="reference internal" href="_modules/rubato/utils/COL_TYPE.html#COL_TYPE"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>An enumeration.</p>
-</dd></dl>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Color</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#Color"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A color implementation</p>
 </dd></dl>
 <dl class="py exception">
 <dt class="sig sig-object py">
@@ -3816,15 +3731,10 @@ than or equal to b</p>
 </section>
 <section id="time">
 <span id="id18"></span><h3>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
-<span class="target" id="module-rubato.utils.time"></span><p>A time class</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="rubato.utils.time.Time">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Time</span></span><a class="reference internal" href="_modules/rubato/utils/time.html#Time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A time class to monitor time and to call functions in the future.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.time.Time.delta_time">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'milli'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.delta_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time.delta_time" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-rubato.utils.time"></span><p>A time class to monitor time and to call functions in the future.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.time.delta_time">
+<span class="sig-name descname"><span class="pre">delta_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'milli'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#delta_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.delta_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the time since the last frame, in milliseconds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3838,9 +3748,9 @@ than or equal to b</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.time.Time.now">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time.now" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.time.now">
+<span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.now" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the time since the start of the game, in milliseconds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -3851,19 +3761,19 @@ than or equal to b</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.time.Time.set">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clock</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time.set" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.time.set_clock">
+<span class="sig-name descname"><span class="pre">set_clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_clock</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#set_clock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.set_clock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows you to set the clock object property to a Pygame Clock object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>clock</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Clock</span></code>) – A pygame Clock object.</p>
+<dd class="field-odd"><p><strong>clock</strong> – A pygame Clock object.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.time.Time.milli_to_sec">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">milli_to_sec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">milli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.milli_to_sec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time.milli_to_sec" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.time.milli_to_sec">
+<span class="sig-name descname"><span class="pre">milli_to_sec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">milli</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#milli_to_sec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.milli_to_sec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts milliseconds to seconds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3877,24 +3787,23 @@ than or equal to b</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.time.Time.delayed_call">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delayed_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.delayed_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time.delayed_call" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calls the function func at a later time.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.time.delayed_call">
+<span class="sig-name descname"><span class="pre">delayed_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#delayed_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.delayed_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the function func at a later</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>delta_time</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The time in milliseconds to run the function at.</p></li>
-<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The function to call.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>time_delta</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The time from now (in milliseconds)</p>
 </dd>
 </dl>
+<p>to run the function at.
+:type func: <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>
+:param func: The function to call.</p>
 </dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="rubato.utils.time.Time.process_calls">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_calls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#Time.process_calls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.Time.process_calls" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.time.process_calls">
+<span class="sig-name descname"><span class="pre">process_calls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#process_calls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.process_calls" title="Permalink to this definition">¶</a></dt>
 <dd><p>Processes the calls needed</p>
-</dd></dl>
 </dd></dl>
 </section>
 <section id="col-type">
@@ -3915,7 +3824,7 @@ than or equal to b</p>
 <dt class="sig sig-object py" id="rubato.utils.color.HSV">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HSV</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#HSV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.HSV" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>An HSV implementation.</p>
+<p>A HSV implementation.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.utils.color.HSV.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#HSV.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.HSV.__init__" title="Permalink to this definition">¶</a></dt>
@@ -3931,11 +3840,40 @@ than or equal to b</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#RGB.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.RGB.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 </dd></dl>
-<dl class="py class">
-<dt class="sig sig-object py" id="rubato.utils.color.Color">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Color</span></span><a class="reference internal" href="_modules/rubato/utils/color.html#Color"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.Color" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A color implementation</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.color.lerp">
+<span class="sig-name descname"><span class="pre">lerp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#lerp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>lerps between two RGBs
+:type a: <a class="reference internal" href="#rubato.utils.color.RGB" title="rubato.utils.color.RGB"><code class="xref py py-class docutils literal notranslate"><span class="pre">RGB</span></code></a>
+:param a: first color
+:type b: <a class="reference internal" href="#rubato.utils.color.RGB" title="rubato.utils.color.RGB"><code class="xref py py-class docutils literal notranslate"><span class="pre">RGB</span></code></a>
+:param b: second color
+:param t: interval between the two colors, clamped from 0 to 1</p>
+<p>Returns: a new RGB that is between the two colors</p>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.color.rgb_to_hsv">
+<span class="sig-name descname"><span class="pre">rgb_to_hsv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#rgb_to_hsv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.rgb_to_hsv" title="Permalink to this definition">¶</a></dt>
+<dd><p>rgb to hsv conversion
+:type color_in: <a class="reference internal" href="#rubato.utils.color.RGB" title="rubato.utils.color.RGB"><code class="xref py py-class docutils literal notranslate"><span class="pre">RGB</span></code></a>
+:param color_in: input color rubato.Color RGB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>HSV value from input</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="rubato.utils.color.hsv_to_rgb">
+<span class="sig-name descname"><span class="pre">hsv_to_rgb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/color.html#hsv_to_rgb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.color.hsv_to_rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>hsv to rgb conversion
+:type color_in: <a class="reference internal" href="#rubato.utils.color.HSV" title="rubato.utils.color.HSV"><code class="xref py py-class docutils literal notranslate"><span class="pre">HSV</span></code></a>
+:param color_in: input color rubato.Color HSV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>RGB value from input</p>
+</dd>
+</dl>
 </dd></dl>
 </section>
 <section id="module-rubato.utils.error">

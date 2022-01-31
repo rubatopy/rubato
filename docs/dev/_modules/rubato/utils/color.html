@@ -203,12 +203,12 @@
 <span class="kn">from</span> <span class="nn">rubato.utils</span> <span class="kn">import</span> <span class="n">PMath</span>
 
 
-<div class="viewcode-block" id="HSV"><a class="viewcode-back" href="../../../api.html#rubato.HSV">[docs]</a><span class="k">class</span> <span class="nc">HSV</span><span class="p">:</span>
+<div class="viewcode-block" id="HSV"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.HSV">[docs]</a><span class="k">class</span> <span class="nc">HSV</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    An HSV implementation.</span>
+<span class="sd">    A HSV implementation.</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="HSV.__init__"><a class="viewcode-back" href="../../../api.html#rubato.HSV.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<div class="viewcode-block" id="HSV.__init__"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.HSV.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">h</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">s</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">v</span></div>
@@ -236,12 +236,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RGB"><a class="viewcode-back" href="../../../api.html#rubato.RGB">[docs]</a><span class="k">class</span> <span class="nc">RGB</span><span class="p">:</span>
+<div class="viewcode-block" id="RGB"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.RGB">[docs]</a><span class="k">class</span> <span class="nc">RGB</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    An RGB implentation</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="RGB.__init__"><a class="viewcode-back" href="../../../api.html#rubato.RGB.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<div class="viewcode-block" id="RGB.__init__"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.RGB.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">r</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">g</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">b</span>
@@ -290,16 +290,34 @@
 <span class="n">navy</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">RGB</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">RGB</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="lerp"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.lerp">[docs]</a><span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">RGB</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">RGB</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    lerps between two RGBs</span>
+<span class="sd">    Args:</span>
+<span class="sd">        a: first color</span>
+<span class="sd">        b: second color</span>
+<span class="sd">        t: interval between the two colors, clamped from 0 to 1</span>
+
+<span class="sd">    Returns: a new RGB that is between the two colors</span>
+
+<span class="sd">    """</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">RGB</span><span class="p">(</span>
         <span class="n">a</span><span class="o">.</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
         <span class="n">a</span><span class="o">.</span><span class="n">g</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">g</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
         <span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">rgb_to_hsv</span><span class="p">(</span><span class="n">color_in</span><span class="p">:</span> <span class="n">RGB</span><span class="p">):</span>
+<div class="viewcode-block" id="rgb_to_hsv"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.rgb_to_hsv">[docs]</a><span class="k">def</span> <span class="nf">rgb_to_hsv</span><span class="p">(</span><span class="n">color_in</span><span class="p">:</span> <span class="n">RGB</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    rgb to hsv conversion</span>
+<span class="sd">    Args:</span>
+<span class="sd">        color_in: input color rubato.Color RGB</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HSV value from input</span>
+<span class="sd">    """</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">HSV</span><span class="p">()</span>
 
     <span class="n">cmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">color_in</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="n">color_in</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># maximum of r, g, b</span>
@@ -328,10 +346,18 @@
     <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">+=</span> <span class="mf">360.0</span>
 
-    <span class="k">return</span> <span class="n">out</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
 
-<span class="k">def</span> <span class="nf">hsv_to_rgb</span><span class="p">(</span><span class="n">color_in</span><span class="p">:</span> <span class="n">HSV</span><span class="p">):</span>
+<div class="viewcode-block" id="hsv_to_rgb"><a class="viewcode-back" href="../../../api.html#rubato.utils.color.hsv_to_rgb">[docs]</a><span class="k">def</span> <span class="nf">hsv_to_rgb</span><span class="p">(</span><span class="n">color_in</span><span class="p">:</span> <span class="n">HSV</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    hsv to rgb conversion</span>
+<span class="sd">    Args:</span>
+<span class="sd">        color_in: input color rubato.Color HSV</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        RGB value from input</span>
+<span class="sd">    """</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">RGB</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">color_in</span><span class="o">.</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">out</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
@@ -373,117 +399,8 @@
         <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">p</span>
         <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">q</span>
 
-    <span class="k">return</span> <span class="n">out</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
-
-<div class="viewcode-block" id="Color"><a class="viewcode-back" href="../../../api.html#rubato.Color">[docs]</a><span class="k">class</span> <span class="nc">Color</span><span class="p">:</span>
-    <span class="sd">"""</span>
-<span class="sd">    A color implementation</span>
-<span class="sd">    """</span>
-    <span class="c1"># colors from https://www.rapidtables.com/web/color/RGB_Color.html</span>
-    <span class="n">black</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">white</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-    <span class="n">red</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">lime</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">blue</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-    <span class="n">yellow</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">cyan</span> <span class="o">=</span> <span class="n">aqua</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-    <span class="n">magenta</span> <span class="o">=</span> <span class="n">fuchsia</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-    <span class="n">silver</span> <span class="o">=</span> <span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">192</span><span class="p">)</span>
-    <span class="n">gray</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-    <span class="n">maroon</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">olive</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">green</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">purple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-    <span class="n">teal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-    <span class="n">navy</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">lerp</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">RGB</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">RGB</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">RGB</span><span class="p">(</span>
-            <span class="n">a</span><span class="o">.</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">r</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
-            <span class="n">a</span><span class="o">.</span><span class="n">g</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">g</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
-            <span class="n">a</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">rgb_to_hsv</span><span class="p">(</span><span class="n">color_in</span><span class="p">:</span> <span class="n">RGB</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">HSV</span><span class="p">()</span>
-
-        <span class="n">cmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">color_in</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="n">color_in</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># maximum of r, g, b</span>
-        <span class="n">cmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">color_in</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="n">color_in</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># minimum of r, g, b</span>
-
-        <span class="n">out</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">cmax</span>
-        <span class="n">delta</span> <span class="o">=</span> <span class="n">cmax</span> <span class="o">-</span> <span class="n">cmin</span>
-        <span class="k">if</span> <span class="n">delta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">out</span>
-        <span class="k">if</span> <span class="n">cmax</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">delta</span> <span class="o">/</span> <span class="n">cmax</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">out</span>
-
-        <span class="k">if</span> <span class="n">color_in</span><span class="o">.</span><span class="n">r</span> <span class="o">==</span> <span class="n">cmax</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">g</span> <span class="o">-</span>
-                     <span class="n">color_in</span><span class="o">.</span><span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta</span>  <span class="c1"># between yellow &amp; magenta</span>
-        <span class="k">elif</span> <span class="n">color_in</span><span class="o">.</span><span class="n">g</span> <span class="o">==</span> <span class="n">cmax</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">+</span> <span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">b</span> <span class="o">-</span>
-                           <span class="n">color_in</span><span class="o">.</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta</span>  <span class="c1"># between cyan &amp; yellow</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">+</span> <span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">r</span> <span class="o">-</span>
-                           <span class="n">color_in</span><span class="o">.</span><span class="n">g</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta</span>  <span class="c1"># between magenta &amp; cyan</span>
-
-        <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">*=</span> <span class="mf">60.0</span>  <span class="c1"># degrees</span>
-
-        <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">h</span> <span class="o">+=</span> <span class="mf">360.0</span>
-
-        <span class="k">return</span> <span class="n">out</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">hsv_to_rgb</span><span class="p">(</span><span class="n">color_in</span><span class="p">:</span> <span class="n">HSV</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">Color</span><span class="o">.</span><span class="n">RGB</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">color_in</span><span class="o">.</span><span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">v</span><span class="p">)</span>
-        <span class="n">hh</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">h</span>
-        <span class="k">if</span> <span class="n">hh</span> <span class="o">&gt;=</span> <span class="mf">360.0</span><span class="p">:</span>
-            <span class="n">hh</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="n">hh</span> <span class="o">/=</span> <span class="mf">60.0</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hh</span><span class="p">)</span>
-        <span class="n">ff</span> <span class="o">=</span> <span class="n">hh</span> <span class="o">-</span> <span class="n">i</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">color_in</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">q</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">ff</span><span class="p">))</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">color_in</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">ff</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">t</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">p</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">q</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">p</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">p</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">t</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">p</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">q</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">t</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">p</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">p</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">q</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">color_in</span><span class="o">.</span><span class="n">v</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">p</span>
-            <span class="n">out</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">q</span>
-
-        <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
         </article>
       </div>
