@@ -188,8 +188,8 @@ class SAT:
             return result
 
         a_is_circle = isinstance(shape_a, Circle)
-        return SAT._circle_polygon_test(shape_a if a_is_circle else shape_b,
-                                        shape_b if a_is_circle else shape_a,
+        return SAT._circle_polygon_test((shape_a, shape_b)[a_is_circle],
+                                        (shape_b, shape_a)[a_is_circle],
                                         not a_is_circle)
 
     @staticmethod
