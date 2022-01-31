@@ -42,17 +42,6 @@ class Image(Sprite):
         self.image = rotate(self.image, self.params["rotation"])
         self.scale(self.params["scale_factor"])
 
-    def update(self):
-        pass
-
-    def draw(self, camera: Camera):
-        """
-        Draws the image if the z index is below the camera's.
-
-        :param camera: The current Camera viewing the scene.
-        """
-        super().draw(self.image, camera)
-
     def scale(self, scale_factor: Vector):
         """
         Scales the image.
@@ -81,3 +70,14 @@ class Image(Sprite):
         self.image = flip(
             scale(self.image, (abs(new_size.x), abs(new_size.y))),
             new_size.x < 0, new_size.y < 0)
+
+    def update(self):
+        pass
+
+    def draw(self, camera: Camera):
+        """
+        Draws the image if the z index is below the camera's.
+
+        :param camera: The current Camera viewing the scene.
+        """
+        super().draw(self.image, camera)
