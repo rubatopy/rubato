@@ -25,11 +25,11 @@ class Image(Sprite):
         super().__init__({"pos": self.params["pos"], "z_index": self.params["z_index"]})
 
         if self.params["image_location"] == "" or self.params["image_location"] == "default":
-            self.image = load("rubato/static/default.png")
+            self.image = load("rubato/static/default.png").convert_alpha()
         elif self.params["image_location"] == "empty":
-            self.image = load("rubato/static/empty.png")
+            self.image = load("rubato/static/empty.png").convert_alpha()
         else:
-            self.image = load(self.params["image_location"])
+            self.image = load(self.params["image_location"]).convert_alpha()
 
         self.image = rotate(self.image, self.params["rotation"])
         self.scale(self.params["scale_factor"])

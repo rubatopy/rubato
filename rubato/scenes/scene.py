@@ -5,7 +5,7 @@ between sprites is handled here.
 
 from rubato.scenes import Camera
 from rubato.sprite import Sprite
-from rubato.group import Group
+from rubato.sprite import Group
 
 
 class Scene:
