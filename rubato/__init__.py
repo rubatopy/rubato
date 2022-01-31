@@ -61,12 +61,6 @@ __all__ = [
 
 game: Game = None
 
-# TODO Sound manager
-# TODO make it so that the 0,0 coordinate is the center the screen
-# TODO Y position is up
-# TODO update various game parameters live
-# TODO window size doesn't update live
-
 
 def init(options: dict = {}):
     """

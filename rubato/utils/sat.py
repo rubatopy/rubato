@@ -107,7 +107,6 @@ class Polygon:
         return Vector(x_dir["max"] - x_dir["min"], y_dir["max"] - y_dir["min"])
 
 
-# TODO make circles work
 class Circle:
     """
     A custom circle class defined by a position, radius, and scale

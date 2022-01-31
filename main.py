@@ -81,7 +81,6 @@ triangle = RigidBody({
 
 # Sprite
 def custom_update():
-    # TODO: Fix zoom, things don't render in
     if Input.is_pressed("="):
         scene.camera.zoom = 2
     elif Input.is_pressed("-"):

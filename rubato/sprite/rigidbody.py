@@ -11,7 +11,6 @@ from pygame import Surface
 from pygame.draw import polygon
 
 
-# TODO Implement a Force based physics
 class RigidBody(Sprite):
     """
     A RigidBody implementation with built in physics and collisions.
