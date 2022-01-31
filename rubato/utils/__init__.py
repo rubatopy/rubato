@@ -3,7 +3,7 @@ This module houses all the utils
 """
 from rubato.utils.math import PMath, classproperty
 from rubato.utils.STATE import STATE
-from rubato.utils.display import Display
+import rubato.utils.display as Display
 from rubato.utils.vector import Vector
 import rubato.utils.time as Time
 from rubato.utils.sat import Polygon, Circle, SAT

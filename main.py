@@ -107,6 +107,10 @@ def rigid_update():
     else:
         rigid.acceleration.x = 0
 
+    if Input.is_pressed("space"):
+        rb.game.window_width = 800
+        rb.game.window_height = 800
+
     rigid.collide(triangle)
     rigid.collide(ground)
 

@@ -23,11 +23,8 @@ class Game:
         reset_display (bool): Controls whether or not the display should reset
             every frame.
         state (STATE): The current state of the game.
-
-    Warning:
-        Changing most of the above attributes will not update them in the game.
-        For all intensive purposes, all the attributes in this class can be
-        considered as read only.
+        window_width (int): The width of the game window.
+        window_height (int): The height of the game window.
     """
 
     default_options = {
@@ -49,34 +46,49 @@ class Game:
                 Defaults to the :ref:`default game options <defaultgame>`.
         """
         pygame.init()
-        self._params = Sprite.merge_params(options, Game.default_options)
+        self.__params = Sprite.merge_params(options, Game.default_options)
 
-        self.name: str = self._params["name"]
-        self._window_width: int = self._params["window_width"]
-        self._window_height: int = self._params["window_height"]
-        self._aspect_ratio: float = self._params["aspect_ratio"]
-        self.fps: int = self._params["fps"]
-        self._reset_display: bool = self._params["reset_display"]
-        self._use_better_clock: float = self._params["better_clock"]
+        self.name: str = self.__params["name"]
+        self.window_width: int = self.__params["window_width"]
+        self.window_height: int = self.__params["window_height"]
+        self.__aspect_ratio: float = self.__params["aspect_ratio"]
+        self.fps: int = self.__params["fps"]
+        self.reset_display: bool = self.__params["reset_display"]
+        self.__use_better_clock: float = self.__params["better_clock"]
 
-        self.state = STATE.STOPPED
+        self.__state = STATE.STOPPED
 
-        self._clock = pygame.time.Clock()
-        Time.set_clock(self._clock)
+        self.__clock = pygame.time.Clock()
+        Time.set_clock(self.__clock)
 
-        self._screen = pygame.display.set_mode(
-            (self._window_width, self._window_height), pygame.RESIZABLE)
-        self._display = pygame.Surface(
-            (self._window_width, self._window_height), pygame.SRCALPHA)
+        self.__screen = pygame.display.set_mode(
+            (self.window_width, self.window_height), pygame.RESIZABLE)
+        self.__display = pygame.Surface(
+            (self.window_width, self.window_height), pygame.SRCALPHA)
 
         pygame.display.set_caption(self.name)
         if options.get("icon"):
             pygame.display.set_icon(pygame.image.load(options.get("icon")))
 
-        Display.set(self._display)
+        Display.set_display(self.__display)
 
         self.scenes = SceneManager()
         self.radio = Radio()
+
+        self.__saved_dims = [self.window_width, self.window_height]
+
+    @property
+    def state(self):
+        return self.__state
+
+    @state.setter
+    def state(self, new_state: STATE):
+        self.__state = new_state
+
+        if self.__state == STATE.RUNNING:
+            self.start_loop()
+        if self.__state == STATE.STOPPED:
+            pygame.event.post(pygame.QUIT)
 
     @property
     def window_size(self):
@@ -85,19 +97,16 @@ class Game:
 
         Returns:
             Vector: A vector with x representing the width and
-                y representing the height
-
-        Warning:
-            This currently only returns the initial window size
+            y representing the height
         """
-        return Vector(self._window_width, self._window_height)
+        return Vector(self.window_width, self.window_height)
 
     def start_loop(self):
         """
         Starts the game loop. Should only be called by :meth:`rubato.begin`
         """
-        self.state = STATE.RUNNING
-        while self.state == STATE.RUNNING:
+        self.__state = STATE.RUNNING
+        while self.__state == STATE.RUNNING:
             self.update()
 
     def update(self):
@@ -108,28 +117,32 @@ class Game:
                 pygame.quit()
                 sys.exit(1)
             if event.type == pygame.VIDEORESIZE:
-                self._window_width = event.size[0]
-                self._window_height = event.size[1]
-                self._screen = pygame.display.set_mode(
-                    (self._window_width, self._window_height),
-                    pygame.RESIZABLE)
+                self.window_width = event.size[0]
+                self.window_height = event.size[1]
             if event.type == pygame.KEYDOWN:
                 self.radio.broadcast(Input.key.name(event.key) + "_down")
             if event.type == pygame.KEYUP:
                 self.radio.broadcast(Input.key.name(event.key) + "_up")
 
-        ratio = (self._window_width / self._window_height) < self._aspect_ratio
-        width = (self._window_height * self._aspect_ratio,
-                 self._window_width)[ratio]
-        height = (self._window_height,
-                  self._window_width / self._aspect_ratio)[ratio]
-        top_right = (((self._window_width - width) // 2, 0),
-                     (0, (self._window_height - height) // 2))[ratio]
+        if (self.__saved_dims[0] != self.window_width
+                or self.__saved_dims[1] != self.window_height):
+            self.__screen = pygame.display.set_mode(
+                (self.window_width, self.window_height), pygame.RESIZABLE)
+
+        ratio = (self.window_width / self.window_height) < self.__aspect_ratio
+        width = (self.window_height * self.__aspect_ratio,
+                 self.window_width)[ratio]
+        height = (self.window_height,
+                  self.window_width / self.__aspect_ratio)[ratio]
+        top_right = (((self.window_width - width) // 2, 0),
+                     (0, (self.window_height - height) // 2))[ratio]
 
         self.draw()
-        self._screen.blit(
-            pygame.transform.scale(self._display, (int(width), int(height))),
+        self.__screen.blit(
+            pygame.transform.scale(self.__display, (int(width), int(height))),
             top_right)
+
+        self.__saved_dims = [self.window_width, self.window_height]
 
         Time.process_calls()
         self.scenes.update()
@@ -137,14 +150,14 @@ class Game:
         pygame.display.flip()
         self.radio.events = []
 
-        if self._use_better_clock:
-            self._clock.tick_busy_loop(self.fps)
+        if self.__use_better_clock:
+            self.__clock.tick_busy_loop(self.fps)
         else:
-            self._clock.tick(self.fps)
+            self.__clock.tick(self.fps)
 
     def draw(self):
         """Draw loop for the game. Called automatically every frame"""
-        self._screen.fill((0, 0, 0))
-        if self._reset_display: self._display.fill((255, 255, 255))
+        self.__screen.fill((0, 0, 0))
+        if self.reset_display: self.__display.fill((255, 255, 255))
         self.scenes.draw(self)
-        self._display = Display.display
+        self.__display = Display.global_display
