@@ -16,7 +16,8 @@ def import_image_folder(dictionary: dict, rel_path: str) -> None:
     Returns: None
 
     """
-    for _, _, files in walk(rel_path):  # walk to directory path and ignore name and subdirectories
+    for _, _, files in walk(rel_path):
+        # walk to directory path and ignore name and subdirectories
         for image_path in files:
             path_to_image = path.join(rel_path, image_path)
             image = Image({
