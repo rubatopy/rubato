@@ -81,15 +81,3 @@ class Image(Sprite):
         self.image = flip(
             scale(self.image, (abs(new_size.x), abs(new_size.y))),
             new_size.x < 0, new_size.y < 0)
-
-    def update(self):
-        pass
-
-    def draw(self, camera: Camera):
-        """
-        Draws the image to the camera.
-
-        Args:
-            camera: The camera to draw too.
-        """
-        super().draw(self.image, camera)
