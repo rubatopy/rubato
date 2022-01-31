@@ -196,87 +196,83 @@
         <article role="main">
           <h1>Source code for rubato.utils.time</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""</span>
-<span class="sd">A time class</span>
+<span class="sd">A time class to monitor time and to call functions in the future.</span>
 <span class="sd">"""</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">pygame.time</span> <span class="kn">import</span> <span class="n">Clock</span><span class="p">,</span> <span class="n">get_ticks</span>
 
 
-<div class="viewcode-block" id="Time"><a class="viewcode-back" href="../../../api.html#rubato.Time">[docs]</a><span class="k">class</span> <span class="nc">Time</span><span class="p">:</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">Clock</span><span class="p">()</span>
+<span class="n">calls</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">sorted_calls</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># of the call keys</span>
+
+<div class="viewcode-block" id="delta_time"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.delta_time">[docs]</a><span class="k">def</span> <span class="nf">delta_time</span><span class="p">(</span><span class="n">form</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"milli"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    A time class to monitor time and to call functions in the future.</span>
+<span class="sd">    Gets the time since the last frame, in milliseconds.</span>
+
+<span class="sd">    :param form: The format the output should be (sec, milli)</span>
+<span class="sd">    :return: Time since the last frame, in the given form.</span>
 <span class="sd">    """</span>
-    <span class="n">clock</span> <span class="o">=</span> <span class="n">Clock</span><span class="p">()</span>
-    <span class="n">calls</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">"sec"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">milli_to_sec</span><span class="p">(</span><span class="n">clock</span><span class="o">.</span><span class="n">get_time</span><span class="p">())</span>
+    <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">"milli"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">clock</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Style </span><span class="si">{</span><span class="n">form</span><span class="si">}</span><span class="s2"> is not valid"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Time.delta_time"><a class="viewcode-back" href="../../../api.html#rubato.Time.delta_time">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">delta_time</span><span class="p">(</span><span class="n">form</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"milli"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Gets the time since the last frame, in milliseconds.</span>
+<div class="viewcode-block" id="now"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.now">[docs]</a><span class="k">def</span> <span class="nf">now</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Gets the time since the start of the game, in milliseconds.</span>
 
-<span class="sd">        :param form: The format the output should be (sec, milli)</span>
-<span class="sd">        :return: Time since the last frame, in the given form.</span>
-<span class="sd">        """</span>
-        <span class="k">if</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">"sec"</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Time</span><span class="o">.</span><span class="n">milli_to_sec</span><span class="p">(</span><span class="n">Time</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">get_time</span><span class="p">())</span>
-        <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="s2">"milli"</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Time</span><span class="o">.</span><span class="n">clock</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+<span class="sd">    :return: Time since the start of the game, in milliseconds.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">get_ticks</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="set"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.set">[docs]</a><span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">new_clock</span><span class="p">:</span> <span class="s2">"Clock"</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Allows you to set the clock object property to a Pygame Clock object.</span>
+
+<span class="sd">    :param clock: A pygame Clock object.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">clock</span>
+    <span class="n">clock</span> <span class="o">=</span> <span class="n">new_clock</span></div>
+
+<div class="viewcode-block" id="milli_to_sec"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.milli_to_sec">[docs]</a><span class="k">def</span> <span class="nf">milli_to_sec</span><span class="p">(</span><span class="n">milli</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Converts milliseconds to seconds.</span>
+
+<span class="sd">    :param milli: A number in milliseconds.</span>
+<span class="sd">    :return: The converted number in seconds.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">milli</span> <span class="o">/</span> <span class="mi">1000</span></div>
+
+
+<div class="viewcode-block" id="delayed_call"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.delayed_call">[docs]</a><span class="k">def</span> <span class="nf">delayed_call</span><span class="p">(</span><span class="n">delta_time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    Calls the function func at a later</span>
+
+<span class="sd">    :param delta_time: The time in milliseconds to run the function at.</span>
+<span class="sd">    :param func: The function to call.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">sorted_calls</span>
+    <span class="n">run_at</span> <span class="o">=</span> <span class="n">delta_time</span> <span class="o">+</span> <span class="n">now</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">calls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">run_at</span><span class="p">):</span>
+        <span class="n">calls</span><span class="p">[</span><span class="n">run_at</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">calls</span><span class="p">[</span><span class="n">run_at</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">]</span>
+    <span class="n">sorted_calls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">calls</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="process_calls"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.process_calls">[docs]</a><span class="k">def</span> <span class="nf">process_calls</span><span class="p">():</span>
+    <span class="sd">"""Processes the calls needed"""</span>
+    <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">sorted_calls</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">call</span> <span class="o">&lt;=</span> <span class="n">now</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">calls</span><span class="p">[</span><span class="n">call</span><span class="p">]:</span>
+                <span class="n">func</span><span class="p">()</span>
+            <span class="k">del</span> <span class="n">calls</span><span class="p">[</span><span class="n">call</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Style </span><span class="si">{</span><span class="n">form</span><span class="si">}</span><span class="s2"> is not valid"</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Time.now"><a class="viewcode-back" href="../../../api.html#rubato.Time.now">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">now</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Gets the time since the start of the game, in milliseconds.</span>
-
-<span class="sd">        :return: Time since the start of the game, in milliseconds.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">get_ticks</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="Time.set"><a class="viewcode-back" href="../../../api.html#rubato.Time.set">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">clock</span><span class="p">:</span> <span class="s2">"Clock"</span><span class="p">):</span>
-        <span class="sd">"""</span>
-<span class="sd">        Allows you to set the clock object property to a Pygame Clock object.</span>
-
-<span class="sd">        :param clock: A pygame Clock object.</span>
-<span class="sd">        """</span>
-        <span class="n">Time</span><span class="o">.</span><span class="n">clock</span> <span class="o">=</span> <span class="n">clock</span></div>
-
-<div class="viewcode-block" id="Time.milli_to_sec"><a class="viewcode-back" href="../../../api.html#rubato.Time.milli_to_sec">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">milli_to_sec</span><span class="p">(</span><span class="n">milli</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Converts milliseconds to seconds.</span>
-
-<span class="sd">        :param milli: A number in milliseconds.</span>
-<span class="sd">        :return: The converted number in seconds.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">milli</span> <span class="o">/</span> <span class="mi">1000</span></div>
-
-<div class="viewcode-block" id="Time.delayed_call"><a class="viewcode-back" href="../../../api.html#rubato.Time.delayed_call">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">delayed_call</span><span class="p">(</span><span class="n">delta_time</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-        <span class="sd">"""</span>
-<span class="sd">        Calls the function func at a later time.</span>
-
-<span class="sd">        :param delta_time: The time in milliseconds to run the function at.</span>
-<span class="sd">        :param func: The function to call.</span>
-<span class="sd">        """</span>
-        <span class="n">run_at</span> <span class="o">=</span> <span class="n">delta_time</span> <span class="o">+</span> <span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">Time</span><span class="o">.</span><span class="n">calls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">run_at</span><span class="p">):</span>
-            <span class="n">Time</span><span class="o">.</span><span class="n">calls</span><span class="p">[</span><span class="n">run_at</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">Time</span><span class="o">.</span><span class="n">calls</span><span class="p">[</span><span class="n">run_at</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="Time.process_calls"><a class="viewcode-back" href="../../../api.html#rubato.Time.process_calls">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">process_calls</span><span class="p">():</span>
-        <span class="sd">"""Processes the calls needed"""</span>
-        <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Time</span><span class="o">.</span><span class="n">calls</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="n">call</span> <span class="o">&lt;=</span> <span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">():</span>
-                <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">Time</span><span class="o">.</span><span class="n">calls</span><span class="p">[</span><span class="n">call</span><span class="p">]:</span>
-                    <span class="n">func</span><span class="p">()</span>
-                <span class="k">del</span> <span class="n">Time</span><span class="o">.</span><span class="n">calls</span><span class="p">[</span><span class="n">call</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">break</span></div></div>
+            <span class="k">break</span></div>
 </pre></div>
         </article>
       </div>
