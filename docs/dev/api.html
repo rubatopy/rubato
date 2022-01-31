@@ -3744,8 +3744,8 @@ than or equal to b</p>
 </dl>
 </dd></dl>
 <dl class="py function">
-<dt class="sig sig-object py" id="rubato.utils.time.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_clock</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.set" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.utils.time.set_clock">
+<span class="sig-name descname"><span class="pre">set_clock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_clock</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#set_clock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.set_clock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows you to set the clock object property to a Pygame Clock object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3771,16 +3771,16 @@ than or equal to b</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubato.utils.time.delayed_call">
-<span class="sig-name descname"><span class="pre">delayed_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#delayed_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.delayed_call" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">delayed_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/utils/time.html#delayed_call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.utils.time.delayed_call" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls the function func at a later</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>delta_time</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The time in milliseconds to run the function at.</p></li>
-<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The function to call.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>time_delta</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The time from now (in milliseconds)</p>
 </dd>
 </dl>
+<p>to run the function at.
+:type func: <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>
+:param func: The function to call.</p>
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="rubato.utils.time.process_calls">

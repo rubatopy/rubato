@@ -259,7 +259,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">STATE</span><span class="o">.</span><span class="n">STOPPED</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
-        <span class="n">Time</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clock</span><span class="p">)</span>
+        <span class="n">Time</span><span class="o">.</span><span class="n">set_clock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_clock</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_window_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">RESIZABLE</span><span class="p">)</span>
