@@ -11,7 +11,6 @@ from pygame import Surface
 from pygame.draw import polygon
 
 
-# TODO Implement a Force based physics
 class RigidBody(Sprite):
     """
     A RigidBody implementation with built in physics and collisions.
@@ -163,6 +162,48 @@ class RigidBody(Sprite):
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
             # col_info is all in reference to self
             col_info.separation.round(4)
+
+            if other.col_type == COL_TYPE.STATIC:
+                self.pos -= col_info.separation
+                self.grounded = PMath.sign(col_info.separation.y) == 1
+
+                if self.grounded: self.velocity.y = 0
+                # FIXME: do we want this sticky behavior
+                if abs(col_info.separation.x) > 0: self.velocity.x = 0
+            elif self.col_type == COL_TYPE.STATIC:
+                other.pos += col_info.separation
+                other.grounded = PMath.sign(col_info.separation.y) == -1
+
+                if other.grounded: other.velocity.y = 0
+                if abs(col_info.separation.x) > 0: other.velocity.x = 0
+            else:
+                self.pos -= col_info.separation / 2
+                other.pos += col_info.separation / 2
+
+        if col_info is not None:
+            callback(col_info)
+        return col_info
+
+    def bounce(
+            self,
+            other: "RigidBody",
+            callback: Callable = lambda c: None) -> Union[CollisionInfo, None]:
+        """
+        A more complex collision resolution system with angular momentums.
+
+        Args:
+            other: The other rigidbody to collide with.
+            callback: The function to run when a collision is detected.
+                Defaults to None.
+
+        Returns:
+            Union[CollisionInfo, None]: Returns a collision info object if a
+            collision is detected or nothing if no collision is detected.
+        """
+        self.grounded = False
+        if col_info := SAT.overlap(self.hitbox, other.hitbox):
+            # col_info is all in reference to self
+            col_info.separation.round(4)
             self.grounded = PMath.sign(col_info.separation.y) == 1
 
             if other.col_type == COL_TYPE.STATIC:
@@ -174,8 +215,8 @@ class RigidBody(Sprite):
                 other.pos += col_info.separation / 2
 
             if col_info.vertex_a is not None:
-                perpendicular = self.velocity.unit(
-                ) * col_info.vertex_a.crossp().unit()
+                perpendicular = (self.velocity.unit() *
+                                 col_info.vertex_a.crossp().unit())
                 self.angvel = -perpendicular.magnitude * self.velocity.magnitude
                 self.velocity -= (col_info.separation.unit() *
                                   self.velocity.magnitude * 2)

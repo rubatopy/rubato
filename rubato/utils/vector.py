@@ -254,7 +254,7 @@ class Vector:
     def direction_to(self, vector):
         """
         treating vectors as points the direction to the new point from the
-            current point
+        current point
         :return: direction to new point
         """
         d_x = self.x - vector.x
@@ -265,7 +265,7 @@ class Vector:
     def distance_to(self, vector):
         """
         treating vectors as points the distance to the new point from
-            the current point
+        the current point
         :return: distance to new point
         """
         d_x = self.x - vector.x
