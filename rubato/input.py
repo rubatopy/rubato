@@ -39,7 +39,7 @@ def mouse_over(center: Vector, dims: Vector = Vector(1, 1)) -> bool:
     """
     top_left = (center - dims / 2).ceil()
     bottom_right = (center + dims / 2).ceil()
-    mouse_pos = Vector(mouse.get_pos()[0], mouse.get_pos()[1])
+    mouse_pos = Vector(*mouse.get_pos())
 
     return (top_left.x <= mouse_pos.x <= bottom_right.x
             and top_left.y <= mouse_pos.y <= bottom_right.y)
