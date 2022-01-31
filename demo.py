@@ -45,6 +45,7 @@ def custom_update():
 empty.update = custom_update
 group.add(sprite)
 
+
 text = rb.Text({"text": "hi", "onto_surface": sprite.image})
 group.add(text)
 

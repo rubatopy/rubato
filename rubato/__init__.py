@@ -15,8 +15,7 @@ import sys
 from rubato.utils import PMath, classproperty, STATE, Display, Vector, Time, Polygon, Circle, SAT, COL_TYPE, Color, color
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
-from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, Text, Empty
-from rubato.group import Group
+from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, Text, Empty
 import rubato.input as Input
 from rubato.game import Game
 
