@@ -5,6 +5,7 @@ from pygame.image import load
 from pygame.transform import scale, flip, rotate
 from rubato.utils import Vector
 from rubato.scenes import Camera
+from rubato.sprite.sprite import Sprite
 
 
 class Image(Sprite):
@@ -30,7 +31,8 @@ class Image(Sprite):
             "z_index": self.params["z_index"]
         })
 
-        if self.params["image_location"] == "" or self.params["image_location"] == "default":
+        if self.params["image_location"] == "" or self.params[
+            "image_location"] == "default":
             self.image = load("rubato/static/default.png").convert_alpha()
         elif self.params["image_location"] == "empty":
             self.image = load("rubato/static/empty.png").convert_alpha()

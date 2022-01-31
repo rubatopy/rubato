@@ -78,7 +78,7 @@ _________
 
 Group
 -----
-.. automodule:: rubato.group
+.. automodule:: rubato.sprite.group
     :members:
 
 .. _scene:

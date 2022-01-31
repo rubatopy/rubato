@@ -2,7 +2,7 @@
 We create the Scene class which is is a collection of sprites. Interactions
 between sprites is handled here.
 """
-
+from typing import Union
 from rubato.scenes import Camera
 from rubato.sprite import Sprite
 from rubato.utils.error import IdError

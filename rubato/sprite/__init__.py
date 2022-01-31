@@ -9,3 +9,4 @@ from rubato.sprite.text import Text
 from rubato.sprite.empty import Empty
 from rubato.sprite.button import Button
 from rubato.sprite.rect import Rectangle
+from rubato.sprite.group import Group
