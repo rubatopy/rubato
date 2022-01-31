@@ -200,11 +200,13 @@
 <span class="sd">"""</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">pygame.time</span> <span class="kn">import</span> <span class="n">Clock</span><span class="p">,</span> <span class="n">get_ticks</span>
+<span class="kn">from</span> <span class="nn">rubato.utils.sorting</span> <span class="kn">import</span> <span class="n">binary_search</span>
 
 
 <span class="n">clock</span> <span class="o">=</span> <span class="n">Clock</span><span class="p">()</span>
 <span class="n">calls</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">sorted_calls</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># of the call keys</span>
+<span class="n">sorted_call_times</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># of the call keys</span>
+
 
 <div class="viewcode-block" id="delta_time"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.delta_time">[docs]</a><span class="k">def</span> <span class="nf">delta_time</span><span class="p">(</span><span class="n">form</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"milli"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">"""</span>
@@ -254,23 +256,30 @@
 <span class="sd">    :param delta_time: The time in milliseconds to run the function at.</span>
 <span class="sd">    :param func: The function to call.</span>
 <span class="sd">    """</span>
-    <span class="k">global</span> <span class="n">sorted_calls</span>
     <span class="n">run_at</span> <span class="o">=</span> <span class="n">delta_time</span> <span class="o">+</span> <span class="n">now</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">calls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">run_at</span><span class="p">):</span>
         <span class="n">calls</span><span class="p">[</span><span class="n">run_at</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">calls</span><span class="p">[</span><span class="n">run_at</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">]</span>
-    <span class="n">sorted_calls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">calls</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+    <span class="n">proper_index</span> <span class="o">=</span> <span class="n">binary_search</span><span class="p">(</span><span class="n">sorted_call_times</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="nb">len</span><span class="p">(</span><span class="n">sorted_call_times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">run_at</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">proper_index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># time stamp not currently in array</span>
+        <span class="n">proper_index</span> <span class="o">=</span> <span class="o">~</span><span class="n">proper_index</span>
+        <span class="n">sorted_call_times</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">proper_index</span><span class="p">,</span> <span class="n">run_at</span><span class="p">)</span></div>
+    <span class="c1"># otherwise we do not want to re-add time stamp</span>
+
 
 
 <div class="viewcode-block" id="process_calls"><a class="viewcode-back" href="../../../api.html#rubato.utils.time.process_calls">[docs]</a><span class="k">def</span> <span class="nf">process_calls</span><span class="p">():</span>
     <span class="sd">"""Processes the calls needed"""</span>
-    <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">sorted_calls</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="n">sorted_call_times</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">call</span> <span class="o">&lt;=</span> <span class="n">now</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">calls</span><span class="p">[</span><span class="n">call</span><span class="p">]:</span>
                 <span class="n">func</span><span class="p">()</span>
             <span class="k">del</span> <span class="n">calls</span><span class="p">[</span><span class="n">call</span><span class="p">]</span>
+            <span class="n">sorted_call_times</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">call</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">break</span></div>
 </pre></div>
