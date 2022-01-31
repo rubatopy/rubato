@@ -5,7 +5,6 @@ from typing import Callable
 from pygame.time import Clock, get_ticks
 from rubato.utils.sorting import binary_search
 
-
 clock = Clock()
 calls = {}
 sorted_call_times = []  # of the call keys
@@ -25,6 +24,7 @@ def delta_time(form: str = "milli") -> int:
     else:
         raise ValueError(f"Style {form} is not valid")
 
+
 def now() -> int:
     """
     Gets the time since the start of the game, in milliseconds.
@@ -33,7 +33,8 @@ def now() -> int:
     """
     return get_ticks()
 
-def set(new_clock: "Clock"):
+
+def set_clock(new_clock: "Clock"):
     """
     Allows you to set the clock object property to a Pygame Clock object.
 
@@ -41,6 +42,7 @@ def set(new_clock: "Clock"):
     """
     global clock
     clock = new_clock
+
 
 def milli_to_sec(milli: int) -> float:
     """
@@ -52,14 +54,15 @@ def milli_to_sec(milli: int) -> float:
     return milli / 1000
 
 
-def delayed_call(delta_time: int, func: Callable):
+def delayed_call(time_delta: int, func: Callable):
     """
     Calls the function func at a later
 
-    :param delta_time: The time in milliseconds to run the function at.
+    :param time_delta: The time from now (in milliseconds)
+    to run the function at.
     :param func: The function to call.
     """
-    run_at = delta_time + now()
+    run_at = time_delta + now()
 
     if calls.get(run_at):
         calls[run_at].append(func)
@@ -67,12 +70,11 @@ def delayed_call(delta_time: int, func: Callable):
         calls[run_at] = [func]
 
     proper_index = binary_search(sorted_call_times, 0,
-                                   len(sorted_call_times) - 1, run_at)
+                                 len(sorted_call_times) - 1, run_at)
     if proper_index < 0:  # time stamp not currently in array
         proper_index = ~proper_index
         sorted_call_times.insert(proper_index, run_at)
     # otherwise we do not want to re-add time stamp
-
 
 
 def process_calls():
