@@ -21,12 +21,4 @@ jobs:
             - name: Analysing the code with pylint
               run: |
                   pylint $(git ls-files '*.py')
-    formatting-check:
-        name: Formatting Check
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: run YAPF to test if python code is correctly formatted
-              uses: AlexanderMelde/yapf-action@master
-              with:
-                  args: --verbose
+                  
