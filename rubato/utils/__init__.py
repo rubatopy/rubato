@@ -10,3 +10,4 @@ from rubato.utils.sat import Polygon, Circle, SAT
 from rubato.utils.COL_TYPE import COL_TYPE
 import rubato.utils.color as Color
 from rubato.utils.error import Error
+import rubato.utils.sorting as Sorting

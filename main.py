@@ -124,5 +124,7 @@ group.add(triangle)
 rb.game.radio.listen("EXIT", lambda: print("ya-yeet"))
 
 Time.delayed_call(1000, lambda: print("LOL"))
+Time.delayed_call(1000, lambda: print("LOL(2)"))
+Time.delayed_call(5, lambda: print("LOL(-1)"))
 
 rb.begin()
