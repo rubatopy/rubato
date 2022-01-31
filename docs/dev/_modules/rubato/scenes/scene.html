@@ -196,16 +196,14 @@
         <article role="main">
           <h1>Source code for rubato.scenes.scene</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""</span>
-<span class="sd">A Scene is a collection of sprites, groups and a camera. They are used to</span>
-<span class="sd">render and update a large group of sprites at once. They are also useful to</span>
-<span class="sd">compartmentalize different aspects of a game.</span>
+<span class="sd">We create the Scene class which is is a collection of sprites. Interactions</span>
+<span class="sd">between sprites is handled here.</span>
 <span class="sd">"""</span>
-
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">rubato.scenes</span> <span class="kn">import</span> <span class="n">Camera</span>
 <span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Sprite</span>
-<span class="kn">from</span> <span class="nn">rubato.group</span> <span class="kn">import</span> <span class="n">Group</span>
 <span class="kn">from</span> <span class="nn">rubato.utils.error</span> <span class="kn">import</span> <span class="n">IdError</span>
+<span class="kn">from</span> <span class="nn">rubato.sprite</span> <span class="kn">import</span> <span class="n">Group</span>
 
 
 <div class="viewcode-block" id="Scene"><a class="viewcode-back" href="../../../api.html#rubato.Scene">[docs]</a><span class="k">class</span> <span class="nc">Scene</span><span class="p">:</span>

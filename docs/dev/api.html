@@ -1030,7 +1030,7 @@ and a blank id.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sprite</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#rubato.sprite.sprite.Sprite" title="rubato.sprite.sprite.Sprite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sprite</span></code></a>, <a class="reference internal" href="#rubato.group.Group" title="rubato.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>]) – The sprite or group to add to the scene.</p></li>
+<li><p><strong>sprite</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#rubato.sprite.sprite.Sprite" title="rubato.sprite.sprite.Sprite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sprite</span></code></a>, <a class="reference internal" href="#rubato.sprite.group.Group" title="rubato.sprite.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>]) – The sprite or group to add to the scene.</p></li>
 <li><p><strong>sprite_id</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – The i dof the sprite or group. Defaults to None.</p></li>
 </ul>
 </dd>
@@ -1361,11 +1361,11 @@ sprite.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/image.html#Image.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Initializes an Image class.</p>
+<dd><p>Initializes a sprite.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – An image config. Defaults to the
-<a class="reference internal" href="defaults.html#defaultimage"><span class="std std-ref">default image options</span></a>.</p>
+<dd class="field-odd"><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – A sprite config. Defaults to the
+<a class="reference internal" href="defaults.html#defaultsprite"><span class="std std-ref">default sprite options</span></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1397,10 +1397,10 @@ sprite.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/image.html#Image.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Draws the image to the camera.</p>
+<dd><p>Draws the image if the z index is below the camera’s.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>camera</strong> (<a class="reference internal" href="#rubato.scenes.camera.Camera" title="rubato.scenes.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>) – The camera to draw too.</p>
+<dd class="field-odd"><p><strong>camera</strong> (<a class="reference internal" href="#rubato.scenes.camera.Camera" title="rubato.scenes.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>) – The current Camera viewing the scene.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1847,7 +1847,7 @@ text onto.</p>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Group</span></span><a class="reference internal" href="_modules/rubato/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Group</span></span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A group of sprites.</p>
 <dl class="py attribute">
@@ -1872,7 +1872,7 @@ text onto.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Initializes a group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1882,7 +1882,7 @@ text onto.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Add a sprite to the group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1898,7 +1898,7 @@ text onto.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">collide_rb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_rb"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">collide_rb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.collide_rb"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Run a collision between the whole group and a RigidBody.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1908,27 +1908,27 @@ text onto.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">collide_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">collide_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.collide_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Run a collision between this group and another.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="#rubato.group.Group" title="rubato.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>) – The group to collide with.</p>
+<dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="#rubato.sprite.group.Group" title="rubato.sprite.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>) – The group to collide with.</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">collide_self</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_self"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">collide_self</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.collide_self"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Run a collision between members of this group.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Updates all the sprites in the group.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Draws all the sprites in the group.</p>
 </dd></dl>
 </dd></dl>
@@ -2519,11 +2519,11 @@ running miscellaneous code every frame.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.sprite.image.Image.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/image.html#Image.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.image.Image.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes an Image class.</p>
+<dd><p>Initializes a sprite.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – An image config. Defaults to the
-<a class="reference internal" href="defaults.html#defaultimage"><span class="std std-ref">default image options</span></a>.</p>
+<dd class="field-odd"><p><strong>options</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – A sprite config. Defaults to the
+<a class="reference internal" href="defaults.html#defaultsprite"><span class="std std-ref">default sprite options</span></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2555,10 +2555,10 @@ running miscellaneous code every frame.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rubato.sprite.image.Image.draw">
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/image.html#Image.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.image.Image.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws the image to the camera.</p>
+<dd><p>Draws the image if the z index is below the camera’s.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>camera</strong> (<a class="reference internal" href="#rubato.scenes.camera.Camera" title="rubato.scenes.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>) – The camera to draw too.</p>
+<dd class="field-odd"><p><strong>camera</strong> (<a class="reference internal" href="#rubato.scenes.camera.Camera" title="rubato.scenes.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a>) – The current Camera viewing the scene.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2978,17 +2978,17 @@ text onto.</p>
 </section>
 <section id="group">
 <span id="id10"></span><h2>Group<a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-rubato.group"></span><p>The Group class defines a group of sprites. This can used to quickly update
+<span class="target" id="module-rubato.sprite.group"></span><p>The Group class defines a group of sprites. This can used to quickly update
 and render a lot of sprites at the same time. Collisions can also be applied
 to entire groups.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="rubato.group.Group">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Group</span></span><a class="reference internal" href="_modules/rubato/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Group</span></span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A group of sprites.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="rubato.group.Group.z_index">
-<span class="sig-name descname"><span class="pre">z_index</span></span><a class="headerlink" href="#rubato.group.Group.z_index" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.z_index">
+<span class="sig-name descname"><span class="pre">z_index</span></span><a class="headerlink" href="#rubato.sprite.group.Group.z_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>The z-index of the entire group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -2997,8 +2997,8 @@ to entire groups.</p>
 </dl>
 </dd></dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="rubato.group.Group.sprites">
-<span class="sig-name descname"><span class="pre">sprites</span></span><a class="headerlink" href="#rubato.group.Group.sprites" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.sprites">
+<span class="sig-name descname"><span class="pre">sprites</span></span><a class="headerlink" href="#rubato.sprite.group.Group.sprites" title="Permalink to this definition">¶</a></dt>
 <dd><p>The list of sprites in this group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -3007,8 +3007,8 @@ to entire groups.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes a group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3017,8 +3017,8 @@ to entire groups.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.add" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sprite</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a sprite to the group.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3033,8 +3033,8 @@ to entire groups.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.collide_rb">
-<span class="sig-name descname"><span class="pre">collide_rb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_rb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.collide_rb" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.collide_rb">
+<span class="sig-name descname"><span class="pre">collide_rb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.collide_rb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.collide_rb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a collision between the whole group and a RigidBody.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3043,37 +3043,36 @@ to entire groups.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.collide_group">
-<span class="sig-name descname"><span class="pre">collide_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.collide_group" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.collide_group">
+<span class="sig-name descname"><span class="pre">collide_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.collide_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.collide_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a collision between this group and another.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="#rubato.group.Group" title="rubato.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>) – The group to collide with.</p>
+<dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="#rubato.sprite.group.Group" title="rubato.sprite.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>) – The group to collide with.</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.collide_self">
-<span class="sig-name descname"><span class="pre">collide_self</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.collide_self"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.collide_self" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.collide_self">
+<span class="sig-name descname"><span class="pre">collide_self</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.collide_self"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.collide_self" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a collision between members of this group.</p>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.update" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates all the sprites in the group.</p>
 </dd></dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="rubato.group.Group.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/group.html#Group.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.group.Group.draw" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="rubato.sprite.group.Group.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/group.html#Group.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.group.Group.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws all the sprites in the group.</p>
 </dd></dl>
 </dd></dl>
 </section>
 <section id="scene">
 <span id="id11"></span><h2>Scene<a class="headerlink" href="#scene" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-rubato.scenes.scene"></span><p>A Scene is a collection of sprites, groups and a camera. They are used to
-render and update a large group of sprites at once. They are also useful to
-compartmentalize different aspects of a game.</p>
+<span class="target" id="module-rubato.scenes.scene"></span><p>We create the Scene class which is is a collection of sprites. Interactions
+between sprites is handled here.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rubato.scenes.scene.Scene">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Scene</span></span><a class="reference internal" href="_modules/rubato/scenes/scene.html#Scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.scenes.scene.Scene" title="Permalink to this definition">¶</a></dt>
@@ -3124,7 +3123,7 @@ and a blank id.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sprite</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#rubato.sprite.sprite.Sprite" title="rubato.sprite.sprite.Sprite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sprite</span></code></a>, <a class="reference internal" href="#rubato.group.Group" title="rubato.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>]) – The sprite or group to add to the scene.</p></li>
+<li><p><strong>sprite</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#rubato.sprite.sprite.Sprite" title="rubato.sprite.sprite.Sprite"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sprite</span></code></a>, <a class="reference internal" href="#rubato.sprite.group.Group" title="rubato.sprite.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a>]) – The sprite or group to add to the scene.</p></li>
 <li><p><strong>sprite_id</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – The i dof the sprite or group. Defaults to None.</p></li>
 </ul>
 </dd>
