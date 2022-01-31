@@ -205,7 +205,7 @@
 <span class="kn">from</span> <span class="nn">rubato.utils.error</span> <span class="kn">import</span> <span class="n">IdError</span>
 
 
-<div class="viewcode-block" id="SceneManager"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager">[docs]</a><span class="k">class</span> <span class="nc">SceneManager</span><span class="p">:</span>
+<div class="viewcode-block" id="SceneManager"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager">[docs]</a><span class="k">class</span> <span class="nc">SceneManager</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    The Scene Manager containts and handle multiple scenes.</span>
 
@@ -215,7 +215,7 @@
 <span class="sd">        current (Union[int, str]): The id of the current scene.</span>
 <span class="sd">    """</span>
 
-<div class="viewcode-block" id="SceneManager.__init__"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.__init__"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Initializes the scene manager with an empty scenes dictionary</span>
 <span class="sd">        and current set to 0.</span>
@@ -244,7 +244,7 @@
 <span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SceneManager.add"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="SceneManager.add"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">scene</span><span class="p">:</span> <span class="n">Scene</span><span class="p">,</span>
             <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -272,7 +272,7 @@
         <span class="n">scene</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">scene_id</span>
         <span class="k">return</span> <span class="n">scene_id</span></div>
 
-<div class="viewcode-block" id="SceneManager.set"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
+<div class="viewcode-block" id="SceneManager.set"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]):</span>
         <span class="sd">"""</span>
 <span class="sd">        Changes the current scene.</span>
 
@@ -281,14 +281,14 @@
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current</span> <span class="o">=</span> <span class="n">scene_id</span></div>
 
-<div class="viewcode-block" id="SceneManager.update"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.update"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Calls the update function of the current scene.</span>
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_empty</span><span class="p">:</span> <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="SceneManager.draw"><a class="viewcode-back" href="../../../api.html#rubato.scenes.scene_manager.SceneManager.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+<div class="viewcode-block" id="SceneManager.draw"><a class="viewcode-back" href="../../../api.html#rubato.SceneManager.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Calls the draw function of the current scene.</span>
 
