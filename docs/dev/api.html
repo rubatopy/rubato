@@ -1557,6 +1557,27 @@ collision is detected or nothing if no collision is detected.</p>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">bounce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">lambda</span> <span class="pre">c:</span> <span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/rigidbody.html#RigidBody.bounce"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>A more complex collision resolution system with angular momentums.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#rubato.sprite.rigidbody.RigidBody" title="rubato.sprite.rigidbody.RigidBody"><code class="xref py py-class docutils literal notranslate"><span class="pre">RigidBody</span></code></a>) – The other rigidbody to collide with.</p></li>
+<li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The function to run when a collision is detected.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns a collision info object if a
+collision is detected or nothing if no collision is detected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[<a class="reference internal" href="#rubato.utils.sat.CollisionInfo" title="rubato.utils.sat.CollisionInfo">CollisionInfo</a>, None]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">lambda</span> <span class="pre">c:</span> <span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/rigidbody.html#RigidBody.overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Checks for a collision but does not fix it.</p>
 <dl class="field-list simple">
@@ -2722,6 +2743,27 @@ have hitboxes and can collide and interact with other rigidbodies.</p>
 <dt class="sig sig-object py" id="rubato.sprite.rigidbody.RigidBody.collide">
 <span class="sig-name descname"><span class="pre">collide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">lambda</span> <span class="pre">c:</span> <span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/rigidbody.html#RigidBody.collide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.rigidbody.RigidBody.collide" title="Permalink to this definition">¶</a></dt>
 <dd><p>A simple collision engine for most use cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> (<a class="reference internal" href="#rubato.sprite.rigidbody.RigidBody" title="rubato.sprite.rigidbody.RigidBody"><code class="xref py py-class docutils literal notranslate"><span class="pre">RigidBody</span></code></a>) – The other rigidbody to collide with.</p></li>
+<li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – The function to run when a collision is detected.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns a collision info object if a
+collision is detected or nothing if no collision is detected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[<a class="reference internal" href="#rubato.utils.sat.CollisionInfo" title="rubato.utils.sat.CollisionInfo">CollisionInfo</a>, None]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rubato.sprite.rigidbody.RigidBody.bounce">
+<span class="sig-name descname"><span class="pre">bounce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">lambda</span> <span class="pre">c:</span> <span class="pre">...</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rubato/sprite/rigidbody.html#RigidBody.bounce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rubato.sprite.rigidbody.RigidBody.bounce" title="Permalink to this definition">¶</a></dt>
+<dd><p>A more complex collision resolution system with angular momentums.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

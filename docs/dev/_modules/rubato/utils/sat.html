@@ -385,8 +385,8 @@
             <span class="k">return</span> <span class="n">result</span>
 
         <span class="n">a_is_circle</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape_a</span><span class="p">,</span> <span class="n">Circle</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">SAT</span><span class="o">.</span><span class="n">_circle_polygon_test</span><span class="p">(</span><span class="n">shape_a</span> <span class="k">if</span> <span class="n">a_is_circle</span> <span class="k">else</span> <span class="n">shape_b</span><span class="p">,</span>
-                                        <span class="n">shape_b</span> <span class="k">if</span> <span class="n">a_is_circle</span> <span class="k">else</span> <span class="n">shape_a</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">SAT</span><span class="o">.</span><span class="n">_circle_polygon_test</span><span class="p">((</span><span class="n">shape_a</span><span class="p">,</span> <span class="n">shape_b</span><span class="p">)[</span><span class="n">a_is_circle</span><span class="p">],</span>
+                                        <span class="p">(</span><span class="n">shape_b</span><span class="p">,</span> <span class="n">shape_a</span><span class="p">)[</span><span class="n">a_is_circle</span><span class="p">],</span>
                                         <span class="ow">not</span> <span class="n">a_is_circle</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>

@@ -359,6 +359,48 @@
         <span class="k">if</span> <span class="n">col_info</span> <span class="o">:=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">hitbox</span><span class="p">):</span>
             <span class="c1"># col_info is all in reference to self</span>
             <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">col_type</span> <span class="o">==</span> <span class="n">COL_TYPE</span><span class="o">.</span><span class="n">STATIC</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="c1"># FIXME: do we want this sticky behavior</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">col_type</span> <span class="o">==</span> <span class="n">COL_TYPE</span><span class="o">.</span><span class="n">STATIC</span><span class="p">:</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">grounded</span><span class="p">:</span> <span class="n">other</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">other</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">col_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">callback</span><span class="p">(</span><span class="n">col_info</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">col_info</span></div>
+
+<div class="viewcode-block" id="RigidBody.bounce"><a class="viewcode-back" href="../../../api.html#rubato.RigidBody.bounce">[docs]</a>    <span class="k">def</span> <span class="nf">bounce</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">other</span><span class="p">:</span> <span class="s2">"RigidBody"</span><span class="p">,</span>
+            <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">CollisionInfo</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">"""</span>
+<span class="sd">        A more complex collision resolution system with angular momentums.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other: The other rigidbody to collide with.</span>
+<span class="sd">            callback: The function to run when a collision is detected.</span>
+<span class="sd">                Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[CollisionInfo, None]: Returns a collision info object if a</span>
+<span class="sd">            collision is detected or nothing if no collision is detected.</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">col_info</span> <span class="o">:=</span> <span class="n">SAT</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hitbox</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">hitbox</span><span class="p">):</span>
+            <span class="c1"># col_info is all in reference to self</span>
+            <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">grounded</span> <span class="o">=</span> <span class="n">PMath</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 
             <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">col_type</span> <span class="o">==</span> <span class="n">COL_TYPE</span><span class="o">.</span><span class="n">STATIC</span><span class="p">:</span>
@@ -370,8 +412,8 @@
                 <span class="n">other</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">col_info</span><span class="o">.</span><span class="n">separation</span> <span class="o">/</span> <span class="mi">2</span>
 
             <span class="k">if</span> <span class="n">col_info</span><span class="o">.</span><span class="n">vertex_a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">perpendicular</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span>
-                <span class="p">)</span> <span class="o">*</span> <span class="n">col_info</span><span class="o">.</span><span class="n">vertex_a</span><span class="o">.</span><span class="n">crossp</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span>
+                <span class="n">perpendicular</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span> <span class="o">*</span>
+                                 <span class="n">col_info</span><span class="o">.</span><span class="n">vertex_a</span><span class="o">.</span><span class="n">crossp</span><span class="p">()</span><span class="o">.</span><span class="n">unit</span><span class="p">())</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">angvel</span> <span class="o">=</span> <span class="o">-</span><span class="n">perpendicular</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">magnitude</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span> <span class="o">-=</span> <span class="p">(</span><span class="n">col_info</span><span class="o">.</span><span class="n">separation</span><span class="o">.</span><span class="n">unit</span><span class="p">()</span> <span class="o">*</span>
                                   <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
