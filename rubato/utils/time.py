@@ -3,11 +3,13 @@ A time class to monitor time and to call functions in the future.
 """
 from typing import Callable
 from pygame.time import Clock, get_ticks
+from rubato.utils.sorting import binary_search
 
 
 clock = Clock()
 calls = {}
-sorted_calls = []  # of the call keys
+sorted_call_times = []  # of the call keys
+
 
 def delta_time(form: str = "milli") -> int:
     """
@@ -57,22 +59,29 @@ def delayed_call(delta_time: int, func: Callable):
     :param delta_time: The time in milliseconds to run the function at.
     :param func: The function to call.
     """
-    global sorted_calls
     run_at = delta_time + now()
 
     if calls.get(run_at):
         calls[run_at].append(func)
     else:
         calls[run_at] = [func]
-    sorted_calls = sorted(calls.keys())
+
+    proper_index = binary_search(sorted_call_times, 0,
+                                   len(sorted_call_times) - 1, run_at)
+    if proper_index < 0:  # time stamp not currently in array
+        proper_index = ~proper_index
+        sorted_call_times.insert(proper_index, run_at)
+    # otherwise we do not want to re-add time stamp
+
 
 
 def process_calls():
     """Processes the calls needed"""
-    for call in sorted_calls:
+    for call in sorted_call_times:
         if call <= now():
             for func in calls[call]:
                 func()
             del calls[call]
+            sorted_call_times.remove(call)
         else:
             break
