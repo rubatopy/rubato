@@ -28,14 +28,13 @@ class Rectangle(Image):
             options: A rectangle config. Defaults to the
                 :ref:`default rectangle options <defaultrectangle>`.
         """
-        self.params = Sprite.merge_params(options, Rectangle.default_options)
+        param = Sprite.merge_params(options, Rectangle.default_options)
         super().__init__({
             "image_location": "",
-            "pos": self.params["pos"],
-            "z_index": self.params["z_index"]
+            "pos": param["pos"],
+            "z_index": param["z_index"]
         })
-        self.params = Sprite.merge_params(options, Rectangle.default_options)
-        self.image = Surface(self.params["dims"].to_tuple())
+        param = Sprite.merge_params(options, Rectangle.default_options)
+        self.image = Surface(param["dims"].to_tuple())
 
-        rect(self.image, self.params["color"],
-             [0, 0, *self.params["dims"].to_tuple()])
+        rect(self.image, param["color"], [0, 0, *param["dims"].to_tuple()])

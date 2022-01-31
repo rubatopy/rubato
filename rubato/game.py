@@ -46,15 +46,15 @@ class Game:
                 Defaults to the :ref:`default game options <defaultgame>`.
         """
         pygame.init()
-        self.__params = Sprite.merge_params(options, Game.default_options)
+        params = Sprite.merge_params(options, Game.default_options)
 
-        self.name: str = self.__params["name"]
-        self.window_width: int = self.__params["window_width"]
-        self.window_height: int = self.__params["window_height"]
-        self.__aspect_ratio: float = self.__params["aspect_ratio"]
-        self.fps: int = self.__params["fps"]
-        self.reset_display: bool = self.__params["reset_display"]
-        self.__use_better_clock: float = self.__params["better_clock"]
+        self.name: str = params["name"]
+        self.window_width: int = params["window_width"]
+        self.window_height: int = params["window_height"]
+        self.__aspect_ratio: float = params["aspect_ratio"]
+        self.fps: int = params["fps"]
+        self.reset_display: bool = params["reset_display"]
+        self.__use_better_clock: float = params["better_clock"]
 
         self.__state = STATE.STOPPED
 

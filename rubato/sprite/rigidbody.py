@@ -53,11 +53,11 @@ class RigidBody(Sprite):
             options: A rigidbody config. Defaults to the
                 :ref:`default rigidbody options <defaultrigidbody>`.
         """
-        self.params = Sprite.merge_params(options, RigidBody.default_options)
+        self.__params = Sprite.merge_params(options, RigidBody.default_options)
 
         super().__init__({
-            "pos": self.params["pos"],
-            "z_index": self.params["z_index"]
+            "pos": self.__params["pos"],
+            "z_index": self.__params["z_index"]
         })
 
         self.velocity = Vector()
@@ -67,32 +67,32 @@ class RigidBody(Sprite):
         self.rotation = options.get("rotation",
                                     RigidBody.default_options["rotation"])
 
-        self.mass = self.params["mass"]
+        self.mass = self.__params["mass"]
 
-        self.hitbox = self.params["hitbox"].clone()
+        self.hitbox = self.__params["hitbox"].clone()
         self.hitbox._pos = lambda: self.pos
         self.hitbox._rotation = lambda: self.rotation
 
-        self.col_type = self.params["col_type"]
+        self.col_type = self.__params["col_type"]
 
-        self.img = self.params["img"]
+        self.img = self.__params["img"]
 
         if isinstance(self.img, tuple):
             self.image = Image({
                 "image_location": "empty",
                 "pos": self.pos,
-                "z_index": self.params["z_index"],
+                "z_index": self.__params["z_index"],
             })
         else:
             self.image = Image({
                 "image_location": self.img,
                 "pos": self.pos,
-                "scale_factor": self.params["scale"],
-                "z_index": self.params["z_index"],
+                "scale_factor": self.__params["scale"],
+                "z_index": self.__params["z_index"],
                 "rotation": self.rotation,
             })
 
-        self.debug = self.params["debug"]
+        self.debug = self.__params["debug"]
 
         self.grounded = False
 
@@ -100,18 +100,18 @@ class RigidBody(Sprite):
         """A physics implementation"""
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
-        self.velocity.y += (self.acceleration.y + self.params.get(
+        self.velocity.y += (self.acceleration.y + self.__params.get(
             "gravity",
             RigidBody.default_options["gravity"])) * Time.delta_time("sec")
 
-        self.velocity *= self.params.get("friction",
-                                         RigidBody.default_options["friction"])
+        self.velocity *= self.__params.get(
+            "friction", RigidBody.default_options["friction"])
 
         self.velocity.clamp(
-            self.params.get("min_speed",
-                            RigidBody.default_options["min_speed"]),
-            self.params.get("max_speed",
-                            RigidBody.default_options["max_speed"]),
+            self.__params.get("min_speed",
+                              RigidBody.default_options["min_speed"]),
+            self.__params.get("max_speed",
+                              RigidBody.default_options["max_speed"]),
         )
         self.velocity.absolute()
 
@@ -288,8 +288,8 @@ class RigidBody(Sprite):
 
     def update(self):
         """The update loop"""
-        if (self.params.get("do_physics",
-                            RigidBody.default_options["do_physics"])
+        if (self.__params.get("do_physics",
+                              RigidBody.default_options["do_physics"])
                 and self.in_frame):
             self.physics()
 

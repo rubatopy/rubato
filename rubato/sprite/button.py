@@ -29,8 +29,8 @@ class Button(Text):
             options: A button config. Defaults to the
                 :ref:`default button config <defaultbutton>`.
         """
-        params = Sprite.merge_params(options, Button.default_options)
-        super().__init__(params)
+        param = Sprite.merge_params(options, Button.default_options)
+        super().__init__(param)
 
     def mouse_is_over(self) -> bool:
         """
