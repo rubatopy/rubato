@@ -11,3 +11,4 @@ from rubato.utils.COL_TYPE import COL_TYPE
 from rubato.utils.color import RGB
 from rubato.utils.error import Error
 import rubato.utils.sorting as Sorting
+import rubato.utils.loader as Loader
