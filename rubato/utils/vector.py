@@ -1,7 +1,7 @@
 """
 A vector implementation.
 """
-from rubato.utils import PMath, classproperty
+from rubato.utils import PMath
 import math
 
 
@@ -85,37 +85,44 @@ class Vector:
     def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y)
 
-    # pylint: disable=invalid-name
-    @classproperty
-    def ZERO(self):
+    @classmethod
+    @property
+    def zero(cls):
         return Vector(0, 0)
 
-    @classproperty
-    def ONE(self):
+    @classmethod
+    @property
+    def one(cls):
         return Vector(1, 1)
 
-    @classproperty
-    def TWO(self):
+    @classmethod
+    @property
+    def two(cls):
         return Vector(2, 2)
 
-    @classproperty
-    def UP(self):
+    @classmethod
+    @property
+    def up(cls):
         return Vector(0, -1)
 
-    @classproperty
-    def LEFT(self):
+    @classmethod
+    @property
+    def left(cls):
         return Vector(-1, 0)
 
-    @classproperty
-    def DOWN(self):
+    @classmethod
+    @property
+    def down(cls):
         return Vector(0, 1)
 
-    @classproperty
-    def RIGHT(self):
+    @classmethod
+    @property
+    def right(cls):
         return Vector(1, 0)
 
-    @classproperty
-    def INFINITY(self):
+    @classmethod
+    @property
+    def infinity(cls):
         return Vector(PMath.INFINITY, PMath.INFINITY)
 
     def __equals(self, v: "Vector") -> bool:

@@ -155,6 +155,7 @@ Color
 _____________
 .. automodule:: rubato.utils.color
     :members:
+    :undoc-members:
 
 Errors
 _____________

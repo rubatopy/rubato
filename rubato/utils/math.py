@@ -4,15 +4,6 @@ A math thing.
 import math
 
 
-class classproperty(property):  # pylint: disable=invalid-name
-    """
-    A class property implementation
-    """
-
-    def __get__(self, cls, owner):
-        return classmethod(self.fget).__get__(None, owner)()
-
-
 class PMath:
     """
     A more complete math class

@@ -2,17 +2,20 @@
 sorting algorithms
 """
 
-def binary_search(arr, low, high, val):
+
+def binary_search(arr: list, low: int, high: int, val: any) -> int:
     """
+    A binary search algorithm.
+
     Args:
-        arr: array to be find index of insertion
-        low: the low interval in which you want to find the position
-        high: the high interval in which you want to find the position
-        val: value in the array of which you want to find the position
+        arr: Array to be find index of insertion.
+        low: The low interval in which you want to find the position.
+        high: The high interval in which you want to find the position.
+        val: Value in the array of which you want to find the position.
 
     Returns:
-        the index of value in the array if it exists, otherwise it bit inverts
-        (unary operator) the index if the element is not in the array
+        int: The index of value in the array if it exists, otherwise it bit inverts
+        (unary operator) the index if the element is not in the array.
     """
 
     # Check base case
@@ -34,8 +37,8 @@ def binary_search(arr, low, high, val):
 
     else:
         # Element is not present in the array
-        if high < len(arr)-1:
-            return ~(high+1)
+        if high < len(arr) - 1:
+            return ~(high + 1)
             # this way it will be negative if it is not present
         else:
             return ~len(arr)

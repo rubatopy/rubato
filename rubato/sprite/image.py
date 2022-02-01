@@ -75,6 +75,7 @@ class Image(Sprite):
         """
         Draws the image if the z index is below the camera's.
 
-        :param camera: The current Camera viewing the scene.
+        Args:
+            camera: The current Camera viewing the scene.
         """
         super().draw(self.image, camera)
