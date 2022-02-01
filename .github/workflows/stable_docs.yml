@@ -1,4 +1,4 @@
-name: Docs
+name: Stable Docs
 
 on:
     release:

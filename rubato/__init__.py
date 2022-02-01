@@ -20,7 +20,7 @@ import pygame
 import sys
 # from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
-from rubato.utils import PMath, STATE, Display, Vector, Time, \
+from rubato.utils import Math, STATE, Display, Vector, Time, \
     Polygon, Circle, SAT, COL_TYPE, RGB, Error, Sorting, Loader
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
@@ -32,7 +32,7 @@ from rubato.game import Game
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
 __all__ = [
-    "PMath",
+    "Math",
     "STATE",
     "Display",
     "Vector",

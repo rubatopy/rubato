@@ -2,10 +2,29 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "main.py",
+            "label": "pylint: whole project",
             "type": "shell",
-            "command": "$(pyenv root)/versions/3.10.0/envs/rubato-venv/bin/python \"main.py\"",
-            "problemMatcher": [],
+            "command": "pylint --msg-template \"{path}:{line}:{column}:{category}:{symbol} - {msg}\" rubato",
+            "presentation": {
+                "reveal": "never",
+                "panel": "shared"
+            },
+            "problemMatcher": {
+                "owner": "python",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(.+):(\\d+):(\\d+):(\\w+):(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

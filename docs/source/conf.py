@@ -142,7 +142,6 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_preprocess_types = True
 napoleon_type_aliases = {
-    "List[Sprite]": "List[ :meth:`Sprite <rubato.sprite.sprite.Sprite>` ]",
     "SceneManager":
     ":meth:`SceneManager <rubato.scenes.scene_manager.SceneManager>`",
     "Radio": ":meth:`Radio <rubato.radio.Radio>`",

@@ -1,7 +1,7 @@
 """
 This module houses all the utils
 """
-from rubato.utils.math import PMath
+import rubato.utils.math as Math
 from rubato.utils.STATE import STATE
 import rubato.utils.display as Display
 from rubato.utils.vector import Vector
