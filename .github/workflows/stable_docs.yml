@@ -16,17 +16,12 @@ jobs:
               with:
                   python-version: "3.10"
 
-            - name: Install dependencies
+            - name: Install dependencies and build docs
               run: |
                   sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
                   cd docs
                   pip install -r requirements.txt
-
-            - name: Build the sphinx documentation and posts warnings as github comments.
-              uses: rickstaa/sphinx-action@master
-              with:
-                  docs-folder: "./docs"
-                  build-command: "ver=stable make"
+                  ver=stable make
 
             - name: Commit files
               run: |
