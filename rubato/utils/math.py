@@ -1,77 +1,51 @@
 """
-A math thing.
+A more complete math class.
 """
-import math
+from typing import Union
+
+INFINITY = 2**99
 
 
-class PMath:
+def clamp(a: Union[float, int], lower: Union[float, int],
+          upper: Union[float, int]) -> float:
     """
-    A more complete math class
+    Clamps a value.
+
+    Args:
+        a: The value to clamp.
+        lower: The lower bound of the clamp.
+        upper: The upper bound of the clamp.
+
+    Returns:
+        float: The clamped result.
     """
-    INFINITY = 2**99
-    pi = math.pi
+    return min(max(a, lower), upper)
 
-    @staticmethod
-    def abs(a: float | int):
-        """
-        Absolute value of a given value
 
-        :param a: float or an int that will be absolute valued
-        :return: absolute value of a
-        """
-        return math.fabs(a)
+def sign(n: Union[float, int]) -> int:
+    """
+    Checks the sign of n.
 
-    @staticmethod
-    def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
-        """
-        Clamps a to the bounds of upper and lower
+    Args:
+        n: A number to check.
 
-        :param a: The number to clamp
-        :param lower: The lower bound of the clamp
-        :param upper: The upper bound of the clamp
-        :return: The clamped result
-        """
-        return min(max(a, lower), upper)
+    Returns:
+        int: The sign of the number. (1 for positive, -1 for negative)
+    """
+    return (n > 0) - (n < 0)
 
-    @staticmethod
-    def sign(n: float | int) -> int:
-        """
-        Checks the sign of n
 
-        :param n: A number
-        :return: The sign of the number
-        """
-        return (n > 0) - (n < 0)
+def lerp(a: Union[float, int], b: Union[float, int], t: float) -> float:
+    """
+    Linearly interpolates between lower and upper bounds by t
 
-    @staticmethod
-    def lerp(lower: float | int, upper: float | int, t: float) -> float:
-        """
-        Linearly interpolates between lower and upper bounds by t
+    Args:
+        a: The lower bound.
+        a: The upper bound.
+        t: Distance between upper and lower (1 gives b, 0 gives a).
 
-        :param lower: The lower bound
-        :param upper: The upper bound
-        :param t: Distance between upper and lower
-            (1 gives upper, 0 gives lower)
-        :return: The lerped value
-        """
-        return (t * upper) + ((1 - t) * lower)
-
-    @staticmethod
-    def deg_to_rad(deg: float | int) -> float:
-        """
-        Convert a number from degrees to radians
-
-        :param deg: The number in degrees to convert
-        :return: The resulting number in radians
-        """
-        return deg * math.pi / 180
-
-    @staticmethod
-    def rad_to_deg(rad: float | int) -> float:
-        """
-        Convert a number from radians to degrees
-
-        :param rad: The number in radians to convert
-        :return: The resulting number in degrees
-        """
-        return rad * 180 / math.pi
+    Returns:
+        float: The lerped value.
+    """
+    t = clamp(t, 0, 1)
+    return (t * b) + ((1 - t) * a)

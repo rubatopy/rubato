@@ -4,7 +4,7 @@ have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import Callable, Union
 from rubato.sprite import Sprite, Image
-from rubato.utils import Vector, Time, PMath, COL_TYPE, Polygon, SAT, Display
+from rubato.utils import Vector, Time, Math, COL_TYPE, Polygon, SAT, Display
 from rubato.scenes import Camera
 from rubato.utils.sat import CollisionInfo
 from pygame import Surface
@@ -34,8 +34,8 @@ class RigidBody(Sprite):
         "hitbox": Polygon.generate_polygon(4),
         "do_physics": True,
         "gravity": 100,
-        "max_speed": Vector(PMath.INFINITY, PMath.INFINITY),
-        "min_speed": Vector(-PMath.INFINITY, -PMath.INFINITY),
+        "max_speed": Vector(Math.INFINITY, Math.INFINITY),
+        "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),
         "friction": Vector(1, 1),
         "img": "default",
         "col_type": COL_TYPE.STATIC,
@@ -165,14 +165,14 @@ class RigidBody(Sprite):
 
             if other.col_type == COL_TYPE.STATIC:
                 self.pos -= col_info.separation
-                self.grounded = PMath.sign(col_info.separation.y) == 1
+                self.grounded = Math.sign(col_info.separation.y) == 1
 
                 if self.grounded: self.velocity.y = 0
                 # FIXME: do we want this sticky behavior
                 if abs(col_info.separation.x) > 0: self.velocity.x = 0
             elif self.col_type == COL_TYPE.STATIC:
                 other.pos += col_info.separation
-                other.grounded = PMath.sign(col_info.separation.y) == -1
+                other.grounded = Math.sign(col_info.separation.y) == -1
 
                 if other.grounded: other.velocity.y = 0
                 if abs(col_info.separation.x) > 0: other.velocity.x = 0
@@ -204,7 +204,7 @@ class RigidBody(Sprite):
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
             # col_info is all in reference to self
             col_info.separation.round(4)
-            self.grounded = PMath.sign(col_info.separation.y) == 1
+            self.grounded = Math.sign(col_info.separation.y) == 1
 
             if other.col_type == COL_TYPE.STATIC:
                 self.pos -= col_info.separation

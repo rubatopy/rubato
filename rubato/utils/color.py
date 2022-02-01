@@ -1,7 +1,7 @@
 """
 A Color implementation.
 """
-from rubato.utils import PMath
+from rubato.utils import Math
 
 
 class RGB:
@@ -44,9 +44,9 @@ class RGB:
         Makes the RGB values legit. In other words, clamps them between 0 and
         255.
         """
-        self.r = PMath.clamp(self.r, 0, 255)
-        self.g = PMath.clamp(self.g, 0, 255)
-        self.b = PMath.clamp(self.b, 0, 255)
+        self.r = Math.clamp(self.r, 0, 255)
+        self.g = Math.clamp(self.g, 0, 255)
+        self.b = Math.clamp(self.b, 0, 255)
 
     def lerp(self, other: "RGB", t: float) -> "RGB":
         """
@@ -59,7 +59,7 @@ class RGB:
         Returns:
             RGB: The lerped RGB. This RGB remains unchanged.
         """
-        t = PMath.clamp(t, 0, 1)
+        t = Math.clamp(t, 0, 1)
         return RGB(
             self.r + (other.r - self.r) * t,
             self.g + (other.g - self.g) * t,
@@ -90,6 +90,62 @@ class RGB:
         lv = len(h)
         h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
         return RGB(h[0], h[1], h[2])
+
+    @staticmethod
+    def from_hsv(h: int, s: int, v: int) -> "RGB":
+        """
+        Creates an RGB from an HSV.
+
+        Args:
+            h: The hue amount.
+            s: The saturation amount.
+            v: The value amount.
+
+        Returns:
+            RGB: The RGB value.
+        """
+        out = RGB()
+        if s == 0:
+            out.set(v)
+        hh = h
+        if hh >= 360.0:
+            hh = 0.0
+        hh /= 60.0
+        i = int(hh)
+        ff = hh - i
+        p = v * (1.0 - s)
+        q = v * (1.0 - (s * ff))
+        t = v * (1.0 - (s * (1.0 - ff)))
+        if i == 0:
+            out.r = v
+            out.g = t
+            out.b = p
+        elif i == 1:
+            out.r = q
+            out.g = v
+            out.b = p
+        elif i == 2:
+            out.r = p
+            out.g = v
+            out.b = t
+        elif i == 3:
+            out.r = p
+            out.g = q
+            out.b = v
+        elif i == 4:
+            out.r = t
+            out.g = p
+            out.b = v
+        elif i == 5:
+            out.r = v
+            out.g = p
+            out.b = q
+        else:
+            out.r = v
+            out.g = p
+            out.b = q
+
+        return out
 
     @classmethod
     @property
