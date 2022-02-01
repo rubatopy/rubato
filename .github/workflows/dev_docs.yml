@@ -1,6 +1,9 @@
 name: Docs
 
-on: [push]
+on:
+    push:
+        branches:
+            - "main"
 
 jobs:
     docs:
@@ -24,6 +27,7 @@ jobs:
               uses: rickstaa/sphinx-action@master
               with:
                   docs-folder: "./docs"
+                  build-command: "ver=dev make"
 
             - name: Commit files
               run: |

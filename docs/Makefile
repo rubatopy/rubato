@@ -22,8 +22,3 @@ live:
 
 clear:
 	@rm -rf build
-
-html:
-	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) -t dev
-	@rm -rf dev
-	@cp -r ./build/html/ ./dev/
