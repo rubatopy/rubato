@@ -9,10 +9,12 @@
 -   Custom errors
 -   A full color implementation
 -   Added continuous integration
+-   Text can be drawn onto surfaces
 
 ### Changed
 
 -   A more complete color implementation
+-   New time system
 -   Switched to GPL-3.0 License
 -   Lots of linting
 
