@@ -1,60 +1,35 @@
 """
-A Color class
-
-:ref:`List of colors <defaultcolors>`
+A Color implementation.
 """
-from rubato.utils import PMath
-
-
-class HSV:
-    """
-    A HSV implementation.
-    """
-
-    def __init__(self, h=0.0, s=0.0, v=0.0):
-        self.h: float = h
-        self.s: float = s
-        self.v: float = v
-
-    def set(self, value):
-        self.h = value
-        self.s = value
-        self.v = value
-
-    def __eq__(self, other):
-        if isinstance(other, type(HSV)):
-            return \
-                abs(self.h - other.h) < 0.0001 and \
-                abs(self.s - other.s) < 0.0001 and \
-                abs(self.v - other.v) < 0.0001
-        return False
-
-    @property
-    def values(self):
-        return [self.h, self.s, self.v]
-
-    def check_values(self):
-        self.h = PMath.clamp(self.h, 0, 255)
-        self.s = PMath.clamp(self.s, 0, 255)
-        self.v = PMath.clamp(self.v, 0, 255)
+from rubato.utils import Math
 
 
 class RGB:
     """
-    An RGB implentation
+    An RGB implentation.
+
+    Attributes:
+        r (float): The red value.
+        g (float): The green value.
+        b (float): The blue value.
     """
 
-    def __init__(self, r=0.0, g=0.0, b=0.0):
+    def __init__(self, r: float = 0.0, g: float = 0.0, b: float = 0.0):
+        """
+        Initializes an RGB class.
+
+        Args:
+            r: The red value. Defaults to 0.0.
+            g: The green value. Defaults to 0.0.
+            b: The blue value. Defaults to 0.0.
+        """
         self.r: float = r
         self.g: float = g
         self.b: float = b
         self.check_values()
 
-    def set(self, value):
-        self.r = value
-        self.g = value
-        self.b = value
-        self.check_values()
+    def __str__(self):
+        return str((self.r, self.g, self.b))
 
     def __eq__(self, other):
         if isinstance(other, type(RGB)):
@@ -64,143 +39,286 @@ class RGB:
                 abs(self.b - other.b) < 0.0001
         return False
 
-    @property
-    def values(self):
-        return [self.r, self.g, self.b]
-
     def check_values(self):
-        self.r = PMath.clamp(self.r, 0, 255)
-        self.g = PMath.clamp(self.b, 0, 255)
-        self.b = PMath.clamp(self.g, 0, 255)
+        """
+        Makes the RGB values legit. In other words, clamps them between 0 and
+        255.
+        """
+        self.r = Math.clamp(self.r, 0, 255)
+        self.g = Math.clamp(self.g, 0, 255)
+        self.b = Math.clamp(self.b, 0, 255)
 
+    def lerp(self, other: "RGB", t: float) -> "RGB":
+        """
+        Lerps between this color and another.
 
-# colors from https://www.rapidtables.com/web/color/RGB_Color.html
-black = (0, 0, 0)
-white = (255, 255, 255)
-red = (255, 0, 0)
-lime = (0, 255, 0)
-blue = (0, 0, 255)
-yellow = (255, 255, 0)
-cyan = aqua = (0, 255, 255)
-magenta = fuchsia = (255, 0, 255)
-silver = (192, 192, 192)
-gray = (128, 128, 128)
-maroon = (128, 0, 0)
-olive = (128, 128, 0)
-green = (0, 128, 0)
-purple = (128, 0, 128)
-teal = (0, 128, 128)
-navy = (0, 0, 128)
+        Args:
+            other: The other RGB to lerp with.
+            t: The amount to lerp.
 
+        Returns:
+            RGB: The lerped RGB. This RGB remains unchanged.
+        """
+        t = Math.clamp(t, 0, 1)
+        return RGB(
+            self.r + (other.r - self.r) * t,
+            self.g + (other.g - self.g) * t,
+            self.b + (other.b - self.b) * t,
+        )
 
-def lerp(a: RGB, b: RGB, t):
-    """
-    lerps between two RGBs
-    Args:
-        a: first color
-        b: second color
-        t: interval between the two colors, clamped from 0 to 1
+    def to_hex(self) -> str:
+        """
+        Converts the RGB to hexadecimal.
 
-    Returns: a new RGB that is between the two colors
+        Returns:
+            str: The hexadecimal output in lowercase. (i.e. ffffff)
+        """
+        return (f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" +
+                f"{format(self.b, '02x')}")
 
-    """
-    t = PMath.clamp(t, 0, 1)
-    return RGB(
-        a.r + (b.r - a.r) * t,
-        a.g + (b.g - a.g) * t,
-        a.b + (b.b - a.b) * t,
-    )
+    @staticmethod
+    def from_hex(h: str) -> "RGB":
+        """
+        Creates an RGB from a hex string.
 
+        Args:
+            h: The hexadecimal value in lowercase.
 
-def rgb_to_hsv(color_in: RGB):
-    """
-    rgb to hsv conversion
-    Args:
-        color_in: input color rubato.Color RGB
+        Returns:
+            RGB: The RGB value.
+        """
+        lv = len(h)
+        h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+        return RGB(h[0], h[1], h[2])
 
-    Returns:
-        HSV value from input
-    """
-    out = HSV()
+    @staticmethod
+    def from_hsv(h: int, s: int, v: int) -> "RGB":
+        """
+        Creates an RGB from an HSV.
 
-    cmax = max(color_in.r, color_in.g, color_in.b)  # maximum of r, g, b
-    cmin = min(color_in.r, color_in.g, color_in.b)  # minimum of r, g, b
+        Args:
+            h: The hue amount.
+            s: The saturation amount.
+            v: The value amount.
 
-    out.v = cmax
-    delta = cmax - cmin
-    if delta == 0:
+        Returns:
+            RGB: The RGB value.
+        """
+        out = RGB()
+        if s == 0:
+            out.set(v)
+        hh = h
+        if hh >= 360.0:
+            hh = 0.0
+        hh /= 60.0
+        i = int(hh)
+        ff = hh - i
+        p = v * (1.0 - s)
+        q = v * (1.0 - (s * ff))
+        t = v * (1.0 - (s * (1.0 - ff)))
+        if i == 0:
+            out.r = v
+            out.g = t
+            out.b = p
+        elif i == 1:
+            out.r = q
+            out.g = v
+            out.b = p
+        elif i == 2:
+            out.r = p
+            out.g = v
+            out.b = t
+        elif i == 3:
+            out.r = p
+            out.g = q
+            out.b = v
+        elif i == 4:
+            out.r = t
+            out.g = p
+            out.b = v
+        elif i == 5:
+            out.r = v
+            out.g = p
+            out.b = q
+        else:
+            out.r = v
+            out.g = p
+            out.b = q
+
         return out
-    if cmax > 0.0:
-        out.s = (delta / cmax)
-    else:
-        return out
 
-    if color_in.r == cmax:
-        out.h = (color_in.g - color_in.b) / delta  # between yellow & magenta
-    elif color_in.g == cmax:
-        out.h = 2.0 + (color_in.b -
-                       color_in.r) / delta  # between cyan & yellow
-    else:
-        out.h = 4.0 + (color_in.r -
-                       color_in.g) / delta  # between magenta & cyan
+    @classmethod
+    @property
+    def black(cls):
+        """
+        An RGB class of the color black.
 
-    out.h *= 60.0  # degrees
+        Returns:
+            RGB: (0, 0, 0)
+        """
+        return RGB(0, 0, 0)
 
-    if out.h < 0.0:
-        out.h += 360.0
+    @classmethod
+    @property
+    def white(cls):
+        """
+        An RGB class of the color white.
 
-    return out
+        Returns:
+            RGB: (255, 255, 255)
+        """
+        return RGB(255, 255, 255)
 
+    @classmethod
+    @property
+    def red(cls):
+        """
+        An RGB class of the color red.
 
-def hsv_to_rgb(color_in: HSV):
-    """
-    hsv to rgb conversion
-    Args:
-        color_in: input color rubato.Color HSV
+        Returns:
+            RGB: (255, 0, 0)
+        """
+        return RGB(255, 0, 0)
 
-    Returns:
-        RGB value from input
-    """
-    out = RGB()
-    if color_in.s == 0:
-        out.set(color_in.v)
-    hh = color_in.h
-    if hh >= 360.0:
-        hh = 0.0
-    hh /= 60.0
-    i = int(hh)
-    ff = hh - i
-    p = color_in.v * (1.0 - color_in.s)
-    q = color_in.v * (1.0 - (color_in.s * ff))
-    t = color_in.v * (1.0 - (color_in.s * (1.0 - ff)))
-    if i == 0:
-        out.r = color_in.v
-        out.g = t
-        out.b = p
-    elif i == 1:
-        out.r = q
-        out.g = color_in.v
-        out.b = p
-    elif i == 2:
-        out.r = p
-        out.g = color_in.v
-        out.b = t
-    elif i == 3:
-        out.r = p
-        out.g = q
-        out.b = color_in.v
-    elif i == 4:
-        out.r = t
-        out.g = p
-        out.b = color_in.v
-    elif i == 5:
-        out.r = color_in.v
-        out.g = p
-        out.b = q
-    else:
-        out.r = color_in.v
-        out.g = p
-        out.b = q
+    @classmethod
+    @property
+    def lime(cls):
+        """
+        An RGB class of the color lime.
 
-    return out
+        Returns:
+            RGB: (0, 255, 0)
+        """
+        return RGB(0, 255, 0)
 
+    @classmethod
+    @property
+    def blue(cls):
+        """
+        An RGB class of the color blue.
+
+        Returns:
+            RGB: (0, 0, 255)
+        """
+        return RGB(0, 0, 255)
+
+    @classmethod
+    @property
+    def yellow(cls):
+        """
+        An RGB class of the color yellow.
+
+        Returns:
+            RGB: (255, 255, 0)
+        """
+        return RGB(255, 255, 0)
+
+    @classmethod
+    @property
+    def cyan(cls):
+        """
+        An RGB class of the color cyan.
+
+        Returns:
+            RGB: (0, 255, 255)
+        """
+        return RGB(0, 255, 255)
+
+    @classmethod
+    @property
+    def magenta(cls):
+        """
+        An RGB class of the color magenta.
+
+        Returns:
+            RGB: (255, 0, 255)
+        """
+        return RGB(255, 0, 255)
+
+    @classmethod
+    @property
+    def silver(cls):
+        """
+        An RGB class of the color silver.
+
+        Returns:
+            RGB: (192, 192, 192)
+        """
+        return RGB(192, 192, 192)
+
+    @classmethod
+    @property
+    def gray(cls):
+        """
+        An RGB class of the color gray.
+
+        Returns:
+            RGB: (128, 128, 128)
+        """
+        return RGB(128, 128, 128)
+
+    @classmethod
+    @property
+    def maroon(cls):
+        """
+        An RGB class of the color maroon.
+
+        Returns:
+            RGB: (128, 0, 0)
+        """
+        return RGB(128, 0, 0)
+
+    @classmethod
+    @property
+    def olive(cls):
+        """
+        An RGB class of the color olive.
+
+        Returns:
+            RGB: (128, 128, 0)
+        """
+        return RGB(128, 128, 0)
+
+    @classmethod
+    @property
+    def green(cls):
+        """
+        An RGB class of the color green.
+
+        Returns:
+            RGB: (0, 128, 0)
+        """
+        return RGB(0, 128, 0)
+
+    @classmethod
+    @property
+    def purple(cls):
+        """
+        An RGB class of the color purple.
+
+        Returns:
+            RGB: (128, 0, 128)
+        """
+        return RGB(128, 0, 128)
+
+    @classmethod
+    @property
+    def teal(cls):
+        """
+        An RGB class of the color teal.
+
+        Returns:
+            RGB: (0, 128, 128)
+        """
+        return RGB(0, 128, 128)
+
+    @classmethod
+    @property
+    def navy(cls):
+        """
+        An RGB class of the color navy.
+
+        Returns:
+            RGB: (0, 0, 128)
+        """
+        return RGB(0, 0, 128)

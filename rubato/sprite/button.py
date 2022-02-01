@@ -3,7 +3,7 @@ A simple button. A button is a text sprite that has mouse over detection.
 """
 from rubato.sprite import Text
 from rubato.sprite.sprite import Sprite
-from rubato.utils import Vector, Color
+from rubato.utils import Vector, RGB
 import rubato.input as Input
 
 
@@ -18,7 +18,7 @@ class Button(Text):
         "size": 16,
         "z_index": 0,
         "font_name": "Arial",
-        "color": Color.black
+        "color": RGB.black
     }
 
     def __init__(self, options={}):

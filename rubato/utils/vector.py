@@ -1,7 +1,8 @@
 """
 A vector implementation.
 """
-from rubato.utils import PMath, classproperty
+from typing import Union
+from rubato.utils import Math
 import math
 
 
@@ -9,44 +10,80 @@ class Vector:
     """
     A Vector object that defines a 2D point in space
 
-    :param x: The x coordinate.
-    :param y: The y coordinate.
+    Attributes:
+        x (Union[float, int]): The x coordinate.
+        y (Union[float, int]): The y coordinate.
     """
 
-    def __init__(self, x: float | int = 0, y: float | int = 0):
+    def __init__(self, x: Union[float, int] = 0, y: Union[float, int] = 0):
+        """
+        Initializes a vector.
+
+        Args:
+            x: The x coordinate. Defaults to 0.
+            y: The y coordinate. Defaults to 0.
+        """
         self.x, self.y = x, y
 
-    def translate(self, x: float | int, y: float | int):
+    def translate(self, x: Union[float, int], y: Union[float, int]):
         """
-        Translates the vector's x y and z coordinates by some constants
+        Translates the vector's x y and z coordinates by some constants.
 
-        :param x: The change in x.
-        :param y: The change in y.
+        Args:
+            x: The change in x.
+            y: The change in y.
         """
         self.x, self.y = self.x + x, self.y + y
 
     def offset(self, other: "Vector") -> "Vector":
         """
-        Offsets the x and y coordinates of a vector by those of another vector
+        Offsets the x and y coordinates of a vector by those of another vector.
 
-        :param other: Another vector
-        :return: A new vector with the translated x and y coordinates
+        Args:
+            other: Another vector.
+
+        Returns:
+            Vector: A new vector with the translated x and y coordinates.
         """
         return Vector(self.x - other.x, self.y - other.y)
 
     def to_tuple(self) -> tuple:
         """
-        Returns the x and y coordinates of the vector as a tuple
+        Returns the x and y coordinates of the vector as a tuple.
         """
         return self.x, self.y
 
-    def dot(self, other):
+    def dot(self, other: "Vector") -> Union[float, int]:
+        """
+        Takes the dot product of vectors.
+
+        Args:
+            other: The other vector.
+
+        Returns:
+            Union[float, int]: The resulting dot product.
+        """
         return self.x * other.x + self.y * other.y
 
-    def cross(self, other):
+    def cross(self, other: "Vector") -> Union[float, int]:
+        """
+        Takes the cross product of vectors.
+
+        Args:
+            other: The other vector.
+
+        Returns:
+            Union[float, int]: The resulting cross product.
+        """
         return self.x * other.y - self.y * other.x
 
-    def crossp(self):
+    def crossp(self) -> "Vector":
+        """
+        Does `Vector(self.y, -self.x)`.
+
+        Returns:
+            Vector: The resulting vector.
+        """
         return Vector(self.y, -self.x)
 
     def __str__(self) -> str:
@@ -85,80 +122,85 @@ class Vector:
     def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y)
 
-    # pylint: disable=invalid-name
-    @classproperty
-    def ZERO(self):
+    @classmethod
+    @property
+    def zero(cls):
         return Vector(0, 0)
 
-    @classproperty
-    def ONE(self):
+    @classmethod
+    @property
+    def one(cls):
         return Vector(1, 1)
 
-    @classproperty
-    def TWO(self):
+    @classmethod
+    @property
+    def two(cls):
         return Vector(2, 2)
 
-    @classproperty
-    def UP(self):
+    @classmethod
+    @property
+    def up(cls):
         return Vector(0, -1)
 
-    @classproperty
-    def LEFT(self):
+    @classmethod
+    @property
+    def left(cls):
         return Vector(-1, 0)
 
-    @classproperty
-    def DOWN(self):
+    @classmethod
+    @property
+    def down(cls):
         return Vector(0, 1)
 
-    @classproperty
-    def RIGHT(self):
+    @classmethod
+    @property
+    def right(cls):
         return Vector(1, 0)
 
-    @classproperty
-    def INFINITY(self):
-        return Vector(PMath.INFINITY, PMath.INFINITY)
+    @classmethod
+    @property
+    def infinity(cls):
+        return Vector(Math.INFINITY, Math.INFINITY)
 
-    def __equals(self, v: "Vector") -> bool:
-        """
-        Determines if if the x and y components of the vector are equal.
-
-        :param v: The vector to compare.
-        :return: True if the x and y components of the vector are equal
-        """
+    def _equals(self, v: "Vector") -> bool:
         return self.y == v.y and self.x == v.x
 
-    def clamp(self, lower: any, upper: any, absolute: bool = False):
-        """
-        Clamps x and y between the two vectors given
+    def __eq__(self, other: "Vector") -> bool:
+        return (other is None or not isinstance(other, Vector)
+                or self._equals(other))
 
-        :param absolute: Whether to clamp the absolute value of the vector
-            instead of the actual value
-        :param lower: The lower bound
-        :param upper: The upper bound
+    def clamp(self,
+              lower: Union["Vector", int, float],
+              upper: Union["Vector", int, float],
+              absolute: bool = False):
+        """
+        Clamps x and y between the two values given.
+
+        Args:
+            lower: The lower bound.
+            upper: The upper bound.
+            absolute: Whether to clamp the absolute value of the vector
+                instead of the actual value.
         """
         if not isinstance(lower, Vector):
             lower = Vector(*lower)
         if not isinstance(upper, Vector):
             upper = Vector(*upper)
         if not absolute:
-            self.x = PMath.clamp(self.x, lower.x, upper.x)
-            self.y = PMath.clamp(self.y, lower.y, upper.y)
+            self.x = Math.clamp(self.x, lower.x, upper.x)
+            self.y = Math.clamp(self.y, lower.y, upper.y)
         else:
-            self.x = PMath.abs_clamp(self.x, lower.x, upper.x)
-            self.y = PMath.abs_clamp(self.y, lower.y, upper.y)
-
-    def __eq__(self, other: "Vector") -> bool:
-        return False if (other is None or not isinstance(other, Vector)
-                         ) else self.__equals(other)
+            self.x = Math.abs_clamp(self.x, lower.x, upper.x)
+            self.y = Math.abs_clamp(self.y, lower.y, upper.y)
 
     @property
     def magnitude(self) -> float:
-        """Returns the magnitude of the vector"""
+        """Returns the magnitude of the vector."""
         return (self.x**2 + self.y**2)**.5
 
     @magnitude.setter
-    def magnitude(self, value):
-        """Sets the magnitude of a vector"""
+    def magnitude(self, value: Union[float, int]):
+        """Sets the magnitude of a vector."""
         mag = self.magnitude
         if mag == 0: return
         ratio = value / mag
@@ -166,9 +208,11 @@ class Vector:
         self.y *= ratio
 
     def normalize(self):
+        """Normalize the vector."""
         self.magnitude = 1
 
-    def unit(self):
+    def unit(self) -> "Vector":
+        """Returns the unit vector of this vector."""
         copy = self.clone()
         copy.normalize()
         return copy
@@ -176,11 +220,14 @@ class Vector:
     @staticmethod
     def from_radial(angle: float, magnitude: float) -> "Vector":
         """
-        Gives you a Vector from the given direction and distance
+        Gives you a Vector from the given direction and distance.
 
-        :param angle: Direction of vector in radians
-        :param magnitude: Length of vector
-        :return: Vector from the given direction and distance
+        Args:
+            angle: Direction of vector in radians.
+            magnitude: Length of vector.
+
+        Returns:
+            Vector: Vector from the given direction and distance
         """
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
 
@@ -190,21 +237,25 @@ class Vector:
         return math.atan2(self.y, self.x)
 
     def transform(self, scale, rotation):
-        newVector = self.clone()
+        new_vector = self.clone()
         if rotation != 0:
             hyp, angle = self.magnitude, self.angle + rotation * math.pi / 180
-            newVector.x, newVector.y = math.cos(angle) * hyp, math.sin(
+            new_vector.x, new_vector.y = math.cos(angle) * hyp, math.sin(
                 angle) * hyp
 
-        newVector.x *= scale
-        newVector.y *= scale
-        return newVector
+        new_vector.x *= scale
+        new_vector.y *= scale
+        return new_vector
 
     def invert(self, axis: str):
         """
         Inverts the vector in the axis given
 
-        :param axis: The axis to invert the vector in
+        Args:
+            axis: The axis to invert the vector in (x or y).
+
+        Raises:
+            ValueError: The value for axis is not "x" or "y"
         """
 
         if axis == "x":
@@ -215,93 +266,91 @@ class Vector:
             raise ValueError(f"{axis} is not a valid axis")
 
     def to_int(self) -> "Vector":
+        """Returns a new vector with values that are ints."""
         return Vector(int(self.x), int(self.y))
 
     def clone(self) -> "Vector":
+        """Returns a copy of the vector."""
         return Vector(self.x, self.y)
 
-    def lerp(self, target: "Vector", t: float):
+    def lerp(self, target: "Vector", t: float) -> "Vector":
         """
-        changes its values x and y to fit the target vector by amount t
+        Changes its values x and y to fit the target vector by amount t.
 
-        :param target: the target velocity
-        :param t: the amount you lerp between 0 and 1
+        Args:
+            target: the target velocity.
+            t: the amount you lerp between 0 and 1.
+
+        Returns:
+            Vector: The resulting vector.
         """
-        t = PMath.clamp(t, 0, 1)
-        return Vector(PMath.lerp(self.x, target.x, t),
-                      PMath.lerp(self.y, target.y, t))
+        t = Math.clamp(t, 0, 1)
+        return Vector(Math.lerp(self.x, target.x, t),
+                      Math.lerp(self.y, target.y, t))
 
-    def round(self, decimal_places: int) -> "Vector":
+    def round(self, decimal_places: int):
         """
-        rounds x and y to decimal_places
+        Rounds x and y to decimal_places
 
-        :param decimal_places: the amount of decimal places rounded to.
-        :return: The rounded vector
+        Args:
+            decimal_places: the amount of decimal places rounded to.
         """
         self.x = round(self.x, decimal_places)
         self.y = round(self.y, decimal_places)
-        return self
 
     def ceil(self) -> "Vector":
         """
-        Returns the cieled vector
-
-        :return: The vector
+        Returns the cieled vector.
         """
 
         return Vector(math.ceil(self.x), math.ceil(self.y))
 
-    def direction_to(self, vector):
+    def direction_to(self, vector: "Vector") -> float:
         """
-        treating vectors as points the direction to the new point from the
-        current point
-        :return: direction to new point
+        Treating vectors as points the direction to the other vector from the
+        current vector.
+
+        Args:
+            vector: The other vector.
+
+        Returns:
+            float: The direction to the new vector in radians.
         """
         d_x = self.x - vector.x
         d_y = self.y - vector.y
         direction = math.atan2(d_y, d_x)
         return direction
 
-    def distance_to(self, vector):
+    def distance_to(self, vector: "Vector") -> float:
         """
-        treating vectors as points the distance to the new point from
-        the current point
-        :return: distance to new point
+        Treating vectors as points the distance to the other vector from
+        the current vector.
+
+        Args:
+            vector: The other vector.
+
+        Returns:
+            float: Distance to new vector.
         """
         d_x = self.x - vector.x
         d_y = self.y - vector.y
         distance = math.sqrt(d_x**2 + d_y**2)
         return distance
 
-    def absolute(self):
+    def absolute(self) -> "Vector":
         """
-        :return: a vector representing the absolute values of the current vector
+        Returns a vector representing the absolute values of the current vector
         """
         return Vector(abs(self.x), abs(self.y))
 
     def __gt__(self, other) -> bool:
-        """
-        :return: bool value indicating whether both values of a are greater
-            than b
-        """
         return self.x > other.x and self.y > other.y
 
     def __lt__(self, other) -> bool:
-        """
-        :return: bool value indicating whether both values of a are small than b
-        """
         return self.x < other.x and self.y < other.y
 
     def __ge__(self, other) -> bool:
-        """
-        :return: bool value indicating whether both values of a are greater
-            or equal than b
-        """
         return self.x >= other.x and self.y >= other.y
 
     def __le__(self, other) -> bool:
-        """
-        :return: bool value indicating whether both values of a are smaller
-            than or equal to b
-        """
         return self.x <= other.x and self.y <= other.y

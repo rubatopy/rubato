@@ -2,7 +2,7 @@
 A sprite used to render text.
 """
 from rubato.sprite import Sprite
-from rubato.utils import Vector, Color, Display
+from rubato.utils import Vector, RGB, Display
 from rubato.scenes import Camera
 import pygame
 from pygame.transform import scale
@@ -29,7 +29,7 @@ class Text(Sprite):
         "size": 16,
         "z_index": 0,
         "font_name": "Arial",
-        "color": Color.black,
+        "color": RGB.black,
         "static": False,
         "onto_surface": None,
     }
