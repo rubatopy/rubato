@@ -21,7 +21,7 @@ import sys
 # from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
 from rubato.utils import Math, STATE, Display, Vector, Time, \
-    Polygon, Circle, SAT, COL_TYPE, RGB, Error, Sorting, Loader
+    Polygon, Circle, SAT, COL_TYPE, RGB, Error, Loader
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
@@ -57,7 +57,6 @@ __all__ = [
     "Group",
     "Input",
     "Game",
-    "Sorting",
     "Loader",
 ]
 
