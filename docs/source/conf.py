@@ -160,3 +160,4 @@ napoleon_attr_annotations = True
 
 # Version Control
 smv_branch_whitelist = r"^(main).*$"
+smv_released_pattern = r"^tags/.*$"
