@@ -1,7 +1,7 @@
 """
 An SAT implementation
 """
-from typing import Callable, Dict, List, Union
+from typing import Callable, List, Union
 from rubato.utils import Vector, Math
 import math
 
@@ -126,10 +126,9 @@ class Polygon:
 
     def bounding_box_dimensions(self):
         real_verts = self.real_verts()
-        # pylint: disable=protected-access
-        x_dir = SAT._project_verts_for_min_max(real_verts, Vector(1, 0))
-        y_dir = SAT._project_verts_for_min_max(real_verts, Vector(0, 1))
-        return Vector(x_dir["max"] - x_dir["min"], y_dir["max"] - y_dir["min"])
+        x_dir = SAT.project_verts(real_verts, Vector(1, 0))
+        y_dir = SAT.project_verts(real_verts, Vector(0, 1))
+        return Vector(x_dir.y - x_dir.x, y_dir.y - y_dir.x)
 
 
 class Circle:
@@ -186,10 +185,10 @@ class CollisionInfo:
         """
         self.shape_a: Union[Circle, Polygon, None] = None
         self.shape_b: Union[Circle, Polygon, None] = None
-        self.separation = Vector()
+        self.sep = Vector()
 
     def __str__(self):
-        return f"{self.separation}"
+        return f"{self.sep}"
 
 
 class SAT:
@@ -223,7 +222,7 @@ class SAT:
             test_b_a = SAT._polygon_polygon_test(shape_b, shape_a, True)
             if test_b_a is None: return None
 
-            return (test_b_a, test_a_b)[test_a_b.separation.magnitude < test_b_a.separation.magnitude]
+            return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
 
         a_is_circle = isinstance(shape_a, Circle)
         return SAT._circle_polygon_test((shape_a, shape_b)[a_is_circle],
@@ -257,25 +256,25 @@ class SAT:
         offset = shape_a.pos - shape_b.pos
 
         for i in range(len(verts_a)):
-            axis = SAT._get_perpendicular_axis(verts_a, i)
+            axis = SAT.perpendicular_axis(verts_a, i)
 
-            a_range = SAT._project_verts_for_min_max(verts_a, axis) + axis.dot(offset)
-            b_range = SAT._project_verts_for_min_max(verts_b, axis)
+            a_range = SAT.project_verts(verts_a, axis) + axis.dot(offset)
+            b_range = SAT.project_verts(verts_b, axis)
 
             if (a_range.x > b_range.y) or (b_range.x > a_range.y):
                 return None
 
-            min_dist = (b_range.x - a_range.y) if flip else (a_range.x - b_range.y)
+            min_dist = (a_range.x - b_range.y, b_range.x - a_range.y)[flip]
             abs_min = abs(min_dist)
 
             if abs_min < shortest_dist:
                 shortest_dist = abs_min
-                result.separation = axis * min_dist
+                result.sep = axis * min_dist
 
         return result
 
     @staticmethod
-    def _get_perpendicular_axis(verts: List[Vector], index: int) -> Vector:
+    def perpendicular_axis(verts: List[Vector], index: int) -> Vector:
         """Finds a vector perpendicular to a side"""
 
         pt_1, pt_2 = verts[index], verts[(index + 1) % len(verts)]
@@ -284,7 +283,7 @@ class SAT:
         return axis
 
     @staticmethod
-    def _project_verts_for_min_max(verts: List[Vector], axis: Vector) -> Vector:
+    def project_verts(verts: List[Vector], axis: Vector) -> Vector:
         """
         Projects the vertices onto a given axis.
         Returns as a vector; x is min, y is max

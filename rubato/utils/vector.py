@@ -201,6 +201,11 @@ class Vector:
         """Returns the magnitude of the vector."""
         return (self.x**2 + self.y**2)**.5
 
+    @property
+    def mag(self) -> float:
+        """Returns the squared magnitude of the vector."""
+        return self.x**2 + self.y**2
+
     @magnitude.setter
     def magnitude(self, value: Union[float, int]):
         """Sets the magnitude of a vector."""

@@ -139,24 +139,24 @@ class RigidBody(Sprite):
         self.grounded = False
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
             # col_info is all in reference to self
-            col_info.separation.round(4)
+            col_info.sep.round(4)
 
             if other.col_type == COL_TYPE.STATIC:
-                self.pos -= col_info.separation
-                self.grounded = Math.sign(col_info.separation.y) == 1
+                self.pos -= col_info.sep
+                self.grounded = Math.sign(col_info.sep.y) == 1
 
                 if self.grounded: self.velocity.y = 0
                 # FIXME: do we want this sticky behavior
-                if abs(col_info.separation.x) > 0: self.velocity.x = 0
+                if abs(col_info.sep.x) > 0: self.velocity.x = 0
             elif self.col_type == COL_TYPE.STATIC:
-                other.pos += col_info.separation
-                other.grounded = Math.sign(col_info.separation.y) == -1
+                other.pos += col_info.sep
+                other.grounded = Math.sign(col_info.sep.y) == -1
 
                 if other.grounded: other.velocity.y = 0
-                if abs(col_info.separation.x) > 0: other.velocity.x = 0
+                if abs(col_info.sep.x) > 0: other.velocity.x = 0
             else:
-                self.pos -= col_info.separation / 2
-                other.pos += col_info.separation / 2
+                self.pos -= col_info.sep / 2
+                other.pos += col_info.sep / 2
 
         if col_info is not None:
             callback(col_info)
@@ -181,23 +181,16 @@ class RigidBody(Sprite):
         self.grounded = False
         if col_info := SAT.overlap(self.hitbox, other.hitbox):
             # col_info is all in reference to self
-            col_info.separation.round(4)
-            self.grounded = Math.sign(col_info.separation.y) == 1
+            col_info.sep.round(4)
+            self.grounded = Math.sign(col_info.sep.y) == 1
 
             if other.col_type == COL_TYPE.STATIC:
-                self.pos -= col_info.separation
+                self.pos -= col_info.sep
             elif self.col_type == COL_TYPE.STATIC:
-                other.pos += col_info.separation
+                other.pos += col_info.sep
             else:
-                self.pos -= col_info.separation / 2
-                other.pos += col_info.separation / 2
-
-            #if col_info.vertex_a is not None:
-            #    perpendicular = (self.velocity.unit() *
-            #                     col_info.vertex_a.crossp().unit())
-            #    self.angvel = -perpendicular.magnitude * self.velocity.magnitude
-            #    self.velocity -= (col_info.separation.unit() *
-            #                      self.velocity.magnitude * 2)
+                self.pos -= col_info.sep / 2
+                other.pos += col_info.sep / 2
 
         if col_info is not None:
             callback(col_info)
