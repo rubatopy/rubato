@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [v1.0.0] - Feb 01, 2022
 
 ### Added
 
@@ -19,6 +19,9 @@
 -   Lots of linting
 -   Move default options to their own area
 
+### Fixed
+-   Many many bugs
+
 ## [v0.0.1] - Nov 03, 2021
 
 ### Added
@@ -27,5 +30,6 @@
 -   Sprites, Scenes, Main game object
 -   Rigidbody implementation
 
-[Unreleased]: https://github.com/tinmarr/rubato/tree/main
+[unreleased]: https://github.com/tinmarr/rubato/tree/main
+[v1.0.0]: https://github.com/tinmarr/rubato/tree/v1.0.0
 [v0.0.1]: https://github.com/tinmarr/rubato/tree/v0.0.1

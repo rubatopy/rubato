@@ -2,15 +2,14 @@
 
 ### To update docs (REQUIRES A UNIX BASED SYSTEM)
 
-Add the version link to `docs/source/versions.rst`
-
 ```
-$ make save ver=<version.number>
+$ (cd docs && make)
 ```
 
 ### To publish to PyPi
 
-Bump version number in setup.py<br>
+Bump version number in `setup.py` and in `docs/source/conf.py` <br>
+Update Changelog <br>
 Create a new virtual environment.
 
 ```
