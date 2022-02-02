@@ -4,10 +4,9 @@ game loop.
 """
 import pygame
 import sys
-from rubato.utils import STATE, Display, Vector, Time
+from rubato.utils import STATE, Display, Vector, Time, Configs
 from rubato.scenes import SceneManager
 from rubato.radio import Radio
-from rubato.sprite import Sprite
 import rubato.input as Input
 
 
@@ -27,16 +26,6 @@ class Game:
         window_height (int): The height of the game window.
     """
 
-    default_options = {
-        "name": "Untitled Game",
-        "window_width": 600,
-        "window_height": 400,
-        "aspect_ratio": 1.5,
-        "fps": 60,
-        "reset_display": True,
-        "better_clock": True,
-    }
-
     def __init__(self, options: dict = {}):
         """
         Initializes a game. Should only be called by :meth:`rubato.init`.
@@ -46,7 +35,7 @@ class Game:
                 Defaults to the :ref:`default game options <defaultgame>`.
         """
         pygame.init()
-        params = Sprite.merge_params(options, Game.default_options)
+        params = Configs.merge_params(options, Configs.game_defaults)
 
         self.name: str = params["name"]
         self.window_width: int = params["window_width"]

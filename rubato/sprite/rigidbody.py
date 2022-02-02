@@ -4,7 +4,7 @@ have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import Callable, Union
 from rubato.sprite import Sprite, Image
-from rubato.utils import Vector, Time, Math, COL_TYPE, Polygon, SAT, Display
+from rubato.utils import Vector, Time, Math, COL_TYPE, Configs, SAT, Display
 from rubato.scenes import Camera
 from rubato.utils.sat import CollisionInfo
 from pygame import Surface
@@ -28,23 +28,6 @@ class RigidBody(Sprite):
         grounded (bool): Whether or not the rigidbody is on the ground.
     """
 
-    default_options = {
-        "pos": Vector(),
-        "mass": 1,
-        "hitbox": Polygon.generate_polygon(4),
-        "do_physics": True,
-        "gravity": 100,
-        "max_speed": Vector(Math.INFINITY, Math.INFINITY),
-        "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),
-        "friction": Vector(1, 1),
-        "img": "default",
-        "col_type": COL_TYPE.STATIC,
-        "scale": Vector(1, 1),
-        "debug": False,
-        "z_index": 0,
-        "rotation": 0,
-    }
-
     def __init__(self, options: dict = {}):
         """
         Initializes a Rigidbody.
@@ -53,46 +36,45 @@ class RigidBody(Sprite):
             options: A rigidbody config. Defaults to the
                 :ref:`default rigidbody options <defaultrigidbody>`.
         """
-        self.__params = Sprite.merge_params(options, RigidBody.default_options)
+        self.params = Configs.merge_params(options, Configs.rigidbody_defaults)
 
         super().__init__({
-            "pos": self.__params["pos"],
-            "z_index": self.__params["z_index"]
+            "pos": self.params["pos"],
+            "z_index": self.params["z_index"]
         })
 
         self.velocity = Vector()
         self.acceleration = Vector()
 
         self.angvel = 0
-        self.rotation = options.get("rotation",
-                                    RigidBody.default_options["rotation"])
+        self.rotation = self.params["rotation"]
 
-        self.mass = self.__params["mass"]
+        self.mass = self.params["mass"]
 
-        self.hitbox = self.__params["hitbox"].clone()
+        self.hitbox = self.params["hitbox"].clone()
         self.hitbox._pos = lambda: self.pos
         self.hitbox._rotation = lambda: self.rotation
 
-        self.col_type = self.__params["col_type"]
+        self.col_type = self.params["col_type"]
 
-        self.img = self.__params["img"]
+        self.img = self.params["img"]
 
         if isinstance(self.img, tuple):
             self.image = Image({
                 "image_location": "empty",
                 "pos": self.pos,
-                "z_index": self.__params["z_index"],
+                "z_index": self.params["z_index"],
             })
         else:
             self.image = Image({
                 "image_location": self.img,
                 "pos": self.pos,
-                "scale_factor": self.__params["scale"],
-                "z_index": self.__params["z_index"],
+                "scale_factor": self.params["scale"],
+                "z_index": self.params["z_index"],
                 "rotation": self.rotation,
             })
 
-        self.debug = self.__params["debug"]
+        self.debug = self.params["debug"]
 
         self.grounded = False
 
@@ -100,18 +82,14 @@ class RigidBody(Sprite):
         """A physics implementation"""
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
-        self.velocity.y += (self.acceleration.y + self.__params.get(
-            "gravity",
-            RigidBody.default_options["gravity"])) * Time.delta_time("sec")
+        self.velocity.y += (self.acceleration.y +
+                            self.params["gravity"]) * Time.delta_time("sec")
 
-        self.velocity *= self.__params.get(
-            "friction", RigidBody.default_options["friction"])
+        self.velocity *= self.params["friction"]
 
         self.velocity.clamp(
-            self.__params.get("min_speed",
-                              RigidBody.default_options["min_speed"]),
-            self.__params.get("max_speed",
-                              RigidBody.default_options["max_speed"]),
+            self.params["min_speed"],
+            self.params["max_speed"],
         )
         self.velocity.absolute()
 
@@ -288,9 +266,7 @@ class RigidBody(Sprite):
 
     def update(self):
         """The update loop"""
-        if (self.__params.get("do_physics",
-                              RigidBody.default_options["do_physics"])
-                and self.in_frame):
+        if (self.params["do_physics"] and self.in_frame):
             self.physics()
 
         self.custom_update()
