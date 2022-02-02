@@ -1,7 +1,7 @@
 """
 An SAT implementation
 """
-from typing import Callable, Dict, List, Union
+from typing import Callable, List, Union
 from rubato.utils import Vector, Math
 import math
 
@@ -126,10 +126,9 @@ class Polygon:
 
     def bounding_box_dimensions(self):
         real_verts = self.real_verts()
-        # pylint: disable=protected-access
-        x_dir = SAT._project_verts_for_min_max(Vector(1, 0), real_verts)
-        y_dir = SAT._project_verts_for_min_max(Vector(0, 1), real_verts)
-        return Vector(x_dir["max"] - x_dir["min"], y_dir["max"] - y_dir["min"])
+        x_dir = SAT.project_verts(real_verts, Vector(1, 0))
+        y_dir = SAT.project_verts(real_verts, Vector(0, 1))
+        return Vector(x_dir.y - x_dir.x, y_dir.y - y_dir.x)
 
 
 class Circle:
@@ -177,10 +176,6 @@ class CollisionInfo:
     Attributes:
         shape_a (Union[Circle, Polygon, None]): A reference to the first shape.
         shape_b (Union[Circle, Polygon, None]): A reference to the second shape.
-        distance (float): The distance between the centers of the colliders.
-        vector (Vector): The vector that would separate the two colliders.
-        a_contained (bool): Whether a is contained inside of b.
-        b_contained (bool): Whether b is contained inside of a.
         seperation (Vector): The vector that would separate the two colliders.
     """
 
@@ -190,14 +185,10 @@ class CollisionInfo:
         """
         self.shape_a: Union[Circle, Polygon, None] = None
         self.shape_b: Union[Circle, Polygon, None] = None
-        self.distance: float = 0
-        self.vector = Vector()
-        self.a_contained, self.b_contained = False, False
-        self.separation = Vector()
+        self.sep = Vector()
 
     def __str__(self):
-        return (f"{self.distance}, {self.vector}, {self.a_contained}, " +
-                f"{self.b_contained}, {self.separation}")
+        return f"{self.sep}"
 
 
 class SAT:
@@ -208,7 +199,8 @@ class SAT:
 
     @staticmethod
     def overlap(shape_a: Union[Polygon, Circle],
-                shape_b: Union[Polygon, Circle]) -> Union[CollisionInfo, None]:
+                shape_b: Union[Polygon, Circle],
+                advanced: boolean = False) -> Union[CollisionInfo, None]:
         """
         Checks for overlap between any two shapes (Polygon or Circle)
 
@@ -222,44 +214,32 @@ class SAT:
         """
 
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
-            return SAT._circle_circle_test(shape_a, shape_b)
+            return SAT.circle_circle_test(shape_a, shape_b)
 
         if isinstance(shape_a, Polygon) and isinstance(shape_b, Polygon):
-            test_a_b = SAT._polygon_polygon_test(shape_a, shape_b)
+            test_a_b = SAT.polygon_polygon_test(shape_a, shape_b)
             if test_a_b is None: return None
 
-            test_b_a = SAT._polygon_polygon_test(shape_b, shape_a, True)
+            test_b_a = SAT.polygon_polygon_test(shape_b, shape_a, True)
             if test_b_a is None: return None
 
-            regular = abs(test_a_b.distance) < abs(test_b_a.distance)
-
-            result = test_a_b if regular else test_b_a
-
-            result.a_contained = (test_b_a.a_contained
-                                  if regular else test_a_b.a_contained)
-            result.b_contained = (test_b_a.b_contained
-                                  if regular else test_a_b.b_contained)
-
-            result.vertex_b = test_a_b.vertex
-            result.vertex_a = test_b_a.vertex
-
-            return result
+            return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
 
         a_is_circle = isinstance(shape_a, Circle)
-        return SAT._circle_polygon_test((shape_a, shape_b)[a_is_circle],
+        return SAT.circle_polygon_test((shape_a, shape_b)[a_is_circle],
                                         (shape_b, shape_a)[a_is_circle],
                                         not a_is_circle)
 
     @staticmethod
-    def _circle_circle_test(shape_a, shape_b):
+    def circle_circle_test(shape_a, shape_b):
         pass
 
     @staticmethod
-    def _circle_polygon_test(shape_a, shape_b, flip):
+    def circle_polygon_test(shape_a, shape_b, flip):
         pass
 
     @staticmethod
-    def _polygon_polygon_test(
+    def polygon_polygon_test(
             shape_a: Union[Polygon, Circle],
             shape_b: Union[Polygon, Circle],
             flip: bool = False) -> Union[CollisionInfo, None]:
@@ -270,89 +250,32 @@ class SAT:
         result = CollisionInfo()
         result.shape_a = shape_a if flip else shape_b
         result.shape_b = shape_b if flip else shape_a
-        result.a_contained = True
-        result.b_contained = True
 
-        verts_1 = shape_a.transformed_verts()
-        verts_2 = shape_b.transformed_verts()
+        verts_a = shape_a.transformed_verts()
+        verts_b = shape_b.transformed_verts()
 
         offset = shape_a.pos - shape_b.pos
 
-        v_contact = []
+        for i in range(len(verts_a)):
+            axis = SAT.perpendicular_axis(verts_a, i)
 
-        for i in range(len(verts_1)):
-            axis = SAT._get_perpendicular_axis(verts_1, i)
+            a_range = SAT.project_verts(verts_a, axis) + axis.dot(offset)
+            b_range = SAT.project_verts(verts_b, axis)
 
-            a_range = SAT._project_verts_for_min_max(axis, verts_1)
-            b_range = SAT._project_verts_for_min_max(axis, verts_2)
-
-            scalar_offset = axis.dot(offset)
-            a_range["min"] += scalar_offset
-            a_range["max"] += scalar_offset
-
-            if (a_range["min"] > b_range["max"]) or (b_range["min"] >
-                                                     a_range["max"]):
+            if (a_range.x > b_range.y) or (b_range.x > a_range.y):
                 return None
 
-            SAT._check_ranges_for_containment(a_range, b_range, result, flip)
-
-            min_dist = (b_range["min"] -
-                        a_range["max"]) if flip else (a_range["min"] -
-                                                      b_range["max"])
-
-            mincheck = b_range["min"] > a_range["min"] and b_range[
-                "max"] > a_range["max"]
-            maxcheck = b_range["min"] < a_range["min"] and b_range[
-                "max"] < a_range["max"]
-            if mincheck or maxcheck:
-                v_contact.append(b_range["mindex" if mincheck else "maxdex"])
-
+            min_dist = (a_range.x - b_range.y, b_range.x - a_range.y)[flip]
             abs_min = abs(min_dist)
+
             if abs_min < shortest_dist:
                 shortest_dist = abs_min
-                result.distance, result.vector = min_dist, axis
-
-        result.separation = result.vector * result.distance
-        if v_contact is None:
-            result.vertex = None
-        else:
-            #print(v_contact, flip)
-            final_verts = []
-            for i in v_contact:
-                valid = True
-                for j in range(len(i)):
-                    if i[0] != i[j]: valid = False
-                if valid:
-                    final_verts.append(i)
-            print(final_verts, flip)
-            result.vertex = verts_2[final_verts[0]
-                                    [0]] if len(final_verts) > 0 else None
+                result.sep = axis * min_dist
 
         return result
 
     @staticmethod
-    def _check_ranges_for_containment(a_range: Dict[str, Union[float, int]],
-                                      b_range: Dict[str, Union[float, int]],
-                                      result: CollisionInfo, flip: bool):
-        """Checks if either shape is inside the other"""
-
-        if flip:
-            if (a_range["max"] < b_range["max"]) or (a_range["min"] >
-                                                     b_range["min"]):
-                result.a_contained = False
-            if (b_range["max"] < a_range["max"]) or (b_range["min"] >
-                                                     a_range["min"]):
-                result.b_contained = False
-        else:
-            if (a_range["max"] > b_range["max"]) or (a_range["min"] <
-                                                     b_range["min"]):
-                result.a_contained = False
-            if (b_range["max"] > a_range["max"]) or (b_range["min"] <
-                                                     a_range["min"]):
-                result.b_contained = False
-
-    @staticmethod
-    def _get_perpendicular_axis(verts: List[Vector], index: int) -> Vector:
+    def perpendicular_axis(verts: List[Vector], index: int) -> Vector:
         """Finds a vector perpendicular to a side"""
 
         pt_1, pt_2 = verts[index], verts[(index + 1) % len(verts)]
@@ -361,28 +284,16 @@ class SAT:
         return axis
 
     @staticmethod
-    def _project_verts_for_min_max(axis: List[Vector], verts: int) -> Vector:
-        """Projects the vertices onto a given axis"""
+    def project_verts(verts: List[Vector], axis: Vector) -> Vector:
+        """
+        Projects the vertices onto a given axis.
+        Returns as a vector; x is min, y is max
+        """
 
         minval, maxval = Math.INFINITY, -Math.INFINITY
-        mindex = maxdex = []
 
-        for j in range(len(verts)):
-            temp = axis.dot(verts[j])
-            if temp < minval:
-                minval = temp
-                mindex = [j]
-            elif temp == minval:
-                mindex.append(j)
-            if temp > maxval:
-                maxval = temp
-                maxdex = [j]
-            elif temp == maxval:
-                maxdex.append(j)
+        for v in verts:
+            temp = axis.dot(v)
+            minval, maxval = min(minval, temp), max(maxval, temp)
 
-        return {
-            "min": minval,
-            "max": maxval,
-            "mindex": mindex,
-            "maxdex": maxdex
-        }
+        return Vector(minval, maxval)

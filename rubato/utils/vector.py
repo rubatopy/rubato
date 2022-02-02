@@ -95,8 +95,11 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
 
-    def __add__(self, other: "Vector") -> "Vector":
-        return Vector(self.x + other.x, self.y + other.y)
+    def __add__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        if isinstance(other, Vector):
+            return Vector(self.x + other.x, self.y + other.y)
 
     __rmul__ = __mul__
     __radd__ = __add__
@@ -197,6 +200,11 @@ class Vector:
     def magnitude(self) -> float:
         """Returns the magnitude of the vector."""
         return (self.x**2 + self.y**2)**.5
+
+    @property
+    def mag(self) -> float:
+        """Returns the squared magnitude of the vector."""
+        return self.x**2 + self.y**2
 
     @magnitude.setter
     def magnitude(self, value: Union[float, int]):

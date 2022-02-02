@@ -111,8 +111,8 @@ def rigid_update():
         rb.game.window_width = 800
         rb.game.window_height = 800
 
-    rigid.collide(triangle)
-    rigid.collide(ground)
+    rigid.bounce(triangle)
+    rigid.bounce(ground)
 
 
 rigid.update = rigid_update

@@ -3,7 +3,7 @@ A more complete math class.
 """
 from typing import Union
 
-INFINITY = 2**99
+INFINITY = float('inf')
 
 
 def clamp(a: Union[float, int], lower: Union[float, int],
