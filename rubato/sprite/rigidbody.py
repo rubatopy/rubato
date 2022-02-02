@@ -192,41 +192,12 @@ class RigidBody(Sprite):
                 self.pos -= col_info.separation / 2
                 other.pos += col_info.separation / 2
 
-            if col_info.vertex_a is not None:
-                perpendicular = (self.velocity.unit() *
-                                 col_info.vertex_a.crossp().unit())
-                self.angvel = -perpendicular.magnitude * self.velocity.magnitude
-                self.velocity -= (col_info.separation.unit() *
-                                  self.velocity.magnitude * 2)
-
-                # self.angvel = round(
-                #     Vector.cross(self.velocity.unit(),
-                #                  col_info.vertex_a.unit()) *
-                #     self.velocity.magnitude, 3)
-                # self.velocity.y -= (col_info.vertex_a.y *
-                #                     col_info.separation.unit().y * 5)
-                # self.velocity.x -= (col_info.vertex_a.x *
-                #                     col_info.separation.unit().x * 5)
-                # vertex_a in direction of separation => velocity
-                # perpendicular component => angular
-
-            # if (self.col_type == COL_TYPE.STATIC
-            #         or other.col_type == COL_TYPE.STATIC):
-            #     # Static
-            #     if col_info.separation.y != 0:
-            #         self.velocity.y = 0
-            #         other.velocity.y = 0
-            #     if col_info.separation.x != 0:
-            #         self.velocity.x = 0
-            #         other.velocity.x = 0
-            # else:
-            #     # Elastic
-            #     if col_info.separation.y != 0:
-            #         self.velocity.invert("y")
-            #         other.velocity.invert("y")
-            #     if col_info.separation.x != 0:
-            #         self.velocity.invert("x")
-            #         other.velocity.invert("x")
+            #if col_info.vertex_a is not None:
+            #    perpendicular = (self.velocity.unit() *
+            #                     col_info.vertex_a.crossp().unit())
+            #    self.angvel = -perpendicular.magnitude * self.velocity.magnitude
+            #    self.velocity -= (col_info.separation.unit() *
+            #                      self.velocity.magnitude * 2)
 
         if col_info is not None:
             callback(col_info)

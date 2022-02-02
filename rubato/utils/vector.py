@@ -95,8 +95,11 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
 
-    def __add__(self, other: "Vector") -> "Vector":
-        return Vector(self.x + other.x, self.y + other.y)
+    def __add__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        if isinstance(other, Vector):
+            return Vector(self.x + other.x, self.y + other.y)
 
     __rmul__ = __mul__
     __radd__ = __add__
