@@ -10,4 +10,4 @@ from rubato.utils.sat import Polygon, Circle, SAT
 from rubato.utils.COL_TYPE import COL_TYPE
 from rubato.utils.color import RGB
 from rubato.utils.error import Error
-import rubato.utils.loader as Loader
+import rubato.utils.configs as Configs

@@ -4,7 +4,7 @@ The image class renders an image from the file system.
 from os import path, walk
 from pygame.image import load
 from pygame.transform import scale, flip, rotate
-from rubato.utils import Vector
+from rubato.utils import Vector, Configs
 from rubato.scenes import Camera
 from rubato.sprite.sprite import Sprite
 
@@ -17,16 +17,8 @@ class Image(Sprite):
         image (pygame.Surface): The pygame surface containing the image.
     """
 
-    default_options = {
-        "image_location": "default",
-        "pos": Vector(),
-        "scale_factor": Vector(1, 1),
-        "z_index": 0,
-        "rotation": 0
-    }
-
     def __init__(self, options: dict = {}):
-        param = Sprite.merge_params(options, Image.default_options)
+        param = Configs.merge_params(options, Configs.image_defaults)
         super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
 
         if param["image_location"] == "" or param[

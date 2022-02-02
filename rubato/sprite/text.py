@@ -2,7 +2,7 @@
 A sprite used to render text.
 """
 from rubato.sprite import Sprite
-from rubato.utils import Vector, RGB, Display
+from rubato.utils import Vector, Configs, Display
 from rubato.scenes import Camera
 import pygame
 from pygame.transform import scale
@@ -23,17 +23,6 @@ class Text(Sprite):
         image (pygame.Surface): The rendered text.
     """
 
-    default_options = {
-        "text": "default_text",
-        "pos": Vector(),
-        "size": 16,
-        "z_index": 0,
-        "font_name": "Arial",
-        "color": RGB.black,
-        "static": False,
-        "onto_surface": None,
-    }
-
     def __init__(self, options={}):
         """
         Initializes a text class.
@@ -45,7 +34,7 @@ class Text(Sprite):
         Raises:
             Exception: The font provided is not supported on the system.
         """
-        param = Sprite.merge_params(options, Text.default_options)
+        param = Configs.merge_params(options, Configs.text_defaults)
         super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
         self.text = param["text"]
         self.size = param["size"]

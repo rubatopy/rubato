@@ -3,8 +3,8 @@ The default sprite class.
 """
 from pygame.transform import scale
 from pygame.surface import Surface
-from rubato.scenes import Camera
-from rubato.utils import Display, Vector
+from rubato.scenes.camera import Camera
+from rubato.utils import Display, Vector, Configs
 
 
 class Sprite:
@@ -23,8 +23,6 @@ class Sprite:
         in_frame (bool): Whether or not the sprite is in the frame.
     """
 
-    default_options = {"pos": Vector(), "z_index": 0}
-
     def __init__(self, options: dict = {}):
         """
         Initializes a sprite.
@@ -33,7 +31,7 @@ class Sprite:
             options: A sprite config. Defaults to the
                 :ref:`default sprite options <defaultsprite>`.
         """
-        param = Sprite.merge_params(options, Sprite.default_options)
+        param = Configs.merge_params(options, Configs.sprite_defaults)
         self.pos = param["pos"]
         self.z_index = param["z_index"]
         self.in_frame = False
@@ -102,23 +100,3 @@ class Sprite:
             Vector: The new coordinates.
         """
         return (center - (dims / 2)).ceil()
-
-    @staticmethod
-    def merge_params(options: dict, defaults: dict) -> dict:
-        """
-        Merges an incomplete options dictionary with the defaults dictionary
-
-        Args:
-            options: The incomplete options dictionary
-            defaults: The default dictionary
-
-        Returns:
-            dict: The merged dictionary
-        """
-        merged = {}
-        keys = defaults.keys()
-
-        for key in keys:
-            merged[key] = options.get(key, defaults[key])
-
-        return merged

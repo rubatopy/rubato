@@ -5,16 +5,14 @@ from os import walk, path
 from rubato.sprite.image import Image
 
 
-def import_image_folder(dictionary: dict, rel_path: str) -> None:
+def import_image_folder(dictionary: dict, rel_path: str):
     """
     Imports a folder of images, creating rubato.Image for each one and
     placing it in a dictionary by its file name.
+
     Args:
         dictionary: A dictionary that all the images will be written to.
         rel_path: The relative path to the folder you wish to import
-
-    Returns: None
-
     """
     for _, _, files in walk(rel_path):
         # walk to directory path and ignore name and subdirectories
