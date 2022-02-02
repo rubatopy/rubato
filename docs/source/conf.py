@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 
 project = "Rubato"
-cpyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"
+copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disable=redefined-builtin
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
 # The full version, including alpha/beta/rc tags
@@ -43,10 +43,22 @@ extensions = [
     "sphinx_autodoc_typehints",  # This need to be after napoleon
     "sphinx.ext.todo",
     "sphinx_sitemap",
+    "sphinx_multiversion",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
+
+html_sidebars = {
+    "**": [
+        "sidebar/scroll-start.html",
+        "sidebar/brand.html",
+        "sidebar/search.html",
+        "sidebar/navigation.html",
+        "versioning.html",
+        "sidebar/scroll-end.html",
+    ],
+}
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -115,15 +127,6 @@ ogp_site_url = "https://tinmarr.github.io"
 ogp_description_length = 300
 ogp_image = "_static/logo_long.png"
 
-rst_prolog = """
-.. only:: dev
-
-    .. caution::
-
-        | You are currently looking at the dev version of the docs.
-        | Click `here <https://tinmarr.github.io/rubato/stable>`_ to return the stable version.
-"""
-
 rst_epilog = """
 .. |default| replace:: :ref:`default config <defaults>`
 """
@@ -155,5 +158,5 @@ napoleon_type_aliases = {
 }
 napoleon_attr_annotations = True
 
-# TODOs
-todo_include_todos = True
+# Version Control
+smv_branch_whitelist = r"^(main).*$"

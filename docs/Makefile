@@ -3,19 +3,15 @@
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
-SPHINXOPTS    ?=
-SPHINXBUILD   ?= sphinx-build
+SPHINXBUILD   ?= sphinx-multiversion
 SOURCEDIR     = source
-BUILDDIR      = ./build
+BUILDDIR      = .
 LIVEBUILDDIR  = ./build/_html
 
 .PHONY: save
 
 save:
-	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) -t $(ver)
-	@rm -rf $(ver)
-	@cp -r ./build/html/ ./$(ver)/
-	@echo "Saved $(ver) version"
+	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)"
 
 live:
 	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
