@@ -17,6 +17,7 @@
 -   New time system
 -   Switched to GPL-3.0 License
 -   Lots of linting
+-   Move default options to their own area
 
 ## [v0.0.1] - Nov 03, 2021
 

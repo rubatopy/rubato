@@ -32,7 +32,7 @@ class Game:
 
         Args:
             options: A game config.
-                Defaults to the :ref:`default game options <defaultgame>`.
+                Defaults to the |default| for `Game`.
         """
         pygame.init()
         params = Configs.merge_params(options, Configs.game_defaults)

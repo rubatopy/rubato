@@ -33,8 +33,8 @@ class RigidBody(Sprite):
         Initializes a Rigidbody.
 
         Args:
-            options: A rigidbody config. Defaults to the
-                :ref:`default rigidbody options <defaultrigidbody>`.
+            options: A rigidbody config. Defaults to the |default| for
+                `RigidBody`
         """
         self.params = Configs.merge_params(options, Configs.rigidbody_defaults)
 

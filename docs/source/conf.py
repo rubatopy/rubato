@@ -124,9 +124,9 @@ rst_prolog = """
         | Click `here <https://tinmarr.github.io/rubato/stable>`_ to return the stable version.
 """
 
-# rst_epilog = """
-# .. RigidBody replace:: :meth:`RigidBody <rubato.sprite.rigidbody.RigidBody>`
-# """
+rst_epilog = """
+.. |default| replace:: :ref:`default config <defaults>`
+"""
 
 # Napoleon settings
 napoleon_google_docstring = True

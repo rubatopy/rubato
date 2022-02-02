@@ -18,8 +18,8 @@ class Rectangle(Image):
         Initializes a rectangle class.
 
         Args:
-            options: A rectangle config. Defaults to the
-                :ref:`default rectangle options <defaultrectangle>`.
+            options: A rectangle config. Defaults to the |default| for
+                `Rectangle`.
         """
         param = Configs.merge_params(options, Configs.rect_defaults)
         super().__init__({

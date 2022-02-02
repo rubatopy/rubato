@@ -17,7 +17,7 @@ class Button(Text):
 
         Args:
             options: A button config. Defaults to the
-                :ref:`default button config <defaultbutton>`.
+                |default| for `Button`.
         """
         param = Configs.merge_params(options, Configs.button_defaults)
         super().__init__(param)

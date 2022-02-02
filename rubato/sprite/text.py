@@ -28,8 +28,7 @@ class Text(Sprite):
         Initializes a text class.
 
         Args:
-            options: A text config. Defaults to the
-                :ref:`default text options <defaulttext>`.
+            options: A text config. Defaults to the |default| for `Text`.
 
         Raises:
             Exception: The font provided is not supported on the system.

@@ -1,9 +1,10 @@
 """
-A module that houses all of our default options.
+A module that houses all of the default options.
 """
 
 from rubato.utils import Vector, RGB, Polygon, Math, COL_TYPE
 
+# [start-defaults]
 game_defaults = {
     "name": "Untitled Game",
     "window_width": 600,
@@ -36,10 +37,13 @@ image_defaults = {
     "pos": Vector(),
     "scale_factor": Vector(1, 1),
     "z_index": 0,
-    "rotation": 0
+    "rotation": 0,
 }
 
-sprite_defaults = {"pos": Vector(), "z_index": 0}
+sprite_defaults = {
+    "pos": Vector(),
+    "z_index": 0,
+}
 
 button_defaults = {
     "text": "default_text",
@@ -47,14 +51,14 @@ button_defaults = {
     "size": 16,
     "z_index": 0,
     "font_name": "Arial",
-    "color": RGB.black
+    "color": RGB.black,
 }
 
 rect_defaults = {
     "pos": Vector(),
     "dims": Vector(),
     "color": RGB.black,
-    "z_index": 0
+    "z_index": 0,
 }
 
 text_defaults = {
@@ -67,6 +71,7 @@ text_defaults = {
     "static": False,
     "onto_surface": None,
 }
+# [end-defaults]
 
 
 def merge_params(options: dict, defaults: dict) -> dict:

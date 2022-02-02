@@ -69,7 +69,7 @@ def init(options: dict = {}):
 
     Args:
         options: A game config.
-                Defaults to the :ref:`default game options <defaultgame>`.
+                Defaults to the |default| for `Game`.
     """
     global game
     game = Game(options)

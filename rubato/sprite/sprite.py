@@ -28,8 +28,8 @@ class Sprite:
         Initializes a sprite.
 
         Args:
-            options: A sprite config. Defaults to the
-                :ref:`default sprite options <defaultsprite>`.
+            options: A sprite config. Defaults to the |default| for
+                `Sprite`.
         """
         param = Configs.merge_params(options, Configs.sprite_defaults)
         self.pos = param["pos"]
