@@ -79,7 +79,7 @@ class RigidBody(Sprite):
         self.grounded = False
 
     def physics(self):
-        """A physics implementation"""
+        """Runs a simulation step on the rigidbody"""
         # Update Velocity
         self.velocity.x += self.acceleration.x * Time.delta_time("sec")
         self.velocity.y += (self.acceleration.y +
@@ -137,30 +137,30 @@ class RigidBody(Sprite):
             collision is detected or nothing if no collision is detected.
         """
         self.grounded = False
-        if col_info := SAT.overlap(self.hitbox, other.hitbox):
-            # col_info is all in reference to self
-            col_info.sep.round(4)
+        if collision := SAT.overlap(self.hitbox, other.hitbox):
+            # collision is all in reference to self
+            collision.sep.round(4)
 
             if other.col_type == COL_TYPE.STATIC:
-                self.pos -= col_info.sep
-                self.grounded = Math.sign(col_info.sep.y) == 1
+                self.pos -= collision.sep
+                self.grounded = Math.sign(collision.sep.y) == 1
 
                 if self.grounded: self.velocity.y = 0
                 # FIXME: do we want this sticky behavior
-                if abs(col_info.sep.x) > 0: self.velocity.x = 0
+                if abs(collision.sep.x) > 0: self.velocity.x = 0
             elif self.col_type == COL_TYPE.STATIC:
-                other.pos += col_info.sep
-                other.grounded = Math.sign(col_info.sep.y) == -1
+                other.pos += collision.sep
+                other.grounded = Math.sign(collision.sep.y) == -1
 
                 if other.grounded: other.velocity.y = 0
-                if abs(col_info.sep.x) > 0: other.velocity.x = 0
+                if abs(collision.sep.x) > 0: other.velocity.x = 0
             else:
-                self.pos -= col_info.sep / 2
-                other.pos += col_info.sep / 2
+                self.pos -= collision.sep / 2
+                other.pos += collision.sep / 2
 
-        if col_info is not None:
-            callback(col_info)
-        return col_info
+        if collision is not None:
+            callback(collision)
+        return collision
 
     def bounce(
             self,
@@ -179,22 +179,22 @@ class RigidBody(Sprite):
             collision is detected or nothing if no collision is detected.
         """
         self.grounded = False
-        if col_info := SAT.overlap(self.hitbox, other.hitbox):
-            # col_info is all in reference to self
-            col_info.sep.round(4)
-            self.grounded = Math.sign(col_info.sep.y) == 1
+        if collision := SAT.overlap(self.hitbox, other.hitbox):
+            # collision is all in reference to self
+            collision.sep.round(4)
+            self.grounded = Math.sign(collision.sep.y) == 1
 
             if other.col_type == COL_TYPE.STATIC:
-                self.pos -= col_info.sep
+                self.pos -= collision.sep
             elif self.col_type == COL_TYPE.STATIC:
-                other.pos += col_info.sep
+                other.pos += collision.sep
             else:
-                self.pos -= col_info.sep / 2
-                other.pos += col_info.sep / 2
+                self.pos -= collision.sep / 2
+                other.pos += collision.sep / 2
 
-        if col_info is not None:
-            callback(col_info)
-        return col_info
+        if collision is not None:
+            callback(collision)
+        return collision
 
     def overlap(
             self,
@@ -212,10 +212,10 @@ class RigidBody(Sprite):
             Union[CollisionInfo, None]: Returns a collision info object if a
             collision is detected or nothing if no collision is detected.
         """
-        col_info = SAT.overlap(self.hitbox, other.hitbox)
-        if col_info is not None:
-            callback(col_info)
-        return col_info
+        collision = SAT.overlap(self.hitbox, other.hitbox)
+        if collision is not None:
+            callback(collision)
+        return collision
 
     def set_impulse(self, force: Vector, time: int):
         """

@@ -213,32 +213,32 @@ class SAT:
         """
 
         if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
-            return SAT._circle_circle_test(shape_a, shape_b)
+            return SAT.circle_circle_test(shape_a, shape_b)
 
         if isinstance(shape_a, Polygon) and isinstance(shape_b, Polygon):
-            test_a_b = SAT._polygon_polygon_test(shape_a, shape_b)
+            test_a_b = SAT.polygon_polygon_test(shape_a, shape_b)
             if test_a_b is None: return None
 
-            test_b_a = SAT._polygon_polygon_test(shape_b, shape_a, True)
+            test_b_a = SAT.polygon_polygon_test(shape_b, shape_a, True)
             if test_b_a is None: return None
 
             return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
 
         a_is_circle = isinstance(shape_a, Circle)
-        return SAT._circle_polygon_test((shape_a, shape_b)[a_is_circle],
+        return SAT.circle_polygon_test((shape_a, shape_b)[a_is_circle],
                                         (shape_b, shape_a)[a_is_circle],
                                         not a_is_circle)
 
     @staticmethod
-    def _circle_circle_test(shape_a, shape_b):
+    def circle_circle_test(shape_a, shape_b):
         pass
 
     @staticmethod
-    def _circle_polygon_test(shape_a, shape_b, flip):
+    def circle_polygon_test(shape_a, shape_b, flip):
         pass
 
     @staticmethod
-    def _polygon_polygon_test(
+    def polygon_polygon_test(
             shape_a: Union[Polygon, Circle],
             shape_b: Union[Polygon, Circle],
             flip: bool = False) -> Union[CollisionInfo, None]:
