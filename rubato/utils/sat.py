@@ -199,7 +199,8 @@ class SAT:
 
     @staticmethod
     def overlap(shape_a: Union[Polygon, Circle],
-                shape_b: Union[Polygon, Circle]) -> Union[CollisionInfo, None]:
+                shape_b: Union[Polygon, Circle],
+                advanced: boolean = False) -> Union[CollisionInfo, None]:
         """
         Checks for overlap between any two shapes (Polygon or Circle)
 
