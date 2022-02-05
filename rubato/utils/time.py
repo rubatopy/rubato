@@ -5,8 +5,8 @@ from typing import Callable
 from pygame.time import Clock, get_ticks
 
 clock = Clock()
-calls = {}
-sorted_call_times = []  # of the call keys
+tasks = {}
+sorted_task_times = []  # of the call keys
 
 
 def delta_time(form: str = "milli") -> int:
@@ -51,16 +51,16 @@ def delayed_call(time_delta: int, func: Callable):
     """
     run_at = time_delta + now()
 
-    if calls.get(run_at):
-        calls[run_at].append(func)
+    if tasks.get(run_at):
+        tasks[run_at].append(func)
     else:
-        calls[run_at] = [func]
+        tasks[run_at] = [func]
 
-    proper_index = _binary_search(sorted_call_times, 0,
-                                  len(sorted_call_times) - 1, run_at)
+    proper_index = _binary_search(sorted_task_times, 0,
+                                  len(sorted_task_times) - 1, run_at)
     if proper_index < 0:  # time stamp not currently in array
         proper_index = ~proper_index
-        sorted_call_times.insert(proper_index, run_at)
+        sorted_task_times.insert(proper_index, run_at)
     # otherwise we do not want to re-add time stamp
 
 
@@ -89,12 +89,12 @@ def set_clock(new_clock: "Clock"):
 
 def process_calls():
     """Processes the calls needed"""
-    for call in sorted_call_times:
-        if call <= now():
-            for func in calls[call]:
+    for task_time in sorted_task_times:
+        if task_time <= now():
+            for func in tasks[task_time]:
                 func()
-            del calls[call]
-            sorted_call_times.remove(call)
+            del tasks[task_time]
+            sorted_task_times.remove(task_time)
         else:
             break
 

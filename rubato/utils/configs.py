@@ -71,6 +71,11 @@ text_defaults = {
     "static": False,
     "onto_surface": None,
 }
+
+animation_defaults = {
+    "pos": Vector(),
+    "z_index": 0,
+}
 # [end-defaults]
 
 
