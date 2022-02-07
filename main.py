@@ -92,7 +92,6 @@ def custom_update():
 sprite.update = custom_update
 group.add(sprite)
 
-
 # Rigid
 def w_handler():
     rigid.velocity.y = -100
