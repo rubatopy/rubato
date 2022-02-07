@@ -42,7 +42,7 @@ def now() -> int:
 
 def delayed_call(time_delta: int, func: Callable):
     """
-    Calls the function func at a later
+    Calls the function func at a later time.
 
     Args:
         time_delta: The time from now (in milliseconds)

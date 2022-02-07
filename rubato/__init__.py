@@ -28,6 +28,7 @@ from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
     Text, Empty
 import rubato.input as Input
 from rubato.game import Game
+import rubato.sound as Sound
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -58,6 +59,7 @@ __all__ = [
     "Input",
     "Game",
     "Configs",
+    "Sound",
 ]
 
 game: Game = None

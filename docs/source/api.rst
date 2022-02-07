@@ -25,6 +25,13 @@ Radio
 .. automodule:: rubato.radio
     :members:
 
+.. _sound:
+
+Sound
+-----
+.. automodule:: rubato.sound
+    :members:
+
 .. _sprite:
 
 Sprite
