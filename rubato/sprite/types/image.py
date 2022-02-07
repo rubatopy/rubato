@@ -6,7 +6,7 @@ from pygame.image import load
 from pygame.transform import scale, flip, rotate
 from rubato.utils import Vector, Configs
 from rubato.scenes import Camera
-from rubato.sprite.sprite import Sprite
+from rubato.sprite import Sprite
 
 
 class Image(Sprite):

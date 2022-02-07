@@ -1,8 +1,8 @@
 """
 The Rectangle class draws a colored rectangle. It inherits from the image class.
 """
-from rubato.sprite import Image
-from rubato.sprite.sprite import Sprite
+from rubato.sprite import Sprite
+from rubato.sprite.types import Image
 from rubato.utils import Configs
 from pygame.surface import Surface
 from pygame.draw import rect

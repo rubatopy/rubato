@@ -3,7 +3,8 @@ The Rigidbody class contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import Callable, Union
-from rubato.sprite import Sprite, Image
+from rubato.sprite import Sprite
+from rubato.sprite.types import Image
 from rubato.utils import Vector, Time, Math, COL_TYPE, Configs, SAT, Display
 from rubato.scenes import Camera
 from rubato.utils.sat import CollisionInfo

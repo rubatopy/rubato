@@ -59,7 +59,7 @@ class Text(Sprite):
         font = pygame.font.SysFont(self.font_name, self.size)
         self.image = font.render(self.text, True, self.color)
 
-    def draw(self, camera: Camera):
+    def draw(self, camera: Camera): # pylint: disable=method-hidden
         """
         Draws the text if the z index is below the camera's.
 
