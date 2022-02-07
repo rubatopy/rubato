@@ -10,7 +10,7 @@ Rubato is built fundamentally as a PyGame wrapper. However, you can still utiliz
 
 _Wondering where the name's from? Rubato is a music term that indicates a phrase that should be performed expressively and freely. We hope to bring that attitude to game development, opening doors for the less experienced while not shutting out those who need more._
 
-**NOTE: Rubato is currently in alpha. Submit bug reports [https://github.com/Rubato-Python/rubato/issues](here)**
+**NOTE: Rubato is currently in alpha. Submit bug reports [here](https://github.com/Rubato-Python/rubato/issues)**
 
 Check out the documentation: https://rubato-python.github.io/
 ### Install Rubato:
