@@ -12,7 +12,7 @@ _Wondering where the name's from? Rubato is a music term that indicates a phrase
 
 **NOTE: Rubato is currently in alpha. Submit bug reports [here](https://github.com/Rubato-Python/rubato/issues)**
 
-Check out the [documentation](https://rubato-python.github.io/):
+Check out the documentation [here](https://rubato-python.github.io/).
 ### Install Rubato:
 
 ```
