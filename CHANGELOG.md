@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v1.0.0] - Feb 01, 2022
 
 ### Added
@@ -20,6 +30,7 @@
 -   Move default options to their own area
 
 ### Fixed
+
 -   Many many bugs
 
 ## [v0.0.1] - Nov 03, 2021

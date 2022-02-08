@@ -1,14 +1,8 @@
 # For Developers
 
-### To update docs (REQUIRES A UNIX BASED SYSTEM)
+### To publish new version
 
-```
-$ (cd docs && make)
-```
-
-### To publish to PyPi
-
-Bump version number in `setup.py` and in `docs/source/conf.py` <br>
+Bump version number in `setup.py`, `docs/source/conf.py`, and in `docs/index.html` <br>
 Update Changelog <br>
 Create a new virtual environment.
 
@@ -25,3 +19,5 @@ Here it should successfully install.<br>
 pip install twine
 python -m twine upload dist/*
 ```
+
+Create and release a version on Github
