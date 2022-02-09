@@ -33,6 +33,7 @@ from rubato.radio import Radio
 from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
     Text, Empty
 import rubato.input as Input
+import rubato.sound as Sound
 from rubato.game import Game
 
 # This variable tells python which things are included in the library.
@@ -64,6 +65,7 @@ __all__ = [
     "Input",
     "Game",
     "Configs",
+    "Sound",
 ]
 
 game: Game = None

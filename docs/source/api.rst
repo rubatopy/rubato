@@ -25,6 +25,13 @@ Radio
 .. automodule:: rubato.radio
     :members:
 
+.. _sound:
+
+Sound
+-----
+.. automodule:: rubato.sound
+    :members:
+
 .. _sprite:
 
 Sprite
@@ -36,21 +43,21 @@ Sprite
 
 Empty
 _________
-.. automodule:: rubato.sprite.types.empty
+.. automodule:: rubato.sprite.empty
     :members:
 
 .. _image:
 
 Image
 _________
-.. automodule:: rubato.sprite.types.image
+.. automodule:: rubato.sprite.image
     :members:
 
 .. _rectangle:
 
 Rectangle
 _________
-.. automodule:: rubato.sprite.types.rect
+.. automodule:: rubato.sprite.rect
     :members:
 
 .. _rigidbody:
@@ -64,14 +71,14 @@ _________
 
 Text
 _________
-.. automodule:: rubato.sprite.types.text
+.. automodule:: rubato.sprite.text
     :members:
 
 .. _button:
 
 Button
 _________
-.. automodule:: rubato.sprite.types.button
+.. automodule:: rubato.sprite.button
     :members:
 
 .. _group:
