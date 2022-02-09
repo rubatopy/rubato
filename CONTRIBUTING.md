@@ -108,3 +108,5 @@ Here it should successfully install.<br>
 pip install twine
 python -m twine upload dist/*
 ```
+
+Create and release a version on Github
