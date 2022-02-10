@@ -24,10 +24,7 @@ jobs:
                   pip install -r docs/requirements.txt
 
             - name: Build Docs
-              uses: rickstaa/sphinx-action@master
-              with:
-                  docs-folder: "docs/"
-                  build-command: "make"
+              run: (cd docs && make)
 
             - name: Commit files
               run: |
