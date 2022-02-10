@@ -1,11 +1,12 @@
 """
 A sprite used to render text.
 """
+import pygame
+from pygame.transform import scale
 from rubato.sprite import Sprite
 from rubato.utils import Vector, Configs, Display
 from rubato.scenes import Camera
-import pygame
-from pygame.transform import scale
+from rubato.utils.color import Color
 
 
 class Text(Sprite):
@@ -35,12 +36,12 @@ class Text(Sprite):
         """
         param = Configs.merge_params(options, Configs.text_defaults)
         super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
-        self.text = param["text"]
-        self.size = param["size"]
-        self.font_name = param["font_name"]
-        self.color = param["color"]
-        self.static = param["static"]
-        self.onto_surface = param["onto_surface"]
+        self.text: str = param["text"]
+        self.size: int = param["size"]
+        self.font_name: str = param["font_name"]
+        self.color: Color = param["color"]
+        self.static: bool = param["static"]
+        self.onto_surface: bool = param["onto_surface"]
 
         if self.onto_surface:
             self.draw = self.draw_onto_surface
@@ -50,7 +51,8 @@ class Text(Sprite):
             raise Exception(
                 f"The font {self.font_name} is not supported on your system"
             ) from pygame.error
-        self.image = font.render(self.text, True, self.color)
+
+        self.image = font.render(self.text, True, self.color.to_tuple())
 
     def remake_image(self):
         """
@@ -59,7 +61,7 @@ class Text(Sprite):
         font = pygame.font.SysFont(self.font_name, self.size)
         self.image = font.render(self.text, True, self.color)
 
-    def draw(self, camera: Camera): # pylint: disable=method-hidden
+    def draw(self, camera: Camera):  # pylint: disable=method-hidden
         """
         Draws the text if the z index is below the camera's.
 
