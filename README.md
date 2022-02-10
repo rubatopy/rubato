@@ -5,7 +5,7 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rubato?style=for-the-badge)](https://pypi.org/project/rubato/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/rubatopy/rubato?style=for-the-badge)](https://github.com/rubatopy/rubato/releases)
 [![GitHub Build Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Build?style=for-the-badge)](https://github.com/rubatopy/rubato/actions/workflows/build.yml)
-[![GitHub Docs Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Docs?label=docs&style=for-the-badge)](https://github.com/rubatopy/rubato/actions/workflows/docs.yml)
+[![GitHub Docs Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Docs?label=docs&style=for-the-badge)](https://rubatopy.github.io/)
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/rubatopy/rubato?style=social)](https://github.com/rubatopy/rubato/)
 [![GitHub watchers](https://img.shields.io/github/watchers/rubatopy/rubato?style=social)](https://github.com/rubatopy/rubato/subscription)
