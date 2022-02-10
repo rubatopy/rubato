@@ -91,22 +91,22 @@ html_static_path = ["_static"]
 
 add_module_names = False
 
-html_logo = "_static/logo_img_small.png"
+html_logo = "_static/logo_small.png"
 
-html_favicon = "_static/logo_img.png"
+html_favicon = "_static/logo.png"
 
 html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
     "light_css_variables": {
-        "color-brand-primary": "#e61e43",  # Default: 2962ff (41, 98, 255)
-        "color-brand-content": "#e61e43",  # Default: 2a5adf (42, 90, 223)
+        "color-brand-primary": "#ff9484",
+        "color-brand-content": "#ff9484",
+        "color-api-name": "#ff9484",
     },
     "dark_css_variables": {
-        "color-brand-primary":
-        "var(--color-problematic)",  # Default: 2962ff (41, 98, 255)
-        "color-brand-content":
-        "var(--color-problematic)",  # Default: 2a5adf (42, 90, 223)
+        "color-brand-primary": "#ff9484",
+        "color-brand-content": "#ff9484",
+        "color-api-name": "#ff9484",
     }
 }
 

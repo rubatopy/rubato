@@ -2,7 +2,7 @@
 A module that houses all of the default options.
 """
 
-from rubato.utils import Vector, RGB, Polygon, Math, COL_TYPE
+from rubato.utils import Vector, Color, Polygon, Math, COL_TYPE
 
 # [start-defaults]
 game_defaults = {
@@ -51,13 +51,13 @@ button_defaults = {
     "size": 16,
     "z_index": 0,
     "font_name": "Arial",
-    "color": RGB.black,
+    "color": Color.black,
 }
 
 rect_defaults = {
     "pos": Vector(),
     "dims": Vector(),
-    "color": RGB.black,
+    "color": Color.black,
     "z_index": 0,
 }
 
@@ -67,7 +67,7 @@ text_defaults = {
     "size": 16,
     "z_index": 0,
     "font_name": "Arial",
-    "color": RGB.black,
+    "color": Color.black,
     "static": False,
     "onto_surface": None,
 }
