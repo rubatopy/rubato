@@ -43,21 +43,21 @@ Sprite
 
 Empty
 _________
-.. automodule:: rubato.sprite.empty
+.. automodule:: rubato.sprite.types.empty
     :members:
 
 .. _image:
 
 Image
 _________
-.. automodule:: rubato.sprite.image
+.. automodule:: rubato.sprite.types.image
     :members:
 
 .. _rectangle:
 
 Rectangle
 _________
-.. automodule:: rubato.sprite.rect
+.. automodule:: rubato.sprite.types.rect
     :members:
 
 .. _rigidbody:
@@ -71,14 +71,14 @@ _________
 
 Text
 _________
-.. automodule:: rubato.sprite.text
+.. automodule:: rubato.sprite.types.text
     :members:
 
 .. _button:
 
 Button
 _________
-.. automodule:: rubato.sprite.button
+.. automodule:: rubato.sprite.types.button
     :members:
 
 .. _group:

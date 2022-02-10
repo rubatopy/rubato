@@ -1,4 +1,4 @@
-# ![logo](https://github.com/Rubato-Python/rubato/blob/main/docs/source/_static/logo_long.png?raw=true)
+# ![logo](./docs/source/_static/logo_small.png) <br> Rubato
 
 [![Build](https://github.com/Rubato-Python/rubato/actions/workflows/build.yml/badge.svg)](https://github.com/Rubato-Python/rubato/actions/workflows/build.yml)
 [![Docs](https://github.com/Rubato-Python/rubato/actions/workflows/docs.yml/badge.svg)](https://github.com/Rubato-Python/rubato/actions/workflows/docs.yml)
@@ -13,6 +13,7 @@ _Wondering where the name's from? Rubato is a music term that indicates a phrase
 **NOTE: Rubato is currently in alpha. Submit bug reports [here](https://github.com/Rubato-Python/rubato/issues)**
 
 Check out the documentation [here](https://rubato-python.github.io/).
+
 ### Install Rubato:
 
 ```

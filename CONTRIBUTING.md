@@ -89,6 +89,13 @@ available at [http://contributor-covenant.org/version/1/4][version]
 
 # Development help
 
+### To run the docs
+
+```
+(cd docs && pip install -r requirements.txt)
+(cd docs && make live)
+```
+
 ### To publish to PyPi
 
 Bump version number in `setup.py` and in `docs/source/conf.py` <br>
