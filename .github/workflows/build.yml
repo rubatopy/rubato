@@ -25,5 +25,5 @@ jobs:
             - name: Analysing the code with pylint
               run: pylint $(git ls-files '*.py')
 
-            - name: Run test file
-              run: python test.py
+            # - name: Run test file
+            #   run: python test.py
