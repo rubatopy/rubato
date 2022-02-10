@@ -22,8 +22,7 @@ project = "Rubato"
 copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disable=redefined-builtin
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
-# The full version, including alpha/beta/rc tags
-release = "1.0.0"
+html_context = {"latest": "v1.0.0"}
 
 # -- General configuration ---------------------------------------------------
 
@@ -113,7 +112,7 @@ html_theme_options = {
 
 html_use_index = False
 
-html_title = f"{project} {release} Documentation"
+html_title = f"{project} Documentation"
 
 html_short_title = f"{project} Docs"
 

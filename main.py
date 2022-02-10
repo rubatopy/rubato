@@ -124,10 +124,13 @@ group.add(ground)
 
 group.add(triangle)
 
-rb.game.radio.listen("EXIT", lambda: print("ya-yeet"))
+rb.game.radio.listen("EXIT", lambda: print("exit event"))
 
-Time.delayed_call(1000, lambda: print("LOL"))
-Time.delayed_call(1000, lambda: print("LOL(2)"))
-Time.delayed_call(5, lambda: print("LOL(-1)"))
+Time.delayed_call(1000, lambda: print("1 second"))
+Time.delayed_call(1000, lambda: print("1 second(2)"))
+Time.delayed_call(5, lambda: print("5 millis"))
+
+rb.Sound.import_sound("urmom.mp3", "urmom")
+rb.Sound.play_sound("urmom", 1)
 
 rb.begin()

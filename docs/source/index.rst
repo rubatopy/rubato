@@ -8,15 +8,17 @@
 
     <br><br>
 
-Rubato is a Python game engine that builds off of `PyGame <https://www.pygame.org>`_ to make a cleaner and more efficient game engine.
-We aim to make game development in Python much easier than it currently is. Even though we use PyGame in the backend, when using Rubato, you do not need to ever touch PyGame.
+Rubato is a modern game engine for python built around PyGame. Among a slew of high-demand features such as Runge-Katta physics simulation (still in alpha), a robust scene manager and radio broadcast system, Rubato also promises to first and foremost be a developer-focused library. From intricate physics simulations to 2D games, Rubato streamlines development to make the process more accessible for beginners and simultaneously more powerful for advanced users. And all that, finally, with some actual, legible, documentation.
 
-*Rubato is a music term that indicates a phrase that should be performed expressively and freely. Our library is named this way because it allows developers to freely make games.*
+Rubato is built fundamentally as a PyGame wrapper. However, you can still utilize underlying PyGame functionality in the case that a feature you want is not officially supported yet.
+
+*Wondering where the name's from? Rubato is a music term that indicates a phrase that should be performed expressively and freely. We hope to bring that attitude to game development, opening doors for the less experienced while not shutting out those who need more.*
+
 
 Repository: https://github.com/tinmarr/rubato
 
 .. warning::
-    This library is still in it's very alpha stages and will be very buggy!
+    Rubato is currently in alpha. Submit bug reports `here <https://github.com/Rubato-Python/rubato/issues>`_
 
 .. toctree::
     :maxdepth: 1
