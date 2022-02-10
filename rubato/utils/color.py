@@ -39,6 +39,9 @@ class RGB:
                 abs(self.b - other.b) < 0.0001
         return False
 
+    def to_tuple(self) -> tuple:
+        return self.r, self.g, self.b
+
     def check_values(self):
         """
         Makes the RGB values legit. In other words, clamps them between 0 and

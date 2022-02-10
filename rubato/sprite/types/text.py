@@ -50,7 +50,7 @@ class Text(Sprite):
             raise Exception(
                 f"The font {self.font_name} is not supported on your system"
             ) from pygame.error
-        self.image = font.render(self.text, True, self.color)
+        self.image = font.render(self.text, True, self.color.to_tuple())
 
     def remake_image(self):
         """

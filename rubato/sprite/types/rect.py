@@ -27,7 +27,6 @@ class Rectangle(Image):
             "pos": param["pos"],
             "z_index": param["z_index"]
         })
-        param = Sprite.merge_params(options, Rectangle.default_options)
         self.image = Surface(param["dims"].to_tuple())
 
-        rect(self.image, param["color"], [0, 0, *param["dims"].to_tuple()])
+        rect(self.image, param["color"].to_tuple(), [0, 0, *param["dims"].to_tuple()])

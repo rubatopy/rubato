@@ -1,9 +1,9 @@
 """
 Animations are a series of images that loop in a set loop
 """
-from rubato import Camera
+from rubato.scenes import Camera
 from rubato.utils import Error, Configs
-from rubato.sprite.image import Image
+from rubato.sprite.types.image import Image
 from rubato.sprite.sprite import Sprite
 
 
@@ -29,6 +29,10 @@ class Animation(Sprite):
         self.loop = False
 
     @property
+    def image(self):
+        return self.states[self.current_state][self.current_frame][Animation._IMAGE_INDEX]
+
+    @property
     def _current(self):
         return self.states[self.current_state][self.current_frame]
 
@@ -42,11 +46,11 @@ class Animation(Sprite):
             raise Error(
                 f"The given state {new_state} is not in the given states")
 
-    def add_state(self, state_name: str, image_and_times: list[tuple]):
+    def add_state(self, state_name: str, image_and_times: list[tuple] | list):
         for i in range(len(image_and_times)):
             image_and_time = image_and_times[i]
-            if len(image_and_time) == 1 and isinstance(image_and_time[0], Image):
-                image_and_times[i] = (image_and_time[0], 5)
+            if isinstance(image_and_time, Image):
+                image_and_times[i] = (image_and_time, 5)
             elif len(image_and_time) == 2 and isinstance(image_and_time[0], Image) \
                     and isinstance(image_and_time[1], int):
                 pass
@@ -56,6 +60,7 @@ class Animation(Sprite):
         self.states[state_name] = image_and_times
         if len(self.states) == 1:
             self.default_state = state_name
+            self.current_state = state_name
 
     def update(self):
         if self.current_frame < (length := len(self.states[self.current_state]) - 1):
@@ -80,4 +85,4 @@ class Animation(Sprite):
         Args:
             camera: The current Camera viewing the scene.
         """
-        super().draw(self._current[Animation._IMAGE_INDEX], camera)
+        self._current[Animation._IMAGE_INDEX].draw(camera)

@@ -6,3 +6,4 @@ from rubato.sprite.sprite import Sprite
 from rubato.sprite.types import Image, Text, Empty, Button, Rectangle
 from rubato.sprite.rigidbody import RigidBody
 from rubato.sprite.group import Group
+from rubato.sprite.animation import Animation

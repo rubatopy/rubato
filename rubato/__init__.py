@@ -31,10 +31,11 @@ from rubato.utils import Math, STATE, Display, Vector, Time, \
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
-    Text, Empty
+    Text, Empty, Animation
 import rubato.input as Input
 import rubato.sound as Sound
 from rubato.game import Game
+Colour = RGB
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -49,6 +50,7 @@ __all__ = [
     "SAT",
     "COL_TYPE",
     "RGB",
+    "Colour",
     "Error",
     "SceneManager",
     "Scene",
