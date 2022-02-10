@@ -95,18 +95,20 @@ html_logo = "_static/logo_small.png"
 
 html_favicon = "_static/logo.png"
 
+theme_color = "#ff9484"
+
 html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
     "light_css_variables": {
-        "color-brand-primary": "#ff9484",
-        "color-brand-content": "#ff9484",
-        "color-api-name": "#ff9484",
+        "color-brand-primary": theme_color,
+        "color-brand-content": theme_color,
+        "color-api-name": theme_color,
     },
     "dark_css_variables": {
-        "color-brand-primary": "#ff9484",
-        "color-brand-content": "#ff9484",
-        "color-api-name": "#ff9484",
+        "color-brand-primary": theme_color,
+        "color-brand-content": theme_color,
+        "color-api-name": theme_color,
     }
 }
 
