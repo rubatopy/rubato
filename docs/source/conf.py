@@ -124,9 +124,13 @@ html_show_sourcelink = False
 html_baseurl = "https://tinmarr.github.io/rubato/"
 
 # Open Graph
-ogp_site_url = "https://tinmarr.github.io"
+ogp_site_url = "https://rubatopy.github.io"
 ogp_description_length = 300
-ogp_image = "_static/logo_long.png"
+ogp_image = "_static/logo_wide.png"
+ogp_site_name = "Rubato Documentation"
+ogp_custom_meta_tags = [
+    '<meta property="og:title" content="Rubato Documentation">',
+]
 
 rst_epilog = """
 .. |default| replace:: :ref:`default config <defaults>`
