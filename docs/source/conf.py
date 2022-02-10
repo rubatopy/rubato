@@ -126,7 +126,7 @@ html_baseurl = "https://tinmarr.github.io/rubato/"
 # Open Graph
 ogp_site_url = "https://rubatopy.github.io"
 ogp_description_length = 300
-ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"
+ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"  # pylint: disable=line-too-long
 ogp_site_name = "Rubato Documentation"
 ogp_custom_meta_tags = [
     '<meta property="og:title" content="Rubato Documentation">',
