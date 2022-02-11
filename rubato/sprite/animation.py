@@ -1,6 +1,7 @@
 """
 Animations are a series of images that loop in a set loop
 """
+# pylint: disable=all
 from typing import List, Tuple, Dict
 
 from rubato.scenes import Camera
