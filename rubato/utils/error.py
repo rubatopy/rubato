@@ -16,3 +16,19 @@ class IdError(Exception):
 class SideError(Exception):
     """An error that is raised when the number of sides is invalid"""
     pass
+
+
+class DuplicateComponentError(Exception):
+    """
+    An error that is raised when you try to add a component to a sprite
+    that already has a component of the same type
+    """
+    pass
+
+
+class ComponentNotAllowed(Exception):
+    """
+    An error that is raised when you try to add a component on a sprite that
+    is not allowed by another component on that sprite.
+    """
+    pass

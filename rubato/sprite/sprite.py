@@ -1,26 +1,23 @@
 """
-The default sprite class.
+The default sprite and component class.
 """
-from pygame.transform import scale
-from pygame.surface import Surface
-from rubato.scenes.camera import Camera
-from rubato.utils import Display, Vector, Configs
+from typing import List, Union
+import rubato.scenes as sc
+import rubato.sprite as sp
+from rubato.utils import Vector, Configs
+from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError
 
 
 class Sprite:
     """
     The base sprite class.
 
-    Warning:
-        This class should not be instantiated. Instead, a class should inherit
-        from this.
-
     Attributes:
-        param (dict[str, any]): A dictionary with all of the parameters of the
-            sprite.
         pos (Vector): The current position of the sprite.
         z_index (int): The z_index of the sprite.
         in_frame (bool): Whether or not the sprite is in the frame.
+        components (List[Component]): All the components attached to this
+            sprite.
     """
 
     def __init__(self, options: dict = {}):
@@ -32,11 +29,65 @@ class Sprite:
                 `Sprite`.
         """
         param = Configs.merge_params(options, Configs.sprite_defaults)
-        self.pos = param["pos"]
-        self.z_index = param["z_index"]
-        self.in_frame = False
+        self.pos: Vector = param["pos"]
+        self.z_index: int = param["z_index"]
+        self.in_frame: bool = False
+        self._components: List[Component] = []
 
-    def is_in_frame(self, camera: Camera, game) -> bool:
+    @property
+    def components(self):
+        return self._components
+
+    def add_component(self, component: "Component") -> "Sprite":
+        """
+        Add a component to the sprite.
+
+        Args:
+            component: The component to add.
+
+        Raises:
+            DuplicateComponentError: Raised when there is already a component
+                of the same type on the sprite.
+
+        Returns:
+            Sprite: The current sprite
+        """
+        comp_type = type(component)
+
+        if any(isinstance(comp, comp_type) for comp in self.components):
+            raise DuplicateComponentError(
+                "There is already a component of type " + str(comp_type) +
+                " on this sprite")
+
+        for not_allowed_type in component.not_allowed:
+            if any(
+                    isinstance(comp, not_allowed_type)
+                    for comp in self.components):
+                raise ComponentNotAllowed(
+                    "The component of type " + str(not_allowed_type) +
+                    " conflicts with another component on the sprite.")
+
+        self._components.append(component)
+        component.sprite = self
+
+        return self
+
+    def get_component(self, comp_type: type) -> Union["Component", None]:
+        """
+        Gets a component from the sprite.
+
+        Args:
+            comp_type: The type of the component to search for.
+
+        Returns:
+            Union[Component, None]: The component if it was found or None if it
+            wasn't.
+        """
+        for comp in self.components:
+            if isinstance(comp, comp_type):
+                return comp
+
+    def is_in_frame(self, camera: sc.Camera, game) -> bool:
         """
         Checks if the sprite is in the frame.
 
@@ -49,18 +100,17 @@ class Sprite:
         """
         draw_area_tl = (camera.pos - game.window_size).ceil()
         draw_area_br = (camera.pos + game.window_size).ceil()
-        try:
-            sprite_tl = (self.pos -
-                         Vector(self.image.anim_frame.get_width(),
-                                self.image.anim_frame.get_height())).ceil()
-            sprite_br = (self.pos +
-                         Vector(self.image.anim_frame.get_width(),
-                                self.image.anim_frame.get_height())).ceil()
-        except AttributeError:
-            sprite_tl = (self.pos - Vector(self.image.get_width(),
-                                           self.image.get_height())).ceil()
-            sprite_br = (self.pos + Vector(self.image.get_width(),
-                                           self.image.get_height())).ceil()
+
+        if any(isinstance(comp, type(sp.Image)) for comp in self.components):
+            image = self.get_component(type(sp.Image))
+
+            sprite_tl = (self.pos - Vector(image.image.get_width(),
+                                           image.image.get_height())).ceil()
+            sprite_br = (self.pos + Vector(image.image.get_width(),
+                                           image.image.get_height())).ceil()
+        else:
+            sprite_tl = self.pos
+            sprite_br = self.pos
 
         return not (sprite_tl.x > draw_area_br.x
                     or sprite_br.x < draw_area_tl.x
@@ -69,23 +119,8 @@ class Sprite:
 
     def update(self):
         """The update loop"""
-        pass
-
-    def draw(self, surface: Surface, camera: Camera):
-        """
-        A generalized draw function for any surface
-
-        Args:
-            surface: The surface to draw.
-            camera: The camera to draw onto.
-        """
-        width, height = surface.get_size()
-        new_size = (round(width * camera.zoom), round(height * camera.zoom))
-        Display.update(
-            scale(surface, new_size),
-            camera.transform(
-                Sprite.center_to_tl(self.pos, Vector(width, height)) *
-                camera.zoom))
+        for comp in self.components:
+            comp.update()
 
     @staticmethod
     def center_to_tl(center: Vector, dims: Vector) -> Vector:
@@ -100,3 +135,21 @@ class Sprite:
             Vector: The new coordinates.
         """
         return (center - (dims / 2)).ceil()
+
+
+class Component:
+    """
+    A base component. Does nothing by itself.
+    """
+
+    def __init__(self) -> None:
+        """Initializes a component"""
+        self.sprite: Union[Sprite, None] = None
+        self.required: List[type] = []
+        self.not_allowed: List[type] = []
+
+    def update(self) -> None:
+        """
+        The main update loop for the component.
+        """
+        pass

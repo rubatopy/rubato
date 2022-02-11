@@ -1,18 +1,16 @@
 """
-The Rigidbody class contains an implementation of rigidbody physics. They
+The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import Callable, Union
-from rubato.sprite import Sprite
-from rubato.sprite.types import Image
+from rubato.sprite import Component
 from rubato.utils import Vector, Time, Math, COL_TYPE, Configs, SAT, Display
-from rubato.scenes import Camera
 from rubato.utils.sat import CollisionInfo
-from pygame import Surface
 from pygame.draw import polygon
+import rubato as rb
 
 
-class RigidBody(Sprite):
+class RigidBody(Component):
     """
     A RigidBody implementation with built in physics and collisions.
 
@@ -37,69 +35,33 @@ class RigidBody(Sprite):
             options: A rigidbody config. Defaults to the |default| for
                 `RigidBody`
         """
-        self.params = Configs.merge_params(options, Configs.rigidbody_defaults)
+        params = Configs.merge_params(options, Configs.rigidbody_defaults)
 
-        super().__init__({
-            "pos": self.params["pos"],
-            "z_index": self.params["z_index"]
-        })
+        super().__init__()
 
         self.velocity = Vector()
         self.acceleration = Vector()
 
         self.angvel = 0
-        self.rotation = self.params["rotation"]
+        self.rotation = params["rotation"]
 
-        self.mass = self.params["mass"]
+        self.mass = params["mass"]
 
-        self.hitbox = self.params["hitbox"].clone()
-        self.hitbox._pos = lambda: self.pos
+        self.hitbox = params["hitbox"].clone()
+        self.hitbox._pos = lambda: self.sprite.pos
         self.hitbox._rotation = lambda: self.rotation
 
-        self.col_type = self.params["col_type"]
+        self.col_type = params["col_type"]
 
-        self.img = self.params["img"]
+        self.do_physics = params["do_physics"]
 
-        if isinstance(self.img, tuple):
-            self.image = Image({
-                "image_location": "empty",
-                "pos": self.pos,
-                "z_index": self.params["z_index"],
-            })
-        else:
-            self.image = Image({
-                "image_location": self.img,
-                "pos": self.pos,
-                "scale_factor": self.params["scale"],
-                "z_index": self.params["z_index"],
-                "rotation": self.rotation,
-            })
-
-        self.debug = self.params["debug"]
+        self.debug = params["debug"]
 
         self.grounded = False
 
     def physics(self):
         """Runs a simulation step on the rigidbody"""
-        # Update Velocity
-        self.velocity.x += self.acceleration.x * Time.delta_time("sec")
-        self.velocity.y += (self.acceleration.y +
-                            self.params["gravity"]) * Time.delta_time("sec")
-
-        self.velocity *= self.params["friction"]
-
-        self.velocity.clamp(
-            self.params["min_speed"],
-            self.params["max_speed"],
-        )
-        self.velocity.absolute()
-
-        # Update position
-        self.pos.x += self.velocity.x * Time.delta_time("sec")
-        self.pos.y += self.velocity.y * Time.delta_time("sec")
-
-        # Update rotation
-        self.rotation += self.angvel * Time.delta_time("sec")
+        pass
 
     def set_force(self, force: Vector):
         """
@@ -143,7 +105,7 @@ class RigidBody(Sprite):
             collision.sep.round(4)
 
             if other.col_type == COL_TYPE.STATIC:
-                self.pos -= collision.sep
+                self.sprite.pos -= collision.sep
                 self.grounded = Math.sign(collision.sep.y) == 1
 
                 if self.grounded: self.velocity.y = 0
@@ -156,7 +118,7 @@ class RigidBody(Sprite):
                 if other.grounded: other.velocity.y = 0
                 if abs(collision.sep.x) > 0: other.velocity.x = 0
             else:
-                self.pos -= collision.sep / 2
+                self.sprite.pos -= collision.sep / 2
                 other.pos += collision.sep / 2
 
         if collision is not None:
@@ -186,11 +148,11 @@ class RigidBody(Sprite):
             self.grounded = Math.sign(collision.sep.y) == 1
 
             if other.col_type == COL_TYPE.STATIC:
-                self.pos -= collision.sep
+                self.sprite.pos -= collision.sep
             elif self.col_type == COL_TYPE.STATIC:
                 other.pos += collision.sep
             else:
-                self.pos -= collision.sep / 2
+                self.sprite.pos -= collision.sep / 2
                 other.pos += collision.sep / 2
 
         if collision is not None:
@@ -231,49 +193,27 @@ class RigidBody(Sprite):
 
     def update(self):
         """The update loop"""
-        if (self.params["do_physics"] and self.in_frame):
+        if (self.do_physics and self.sprite.in_frame):
             self.physics()
 
-        self.custom_update()
+        self.draw()
 
-    def custom_update(self):
-        pass
-
-    def draw(self, camera: Camera):
+    def draw(self):
         """
         The draw loop
 
         Args:
             camera: The current camera
         """
-        self.image.pos = self.pos
-        self.image.draw(camera)
-
-        if isinstance(self.img, tuple):
-            temp = Surface(self.hitbox.bounding_box_dimensions().to_tuple())
-            temp.set_alpha(self.img[3])
-            temp.fill(self.img[:3])
-            polygon(
-                temp,
-                self.img[:3],
-                list(
-                    map(lambda v: v.to_tuple(),
-                        self.hitbox.transformed_verts())),
-            )
-            Display.update(
-                temp,
-                camera.transform(super().center_to_tl(
-                    self.pos, self.hitbox.bounding_box_dimensions()) *
-                                 camera.zoom),
-            )
-
         if self.debug:
             polygon(
                 Display.global_display,
                 (0, 255, 0),
                 list(
                     map(
-                        lambda v: camera.transform(v * camera.zoom),
+                        lambda v: rb.game.scenes.current_scene.camera.
+                        transform(v * rb.game.scenes.current_scene.camera.zoom
+                                  ),
                         self.hitbox.real_verts(),
                     )),
                 3,

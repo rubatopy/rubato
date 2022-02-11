@@ -22,16 +22,12 @@ Attributes:
 from os import environ
 # This needs to be set before pygame    pylint: disable=wrong-import-position
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
-import pygame
-import sys
-# from typeguard.importhook import install_import_hook
-# install_import_hook("rubato")
 from rubato.utils import Math, STATE, Display, Vector, Time, \
     Polygon, Circle, SAT, COL_TYPE, Color, Error, Configs
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
-from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
-    Text, Empty, Animation
+from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, \
+    Text, Animation
 import rubato.input as Input
 import rubato.sound as Sound
 from rubato.game import Game
@@ -60,12 +56,11 @@ __all__ = [
     "Button",
     "Rectangle",
     "Text",
-    "Empty",
-    "Group",
     "Input",
     "Game",
     "Configs",
     "Sound",
+    "Animation",
 ]
 
 game: Game = None

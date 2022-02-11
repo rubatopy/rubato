@@ -36,56 +36,53 @@ Sound
 
 Sprite
 ------
-.. automodule:: rubato.sprite.sprite
+The default Sprite class.
+
+.. autoclass:: rubato.sprite.sprite.Sprite
     :members:
 
-.. _empty:
+.. _components:
 
-Empty
-_________
-.. automodule:: rubato.sprite.types.empty
+Components
+----------
+The default Component class.
+
+.. autoclass:: rubato.sprite.sprite.Component
     :members:
 
 .. _image:
 
 Image
 _________
-.. automodule:: rubato.sprite.types.image
+.. automodule:: rubato.sprite.components.image
     :members:
 
 .. _rectangle:
 
 Rectangle
 _________
-.. automodule:: rubato.sprite.types.rect
+.. automodule:: rubato.sprite.components.rect
     :members:
 
 .. _rigidbody:
 
 RigidBody
 _________
-.. automodule:: rubato.sprite.rigidbody
+.. automodule:: rubato.sprite.components.rigidbody
     :members:
 
 .. _text:
 
 Text
 _________
-.. automodule:: rubato.sprite.types.text
+.. automodule:: rubato.sprite.components.text
     :members:
 
 .. _button:
 
 Button
 _________
-.. automodule:: rubato.sprite.types.button
-    :members:
-
-.. _group:
-
-Group
------
-.. automodule:: rubato.sprite.group
+.. automodule:: rubato.sprite.components.button
     :members:
 
 .. _scene:

@@ -3,7 +3,9 @@ The Game class houses the global variable for the game and controls the main
 game loop.
 """
 import pygame
+from pygame.transform import scale
 import sys
+from rubato.sprite.sprite import Sprite
 from rubato.utils import STATE, Display, Vector, Time, Configs
 from rubato.scenes import SceneManager
 from rubato.radio import Radio
@@ -126,15 +128,16 @@ class Game:
         top_right = (((self.window_width - width) // 2, 0),
                      (0, (self.window_height - height) // 2))[ratio]
 
-        self.draw()
-        self._screen.blit(
-            pygame.transform.scale(self._display, (int(width), int(height))),
-            top_right)
-
         self._saved_dims = [self.window_width, self.window_height]
 
         Time.process_calls()
+
+        self.draw()
         self.scenes.update()
+
+        self._screen.blit(
+            pygame.transform.scale(self._display, (int(width), int(height))),
+            top_right)
 
         pygame.display.flip()
         self.radio.events = []
@@ -148,5 +151,24 @@ class Game:
         """Draw loop for the game. Called automatically every frame"""
         self._screen.fill((0, 0, 0))
         if self.reset_display: self._display.fill((255, 255, 255))
-        self.scenes.draw(self)
         self._display = Display.global_display
+
+    def render(self, sprite: Sprite, surface: pygame.Surface):
+        if sprite.z_index <= self.scenes.current_scene.camera.z_index:
+            if sprite.is_in_frame(self.scenes.current_scene.camera, self):
+                width, height = surface.get_size()
+
+                new_size = (
+                    round(width * self.scenes.current_scene.camera.zoom),
+                    round(height * self.scenes.current_scene.camera.zoom),
+                )
+
+                Display.update(
+                    scale(surface, new_size),
+                    self.scenes.current_scene.camera.transform(
+                        Sprite.center_to_tl(sprite.pos, Vector(width, height))
+                        * self.scenes.current_scene.camera.zoom),
+                )
+                sprite.in_frame = True
+            else:
+                sprite.in_frame = False

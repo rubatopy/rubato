@@ -95,18 +95,20 @@ html_logo = "_static/logo_small.png"
 
 html_favicon = "_static/logo.png"
 
+theme_color = "#ff9484"
+
 html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
     "light_css_variables": {
-        "color-brand-primary": "#ff9484",
-        "color-brand-content": "#ff9484",
-        "color-api-name": "#ff9484",
+        "color-brand-primary": theme_color,
+        "color-brand-content": theme_color,
+        "color-api-name": theme_color,
     },
     "dark_css_variables": {
-        "color-brand-primary": "#ff9484",
-        "color-brand-content": "#ff9484",
-        "color-api-name": "#ff9484",
+        "color-brand-primary": theme_color,
+        "color-brand-content": theme_color,
+        "color-api-name": theme_color,
     }
 }
 
@@ -122,9 +124,13 @@ html_show_sourcelink = False
 html_baseurl = "https://tinmarr.github.io/rubato/"
 
 # Open Graph
-ogp_site_url = "https://tinmarr.github.io"
+ogp_site_url = "https://rubatopy.github.io"
 ogp_description_length = 300
-ogp_image = "_static/logo_long.png"
+ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"  # pylint: disable=line-too-long
+ogp_site_name = "Rubato Documentation"
+ogp_custom_meta_tags = [
+    '<meta property="og:title" content="Rubato Documentation">',
+]
 
 rst_epilog = """
 .. |default| replace:: :ref:`default config <defaults>`

@@ -1,31 +1,35 @@
 """
-The image class renders an image from the file system.
+The image component that renders an image from the filesystem.
 """
-from os import path, walk
 from pygame.image import load
 from pygame.transform import scale, flip, rotate
+from rubato.sprite.sprite import Component
 from rubato.utils import Vector, Configs
-from rubato.scenes import Camera
-from rubato.sprite import Sprite
+import rubato as rb
 
 
-class Image(Sprite):
+class Image(Component):
     """
-    A subclass of Sprite that handles Images.
+    A component that handles Images.
 
     Attributes:
         image (pygame.Surface): The pygame surface containing the image.
     """
 
     def __init__(self, options: dict = {}):
+        """
+        Initializes an Image component.
+
+        Args:
+            options: An image config. Defaults to the |default| for
+                `Image`.
+        """
+        super().__init__()
         param = Configs.merge_params(options, Configs.image_defaults)
-        super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
 
         if param["image_location"] == "" or param[
                 "image_location"] == "default":
             self.image = load("rubato/static/default.png").convert_alpha()
-        elif param["image_location"] == "empty":
-            self.image = load("rubato/static/empty.png").convert_alpha()
         else:
             self.image = load(param["image_location"]).convert_alpha()
 
@@ -62,33 +66,13 @@ class Image(Sprite):
             new_size.x < 0, new_size.y < 0)
 
     def update(self):
-        pass
+        self.draw()
 
-    def draw(self, camera: Camera):
+    def draw(self):
         """
         Draws the image if the z index is below the camera's.
 
         Args:
             camera: The current Camera viewing the scene.
         """
-        super().draw(self.image, camera)
-
-    @staticmethod
-    def import_image_folder(dictionary: dict, rel_path: str):
-        """
-        Imports a folder of images, creating rubato.Image for each one and
-        placing it in a dictionary by its file name.
-
-        Args:
-            dictionary: A dictionary that all the images will be written to.
-            rel_path: The relative path to the folder you wish to import
-        """
-        for _, _, files in walk(rel_path):
-            # walk to directory path and ignore name and subdirectories
-            for image_path in files:
-                path_to_image = path.join(rel_path, image_path)
-                image = Image({
-                    "image_location": path_to_image,
-                })
-                dictionary[image_path.split(".")[0]] = image
-
+        rb.game.render(self.sprite, self.image)
