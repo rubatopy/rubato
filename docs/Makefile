@@ -14,6 +14,7 @@ save:
 	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)"
 
 live:
+	@make clear
 	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
 
 clear:

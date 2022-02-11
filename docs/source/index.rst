@@ -23,10 +23,11 @@ Repository: https://github.com/tinmarr/rubato
     Rubato is currently in alpha. Submit bug reports `here <https://github.com/Rubato-Python/rubato/issues>`_
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 0
     :caption: Contents
     :hidden:
 
+    intro
+    tutorials
     api
     defaults
-    intro
