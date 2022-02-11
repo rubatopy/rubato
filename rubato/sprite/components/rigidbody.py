@@ -1,5 +1,5 @@
 """
-The Rigidbody class contains an implementation of rigidbody physics. They
+The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import Callable, Union

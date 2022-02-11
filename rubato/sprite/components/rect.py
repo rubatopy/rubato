@@ -1,5 +1,6 @@
 """
-The Rectangle class draws a colored rectangle. It inherits from the image class.
+The Rectangle component draws a colored rectangle. It inherits from the image
+component.
 """
 from rubato.sprite.components import Image
 from rubato.utils import Configs
@@ -9,12 +10,12 @@ from pygame.draw import rect
 
 class Rectangle(Image):
     """
-    A class that creates a colored rectangle
+    A component that creates a colored rectangle
     """
 
     def __init__(self, options: dict = {}):
         """
-        Initializes a rectangle class.
+        Initializes a rectangle component.
 
         Args:
             options: A rectangle config. Defaults to the |default| for

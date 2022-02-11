@@ -26,28 +26,24 @@ To get started, import rubato and initilize it.
     rb.init()
 
 Rubato is uses a sprite based system. This means that everything you see on
-screen is a :ref:`Sprite <sprite>`. Sprites come in many different types. For
-example, you could have an :ref:`Image <image>` sprite or a :ref:`Rigidbody <rigidbody>`
-sprite.
+screen is a :ref:`Sprite <sprite>`. Sprites can have components attached to
+them. Components is what gives a sprite functionality. For example, you can
+attach an :ref:`Image <image>` or a :ref:`RigidBody <rigidbody>`.
 
-To add a sprite to the screen, you need to create a new :ref:`Scene <scene>`
-and a new :ref:`Group <group>`. Then you need to add the group to the scene and
-the scene to the :ref:`Scene Manager <scenemanager>`. Finally, you can create a
-sprite and add it to the group.
+To add a sprite to the screen, you need to create a new :ref:`Scene <scene>`.
+Then you need to add the scene to the :ref:`Scene Manager <scenemanager>`.
+Finally, you can create a sprite and add it to the scene.
 
 .. code-block:: python
 
     scene = rb.Scene()
     rb.game.scenes.add(scene)
 
-    image_group = rb.Group()
-    scene.add(image_group)
+    image = image = rb.Sprite({
+        "pos": rb.Vector(100, 100),
+    }).add_component(rb.Image())
 
-    image = rb.Image({
-        "pos": rb.Vector(100, 100)
-    })
-
-    image_group.add(image)
+    scene.add(image)
 
 
 The code above creates an image at position :code:`(100, 100)`. Since no image path is
