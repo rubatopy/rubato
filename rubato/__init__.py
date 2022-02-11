@@ -27,7 +27,7 @@ from rubato.utils import Math, STATE, Display, Vector, Time, \
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, \
-    Text, Animation
+    Text, Animation, Component
 import rubato.input as Input
 import rubato.sound as Sound
 from rubato.game import Game
@@ -61,6 +61,7 @@ __all__ = [
     "Configs",
     "Sound",
     "Animation",
+    "Component",
 ]
 
 game: Game = None

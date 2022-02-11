@@ -1,88 +1,19 @@
 """
 Animations are a series of images that loop in a set loop
 """
-# pylint: disable=all
 from typing import List, Tuple, Dict
-
-from rubato.scenes import Camera
-from rubato.utils import Error, Configs, Vector
-from pygame.image import load
-from pygame.transform import scale, flip, rotate
 from os import path, walk
-from rubato.sprite.sprite import Sprite
+from rubato.sprite.sprite import Component
+from rubato.sprite.components.image import Image
+from rubato.utils import Error, Configs, Vector
 
 
-class AnimationFrame:
-    """
-    A subclass of Sprite that handles Images.
-
-    Attributes:
-        image (pygame.Surface): The pygame surface containing the image.
-    """
-
-    def __init__(self, options: dict = {}):
-        """
-        Initializes an AnimationFrame
-        Args:
-            options: A AnimationFrame config. Defaults to the |default| for
-                    `AnimationFrame`.
-        """
-        param = Configs.merge_params(options, Configs.animation_frame_defaults)
-
-        if param["image_location"] in ["", "default"]:
-            self.image = load("rubato/static/default.png").convert_alpha()
-        elif param["image_location"] == "empty":
-            self.image = load("rubato/static/empty.png").convert_alpha()
-        else:
-            self.image = load(param["image_location"]).convert_alpha()
-        self.original = self.image.copy()
-        self.rotation = param["rotation"]
-
-    def get_size(self):
-        return self.image.get_size()
-
-    def get_size_original(self):
-        return self.original.get_size()
-
-    def set_rotation(self, angle):
-        if self.rotation != angle:
-            self.image = rotate(self.original, angle)
-        self.rotation = angle
-
-    def scale(self, scale_factor: Vector):
-        """
-        Scales the image.
-
-        Args:
-            scale_factor: The 2-d scale factor relative to it's current size.
-        """
-        if abs(new_x := self.image.get_width() * scale_factor.x) < 1:
-            new_x = 1
-        if abs(new_y := self.image.get_height() * scale_factor.y) < 1:
-            new_y = 1
-        self.image = flip(scale(self.original, (abs(new_x), abs(new_y))),
-                          new_x < 0, new_y < 0)
-
-    def resize(self, new_size: Vector):
-        """
-        Resize the image to a given size in pixels.
-
-        Args:
-            new_size: The new size of the image in pixels.
-        """
-        if abs(new_size.x) < 1:
-            new_size.x = 1
-        if abs(new_size.y) < 1:
-            new_size.y = 1
-        self.image = flip(
-            scale(self.image, (abs(new_size.x), abs(new_size.y))),
-            new_size.x < 0, new_size.y < 0)
-
-
-class Animation(Sprite):
+class Animation(Component):
     """
     Made of a a dictionary holding the different states ie. running, idle, etc.
-    each holding separate frames and their times. NOTE: ROTATION DOES NOT WORK!
+    each holding separate frames and their times.
+
+    NOTE: ROTATION DOES NOT WORK!
     """
     _IMAGE_INDEX = 0
     _TIME_INDEX = 1
@@ -96,11 +27,11 @@ class Animation(Sprite):
                 `Animation`.
         """
         param = Configs.merge_params(options, Configs.animation_defaults)
-        super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
+        super().__init__()
 
         self.rotation = param["rotation"]
         self.default_animation_length = param["default_animation_length"]
-        self.states: Dict[str, List[Tuple[AnimationFrame, int]]] = {}
+        self.states: Dict[str, List[Tuple[Image, int]]] = {}
         self.default_state: str = None
         self.current_state: str = ""
         self.animation_frames_left: int = 0
@@ -110,11 +41,13 @@ class Animation(Sprite):
 
     @property
     def image(self):
-        return self.states[self.current_state][self.current_frame][Animation._IMAGE_INDEX].image
+        return self.states[self.current_state][self.current_frame][
+            Animation._IMAGE_INDEX].image
 
     @property
     def anim_frame(self):
-        return self.states[self.current_state][self.current_frame][Animation._IMAGE_INDEX]
+        return self.states[self.current_state][self.current_frame][
+            Animation._IMAGE_INDEX]
 
     @property
     def _current(self):
@@ -155,30 +88,36 @@ class Animation(Sprite):
             raise Error(
                 f"The given state {new_state} is not in the given states")
 
-    def add_state(self, state_name: str, image_and_times: list[tuple] | list):
+    def add_state(self, state_name: str, image_and_times: List[tuple] | list):
         for i in range(len(image_and_times)):
             image_and_time = image_and_times[i]
-            if isinstance(image_and_time, AnimationFrame):
-                image_and_times[i] = (image_and_time, self.default_animation_length)
-            elif len(image_and_time) == 2 and isinstance(image_and_time[0], AnimationFrame) \
+            if isinstance(image_and_time, Image):
+                image_and_time.sprite = self.sprite
+                image_and_times[i] = (image_and_time,
+                                      self.default_animation_length)
+            elif len(image_and_time) == 2 and \
+                    isinstance(image_and_time[0], Image) \
                     and isinstance(image_and_time[1], int):
-                pass
+                image_and_time[0].sprite = self.sprite
             else:
                 raise Error(
-                    f"this tuple is an invalid AnimationFrame and time: {image_and_time}")
+                    "this tuple is an invalid AnimationFrame and time: " +
+                    image_and_time)
         self.states[state_name] = image_and_times
         if len(self.states) == 1:
             self.default_state = state_name
             self.current_state = state_name
 
     def update(self):
-        if self.current_frame < (length := len(self.states[self.current_state]) - 1):
+        if self.current_frame < (length :=
+                                 len(self.states[self.current_state]) - 1):
             # still in the state (extra -1 as we add if we hit a new frame)
             if self.animation_frames_left <= 0:
                 self.current_frame += 1
                 if self.current_frame >= length:
                     return self.update()
-                self.animation_frames_left = self._current[Animation._TIME_INDEX]
+                self.animation_frames_left = self._current[
+                    Animation._TIME_INDEX]
             self.animation_frames_left -= 1
         elif self.loop:  # we reached the end of our state
             self.current_frame = 0
@@ -187,15 +126,8 @@ class Animation(Sprite):
             self.current_state = self.default_state
             self.current_frame = 0
 
-    def draw(self, camera: Camera):
-        """
-        Draws the image if the z index of the current sprite is below the camera's.
-
-        Args:
-            camera: The current Camera viewing the scene.
-        """
         self.anim_frame.set_rotation(self.rotation)
-        super().draw(self.anim_frame.image, camera)
+        self.anim_frame.draw()
 
     @staticmethod
     def import_animation_folder(rel_path: str) -> list:
@@ -216,7 +148,7 @@ class Animation(Sprite):
             # walk to directory path and ignore name and subdirectories
             for image_path in files:
                 path_to_image = path.join(rel_path, image_path)
-                image = AnimationFrame({
+                image = Image({
                     "image_location": path_to_image,
                 })
                 ret_list.append(image)

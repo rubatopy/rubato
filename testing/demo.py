@@ -4,7 +4,7 @@ This is a demo file :)
 # pylint: disable=all
 
 import rubato as rb
-from rubato import Group, Scene, Vector, Input, Configs, Image, Animation
+from rubato import Group, Scene, Vector, Input, Configs, Animation
 
 rb.init()
 

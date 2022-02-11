@@ -66,15 +66,8 @@ text_defaults = {
 }
 
 animation_defaults = {
-    "pos": Vector(),
-    "z_index": 0,
     "scale_factor": Vector(1, 1),
     "default_animation_length": 5,
-    "rotation": 0,
-}
-
-animation_frame_defaults = {
-    "image_location": "default",
     "rotation": 0,
 }
 # [end-defaults]
