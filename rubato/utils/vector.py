@@ -53,6 +53,18 @@ class Vector:
         """
         return self.x, self.y
 
+    @staticmethod
+    def from_tuple(coords: tuple) -> "Vector":
+        """
+        Returns a Vector from a coordinate tuple
+        Args:
+            coords: tuple with an x and y coordinate [float | int].
+
+        Returns: Vector with specified coordinates.
+
+        """
+        return Vector(coords[0], coords[1])
+
     def dot(self, other: "Vector") -> Union[float, int]:
         """
         Takes the dot product of vectors.

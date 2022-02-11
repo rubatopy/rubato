@@ -51,11 +51,11 @@ class Sprite:
         draw_area_br = (camera.pos + game.window_size).ceil()
         try:
             sprite_tl = (self.pos -
-                         Vector(self.image.image.get_width(),
-                                self.image.image.get_height())).ceil()
+                         Vector(self.image.anim_frame.get_width(),
+                                self.image.anim_frame.get_height())).ceil()
             sprite_br = (self.pos +
-                         Vector(self.image.image.get_width(),
-                                self.image.image.get_height())).ceil()
+                         Vector(self.image.anim_frame.get_width(),
+                                self.image.anim_frame.get_height())).ceil()
         except AttributeError:
             sprite_tl = (self.pos - Vector(self.image.get_width(),
                                            self.image.get_height())).ceil()

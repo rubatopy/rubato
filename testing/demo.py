@@ -25,29 +25,45 @@ sprite = rb.Rectangle({
 })
 empty = rb.Empty()
 
-run = Image.import_animation_folder("testing/Run")
-idle = Image.import_animation_folder("testing/Idle")
+run = Animation.import_animation_folder("testing/Run")
+idle = Animation.import_animation_folder("testing/Idle")
 
-player_anim = Animation()
-player_anim.add_state("run", run)
+player_anim = Animation({"pos": Vector(50, 50)})
 player_anim.add_state("idle", idle)
+player_anim.add_state("run", run)
 main_scene.add(player_anim)
 
 def custom_update():
+    # if Input.is_pressed("w"):
+    #     sprite.pos += Vector(0, -5)
+    # if Input.is_pressed("s"):
+    #     sprite.pos += Vector(0, 5)
+    # if Input.is_pressed("a"):
+    #     sprite.pos += Vector(-5, 0)
+    # if Input.is_pressed("d"):
+    #     sprite.pos += Vector(5, 0)
     if Input.is_pressed("w"):
-        sprite.pos += Vector(0, -5)
-    if Input.is_pressed("s"):
-        sprite.pos += Vector(0, 5)
-    if Input.is_pressed("a"):
-        sprite.pos += Vector(-5, 0)
-    if Input.is_pressed("d"):
-        sprite.pos += Vector(5, 0)
-    if Input.is_pressed("="):
-        main_scene.camera.zoom = 2
-    elif Input.is_pressed("-"):
-        main_scene.camera.zoom = 0.5
+        player_anim.set_current_state("run")
+        player_anim.pos += Vector(0, -5)
+    elif Input.is_pressed("s"):
+        player_anim.set_current_state("run")
+        player_anim.pos += Vector(0, 5)
+    elif Input.is_pressed("a"):
+        player_anim.set_current_state("run")
+        player_anim.pos += Vector(-5, 0)
+    elif Input.is_pressed("d"):
+        player_anim.set_current_state("run")
+        player_anim.pos += Vector(5, 0)
     else:
-        main_scene.camera.zoom = 1
+        player_anim.set_current_state("idle")
+    if Input.is_pressed("right"):
+        player_anim.rotation += 1
+    if Input.is_pressed("="):
+        player_anim.resize(Vector.from_tuple(player_anim.anim_frame.get_size_original()) * 2)
+    elif Input.is_pressed("-"):
+        player_anim.resize(Vector.from_tuple(player_anim.anim_frame.get_size_original()) / 2)
+    else:
+        player_anim.resize(Vector.from_tuple(player_anim.anim_frame.get_size_original()))
 
 
 empty.update = custom_update
