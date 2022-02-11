@@ -52,45 +52,42 @@ animation_component.add_state("run", run)
 animation_component.add_state("idle", idle)
 
 
-class CustomComponent(rb.Component):
+def custom_update():
+    if rb.Input.is_pressed("w"):
+        animation_component.set_current_state("run")
+        animated_player.pos += rb.Vector(0, -5)
+    elif rb.Input.is_pressed("s"):
+        animation_component.set_current_state("run")
+        animated_player.pos += rb.Vector(0, 5)
+    elif rb.Input.is_pressed("a"):
+        animation_component.set_current_state("run")
+        animated_player.pos += rb.Vector(-5, 0)
+    elif rb.Input.is_pressed("d"):
+        animation_component.set_current_state("run")
+        animated_player.pos += rb.Vector(5, 0)
+    else:
+        animation_component.set_current_state("idle", True)
+    if rb.Input.is_pressed("right"):
+        animation_component.rotation += 1
+    if rb.Input.is_pressed("="):
+        animation_component.resize(
+            rb.Vector.from_tuple(
+                animation_component.anim_frame.get_size_original()) * 2)
+    elif rb.Input.is_pressed("-"):
+        animation_component.resize(
+            rb.Vector.from_tuple(
+                animation_component.anim_frame.get_size_original()) / 2)
+    else:
+        animation_component.resize(
+            rb.Vector.from_tuple(
+                animation_component.anim_frame.get_size_original()))
 
-    def update(self):
-        if rb.Input.is_pressed("w"):
-            animation_component.set_current_state("run")
-            animated_player.pos += rb.Vector(0, -5)
-        elif rb.Input.is_pressed("s"):
-            animation_component.set_current_state("run")
-            animated_player.pos += rb.Vector(0, 5)
-        elif rb.Input.is_pressed("a"):
-            animation_component.set_current_state("run")
-            animated_player.pos += rb.Vector(-5, 0)
-        elif rb.Input.is_pressed("d"):
-            animation_component.set_current_state("run")
-            animated_player.pos += rb.Vector(5, 0)
-        else:
-            animation_component.set_current_state("idle")
-        if rb.Input.is_pressed("right"):
-            animation_component.rotation += 1
-        if rb.Input.is_pressed("="):
-            animation_component.resize(
-                rb.Vector.from_tuple(
-                    animation_component.anim_frame.get_size_original()) * 2)
-        elif rb.Input.is_pressed("-"):
-            animated_player.resize(
-                rb.Vector.from_tuple(
-                    animated_player.anim_frame.get_size_original()) / 2)
-        else:
-            animation_component.resize(
-                rb.Vector.from_tuple(
-                    animation_component.anim_frame.get_size_original()))
-
-
-empty = rb.Sprite().add_component(CustomComponent())
 
 main_scene.add(image)
 main_scene.add(rect)
 main_scene.add(rigid)
 main_scene.add(animated_player)
-main_scene.add(empty)
+
+main_scene.update = custom_update
 
 rb.begin()

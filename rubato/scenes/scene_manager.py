@@ -89,4 +89,4 @@ class SceneManager:
         Calls the update function of the current scene.
         """
         if self.is_empty: return
-        self.current_scene.update()
+        self.current_scene.private_update()

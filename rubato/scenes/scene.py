@@ -69,9 +69,14 @@ class Scene:
         except KeyError:
             pass
 
-    def update(self):
-        """
-        The update loop for this scene.
-        """
+    def private_update(self):
+        self.update()
         for sprite in self.sprites.values():
             sprite.update()
+
+    def update(self):
+        """
+        The update loop for this scene. Is empty by default an can be
+        overridden.
+        """
+        pass

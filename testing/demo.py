@@ -1,5 +1,7 @@
 """
 This is a demo file :)
+
+WARNING: THIS ENTIRE FILE DOESN'T WORK AS IT USES THE OLD SYSTEM
 """
 # pylint: disable=all
 
