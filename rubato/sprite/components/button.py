@@ -1,7 +1,7 @@
 """
 A simple button. A button is a text sprite that has mouse over detection.
 """
-from rubato.sprite.types import Text
+from rubato.sprite.components import Text
 from rubato.utils import Vector, Configs
 import rubato.input as Input
 

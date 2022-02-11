@@ -90,13 +90,3 @@ class SceneManager:
         """
         if self.is_empty: return
         self.current_scene.update()
-
-    def draw(self, game):
-        """
-        Calls the draw function of the current scene.
-
-        Args:
-            game (Game): The game to draw to.
-        """
-        if self.is_empty: return
-        self.current_scene.draw(game)

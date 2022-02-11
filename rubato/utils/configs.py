@@ -16,7 +16,6 @@ game_defaults = {
 }
 
 rigidbody_defaults = {
-    "pos": Vector(),
     "mass": 1,
     "hitbox": Polygon.generate_polygon(4),
     "do_physics": True,
@@ -24,25 +23,21 @@ rigidbody_defaults = {
     "max_speed": Vector(Math.INFINITY, Math.INFINITY),
     "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),
     "friction": Vector(1, 1),
-    "img": "default",
     "col_type": COL_TYPE.STATIC,
     "scale": Vector(1, 1),
     "debug": False,
-    "z_index": 0,
     "rotation": 0,
 }
 
 image_defaults = {
-    "image_location": "default",
-    "pos": Vector(),
-    "scale_factor": Vector(1, 1),
-    "z_index": 0,
-    "rotation": 0,
+    "image_location": "default",  # str
+    "scale_factor": Vector(1, 1),  # Vector
+    "rotation": 0,  # float
 }
 
 sprite_defaults = {
-    "pos": Vector(),
-    "z_index": 0,
+    "pos": Vector(),  # Vector
+    "z_index": 0,  # int
 }
 
 button_defaults = {
@@ -55,10 +50,8 @@ button_defaults = {
 }
 
 rect_defaults = {
-    "pos": Vector(),
     "dims": Vector(),
     "color": Color.black,
-    "z_index": 0,
 }
 
 text_defaults = {

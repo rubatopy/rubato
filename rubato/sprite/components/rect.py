@@ -1,7 +1,7 @@
 """
 The Rectangle class draws a colored rectangle. It inherits from the image class.
 """
-from rubato.sprite.types import Image
+from rubato.sprite.components import Image
 from rubato.utils import Configs
 from pygame.surface import Surface
 from pygame.draw import rect
@@ -21,11 +21,7 @@ class Rectangle(Image):
                 `Rectangle`.
         """
         param = Configs.merge_params(options, Configs.rect_defaults)
-        super().__init__({
-            "image_location": "",
-            "pos": param["pos"],
-            "z_index": param["z_index"]
-        })
+        super().__init__({})
         self.image = Surface(param["dims"].to_tuple())
 
         rect(
