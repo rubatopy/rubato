@@ -8,7 +8,11 @@
 
 ### Changed
 
+-   Switched to a component based system (similar to Unity)
+
 ### Removed
+
+-   Groups
 
 ### Fixed
 
