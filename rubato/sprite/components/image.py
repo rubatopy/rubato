@@ -30,8 +30,6 @@ class Image(Component):
         if param["image_location"] == "" or param[
                 "image_location"] == "default":
             self.image = load("rubato/static/default.png").convert_alpha()
-        elif param["image_location"] == "empty":
-            self.image = load("rubato/static/empty.png").convert_alpha()
         else:
             self.image = load(param["image_location"]).convert_alpha()
 
