@@ -27,7 +27,7 @@ import sys
 # from typeguard.importhook import install_import_hook
 # install_import_hook("rubato")
 from rubato.utils import Math, STATE, Display, Vector, Time, \
-    Polygon, Circle, SAT, COL_TYPE, RGB, Error, Configs
+    Polygon, Circle, SAT, COL_TYPE, Color, Error, Configs
 from rubato.scenes import SceneManager, Scene, Camera
 from rubato.radio import Radio
 from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
@@ -35,7 +35,6 @@ from rubato.sprite import Sprite, Group, Image, RigidBody, Button, Rectangle, \
 import rubato.input as Input
 import rubato.sound as Sound
 from rubato.game import Game
-Colour = RGB
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -49,8 +48,7 @@ __all__ = [
     "Circle",
     "SAT",
     "COL_TYPE",
-    "RGB",
-    "Colour",
+    "Color",
     "Error",
     "SceneManager",
     "Scene",
