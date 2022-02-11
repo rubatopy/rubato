@@ -57,6 +57,13 @@ _________
 .. automodule:: rubato.sprite.components.image
     :members:
 
+.. _animation:
+
+Animation
+_________
+.. automodule:: rubato.sprite.components.animation
+    :members:
+
 .. _rectangle:
 
 Rectangle

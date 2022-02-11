@@ -18,23 +18,40 @@ class Image(Component):
 
     def __init__(self, options: dict = {}):
         """
-        Initializes an Image component.
+        Initializes an Image
 
         Args:
-            options: An image config. Defaults to the |default| for
-                `Image`.
+            options: A Image config. Defaults to the |default| for
+                    `Image`.
         """
-        super().__init__()
         param = Configs.merge_params(options, Configs.image_defaults)
+        super().__init__()
 
-        if param["image_location"] == "" or param[
-                "image_location"] == "default":
+        if param["image_location"] in ["", "default"]:
             self.image = load("rubato/static/default.png").convert_alpha()
         else:
             self.image = load(param["image_location"]).convert_alpha()
 
-        self.image = rotate(self.image, param["rotation"])
+        self._original = self.image.copy()
+        self.rotation = param["rotation"]
         self.scale(param["scale_factor"])
+
+    def get_size(self):
+        """
+        Gets the current size of the frame.
+
+        Returns:
+            [type]: [description]
+        """
+        return self.image.get_size()
+
+    def get_size_original(self):
+        return self._original.get_size()
+
+    def set_rotation(self, angle):
+        if self.rotation != angle:
+            self.image = rotate(self._original, angle)
+        self.rotation = angle
 
     def scale(self, scale_factor: Vector):
         """
@@ -47,7 +64,7 @@ class Image(Component):
             new_x = 1
         if abs(new_y := self.image.get_height() * scale_factor.y) < 1:
             new_y = 1
-        self.image = flip(scale(self.image, (abs(new_x), abs(new_y))),
+        self.image = flip(scale(self._original, (abs(new_x), abs(new_y))),
                           new_x < 0, new_y < 0)
 
     def resize(self, new_size: Vector):

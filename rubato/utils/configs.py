@@ -30,14 +30,14 @@ rigidbody_defaults = {
 }
 
 image_defaults = {
-    "image_location": "default",  # str
-    "scale_factor": Vector(1, 1),  # Vector
-    "rotation": 0,  # float
+    "image_location": "default",  #     str
+    "scale_factor": Vector(1, 1),  #    Vector
+    "rotation": 0,  #                   float
 }
 
 sprite_defaults = {
     "pos": Vector(),  # Vector
-    "z_index": 0,  # int
+    "z_index": 0,  #    int
 }
 
 button_defaults = {
@@ -63,6 +63,12 @@ text_defaults = {
     "color": Color.black,
     "static": False,
     "onto_surface": None,
+}
+
+animation_defaults = {
+    "scale_factor": Vector(1, 1),  #    Vector
+    "default_animation_length": 5,  #   int
+    "rotation": 0,  #                   float
 }
 # [end-defaults]
 
