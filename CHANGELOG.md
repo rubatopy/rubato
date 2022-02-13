@@ -12,7 +12,7 @@
 
 ### Removed
 
--   Groups
+-   Removed Groups because they were deemed useless
 
 ### Fixed
 
