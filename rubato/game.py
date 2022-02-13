@@ -5,11 +5,21 @@ game loop.
 import pygame
 from pygame.transform import scale
 import sys
-from rubato.sprite.sprite import Sprite
-from rubato.utils import STATE, Display, Vector, Time, Configs
-from rubato.scenes import SceneManager
+from rubato.classes.sprite import Sprite
+from rubato.utils import Display, Vector, Time, Configs
+from rubato.classes import SceneManager
 from rubato.radio import Radio
 import rubato.input as Input
+from enum import Enum
+
+
+class STATE(Enum):
+    """
+    An enum to keep track of the state things
+    """
+    RUNNING = 1
+    STOPPED = 2
+    PAUSED = 3
 
 
 class Game:
@@ -155,20 +165,16 @@ class Game:
 
     def render(self, sprite: Sprite, surface: pygame.Surface):
         if sprite.z_index <= self.scenes.current_scene.camera.z_index:
-            if sprite.is_in_frame(self.scenes.current_scene.camera, self):
-                width, height = surface.get_size()
+            width, height = surface.get_size()
 
-                new_size = (
-                    round(width * self.scenes.current_scene.camera.zoom),
-                    round(height * self.scenes.current_scene.camera.zoom),
-                )
+            new_size = (
+                round(width * self.scenes.current_scene.camera.zoom),
+                round(height * self.scenes.current_scene.camera.zoom),
+            )
 
-                Display.update(
-                    scale(surface, new_size),
-                    self.scenes.current_scene.camera.transform(
-                        Sprite.center_to_tl(sprite.pos, Vector(width, height))
-                        * self.scenes.current_scene.camera.zoom),
-                )
-                sprite.in_frame = True
-            else:
-                sprite.in_frame = False
+            Display.update(
+                scale(surface, new_size),
+                self.scenes.current_scene.camera.transform(
+                    Sprite.center_to_tl(sprite.pos, Vector(width, height)) *
+                    self.scenes.current_scene.camera.zoom),
+            )

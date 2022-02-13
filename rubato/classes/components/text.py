@@ -3,9 +3,9 @@ A sprite used to render text.
 """
 import pygame
 from pygame.transform import scale
-from rubato.sprite import Sprite
+from rubato.classes.sprite import Sprite
 from rubato.utils import Vector, Configs, Display
-from rubato.scenes import Camera
+from rubato.classes import Camera
 from rubato.utils.color import Color
 
 

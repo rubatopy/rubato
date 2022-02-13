@@ -19,15 +19,16 @@ Attributes:
     game (Game): The global game class that can be accessed anywhere.
         Initialized when :meth:`rubato.init()` is called.
 """
-from os import environ
-# This needs to be set before pygame    pylint: disable=wrong-import-position
-environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
-from rubato.utils import Math, STATE, Display, Vector, Time, \
-    Polygon, Circle, SAT, COL_TYPE, Color, Error, Configs
-from rubato.scenes import SceneManager, Scene, Camera
+import os
+# This needs to be set before pygame   pylint: disable=wrong-import-position
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+
+from rubato.utils import Math, Display, Vector, Time, \
+    Color, Error, Configs
 from rubato.radio import Radio
-from rubato.sprite import Sprite, Image, RigidBody, Button, Rectangle, \
-    Text, Animation, Component
+from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
+    RigidBody, Rectangle, Animation, Component, Polygon, Circle, \
+        SAT
 import rubato.input as Input
 import rubato.sound as Sound
 from rubato.game import Game
@@ -36,14 +37,12 @@ from rubato.game import Game
 # Apparently just importing them isn't enough.
 __all__ = [
     "Math",
-    "STATE",
     "Display",
     "Vector",
     "Time",
     "Polygon",
     "Circle",
     "SAT",
-    "COL_TYPE",
     "Color",
     "Error",
     "SceneManager",
@@ -53,9 +52,7 @@ __all__ = [
     "Sprite",
     "Image",
     "RigidBody",
-    "Button",
     "Rectangle",
-    "Text",
     "Input",
     "Game",
     "Configs",

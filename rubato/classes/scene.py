@@ -3,8 +3,8 @@ We create the Scene class which is is a collection of sprites. Interactions
 between sprites is handled here.
 """
 from typing import Union, Dict
-from rubato.scenes import Camera
-import rubato.sprite as sp
+from rubato.classes.camera import Camera
+import rubato.classes as rb
 from rubato.utils.error import IdError
 
 
@@ -25,13 +25,13 @@ class Scene:
         Initializes a scene with an empty collection of sprites, a new camera,
         and a blank id.
         """
-        self.sprites: Dict[Union[int, str], sp.Sprite] = {}
+        self.sprites: Dict[Union[int, str], rb.Sprite] = {}
         self.__min_id = 0
         self.camera = Camera()
         self.id: Union[str, int] = ""
 
     def add(self,
-            sprite: sp.Sprite,
+            sprite: rb.Sprite,
             sprite_id: Union[int, str] = None) -> Union[str, int]:
         """
         Adds a sprite to the scene.

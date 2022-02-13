@@ -2,7 +2,7 @@
 The Rectangle component draws a colored rectangle. It inherits from the image
 component.
 """
-from rubato.sprite.components import Image
+from rubato.classes.components import Image
 from rubato.utils import Configs
 from pygame.surface import Surface
 from pygame.draw import rect

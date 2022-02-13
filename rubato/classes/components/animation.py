@@ -5,8 +5,8 @@ from typing import List, Tuple, Dict
 from os import path, walk
 
 from pygame import Surface
-from rubato.sprite.sprite import Component
-from rubato.sprite.components.image import Image
+from rubato.classes.component import Component
+from rubato.classes.components.image import Image
 from rubato.utils import Error, Configs, Vector
 
 

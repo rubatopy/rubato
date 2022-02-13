@@ -1,17 +1,53 @@
-"""
-An SAT implementation
-"""
-from typing import Callable, List, Union
-from rubato.utils import Vector, Math
+"""Various hitbox components that enable collisions"""
+
 import math
-
+from typing import Callable, List, Union
+from rubato.utils.vector import Vector
+from rubato.utils import Math, Display
+from rubato.classes.component import Component
 from rubato.utils.error import SideError
+import rubato as rb
+from pygame.draw import polygon
 
-# Credit for original JavaScript SAT implementation to Andrew Sevenson
-# https://github.com/sevdanski/SAT_JS
+
+class Hitbox(Component):
+    """
+    The basic hitbox
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.debug = False
+        self._pos = lambda: Vector(0, 0)
+        self.scale = 1
+
+    def update(self):
+        self.draw()
+
+    def draw(self):
+        pass
+
+    def collide(
+            self,
+            other: "Hitbox",
+            callback: Callable = lambda c: None
+    ) -> Union["CollisionInfo", None]:
+        """
+        A simple collision engine for most use cases.
+
+        Args:
+            other: The other rigidbody to collide with.
+            callback: The function to run when a collision is detected.
+                Defaults to None.
+
+        Returns:
+            Union[CollisionInfo, None]: Returns a collision info object if a
+            collision is detected or nothing if no collision is detected.
+        """
+        pass
 
 
-class Polygon:
+class Polygon(Hitbox):
     """
     A custom polygon class with an arbitrary number of vertices
 
@@ -23,9 +59,8 @@ class Polygon:
 
     def __init__(self,
                  verts: List[Vector],
-                 pos: Callable = lambda: Vector(0, 0),
-                 scale: Union[float, int] = 1,
-                 rotation: Callable = lambda: 0):
+                 rotation: Callable = lambda: 0,
+                 debug: bool = False):
         """
         Initializes a Polygon
 
@@ -37,8 +72,10 @@ class Polygon:
             rotation: The rotation angle of the polygon in degrees as a
                 function. Defaults to lambda: 0.
         """
-        self.verts, self._pos = verts, pos
-        self.scale, self._rotation = scale, rotation
+        super().__init__()
+        self.debug = debug
+        self.verts = verts
+        self._rotation = rotation
 
     @staticmethod
     def generate_rect(w: int = 32, h: int = 32) -> "Polygon":
@@ -105,9 +142,11 @@ class Polygon:
     def clone(self) -> "Polygon":
         """Creates a copy of the Polygon at the current position"""
         # pylint: disable=unnecessary-lambda
-        return Polygon(list(map((lambda v: v.clone()),
-                                self.verts)), lambda: self.pos.clone(),
-                       self.scale, lambda: self.rotation.clone())
+        new_poly = Polygon(list(map((lambda v: v.clone()), self.verts)),
+                           lambda: self.rotation.clone(), self.debug)
+        new_poly._pos = self._pos  # pylint: disable=protected-access
+        new_poly.scale = self.scale
+        return new_poly
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -130,8 +169,29 @@ class Polygon:
         y_dir = SAT.project_verts(real_verts, Vector(0, 1))
         return Vector(x_dir.y - x_dir.x, y_dir.y - y_dir.x)
 
+    def draw(self):
+        """
+        The draw loop
 
-class Circle:
+        Args:
+            camera: The current camera
+        """
+        if self.debug:
+            polygon(
+                Display.global_display,
+                (0, 255, 0),
+                list(
+                    map(
+                        lambda v: rb.game.scenes.current_scene.camera.
+                        transform(v * rb.game.scenes.current_scene.camera.zoom
+                                  ),
+                        self.real_verts(),
+                    )),
+                3,
+            )
+
+
+class Circle(Hitbox):
     """
     A custom circle class defined by a position, radius, and scale
 
@@ -140,10 +200,7 @@ class Circle:
         scale (int): The scale of the circle.
     """
 
-    def __init__(self,
-                 pos: Callable = lambda: Vector(0, 0),
-                 radius: int = 1,
-                 scale: int = 1):
+    def __init__(self, radius: int = 1):
         """
         Initializes a Circle
 
@@ -153,7 +210,8 @@ class Circle:
             radius: The radius of the circle. Defaults to 1.
             scale: The scale of the circle. Defaults to 1.
         """
-        self._pos, self.radius, self.scale = pos, radius, scale
+        super().__init__()
+        self.radius = radius
 
     @property
     def pos(self) -> Vector:
@@ -162,7 +220,10 @@ class Circle:
 
     def clone(self) -> "Circle":
         """Creates a copy of the circle at the current position"""
-        return Circle(self.pos.clone(), self.radius, self.scale)
+        new_circle = Circle(self.radius)
+        new_circle._pos = self._pos  # pylint: disable=protected-access
+        new_circle.scale = self.scale
+        return new_circle
 
     def transformed_radius(self) -> int:
         """Gets the true radius of the circle"""
@@ -226,8 +287,8 @@ class SAT:
 
         a_is_circle = isinstance(shape_a, Circle)
         return SAT.circle_polygon_test((shape_a, shape_b)[a_is_circle],
-                                        (shape_b, shape_a)[a_is_circle],
-                                        not a_is_circle)
+                                       (shape_b, shape_a)[a_is_circle],
+                                       not a_is_circle)
 
     @staticmethod
     def circle_circle_test(shape_a, shape_b):
@@ -238,10 +299,9 @@ class SAT:
         pass
 
     @staticmethod
-    def polygon_polygon_test(
-            shape_a: Union[Polygon, Circle],
-            shape_b: Union[Polygon, Circle],
-            flip: bool = False) -> Union[CollisionInfo, None]:
+    def polygon_polygon_test(shape_a: Union[Polygon, Circle],
+                             shape_b: Union[Polygon, Circle],
+                             flip: bool = False) -> Union[CollisionInfo, None]:
         """Checks for overlap between two polygons"""
 
         shortest_dist = Math.INFINITY

@@ -3,7 +3,7 @@ The image component that renders an image from the filesystem.
 """
 from pygame.image import load
 from pygame.transform import scale, flip, rotate
-from rubato.sprite.sprite import Component
+from rubato.classes.component import Component
 from rubato.utils import Vector, Configs
 import rubato as rb
 

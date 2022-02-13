@@ -2,31 +2,28 @@
 A module that houses all of the default options.
 """
 
-from rubato.utils import Vector, Color, Polygon, Math, COL_TYPE
+from rubato.utils import Math, Vector, Color
 
 # [start-defaults]
 game_defaults = {
-    "name": "Untitled Game",
-    "window_width": 600,
-    "window_height": 400,
-    "aspect_ratio": 1.5,
-    "fps": 60,
-    "reset_display": True,
-    "better_clock": True,
+    "name": "Untitled Game",  #     str
+    "window_width": 600,  #         int
+    "window_height": 400,  #        int
+    "aspect_ratio": 1.5,  #         float
+    "fps": 60,  #                   int
+    "reset_display": True,  #       bool
+    "better_clock": True,  #        bool
 }
 
 rigidbody_defaults = {
-    "mass": 1,
-    "hitbox": Polygon.generate_polygon(4),
-    "do_physics": True,
-    "gravity": 100,
-    "max_speed": Vector(Math.INFINITY, Math.INFINITY),
-    "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),
-    "friction": Vector(1, 1),
-    "col_type": COL_TYPE.STATIC,
-    "scale": Vector(1, 1),
-    "debug": False,
-    "rotation": 0,
+    "mass": 1,  #                                               float
+    "do_physics": True,  #                                      bool
+    "gravity": 100,  #                                          float
+    "max_speed": Vector(Math.INFINITY, Math.INFINITY),  #       Vector
+    "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),  #     Vector
+    "friction": Vector(1, 1),  #                                Vector
+    "debug": False,  #                                          bool
+    "rotation": 0,  #                                           float
 }
 
 image_defaults = {
@@ -36,8 +33,8 @@ image_defaults = {
 }
 
 sprite_defaults = {
-    "pos": Vector(),  # Vector
-    "z_index": 0,  #    int
+    "pos": Vector(),  #     Vector
+    "z_index": 0,  #        int
 }
 
 button_defaults = {

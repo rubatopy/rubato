@@ -21,72 +21,68 @@ rect = rb.Sprite({
         "color": rb.Color.red,
     }))
 
-rigid = rb.Sprite({
-    "pos": rb.Vector(100, 200),
-}).add_component(
-    rb.RigidBody({
-        "mass": 1,
-        "friction": rb.Vector(1, 1),
-        "max_speed": rb.Vector(100, rb.Math.INFINITY),
-        "col_type": rb.COL_TYPE.ELASTIC,
-        "hitbox": rb.Polygon.generate_rect(),
-        "debug": True,
-        "rotation": 0,
-    })).add_component(
-        rb.Rectangle({
-            "dims": rb.Vector(32, 32),
-            "color": rb.Color.yellow
-        }))
-
 run = rb.Animation.import_animation_folder("testing/Run")
 idle = rb.Animation.import_animation_folder("testing/Idle")
 
-animated_player = rb.Sprite({
+player = rb.Sprite({
     "pos": rb.Vector(50, 50),
 })
 
-animation_component = rb.Animation()
-animated_player.add_component(animation_component)
+player_rb = rb.RigidBody({
+    "mass": 1,
+    "friction": rb.Vector(0.95, 0.95),
+    "max_speed": rb.Vector(100, rb.Math.INFINITY),
+    "hitbox": rb.Polygon.generate_rect(),
+    "debug": True,
+    "rotation": 0,
+    "gravity": 100,
+})
+player.add_component(player_rb)
 
-animation_component.add_state("run", run)
-animation_component.add_state("idle", idle)
+player_hitbox = rb.Polygon.generate_rect(32, 32)
+player_hitbox.debug = True
+player.add_component(player_hitbox)
+
+player_anim = rb.Animation()
+player.add_component(player_anim)
+
+player_anim.add_state("run", run)
+player_anim.add_state("idle", idle)
 
 
 def custom_update():
     if rb.Input.is_pressed("w"):
-        animation_component.set_current_state("run")
-        animated_player.pos += rb.Vector(0, -5)
+        player_anim.set_current_state("run")
+        player_rb.velocity.y = -100
     elif rb.Input.is_pressed("s"):
-        animation_component.set_current_state("run")
-        animated_player.pos += rb.Vector(0, 5)
-    elif rb.Input.is_pressed("a"):
-        animation_component.set_current_state("run")
-        animated_player.pos += rb.Vector(-5, 0)
+        player_anim.set_current_state("run")
+        player_rb.velocity.y = 100
+    if rb.Input.is_pressed("a"):
+        player_anim.set_current_state("run")
+        player_rb.velocity.x = -100
     elif rb.Input.is_pressed("d"):
-        animation_component.set_current_state("run")
-        animated_player.pos += rb.Vector(5, 0)
+        player_anim.set_current_state("run")
+        player_rb.velocity.x = 100
     else:
-        animation_component.set_current_state("idle", True)
+        player_anim.set_current_state("idle", True)
     if rb.Input.is_pressed("right"):
-        animation_component.rotation += 1
+        player_anim.rotation += 1
     if rb.Input.is_pressed("="):
-        animation_component.resize(
-            rb.Vector.from_tuple(
-                animation_component.anim_frame.get_size_original()) * 2)
+        player_anim.resize(
+            rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) *
+            2)
     elif rb.Input.is_pressed("-"):
-        animation_component.resize(
-            rb.Vector.from_tuple(
-                animation_component.anim_frame.get_size_original()) / 2)
+        player_anim.resize(
+            rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) /
+            2)
     else:
-        animation_component.resize(
-            rb.Vector.from_tuple(
-                animation_component.anim_frame.get_size_original()))
+        player_anim.resize(
+            rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()))
 
 
 main_scene.add(image)
 main_scene.add(rect)
-main_scene.add(rigid)
-main_scene.add(animated_player)
+main_scene.add(player)
 
 main_scene.update = custom_update
 

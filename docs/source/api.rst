@@ -38,7 +38,7 @@ Sprite
 ------
 The default Sprite class.
 
-.. autoclass:: rubato.sprite.sprite.Sprite
+.. autoclass:: rubato.classes.sprite.Sprite
     :members:
 
 .. _components:
@@ -47,87 +47,73 @@ Components
 ----------
 The default Component class.
 
-.. autoclass:: rubato.sprite.sprite.Component
+.. automodule:: rubato.classes.component
     :members:
 
 .. _image:
 
 Image
 _________
-.. automodule:: rubato.sprite.components.image
+.. automodule:: rubato.classes.components.image
     :members:
 
 .. _animation:
 
 Animation
 _________
-.. automodule:: rubato.sprite.components.animation
+.. automodule:: rubato.classes.components.animation
     :members:
 
 .. _rectangle:
 
 Rectangle
 _________
-.. automodule:: rubato.sprite.components.rect
+.. automodule:: rubato.classes.components.rect
+    :members:
+
+.. _hitbox:
+
+Hitbox
+_________
+.. automodule:: rubato.classes.components.hitbox
     :members:
 
 .. _rigidbody:
 
 RigidBody
 _________
-.. automodule:: rubato.sprite.components.rigidbody
-    :members:
-
-.. _text:
-
-Text
-_________
-.. automodule:: rubato.sprite.components.text
-    :members:
-
-.. _button:
-
-Button
-_________
-.. automodule:: rubato.sprite.components.button
+.. automodule:: rubato.classes.components.rigidbody
     :members:
 
 .. _scene:
 
 Scene
 -----
-.. automodule:: rubato.scenes.scene
+.. automodule:: rubato.classes.scene
     :members:
 
 .. _scenemanager:
 
 SceneManager
 -------------
-.. automodule:: rubato.scenes.scene_manager
+.. automodule:: rubato.classes.scene_manager
     :members:
 
 .. _camera:
 
 Camera
 ------
-.. automodule:: rubato.scenes.camera
+.. automodule:: rubato.classes.camera
     :members:
 
 Utilities
 ---------
 
-.. _pmath:
+.. _math:
 
-PMath
+Math
 _____________
 .. automodule:: rubato.utils.math
-    :members:
-
-.. _state:
-
-STATE
-_____________
-.. automodule:: rubato.utils.STATE
     :members:
 
 .. _display:
@@ -151,15 +137,6 @@ _____________
 .. automodule:: rubato.utils.time
     :members:
 
-.. _polygon:
-
-.. _col_type:
-
-COL_TYPE
-_____________
-.. automodule:: rubato.utils.COL_TYPE
-    :members:
-
 .. _color:
 
 Color
@@ -171,14 +148,4 @@ _____________
 Errors
 _____________
 .. automodule:: rubato.utils.error
-    :members:
-
-.. _sat:
-
-Separating Axis Theorem
------------------------
-Credit for original JavaScript separating axis theorem implementation to Andrew Sevenson\n
-https://github.com/sevdanski/SAT_JS
-
-.. automodule:: rubato.utils.sat
     :members:

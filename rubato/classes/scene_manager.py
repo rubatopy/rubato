@@ -4,7 +4,7 @@ different scenes. Each Game object has a scene manager. It also handles drawing
 and updating the current scene.
 """
 from typing import Union
-from rubato.scenes.scene import Scene
+from rubato.classes.scene import Scene
 from rubato.utils.error import IdError
 
 
