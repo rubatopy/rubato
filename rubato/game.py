@@ -25,6 +25,8 @@ class STATE(Enum):
 class Game:
     """
     The main game class. It controls everything in the game.
+    The Display is where your game lives at a certain aspect ratio,
+    The Screen is the actual size of the window which the user interacts with.
 
     Attributes:
         scenes (SceneManager): The global scene manager.
@@ -34,8 +36,8 @@ class Game:
         reset_display (bool): Controls whether or not the display should reset
             every frame.
         state (STATE): The current state of the game.
-        window_width (int): The width of the game window.
-        window_height (int): The height of the game window.
+        _window_width (int): The width of the game window.
+        _window_height (int): The height of the game window.
     """
 
     def __init__(self, options: dict = {}):
@@ -50,8 +52,8 @@ class Game:
         params = Configs.merge_params(options, Configs.game_defaults)
 
         self.name: str = params["name"]
-        self.window_width: int = params["window_width"]
-        self.window_height: int = params["window_height"]
+        self._window_width: int = params["window_width"]
+        self._window_height: int = params["window_height"]
         self._aspect_ratio: float = params["aspect_ratio"]
         self.fps: int = params["fps"]
         self.reset_display: bool = params["reset_display"]
@@ -63,8 +65,8 @@ class Game:
         Time.set_clock(self._clock)
 
         self._screen = pygame.display.set_mode(
-            (self.window_width, self.window_height), pygame.RESIZABLE)
-        self._display = pygame.Surface((self.window_width, self.window_height),
+            (self._window_width, self._window_height), pygame.RESIZABLE)
+        self._display = pygame.Surface((self._window_width, self._window_height),
                                        pygame.SRCALPHA)
 
         pygame.display.set_caption(self.name)
@@ -76,7 +78,10 @@ class Game:
         self.scenes = SceneManager()
         self.radio = Radio()
 
-        self._saved_dims = [self.window_width, self.window_height]
+        self._saved_dims = [self._window_width, self._window_height]
+
+        infos = pygame.display.Info()
+        self._max_screen_size = (infos.current_w, infos.current_h)
 
     @property
     def state(self):
@@ -89,7 +94,63 @@ class Game:
         if self._state == STATE.RUNNING:
             self.start_loop()
         if self._state == STATE.STOPPED:
-            pygame.event.post(pygame.QUIT)
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+    @property
+    def window_width(self):
+        """
+        Returns:
+            The height of the actual window (screen).
+        """
+        return self._window_width
+
+    @window_width.setter
+    def window_width(self, window_width: int) -> None:
+        """
+        Sets width of actual window (screen).
+        Args:
+            window_width:
+                width clamped between the max display size initialized rubato.init()
+        """
+        if self._max_screen_size[0] > window_width > 0:
+            self._window_width = window_width
+
+    @property
+    def window_height(self):
+        """
+        Returns:
+            The width of the actual window (screen).
+        """
+        return self._window_height
+
+    @window_height.setter
+    def window_height(self, window_height: int) -> None:
+        """
+        Sets height of actual window (screen).
+        Args:
+            window_height:
+                height clamped between the max display size initialized rubato.init()
+        """
+        if self._max_screen_size[1] > window_height > 0:
+            self._window_height = window_height
+
+    @property
+    def aspect_ratio(self):
+        """
+        Returns:
+            The aspect ratio of the display (the actual game).
+        """
+        return self._aspect_ratio
+
+    @aspect_ratio.setter
+    def aspect_ratio(self, aspect_ratio: int) -> None:
+        """
+        Sets the aspect ratio of the display that will be kept no matter the real size of the screen.
+        Args:
+            aspect_ratio:
+        """
+        if 100 > aspect_ratio > 0:
+            self._aspect_ratio = aspect_ratio
 
     @property
     def window_size(self):
@@ -100,7 +161,7 @@ class Game:
             Vector: A vector with x representing the width and
             y representing the height
         """
-        return Vector(self.window_width, self.window_height)
+        return Vector(self._window_width, self._window_height)
 
     def start_loop(self):
         """
@@ -117,28 +178,29 @@ class Game:
                 self.radio.broadcast("EXIT")
                 pygame.quit()
                 sys.exit(1)
-            if event.type == pygame.VIDEORESIZE:
-                self.window_width = event.size[0]
-                self.window_height = event.size[1]
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 self.radio.broadcast(Input.key.name(event.key) + "_down")
-            if event.type == pygame.KEYUP:
+            elif event.type == pygame.KEYUP:
                 self.radio.broadcast(Input.key.name(event.key) + "_up")
+            # Game resize
+            elif event.type == pygame.VIDEORESIZE:
+                self._window_width = event.size[0]
+                self._window_height = event.size[1]
 
-        if (self._saved_dims[0] != self.window_width
-                or self._saved_dims[1] != self.window_height):
+        if (self._saved_dims[0] != self._window_width
+                or self._saved_dims[1] != self._window_height):
             self._screen = pygame.display.set_mode(
-                (self.window_width, self.window_height), pygame.RESIZABLE)
+                (self._window_width, self._window_height), pygame.RESIZABLE)
 
-        ratio = (self.window_width / self.window_height) < self._aspect_ratio
-        width = (self.window_height * self._aspect_ratio,
-                 self.window_width)[ratio]
-        height = (self.window_height,
-                  self.window_width / self._aspect_ratio)[ratio]
-        top_right = (((self.window_width - width) // 2, 0),
-                     (0, (self.window_height - height) // 2))[ratio]
+        ratio = (self._window_width / self._window_height) < self._aspect_ratio
+        width = (self._window_height * self._aspect_ratio,
+                 self._window_width)[ratio]
+        height = (self._window_height,
+                  self._window_width / self._aspect_ratio)[ratio]
+        top_left = (((self._window_width - width) // 2, 0),
+                     (0, (self._window_height - height) // 2))[ratio]
 
-        self._saved_dims = [self.window_width, self.window_height]
+        self._saved_dims = [self._window_width, self._window_height]
 
         Time.process_calls()
 
@@ -147,7 +209,7 @@ class Game:
 
         self._screen.blit(
             pygame.transform.scale(self._display, (int(width), int(height))),
-            top_right)
+            top_left)
 
         pygame.display.flip()
         self.radio.events = []
