@@ -245,3 +245,8 @@ class Game:
             y representing the height
         """
         return Vector(self._window_width, self._window_height)
+
+    @window_size.setter
+    def window_size(self, window_size: Vector):
+        self.window_width = window_size.x
+        self.window_height = window_size.y

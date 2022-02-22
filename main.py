@@ -67,16 +67,20 @@ def custom_update():
         player_anim.set_current_state("idle", True)
     if rb.Input.is_pressed("right"):
         player_anim.rotation += 1
+    if rb.Input.is_pressed("r"):
+        rb.game.window_size = rb.Vector(100,100)
+    if rb.Input.is_pressed("0"):
+        rb.game.aspect_ratio = 1.5
     if rb.Input.is_pressed("="):
         rb.game.aspect_ratio *= 1.1
-        player_anim.resize(
-            rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) *
-            2)
+        # player_anim.resize(
+        #     rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) *
+        #     2)
     elif rb.Input.is_pressed("-"):
         rb.game.aspect_ratio /= 1.1
-        player_anim.resize(
-            rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) /
-            2)
+        # player_anim.resize(
+        #     rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) /
+        #     2)
     else:
         player_anim.resize(
             rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()))
