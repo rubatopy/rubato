@@ -84,7 +84,7 @@ def begin():
         RuntimeError: Rubato has not been initialized before calling.
     """
     if game is not None:
-        game.start_loop()
+        game.constant_loop()
     else:
         raise RuntimeError(
             "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"  # pylint: disable=line-too-long

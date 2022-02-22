@@ -68,10 +68,12 @@ def custom_update():
     if rb.Input.is_pressed("right"):
         player_anim.rotation += 1
     if rb.Input.is_pressed("="):
+        rb.game.aspect_ratio *= 1.1
         player_anim.resize(
             rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) *
             2)
     elif rb.Input.is_pressed("-"):
+        rb.game.aspect_ratio /= 1.1
         player_anim.resize(
             rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) /
             2)

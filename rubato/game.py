@@ -83,6 +83,91 @@ class Game:
         infos = pygame.display.Info()
         self._max_screen_size = (infos.current_w, infos.current_h)
 
+    def constant_loop(self):
+        """
+        The constant game loop. Should only be called by :meth:`rubato.begin`.
+        """
+        self._state = STATE.RUNNING
+        while True:
+            self.update()
+
+    def update(self):
+        """
+        The update loop for the game. Called automatically every frame.
+        Handles the game states.
+        Will always process timed calls ...
+        """
+        do_not_do_this_if_paused = False if self.state == STATE.PAUSED else True
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.radio.broadcast("EXIT")
+                pygame.quit()
+                sys.exit(1)
+            # Game resize
+            elif event.type == pygame.VIDEORESIZE:
+                self._window_width = event.size[0]
+                self._window_height = event.size[1]
+            elif event.type == pygame.KEYDOWN and do_not_do_this_if_paused:
+                self.radio.broadcast(Input.key.name(event.key) + "_down")
+            elif event.type == pygame.KEYUP and do_not_do_this_if_paused:
+                self.radio.broadcast(Input.key.name(event.key) + "_up")
+
+        if (self._saved_dims[0] != self._window_width
+                or self._saved_dims[1] != self._window_height):
+            self._screen = pygame.display.set_mode(
+                (self._window_width, self._window_height), pygame.RESIZABLE)
+
+        ratio = (self._window_width / self._window_height) < self._aspect_ratio
+        width = (self._window_height * self._aspect_ratio,
+                 self._window_width)[ratio]
+        height = (self._window_height,
+                  self._window_width / self._aspect_ratio)[ratio]
+        top_left = (((self._window_width - width) // 2, 0),
+                     (0, (self._window_height - height) // 2))[ratio]
+
+        self._saved_dims = [self._window_width, self._window_height]
+
+        if self.state != STATE.PAUSED:
+            Time.process_calls()
+
+        self.draw()
+        if self.state != STATE.PAUSED:
+            self.scenes.update()
+
+        self._screen.blit(
+            pygame.transform.scale(self._display, (int(width), int(height))),
+            top_left)
+
+        pygame.display.flip()
+        self.radio.events = []
+
+        if self._use_better_clock:
+            self._clock.tick_busy_loop(self.fps)
+        else:
+            self._clock.tick(self.fps)
+
+    def draw(self):
+        """Draw loop for the game. Called automatically every frame"""
+        self._screen.fill((0, 0, 0))
+        if self.reset_display: self._display.fill((255, 255, 255))
+        self._display = Display.global_display
+
+    def render(self, sprite: Sprite, surface: pygame.Surface):
+        if sprite.z_index <= self.scenes.current_scene.camera.z_index:
+            width, height = surface.get_size()
+
+            new_size = (
+                round(width * self.scenes.current_scene.camera.zoom),
+                round(height * self.scenes.current_scene.camera.zoom),
+            )
+
+            Display.update(
+                scale(surface, new_size),
+                self.scenes.current_scene.camera.transform(
+                    Sprite.center_to_tl(sprite.pos, Vector(width, height)) *
+                    self.scenes.current_scene.camera.zoom),
+            )
+
     @property
     def state(self):
         return self._state
@@ -91,8 +176,6 @@ class Game:
     def state(self, new_state: STATE):
         self._state = new_state
 
-        if self._state == STATE.RUNNING:
-            self.start_loop()
         if self._state == STATE.STOPPED:
             pygame.event.post(pygame.event.Event(pygame.QUIT))
 
@@ -162,81 +245,3 @@ class Game:
             y representing the height
         """
         return Vector(self._window_width, self._window_height)
-
-    def start_loop(self):
-        """
-        Starts the game loop. Should only be called by :meth:`rubato.begin`
-        """
-        self._state = STATE.RUNNING
-        while self._state == STATE.RUNNING:
-            self.update()
-
-    def update(self):
-        """The update loop for the game. Called automatically every frame"""
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.radio.broadcast("EXIT")
-                pygame.quit()
-                sys.exit(1)
-            elif event.type == pygame.KEYDOWN:
-                self.radio.broadcast(Input.key.name(event.key) + "_down")
-            elif event.type == pygame.KEYUP:
-                self.radio.broadcast(Input.key.name(event.key) + "_up")
-            # Game resize
-            elif event.type == pygame.VIDEORESIZE:
-                self._window_width = event.size[0]
-                self._window_height = event.size[1]
-
-        if (self._saved_dims[0] != self._window_width
-                or self._saved_dims[1] != self._window_height):
-            self._screen = pygame.display.set_mode(
-                (self._window_width, self._window_height), pygame.RESIZABLE)
-
-        ratio = (self._window_width / self._window_height) < self._aspect_ratio
-        width = (self._window_height * self._aspect_ratio,
-                 self._window_width)[ratio]
-        height = (self._window_height,
-                  self._window_width / self._aspect_ratio)[ratio]
-        top_left = (((self._window_width - width) // 2, 0),
-                     (0, (self._window_height - height) // 2))[ratio]
-
-        self._saved_dims = [self._window_width, self._window_height]
-
-        Time.process_calls()
-
-        self.draw()
-        self.scenes.update()
-
-        self._screen.blit(
-            pygame.transform.scale(self._display, (int(width), int(height))),
-            top_left)
-
-        pygame.display.flip()
-        self.radio.events = []
-
-        if self._use_better_clock:
-            self._clock.tick_busy_loop(self.fps)
-        else:
-            self._clock.tick(self.fps)
-
-    def draw(self):
-        """Draw loop for the game. Called automatically every frame"""
-        self._screen.fill((0, 0, 0))
-        if self.reset_display: self._display.fill((255, 255, 255))
-        self._display = Display.global_display
-
-    def render(self, sprite: Sprite, surface: pygame.Surface):
-        if sprite.z_index <= self.scenes.current_scene.camera.z_index:
-            width, height = surface.get_size()
-
-            new_size = (
-                round(width * self.scenes.current_scene.camera.zoom),
-                round(height * self.scenes.current_scene.camera.zoom),
-            )
-
-            Display.update(
-                scale(surface, new_size),
-                self.scenes.current_scene.camera.transform(
-                    Sprite.center_to_tl(sprite.pos, Vector(width, height)) *
-                    self.scenes.current_scene.camera.zoom),
-            )
