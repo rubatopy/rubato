@@ -19,7 +19,7 @@ class STATE(Enum):
     """
     RUNNING = 1
     STOPPED = 2
-    PAUSED = 3
+    # PAUSED = 3
 
 
 class Game:
@@ -97,7 +97,7 @@ class Game:
         Handles the game states.
         Will always process timed calls ...
         """
-        do_not_do_this_if_paused = False if self.state == STATE.PAUSED else True
+        do_not_do_this_if_paused = True #False if self.state == STATE.PAUSED else True
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.radio.broadcast("EXIT")
@@ -127,11 +127,11 @@ class Game:
 
         self._saved_dims = [self._window_width, self._window_height]
 
-        if self.state != STATE.PAUSED:
+        if self.state and do_not_do_this_if_paused:
             Time.process_calls()
 
         self.draw()
-        if self.state != STATE.PAUSED:
+        if self.state and do_not_do_this_if_paused:
             self.scenes.update()
 
         self._screen.blit(

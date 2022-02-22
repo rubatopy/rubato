@@ -31,7 +31,7 @@ from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
         SAT
 import rubato.input as Input
 import rubato.sound as Sound
-from rubato.game import Game
+from rubato.game import Game, STATE
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -59,6 +59,7 @@ __all__ = [
     "Sound",
     "Animation",
     "Component",
+    "STATE"
 ]
 
 game: Game = None

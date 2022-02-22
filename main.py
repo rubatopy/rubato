@@ -69,6 +69,10 @@ def custom_update():
         player_anim.rotation += 1
     if rb.Input.is_pressed("r"):
         rb.game.window_size = rb.Vector(100,100)
+        rb.game.state = rb.STATE.RUNNING
+    if rb.Input.is_pressed("p"):
+        # rb.game.state = rb.STATE.PAUSED
+        pass
     if rb.Input.is_pressed("0"):
         rb.game.aspect_ratio = 1.5
     if rb.Input.is_pressed("="):
