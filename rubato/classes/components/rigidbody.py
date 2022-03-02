@@ -48,17 +48,22 @@ class RigidBody(Component):
 
         self.mass = params["mass"]
 
-        self.do_physics = params["do_physics"]
-
         self.debug = params["debug"]
 
         self.grounded = False
 
     def physics(self):
-        """Runs a simulation step on the rigidbody"""
+        pass
+
+    def add_force(self, force: Vector):
+        pass
+
+    def add_impulse(self, impulse: Vector, time: int):
+        pass
+
+    def handle_collision(self):
         pass
 
     def update(self):
         """The update loop"""
-        if self.do_physics:
-            self.physics()
+        self.physics()
