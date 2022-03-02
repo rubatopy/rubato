@@ -10,7 +10,7 @@ from rubato.utils.error import IdError
 
 class SceneManager:
     """
-    The Scene Manager containts and handle multiple scenes.
+    The Scene Manager contains and handle multiple scenes.
 
     Attributes:
         scenes (dict[Union[int, str], Scene]): The collection of scenes in the
