@@ -13,6 +13,10 @@ LIVEBUILDDIR  = ./build/_html
 save:
 	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)"
 
+test:
+	@make clear
+	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
+
 live:
 	@make clear
 	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
