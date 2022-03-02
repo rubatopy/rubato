@@ -1,5 +1,4 @@
 # pylint: disable=all
-from pip import main
 import rubato as rb
 
 rb.init()
