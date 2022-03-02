@@ -85,4 +85,6 @@ main_scene.add(player)
 
 main_scene.update = custom_update
 
+print(rb.Math.clamp(1, 0, 2))
+
 rb.begin()

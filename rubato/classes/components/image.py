@@ -28,7 +28,7 @@ class Image(Component):
         super().__init__()
 
         if param["image_location"] in ["", "default"]:
-            self.image = load("rubato/static/default.png").convert_alpha()
+            self.image = rb.Static.string_to_image(rb.Static.default_image)
         else:
             self.image = load(param["image_location"]).convert_alpha()
 

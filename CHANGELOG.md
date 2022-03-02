@@ -6,6 +6,8 @@
 
 ### Changed
 
+-   Updated default image import to actually work properly
+
 ### Removed
 
 ### Fixed

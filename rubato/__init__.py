@@ -23,6 +23,7 @@ import os
 # This needs to be set before pygame   pylint: disable=wrong-import-position
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 
+import rubato.static as Static
 from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Configs
 from rubato.radio import Radio
@@ -59,6 +60,7 @@ __all__ = [
     "Sound",
     "Animation",
     "Component",
+    "Static",
 ]
 
 game: Game = None
