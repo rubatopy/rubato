@@ -1,7 +1,7 @@
 # pylint: disable=all
 from setuptools import setup, find_packages
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 DESCRIPTION = "Rubato is a Python game engine that builds off of PyGame to make a cleaner and more efficient game engine."
 LONG_DESCRIPTION = (open("README.md").read() + "\n\n" +
                     open("CHANGELOG.md").read())

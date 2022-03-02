@@ -22,7 +22,8 @@ project = "Rubato"
 copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disable=redefined-builtin
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
-html_context = {"latest": "v1.0.0"}
+# CHANGE WITH EVERY UPDATE
+html_context = {"latest": "v1.1.0"}
 
 # -- General configuration ---------------------------------------------------
 
