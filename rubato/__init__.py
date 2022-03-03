@@ -29,7 +29,7 @@ from rubato.utils import Math, Display, Vector, Time, \
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
     RigidBody, Rectangle, Animation, Component, Polygon, Circle, \
-        SAT
+        SAT, Hitbox
 import rubato.input as Input
 import rubato.sound as Sound
 from rubato.game import Game
@@ -61,6 +61,7 @@ __all__ = [
     "Animation",
     "Component",
     "Static",
+    "Hitbox",
 ]
 
 game: Game = None

@@ -2,6 +2,7 @@
 
 import math
 from typing import Callable, List, Union
+from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils.vector import Vector
 from rubato.utils import Math, Display
 from rubato.classes.component import Component
@@ -18,6 +19,7 @@ class Hitbox(Component):
     def __init__(self):
         super().__init__()
         self.debug = False
+        self.trigger = False
         self._pos = lambda: Vector(0, 0)
         self.scale = 1
 
@@ -26,6 +28,16 @@ class Hitbox(Component):
 
     def draw(self):
         pass
+
+    def bounding_box_dimensions(self) -> Vector:
+        """
+        Returns the dimensions of the bounding box surrounding the polygon.
+
+        Returns:
+            Vector: A vector with the x variable holding the width and the y
+            variable holding the height.
+        """
+        return Vector(0, 0)
 
     def collide(
             self,
@@ -44,7 +56,13 @@ class Hitbox(Component):
             Union[CollisionInfo, None]: Returns a collision info object if a
             collision is detected or nothing if no collision is detected.
         """
-        pass
+        if (col := SAT.overlap(self, other)) is not None:
+            if not self.trigger and not other.trigger:
+                self.sprite.pos -= col.sep
+                if (rigid := self.sprite.get_component(RigidBody)) is not None:
+                    rigid.handle_collision(col)
+
+            callback(col)
 
 
 class Polygon(Hitbox):
@@ -60,7 +78,8 @@ class Polygon(Hitbox):
     def __init__(self,
                  verts: List[Vector],
                  rotation: Callable = lambda: 0,
-                 debug: bool = False):
+                 debug: bool = False,
+                 trigger: bool = False):
         """
         Initializes a Polygon
 
@@ -74,6 +93,7 @@ class Polygon(Hitbox):
         """
         super().__init__()
         self.debug = debug
+        self.trigger = trigger
         self.verts = verts
         self._rotation = rotation
 
@@ -163,7 +183,7 @@ class Polygon(Hitbox):
         return (f"{list(map(str, self.verts))}, {self.pos}, " +
                 f"{self.scale}, {self.rotation}")
 
-    def bounding_box_dimensions(self):
+    def bounding_box_dimensions(self) -> Vector:
         real_verts = self.real_verts()
         x_dir = SAT.project_verts(real_verts, Vector(1, 0))
         y_dir = SAT.project_verts(real_verts, Vector(0, 1))
@@ -172,9 +192,6 @@ class Polygon(Hitbox):
     def draw(self):
         """
         The draw loop
-
-        Args:
-            camera: The current camera
         """
         if self.debug:
             polygon(
@@ -244,8 +261,8 @@ class CollisionInfo:
         """
         Initializes a Collision Info
         """
-        self.shape_a: Union[Circle, Polygon, None] = None
-        self.shape_b: Union[Circle, Polygon, None] = None
+        self.shape_a: Union[Hitbox, None] = None
+        self.shape_b: Union[Hitbox, None] = None
         self.sep = Vector()
 
     def __str__(self):
@@ -259,8 +276,8 @@ class SAT:
     """
 
     @staticmethod
-    def overlap(shape_a: Union[Polygon, Circle],
-                shape_b: Union[Polygon, Circle]) -> Union[CollisionInfo, None]:
+    def overlap(shape_a: Hitbox,
+                shape_b: Hitbox) -> Union[CollisionInfo, None]:
         """
         Checks for overlap between any two shapes (Polygon or Circle)
 

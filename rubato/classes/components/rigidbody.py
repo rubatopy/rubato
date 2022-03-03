@@ -2,8 +2,12 @@
 The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
+from typing import TYPE_CHECKING
 from rubato.classes.component import Component
-from rubato.utils import Vector, Configs
+from rubato.utils import Vector, Configs, Time
+
+if TYPE_CHECKING:
+    from rubato.classes.components.hitbox import CollisionInfo
 
 
 class RigidBody(Component):
@@ -50,10 +54,10 @@ class RigidBody(Component):
 
         self.debug = params["debug"]
 
-        self.grounded = False
-
     def physics(self):
-        pass
+        self.velocity += self.acceleration * Time.delta_time("sec")
+
+        self.sprite.pos += self.velocity * Time.delta_time("sec")
 
     def add_force(self, force: Vector):
         pass
@@ -61,7 +65,7 @@ class RigidBody(Component):
     def add_impulse(self, impulse: Vector, time: int):
         pass
 
-    def handle_collision(self):
+    def handle_collision(self, col: "CollisionInfo"):
         pass
 
     def update(self):

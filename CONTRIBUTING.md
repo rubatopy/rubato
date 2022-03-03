@@ -98,7 +98,7 @@ available at [http://contributor-covenant.org/version/1/4][version]
 
 ### To publish to PyPi
 
-Bump version number in `setup.py` and in `docs/source/conf.py` <br>
+Bump version number in `setup.py`, `docs/source/conf.py`, and `docs/index.html` <br>
 Update Changelog <br>
 Create a new virtual environment.
 
