@@ -128,16 +128,20 @@ class Game:
         """The update loop for the game. Called automatically every frame"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.radio.broadcast("EXIT")
+                self.radio.broadcast("EXIT", {})
                 pygame.quit()
                 sys.exit(1)
             if event.type == pygame.VIDEORESIZE:
                 self.window_width = event.size[0]
                 self.window_height = event.size[1]
             if event.type == pygame.KEYDOWN:
-                self.radio.broadcast(Input.key.name(event.key) + "_down")
+                self.radio.broadcast("keydown", {
+                    "key":Input.key.name(event.key)
+                    })
             if event.type == pygame.KEYUP:
-                self.radio.broadcast(Input.key.name(event.key) + "_up")
+                self.radio.broadcast("keyup", {
+                    "key":Input.key.name(event.key)
+                    })
 
         if (self._saved_dims[0] != self.window_width
                 or self._saved_dims[1] != self.window_height):

@@ -74,10 +74,10 @@ def custom_update():
         player_rb.velocity.y = -200
     if rb.Input.is_pressed("a"):
         player_anim.set_current_state("run")
-        player_rb.velocity.x = -100
+        player_rb.velocity.x -= 2
     elif rb.Input.is_pressed("d"):
         player_anim.set_current_state("run")
-        player_rb.velocity.x = 100
+        player_rb.velocity.x += 2
     else:
         player_anim.set_current_state("idle", True)
     if rb.Input.is_pressed("right"):

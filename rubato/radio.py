@@ -43,7 +43,7 @@ class Radio:
         else:
             self.listeners[event] = [func]
 
-    def broadcast(self, event: str):
+    def broadcast(self, event: str, params: dict):
         """
         Broadcast an event to be caught by listeners.
 
@@ -52,4 +52,7 @@ class Radio:
         """
         self.events.append(event)
         for func in self.listeners.get(event, []):
-            func()
+            try:
+                func(params)
+            except TypeError:
+                func()
