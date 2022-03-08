@@ -6,7 +6,7 @@ import pygame
 from pygame.transform import scale
 import sys
 from rubato.classes.sprite import Sprite
-from rubato.utils import Display, Vector, Time, Configs
+from rubato.utils import Display, Vector, Time, Configs, Math
 from rubato.classes import SceneManager
 from rubato.radio import Radio
 import rubato.input as Input
@@ -49,13 +49,18 @@ class Game:
         pygame.init()
         params = Configs.merge_params(options, Configs.game_defaults)
 
+        self._phy_ts = 0
+
         self.name: str = params["name"]
         self.window_width: int = params["window_width"]
         self.window_height: int = params["window_height"]
         self._aspect_ratio: float = params["aspect_ratio"]
-        self.fps: int = params["fps"]
+        self.fps_cap: int = params["fps_cap"]
+        self.physics_timestep: int = params["physics_timestep"]
         self.reset_display: bool = params["reset_display"]
         self._use_better_clock: float = params["better_clock"]
+
+        self._physics_count: float = 0
 
         self._state = STATE.STOPPED
 
@@ -90,6 +95,15 @@ class Game:
             self.start_loop()
         if self._state == STATE.STOPPED:
             pygame.event.post(pygame.QUIT)
+
+    @property
+    def physics_timestep(self):
+        return self._phy_ts
+
+    @physics_timestep.setter
+    def physics_timestep(self, new_ts: int):
+        self._phy_ts = new_ts
+        Time._fixed_delta_time = new_ts  # pylint: disable=protected-access
 
     @property
     def window_size(self):
@@ -142,8 +156,21 @@ class Game:
 
         Time.process_calls()
 
-        self.draw()
+        self._physics_count += Time.delta_time()
+
+        self._physics_count = Math.clamp(self._physics_count, 0,
+                                         self.physics_timestep * 100)
+
+        while self._physics_count > self.physics_timestep:
+            self.scenes.fixed_update()
+            self._physics_count -= self.physics_timestep
+
         self.scenes.update()
+
+        self._screen.fill((0, 0, 0))
+        if self.reset_display: self._display.fill((255, 255, 255))
+        self.scenes.draw()
+        self._display = Display.global_display
 
         self._screen.blit(
             pygame.transform.scale(self._display, (int(width), int(height))),
@@ -153,15 +180,9 @@ class Game:
         self.radio.events = []
 
         if self._use_better_clock:
-            self._clock.tick_busy_loop(self.fps)
+            self._clock.tick_busy_loop(self.fps_cap)
         else:
-            self._clock.tick(self.fps)
-
-    def draw(self):
-        """Draw loop for the game. Called automatically every frame"""
-        self._screen.fill((0, 0, 0))
-        if self.reset_display: self._display.fill((255, 255, 255))
-        self._display = Display.global_display
+            self._clock.tick(self.fps_cap)
 
     def render(self, sprite: Sprite, surface: pygame.Surface):
         if sprite.z_index <= self.scenes.current_scene.camera.z_index:

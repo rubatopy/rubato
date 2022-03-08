@@ -20,6 +20,7 @@ class Hitbox(Component):
         super().__init__()
         self.debug = False
         self.trigger = False
+        self.tags = []
         self._pos = lambda: Vector(0, 0)
         self.scale = 1
 
@@ -57,10 +58,11 @@ class Hitbox(Component):
             collision is detected or nothing if no collision is detected.
         """
         if (col := SAT.overlap(self, other)) is not None:
-            if not self.trigger and not other.trigger:
-                self.sprite.pos -= col.sep
-                if (rigid := self.sprite.get_component(RigidBody)) is not None:
-                    rigid.handle_collision(col)
+            if not self.trigger and (
+                (self.sprite.get_component(RigidBody) is not None) or
+                (other.sprite.get_component(RigidBody) is not None)):
+
+                RigidBody.handle_collision(col)
 
             callback(col)
 
@@ -79,7 +81,8 @@ class Polygon(Hitbox):
                  verts: List[Vector],
                  rotation: Callable = lambda: 0,
                  debug: bool = False,
-                 trigger: bool = False):
+                 trigger: bool = False,
+                 tags: List[str] = []):
         """
         Initializes a Polygon
 
@@ -94,6 +97,7 @@ class Polygon(Hitbox):
         super().__init__()
         self.debug = debug
         self.trigger = trigger
+        self.tags = tags
         self.verts = verts
         self._rotation = rotation
 

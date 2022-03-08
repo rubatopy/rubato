@@ -4,23 +4,27 @@ A module that houses all of the default options.
 
 from rubato.utils import Math, Vector, Color
 
+# TODO add 1 line explanations to each element
+
 # [start-defaults]
 game_defaults = {
     "name": "Untitled Game",  # . . . . . . . . . . . . . . . . str
     "window_width": 600,  # . . . . . . . . . . . . . . . . . . int
     "window_height": 400,  #. . . . . . . . . . . . . . . . . . int
     "aspect_ratio": 1.5,  # . . . . . . . . . . . . . . . . . . float
-    "fps": 60,  # . . . . . . . . . . . . . . . . . . . . . . . int
+    "fps_cap": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
+    "physics_timestep": 20,  #. . . . . . . . . . . . . . . . . int
     "reset_display": True,  # . . . . . . . . . . . . . . . . . bool
     "better_clock": True,  #. . . . . . . . . . . . . . . . . . bool
 }
 
 rigidbody_defaults = {
     "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
-    "gravity": 100,  #. . . . . . . . . . . . . . . . . . . . . float
+    "bouncyness": 0,  # . . . . . . . . . . . . . . . . . . . . float
+    "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
     "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),  # . . Vector
-    "friction": Vector(1, 1),  #. . . . . . . . . . . . . . . . Vector
+    "friction": Vector(0, 0),  #. . . . . . . . . . . . . . . . Vector
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
 }

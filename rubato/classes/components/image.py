@@ -82,9 +82,6 @@ class Image(Component):
             scale(self.image, (abs(new_size.x), abs(new_size.y))),
             new_size.x < 0, new_size.y < 0)
 
-    def update(self):
-        self.draw()
-
     def draw(self):
         """
         Draws the image if the z index is below the camera's.

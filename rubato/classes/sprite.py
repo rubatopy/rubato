@@ -70,6 +70,9 @@ class Sprite:
                     "The component of type " + str(not_allowed_type) +
                     " conflicts with another component on the sprite.")
 
+        # TODO check required components
+        # TODO auto add required components if possible
+
         self._components.append(component)
         component.sprite = self
 
@@ -90,10 +93,19 @@ class Sprite:
             if isinstance(comp, comp_type):
                 return comp
 
+    def draw(self):
+        """The draw loop"""
+        for comp in self.components:
+            comp.draw()
+
     def update(self):
         """The update loop"""
         for comp in self.components:
             comp.update()
+
+    def fixed_update(self):
+        for comp in self.components:
+            comp.fixed_update()
 
     @staticmethod
     def center_to_tl(center: Vector, dims: Vector) -> Vector:

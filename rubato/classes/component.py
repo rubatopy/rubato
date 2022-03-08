@@ -24,8 +24,16 @@ class Component:
         self.required: List[type] = []
         self.not_allowed: List[type] = []
 
+    def draw(self):
+        """The draw loop"""
+        pass
+
     def update(self) -> None:
         """
         The main update loop for the component.
         """
+        pass
+
+    def fixed_update(self):
+        """The fixed update loop"""
         pass

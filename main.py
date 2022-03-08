@@ -1,5 +1,6 @@
 # pylint: disable=all
 import rubato as rb
+from rubato.utils.vector import Vector
 
 rb.init()
 
@@ -34,13 +35,11 @@ player = rb.Sprite({
 })
 
 player_rb = rb.RigidBody({
-    "mass": 1,
-    "friction": rb.Vector(0.95, 0.95),
+    "mass": 20,
+    "friction": rb.Vector(0.5, 0.5),
     "max_speed": rb.Vector(100, rb.Math.INFINITY),
-    "hitbox": rb.Polygon.generate_rect(),
     "debug": True,
     "rotation": 0,
-    "gravity": 100,
 })
 player.add_component(player_rb)
 
@@ -56,22 +55,29 @@ player_anim.add_state("idle", idle)
 
 main_scene.add(player)
 
+box = rb.Sprite({
+    "pos": rb.Vector(300, 325),
+}).add_component(rb.RigidBody({
+    "mass": 50,
+})).add_component(
+    rb.Rectangle({
+        "dims": rb.Vector(50, 50),
+        "color": rb.Color.red
+    })).add_component(rb.Polygon.generate_rect(50, 50))
+box.get_component(rb.Hitbox).debug = True
+main_scene.add(box)
+
 
 def custom_update():
     if rb.Input.is_pressed("w"):
         player_anim.set_current_state("run")
         player_rb.velocity.y = -200
-    elif rb.Input.is_pressed("s"):
-        player_anim.set_current_state("run")
-        player_rb.velocity.y = 100
     if rb.Input.is_pressed("a"):
         player_anim.set_current_state("run")
-        # player_rb.velocity.x = -100
-        player.pos.x -= 4
+        player_rb.velocity.x = -100
     elif rb.Input.is_pressed("d"):
         player_anim.set_current_state("run")
-        # player_rb.velocity.x = 100
-        player.pos.x += 4
+        player_rb.velocity.x = 100
     else:
         player_anim.set_current_state("idle", True)
     if rb.Input.is_pressed("right"):
@@ -90,10 +96,11 @@ def custom_update():
 
     player_hitbox.collide(ground.get_component(rb.Hitbox))
     player_hitbox.collide(platform.get_component(rb.Hitbox))
+    player_hitbox.collide(box.get_component(rb.Hitbox))
+
+    box.get_component(rb.Hitbox).collide(ground.get_component(rb.Hitbox))
 
 
-main_scene.update = custom_update
-
-print(rb.Math.clamp(1, 0, 2))
+main_scene.fixed_update = custom_update
 
 rb.begin()
