@@ -36,7 +36,6 @@ player = rb.Sprite({
 
 player_rb = rb.RigidBody({
     "mass": 20,
-    "friction": rb.Vector(0.5, 0.5),
     "max_speed": rb.Vector(100, rb.Math.INFINITY),
     "debug": True,
     "rotation": 0,
@@ -74,10 +73,10 @@ def custom_update():
         player_rb.velocity.y = -200
     if rb.Input.is_pressed("a"):
         player_anim.set_current_state("run")
-        player_rb.velocity.x -= 2
+        player_rb.velocity.x = -100
     elif rb.Input.is_pressed("d"):
         player_anim.set_current_state("run")
-        player_rb.velocity.x += 2
+        player_rb.velocity.x = 100
     else:
         player_anim.set_current_state("idle", True)
     if rb.Input.is_pressed("right"):

@@ -135,13 +135,11 @@ class Game:
                 self.window_width = event.size[0]
                 self.window_height = event.size[1]
             if event.type == pygame.KEYDOWN:
-                self.radio.broadcast("keydown", {
-                    "key":Input.key.name(event.key)
-                    })
+                self.radio.broadcast("keydown",
+                                     {"key": Input.key.name(event.key)})
             if event.type == pygame.KEYUP:
-                self.radio.broadcast("keyup", {
-                    "key":Input.key.name(event.key)
-                    })
+                self.radio.broadcast("keyup",
+                                     {"key": Input.key.name(event.key)})
 
         if (self._saved_dims[0] != self.window_width
                 or self._saved_dims[1] != self.window_height):
