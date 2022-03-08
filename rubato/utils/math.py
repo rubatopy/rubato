@@ -1,5 +1,8 @@
 """
 A more complete math class.
+
+Attributes:
+    INFINITY (float): The max value of a float.
 """
 from typing import Union
 

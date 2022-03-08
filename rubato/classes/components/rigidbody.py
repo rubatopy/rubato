@@ -2,8 +2,12 @@
 The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
+from typing import TYPE_CHECKING
 from rubato.classes.component import Component
-from rubato.utils import Vector, Configs
+from rubato.utils import Vector, Configs, Time, Math
+
+if TYPE_CHECKING:
+    from rubato.classes.components.hitbox import CollisionInfo
 
 
 class RigidBody(Component):
@@ -11,16 +15,7 @@ class RigidBody(Component):
     A RigidBody implementation with built in physics and collisions.
 
     Attributes:
-        velocity (Vector): The velocity of the rigidbody.
-        acceleration (Vector): The acceleration of the rigidbody.
-        angvel (float): The angular velocity of the rigidbody.
-        rotation (float): The rotation in radians.
-        mass (float): The mass of the rigidbody.
-        hitbox (Polygon): The hitbox of the rigidbody.
-        col_type (COL_TYPE): The collision type.
-        img (Image): The image to draw for the rigidbody.
-        debug (bool): Whether or not debug mode is on for this rigidbody.
-        grounded (bool): Whether or not the rigidbody is on the ground.
+        # TODO Rigidbody attributes need documentation
     """
 
     def __init__(self, options: dict = {}):
@@ -35,30 +30,91 @@ class RigidBody(Component):
 
         super().__init__()
 
-        self.gravity: float = params["gravity"]
+        self.gravity: Vector = params["gravity"]
         self.friction: Vector = params["friction"]
         self.max_speed: Vector = params["max_speed"]
         self.min_speed: Vector = params["min_speed"]
 
         self.velocity = Vector()
-        self.acceleration = Vector()
 
-        self.angvel = 0
-        self.rotation = params["rotation"]
+        self.angvel: float = 0
+        self.rotation: float = params["rotation"]
 
-        self.mass = params["mass"]
+        if params["mass"] == 0:
+            self.inv_mass = 0
+        else:
+            self.inv_mass: float = 1 / params["mass"]
 
-        self.do_physics = params["do_physics"]
+        self.bouncyness: float = Math.clamp(params["bouncyness"], 0, 1)
 
-        self.debug = params["debug"]
+        self.debug: bool = params["debug"]
 
-        self.grounded = False
+    @property
+    def mass(self) -> float:
+        if self.inv_mass == 0:
+            return 0
+        else:
+            return 1 / self.inv_mass
 
     def physics(self):
-        """Runs a simulation step on the rigidbody"""
-        pass
+        # Apply gravity
+        self.add_force(self.gravity * self.mass)
 
-    def update(self):
+        self.sprite.pos += self.velocity * Time.fixed_delta_time("sec")
+
+    def add_force(self, force: Vector):
+        accel = force * self.inv_mass
+
+        self.velocity += accel * Time.fixed_delta_time("sec")
+
+    def add_cont_force(self, impulse: Vector, time: int):
+        if time <= 0:
+            return
+        else:
+            self.add_force(impulse)
+
+            Time.delayed_frames(
+                1, lambda: self.add_impulse(impulse, time - Time.delta_time()))
+
+    @staticmethod
+    def handle_collision(col: "CollisionInfo"):
+        rb_a: RigidBody = col.shape_b.sprite.get_component(RigidBody)
+        rb_b: RigidBody = col.shape_a.sprite.get_component(RigidBody)
+
+        inv_mass_a: float = (0 if rb_a is None else rb_a.inv_mass)
+        inv_mass_b: float = (0 if rb_b is None else rb_b.inv_mass)
+
+        # Relative velocity
+        rv = (Vector() if rb_b is None else rb_b.velocity) - \
+            (Vector() if rb_a is None else rb_a.velocity)
+
+        # Relative velocity along collision normal
+        collision_norm = col.sep.clone()
+        collision_norm.normalize()
+        vel_along_norm = rv.dot(collision_norm)
+
+        if vel_along_norm > 0:
+            return
+
+        # Calculate restitution
+        e = min(0 if rb_a is None else rb_a.bouncyness,
+                0 if rb_b is None else rb_b.bouncyness)
+
+        # Calculate impulse scalar
+        j = -(1 + e) * vel_along_norm
+        j /= inv_mass_a + inv_mass_b
+
+        # Apply the impulse
+        impulse = j * collision_norm
+
+        if rb_a is not None:
+            rb_a.velocity -= impulse * rb_a.inv_mass
+
+        if rb_b is not None:
+            rb_b.velocity += impulse * rb_a.inv_mass
+
+        # TODO friction
+
+    def fixed_update(self):
         """The update loop"""
-        if self.do_physics:
-            self.physics()
+        self.physics()

@@ -98,6 +98,18 @@ class Vector:
         """
         return Vector(self.y, -self.x)
 
+    def pow(self, num: Union[float, int]) -> "Vector":
+        """
+        Takes the power of the elements in the vector to the num.
+
+        Args:
+            num: The exponent to use.
+
+        Returns:
+            Vector: The new vector.
+        """
+        return Vector(self.x**num, self.y**num)
+
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"
 

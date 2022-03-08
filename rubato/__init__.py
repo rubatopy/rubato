@@ -23,15 +23,16 @@ import os
 # This needs to be set before pygame   pylint: disable=wrong-import-position
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
 
+import rubato.static as Static
 from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Configs
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
     RigidBody, Rectangle, Animation, Component, Polygon, Circle, \
-        SAT
+        SAT, Hitbox
 import rubato.input as Input
 import rubato.sound as Sound
-from rubato.game import Game, STATE
+from rubato.game import Game
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -59,7 +60,8 @@ __all__ = [
     "Sound",
     "Animation",
     "Component",
-    "STATE"
+    "Static",
+    "Hitbox",
 ]
 
 game: Game = None
@@ -85,7 +87,7 @@ def begin():
         RuntimeError: Rubato has not been initialized before calling.
     """
     if game is not None:
-        game.constant_loop()
+        game.start_loop()
     else:
         raise RuntimeError(
             "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"  # pylint: disable=line-too-long

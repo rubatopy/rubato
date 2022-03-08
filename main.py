@@ -1,25 +1,31 @@
 # pylint: disable=all
-from pip import main
 import rubato as rb
+from rubato.utils.vector import Vector
 
 rb.init()
 
 main_scene = rb.Scene()
 rb.game.scenes.add(main_scene)
 
-image = rb.Sprite({
-    "pos": rb.Vector(100, 100),
-}).add_component(rb.Image({
-    "scale": rb.Vector(2, 2),
-}))
+ground = rb.Sprite({
+    "pos": rb.Vector(300, 375)
+}).add_component(rb.Polygon.generate_rect(600, 50)).add_component(
+    rb.Rectangle({
+        "dims": rb.Vector(600, 50),
+        "color": rb.Color.green
+    }))
 
-rect = rb.Sprite({
-    "pos": rb.Vector(200, 100),
+main_scene.add(ground)
+
+platform = rb.Sprite({
+    "pos": rb.Vector(400, 200)
 }).add_component(
     rb.Rectangle({
-        "dims": rb.Vector(32, 32),
-        "color": rb.Color.red,
-    }))
+        "dims": rb.Vector(100, 20),
+        "color": rb.Color.green
+    })).add_component(rb.Polygon.generate_rect(100, 20))
+
+main_scene.add(platform)
 
 run = rb.Animation.import_animation_folder("testing/Run")
 idle = rb.Animation.import_animation_folder("testing/Idle")
@@ -29,13 +35,11 @@ player = rb.Sprite({
 })
 
 player_rb = rb.RigidBody({
-    "mass": 1,
-    "friction": rb.Vector(0.95, 0.95),
+    "mass": 20,
+    "friction": rb.Vector(0.5, 0.5),
     "max_speed": rb.Vector(100, rb.Math.INFINITY),
-    "hitbox": rb.Polygon.generate_rect(),
     "debug": True,
     "rotation": 0,
-    "gravity": 100,
 })
 player.add_component(player_rb)
 
@@ -49,14 +53,25 @@ player.add_component(player_anim)
 player_anim.add_state("run", run)
 player_anim.add_state("idle", idle)
 
+main_scene.add(player)
+
+box = rb.Sprite({
+    "pos": rb.Vector(300, 325),
+}).add_component(rb.RigidBody({
+    "mass": 50,
+})).add_component(
+    rb.Rectangle({
+        "dims": rb.Vector(50, 50),
+        "color": rb.Color.red
+    })).add_component(rb.Polygon.generate_rect(50, 50))
+box.get_component(rb.Hitbox).debug = True
+main_scene.add(box)
+
 
 def custom_update():
     if rb.Input.is_pressed("w"):
         player_anim.set_current_state("run")
-        player_rb.velocity.y = -100
-    elif rb.Input.is_pressed("s"):
-        player_anim.set_current_state("run")
-        player_rb.velocity.y = 100
+        player_rb.velocity.y = -200
     if rb.Input.is_pressed("a"):
         player_anim.set_current_state("run")
         player_rb.velocity.x = -100
@@ -89,11 +104,13 @@ def custom_update():
         player_anim.resize(
             rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()))
 
+    player_hitbox.collide(ground.get_component(rb.Hitbox))
+    player_hitbox.collide(platform.get_component(rb.Hitbox))
+    player_hitbox.collide(box.get_component(rb.Hitbox))
 
-main_scene.add(image)
-main_scene.add(rect)
-main_scene.add(player)
+    box.get_component(rb.Hitbox).collide(ground.get_component(rb.Hitbox))
 
-main_scene.update = custom_update
+
+main_scene.fixed_update = custom_update
 
 rb.begin()

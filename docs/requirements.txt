@@ -24,7 +24,7 @@ networkx==2.6.3
 numpy==1.22.1
 packaging==21.3
 platformdirs==2.4.1
-pygame==2.0.2
+pygame==2.1.2
 Pygments==2.11.2
 pylint==2.12.2
 pymongo==3.12.3

@@ -1,15 +1,46 @@
 """
 A time class to monitor time and to call functions in the future.
+
+Attributes:
+    frames (int): The total number of elapsed frames since the start of the
+        game.
 """
 from typing import Callable
 from pygame.time import Clock, get_ticks
 
 clock = Clock()
+
+frames = 0
+frame_tasks = {}
+
 tasks = {}
 sorted_task_times = []  # of the call keys
 
+_fixed_delta_time = 20
 
-def delta_time(form: str = "milli") -> int:
+
+def fixed_delta_time(form: str = "milli") -> float:
+    """
+    Gets the time since the fixed update frame.
+
+    Args:
+        form: The format the output should be (sec, milli). Defaults to milli.
+
+    Raises:
+        ValueError: The form is not "sec" or "milli".
+
+    Returns:
+        float: Time since the fixed update frame, in the given form.
+    """
+    if form == "sec":
+        return milli_to_sec(_fixed_delta_time)
+    elif form == "milli":
+        return _fixed_delta_time
+    else:
+        raise ValueError(f"Style {form} is not valid")
+
+
+def delta_time(form: str = "milli") -> float:
     """
     Gets the time since the last frame.
 
@@ -20,7 +51,7 @@ def delta_time(form: str = "milli") -> int:
         ValueError: The form is not "sec" or "milli".
 
     Returns:
-        int: Time since the last frame, in the given form.
+        float: Time since the last frame, in the given form.
     """
     if form == "sec":
         return milli_to_sec(clock.get_time())
@@ -64,6 +95,18 @@ def delayed_call(time_delta: int, func: Callable):
     # otherwise we do not want to re-add time stamp
 
 
+def delayed_frames(frames_delta: int, func: Callable):
+    """
+    Calls the function func at a later frame.
+
+    Args:
+        frames_delta: The number of frames to wait.
+        func: The function to call
+    """
+    frame_call = frames + frames_delta
+    frame_tasks[frame_call] = frame_tasks.get(frame_call, []) + [func]
+
+
 def milli_to_sec(milli: int) -> float:
     """
     Converts milliseconds to seconds.
@@ -89,6 +132,15 @@ def set_clock(new_clock: "Clock"):
 
 def process_calls():
     """Processes the calls needed"""
+    global frames
+    frames += 1
+
+    if (ft := frame_tasks.get(frames, None)) is not None:
+        for task in ft:
+            task()
+
+        del frame_tasks[frames]
+
     for task_time in sorted_task_times:
         if task_time <= now():
             for func in tasks[task_time]:

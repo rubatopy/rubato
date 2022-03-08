@@ -4,6 +4,18 @@
 
 ### Added
 
+### Changed
+
+-   Updated default image import to actually work properly
+
+### Removed
+
+### Fixed
+
+## [v1.1.0] - March 01, 2022
+
+### Added
+
 -   Sound system
 
 ### Changed
@@ -13,8 +25,7 @@
 ### Removed
 
 -   Removed Groups because they were deemed useless
-
-### Fixed
+-   Physics for now
 
 ## [v1.0.0] - Feb 01, 2022
 
@@ -47,6 +58,7 @@
 -   Sprites, Scenes, Main game object
 -   Rigidbody implementation
 
-[unreleased]: https://github.com/tinmarr/rubato/tree/main
-[v1.0.0]: https://github.com/tinmarr/rubato/tree/v1.0.0
-[v0.0.1]: https://github.com/tinmarr/rubato/tree/v0.0.1
+[unreleased]: https://github.com/rubatopy/rubato/tree/main
+[v1.1.0]: https://github.com/rubatopy/rubato/tree/v1.1.0
+[v1.0.0]: https://github.com/rubatopy/rubato/tree/v1.0.0
+[v0.0.1]: https://github.com/rubatopy/rubato/tree/v0.0.1

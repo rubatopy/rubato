@@ -154,20 +154,20 @@ class Animation(Component):
             self.default_state = state_name
             self.current_state = state_name
 
-    def update(self):
+    def draw(self):
         if self.current_frame < (length :=
                                  len(self._states[self.current_state]) - 1):
             # still in the state (extra -1 as we add if we hit a new frame)
             if self.animation_frames_left <= 0:
                 self.current_frame += 1
                 if self.current_frame >= length:
-                    return self.update()
+                    return self.draw()
                 self.animation_frames_left = self._current[
                     Animation._TIME_INDEX]
             self.animation_frames_left -= 1
         elif self.loop:  # we reached the end of our state
             self.current_frame = 0
-            self.update()
+            self.draw()
         else:
             self.current_state = self.default_state
             self.current_frame = 0
