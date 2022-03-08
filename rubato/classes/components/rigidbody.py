@@ -113,6 +113,18 @@ class RigidBody(Component):
         if rb_b is not None:
             rb_b.velocity += impulse * rb_a.inv_mass
 
+        percent = 0.2  # usually 20% to 80% interpolation
+        slop = 0.01  # usually 0.01 to 0.1 correction threshold
+
+        correction = max(col.sep.magnitude - slop, 0) / (
+            inv_mass_a + inv_mass_b) * percent * collision_norm
+
+        if rb_a is not None:
+            rb_a.sprite.pos -= rb_a.inv_mass * correction
+
+        if rb_b is not None:
+            rb_b.sprite.pos += rb_b.inv_mass * correction
+
         # TODO friction
 
     def fixed_update(self):

@@ -2,7 +2,7 @@
 import rubato as rb
 from rubato.utils.vector import Vector
 
-rb.init()
+rb.init({"fps_cap": 60})
 
 main_scene = rb.Scene()
 rb.game.scenes.add(main_scene)
