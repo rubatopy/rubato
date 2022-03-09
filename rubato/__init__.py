@@ -66,6 +66,7 @@ __all__ = [
 ]
 
 game: Game = None
+radio: Radio = None
 
 
 def init(options: dict = {}):
@@ -76,8 +77,9 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the |default| for `Game`.
     """
-    global game
+    global game, radio
     game = Game(options)
+    radio = game.radio
 
 
 def begin():

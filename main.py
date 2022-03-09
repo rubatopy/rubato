@@ -111,7 +111,7 @@ def callback(params):
         print("ouch")
         rb.game.state = rb.STATE.PAUSED if rb.game.state == rb.STATE.RUNNING else rb.STATE.RUNNING
 
-rb.game.radio.listen("keydown", callback)
+rb.radio.listen("keydown", callback)
 
 main_scene.fixed_update = custom_update
 
