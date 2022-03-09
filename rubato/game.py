@@ -4,13 +4,16 @@ game loop.
 """
 import pygame
 from pygame.transform import scale
+from typing import TYPE_CHECKING
 import sys
 from rubato.classes.sprite import Sprite
 from rubato.utils import Display, Vector, Time, Configs, Math
 from rubato.classes import SceneManager
-from rubato.radio import Radio
 import rubato.input as Input
 from enum import Enum
+
+if TYPE_CHECKING:
+    from rubato.radio import Radio
 
 
 class STATE(Enum):
@@ -83,7 +86,7 @@ class Game:
         Display.set_display(self._display)
 
         self.scenes = SceneManager()
-        self.radio = Radio()
+        self.radio: "Radio" = None
 
         self._saved_dims = [self._window_width, self._window_height]
 
@@ -111,9 +114,10 @@ class Game:
         """
         The update loop for the game. Called automatically every frame.
         Handles the game states.
-        Will always process timed calls ...
+        Will always process timed calls.
         """
         dnd_if_paused = self.state != STATE.PAUSED
+        # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.radio.broadcast("EXIT", {})
@@ -129,6 +133,7 @@ class Game:
                 self.radio.broadcast("keyup",
                                      {"key": Input.key.name(event.key)})
 
+        # Window resize handling
         if (self._saved_dims[0] != self._window_width
                 or self._saved_dims[1] != self._window_height):
             self._screen = pygame.display.set_mode(
@@ -144,9 +149,11 @@ class Game:
 
         self._saved_dims = [self._window_width, self._window_height]
 
+        # Delayed calls handling
         if dnd_if_paused and self.state:
             Time.process_calls()
 
+        # Fixed Update Loop
         self._physics_count += Time.delta_time()
 
         self._physics_count = Math.clamp(self._physics_count, 0,
@@ -156,13 +163,17 @@ class Game:
             self.scenes.fixed_update()
             self._physics_count -= self.physics_timestep
 
+        # Regular Update Loop
         if dnd_if_paused:
             self.scenes.update()
 
+        # Draw Loop
         if dnd_if_paused:
             self._screen.fill((0, 0, 0))
             if self.reset_display: self._display.fill((255, 255, 255))
             self.scenes.draw()
+
+        # Update Screen
         self._display = Display.global_display
 
         self._screen.blit(

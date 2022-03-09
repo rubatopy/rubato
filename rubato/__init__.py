@@ -80,6 +80,7 @@ def init(options: dict = {}):
     """
     global game, radio
     game = Game(options)
+    game.radio = Radio()
     radio = game.radio
 
 
