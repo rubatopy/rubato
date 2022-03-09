@@ -24,7 +24,7 @@ rigidbody_defaults = {
     "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
     "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),  # . . Vector
-    "friction": Vector(0, 0),  #. . . . . . . . . . . . . . . . Vector
+    "friction": 0.5,  # . . . . . . . . . . . . . . . . . . . . . float
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
 }

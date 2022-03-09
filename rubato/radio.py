@@ -33,7 +33,7 @@ class Radio:
         Args:
             event: The event key to listen for.
             func: The function to run once the event is
-                broadcast.
+                broadcast. It may take in a params dictionary argument.
 
         Warning:
             You **CANNOT** currently delete an event listener once it's created.
@@ -43,13 +43,17 @@ class Radio:
         else:
             self.listeners[event] = [func]
 
-    def broadcast(self, event: str):
+    def broadcast(self, event: str, params: dict):
         """
         Broadcast an event to be caught by listeners.
 
         Args:
             event: The event key to broadcast.
+            params: A parameters dictionary
         """
         self.events.append(event)
         for func in self.listeners.get(event, []):
-            func()
+            try:
+                func(params)
+            except TypeError:
+                func()

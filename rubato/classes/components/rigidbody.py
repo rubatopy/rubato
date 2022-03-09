@@ -2,6 +2,7 @@
 The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
+import math
 from typing import TYPE_CHECKING
 from rubato.classes.component import Component
 from rubato.utils import Vector, Configs, Time, Math
@@ -31,7 +32,7 @@ class RigidBody(Component):
         super().__init__()
 
         self.gravity: Vector = params["gravity"]
-        self.friction: Vector = params["friction"]
+        self.friction: float = params["friction"]
         self.max_speed: Vector = params["max_speed"]
         self.min_speed: Vector = params["min_speed"]
 
@@ -58,7 +59,7 @@ class RigidBody(Component):
 
     def physics(self):
         # Apply gravity
-        self.add_force(self.gravity * self.mass)
+        self.add_force(self.gravity * self.mass)  # TODO fix to vector
 
         self.sprite.pos += self.velocity * Time.fixed_delta_time("sec")
 
@@ -113,7 +114,52 @@ class RigidBody(Component):
         if rb_b is not None:
             rb_b.velocity += impulse * rb_a.inv_mass
 
-        # TODO friction
+        # Position correction
+        percent = 0.2  # usually 20% to 80% interpolation
+        slop = 0.01  # usually 0.01 to 0.1 correction threshold
+
+        correction = max(col.sep.magnitude - slop, 0) / (
+            inv_mass_a + inv_mass_b) * percent * collision_norm
+
+        if rb_a is not None:
+            rb_a.sprite.pos -= rb_a.inv_mass * correction
+
+        if rb_b is not None:
+            rb_b.sprite.pos += rb_b.inv_mass * correction
+
+        # Friction
+
+        # Relative velocity
+        rv = (Vector() if rb_b is None else rb_b.velocity) - \
+            (Vector() if rb_a is None else rb_a.velocity)
+
+        # Tangent vector
+        tangent = rv - rv.dot(collision_norm) * collision_norm
+        tangent.normalize()
+
+        # Solve for magnitude to apply along the friction vector
+        jt = -rv.dot(tangent)
+        jt /= inv_mass_a + inv_mass_b
+
+        # Calculate mu
+        if rb_a is None:
+            mu = rb_b.friction
+        elif rb_b is None:
+            mu = rb_a.friction
+        else:
+            mu = math.sqrt((rb_a.friction**2) + (rb_b.friction**2))
+
+        # Calculate friction impulse
+        if abs(jt) < j * mu:
+            friction_impulse = jt * tangent  # "Static friction"
+        else:
+            friction_impulse = -j * tangent * mu  # "Dynamic friction"
+
+        if rb_a is not None:
+            rb_a.velocity -= friction_impulse * rb_a.inv_mass
+
+        if rb_b is not None:
+            rb_b.velocity += friction_impulse * rb_a.inv_mass
 
     def fixed_update(self):
         """The update loop"""

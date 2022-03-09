@@ -2,7 +2,7 @@
 import rubato as rb
 from rubato.utils.vector import Vector
 
-rb.init()
+rb.init({"fps_cap": 60})
 
 main_scene = rb.Scene()
 rb.game.scenes.add(main_scene)
@@ -36,7 +36,6 @@ player = rb.Sprite({
 
 player_rb = rb.RigidBody({
     "mass": 20,
-    "friction": rb.Vector(0.5, 0.5),
     "max_speed": rb.Vector(100, rb.Math.INFINITY),
     "debug": True,
     "rotation": 0,
