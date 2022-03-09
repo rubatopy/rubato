@@ -4,7 +4,6 @@ A module that houses all of the default options.
 
 from rubato.utils import Math, Vector, Color
 
-# TODO add 1 line explanations to each element
 
 # [start-defaults]
 game_defaults = {

@@ -16,7 +16,6 @@ class RigidBody(Component):
     A RigidBody implementation with built in physics and collisions.
 
     Attributes:
-        # TODO Rigidbody attributes need documentation
     """
 
     def __init__(self, options: dict = {}):
@@ -59,7 +58,7 @@ class RigidBody(Component):
 
     def physics(self):
         # Apply gravity
-        self.add_force(self.gravity * self.mass)  # TODO fix to vector
+        self.add_force(self.gravity * self.mass)
 
         self.sprite.pos += self.velocity * Time.fixed_delta_time("sec")
 

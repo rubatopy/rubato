@@ -70,9 +70,6 @@ class Sprite:
                     "The component of type " + str(not_allowed_type) +
                     " conflicts with another component on the sprite.")
 
-        # TODO check required components
-        # TODO auto add required components if possible
-
         self._components.append(component)
         component.sprite = self
 
