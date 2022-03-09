@@ -34,7 +34,6 @@ class Sprite:
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []
-        self.group: "Group" = None
 
     @property
     def components(self):
@@ -77,6 +76,24 @@ class Sprite:
 
         return self
 
+    def remove_component(self, comp_type: type):
+        """
+        Removes a component from the sprite.
+
+        Args:
+            comp_type: The type of the component to remove.
+
+        Raises:
+            Warning: The component was not on the sprite and nothing
+                was removed.
+        """
+        if self.get_component(comp_type) is not None:
+            del self.components[self.components.index(
+                self.get_component(comp_type))]
+        else:
+            raise Warning("The component of type " + str(comp_type) +
+                          " is not on this sprite as was not removed.")
+
     def get_component(self, comp_type: type) -> Union["Component", None]:
         """
         Gets a component from the sprite.
@@ -91,6 +108,7 @@ class Sprite:
         for comp in self.components:
             if isinstance(comp, comp_type):
                 return comp
+        return None
 
     def draw(self):
         """The draw loop"""
