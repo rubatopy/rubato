@@ -24,6 +24,7 @@ class Hitbox(Component):
         self.tags = []
         self._pos = lambda: Vector(0, 0)
         self.scale = 1
+        self.callback = lambda c: None
 
     def update(self):
         self.draw()
@@ -66,6 +67,8 @@ class Hitbox(Component):
                 RigidBody.handle_collision(col)
 
             callback(col)
+            self.callback(col)
+            other.callback(col)
 
 
 class Polygon(Hitbox):

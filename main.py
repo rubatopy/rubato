@@ -36,16 +36,14 @@ player = rb.Sprite({
 })
 
 player_rb = rb.RigidBody({
-    "mass": 20,
+    "mass": 100,
     "max_speed": rb.Vector(100, rb.Math.INFINITY),
-    "debug": True,
     "rotation": 0,
-    "bouncyness": 1,
+    "bouncyness": 0.1,
 })
 player.add_component(player_rb)
 
 player_hitbox = rb.Polygon.generate_rect(32, 32)
-player_hitbox.debug = True
 player.add_component(player_hitbox)
 
 player_anim = rb.Animation()
@@ -65,7 +63,6 @@ box = rb.Sprite({
         "dims": rb.Vector(50, 50),
         "color": rb.Color.red
     })).add_component(rb.Polygon.generate_rect(50, 50))
-box.get_component(rb.Hitbox).debug = True
 main_scene.add_item(box)
 
 
@@ -101,12 +98,6 @@ def custom_update():
     else:
         player_anim.resize(
             rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()))
-
-    player_hitbox.collide(ground.get_component(rb.Hitbox))
-    player_hitbox.collide(platform.get_component(rb.Hitbox))
-    player_hitbox.collide(box.get_component(rb.Hitbox))
-
-    box.get_component(rb.Hitbox).collide(ground.get_component(rb.Hitbox))
 
 
 def callback(params):

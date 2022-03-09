@@ -113,7 +113,7 @@ class RigidBody(Component):
             rb_a.velocity -= impulse * rb_a.inv_mass
 
         if rb_b is not None and not rb_b.static:
-            rb_b.velocity += impulse * rb_a.inv_mass
+            rb_b.velocity += impulse * rb_b.inv_mass
 
         # Position correction
         percent = 0.2  # usually 20% to 80% interpolation
@@ -160,7 +160,7 @@ class RigidBody(Component):
             rb_a.velocity -= friction_impulse * rb_a.inv_mass
 
         if rb_b is not None and not rb_b.static:
-            rb_b.velocity += friction_impulse * rb_a.inv_mass
+            rb_b.velocity += friction_impulse * rb_b.inv_mass
 
     def fixed_update(self):
         """The update loop"""

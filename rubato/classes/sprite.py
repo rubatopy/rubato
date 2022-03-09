@@ -8,6 +8,7 @@ from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError
 
 if TYPE_CHECKING:
     from rubato.classes.component import Component
+    from rubato.classes import Group
 
 
 class Sprite:
@@ -33,6 +34,7 @@ class Sprite:
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []
+        self.group: "Group" = None
 
     @property
     def components(self):
