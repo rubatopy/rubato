@@ -32,7 +32,7 @@ from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
         SAT, Hitbox
 import rubato.input as Input
 import rubato.sound as Sound
-from rubato.game import Game
+from rubato.game import Game, STATE
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -62,6 +62,7 @@ __all__ = [
     "Component",
     "Static",
     "Hitbox",
+    "STATE"
 ]
 
 game: Game = None
@@ -87,7 +88,7 @@ def begin():
         RuntimeError: Rubato has not been initialized before calling.
     """
     if game is not None:
-        game.start_loop()
+        game.constant_loop()
     else:
         raise RuntimeError(
             "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"  # pylint: disable=line-too-long

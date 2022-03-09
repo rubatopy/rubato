@@ -16,6 +16,10 @@ from enum import Enum
 class STATE(Enum):
     """
     An enum to keep track of the state things
+
+    RUNNING: will run everything normally
+    STOPPED: will quit the window
+    PAUSED: will pause physics time calls. Please do not use this feature.
     """
     RUNNING = 1
     STOPPED = 2
@@ -71,8 +75,8 @@ class Game:
 
         self._screen = pygame.display.set_mode(
             (self._window_width, self._window_height), pygame.RESIZABLE)
-        self._display = pygame.Surface((self._window_width, self._window_height),
-                                       pygame.SRCALPHA)
+        self._display = pygame.Surface(
+            (self._window_width, self._window_height), pygame.SRCALPHA)
 
         pygame.display.set_caption(self.name)
         if options.get("icon"):
@@ -87,6 +91,7 @@ class Game:
 
         infos = pygame.display.Info()
         self._max_screen_size = (infos.current_w, infos.current_h)
+
     @property
     def physics_timestep(self):
         return self._phy_ts
@@ -110,19 +115,19 @@ class Game:
         Handles the game states.
         Will always process timed calls ...
         """
-        do_not_do_this_if_paused = True #False if self.state == STATE.PAUSED else True
+        dnd_if_paused = self.state != STATE.PAUSED
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.radio.broadcast("EXIT", {})
                 pygame.quit()
                 sys.exit(1)
             if event.type == pygame.VIDEORESIZE:
-                self.window_width = event.size[0]
-                self.window_height = event.size[1]
-            if do_not_do_this_if_paused and event.type == pygame.KEYDOWN:
+                self._window_width = event.size[0]
+                self._window_height = event.size[1]
+            if event.type == pygame.KEYDOWN:
                 self.radio.broadcast("keydown",
                                      {"key": Input.key.name(event.key)})
-            if do_not_do_this_if_paused and event.type == pygame.KEYUP:
+            if event.type == pygame.KEYUP:
                 self.radio.broadcast("keyup",
                                      {"key": Input.key.name(event.key)})
 
@@ -137,27 +142,29 @@ class Game:
         height = (self._window_height,
                   self._window_width / self._aspect_ratio)[ratio]
         top_left = (((self._window_width - width) // 2, 0),
-                     (0, (self._window_height - height) // 2))[ratio]
+                    (0, (self._window_height - height) // 2))[ratio]
 
         self._saved_dims = [self._window_width, self._window_height]
 
-        if self.state and do_not_do_this_if_paused:
+        if dnd_if_paused and self.state:
             Time.process_calls()
 
         self._physics_count += Time.delta_time()
 
         self._physics_count = Math.clamp(self._physics_count, 0,
-                                         self.physics_timestep * 100)
+                                    self.physics_timestep * 100)
 
-        while self._physics_count > self.physics_timestep:
+        while dnd_if_paused and self._physics_count > self.physics_timestep:
             self.scenes.fixed_update()
             self._physics_count -= self.physics_timestep
 
-        self.scenes.update()
+        if dnd_if_paused:
+            self.scenes.update()
 
-        self._screen.fill((0, 0, 0))
-        if self.reset_display: self._display.fill((255, 255, 255))
-        self.scenes.draw()
+        if dnd_if_paused:
+            self._screen.fill((0, 0, 0))
+            if self.reset_display: self._display.fill((255, 255, 255))
+            self.scenes.draw()
         self._display = Display.global_display
 
         self._screen.blit(
@@ -166,11 +173,13 @@ class Game:
 
         pygame.display.flip()
         self.radio.events = []
-
-        if self._use_better_clock:
-            self._clock.tick_busy_loop(self.fps_cap)
+        if dnd_if_paused:
+            if self._use_better_clock:
+                self._clock.tick_busy_loop(self.fps_cap)
+            else:
+                self._clock.tick(self.fps_cap)
         else:
-            self._clock.tick(self.fps_cap)
+            pygame.time.delay(int(Time.delta_time()))
 
     def render(self, sprite: Sprite, surface: pygame.Surface):
         if sprite.z_index <= self.scenes.current_scene.camera.z_index:
@@ -213,7 +222,8 @@ class Game:
         Sets width of actual window (screen).
         Args:
             window_width:
-                width clamped between the max display size initialized rubato.init()
+                width clamped between the max display size initialized
+                rubato.init()
         """
         if self._max_screen_size[0] > window_width > 0:
             self._window_width = window_width
@@ -232,7 +242,8 @@ class Game:
         Sets height of actual window (screen).
         Args:
             window_height:
-                height clamped between the max display size initialized rubato.init()
+                height clamped between the max display size initialized
+                rubato.init()
         """
         if self._max_screen_size[1] > window_height > 0:
             self._window_height = window_height
@@ -248,7 +259,8 @@ class Game:
     @aspect_ratio.setter
     def aspect_ratio(self, aspect_ratio: int) -> None:
         """
-        Sets the aspect ratio of the display that will be kept no matter the real size of the screen.
+        Sets the aspect ratio of the display that will be kept no matter
+        the real size of the screen.
         Args:
             aspect_ratio:
         """
