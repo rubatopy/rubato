@@ -85,6 +85,13 @@ _________
 .. automodule:: rubato.classes.components.rigidbody
     :members:
 
+.. _group:
+
+Group
+-----
+.. automodule:: rubato.classes.group
+    :members:
+
 .. _scene:
 
 Scene

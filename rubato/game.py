@@ -40,8 +40,6 @@ class Game:
         reset_display (bool): Controls whether or not the display should reset
             every frame.
         state (STATE): The current state of the game.
-        window_width (int): The width of the game window.
-        window_height (int): The height of the game window.
     """
 
     def __init__(self, options: dict = {}):
@@ -152,7 +150,7 @@ class Game:
         self._physics_count += Time.delta_time()
 
         self._physics_count = Math.clamp(self._physics_count, 0,
-                                    self.physics_timestep * 100)
+                                         self.physics_timestep * 100)
 
         while dnd_if_paused and self._physics_count > self.physics_timestep:
             self.scenes.fixed_update()

@@ -40,7 +40,7 @@ class Scene:
 
         Raises:
             Warning: The group you tried to add was already in the scene. This
-            group will not be added twice.
+                group will not be added twice.
         """
         if group not in self.groups:
             self.groups.append(group)
@@ -59,7 +59,7 @@ class Scene:
 
         Raises:
             ValueError: The group could not be found in this scene and was
-            therefore not removed.
+                therefore not removed.
         """
         try:
             i = self.items.index(group)
@@ -76,7 +76,7 @@ class Scene:
 
         Raises:
             Error: The default group was either deleted or could not be found
-            and therefore the item was not added.
+                and therefore the item was not added.
         """
         if len(self.groups) > 0:
             self.groups[0].add(item)

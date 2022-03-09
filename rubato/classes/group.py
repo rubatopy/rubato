@@ -24,7 +24,7 @@ class Group:
 
         Raises:
             Error: The item being added is the group itself. A group cannot be
-            added to itself.
+                added to itself.
         """
         if self != item:
             self.items.append(item)
