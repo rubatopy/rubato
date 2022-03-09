@@ -15,6 +15,7 @@ class Hitbox(Component):
     """
     The basic hitbox
     """
+    hitboxes: List["Hitbox"] = []
 
     def __init__(self):
         super().__init__()

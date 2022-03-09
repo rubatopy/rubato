@@ -1,23 +1,25 @@
 """
-We create the Scene class which is is a collection of sprites. Interactions
-between sprites is handled here.
+THe Scene class which is a collection of groups. It also houses the current
+scene camera. Scenes come with a default group that everything is added to if
+no other groups are specified.
 """
-from typing import Union, Dict
-from rubato.classes.camera import Camera
-import rubato.classes as rb
-from rubato.utils.error import IdError
+from typing import List, Union, TYPE_CHECKING
+from rubato.classes import Camera, Group
+from rubato.utils.error import Error
+
+if TYPE_CHECKING:
+    from rubato.classes import Sprite
 
 
 class Scene:
     """
-    A scene is a collection of sprites. Interactions between sprites is handled
-    here.
+    A scene is a collection of groups.
 
     Attributes:
-        sprites (dict[Union[int, str], Sprite]): The collection
-            of sprites housed in this scene.
+        groups (List[Group]): The collection
+            of groups housed in this scene.
         camera (Camera): The camera of this scene.
-        id (Union[str, int]): The id of this scene.
+        id (str): The id of this scene.
     """
 
     def __init__(self):
@@ -25,63 +27,92 @@ class Scene:
         Initializes a scene with an empty collection of sprites, a new camera,
         and a blank id.
         """
-        self.sprites: Dict[Union[int, str], rb.Sprite] = {}
-        self.__min_id = 0
+        self.groups: List["Group"] = [Group()]
         self.camera = Camera()
-        self.id: Union[str, int] = ""
+        self.id: str = ""
 
-    def add(self,
-            sprite: rb.Sprite,
-            sprite_id: Union[int, str] = None) -> Union[str, int]:
+    def add_group(self, group: "Group"):
         """
-        Adds a sprite to the scene.
+        Adds a group to the scene.
 
         Args:
-            sprite: The sprite to add to the scene.
-            sprite_id: The id of the sprite. Defaults to None.
+            group: The group to add.
 
         Raises:
-            IdError: The given id is already used.
-
-        Returns:
-            Union[str, int]: The id of the added sprite.
+            Warning: The group you tried to add was already in the scene. This
+            group will not be added twice.
         """
-        if sprite_id is None:
-            sprite_id = self.__min_id
-            self.__min_id += 1
+        if group not in self.groups:
+            self.groups.append(group)
+        else:
+            raise Warning(
+                f"The group {group} is already in the scene." + \
+                    "(it was not added twice)"
+            )
 
-        if sprite_id in self.sprites:
-            raise IdError(
-                f"The sprite id {sprite_id} is not unique in this scene")
-
-        self.sprites[sprite_id] = sprite
-        return sprite_id
-
-    def remove(self, sprite_id: Union[int, str]):
+    def remove_group(self, group: "Group"):
         """
-        Removes a sprite from the scene.
+        Removes a group from the scene.
 
         Args:
-            sprite_id: The id of the sprite.
+            group: The group to remove.
+
+        Raises:
+            ValueError: The group could not be found in this scene and was
+            therefore not removed.
         """
         try:
-            del self.sprites[sprite_id]
-        except KeyError:
-            pass
+            i = self.items.index(group)
+            del self.items[i]
+        except ValueError as e:
+            raise ValueError("This group is not in this scene") from e
+
+    def add_item(self, item: Union["Sprite", "Group"]):
+        """
+        Adds an item to the default group.
+
+        Args:
+            item: The item to add.
+
+        Raises:
+            Error: The default group was either deleted or could not be found
+            and therefore the item was not added.
+        """
+        if len(self.groups) > 0:
+            self.groups[0].add(item)
+        else:
+            raise Error(
+                "The default group was deleted and the item was not added")
+
+    def remove_item(self, item: Union["Sprite", "Group"]):
+        """
+        Removes an item from the default group.
+
+        Args:
+            item: The item to remove.
+
+        Raises:
+            Error: The default group was delete and the item was not removed.
+        """
+        if len(self.groups) > 0:
+            self.groups[0].remove(item)
+        else:
+            raise Error(
+                "The default group was deleted and the item was not removed")
 
     def private_draw(self):
-        for sprite in self.sprites.values():
-            sprite.draw()
+        for group in self.groups:
+            group.draw()
 
     def private_update(self):
         self.update()
-        for sprite in self.sprites.values():
-            sprite.update()
+        for group in self.groups:
+            group.update()
 
     def private_fixed_update(self):
         self.fixed_update()
-        for sprite in self.sprites.values():
-            sprite.fixed_update()
+        for group in self.groups:
+            group.fixed_update()
 
     def update(self):
         """

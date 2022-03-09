@@ -32,11 +32,11 @@ class Sprite:
         param = Configs.merge_params(options, Configs.sprite_defaults)
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
-        self._components: List["Component"] = []
+        self.__components: List["Component"] = []
 
     @property
     def components(self):
-        return self._components
+        return self.__components
 
     def add_component(self, component: "Component") -> "Sprite":
         """
@@ -70,7 +70,7 @@ class Sprite:
                     "The component of type " + str(not_allowed_type) +
                     " conflicts with another component on the sprite.")
 
-        self._components.append(component)
+        self.__components.append(component)
         component.sprite = self
 
         return self

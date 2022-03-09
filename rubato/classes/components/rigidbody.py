@@ -30,6 +30,8 @@ class RigidBody(Component):
 
         super().__init__()
 
+        self.static: bool = params["static"]
+
         self.gravity: Vector = params["gravity"]
         self.friction: float = params["friction"]
         self.max_speed: Vector = params["max_speed"]
@@ -37,10 +39,10 @@ class RigidBody(Component):
 
         self.velocity = Vector()
 
-        self.angvel: float = 0
-        self.rotation: float = params["rotation"]
+        # self.angvel: float = 0
+        # self.rotation: float = params["rotation"]
 
-        if params["mass"] == 0:
+        if params["mass"] == 0 or self.static:
             self.inv_mass = 0
         else:
             self.inv_mass: float = 1 / params["mass"]
@@ -97,7 +99,7 @@ class RigidBody(Component):
             return
 
         # Calculate restitution
-        e = min(0 if rb_a is None else rb_a.bouncyness,
+        e = max(0 if rb_a is None else rb_a.bouncyness,
                 0 if rb_b is None else rb_b.bouncyness)
 
         # Calculate impulse scalar
@@ -107,10 +109,10 @@ class RigidBody(Component):
         # Apply the impulse
         impulse = j * collision_norm
 
-        if rb_a is not None:
+        if rb_a is not None and not rb_a.static:
             rb_a.velocity -= impulse * rb_a.inv_mass
 
-        if rb_b is not None:
+        if rb_b is not None and not rb_b.static:
             rb_b.velocity += impulse * rb_a.inv_mass
 
         # Position correction
@@ -120,10 +122,10 @@ class RigidBody(Component):
         correction = max(col.sep.magnitude - slop, 0) / (
             inv_mass_a + inv_mass_b) * percent * collision_norm
 
-        if rb_a is not None:
+        if rb_a is not None and not rb_a.static:
             rb_a.sprite.pos -= rb_a.inv_mass * correction
 
-        if rb_b is not None:
+        if rb_b is not None and not rb_b.static:
             rb_b.sprite.pos += rb_b.inv_mass * correction
 
         # Friction
@@ -154,12 +156,13 @@ class RigidBody(Component):
         else:
             friction_impulse = -j * tangent * mu  # "Dynamic friction"
 
-        if rb_a is not None:
+        if rb_a is not None and not rb_a.static:
             rb_a.velocity -= friction_impulse * rb_a.inv_mass
 
-        if rb_b is not None:
+        if rb_b is not None and not rb_b.static:
             rb_b.velocity += friction_impulse * rb_a.inv_mass
 
     def fixed_update(self):
         """The update loop"""
-        self.physics()
+        if not self.static:
+            self.physics()

@@ -4,7 +4,6 @@ A module that houses all of the default options.
 
 from rubato.utils import Math, Vector, Color
 
-
 # [start-defaults]
 game_defaults = {
     "name": "Untitled Game",  # . . . . . . . . . . . . . . . . str
@@ -23,9 +22,10 @@ rigidbody_defaults = {
     "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
     "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),  # . . Vector
-    "friction": 0.5,  # . . . . . . . . . . . . . . . . . . . . . float
+    "friction": 0.5,  # . . . . . . . . . . . . . . . . . . . . float
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    "static": False  #. . . . . . . . . . . . . . . . . . . . . bool
 }
 
 image_defaults = {
