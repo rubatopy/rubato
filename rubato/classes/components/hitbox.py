@@ -1,7 +1,6 @@
 """Various hitbox components that enable collisions"""
 
 import math
-from turtle import shape
 from typing import Callable, List, Union
 from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils.vector import Vector
@@ -317,14 +316,14 @@ class SAT:
                                        not a_is_circle)
 
     @staticmethod
-    def circle_circle_test(shape_a, shape_b):
+    def circle_circle_test(shape_a: Circle, shape_b: Circle):
         """Checks for overlap between two circles"""
         total_radius = shape_a.radius + shape_b.radius
         distance = (shape_b.pos - shape_a.pos).magnitude()
 
         if distance > total_radius:
             return None
-        
+
         result = CollisionInfo()
 
         result.shape_a = shape_a
@@ -339,8 +338,7 @@ class SAT:
         return None
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Union[Polygon, Circle],
-                             shape_b: Union[Polygon, Circle],
+    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon,
                              flip: bool = False) -> Union[CollisionInfo, None]:
         """Checks for overlap between two polygons"""
 
