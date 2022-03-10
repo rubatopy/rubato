@@ -28,7 +28,6 @@ platform = rb.Sprite({
 
 main_scene.add_item(platform)
 
-
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
 })
@@ -44,31 +43,25 @@ player.add_component(player_rb)
 player_hitbox = rb.Polygon.generate_rect(32, 32)
 player.add_component(player_hitbox)
 
-player_anim = rb.Animation({
-    "fps": 6
-})
+player_anim = rb.Animation({"fps": 6})
 
 run = rb.Animation.import_animation_folder("testing/Run")
 idle = rb.Animation.import_animation_folder("testing/Idle")
 
-player.add_component(player_anim)
 player_anim.add_state("idle", idle)
 player_anim.add_state("run", run)
 
+player.add_component(player_anim)
+
 main_scene.add_item(player)
 
-
-spinny = rb.Sprite({
-    "pos": Vector(200, 200)
-})
-spinny_animation = rb.Animation({
-    "fps": 4
-})
+spinny = rb.Sprite({"pos": Vector(200, 200)})
+spinny_animation = rb.Animation({"fps": 4})
 spinny.add_component(spinny_animation)
-spinny_animation.add_state("spin", rb.Animation.import_animation_folder("testing/spin"))
+spinny_animation.add_state(
+    "spin", rb.Animation.import_animation_folder("testing/spin"))
 
 main_scene.add_item(spinny)
-
 
 box = rb.Sprite({
     "pos": rb.Vector(300, 325),
@@ -121,8 +114,6 @@ def callback(params):
     if params["key"] == "p":
         rb.Game.set_state(rb.STATE.PAUSED if rb.Game.get_state() ==
                           rb.STATE.RUNNING else rb.STATE.RUNNING)
-    if params["key"] == "a":
-        print("listener removed")
 
 
 keylistener = rb.radio.listen("keydown", callback)

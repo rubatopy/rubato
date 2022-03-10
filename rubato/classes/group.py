@@ -48,6 +48,10 @@ class Group:
         except ValueError as e:
             raise ValueError("This item is not in this group") from e
 
+    def start(self):
+        for item in self.items:
+            item.start()
+
     def update(self):
         for item in self.items:
             item.update()

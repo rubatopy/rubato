@@ -51,7 +51,7 @@ class Animation(Component):
         self.loop = False
 
         # time (milliseconds) to switch frames
-        self._time_step = 1000/self._fps/4.5
+        self._time_step = 1000 / self._fps / 4.5
         self._time_count = 0  # time since last update of frames
         self.scale(param["scale_factor"])
 
@@ -143,13 +143,8 @@ class Animation(Component):
         for i in range(len(image_and_times)):
             image_and_time = image_and_times[i]
             if isinstance(image_and_time, Image):
-                image_and_time.sprite = self.sprite  # TODO: -- to remove
                 image_and_times[i] = (image_and_time,
                                       self.default_animation_length)
-            elif len(image_and_time) == 2 and \
-                    isinstance(image_and_time[0], Image) \
-                    and isinstance(image_and_time[1], int):
-                image_and_time[0].sprite = self.sprite  # TODO: -- to remove
             else:
                 raise Error("This tuple is an invalid Image and time: " +
                             image_and_time)

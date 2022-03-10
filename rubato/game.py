@@ -66,6 +66,8 @@ _max_screen_size: Tuple[int, int] = (0, 0)
 _screen = None
 _display = None
 
+is_init = False
+
 
 def init(options: dict = {}):
     """
@@ -77,7 +79,9 @@ def init(options: dict = {}):
     """
     global name, _window_width, _window_height, _aspect_ratio, fps_cap, \
         reset_display, _use_better_clock, _saved_dims, _max_screen_size, \
-        _screen, _display
+        _screen, _display, is_init
+
+    is_init = True
 
     params = Configs.merge_params(options, Configs.game_defaults)
 
@@ -138,13 +142,13 @@ def update():
                 "key": event.unicode,
                 "code": event.key,
                 "modifiers": event.mod
-                })
+            })
         if event.type == pygame.KEYUP:
             radio.broadcast("keyup", {
                 "key": event.unicode,
                 "code": event.key,
                 "modifiers": event.mod
-                })
+            })
 
     # Window resize handling
     if (_saved_dims[0] != _window_width or _saved_dims[1] != _window_height):
