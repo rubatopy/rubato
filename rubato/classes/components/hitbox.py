@@ -366,34 +366,27 @@ class SAT:
         axis = closest - shape_a.pos
         axis.normalize()
 
-        poly_range = SAT.project_verts(verts, axis)
-
-        scalar_offset = axis.dot(offset)
-        poly_range += scalar_offset
-
-        circle_range = SAT.project_circle(shape_a)
+        poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
+        circle_range = Vector(-shape_a.transformed_radius(),
+                        shape_a.transformed_radius())
 
         if ((poly_range.x - circle_range.y > 0) or
              (circle_range.x - poly_range.y > 0)):
             return None
-
 
         dist_min = circle_range.y - poly_range.x
         if flip: dist_min *= -1
 
         shortest = abs(dist_min)
 
-        distance = dist_min
-        vector = axis
+        sep = axis * dist_min
 
         for i in range(len(verts)):
             axis = SAT.perpendicular_axis(verts, i)
-            poly_range = SAT.project_verts(verts, axis)
 
-            scalar_offset = axis.dot(offset)
-            poly_range += scalar_offset
-
-            circle_range = SAT.project_circle(shape_a)
+            poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
+            circle_range = Vector(-shape_a.transformed_radius(),
+                            shape_a.transformed_radius())
 
             if ((poly_range.x - circle_range.y > 0) or
                  (circle_range.x - poly_range.y > 0)):
@@ -405,10 +398,9 @@ class SAT:
             dist_min_abs = abs(dist_min)
             if dist_min_abs < shortest:
                 shortest = dist_min_abs
-                distance = dist_min
-                vector = axis
+                sep = axis * dist_min
 
-        result.sep = vector * distance * -1
+        result.sep = -sep
 
         return result
 
@@ -470,8 +462,3 @@ class SAT:
             minval, maxval = min(minval, temp), max(maxval, temp)
 
         return Vector(minval, maxval)
-
-    @staticmethod
-    def project_circle(shape_a: Circle):
-        return Vector(-shape_a.transformed_radius(),
-                        shape_a.transformed_radius())
