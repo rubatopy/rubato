@@ -207,8 +207,8 @@ class Polygon(Hitbox):
                 (0, 255, 0),
                 list(
                     map(
-                        lambda v: rb.game.scenes.current_scene.camera.
-                        transform(v * rb.game.scenes.current_scene.camera.zoom
+                        lambda v: rb.Game.scenes.current_scene.camera.
+                        transform(v * rb.Game.scenes.current_scene.camera.zoom
                                   ),
                         self.real_verts(),
                     )),

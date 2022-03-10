@@ -8,7 +8,8 @@ broadcast that event key using the :meth:`Radio.broadcast` function.
 """
 
 from typing import Callable, List
-import rubato.game as game
+import rubato.game as Game
+
 
 class Radio:
     """
@@ -22,7 +23,7 @@ class Radio:
     """
 
     def __init__(self):
-        "Initializes the Radio class"
+        """Initializes the Radio class"""
         self.events: List[tuple] = []
         self.listeners: dict[str, List] = {}
 
@@ -97,8 +98,8 @@ class Listener:
 
     def remove(self):
         try:
-            i = game.radio.listeners[self.event].index(self)
-            del game.radio.listeners[self.event][i]
+            i = Game.radio.listeners[self.event].index(self)
+            del Game.radio.listeners[self.event][i]
             self.registered = False
         except ValueError as e:
             raise ValueError("Listener not registered in the radio") from e
