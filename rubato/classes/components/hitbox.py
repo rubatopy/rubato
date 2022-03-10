@@ -1,7 +1,7 @@
 """Various hitbox components that enable collisions"""
 
 import math
-from typing import Callable, List, Union, TYPE_CHECKING
+from typing import Callable, List, Union
 from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils import Math, Display, Vector, Configs, Color
 from rubato.classes.component import Component
