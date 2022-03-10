@@ -3,7 +3,7 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
 
-num_balls = 50
+num_balls = 100
 rb.init({
     "name": "Physics Demo",
     "window_width": 600,
@@ -57,11 +57,11 @@ for i in range(num_balls):
     ball = rb.Sprite({
         "pos": Vector(randint(50, 550), randint(50, 550))
     }).add_component(rb.Circle({
-        "radius": 25,
+        "radius": 10,
         "color": Color.random
     })).add_component(rb.RigidBody({
         "bounciness": 1,
-        "gravity": Vector()
+        "gravity": Vector(0, 20)
     }))
     balls.append(ball)
 
