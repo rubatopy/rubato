@@ -1,13 +1,14 @@
 """
 A Color implementation.
 """
+from random import randint
 from typing import Tuple
 from rubato.utils import Math
 
 
 class Color:
     """
-    An Color implentation.
+    A Color implentation.
 
     Attributes:
         r (float): The red value.
@@ -159,9 +160,20 @@ class Color:
 
     @classmethod
     @property
+    def random(cls):
+        """
+        A Color class with a random color.
+
+        Returns:
+            Color: A random color.
+        """
+        return Color(randint(0, 255), randint(0, 255), randint(0, 255))
+
+    @classmethod
+    @property
     def black(cls):
         """
-        An Color class of the color black.
+        A Color class of the color black.
 
         Returns:
             Color: (0, 0, 0)
@@ -172,7 +184,7 @@ class Color:
     @property
     def white(cls):
         """
-        An Color class of the color white.
+        A Color class of the color white.
 
         Returns:
             Color: (255, 255, 255)
@@ -183,7 +195,7 @@ class Color:
     @property
     def red(cls):
         """
-        An Color class of the color red.
+        A Color class of the color red.
 
         Returns:
             Color: (255, 0, 0)
@@ -194,7 +206,7 @@ class Color:
     @property
     def lime(cls):
         """
-        An Color class of the color lime.
+        A Color class of the color lime.
 
         Returns:
             Color: (0, 255, 0)
@@ -205,7 +217,7 @@ class Color:
     @property
     def blue(cls):
         """
-        An Color class of the color blue.
+        A Color class of the color blue.
 
         Returns:
             Color: (0, 0, 255)
@@ -216,7 +228,7 @@ class Color:
     @property
     def yellow(cls):
         """
-        An Color class of the color yellow.
+        A Color class of the color yellow.
 
         Returns:
             Color: (255, 255, 0)
@@ -227,7 +239,7 @@ class Color:
     @property
     def cyan(cls):
         """
-        An Color class of the color cyan.
+        A Color class of the color cyan.
 
         Returns:
             Color: (0, 255, 255)
@@ -238,7 +250,7 @@ class Color:
     @property
     def magenta(cls):
         """
-        An Color class of the color magenta.
+        A Color class of the color magenta.
 
         Returns:
             Color: (255, 0, 255)
@@ -249,7 +261,7 @@ class Color:
     @property
     def silver(cls):
         """
-        An Color class of the color silver.
+        A Color class of the color silver.
 
         Returns:
             Color: (192, 192, 192)
@@ -260,7 +272,7 @@ class Color:
     @property
     def gray(cls):
         """
-        An Color class of the color gray.
+        A Color class of the color gray.
 
         Returns:
             Color: (128, 128, 128)
@@ -271,7 +283,7 @@ class Color:
     @property
     def maroon(cls):
         """
-        An Color class of the color maroon.
+        A Color class of the color maroon.
 
         Returns:
             Color: (128, 0, 0)
@@ -282,7 +294,7 @@ class Color:
     @property
     def olive(cls):
         """
-        An Color class of the color olive.
+        A Color class of the color olive.
 
         Returns:
             Color: (128, 128, 0)
@@ -293,7 +305,7 @@ class Color:
     @property
     def green(cls):
         """
-        An Color class of the color green.
+        A Color class of the color green.
 
         Returns:
             Color: (0, 128, 0)
@@ -304,7 +316,7 @@ class Color:
     @property
     def purple(cls):
         """
-        An Color class of the color purple.
+        A Color class of the color purple.
 
         Returns:
             Color: (128, 0, 128)
@@ -315,7 +327,7 @@ class Color:
     @property
     def teal(cls):
         """
-        An Color class of the color teal.
+        A Color class of the color teal.
 
         Returns:
             Color: (0, 128, 128)
@@ -326,7 +338,7 @@ class Color:
     @property
     def navy(cls):
         """
-        An Color class of the color navy.
+        A Color class of the color navy.
 
         Returns:
             Color: (0, 0, 128)

@@ -35,7 +35,7 @@ player_rb = rb.RigidBody({
     "mass": 100,
     "max_speed": rb.Vector(100, rb.Math.INFINITY),
     "rotation": 0,
-    "bouncyness": 0.1,
+    "bounciness": 0.1,
 })
 player.add_component(player_rb)
 
@@ -78,7 +78,7 @@ circle1 = rb.Sprite({
 }).add_component(rb.Circle(20)).add_component(
     rb.RigidBody({
         "gravity": rb.Vector(0, 0),
-        "bouncyness": 1
+        "bounciness": 1
     }))
 circle1.get_component(rb.Hitbox).debug = True
 
@@ -89,7 +89,7 @@ circle2 = rb.Sprite({
 }).add_component(rb.Circle(20)).add_component(
     rb.RigidBody({
         "gravity": rb.Vector(0, 0),
-        "bouncyness": 1
+        "bounciness": 1
     }))
 circle2.get_component(rb.Hitbox).debug = True
 

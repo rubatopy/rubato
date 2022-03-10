@@ -1,10 +1,9 @@
 """Various hitbox components that enable collisions"""
 
 import math
-from typing import Callable, List, Union
+from typing import Callable, List, Union, TYPE_CHECKING
 from rubato.classes.components.rigidbody import RigidBody
-from rubato.utils.vector import Vector
-from rubato.utils import Math, Display
+from rubato.utils import Math, Display, Vector, Configs, Color
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
 import rubato as rb
@@ -81,12 +80,7 @@ class Polygon(Hitbox):
         scale (Union[float, int]): The scale of the polygon.
     """
 
-    def __init__(self,
-                 verts: List[Vector],
-                 rotation: Callable = lambda: 0,
-                 debug: bool = False,
-                 trigger: bool = False,
-                 tags: List[str] = []):
+    def __init__(self, options: dict = {}):
         """
         Initializes a Polygon
 
@@ -98,15 +92,19 @@ class Polygon(Hitbox):
             rotation: The rotation angle of the polygon in degrees as a
                 function. Defaults to lambda: 0.
         """
+        params = Configs.merge_params(options, Configs.polygon_defaults)
         super().__init__()
-        self.debug = debug
-        self.trigger = trigger
-        self.tags = tags
-        self.verts = verts
-        self._rotation = rotation
+        self.debug: bool = params["debug"]
+        self.trigger: bool = params["trigger"]
+        self.tags: List[str] = params["tags"]
+        self.verts: List[Vector] = params["verts"]
+        self.rotation: float = params["rotation"]
+        self.color: Color = params["color"]
+        self.scale: int = params["scale"]
+        self.callback: Callable = params["callback"]
 
     @staticmethod
-    def generate_rect(w: int = 32, h: int = 32) -> "Polygon":
+    def generate_rect(w: int = 32, h: int = 32) -> List[Vector]:
         """
         Creates a rectangle from its dimensions.
 
@@ -115,19 +113,19 @@ class Polygon(Hitbox):
             h: The height of the hitbox.
 
         Returns:
-            Polygon: The polygon.
+            List[Vector]: The vertices of the rectangle.
         """
 
-        return Polygon([
+        return [
             Vector(-w / 2, -h / 2),
             Vector(w / 2, -h / 2),
             Vector(w / 2, h / 2),
             Vector(-w / 2, h / 2)
-        ])
+        ]
 
     @staticmethod
     def generate_polygon(num_sides: int,
-                         radius: Union[float, int] = 1) -> "Polygon":
+                         radius: Union[float, int] = 1) -> List[Vector]:
         """
         Creates a normal polygon with a specified number of sides and
         an optional radius.
@@ -140,7 +138,7 @@ class Polygon(Hitbox):
             SideError: Raised when the number of sides is less than 3.
 
         Returns:
-            Polygon: The constructed polygon.
+            List[Vector]: The vertices of the polygon.
         """
         if num_sides < 3:
             raise SideError(
@@ -155,25 +153,32 @@ class Polygon(Hitbox):
                 Vector(math.cos(angle) * radius,
                        math.sin(angle) * radius))
 
-        return Polygon(verts)
+        return verts
 
     @property
     def pos(self) -> Vector:
         """The getter method for the position of the Polygon's center"""
         return self._pos()
 
-    @property
-    def rotation(self) -> int:
-        """The getter method for the rotation of the Polygon"""
-        return self._rotation()
-
     def clone(self) -> "Polygon":
         """Creates a copy of the Polygon at the current position"""
-        # pylint: disable=unnecessary-lambda
-        new_poly = Polygon(list(map((lambda v: v.clone()), self.verts)),
-                           lambda: self.rotation.clone(), self.debug)
+        new_poly = Polygon({
+            "verts":
+            list(map((lambda v: v.clone()), self.verts)),
+            "rotation":
+            self.rotation,
+            "debug":
+            self.debug,
+            "trigger":
+            self.trigger,
+            "tags":
+            self.tags,
+            "scale":
+            self.scale,
+            "callback":
+            self.callback,
+        })
         new_poly._pos = self._pos  # pylint: disable=protected-access
-        new_poly.scale = self.scale
         return new_poly
 
     def transformed_verts(self) -> List[Vector]:
@@ -215,6 +220,19 @@ class Polygon(Hitbox):
                 3,
             )
 
+        if self.color is not None:
+            polygon(
+                Display.global_display,
+                self.color.to_tuple(),
+                list(
+                    map(
+                        lambda v: rb.Game.scenes.current_scene.camera.
+                        transform(v * rb.Game.scenes.current_scene.camera.zoom
+                                  ),
+                        self.real_verts(),
+                    )),
+            )
+
 
 class Circle(Hitbox):
     """
@@ -225,7 +243,7 @@ class Circle(Hitbox):
         scale (int): The scale of the circle.
     """
 
-    def __init__(self, radius: int = 1):
+    def __init__(self, options: dict = {}):
         """
         Initializes a Circle
 
@@ -235,8 +253,15 @@ class Circle(Hitbox):
             radius: The radius of the circle. Defaults to 1.
             scale: The scale of the circle. Defaults to 1.
         """
+        params = Configs.merge_params(options, Configs.circle_defaults)
         super().__init__()
-        self.radius = radius
+        self.radius = params["radius"]
+        self.color: Color = params["color"]
+        self.scale: int = params["scale"]
+        self.callback: Callable = params["callback"]
+        self.debug: bool = params["debug"]
+        self.trigger: bool = params["trigger"]
+        self.tags: List[str] = params["tags"]
 
     @property
     def pos(self) -> Vector:
@@ -262,6 +287,13 @@ class Circle(Hitbox):
                 self.pos.to_tuple(),
                 self.radius,
                 3,
+            )
+        if self.color is not None:
+            circle(
+                Display.global_display,
+                self.color.to_tuple(),
+                self.pos.to_tuple(),
+                self.radius,
             )
 
 
@@ -344,8 +376,9 @@ class SAT:
         return result
 
     @staticmethod
-    def circle_polygon_test(shape_a: Circle, shape_b: Polygon,
-                             flip: bool = False):
+    def circle_polygon_test(shape_a: Circle,
+                            shape_b: Polygon,
+                            flip: bool = False):
         shortest = Math.INFINITY
 
         result = CollisionInfo()
@@ -362,16 +395,15 @@ class SAT:
                 shortest = dist
                 closest = shape_b.pos + v
 
-
         axis = closest - shape_a.pos
         axis.normalize()
 
         poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
         circle_range = Vector(-shape_a.transformed_radius(),
-                        shape_a.transformed_radius())
+                              shape_a.transformed_radius())
 
-        if ((poly_range.x - circle_range.y > 0) or
-             (circle_range.x - poly_range.y > 0)):
+        if ((poly_range.x - circle_range.y > 0)
+                or (circle_range.x - poly_range.y > 0)):
             return None
 
         dist_min = circle_range.y - poly_range.x
@@ -386,10 +418,10 @@ class SAT:
 
             poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
             circle_range = Vector(-shape_a.transformed_radius(),
-                            shape_a.transformed_radius())
+                                  shape_a.transformed_radius())
 
-            if ((poly_range.x - circle_range.y > 0) or
-                 (circle_range.x - poly_range.y > 0)):
+            if ((poly_range.x - circle_range.y > 0)
+                    or (circle_range.x - poly_range.y > 0)):
                 return None
 
             dist_min = circle_range.y - poly_range.x

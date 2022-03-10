@@ -28,7 +28,7 @@ class RigidBody(Component):
         velocity (Vector): The current velocity of the Rigidbody.
         inv_mass (float): The inverse of the mass of the Rigidbody (0 if the
             mass is infinite).
-        bouncyness (float): How bouncy the rigidbody is (usually a value
+        bounciness (float): How bouncy the rigidbody is (usually a value
             between 0 and 1).
     """
 
@@ -61,7 +61,7 @@ class RigidBody(Component):
         else:
             self.inv_mass: float = 1 / params["mass"]
 
-        self.bouncyness: float = params["bouncyness"]
+        self.bounciness: float = params["bounciness"]
 
         self.required.append("Hitbox")
 
@@ -136,8 +136,8 @@ class RigidBody(Component):
             return
 
         # Calculate restitution
-        e = max(0 if rb_a is None else rb_a.bouncyness,
-                0 if rb_b is None else rb_b.bouncyness)
+        e = max(0 if rb_a is None else rb_a.bounciness,
+                0 if rb_b is None else rb_b.bounciness)
 
         # Calculate impulse scalar
         j = -(1 + e) * vel_along_norm

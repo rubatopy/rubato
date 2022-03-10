@@ -18,7 +18,7 @@ game_defaults = {
 
 rigidbody_defaults = {
     "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
-    "bouncyness": 0,  # . . . . . . . . . . . . . . . . . . . . float
+    "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
     "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
     "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),  # . . Vector
@@ -39,16 +39,32 @@ sprite_defaults = {
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
 }
 
-rect_defaults = {
-    "dims": Vector(),  #. . . . . . . . . . . . . . . . . . . . Vector
-    "color": Color.black,  #. . . . . . . . . . . . . . . . . . Color
-}
-
 animation_defaults = {
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     "default_animation_length": 5,  # . . . . . . . . . . . . . int
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
+}
+
+polygon_defaults = {
+    "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector],
+    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    "trigger": False,  #. . . . . . . . . . . . . . . . . . . . bool
+    "tags": [],  #. . . . . . . . . . . . . . . . . . . . . . . List[str]
+    "scale": 1,  #. . . . . . . . . . . . . . . . . . . . . . . int
+    "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
+    "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
+}
+
+circle_defaults = {
+    "radius": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
+    "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    "trigger": False,  #. . . . . . . . . . . . . . . . . . . . bool
+    "tags": [],  #. . . . . . . . . . . . . . . . . . . . . . . List[str]
+    "scale": 1,  #. . . . . . . . . . . . . . . . . . . . . . . int
+    "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
+    "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
 }
 # [end-defaults]
 
