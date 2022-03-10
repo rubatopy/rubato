@@ -8,7 +8,7 @@ broadcast that event key using the :meth:`Radio.broadcast` function.
 """
 
 from typing import Callable, List
-
+import rubato.game as game
 
 class Radio:
     """
@@ -23,25 +23,48 @@ class Radio:
 
     def __init__(self):
         "Initializes the Radio class"
-        self.events: List[str] = []
-        self.listeners: dict[str, Callable] = {}
+        self.events: List[tuple] = []
+        self.listeners: dict[str, List] = {}
 
     def listen(self, event: str, func: Callable):
         """
-        Creates an event listener.
+        Creates an event listener and registers it.
 
         Args:
             event: The event key to listen for.
             func: The function to run once the event is
                 broadcast. It may take in a params dictionary argument.
-
-        Warning:
-            You **CANNOT** currently delete an event listener once it's created.
         """
+        listener = Listener(event, func)
+        listener.registered = True
+
         if event in self.listeners:
-            self.listeners.get(event).append(func)
+            self.listeners[event].append(listener)
         else:
-            self.listeners[event] = [func]
+            self.listeners[event] = [listener]
+
+        return listener
+
+    def register(self, listener: "Listener"):
+        """
+        Registers an event listener.
+
+        Args:
+            listener: The listener object to be registered
+        """
+        listener.registered = True
+        if listener.registered:
+            raise ValueError("Listener already registered")
+
+        if listener.event in self.listeners:
+            if listener in self.listeners[listener.event]:
+                raise ValueError("Listener already registered")
+
+            self.listeners[listener.event].append(listener)
+        else:
+            self.listeners[listener.event] = [listener]
+
+        return listener
 
     def broadcast(self, event: str, params: dict):
         """
@@ -51,9 +74,31 @@ class Radio:
             event: The event key to broadcast.
             params: A parameters dictionary
         """
-        self.events.append(event)
-        for func in self.listeners.get(event, []):
-            try:
-                func(params)
-            except TypeError:
-                func()
+        self.events.append((event, params))
+        for listener in self.listeners.get(event, []):
+            listener.ping(params)
+
+
+class Listener:
+    """
+    The actual listener object itself.
+    """
+
+    def __init__(self, event: str, callback: Callable):
+        self.event = event
+        self.callback = callback
+        self.registered = False
+
+    def ping(self, params: dict):
+        try:
+            self.callback(params)
+        except TypeError:
+            self.callback()
+
+    def remove(self):
+        try:
+            i = game.radio.listeners[self.event].index(self)
+            del game.radio.listeners[self.event][i]
+            self.registered = False
+        except ValueError as e:
+            raise ValueError("Listener not registered in the radio") from e
