@@ -46,14 +46,11 @@ player.add_component(player_rb)
 player_hitbox = rb.Polygon.generate_rect(32, 32)
 player.add_component(player_hitbox)
 
-player_anim = rb.Animation({
-    "fps": 3
-})
+player_anim = rb.Animation({"fps": 30})
 
 player.add_component(player_anim)
 player_anim.add_state("run", run)
 player_anim.add_state("idle", idle)
-
 
 main_scene.add_item(player)
 
@@ -105,7 +102,6 @@ def custom_update():
 
 def callback(params):
     if params["key"] == "p":
-        print("ouch")
         rb.Game.set_state(rb.STATE.PAUSED if rb.Game.get_state() ==
                           rb.STATE.RUNNING else rb.STATE.RUNNING)
 
