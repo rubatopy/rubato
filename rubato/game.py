@@ -138,17 +138,25 @@ def update():
             global _window_height, _window_width
             _window_width, _window_height = event.size
         if event.type == pygame.KEYDOWN:
-            radio.broadcast("keydown", {
-                "key": event.unicode,
-                "code": event.key,
-                "modifiers": event.mod
-            })
+            radio.broadcast(
+                "keydown",
+                {
+                    "key": pygame.key.name(event.key),
+                    "unicode": event.unicode,
+                    "code": event.key,
+                    "modifiers": event.mod,
+                },
+            )
         if event.type == pygame.KEYUP:
-            radio.broadcast("keyup", {
-                "key": event.unicode,
-                "code": event.key,
-                "modifiers": event.mod
-            })
+            radio.broadcast(
+                "keyup",
+                {
+                    "key": pygame.key.name(event.key),
+                    "unicode": event.unicode,
+                    "code": event.key,
+                    "modifiers": event.mod,
+                },
+            )
 
     # Window resize handling
     if (_saved_dims[0] != _window_width or _saved_dims[1] != _window_height):
