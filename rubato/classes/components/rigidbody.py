@@ -40,7 +40,7 @@ class RigidBody(Component):
             options: A rigidbody config. Defaults to the |default| for
                 `RigidBody`
         """
-        params = Configs.merge_params(options, Configs.rigidbody_defaults)
+        params = Configs.rigidbody_defaults | options
 
         super().__init__()
 

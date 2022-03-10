@@ -24,7 +24,7 @@ class Image(Component):
             options: A Image config. Defaults to the |default| for
                     `Image`.
         """
-        param = Configs.merge_params(options, Configs.image_defaults)
+        param = Configs.image_defaults | options
         super().__init__()
 
         if param["image_location"] in ["", "default"]:

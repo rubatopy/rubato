@@ -30,7 +30,7 @@ class Sprite:
             options: A sprite config. Defaults to the |default| for
                 `Sprite`.
         """
-        param = Configs.merge_params(options, Configs.sprite_defaults)
+        param = Configs.sprite_defaults | options
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []

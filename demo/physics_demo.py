@@ -2,7 +2,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../rubato"))
+sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
 from random import randint
 import rubato as rb
@@ -23,52 +23,56 @@ rb.Game.scenes.set("main")
 top = rb.Sprite({
     "pos": Vector(Game.resolution.x / 2, -Game.resolution.x / 20)
 }).add_component(
-    rb.Polygon({
-        "verts":
-        rb.Polygon.generate_rect(Game.resolution.x, Game.resolution.y / 6),
+    rb.Rectangle({
+        "width":Game.resolution.x,
+        "height":Game.resolution.y/6,
         "debug":
         False,
         "color":
         Color.maroon,
-    }))
+    })
+)
 
 bottom = rb.Sprite({
     "pos":
     Vector(Game.resolution.x / 2, Game.resolution.y + Game.resolution.x / 20)
 }).add_component(
-    rb.Polygon({
-        "verts":
-        rb.Polygon.generate_rect(Game.resolution.x, Game.resolution.y / 6),
+    rb.Rectangle({
+        "width":Game.resolution.x,
+        "height":Game.resolution.y/6,
         "debug":
         False,
         "color":
         Color.maroon,
-    }))
+    })
+)
 
 left = rb.Sprite({
     "pos": Vector(-Game.resolution.x / 20, Game.resolution.y / 2)
 }).add_component(
-    rb.Polygon({
-        "verts":
-        rb.Polygon.generate_rect(Game.resolution.x / 6, Game.resolution.y),
+    rb.Rectangle({
+        "width":Game.resolution.x/6,
+        "height":Game.resolution.y,
         "debug":
         False,
         "color":
         Color.maroon,
-    }))
+    })
+)
 
 right = rb.Sprite({
     "pos":
     Vector(Game.resolution.x + Game.resolution.x / 20, Game.resolution.y / 2)
 }).add_component(
-    rb.Polygon({
-        "verts":
-        rb.Polygon.generate_rect(Game.resolution.x / 6, Game.resolution.y),
+    rb.Rectangle({
+        "width":Game.resolution.x/6,
+        "height":Game.resolution.y,
         "debug":
         False,
         "color":
         Color.maroon,
-    }))
+    })
+)
 
 balls = []
 for i in range(num_balls):
@@ -80,11 +84,13 @@ for i in range(num_balls):
         rb.Circle({
             "radius": Game.resolution.x / 30,
             "color": Color.random
-        })).add_component(
-            rb.RigidBody({
-                "bounciness": 0.75,
-                "gravity": Vector(0, Game.resolution.x / 30)
-            }))
+        })
+    ).add_component(
+        rb.RigidBody({
+            "bounciness": 0.75,
+            "gravity": Vector(0, Game.resolution.x / 30)
+        })
+    )
     balls.append(ball)
 
 player = rb.Sprite({
@@ -93,7 +99,7 @@ player = rb.Sprite({
 
 player_rb = rb.RigidBody({
     "mass": 10,
-    "bounciness": 1,
+    "bounciness": 0.1,
     "max_speed": Vector(50, 1000),
     "gravity": Vector()
 })
@@ -112,13 +118,13 @@ player.add_component(player_hitbox)
 
 def custom_update():
     if rb.Input.is_pressed("w"):
-        player_rb.velocity.y -= Game.resolution.x * (50 / 600)
+        player_rb.velocity.y -= Game.resolution.x * (1 / 12)
     elif rb.Input.is_pressed("s"):
-        player_rb.velocity.y += Game.resolution.x * (50 / 600)
+        player_rb.velocity.y += Game.resolution.x * (1 / 12)
     if rb.Input.is_pressed("a"):
-        player_rb.velocity.x -= Game.resolution.x * (50 / 600)
+        player_rb.velocity.x -= Game.resolution.x * (1 / 12)
     elif rb.Input.is_pressed("d"):
-        player_rb.velocity.x += Game.resolution.x * (50 / 600)
+        player_rb.velocity.x += Game.resolution.x * (1 / 12)
 
     print(f"fps: {rb.Time.clock.get_fps()}")
 

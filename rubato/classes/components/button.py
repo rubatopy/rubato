@@ -18,7 +18,7 @@
 #             options: A button config. Defaults to the
 #                 |default| for `Button`.
 #         """
-#         param = Configs.merge_params(options, Configs.button_defaults)
+#         param = Configs.button_defaults | options
 #         super().__init__(param)
 
 #     def mouse_is_over(self) -> bool:

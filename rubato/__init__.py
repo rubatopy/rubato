@@ -28,7 +28,7 @@ from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Configs
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
-    RigidBody, Animation, Component, Polygon, Circle, \
+    RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
         SAT, Hitbox, Group
 import rubato.input as Input
 import rubato.sound as Sound
@@ -44,6 +44,7 @@ __all__ = [
     "Vector",
     "Time",
     "Polygon",
+    "Rectangle",
     "Circle",
     "SAT",
     "Color",

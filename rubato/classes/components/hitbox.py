@@ -92,7 +92,7 @@ class Polygon(Hitbox):
             rotation: The rotation angle of the polygon in degrees as a
                 function. Defaults to lambda: 0.
         """
-        params = Configs.merge_params(options, Configs.polygon_defaults)
+        params = Configs.polygon_defaults | options
         super().__init__()
         self.debug: bool = params["debug"]
         self.trigger: bool = params["trigger"]
@@ -244,6 +244,24 @@ class Polygon(Hitbox):
                 self.color.to_tuple(),
             )
 
+class Rectangle(Polygon):
+    """_summary_
+
+    Args:
+        Polygon (_type_): _description_
+    """
+    def __init__(self, options: dict):
+        params = (Configs.rectangle_defaults | Configs.polygon_defaults) \
+            | options
+        params["verts"] = Polygon.generate_rect(
+            params["width"],
+            params["height"]
+        )
+
+        del params["width"]
+        del params["height"]
+
+        super().__init__(params)
 
 class Circle(Hitbox):
     """
@@ -264,7 +282,7 @@ class Circle(Hitbox):
             radius: The radius of the circle. Defaults to 1.
             scale: The scale of the circle. Defaults to 1.
         """
-        params = Configs.merge_params(options, Configs.circle_defaults)
+        params = Configs.circle_defaults | options
         super().__init__()
         self.radius = params["radius"]
         self.color: Color = params["color"]

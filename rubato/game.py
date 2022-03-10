@@ -39,7 +39,6 @@ class STATE(Enum):
 
 
 pygame.init()
-pygame.transform.set_smoothscale_backend("MMX")
 
 name: str = ""
 _window_width: int = 0
@@ -84,7 +83,7 @@ def init(options: dict = {}):
 
     is_init = True
 
-    params = Configs.merge_params(options, Configs.game_defaults)
+    params = Configs.game_defaults | options
 
     name = params["name"]
     _window_width = params["window_size"].x

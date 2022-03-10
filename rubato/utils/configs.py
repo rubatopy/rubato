@@ -56,6 +56,11 @@ polygon_defaults = {
     "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
 }
 
+rectangle_defaults = {
+    "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
+    "height": 10  # . . . . . . . . . . . . . . . . . . . . . . int
+}
+
 circle_defaults = {
     "radius": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
@@ -65,7 +70,6 @@ circle_defaults = {
     "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
     "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
 }
-# [end-defaults]
 
 button_defaults = {
     "text": "default_text",  #. . . . . . . . . . . . . . . . . str
@@ -86,23 +90,4 @@ text_defaults = {
     "static": False,
     "onto_surface": None,
 }
-
-
-def merge_params(options: dict, defaults: dict) -> dict:
-    """
-    Merges an incomplete options dictionary with the defaults dictionary
-
-    Args:
-        options: The incomplete options dictionary
-        defaults: The default dictionary
-
-    Returns:
-        dict: The merged dictionary
-    """
-    merged = {}
-    keys = defaults.keys()
-
-    for key in keys:
-        merged[key] = options.get(key, defaults[key])
-
-    return merged
+# [end-defaults]
