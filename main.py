@@ -2,7 +2,7 @@
 import rubato as rb
 from rubato.utils.vector import Vector
 
-rb.init({"fps_cap": 60})
+rb.init({"fps_cap": 20})
 
 main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")
@@ -103,7 +103,7 @@ def custom_update():
     if rb.Input.is_pressed("0"):
         rb.Game.aspect_ratio = 1.5
     if rb.Input.is_pressed("="):
-        rb.Game.aspect_ratio *= 1.1
+        rb.Game.set_aspect_ratio(rb.Game.get_aspect_ratio() * 1.1)
         # player_anim.resize(
         #     rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) *
         #     2)
