@@ -8,7 +8,7 @@ from rubato.utils import Math, Display
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
 import rubato as rb
-from pygame.draw import polygon
+from pygame.draw import polygon, circle
 
 
 class Hitbox(Component):
@@ -254,6 +254,16 @@ class Circle(Hitbox):
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 
+    def draw(self):
+        if self.debug:
+            circle(
+                Display.global_display,
+                (0, 255, 0),
+                self.pos.to_tuple(),
+                self.radius,
+                3,
+            )
+
 
 class CollisionInfo:
     """
@@ -319,7 +329,7 @@ class SAT:
     def circle_circle_test(shape_a: Circle, shape_b: Circle):
         """Checks for overlap between two circles"""
         total_radius = shape_a.radius + shape_b.radius
-        distance = (shape_b.pos - shape_a.pos).magnitude()
+        distance = (shape_b.pos - shape_a.pos).magnitude
 
         if distance > total_radius:
             return None
@@ -329,7 +339,8 @@ class SAT:
         result.shape_a = shape_a
         result.shape_b = shape_b
 
-        result.sep = (shape_b - shape_a).unit() * (total_radius - distance)
+        result.sep = (shape_a.pos - shape_b.pos).unit() * (total_radius -
+                                                           distance)
 
         return result
 
@@ -338,7 +349,8 @@ class SAT:
         return None
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon,
+    def polygon_polygon_test(shape_a: Polygon,
+                             shape_b: Polygon,
                              flip: bool = False) -> Union[CollisionInfo, None]:
         """Checks for overlap between two polygons"""
 

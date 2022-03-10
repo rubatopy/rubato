@@ -1,6 +1,5 @@
 # pylint: disable=all
 import rubato as rb
-from rubato.utils.vector import Vector
 
 rb.init({"fps_cap": 20})
 
@@ -55,7 +54,7 @@ player.add_component(player_anim)
 
 main_scene.add_item(player)
 
-spinny = rb.Sprite({"pos": Vector(200, 200)})
+spinny = rb.Sprite({"pos": rb.Vector(200, 200)})
 spinny_animation = rb.Animation({"fps": 4})
 spinny.add_component(spinny_animation)
 spinny_animation.add_state(
@@ -73,6 +72,28 @@ box = rb.Sprite({
         "color": rb.Color.red
     })).add_component(rb.Polygon.generate_rect(50, 50))
 main_scene.add_item(box)
+
+circle1 = rb.Sprite({
+    "pos": rb.Vector(200, 50)
+}).add_component(rb.Circle(20)).add_component(
+    rb.RigidBody({
+        "gravity": rb.Vector(0, 0),
+        "bouncyness": 1
+    }))
+circle1.get_component(rb.Hitbox).debug = True
+
+main_scene.add_item(circle1)
+
+circle2 = rb.Sprite({
+    "pos": rb.Vector(175, 100)
+}).add_component(rb.Circle(20)).add_component(
+    rb.RigidBody({
+        "gravity": rb.Vector(0, 0),
+        "bouncyness": 1
+    }))
+circle2.get_component(rb.Hitbox).debug = True
+
+main_scene.add_item(circle2)
 
 
 def custom_update():
@@ -108,6 +129,9 @@ def custom_update():
     else:
         player_anim.resize(
             rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()))
+
+    if rb.Input.is_pressed("space"):
+        circle1.get_component(rb.RigidBody).add_force(rb.Vector(0, 1000))
 
 
 def callback(params):

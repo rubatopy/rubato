@@ -16,6 +16,17 @@ class RigidBody(Component):
     A RigidBody implementation with built in physics and collisions.
 
     Attributes:
+        static (bool): Whether or not the rigidbody is static (as in, it does
+            not move).
+        gravity (Vector): The acceleration of the gravity that should be
+            applied.
+        friction (float): The friction coefficient of the Rigidbody (usually a
+            a number between 0 and 1).
+        max_speed
+        min_speed
+        velocity
+        inv_mass
+        bouncyness
     """
 
     def __init__(self, options: dict = {}):
@@ -49,29 +60,44 @@ class RigidBody(Component):
 
         self.bouncyness: float = Math.clamp(params["bouncyness"], 0, 1)
 
-        self.debug: bool = params["debug"]
-
         self.required.append("Hitbox")
 
     @property
     def mass(self) -> float:
+        """The mass of the Rigidbody (readonly)"""
         if self.inv_mass == 0:
             return 0
         else:
             return 1 / self.inv_mass
 
     def physics(self):
+        """The physics calculation"""
         # Apply gravity
         self.add_force(self.gravity * self.mass)
 
         self.sprite.pos += self.velocity * Time.fixed_delta_time("sec")
 
     def add_force(self, force: Vector):
+        """
+        Add a force to the Rigidbody.
+
+        Args:
+            force: The force to add.
+        """
         accel = force * self.inv_mass
 
         self.velocity += accel * Time.fixed_delta_time("sec")
 
     def add_cont_force(self, impulse: Vector, time: int):
+        """
+        Add a continuous force to the Rigidbody. A continuous force is a force
+        that is continuously applied over a time period. (the force is added
+        every frame for a specific duration).
+
+        Args:
+            impulse: The force to add.
+            time: The time in seconds that the force should be added.
+        """
         if time <= 0:
             return
         else:
@@ -82,6 +108,12 @@ class RigidBody(Component):
 
     @staticmethod
     def handle_collision(col: "CollisionInfo"):
+        """
+        Handle the collision between two rigidbodies.
+
+        Args:
+            col: The collision information.
+        """
         rb_a: RigidBody = col.shape_b.sprite.get_component(RigidBody)
         rb_b: RigidBody = col.shape_a.sprite.get_component(RigidBody)
 
