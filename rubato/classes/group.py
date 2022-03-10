@@ -46,8 +46,7 @@ class Group:
             ValueError: The item is not in the group and cannot be deleted.
         """
         try:
-            i = self.items.index(item)
-            del self.items[i]
+            self.items.remove(item)
         except ValueError as e:
             raise ValueError("This item is not in this group") from e
 

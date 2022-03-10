@@ -115,8 +115,7 @@ class Listener:
             ValueError: Raises error when listener is not registered
         """
         try:
-            i = Game.radio.listeners[self.event].index(self)
-            del Game.radio.listeners[self.event][i]
+            Game.radio.listeners[self.event].remove(self)
             self.registered = False
         except ValueError as e:
             raise ValueError("Listener not registered in the radio") from e
