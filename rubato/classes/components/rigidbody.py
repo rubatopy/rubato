@@ -5,7 +5,7 @@ have hitboxes and can collide and interact with other rigidbodies.
 import math
 from typing import TYPE_CHECKING
 from rubato.classes.component import Component
-from rubato.utils import Vector, Configs, Time, Math
+from rubato.utils import Vector, Configs, Time
 
 if TYPE_CHECKING:
     from rubato.classes.components.hitbox import CollisionInfo
@@ -21,12 +21,14 @@ class RigidBody(Component):
         gravity (Vector): The acceleration of the gravity that should be
             applied.
         friction (float): The friction coefficient of the Rigidbody (usually a
-            a number between 0 and 1).
-        max_speed
-        min_speed
-        velocity
-        inv_mass
-        bouncyness
+            a value between 0 and 1).
+        max_speed (Vector): The maximum speed of the Rigidbody.
+        min_speed (Vector): The minimum speed of the Rigidbody.
+        velocity (Vector): The current velocity of the Rigidbody.
+        inv_mass (float): The inverse of the mass of the Rigidbody (0 if the
+            mass is infinite).
+        bouncyness (float): How bouncy the rigidbody is (usually a value
+            between 0 and 1).
     """
 
     def __init__(self, options: dict = {}):
@@ -58,7 +60,7 @@ class RigidBody(Component):
         else:
             self.inv_mass: float = 1 / params["mass"]
 
-        self.bouncyness: float = Math.clamp(params["bouncyness"], 0, 1)
+        self.bouncyness: float = params["bouncyness"]
 
         self.required.append("Hitbox")
 
