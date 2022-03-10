@@ -2,12 +2,10 @@
 Groups contain sprites and allow specific sprites to be seperated.
 """
 
-from typing import List, Union, TYPE_CHECKING
+from typing import List, Union
 from rubato.utils.error import Error
+from rubato.classes import Sprite
 from rubato.classes.components import Hitbox
-
-if TYPE_CHECKING:
-    from rubato.classes import Sprite
 
 
 class Group:
@@ -66,7 +64,8 @@ class Group:
         for item in self.items:
             item.fixed_update()
 
-            if (ht := item.get_component(Hitbox)) is not None:
+            if isinstance(item, Sprite) and \
+                (ht := item.get_component(Hitbox)) is not None:
                 for hitbox in hitboxes:
                     ht.collide(hitbox)
                 hitboxes.append(ht)
