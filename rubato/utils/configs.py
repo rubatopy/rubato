@@ -48,6 +48,7 @@ animation_defaults = {
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     "default_animation_length": 5,  # . . . . . . . . . . . . . int
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
 }
 # [end-defaults]
 
