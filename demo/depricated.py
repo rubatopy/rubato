@@ -106,23 +106,6 @@ def custom_update():
     elif rb.Input.is_pressed("d"):
         player_anim.set_current_state("run")
         player_rb.velocity.x = 100
-    else:
-        # player_anim.set_current_state("idle", True)
-        pass
-    if rb.Input.is_pressed("right"):
-        player_anim.rotation += 1
-    if rb.Input.is_pressed("r"):
-        rb.Game.window_size = rb.Vector(100, 100)
-        rb.Game.state = rb.STATE.RUNNING
-    if rb.Input.is_pressed("0"):
-        rb.Game.aspect_ratio = 1.5
-    if rb.Input.is_pressed("="):
-        rb.Game.set_aspect_ratio(rb.Game.get_aspect_ratio() * 1.1)
-    elif rb.Input.is_pressed("-"):
-        rb.Game.set_aspect_ratio(rb.Game.get_aspect_ratio() / 1.1)
-    else:
-        player_anim.resize(
-            rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()))
 
     if rb.Input.is_pressed("space"):
         circle1.get_component(rb.RigidBody).add_force(rb.Vector(0, 1000))

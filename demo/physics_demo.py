@@ -1,4 +1,9 @@
 """Physics Demo... basically a ball pit"""
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath("../"))
+# pylint: disable=wrong-import-position
 from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
