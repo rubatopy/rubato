@@ -34,7 +34,6 @@ class Sprite:
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []
-        self.__requirements_checked = False
 
     @property
     def components(self):
@@ -116,6 +115,14 @@ class Sprite:
     def check_required(self):
         pass
 
+    def setup(self):
+        """
+        Run after initialization and before update loop begins
+        """
+        self.check_required()
+        for comp in self.components:
+            comp.setup()
+
     def draw(self):
         """The draw loop"""
         for comp in self.components:
@@ -127,9 +134,6 @@ class Sprite:
             comp.update()
 
     def fixed_update(self):
-        if not self.__requirements_checked:
-            self.check_required()
-
         for comp in self.components:
             comp.fixed_update()
 
