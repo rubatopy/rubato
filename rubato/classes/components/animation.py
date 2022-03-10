@@ -7,7 +7,7 @@ from os import path, walk
 from pygame import Surface
 from rubato.classes.component import Component
 from rubato.classes.components.image import Image
-from rubato.utils import Error, Configs, Vector
+from rubato.utils import Error, Configs, Vector, Time
 
 
 class Animation(Component):
@@ -42,6 +42,7 @@ class Animation(Component):
 
         self.rotation = param["rotation"]
         self.default_animation_length = param["default_animation_length"]
+        self._fps: int = param["fps"]
         self._states: Dict[str, List[Tuple[Image, int]]] = {}
         self.default_state: str = None
         self.current_state: str = ""
@@ -49,6 +50,10 @@ class Animation(Component):
         self.current_frame: int = 0
         self.loop = False
 
+        # time (milliseconds) to switch frames
+        self._time_step = 1000/self._fps
+        self._time_count = 0  # time since last update of frames
+        print(self._time_step)
         self.scale(param["scale_factor"])
 
     @property
@@ -155,25 +160,33 @@ class Animation(Component):
             self.current_state = state_name
 
     def draw(self):
+        self._time_count += Time.delta_time()
+
+        while self._time_count > self._time_step:
+            self.anim_tick()
+            self._time_count -= self._time_step
+
+        self.anim_frame.draw()
+
+    def anim_tick(self):
         if self.current_frame < (length :=
                                  len(self._states[self.current_state]) - 1):
             # still in the state (extra -1 as we add if we hit a new frame)
             if self.animation_frames_left <= 0:
                 self.current_frame += 1
                 if self.current_frame >= length:
-                    return self.draw()
+                    self.anim_tick()
                 self.animation_frames_left = self._current[
                     Animation._TIME_INDEX]
             self.animation_frames_left -= 1
         elif self.loop:  # we reached the end of our state
             self.current_frame = 0
-            self.draw()
+            self.anim_tick()
         else:
             self.current_state = self.default_state
             self.current_frame = 0
 
         self.anim_frame.set_rotation(self.rotation)
-        self.anim_frame.draw()
 
     @staticmethod
     def import_animation_folder(rel_path: str) -> list:
