@@ -3,12 +3,9 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
 
-num_balls = 100
+num_balls = 50
 rb.init({
     "name": "Physics Demo",
-    "window_width": 600,
-    "window_height": 600,
-    "aspect_ratio": 1,
     "fps_cap": 60,
 })
 
@@ -17,37 +14,37 @@ Game.scenes.add(main_scene, "main")
 rb.Game.scenes.set("main")
 
 top = rb.Sprite({
-    "pos": Vector(300, -25)
+    "pos": Vector(1920 / 2, -25)
 }).add_component(
     rb.Polygon({
-        "verts": rb.Polygon.generate_rect(600, 100),
+        "verts": rb.Polygon.generate_rect(1920, 100),
         "debug": False,
         "color": Color.maroon,
     }))
 
 bottom = rb.Sprite({
-    "pos": Vector(300, 625)
+    "pos": Vector(1920 / 2, 1080 + 25)
 }).add_component(
     rb.Polygon({
-        "verts": rb.Polygon.generate_rect(600, 100),
+        "verts": rb.Polygon.generate_rect(1920, 100),
         "debug": False,
         "color": Color.maroon,
     }))
 
 left = rb.Sprite({
-    "pos": Vector(-25, 300)
+    "pos": Vector(-25, 1080 / 2)
 }).add_component(
     rb.Polygon({
-        "verts": rb.Polygon.generate_rect(100, 600),
+        "verts": rb.Polygon.generate_rect(100, 1080),
         "debug": False,
         "color": Color.maroon,
     }))
 
 right = rb.Sprite({
-    "pos": Vector(625, 300)
+    "pos": Vector(1945, 1080 / 2)
 }).add_component(
     rb.Polygon({
-        "verts": rb.Polygon.generate_rect(100, 600),
+        "verts": rb.Polygon.generate_rect(100, 1080),
         "debug": False,
         "color": Color.maroon,
     }))
@@ -57,7 +54,7 @@ for i in range(num_balls):
     ball = rb.Sprite({
         "pos": Vector(randint(50, 550), randint(50, 550))
     }).add_component(rb.Circle({
-        "radius": 10,
+        "radius": 40,
         "color": Color.random
     })).add_component(rb.RigidBody({
         "bounciness": 1,
@@ -78,7 +75,7 @@ player_rb = rb.RigidBody({
 player.add_component(player_rb)
 
 player_hitbox = rb.Polygon({
-    "verts": rb.Polygon.generate_rect(32, 32),
+    "verts": rb.Polygon.generate_rect(64, 64),
     "color": Color.blue,
 })
 player.add_component(player_hitbox)

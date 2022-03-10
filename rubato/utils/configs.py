@@ -7,9 +7,8 @@ from rubato.utils import Math, Vector, Color
 # [start-defaults]
 game_defaults = {
     "name": "Untitled Game",  # . . . . . . . . . . . . . . . . str
-    "window_width": 600,  # . . . . . . . . . . . . . . . . . . int
-    "window_height": 400,  #. . . . . . . . . . . . . . . . . . int
-    "aspect_ratio": 1.5,  # . . . . . . . . . . . . . . . . . . float
+    "window_size": Vector(640, 360),  # . . . . . . . . . . . . Vector
+    "resolution": Vector(1920, 1080),  #. . . . . . . . . . . . Vector
     "fps_cap": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
     "physics_timestep": 20,  #. . . . . . . . . . . . . . . . . int
     "reset_display": True,  # . . . . . . . . . . . . . . . . . bool

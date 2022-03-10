@@ -43,7 +43,7 @@ pygame.init()
 name: str = ""
 _window_width: int = 0
 _window_height: int = 0
-_aspect_ratio: float = 0
+resolution: Vector = Vector()
 fps_cap: int = 0
 physics_timestep: int = 0
 reset_display: bool = True
@@ -77,7 +77,7 @@ def init(options: dict = {}):
         options: A game config.
             Defaults to the |default| for `Game`.
     """
-    global name, _window_width, _window_height, _aspect_ratio, fps_cap, \
+    global name, _window_width, _window_height, resolution, fps_cap, \
         reset_display, _use_better_clock, _saved_dims, _max_screen_size, \
         _screen, _display, is_init
 
@@ -86,9 +86,10 @@ def init(options: dict = {}):
     params = Configs.merge_params(options, Configs.game_defaults)
 
     name = params["name"]
-    _window_width = params["window_width"]
-    _window_height = params["window_height"]
-    _aspect_ratio = params["aspect_ratio"]
+    _window_width = params["window_size"].x
+    _window_height = params["window_size"].y
+    resolution = params["resolution"]
+
     fps_cap = params["fps_cap"]
     Time.fdt = params["physics_timestep"]
     reset_display = params["reset_display"]
@@ -96,7 +97,7 @@ def init(options: dict = {}):
 
     _screen = pygame.display.set_mode((_window_width, _window_height),
                                       pygame.RESIZABLE)
-    _display = pygame.Surface((_window_width, _window_height), pygame.SRCALPHA)
+    _display = pygame.Surface(resolution.to_tuple(), pygame.SRCALPHA)
 
     pygame.display.set_caption(name)
     if options.get("icon"):
@@ -163,9 +164,10 @@ def update():
         _screen = pygame.display.set_mode((_window_width, _window_height),
                                           pygame.RESIZABLE)
 
-    ratio = (_window_width / _window_height) < _aspect_ratio
-    width = (_window_height * _aspect_ratio, _window_width)[ratio]
-    height = (_window_height, _window_width / _aspect_ratio)[ratio]
+    aspect_ratio = resolution.x / resolution.y
+    ratio = (_window_width / _window_height) < aspect_ratio
+    width = (_window_height * aspect_ratio, _window_width)[ratio]
+    height = (_window_height, _window_width / aspect_ratio)[ratio]
     top_left = (((_window_width - width) // 2, 0),
                 (0, (_window_height - height) // 2))[ratio]
 
@@ -197,8 +199,9 @@ def update():
     # Update Screen
     _display = Display.global_display
 
-    _screen.blit(pygame.transform.scale(_display, (int(width), int(height))),
-                 top_left)
+    frame = pygame.transform.scale(_display, (width, height))
+
+    _screen.blit(frame, top_left)
 
     pygame.display.flip()
     radio.events = []
@@ -280,26 +283,6 @@ def set_window_height(window_height: int) -> None:
     global _window_height
     if _max_screen_size[1] > window_height > 0:
         _window_height = window_height
-
-
-def get_aspect_ratio():
-    """
-    Returns:
-        The aspect ratio of the display (the actual game).
-    """
-    return _aspect_ratio
-
-
-def set_aspect_ratio(aspect_ratio: int) -> None:
-    """
-    Sets the aspect ratio of the display that will be kept no matter
-    the real size of the screen.
-    Args:
-        aspect_ratio:
-    """
-    global _aspect_ratio
-    if 100 > aspect_ratio > 0:
-        _aspect_ratio = aspect_ratio
 
 
 def get_window_size():
