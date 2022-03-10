@@ -55,7 +55,7 @@ for i in range(num_balls):
     }).add_component(rb.Circle(25)).add_component(
         rb.RigidBody({
             "bouncyness": 1,
-            "gravity": Vector()
+            "gravity": Vector(0,20)
         }))
     ball.get_component(rb.Hitbox).debug = True
     balls.append(ball)
