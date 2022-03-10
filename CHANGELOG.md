@@ -4,13 +4,24 @@
 
 ### Added
 
+-   Proper 2d physics without angular velocity and torque
+-   Circle collision
+-   Groups are back
+
 ### Changed
 
 -   Updated default image import to actually work properly
+-   Hitboxes can now be colored in. This replaces the old Rectangle class
+-   Hitboxes are now created like all other components (as in they use a options dictionary)
+-   Collision now happen automatically
 
 ### Removed
 
+-   Rectangle class
+
 ### Fixed
+
+-   Animations are now independent from FPS
 
 ## [v1.1.0] - March 01, 2022
 
