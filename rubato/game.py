@@ -132,8 +132,7 @@ def update():
             sys.exit(1)
         if event.type == pygame.VIDEORESIZE:
             global _window_height, _window_width
-            _window_width = event.size[0]
-            _window_height = event.size[1]
+            _window_width, _window_height = event.size
         if event.type == pygame.KEYDOWN:
             radio.broadcast("keydown", {
                 "key": event.unicode,
