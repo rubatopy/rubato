@@ -64,14 +64,13 @@ class Group:
     def fixed_update(self):
         hitboxes: List["Hitbox"] = []
         for item in self.items:
-            if (ht := item.get_component(Hitbox)) is not None:
-                hitboxes.append(ht)
-
             item.fixed_update()
 
-        for i in range(len(hitboxes)):
-            for j in range(i+1, len(hitboxes)):
-                hitboxes[i].collide(hitboxes[j])
+            if (ht := item.get_component(Hitbox)) is not None:
+                for hitbox in hitboxes:
+                    ht.collide(hitbox)
+                hitboxes.append(ht)
+
 
     def draw(self):
         for item in self.items:
