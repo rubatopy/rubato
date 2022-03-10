@@ -12,14 +12,13 @@ Attributes:
         every frame.
     state (STATE): The current state of the game.
 """
+import sys
 import pygame
 from pygame.transform import scale
 from typing import TYPE_CHECKING, Tuple
-import sys
 from rubato.classes.sprite import Sprite
 from rubato.utils import Display, Vector, Time, Configs, Math
 from rubato.classes import SceneManager
-import rubato.input as Input
 from enum import Enum
 
 if TYPE_CHECKING:
@@ -136,9 +135,17 @@ def update():
             _window_width = event.size[0]
             _window_height = event.size[1]
         if event.type == pygame.KEYDOWN:
-            radio.broadcast("keydown", {"key": Input.key.name(event.key)})
+            radio.broadcast("keydown", {
+                "key": event.unicode,
+                "code": event.key,
+                "modifiers": event.mod
+                })
         if event.type == pygame.KEYUP:
-            radio.broadcast("keyup", {"key": Input.key.name(event.key)})
+            radio.broadcast("keyup", {
+                "key": event.unicode,
+                "code": event.key,
+                "modifiers": event.mod
+                })
 
     # Window resize handling
     if (_saved_dims[0] != _window_width or _saved_dims[1] != _window_height):

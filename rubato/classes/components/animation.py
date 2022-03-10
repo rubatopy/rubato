@@ -164,7 +164,6 @@ class Animation(Component):
         while self._time_count > self._time_step:
             self.anim_tick()
             self._time_count -= self._time_step
-            print(f"tick {self._time_count}")
 
         self.anim_frame.draw()
 
