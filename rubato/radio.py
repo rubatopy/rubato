@@ -53,9 +53,9 @@ class Radio:
         Args:
             listener: The listener object to be registered
         """
-        listener.registered = True
         if listener.registered:
             raise ValueError("Listener already registered")
+        listener.registered = True
 
         if listener.event in self.listeners:
             if listener in self.listeners[listener.event]:
