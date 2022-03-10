@@ -1,21 +1,14 @@
 .. raw:: html
 
-    <h1 style='font-size: 100px; font-family: "Lucida Console"; color: #ff9484'>R U B A T O</h1>
+    <h1 style='font-size: 80px; color: #ff9484'; font-family: 'Fredoka', sans-serif>rubato</h1>
 
+Rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and sprite management, event listener system and more all come prepackaged.
 
-.. image:: https://img.shields.io/github/stars/rubatopy/rubato?style=social
-    :target: https://github.com/rubatopy/rubato/
+Fundamentally, Rubato is built developer-focused. From intricate rigidbody simulations to 2D games, Rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
 
-.. image:: https://img.shields.io/github/watchers/rubatopy/rubato?style=social
-    :target: https://github.com/rubatopy/rubato/subscription
+Rubato currently relies on PyGame for underlying functionality, but we are actively working to depreciate this with SDL2. This will reduce overhead and remedy some nasty PyGame quirks. On older Rubato versions PyGame can still be accessed, but keep in mind porting to newer versions may break code.
 
-
-Rubato is a modern game engine for python built around PyGame. Among a slew of high-demand features such as Runge-Katta physics simulation (still in alpha), a robust scene manager and radio broadcast system, Rubato also promises to first and foremost be a developer-focused library. From intricate physics simulations to 2D games, Rubato streamlines development to make the process more accessible for beginners and simultaneously more powerful for advanced users. And all that, finally, with some actual, legible, documentation.
-
-Rubato is built fundamentally as a PyGame wrapper. However, you can still utilize underlying PyGame functionality in the case that a feature you want is not officially supported yet.
-
-*Wondering where the name's from? Rubato is a music term that indicates a phrase that should be performed expressively and freely. We hope to bring that attitude to game development, opening doors for the less experienced while not shutting out those who need more.*
-
+*Wondering about the name? Rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to bring a fresh, modern take on game developement in python to a variety of users regardless of their coding background.*
 
 Repository: https://github.com/tinmarr/rubato
 

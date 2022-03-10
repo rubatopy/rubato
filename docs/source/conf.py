@@ -90,6 +90,8 @@ html_theme = "furo"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
+html_css_files = ["custom.css"]
+
 add_module_names = False
 
 html_logo = "_static/logo_small.png"
@@ -105,6 +107,7 @@ html_theme_options = {
         "color-brand-primary": theme_color,
         "color-brand-content": theme_color,
         "color-api-name": theme_color,
+        "font-stack": "Fredoka, sans-serif"
     },
     "dark_css_variables": {
         "color-brand-primary": theme_color,
