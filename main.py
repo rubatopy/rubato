@@ -5,8 +5,8 @@ from rubato.utils.vector import Vector
 rb.init({"fps_cap": 60})
 
 main_scene = rb.Scene()
-rb.game.scenes.add(main_scene, "main")
-rb.game.scenes.set("main")
+rb.Game.scenes.add(main_scene, "main")
+rb.Game.scenes.set("main")
 
 ground = rb.Sprite({
     "pos": rb.Vector(300, 375)
@@ -84,17 +84,17 @@ def custom_update():
     if rb.Input.is_pressed("right"):
         player_anim.rotation += 1
     if rb.Input.is_pressed("r"):
-        rb.game.window_size = rb.Vector(100, 100)
-        rb.game.state = rb.STATE.RUNNING
+        rb.Game.window_size = rb.Vector(100, 100)
+        rb.Game.state = rb.STATE.RUNNING
     if rb.Input.is_pressed("0"):
-        rb.game.aspect_ratio = 1.5
+        rb.Game.aspect_ratio = 1.5
     if rb.Input.is_pressed("="):
-        rb.game.aspect_ratio *= 1.1
+        rb.Game.aspect_ratio *= 1.1
         # player_anim.resize(
         #     rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) *
         #     2)
     elif rb.Input.is_pressed("-"):
-        rb.game.aspect_ratio /= 1.1
+        rb.Game.aspect_ratio /= 1.1
         # player_anim.resize(
         #     rb.Vector.from_tuple(player_anim.anim_frame.get_size_original()) /
         #     2)
@@ -106,7 +106,8 @@ def custom_update():
 def callback(params):
     if params["key"] == "p":
         print("ouch")
-        rb.game.state = rb.STATE.PAUSED if rb.game.state == rb.STATE.RUNNING else rb.STATE.RUNNING
+        rb.Game.set_state(rb.STATE.PAUSED if rb.Game.get_state() ==
+                          rb.STATE.RUNNING else rb.STATE.RUNNING)
 
 
 rb.radio.listen("keydown", callback)

@@ -1,16 +1,29 @@
 """
-The Game class houses the global variable for the game and controls the main
-game loop.
+The main game class. It controls everything in the game.
+The Display is where your game lives at a certain aspect ratio,
+The Screen is the actual size of the window which the user interacts with.
+
+Attributes:
+    scenes (SceneManager): The global scene manager.
+    radio (Radio): The global radio system.
+    name (str): The title of the game window.
+    fps (int): The target fps of the game.
+    reset_display (bool): Controls whether or not the display should reset
+        every frame.
+    state (STATE): The current state of the game.
 """
 import pygame
 from pygame.transform import scale
+from typing import TYPE_CHECKING, Tuple
 import sys
 from rubato.classes.sprite import Sprite
 from rubato.utils import Display, Vector, Time, Configs, Math
 from rubato.classes import SceneManager
-from rubato.radio import Radio
 import rubato.input as Input
 from enum import Enum
+
+if TYPE_CHECKING:
+    from rubato.radio import Radio
 
 
 class STATE(Enum):
@@ -26,257 +39,262 @@ class STATE(Enum):
     PAUSED = 3
 
 
-class Game:
+pygame.init()
+
+name: str = ""
+_window_width: int = 0
+_window_height: int = 0
+_aspect_ratio: float = 0
+fps_cap: int = 0
+physics_timestep: int = 0
+reset_display: bool = True
+_use_better_clock: bool = True
+
+_physics_count: float = 0
+
+_state = STATE.STOPPED
+
+scenes = SceneManager()
+radio: "Radio" = None
+
+_saved_dims = [_window_width, _window_height]
+
+_clock = pygame.time.Clock()
+Time.set_clock(_clock)
+
+_max_screen_size: Tuple[int, int] = (0, 0)
+
+_screen = None
+_display = None
+
+
+def init(options: dict = {}):
     """
-    The main game class. It controls everything in the game.
-    The Display is where your game lives at a certain aspect ratio,
-    The Screen is the actual size of the window which the user interacts with.
+    Initializes a game. Should only be called by :meth:`rubato.init`.
 
-    Attributes:
-        scenes (SceneManager): The global scene manager.
-        radio (Radio): The global radio system.
-        name (str): The title of the game window.
-        fps (int): The target fps of the game.
-        reset_display (bool): Controls whether or not the display should reset
-            every frame.
-        state (STATE): The current state of the game.
+    Args:
+        options: A game config.
+            Defaults to the |default| for `Game`.
     """
+    global name, _window_width, _window_height, _aspect_ratio, fps_cap, \
+        reset_display, _use_better_clock, _saved_dims, _max_screen_size, \
+        _screen, _display
 
-    def __init__(self, options: dict = {}):
-        """
-        Initializes a game. Should only be called by :meth:`rubato.init`.
+    params = Configs.merge_params(options, Configs.game_defaults)
 
-        Args:
-            options: A game config.
-                Defaults to the |default| for `Game`.
-        """
-        pygame.init()
-        params = Configs.merge_params(options, Configs.game_defaults)
+    name = params["name"]
+    _window_width = params["window_width"]
+    _window_height = params["window_height"]
+    _aspect_ratio = params["aspect_ratio"]
+    fps_cap = params["fps_cap"]
+    Time.fdt = params["physics_timestep"]
+    reset_display = params["reset_display"]
+    _use_better_clock = params["better_clock"]
 
-        self._phy_ts = 0
+    _screen = pygame.display.set_mode((_window_width, _window_height),
+                                      pygame.RESIZABLE)
+    _display = pygame.Surface((_window_width, _window_height), pygame.SRCALPHA)
 
-        self.name: str = params["name"]
-        self._window_width: int = params["window_width"]
-        self._window_height: int = params["window_height"]
-        self._aspect_ratio: float = params["aspect_ratio"]
-        self.fps_cap: int = params["fps_cap"]
-        self.physics_timestep: int = params["physics_timestep"]
-        self.reset_display: bool = params["reset_display"]
-        self._use_better_clock: float = params["better_clock"]
+    pygame.display.set_caption(name)
+    if options.get("icon"):
+        pygame.display.set_icon(pygame.image.load(options.get("icon")))
 
-        self._physics_count: float = 0
+    Display.set_display(_display)
 
-        self._state = STATE.STOPPED
+    _saved_dims = [_window_width, _window_height]
 
-        self._clock = pygame.time.Clock()
-        Time.set_clock(self._clock)
+    infos = pygame.display.Info()
+    _max_screen_size = (infos.current_w, infos.current_h)
 
-        self._screen = pygame.display.set_mode(
-            (self._window_width, self._window_height), pygame.RESIZABLE)
-        self._display = pygame.Surface(
-            (self._window_width, self._window_height), pygame.SRCALPHA)
 
-        pygame.display.set_caption(self.name)
-        if options.get("icon"):
-            pygame.display.set_icon(pygame.image.load(options.get("icon")))
+def constant_loop():
+    """
+    The constant game loop. Should only be called by :meth:`rubato.begin`.
+    """
+    global _state
+    _state = STATE.RUNNING
+    while True:
+        update()
 
-        Display.set_display(self._display)
 
-        self.scenes = SceneManager()
-        self.radio = Radio()
+def update():
+    """
+    The update loop for the game. Called automatically every frame.
+    Handles the game states.
+    Will always process timed calls.
+    """
+    global _saved_dims, _screen, _physics_count, _display
+    dnd_if_paused = get_state() != STATE.PAUSED
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            radio.broadcast("EXIT", {})
+            pygame.quit()
+            sys.exit(1)
+        if event.type == pygame.VIDEORESIZE:
+            global _window_height, _window_width
+            _window_width = event.size[0]
+            _window_height = event.size[1]
+        if event.type == pygame.KEYDOWN:
+            radio.broadcast("keydown", {"key": Input.key.name(event.key)})
+        if event.type == pygame.KEYUP:
+            radio.broadcast("keyup", {"key": Input.key.name(event.key)})
 
-        self._saved_dims = [self._window_width, self._window_height]
+    # Window resize handling
+    if (_saved_dims[0] != _window_width or _saved_dims[1] != _window_height):
+        _screen = pygame.display.set_mode((_window_width, _window_height),
+                                          pygame.RESIZABLE)
 
-        infos = pygame.display.Info()
-        self._max_screen_size = (infos.current_w, infos.current_h)
+    ratio = (_window_width / _window_height) < _aspect_ratio
+    width = (_window_height * _aspect_ratio, _window_width)[ratio]
+    height = (_window_height, _window_width / _aspect_ratio)[ratio]
+    top_left = (((_window_width - width) // 2, 0),
+                (0, (_window_height - height) // 2))[ratio]
 
-    @property
-    def physics_timestep(self):
-        return self._phy_ts
+    _saved_dims = [_window_width, _window_height]
 
-    @physics_timestep.setter
-    def physics_timestep(self, new_ts: int):
-        self._phy_ts = new_ts
-        Time._fixed_delta_time = new_ts  # pylint: disable=protected-access
+    # Delayed calls handling
+    if dnd_if_paused and get_state():
+        Time.process_calls()
 
-    def constant_loop(self):
-        """
-        The constant game loop. Should only be called by :meth:`rubato.begin`.
-        """
-        self._state = STATE.RUNNING
-        while True:
-            self.update()
+    # Fixed Update Loop
+    _physics_count += Time.delta_time()
 
-    def update(self):
-        """
-        The update loop for the game. Called automatically every frame.
-        Handles the game states.
-        Will always process timed calls ...
-        """
-        dnd_if_paused = self.state != STATE.PAUSED
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.radio.broadcast("EXIT", {})
-                pygame.quit()
-                sys.exit(1)
-            if event.type == pygame.VIDEORESIZE:
-                self._window_width = event.size[0]
-                self._window_height = event.size[1]
-            if event.type == pygame.KEYDOWN:
-                self.radio.broadcast("keydown",
-                                     {"key": Input.key.name(event.key)})
-            if event.type == pygame.KEYUP:
-                self.radio.broadcast("keyup",
-                                     {"key": Input.key.name(event.key)})
+    _physics_count = Math.clamp(_physics_count, 0, Time.fdt * 100)
 
-        if (self._saved_dims[0] != self._window_width
-                or self._saved_dims[1] != self._window_height):
-            self._screen = pygame.display.set_mode(
-                (self._window_width, self._window_height), pygame.RESIZABLE)
+    while dnd_if_paused and _physics_count > Time.fdt:
+        scenes.fixed_update()
+        _physics_count -= Time.fdt
 
-        ratio = (self._window_width / self._window_height) < self._aspect_ratio
-        width = (self._window_height * self._aspect_ratio,
-                 self._window_width)[ratio]
-        height = (self._window_height,
-                  self._window_width / self._aspect_ratio)[ratio]
-        top_left = (((self._window_width - width) // 2, 0),
-                    (0, (self._window_height - height) // 2))[ratio]
+    # Regular Update Loop
+    if dnd_if_paused:
+        scenes.update()
 
-        self._saved_dims = [self._window_width, self._window_height]
+    # Draw Loop
+    if dnd_if_paused:
+        _screen.fill((0, 0, 0))
+        if reset_display: _display.fill((255, 255, 255))
+        scenes.draw()
 
-        if dnd_if_paused and self.state:
-            Time.process_calls()
+    # Update Screen
+    _display = Display.global_display
 
-        self._physics_count += Time.delta_time()
+    _screen.blit(pygame.transform.scale(_display, (int(width), int(height))),
+                 top_left)
 
-        self._physics_count = Math.clamp(self._physics_count, 0,
-                                         self.physics_timestep * 100)
-
-        while dnd_if_paused and self._physics_count > self.physics_timestep:
-            self.scenes.fixed_update()
-            self._physics_count -= self.physics_timestep
-
-        if dnd_if_paused:
-            self.scenes.update()
-
-        if dnd_if_paused:
-            self._screen.fill((0, 0, 0))
-            if self.reset_display: self._display.fill((255, 255, 255))
-            self.scenes.draw()
-        self._display = Display.global_display
-
-        self._screen.blit(
-            pygame.transform.scale(self._display, (int(width), int(height))),
-            top_left)
-
-        pygame.display.flip()
-        self.radio.events = []
-        if dnd_if_paused:
-            if self._use_better_clock:
-                self._clock.tick_busy_loop(self.fps_cap)
-            else:
-                self._clock.tick(self.fps_cap)
+    pygame.display.flip()
+    radio.events = []
+    if dnd_if_paused:
+        if _use_better_clock:
+            _clock.tick_busy_loop(fps_cap)
         else:
-            pygame.time.delay(int(Time.delta_time()))
+            _clock.tick(fps_cap)
+    else:
+        pygame.time.delay(int(Time.delta_time()))
 
-    def render(self, sprite: Sprite, surface: pygame.Surface):
-        if sprite.z_index <= self.scenes.current_scene.camera.z_index:
-            width, height = surface.get_size()
 
-            new_size = (
-                round(width * self.scenes.current_scene.camera.zoom),
-                round(height * self.scenes.current_scene.camera.zoom),
-            )
+def render(sprite: Sprite, surface: pygame.Surface):
+    if sprite.z_index <= scenes.current_scene.camera.z_index:
+        width, height = surface.get_size()
 
-            Display.update(
-                scale(surface, new_size),
-                self.scenes.current_scene.camera.transform(
-                    Sprite.center_to_tl(sprite.pos, Vector(width, height)) *
-                    self.scenes.current_scene.camera.zoom),
-            )
+        new_size = (
+            round(width * scenes.current_scene.camera.zoom),
+            round(height * scenes.current_scene.camera.zoom),
+        )
 
-    @property
-    def state(self):
-        return self._state
+        Display.update(
+            scale(surface, new_size),
+            scenes.current_scene.camera.transform(
+                Sprite.center_to_tl(sprite.pos, Vector(width, height)) *
+                scenes.current_scene.camera.zoom),
+        )
 
-    @state.setter
-    def state(self, new_state: STATE):
-        self._state = new_state
 
-        if self._state == STATE.STOPPED:
-            pygame.event.post(pygame.event.Event(pygame.QUIT))
+def get_state() -> STATE:
+    return _state
 
-    @property
-    def window_width(self):
-        """
-        Returns:
-            The height of the actual window (screen).
-        """
-        return self._window_width
 
-    @window_width.setter
-    def window_width(self, window_width: int) -> None:
-        """
-        Sets width of actual window (screen).
-        Args:
-            window_width:
-                width clamped between the max display size initialized
-                rubato.init()
-        """
-        if self._max_screen_size[0] > window_width > 0:
-            self._window_width = window_width
+def set_state(new_state: STATE):
+    global _state
+    _state = new_state
 
-    @property
-    def window_height(self):
-        """
-        Returns:
-            The width of the actual window (screen).
-        """
-        return self._window_height
+    if _state == STATE.STOPPED:
+        pygame.event.post(pygame.event.Event(pygame.QUIT))
 
-    @window_height.setter
-    def window_height(self, window_height: int) -> None:
-        """
-        Sets height of actual window (screen).
-        Args:
-            window_height:
-                height clamped between the max display size initialized
-                rubato.init()
-        """
-        if self._max_screen_size[1] > window_height > 0:
-            self._window_height = window_height
 
-    @property
-    def aspect_ratio(self):
-        """
-        Returns:
-            The aspect ratio of the display (the actual game).
-        """
-        return self._aspect_ratio
+def get_window_width():
+    """
+    Returns:
+        The height of the actual window (screen).
+    """
+    return _window_width
 
-    @aspect_ratio.setter
-    def aspect_ratio(self, aspect_ratio: int) -> None:
-        """
-        Sets the aspect ratio of the display that will be kept no matter
-        the real size of the screen.
-        Args:
-            aspect_ratio:
-        """
-        if 100 > aspect_ratio > 0:
-            self._aspect_ratio = aspect_ratio
 
-    @property
-    def window_size(self):
-        """
-        The current size of the window
+def set_window_width(window_width: int) -> None:
+    """
+    Sets width of actual window (screen).
+    Args:
+        window_width:
+            width clamped between the max display size initialized
+            rubato.init()
+    """
+    global _window_width
+    if _max_screen_size[0] > window_width > 0:
+        _window_width = window_width
 
-        Returns:
-            Vector: A vector with x representing the width and
-            y representing the height
-        """
-        return Vector(self._window_width, self._window_height)
 
-    @window_size.setter
-    def window_size(self, window_size: Vector):
-        self.window_width = window_size.x
-        self.window_height = window_size.y
+def get_window_height():
+    """
+    Returns:
+        The width of the actual window (screen).
+    """
+    return _window_height
+
+
+def set_window_height(window_height: int) -> None:
+    """
+    Sets height of actual window (screen).
+    Args:
+        window_height:
+            height clamped between the max display size initialized
+            rubato.init()
+    """
+    global _window_height
+    if _max_screen_size[1] > window_height > 0:
+        _window_height = window_height
+
+
+def get_aspect_ratio():
+    """
+    Returns:
+        The aspect ratio of the display (the actual game).
+    """
+    return _aspect_ratio
+
+
+def set_aspect_ratio(aspect_ratio: int) -> None:
+    """
+    Sets the aspect ratio of the display that will be kept no matter
+    the real size of the screen.
+    Args:
+        aspect_ratio:
+    """
+    global _aspect_ratio
+    if 100 > aspect_ratio > 0:
+        _aspect_ratio = aspect_ratio
+
+
+def get_window_size():
+    """
+    The current size of the window
+
+    Returns:
+        Vector: A vector with x representing the width and
+        y representing the height
+    """
+    return Vector(_window_width, _window_height)
+
+
+def set_window_size(window_size: Vector):
+    set_window_width(window_size.x)
+    set_window_height(window_size.y)

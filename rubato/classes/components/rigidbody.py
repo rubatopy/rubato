@@ -51,6 +51,8 @@ class RigidBody(Component):
 
         self.debug: bool = params["debug"]
 
+        self.required.append("Hitbox")
+
     @property
     def mass(self) -> float:
         if self.inv_mass == 0:

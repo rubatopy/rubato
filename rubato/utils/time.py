@@ -16,7 +16,7 @@ frame_tasks = {}
 tasks = {}
 sorted_task_times = []  # of the call keys
 
-_fixed_delta_time = 20
+fdt = 20  # fixed delta time storage
 
 
 def fixed_delta_time(form: str = "milli") -> float:
@@ -33,9 +33,9 @@ def fixed_delta_time(form: str = "milli") -> float:
         float: Time since the fixed update frame, in the given form.
     """
     if form == "sec":
-        return milli_to_sec(_fixed_delta_time)
+        return milli_to_sec(fdt)
     elif form == "milli":
-        return _fixed_delta_time
+        return fdt
     else:
         raise ValueError(f"Style {form} is not valid")
 

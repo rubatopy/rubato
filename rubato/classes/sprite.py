@@ -34,6 +34,7 @@ class Sprite:
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []
+        self.__requirements_checked = False
 
     @property
     def components(self):
@@ -49,6 +50,8 @@ class Sprite:
         Raises:
             DuplicateComponentError: Raised when there is already a component
                 of the same type on the sprite.
+            ComponentNotAllowed: Raised when an added component conflicts with
+                another component.
 
         Returns:
             Sprite: The current sprite
@@ -110,6 +113,9 @@ class Sprite:
                 return comp
         return None
 
+    def check_required(self):
+        pass
+
     def draw(self):
         """The draw loop"""
         for comp in self.components:
@@ -121,6 +127,9 @@ class Sprite:
             comp.update()
 
     def fixed_update(self):
+        if not self.__requirements_checked:
+            self.check_required()
+
         for comp in self.components:
             comp.fixed_update()
 

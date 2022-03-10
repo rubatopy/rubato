@@ -89,4 +89,4 @@ class Image(Component):
         Args:
             camera: The current Camera viewing the scene.
         """
-        rb.game.render(self.sprite, self.image)
+        rb.Game.render(self.sprite, self.image)
