@@ -129,8 +129,8 @@ def custom_update():
     print(f"fps: {rb.Time.clock.get_fps()}")
 
 
-main_scene.add_item(balls)
-main_scene.add_item([top, bottom, left, right, player])
+main_scene.add(balls)
+main_scene.add([top, bottom, left, right, player])
 main_scene.update = custom_update
 
 rb.begin()

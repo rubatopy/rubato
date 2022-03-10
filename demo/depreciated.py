@@ -15,7 +15,7 @@ ground = rb.Sprite({
         "color": rb.Color.green
     }))
 
-main_scene.add_item(ground)
+main_scene.add(ground)
 
 platform = rb.Sprite({
     "pos": rb.Vector(400, 200)
@@ -25,7 +25,7 @@ platform = rb.Sprite({
         "color": rb.Color.green
     })).add_component(rb.Polygon.generate_rect(100, 20))
 
-main_scene.add_item(platform)
+main_scene.add(platform)
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
@@ -52,7 +52,7 @@ player_anim.add_state("run", run)
 
 player.add_component(player_anim)
 
-main_scene.add_item(player)
+main_scene.add(player)
 
 spinny = rb.Sprite({"pos": rb.Vector(200, 200)})
 spinny_animation = rb.Animation({"fps": 4})
@@ -60,7 +60,7 @@ spinny.add_component(spinny_animation)
 spinny_animation.add_state(
     "spin", rb.Animation.import_animation_folder("testing/spin"))
 
-main_scene.add_item(spinny)
+main_scene.add(spinny)
 
 box = rb.Sprite({
     "pos": rb.Vector(300, 325),
@@ -71,7 +71,7 @@ box = rb.Sprite({
         "dims": rb.Vector(50, 50),
         "color": rb.Color.red
     })).add_component(rb.Polygon.generate_rect(50, 50))
-main_scene.add_item(box)
+main_scene.add(box)
 
 circle1 = rb.Sprite({
     "pos": rb.Vector(200, 50)
@@ -82,7 +82,7 @@ circle1 = rb.Sprite({
     }))
 circle1.get_component(rb.Hitbox).debug = True
 
-main_scene.add_item(circle1)
+main_scene.add(circle1)
 
 circle2 = rb.Sprite({
     "pos": rb.Vector(175, 100)
@@ -93,7 +93,7 @@ circle2 = rb.Sprite({
     }))
 circle2.get_component(rb.Hitbox).debug = True
 
-main_scene.add_item(circle2)
+main_scene.add(circle2)
 
 
 def custom_update():

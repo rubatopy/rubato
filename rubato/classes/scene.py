@@ -5,7 +5,6 @@ no other groups are specified.
 """
 from typing import List, Union, TYPE_CHECKING
 from rubato.classes import Camera, Group
-from rubato.utils.error import Error
 
 if TYPE_CHECKING:
     from rubato.classes import Sprite
@@ -16,8 +15,7 @@ class Scene:
     A scene is a collection of groups.
 
     Attributes:
-        groups (List[Group]): The collection
-            of groups housed in this scene.
+        root (Group): The base group of sprites in the scene.
         camera (Camera): The camera of this scene.
         id (str): The id of this scene.
     """
@@ -27,98 +25,46 @@ class Scene:
         Initializes a scene with an empty collection of sprites, a new camera,
         and a blank id.
         """
-        self.groups: List["Group"] = [Group()]
+        self.root: Group = Group()
         self.camera = Camera()
         self.id: str = ""
 
-    def add_group(self, group: "Group"):
+    def add(
+        self,
+        item: Union["Sprite", "Group", List[Union["Sprite", "Group"]]]):
         """
-        Adds a group to the scene.
-
-        Args:
-            group: The group to add.
-
-        Raises:
-            Warning: The group you tried to add was already in the scene. This
-                group will not be added twice.
-        """
-        if group not in self.groups:
-            self.groups.append(group)
-        else:
-            raise Warning(
-                f"The group {group} is already in the scene." + \
-                    "(it was not added twice)"
-            )
-
-    def remove_group(self, group: "Group"):
-        """
-        Removes a group from the scene.
-
-        Args:
-            group: The group to remove.
-
-        Raises:
-            ValueError: The group could not be found in this scene and was
-                therefore not removed.
-        """
-        try:
-            i = self.items.index(group)
-            del self.items[i]
-        except ValueError as e:
-            raise ValueError("This group is not in this scene") from e
-
-    def add_item(self, item: Union["Sprite", "Group", List[Union["Sprite",
-                                                                 "Group"]]]):
-        """
-        Adds an item to the default group.
+        Adds an item to the root group.
 
         Args:
             item: The item or list of items to add.
 
-        Raises:
-            Error: The default group was either deleted or could not be found
-                and therefore the item was not added.
         """
-        if len(self.groups) > 0:
-            self.groups[0].add(item)
-        else:
-            raise Error(
-                "The default group was deleted and the item was not added")
+        self.root.add(item)
 
-    def remove_item(self, item: Union["Sprite", "Group"]):
+    def remove(self, item: Union["Sprite", "Group"]):
         """
-        Removes an item from the default group.
+        Removes an item from the root group.
 
         Args:
             item: The item to remove.
 
-        Raises:
-            Error: The default group was delete and the item was not removed.
         """
-        if len(self.groups) > 0:
-            self.groups[0].remove(item)
-        else:
-            raise Error(
-                "The default group was deleted and the item was not removed")
+        self.root.remove(item)
 
     def private_draw(self):
-        for group in self.groups:
-            group.draw()
+        self.root.draw()
 
     def private_update(self):
         self.update()
-        for group in self.groups:
-            group.update()
+        self.root.update()
 
     def private_fixed_update(self):
         self.fixed_update()
-        for group in self.groups:
-            group.fixed_update()
+        self.root.fixed_update()
 
     def private_setup(self):
         self.setup()
-        for group in self.groups:
-            group.setup()
+        self.root.setup()
 
     def setup(self):
         """The start loop for this scene. It is run before the first frame."""
