@@ -318,6 +318,7 @@ class SAT:
 
     @staticmethod
     def circle_circle_test(shape_a, shape_b):
+        """Checks for overlap between two circles"""
         total_radius = shape_a.radius + shape_b.radius
         distance = (shape_b.pos - shape_a.pos).magnitude()
 
