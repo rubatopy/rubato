@@ -143,13 +143,13 @@ class Animation(Component):
         for i in range(len(image_and_times)):
             image_and_time = image_and_times[i]
             if isinstance(image_and_time, Image):
-                image_and_time.sprite = self.sprite
+                image_and_time.sprite = self.sprite  # TODO: -- to remove
                 image_and_times[i] = (image_and_time,
                                       self.default_animation_length)
             elif len(image_and_time) == 2 and \
                     isinstance(image_and_time[0], Image) \
                     and isinstance(image_and_time[1], int):
-                image_and_time[0].sprite = self.sprite
+                image_and_time[0].sprite = self.sprite  # TODO: -- to remove
             else:
                 raise Error("This tuple is an invalid Image and time: " +
                             image_and_time)
@@ -157,6 +157,11 @@ class Animation(Component):
         if len(self._states) == 1:
             self.default_state = state_name
             self.current_state = state_name
+
+    def start(self) -> None:
+        for image_and_times in self._states.values():
+            for image_and_time in image_and_times:
+                image_and_time[0].sprite = self.sprite
 
     def draw(self):
         self._time_count += Time.delta_time()
