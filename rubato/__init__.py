@@ -93,7 +93,7 @@ def begin():
         RuntimeError: Rubato has not been initialized before calling.
     """
     if Game.is_init:
-        Game.scenes.start()
+        Game.scenes.setup()
         Game.constant_loop()
     else:
         raise RuntimeError(

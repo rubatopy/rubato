@@ -34,7 +34,7 @@ class Component:
         """
         pass
 
-    def start(self) -> None:
+    def setup(self) -> None:
         """
         Run after initialization and before update loop begins
         """

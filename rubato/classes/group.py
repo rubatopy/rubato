@@ -48,9 +48,9 @@ class Group:
         except ValueError as e:
             raise ValueError("This item is not in this group") from e
 
-    def start(self):
+    def setup(self):
         for item in self.items:
-            item.start()
+            item.setup()
 
     def update(self):
         for item in self.items:

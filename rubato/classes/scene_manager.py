@@ -72,9 +72,9 @@ class SceneManager:
         """
         self.current = scene_id
 
-    def start(self):
+    def setup(self):
         if self.is_empty: return
-        self.current_scene.private_start()
+        self.current_scene.private_setup()
 
     def draw(self):
         """Calls the draw function of the current scene."""

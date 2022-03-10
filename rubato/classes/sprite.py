@@ -115,13 +115,13 @@ class Sprite:
     def check_required(self):
         pass
 
-    def start(self):
+    def setup(self):
         """
         Run after initialization and before update loop begins
         """
         self.check_required()
         for comp in self.components:
-            comp.start()
+            comp.setup()
 
     def draw(self):
         """The draw loop"""

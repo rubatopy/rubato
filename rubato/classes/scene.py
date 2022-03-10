@@ -114,12 +114,12 @@ class Scene:
         for group in self.groups:
             group.fixed_update()
 
-    def private_start(self):
-        self.start()
+    def private_setup(self):
+        self.setup()
         for group in self.groups:
-            group.start()
+            group.setup()
 
-    def start(self):
+    def setup(self):
         """The start loop for this scene. It is run before the first frame."""
         pass
 

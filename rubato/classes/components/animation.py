@@ -153,7 +153,7 @@ class Animation(Component):
             self.default_state = state_name
             self.current_state = state_name
 
-    def start(self) -> None:
+    def setup(self) -> None:
         for image_and_times in self._states.values():
             for image_and_time in image_and_times:
                 image_and_time[0].sprite = self.sprite
