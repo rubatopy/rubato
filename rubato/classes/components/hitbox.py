@@ -1,6 +1,7 @@
 """Various hitbox components that enable collisions"""
 
 import math
+from turtle import shape
 from typing import Callable, List, Union
 from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils.vector import Vector
@@ -317,11 +318,24 @@ class SAT:
 
     @staticmethod
     def circle_circle_test(shape_a, shape_b):
-        pass
+        total_radius = shape_a.radius + shape_b.radius
+        distance = (shape_b.pos - shape_a.pos).magnitude()
+
+        if distance > total_radius:
+            return None
+        
+        result = CollisionInfo()
+
+        result.shape_a = shape_a
+        result.shape_b = shape_b
+
+        result.sep = (shape_b - shape_a).unit() * (total_radius - distance)
+
+        return result
 
     @staticmethod
     def circle_polygon_test(shape_a, shape_b, flip):
-        pass
+        return None
 
     @staticmethod
     def polygon_polygon_test(shape_a: Union[Polygon, Circle],
