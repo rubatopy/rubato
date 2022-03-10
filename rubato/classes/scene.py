@@ -67,12 +67,13 @@ class Scene:
         except ValueError as e:
             raise ValueError("This group is not in this scene") from e
 
-    def add_item(self, item: Union["Sprite", "Group"]):
+    def add_item(self, item: Union["Sprite", "Group", List[Union["Sprite",
+                                                                 "Group"]]]):
         """
         Adds an item to the default group.
 
         Args:
-            item: The item to add.
+            item: The item or list of items to add.
 
         Raises:
             Error: The default group was either deleted or could not be found

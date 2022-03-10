@@ -16,19 +16,24 @@ class Group:
     def __init__(self) -> None:
         self.items: List[Union["Sprite", Group]] = []
 
-    def add(self, item: Union["Sprite", "Group"]):
+    def add(self, item: Union["Sprite", "Group", List[Union["Sprite",
+                                                            "Group"]]]):
         """
         Adds an item to the group.
 
         Args:
-            item: The item to add to the group.
+            item: The item or list of items to add to the group.
 
         Raises:
             Error: The item being added is the group itself. A group cannot be
                 added to itself.
         """
         if self != item:
-            self.items.append(item)
+            if not isinstance(item, list):
+                return self.items.append(item)
+            else:
+                for it in item:
+                    self.add(it)
         else:
             raise Error("Cannot add a group to itself.")
 
@@ -69,8 +74,7 @@ class Group:
         for hitbox_a in hitboxes:
             for hitbox_b in hitboxes:
                 if hitbox_a != hitbox_b:
-                    if not ((hitbox_a, hitbox_b) in pairs or
-                            (hitbox_b, hitbox_a) in pairs):
+                    if not ((hitbox_a, hitbox_b) in pairs):
                         pairs.append((hitbox_a, hitbox_b))
 
         for pair in pairs:
