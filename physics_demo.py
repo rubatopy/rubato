@@ -3,7 +3,7 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector
 
-num_balls = 20
+num_balls = 50
 rb.init({
     "name": "Physics Demo",
     "window_width": 600,
@@ -65,8 +65,8 @@ player = rb.Sprite({
 })
 
 player_rb = rb.RigidBody({
-    "mass": 10,
-    "bouncyness": 1,
+    "mass": 5,
+    "bouncyness": 0.1,
     "max_speed": Vector(50, 1000),
     "gravity": Vector()
 })

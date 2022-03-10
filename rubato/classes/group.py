@@ -69,16 +69,9 @@ class Group:
 
             item.fixed_update()
 
-        pairs: List[Tuple["Hitbox", "Hitbox"]] = []
-
-        for hitbox_a in hitboxes:
-            for hitbox_b in hitboxes:
-                if hitbox_a != hitbox_b:
-                    if not ((hitbox_a, hitbox_b) in pairs):
-                        pairs.append((hitbox_a, hitbox_b))
-
-        for pair in pairs:
-            pair[0].collide(pair[1])
+        for i in range(len(hitboxes)):
+            for j in range(i+1, len(hitboxes)):
+                hitboxes[i].collide(hitboxes[j])
 
     def draw(self):
         for item in self.items:
