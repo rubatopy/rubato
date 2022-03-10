@@ -39,6 +39,7 @@ class STATE(Enum):
 
 
 pygame.init()
+pygame.transform.set_smoothscale_backend("MMX")
 
 name: str = ""
 _window_width: int = 0
@@ -95,8 +96,9 @@ def init(options: dict = {}):
     reset_display = params["reset_display"]
     _use_better_clock = params["better_clock"]
 
-    _screen = pygame.display.set_mode((_window_width, _window_height),
-                                      pygame.RESIZABLE)
+    _screen = pygame.display.set_mode(
+        (_window_width, _window_height),
+        pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SCALED)
     _display = pygame.Surface(resolution.to_tuple(), pygame.SRCALPHA)
 
     pygame.display.set_caption(name)
@@ -161,8 +163,9 @@ def update():
 
     # Window resize handling
     if (_saved_dims[0] != _window_width or _saved_dims[1] != _window_height):
-        _screen = pygame.display.set_mode((_window_width, _window_height),
-                                          pygame.RESIZABLE)
+        _screen = pygame.display.set_mode(
+            (_window_width, _window_height),
+            pygame.RESIZABLE | pygame.DOUBLEBUF | pygame.SCALED)
 
     aspect_ratio = resolution.x / resolution.y
     ratio = (_window_width / _window_height) < aspect_ratio
@@ -199,7 +202,7 @@ def update():
     # Update Screen
     _display = Display.global_display
 
-    frame = pygame.transform.scale(_display, (width, height))
+    frame = pygame.transform.smoothscale(_display, (width, height))
 
     _screen.blit(frame, top_left)
 

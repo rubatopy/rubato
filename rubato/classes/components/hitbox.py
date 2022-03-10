@@ -7,7 +7,7 @@ from rubato.utils import Math, Display, Vector, Configs, Color
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
 import rubato as rb
-from pygame.draw import polygon, circle
+from pygame.gfxdraw import aapolygon, filled_polygon, aacircle, filled_circle
 
 
 class Hitbox(Component):
@@ -207,9 +207,8 @@ class Polygon(Hitbox):
         The draw loop
         """
         if self.debug:
-            polygon(
+            aapolygon(
                 Display.global_display,
-                (0, 255, 0),
                 list(
                     map(
                         lambda v: rb.Game.scenes.current_scene.camera.
@@ -217,13 +216,12 @@ class Polygon(Hitbox):
                                   ),
                         self.real_verts(),
                     )),
-                3,
+                (0, 255, 0),
             )
 
         if self.color is not None:
-            polygon(
+            aapolygon(
                 Display.global_display,
-                self.color.to_tuple(),
                 list(
                     map(
                         lambda v: rb.Game.scenes.current_scene.camera.
@@ -231,6 +229,19 @@ class Polygon(Hitbox):
                                   ),
                         self.real_verts(),
                     )),
+                self.color.to_tuple(),
+            )
+
+            filled_polygon(
+                Display.global_display,
+                list(
+                    map(
+                        lambda v: rb.Game.scenes.current_scene.camera.
+                        transform(v * rb.Game.scenes.current_scene.camera.zoom
+                                  ),
+                        self.real_verts(),
+                    )),
+                self.color.to_tuple(),
             )
 
 
@@ -281,19 +292,27 @@ class Circle(Hitbox):
 
     def draw(self):
         if self.debug:
-            circle(
+            aacircle(
                 Display.global_display,
-                (0, 255, 0),
-                self.pos.to_tuple(),
-                self.radius,
-                3,
+                int(self.pos.x),
+                int(self.pos.y),
+                int(self.radius),
+                self.color.to_tuple(),
             )
         if self.color is not None:
-            circle(
+            # aacircle(
+            #     Display.global_display,
+            #     int(self.pos.x),
+            #     int(self.pos.y),
+            #     self.radius,
+            #     self.color.to_tuple(),
+            # )
+            filled_circle(
                 Display.global_display,
+                int(self.pos.x),
+                int(self.pos.y),
+                int(self.radius),
                 self.color.to_tuple(),
-                self.pos.to_tuple(),
-                self.radius,
             )
 
 
