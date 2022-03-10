@@ -2,7 +2,7 @@
 Groups contain sprites and allow specific sprites to be seperated.
 """
 
-from typing import List, Tuple, Union, TYPE_CHECKING
+from typing import List, Union, TYPE_CHECKING
 from rubato.utils.error import Error
 from rubato.classes.components import Hitbox
 
