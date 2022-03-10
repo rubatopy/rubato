@@ -321,8 +321,8 @@ class SAT:
             return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
 
         a_is_circle = isinstance(shape_a, Circle)
-        return SAT.circle_polygon_test((shape_a, shape_b)[a_is_circle],
-                                       (shape_b, shape_a)[a_is_circle],
+        return SAT.circle_polygon_test((shape_b, shape_a)[a_is_circle],
+                                       (shape_a, shape_b)[a_is_circle],
                                        not a_is_circle)
 
     @staticmethod
@@ -335,7 +335,6 @@ class SAT:
             return None
 
         result = CollisionInfo()
-
         result.shape_a = shape_a
         result.shape_b = shape_b
 
@@ -345,8 +344,73 @@ class SAT:
         return result
 
     @staticmethod
-    def circle_polygon_test(shape_a, shape_b, flip):
-        return None
+    def circle_polygon_test(shape_a: Circle, shape_b: Polygon,
+                             flip: bool = False):
+        shortest = Math.INFINITY
+
+        result = CollisionInfo()
+        result.shape_a = shape_b if flip else shape_a
+        result.shape_b = shape_a if flip else shape_b
+
+        verts = shape_b.transformed_verts()
+        offset = shape_b.pos - shape_a.pos
+
+        closest = Vector()
+        for v in verts:
+            dist = (shape_a.pos - (shape_b.pos + v)).magnitude
+            if dist < shortest:
+                shortest = dist
+                closest = shape_b.pos + v
+
+
+        axis = closest - shape_a.pos
+        axis.normalize()
+
+        poly_range = SAT.project_verts(verts, axis)
+
+        scalar_offset = axis.dot(offset)
+        poly_range += scalar_offset
+
+        circle_range = SAT.project_circle(shape_a)
+
+        if ((poly_range.x - circle_range.y > 0) or
+             (circle_range.x - poly_range.y > 0)):
+            return None
+
+
+        dist_min = circle_range.y - poly_range.x
+        if flip: dist_min *= -1
+
+        shortest = abs(dist_min)
+
+        distance = dist_min
+        vector = axis
+
+        for i in range(len(verts)):
+            axis = SAT.perpendicular_axis(verts, i)
+            poly_range = SAT.project_verts(verts, axis)
+
+            scalar_offset = axis.dot(offset)
+            poly_range += scalar_offset
+
+            circle_range = SAT.project_circle(shape_a)
+
+            if ((poly_range.x - circle_range.y > 0) or
+                 (circle_range.x - poly_range.y > 0)):
+                return None
+
+            dist_min = circle_range.y - poly_range.x
+            if flip: dist_min *= -1
+
+            dist_min_abs = abs(dist_min)
+            if dist_min_abs < shortest:
+                shortest = dist_min_abs
+                distance = dist_min
+                vector = axis
+
+        result.sep = vector * distance * -1
+
+        return result
 
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon,
@@ -396,7 +460,7 @@ class SAT:
     def project_verts(verts: List[Vector], axis: Vector) -> Vector:
         """
         Projects the vertices onto a given axis.
-        Returns as a vector; x is min, y is max
+        Returns as a vector x is min, y is max
         """
 
         minval, maxval = Math.INFINITY, -Math.INFINITY
@@ -406,3 +470,8 @@ class SAT:
             minval, maxval = min(minval, temp), max(maxval, temp)
 
         return Vector(minval, maxval)
+
+    @staticmethod
+    def project_circle(shape_a: Circle):
+        return Vector(-shape_a.transformed_radius(),
+                        shape_a.transformed_radius())
