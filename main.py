@@ -105,9 +105,11 @@ def callback(params):
         print("ouch")
         rb.Game.set_state(rb.STATE.PAUSED if rb.Game.get_state() ==
                           rb.STATE.RUNNING else rb.STATE.RUNNING)
+    if params["key"] == "a":
+        print("listener removed")
 
 
-rb.radio.listen("keydown", callback)
+keylistener = rb.radio.listen("keydown", callback)
 
 main_scene.fixed_update = custom_update
 

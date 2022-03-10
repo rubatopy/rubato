@@ -83,6 +83,11 @@ class Radio:
 class Listener:
     """
     The actual listener object itself.
+
+    Attributes:
+        event (str): The event descriptor
+        callback (Callable): The function called when the event occurs
+        registered (bool): Describes whether the listener is registered
     """
 
     def __init__(self, event: str, callback: Callable):
@@ -91,12 +96,24 @@ class Listener:
         self.registered = False
 
     def ping(self, params: dict):
+        """
+        Calls the callback of this listener.
+
+        Args:
+            params: A parameters dictionary
+        """
         try:
             self.callback(params)
         except TypeError:
             self.callback()
 
     def remove(self):
+        """
+        Removes itself from the radio register.
+
+        Raises:
+            ValueError: Raises error when listener is not registered
+        """
         try:
             i = Game.radio.listeners[self.event].index(self)
             del Game.radio.listeners[self.event][i]
