@@ -28,8 +28,6 @@ platform = rb.Sprite({
 
 main_scene.add_item(platform)
 
-run = rb.Animation.import_animation_folder("testing/Run")
-idle = rb.Animation.import_animation_folder("testing/Idle")
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
@@ -47,15 +45,30 @@ player_hitbox = rb.Polygon.generate_rect(32, 32)
 player.add_component(player_hitbox)
 
 player_anim = rb.Animation({
-    "fps": 3
+    "fps": 6
 })
 
-player.add_component(player_anim)
-player_anim.add_state("run", run)
-player_anim.add_state("idle", idle)
+run = rb.Animation.import_animation_folder("testing/Run")
+idle = rb.Animation.import_animation_folder("testing/Idle")
 
+player.add_component(player_anim)
+player_anim.add_state("idle", idle)
+player_anim.add_state("run", run)
 
 main_scene.add_item(player)
+
+
+spinny = rb.Sprite({
+    "pos": Vector(200, 200)
+})
+spinny_animation = rb.Animation({
+    "fps": 4
+})
+spinny.add_component(spinny_animation)
+spinny_animation.add_state("spin", rb.Animation.import_animation_folder("testing/spin"))
+
+main_scene.add_item(spinny)
+
 
 box = rb.Sprite({
     "pos": rb.Vector(300, 325),
@@ -80,7 +93,8 @@ def custom_update():
         player_anim.set_current_state("run")
         player_rb.velocity.x = 100
     else:
-        player_anim.set_current_state("idle", True)
+        # player_anim.set_current_state("idle", True)
+        pass
     if rb.Input.is_pressed("right"):
         player_anim.rotation += 1
     if rb.Input.is_pressed("r"):

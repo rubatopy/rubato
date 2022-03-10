@@ -53,7 +53,6 @@ class Animation(Component):
         # time (milliseconds) to switch frames
         self._time_step = 1000/self._fps
         self._time_count = 0  # time since last update of frames
-        print(self._time_step)
         self.scale(param["scale_factor"])
 
     @property
@@ -110,7 +109,7 @@ class Animation(Component):
 
         Args:
             new_state: The key of the new current state.
-            loop: Whether or not to loop the state. Defaults to False.
+            loop: Whether to loop the state. Defaults to False.
 
         Raises:
             KeyError: The new_state key is not in the initialized states.
@@ -165,6 +164,7 @@ class Animation(Component):
         while self._time_count > self._time_step:
             self.anim_tick()
             self._time_count -= self._time_step
+            print(f"tick {self._time_count}")
 
         self.anim_frame.draw()
 
@@ -174,8 +174,8 @@ class Animation(Component):
             # still in the state (extra -1 as we add if we hit a new frame)
             if self.animation_frames_left <= 0:
                 self.current_frame += 1
-                if self.current_frame >= length:
-                    self.anim_tick()
+                if self.current_frame > length:
+                    return self.anim_tick()
                 self.animation_frames_left = self._current[
                     Animation._TIME_INDEX]
             self.animation_frames_left -= 1
