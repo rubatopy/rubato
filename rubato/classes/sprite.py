@@ -4,7 +4,7 @@ A sprite is a basic element that holds components, postion, and z_index.
 from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components import Hitbox
 from rubato.utils import Vector, Configs
-from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError
+from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
 
 if TYPE_CHECKING:
     from rubato.classes.component import Component
@@ -65,12 +65,12 @@ class Sprite:
                 "There is already a component of type " + str(comp_type) +
                 " on this sprite")
 
-        for not_allowed_type in component.not_allowed:
-            if any(
-                    isinstance(comp, not_allowed_type)
-                    for comp in self.components):
+        for not_allowed in component.not_allowed:
+            if any(not_allowed == type(c).__name__ or any(
+                    not_allowed == base.__name__ for base in type(c).__bases__)
+                   for c in self.components):
                 raise ComponentNotAllowed(
-                    "The component of type " + str(not_allowed_type) +
+                    "The component of type " + not_allowed +
                     " conflicts with another component on the sprite.")
 
         self.__components.append(component)
@@ -113,7 +113,15 @@ class Sprite:
         return None
 
     def check_required(self):
-        pass
+        for comp in self.components:
+            for required in comp.required:
+                # Checks if required matches either the class or the parent
+                if not any(required == type(c).__name__ or any(
+                        required == base.__name__
+                        for base in type(c).__bases__)
+                           for c in self.components):
+                    raise Error("The component " + str(comp) +
+                                " is missing its requirements")
 
     def setup(self):
         """

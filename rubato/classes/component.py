@@ -21,8 +21,8 @@ class Component:
     def __init__(self) -> None:
         """Initializes a component"""
         self.sprite: Union["Sprite", None] = None
-        self.required: List[type] = []
-        self.not_allowed: List[type] = []
+        self.required: List[str] = []
+        self.not_allowed: List[str] = []
 
     def draw(self) -> None:
         """The draw loop"""

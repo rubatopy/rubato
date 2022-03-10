@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 class RigidBody(Component):
     """
     A RigidBody implementation with built in physics and collisions.
+    Rigidbodies require hitboxes.
 
     Attributes:
         static (bool): Whether or not the rigidbody is static (as in, it does
