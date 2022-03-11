@@ -7,7 +7,7 @@ from rubato.utils import Math, Display, Vector, Configs, Color
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
 import rubato as rb
-from pygame.gfxdraw import aapolygon, filled_polygon, aacircle, filled_circle
+# from pygame.gfxdraw import aapolygon, filled_polygon, aacircle, filled_circle
 
 
 class Hitbox(Component):

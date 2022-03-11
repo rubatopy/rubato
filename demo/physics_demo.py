@@ -28,8 +28,8 @@ top = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x, Game.resolution.y / 6),
         "debug":
         False,
-        "color":
-        Color.maroon,
+        # "color":
+        # Color.maroon,
     }))
 
 bottom = rb.Sprite({
@@ -41,8 +41,8 @@ bottom = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x, Game.resolution.y / 6),
         "debug":
         False,
-        "color":
-        Color.maroon,
+        # "color":
+        # Color.maroon,
     }))
 
 left = rb.Sprite({
@@ -53,8 +53,8 @@ left = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x / 6, Game.resolution.y),
         "debug":
         False,
-        "color":
-        Color.maroon,
+        # "color":
+        # Color.maroon,
     }))
 
 right = rb.Sprite({
@@ -66,8 +66,8 @@ right = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x / 6, Game.resolution.y),
         "debug":
         False,
-        "color":
-        Color.maroon,
+        # "color":
+        # Color.maroon,
     }))
 
 balls = []
@@ -79,7 +79,7 @@ for i in range(num_balls):
     }).add_component(
         rb.Circle({
             "radius": Game.resolution.x / 30,
-            "color": Color.random
+            # "color": Color.random
         })).add_component(
             rb.RigidBody({
                 "bounciness": 0.75,
@@ -102,8 +102,8 @@ player.add_component(player_rb)
 player_hitbox = rb.Polygon({
     "verts":
     rb.Polygon.generate_polygon(5, Game.resolution.x / 20),
-    "color":
-    Color.blue,
+    # "color":
+    # Color.blue,
     "rotation":
     180,
 })
@@ -111,16 +111,14 @@ player.add_component(player_hitbox)
 
 
 def custom_update():
-    if rb.Input.is_pressed("w"):
+    if rb.Input.key_is_pressed("w"):
         player_rb.velocity.y -= Game.resolution.x * (50 / 600)
-    elif rb.Input.is_pressed("s"):
+    elif rb.Input.key_is_pressed("s"):
         player_rb.velocity.y += Game.resolution.x * (50 / 600)
-    if rb.Input.is_pressed("a"):
+    if rb.Input.key_is_pressed("a"):
         player_rb.velocity.x -= Game.resolution.x * (50 / 600)
-    elif rb.Input.is_pressed("d"):
+    elif rb.Input.key_is_pressed("d"):
         player_rb.velocity.x += Game.resolution.x * (50 / 600)
-
-    print(f"fps: {rb.Time.clock.get_fps()}")
 
 
 main_scene.add_item(balls)

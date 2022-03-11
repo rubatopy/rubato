@@ -6,9 +6,9 @@ Attributes:
         game.
 """
 from typing import Callable
-from pygame.time import Clock, get_ticks
+import time
 
-clock = Clock()
+clock = None
 
 frames = 0
 frame_tasks = {}
@@ -54,9 +54,9 @@ def delta_time(form: str = "milli") -> float:
         float: Time since the last frame, in the given form.
     """
     if form == "sec":
-        return milli_to_sec(clock.get_time())
+        return milli_to_sec(16)
     elif form == "milli":
-        return clock.get_time()
+        return 16
     else:
         raise ValueError(f"Style {form} is not valid")
 
@@ -68,7 +68,7 @@ def now() -> int:
     Returns:
         int: Time since the start of the game, in milliseconds.
     """
-    return get_ticks()
+    return time.time()
 
 
 def delayed_call(time_delta: int, func: Callable):
@@ -119,7 +119,7 @@ def milli_to_sec(milli: int) -> float:
     return milli / 1000
 
 
-def set_clock(new_clock: "Clock"):
+def set_clock(new_clock):
     """
     Allows you to set the clock object property to a Pygame Clock object.
 

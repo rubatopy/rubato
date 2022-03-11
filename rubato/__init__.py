@@ -19,9 +19,9 @@ Attributes:
     game (Game): The global game class that can be accessed anywhere.
         Initialized when :meth:`rubato.init()` is called.
 """
-import os
-# This needs to be set before pygame   pylint: disable=wrong-import-position
-os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+import warnings
+# pylint: disable=wrong-import-position
+warnings.simplefilter("ignore", UserWarning)
 
 import rubato.static as Static
 from rubato.utils import Math, Display, Vector, Time, \
@@ -33,6 +33,8 @@ from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
 import rubato.input as Input
 import rubato.sound as Sound
 import rubato.game as Game
+
+warnings.simplefilter("default", UserWarning)
 
 STATE = Game.STATE
 
