@@ -4,7 +4,7 @@ Animations are a series of images that loop in a set loop
 from typing import List, Tuple, Dict
 from os import path, walk
 
-from pygame import Surface
+import sdl2
 from rubato.classes.component import Component
 from rubato.classes.components.image import Image
 from rubato.utils import Error, Configs, Vector, Time
@@ -56,12 +56,12 @@ class Animation(Component):
         self.scale(param["scale_factor"])
 
     @property
-    def image(self) -> Surface:
+    def image(self) -> sdl2.surface.SDL_Surface:
         """
         The current image.
 
         Returns:
-            Surface: The pygame surface holding the current image.
+            Surface: The surface holding the current image.
         """
         return self._states[self.current_state][self.current_frame][
             Animation._IMAGE_INDEX].image

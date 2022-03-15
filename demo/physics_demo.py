@@ -81,7 +81,7 @@ for i in range(num_balls):
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
-})
+}).add_component(rb.Image({"image_location": "testing/Idle/0.png"}))
 
 player_rb = rb.RigidBody({
     "mass": 10,
@@ -93,11 +93,11 @@ player.add(player_rb)
 
 player_hitbox = rb.Polygon({
     "verts":
-    rb.Polygon.generate_polygon(5, Game.resolution.x / 20),
-    "color":
-    Color.blue,
+    rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
     "rotation":
     180,
+    "debug":
+    True,
 })
 player.add(player_hitbox)
 
@@ -113,7 +113,6 @@ def custom_update():
         player_rb.velocity.x += Game.resolution.x * (1 / 12)
 
     #print(f"fps: {rb.Time.clock.get_fps()}")
-
 
 main_scene.add(balls)
 main_scene.add([top, bottom, left, right, player])

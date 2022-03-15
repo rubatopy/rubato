@@ -3,19 +3,21 @@ A fully functional, multi-channel sound system.
 """
 
 from os import path, walk
-from pygame import mixer
-
+from typing import List, Dict, Union
+import sdl2.sdlmixer as mixer
 from rubato.utils.error import IdError
 
-_loaded_sounds: dict[str, mixer.Sound] = {}
+_loaded_sounds: Dict[str, List[Union[mixer.Mix_Chunk, int]]] = {}
+# Loaded sounds are saved in the format:
+# {sound_name: [sound_chunk, channel_id]}
 
 
-def loaded_sounds() -> dict[str, mixer.Sound]:
+def loaded_sounds() -> Dict[str, mixer.Mix_Chunk]:
     """
     A dictionary of all the loaded sounds. The keys are the filename.
 
     Returns:
-        dict[str, pygame.mixer.Sound]: The returned dictionary.
+        dict[str, sdl2.sdlmixer.Mix_Chunk]: The returned dictionary.
     """
     return _loaded_sounds
 
@@ -29,9 +31,9 @@ def import_sound(rel_path: str, sound_name: str):
         rel_path: The relative path to the sound file you wish to import.
         sound_name: The name of the sound.
     """
-    sound = mixer.Sound(rel_path)
+    sound = mixer.Mix_LoadWAV(bytes(rel_path, "utf-8"))
 
-    _loaded_sounds[sound_name] = sound
+    _loaded_sounds[sound_name] = [sound, -1]
 
 
 def import_sound_folder(rel_path: str):
@@ -46,11 +48,10 @@ def import_sound_folder(rel_path: str):
         # walk to directory path and ignore name and subdirectories
         for sound_path in files:
             path_to_sound = path.join(rel_path, sound_path)
-            _loaded_sounds[sound_path.split(".")[0]] = mixer.Sound(
-                path_to_sound)
+            import_sound(path_to_sound, sound_path.split(".")[0])
 
 
-def get_sound(sound_name: str) -> mixer.Sound:
+def get_sound(sound_name: str) -> mixer.Mix_Chunk:
     """
     Gets the sound based on the sound name.
 
@@ -61,7 +62,7 @@ def get_sound(sound_name: str) -> mixer.Sound:
         IdError: No sound is associated to the sound name.
 
     Returns:
-        mixer.Sound: The sound.
+        sdl2.sdlmixer.Mix_Chunk: The sound.
     """
     try:
         return _loaded_sounds[sound_name]
@@ -78,17 +79,25 @@ def play_sound(sound_name: str, loops: int = 0):
         loops: The number of times to loop a sound after the first play through.
             Use -1 to loop forever. Defaults to 0.
     """
-    if mixer.find_channel() is None:
-        mixer.set_num_channels(mixer.get_num_channels() + 1)
+    if mixer.Mix_GroupAvailable(-1) == -1:
+        mixer.Mix_AllocateChannels(mixer.Mix_GroupCount(-1) + 1)
 
-    get_sound(sound_name).play(loops)
+    channel = mixer.Mix_GroupAvailable(-1)
+
+    mixer.Mix_PlayChannel(
+        channel,
+        get_sound(sound_name),
+        loops,
+    )
+
+    _loaded_sounds[sound_name][1] = channel
 
 
-def stop_sound(sound_name: str):
-    """
-    Stops a sound.
+# def stop_sound(sound_name: str):
+#     """
+#     Stops a sound.
 
-    Args:
-        sound_name: The name of the sound to stop.
-    """
-    get_sound(sound_name).stop()
+#     Args:
+#         sound_name: The name of the sound to stop.
+#     """
+#     get_sound(sound_name).stop()

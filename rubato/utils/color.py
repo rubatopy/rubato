@@ -11,23 +11,25 @@ class Color:
     A Color implentation.
 
     Attributes:
-        r (float): The red value.
-        g (float): The green value.
-        b (float): The blue value.
+        r (int): The red value.
+        g (int): The green value.
+        b (int): The blue value.
     """
 
-    def __init__(self, r: float = 0.0, g: float = 0.0, b: float = 0.0):
+    def __init__(self, r: int = 0, g: int = 0, b: int = 0, a: int = 255):
         """
         Initializes an Color class.
 
         Args:
-            r: The red value. Defaults to 0.0.
-            g: The green value. Defaults to 0.0.
-            b: The blue value. Defaults to 0.0.
+            r: The red value. Defaults to 0.
+            g: The green value. Defaults to 0.
+            b: The blue value. Defaults to 0.
+            a: The alpha value. Defaults to 255.
         """
-        self.r: float = r
-        self.g: float = g
-        self.b: float = b
+        self.r: int = r
+        self.g: int = g
+        self.b: int = b
+        self.a: int = a
         self.check_values()
 
     def __str__(self):
@@ -58,6 +60,7 @@ class Color:
         self.r = Math.clamp(self.r, 0, 255)
         self.g = Math.clamp(self.g, 0, 255)
         self.b = Math.clamp(self.b, 0, 255)
+        self.a = Math.clamp(self.a, 0, 255)
 
     def lerp(self, other: "Color", t: float) -> "Color":
         """
@@ -75,6 +78,7 @@ class Color:
             self.r + (other.r - self.r) * t,
             self.g + (other.g - self.g) * t,
             self.b + (other.b - self.b) * t,
+            self.a + (other.a - self.a) * t,
         )
 
     def to_hex(self) -> str:
@@ -82,10 +86,10 @@ class Color:
         Converts the Color to hexadecimal.
 
         Returns:
-            str: The hexadecimal output in lowercase. (i.e. ffffff)
+            str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
         return (f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" +
-                f"{format(self.b, '02x')}")
+                f"{format(self.b, '02x')}" + f"{format(self.a, '02x')}")
 
     @staticmethod
     def from_hex(h: str) -> "Color":
@@ -100,7 +104,7 @@ class Color:
         """
         lv = len(h)
         h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-        return Color(h[0], h[1], h[2])
+        return Color(h[0], h[1], h[2], h[3])
 
     @staticmethod
     def from_hsv(h: int, s: int, v: int) -> "Color":

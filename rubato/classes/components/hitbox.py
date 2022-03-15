@@ -7,7 +7,10 @@ from rubato.utils import Math, Display, Vector, Configs, Color
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
 import rubato as rb
-from pygame.gfxdraw import aapolygon, filled_polygon, aacircle, filled_circle
+import sdl2
+import sdl2.sdlgfx
+from ctypes import c_int16
+# from pygame.gfxdraw import aapolygon, filled_polygon, aacircle, filled_circle
 
 
 class Hitbox(Component):
@@ -206,42 +209,51 @@ class Polygon(Hitbox):
         """
         The draw loop
         """
+        list_of_points: List[Vector] = list(
+            map(
+                lambda v: rb.Game.scenes.current_scene.camera.transform(
+                    v * rb.Game.scenes.current_scene.camera.zoom),
+                self.real_verts(),
+            ))
+
+        x_coords = list(map(lambda v: int(v.x), list_of_points))
+        y_coords = list(map(lambda v: int(v.y), list_of_points))
+
+        vx = (c_int16 * len(x_coords))(*x_coords)
+        vy = (c_int16 * len(y_coords))(*y_coords)
+
         if self.debug:
-            aapolygon(
-                Display.global_display,
-                list(
-                    map(
-                        lambda v: rb.Game.scenes.current_scene.camera.
-                        transform(v * rb.Game.scenes.current_scene.camera.zoom
-                                  ),
-                        self.real_verts(),
-                    )),
-                (0, 255, 0),
+            sdl2.sdlgfx.aapolygonRGBA(
+                Display.renderer.sdlrenderer,
+                vx,
+                vy,
+                len(list_of_points),
+                0,
+                255,
+                0,
+                255,
             )
 
         if self.color is not None:
-            aapolygon(
-                Display.global_display,
-                list(
-                    map(
-                        lambda v: rb.Game.scenes.current_scene.camera.
-                        transform(v * rb.Game.scenes.current_scene.camera.zoom
-                                  ),
-                        self.real_verts(),
-                    )),
-                self.color.to_tuple(),
+            sdl2.sdlgfx.aapolygonRGBA(
+                Display.renderer.sdlrenderer,
+                vx,
+                vy,
+                len(list_of_points),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
             )
-
-            filled_polygon(
-                Display.global_display,
-                list(
-                    map(
-                        lambda v: rb.Game.scenes.current_scene.camera.
-                        transform(v * rb.Game.scenes.current_scene.camera.zoom
-                                  ),
-                        self.real_verts(),
-                    )),
-                self.color.to_tuple(),
+            sdl2.sdlgfx.filledPolygonRGBA(
+                Display.renderer.sdlrenderer,
+                vx,
+                vy,
+                len(list_of_points),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
             )
 
 class Rectangle(Polygon):
@@ -310,27 +322,37 @@ class Circle(Hitbox):
 
     def draw(self):
         if self.debug:
-            aacircle(
-                Display.global_display,
+            sdl2.sdlgfx.aacircleRGBA(
+                Display.renderer.sdlrenderer,
                 int(self.pos.x),
                 int(self.pos.y),
                 int(self.radius),
-                self.color.to_tuple(),
+                0,
+                255,
+                0,
+                255,
             )
+
         if self.color is not None:
-            # aacircle(
-            #     Display.global_display,
-            #     int(self.pos.x),
-            #     int(self.pos.y),
-            #     self.radius,
-            #     self.color.to_tuple(),
-            # )
-            filled_circle(
-                Display.global_display,
+            sdl2.sdlgfx.aacircleRGBA(
+                Display.renderer.sdlrenderer,
                 int(self.pos.x),
                 int(self.pos.y),
                 int(self.radius),
-                self.color.to_tuple(),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
+            sdl2.sdlgfx.filledCircleRGBA(
+                Display.renderer.sdlrenderer,
+                int(self.pos.x),
+                int(self.pos.y),
+                int(self.radius),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
             )
 
 
