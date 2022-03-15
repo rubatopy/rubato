@@ -28,8 +28,7 @@ class Image(Component):
         param = Configs.merge_params(options, Configs.image_defaults)
         super().__init__()
 
-        if param["image_location"] in ["", "default"]:
-            # self.image = rb.Static.string_to_image(rb.Static.default_image)
+        if param["image_location"] == "":
             self.image = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
                 0,
                 0,

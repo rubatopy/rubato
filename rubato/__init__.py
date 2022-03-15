@@ -23,7 +23,6 @@ import warnings
 # pylint: disable=wrong-import-position
 warnings.simplefilter("ignore", UserWarning)
 
-import rubato.static as Static
 from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Configs
 from rubato.radio import Radio
@@ -62,7 +61,6 @@ __all__ = [
     "Sound",
     "Animation",
     "Component",
-    "Static",
     "Hitbox",
     "STATE",
     "Group",

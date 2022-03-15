@@ -28,7 +28,7 @@ rigidbody_defaults = {
 }
 
 image_defaults = {
-    "image_location": "default",  # . . . . . . . . . . . . . . str
+    "image_location": "",  #. . . . . . . . . . . . . . . . . . str
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
 }

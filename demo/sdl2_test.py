@@ -3,15 +3,12 @@ import sdl2
 import sdl2.ext
 import sdl2.surface
 import sdl2.sdlimage
-import ctypes
+import sdl2.sdlgfx
 
 import os
 import sys
 
 sys.path.insert(0, os.path.abspath("../rubato"))
-
-from rubato.classes.components.image import Image
-from rubato.utils.vector import Vector
 
 sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
@@ -20,22 +17,11 @@ window.show()
 
 sdl2.ext.fill(window.get_surface(), (255, 255, 255))
 
-im = Image({"image_location": "rubato/static/default.png"})
+render = sdl2.ext.Renderer(window, backend="direct3d")
 
-im.scale = Vector(2, 2)
-im.rotation = 45
+sdl2.sdlgfx.aacircleColor(render.sdlrenderer, 50, 50, 25, 0x000000FF)
 
-sdl2.surface.SDL_BlitSurface(
-    im.image,
-    None,
-    window.get_surface(),
-    sdl2.rect.SDL_Rect(
-        50,
-        50,
-        im.get_size().x,
-        im.get_size().y,
-    ),
-)
+render.present()
 
 processor = sdl2.ext.TestEventProcessor()
 processor.run(window)
