@@ -9,7 +9,7 @@ import time
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../rubato"))
+sys.path.insert(0, os.path.abspath("../"))
 
 from rubato.classes.components.image import Image
 
@@ -20,7 +20,7 @@ window.show()
 
 sdl2.ext.fill(window.get_surface(), (255, 255, 255))
 
-render = sdl2.ext.Renderer(window,
+render = sdl2.ext.Renderer(window.get_surface(),
                            flags=(sdl2.SDL_RENDERER_ACCELERATED
                                   | sdl2.SDL_RENDERER_PRESENTVSYNC))
 
@@ -29,11 +29,11 @@ render.fill((0, 0, render.logical_size[0], render.logical_size[1]), 0xFFFFFFFF)
 sdl2.sdlgfx.aacircleRGBA(render.sdlrenderer, 50, 50, 25, 0, 0, 0, 255)
 sdl2.sdlgfx.filledCircleRGBA(render.sdlrenderer, 50, 50, 25, 0, 0, 0, 255)
 
-img = Image({"image_location": os.path.abspath("demo/testing/Death/0.png")})
+img = Image({"image_location": os.path.abspath("testing/Death/0.png")})
 
 render.copy(sdl2.ext.Texture(render.sdlrenderer, img.image),
             dstrect=(100, 100))
 
 window.refresh()
 render.present()
-time.sleep(5)
+sdl2.ext.TestEventProcessor().run(window)
