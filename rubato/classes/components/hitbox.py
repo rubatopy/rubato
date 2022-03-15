@@ -10,7 +10,6 @@ import rubato as rb
 import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
-# from pygame.gfxdraw import aapolygon, filled_polygon, aacircle, filled_circle
 
 
 class Hitbox(Component):

@@ -1,9 +1,5 @@
 """
 The Input module is the way you collect input from the user.
-
-Attributes:
-    key (pygame.key): The pygame key module.
-    mouse (pygame.mouse): The pygame mouse module.
 """
 import ctypes
 from typing import Tuple
