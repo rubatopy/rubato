@@ -5,33 +5,26 @@ import sdl2
 import sdl2.ext
 from rubato.utils.vector import Vector
 
-screen: sdl2.surface.SDL_Surface = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-    0,
-    0,
-    0,
-    64,
-    sdl2.SDL_PIXELFORMAT_RGBA32,
-)
 window: sdl2.ext.Window = None
+renderer: sdl2.ext.Renderer = None
 
 
 def update(surface: sdl2.surface.SDL_Surface, pos: Vector):
     """
-    Update the current display.
+    Update the current screen.
 
     Args:
-        surface: The surface to draw on the display.
+        surface: The surface to draw on the screen.
         pos: The position to draw the surface on.
     """
-    sdl2.surface.SDL_BlitSurface(
-        surface,
+    renderer.copy(
+        sdl2.ext.Texture(renderer, surface),
         None,
-        screen,
-        sdl2.surface.SDL_Rect(
+        (
             pos.x,
             pos.y,
-            surface.w,
-            surface.h,
+            surface.contents.w,
+            surface.contents.h,
         ),
     )
 

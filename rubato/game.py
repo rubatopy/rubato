@@ -94,13 +94,10 @@ def init(options: dict = {}):
     flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI)
     Display.window = sdl2.ext.Window(name, window_size.to_tuple(), flags=flags)
 
-    Display.screen = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-        0,
-        window_size.x,
-        window_size.y,
-        64,
-        sdl2.SDL_PIXELFORMAT_RGBA32,
-    )
+    Display.renderer = sdl2.ext.Renderer(
+        Display.window.get_surface(),
+        flags=(sdl2.SDL_RENDERER_ACCELERATED
+               | sdl2.SDL_RENDERER_PRESENTVSYNC))
 
     Display.set_window_name(name)
     if options.get("icon"):
@@ -129,6 +126,7 @@ def update():
     dnd_if_paused = get_state() != STATE.PAUSED
     # Event handling
     for event in sdl2.ext.get_events():
+        sdl2.SDL_PumpEvents()
         if event.type == sdl2.SDL_QUIT:
             radio.broadcast("EXIT", {})
             sdl2.SDL_Quit()
@@ -137,7 +135,7 @@ def update():
             global window_size
             window_size = Vector.from_tuple(event.size)
         if event.type == sdl2.SDL_KEYDOWN:
-            key_info = event.keysym
+            key_info = event.key.keysym
             radio.broadcast(
                 "keydown",
                 {
@@ -148,7 +146,7 @@ def update():
                 },
             )
         if event.type == sdl2.SDL_KEYUP:
-            key_info = event.keysym
+            key_info = event.key.keysym
             radio.broadcast(
                 "keydown",
                 {
@@ -160,21 +158,21 @@ def update():
             )
 
     # Window resize handling
-    if (_saved_dims.x != window_size.x or _saved_dims.y != window_size.y):
-        Display.screen = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-            0,
-            window_size.x,
-            window_size.y,
-            64,
-            sdl2.SDL_PIXELFORMAT_RGBA32,
-        )
+    # if (_saved_dims.x != window_size.x or _saved_dims.y != window_size.y):
+    #     Display.screen = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
+    #         0,
+    #         window_size.x,
+    #         window_size.y,
+    #         64,
+    #         sdl2.SDL_PIXELFORMAT_RGBA32,
+    #     )
 
-    aspect_ratio = resolution.x / resolution.y
-    ratio = (window_size.x / window_size.y) < aspect_ratio
-    width = (window_size.y * aspect_ratio, window_size.x)[ratio]
-    height = (window_size.y, window_size.x / aspect_ratio)[ratio]
-    top_left = (((window_size.x - width) // 2, 0),
-                (0, (window_size.y - height) // 2))[ratio]
+    # aspect_ratio = resolution.x / resolution.y
+    # ratio = (window_size.x / window_size.y) < aspect_ratio
+    # width = (window_size.y * aspect_ratio, window_size.x)[ratio]
+    # height = (window_size.y, window_size.x / aspect_ratio)[ratio]
+    # top_left = (((window_size.x - width) // 2, 0),
+    #             (0, (window_size.y - height) // 2))[ratio]
 
     _saved_dims = window_size.clone()
 
@@ -198,23 +196,17 @@ def update():
     # Draw Loop
     if dnd_if_paused:
         sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
-        if reset_display: sdl2.ext.draw.fill(Display.screen, (255, 255, 255))
+        if reset_display:
+            Display.renderer.fill(
+                (0, 0, Display.renderer.logical_size[0],
+                 Display.renderer.logical_size[1]),
+                0xFFFFFFFF,
+            )
         scenes.draw()
 
     # Update Screen
-    sdl2.surface.SDL_BlitScaled(
-        Display.screen,
-        None,
-        Display.window.get_surface(),
-        sdl2.surface.SDL_Rect(
-            int(top_left[0]),
-            int(top_left[1]),
-            int(width),
-            int(height),
-        ),
-    )
-
     Display.window.refresh()
+    Display.renderer.present()
     radio.events = []
     # if dnd_if_paused:
     #     if _use_better_clock:
@@ -227,7 +219,7 @@ def update():
 
 def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
     if sprite.z_index <= scenes.current_scene.camera.z_index:
-        width, height = surface.get_size()
+        width, height = surface.w, surface.h
 
         new_size = (
             round(width * scenes.current_scene.camera.zoom),

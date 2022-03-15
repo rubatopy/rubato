@@ -2,7 +2,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../rubato"))
+sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
 from random import randint
 import rubato as rb
@@ -28,8 +28,8 @@ top = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x, Game.resolution.y / 6),
         "debug":
         False,
-        # "color":
-        # Color.maroon,
+        "color":
+        Color.maroon,
     }))
 
 bottom = rb.Sprite({
@@ -41,8 +41,8 @@ bottom = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x, Game.resolution.y / 6),
         "debug":
         False,
-        # "color":
-        # Color.maroon,
+        "color":
+        Color.maroon,
     }))
 
 left = rb.Sprite({
@@ -53,8 +53,8 @@ left = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x / 6, Game.resolution.y),
         "debug":
         False,
-        # "color":
-        # Color.maroon,
+        "color":
+        Color.maroon,
     }))
 
 right = rb.Sprite({
@@ -66,8 +66,8 @@ right = rb.Sprite({
         rb.Polygon.generate_rect(Game.resolution.x / 6, Game.resolution.y),
         "debug":
         False,
-        # "color":
-        # Color.maroon,
+        "color":
+        Color.maroon,
     }))
 
 balls = []
@@ -79,7 +79,7 @@ for i in range(num_balls):
     }).add_component(
         rb.Circle({
             "radius": Game.resolution.x / 30,
-            # "color": Color.random
+            "color": Color.random
         })).add_component(
             rb.RigidBody({
                 "bounciness": 0.75,
@@ -89,7 +89,7 @@ for i in range(num_balls):
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
-})
+}).add_component(rb.Image({"image_location": "testing/Idle/0.png"}))
 
 player_rb = rb.RigidBody({
     "mass": 10,
@@ -101,11 +101,11 @@ player.add_component(player_rb)
 
 player_hitbox = rb.Polygon({
     "verts":
-    rb.Polygon.generate_polygon(5, Game.resolution.x / 20),
-    # "color":
-    # Color.blue,
+    rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
     "rotation":
     180,
+    "debug":
+    True,
 })
 player.add_component(player_hitbox)
 

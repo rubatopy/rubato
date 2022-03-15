@@ -18,7 +18,7 @@ sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 window = sdl2.ext.Window("Hello World!", size=(640, 480))
 window.show()
 
-sdl2.ext.fill(window.get_surface(), (255, 255, 255))
+sdl2.ext.fill(window.get_surface(), (0, 0, 0))
 
 render = sdl2.ext.Renderer(window.get_surface(),
                            flags=(sdl2.SDL_RENDERER_ACCELERATED
@@ -34,6 +34,6 @@ img = Image({"image_location": os.path.abspath("testing/Death/0.png")})
 render.copy(sdl2.ext.Texture(render.sdlrenderer, img.image),
             dstrect=(100, 100))
 
-window.refresh()
 render.present()
+window.refresh()
 sdl2.ext.TestEventProcessor().run(window)

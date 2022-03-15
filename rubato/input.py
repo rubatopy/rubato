@@ -5,6 +5,7 @@ Attributes:
     key (pygame.key): The pygame key module.
     mouse (pygame.mouse): The pygame mouse module.
 """
+import ctypes
 from typing import Tuple
 import sdl2
 from ctypes import c_char_p, c_long, c_int
@@ -39,6 +40,20 @@ def key_from_name(char: str) -> int:
     return sdl2.keyboard.SDL_GetKeyFromName(c_char_p(bytes(char, "utf-8")))
 
 
+def scancode_from_name(char: str) -> int:
+    """
+    Gets the scancode of a key from its name.
+
+    Args:
+        char: The name of the key.
+
+    Returns:
+        int: The corresponding scancode.
+    """
+    return sdl2.keyboard.SDL_GetScancodeFromName(c_char_p(bytes(char,
+                                                                "utf-8")))
+
+
 def window_focused() -> bool:
     """
     Checks if the display has keyboard focus.
@@ -48,6 +63,15 @@ def window_focused() -> bool:
     """
     return sdl2.keyboard.SDL_GetKeyboardFocus() == Display.window or \
         sdl2.mouse.SDL_GetMouseFocus() == Display.window
+
+
+def get_keyboard_state():
+    """ Returns a list with the current SDL keyboard state,
+    which is updated on SDL_PumpEvents. """
+    numkeys = ctypes.c_int()
+    keystate = sdl2.keyboard.SDL_GetKeyboardState(ctypes.byref(numkeys))
+    ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)
+    return ctypes.cast(keystate, ptr_t)[0]
 
 
 def key_is_pressed(char: str) -> bool:
@@ -60,7 +84,7 @@ def key_is_pressed(char: str) -> bool:
     Returns:
         bool: Whether or not the key is pressed.
     """
-    return sdl2.keyboard.SDL_GetKeyboardState(None)[key_from_name(char)]
+    return get_keyboard_state()[scancode_from_name(char)] == 1
 
 
 # MOUSE FUNCTIONS
