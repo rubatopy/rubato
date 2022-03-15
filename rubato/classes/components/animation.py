@@ -37,7 +37,7 @@ class Animation(Component):
             options: A Animation config. Defaults to the |default| for
                 `Animation`.
         """
-        param = Configs.merge_params(options, Configs.animation_defaults)
+        param = Configs.animation_defaults | options
         super().__init__()
 
         self.rotation = param["rotation"]

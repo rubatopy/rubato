@@ -8,8 +8,6 @@ from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Err
 
 if TYPE_CHECKING:
     from rubato.classes.component import Component
-    from rubato.classes import Group
-
 
 class Sprite:
     """
@@ -30,7 +28,7 @@ class Sprite:
             options: A sprite config. Defaults to the |default| for
                 `Sprite`.
         """
-        param = Configs.merge_params(options, Configs.sprite_defaults)
+        param = Configs.sprite_defaults | options
         self.pos: Vector = param["pos"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []
@@ -39,7 +37,7 @@ class Sprite:
     def components(self):
         return self.__components
 
-    def add_component(self, component: "Component") -> "Sprite":
+    def add(self, component: "Component") -> "Sprite":
         """
         Add a component to the sprite.
 
@@ -78,7 +76,7 @@ class Sprite:
 
         return self
 
-    def remove_component(self, comp_type: type):
+    def remove(self, comp_type: type):
         """
         Removes a component from the sprite.
 
@@ -89,14 +87,14 @@ class Sprite:
             Warning: The component was not on the sprite and nothing
                 was removed.
         """
-        if self.get_component(comp_type) is not None:
+        if self.get(comp_type) is not None:
             del self.components[self.components.index(
-                self.get_component(comp_type))]
+                self.get(comp_type))]
         else:
             raise Warning("The component of type " + str(comp_type) +
                           " is not on this sprite as was not removed.")
 
-    def get_component(self, comp_type: type) -> Union["Component", None]:
+    def get(self, comp_type: type) -> Union["Component", None]:
         """
         Gets a component from the sprite.
 

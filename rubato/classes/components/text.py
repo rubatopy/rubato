@@ -33,7 +33,7 @@
 #         Raises:
 #             Exception: The font provided is not supported on the system.
 #         """
-#         param = Configs.merge_params(options, Configs.text_defaults)
+#         param = Configs.text_defaults | options
 #         super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
 #         self.text: str = param["text"]
 #         self.size: int = param["size"]

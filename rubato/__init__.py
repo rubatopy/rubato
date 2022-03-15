@@ -1,15 +1,5 @@
-"""Rubato is a modern game engine for python built around PyGame.
-Among a slew of high-demand features such as Runge-Katta physics
-simulation (still in alpha), a robust scene manager and radio broadcast
-system, Rubato also promises to first and foremost be a developer-focused
-library. From intricate physics simulations to 2D games, Rubato streamlines
-development to make the process more accessible for beginners and
-simultaneously more powerful for advanced users.
-And all that, finally, with some actual, legible, documentation.
-
-Rubato is built fundamentally as a PyGame wrapper. However, you can still
-utilize underlying PyGame functionality in the case that a feature you
-want is not officially supported yet.
+"""
+This is the top level init file for all of rubato.
 
 Note:
     Every single class can be accessed through the top level or through the full
@@ -27,7 +17,7 @@ from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Configs
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
-    RigidBody, Animation, Component, Polygon, Circle, \
+    RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
         SAT, Hitbox, Group
 import rubato.input as Input
 import rubato.sound as Sound
@@ -45,6 +35,7 @@ __all__ = [
     "Vector",
     "Time",
     "Polygon",
+    "Rectangle",
     "Circle",
     "SAT",
     "Color",

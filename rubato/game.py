@@ -41,6 +41,7 @@ class STATE(Enum):
 
 sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
+
 name: str = ""
 window_size: Vector = Vector()
 resolution: Vector = Vector()
@@ -80,7 +81,7 @@ def init(options: dict = {}):
 
     is_init = True
 
-    params = Configs.merge_params(options, Configs.game_defaults)
+    params = Configs.game_defaults | options
 
     name = params["name"]
     window_size = params["window_size"]
