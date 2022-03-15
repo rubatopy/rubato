@@ -27,8 +27,7 @@ top = rb.Sprite({
         "width": Game.resolution.x,
         "height": Game.resolution.y / 20,
         "color": Color.gray,
-    })
-)
+    }))
 
 bottom = rb.Sprite({
     "pos": Vector(Game.resolution.x / 2, Game.resolution.y)
@@ -37,8 +36,7 @@ bottom = rb.Sprite({
         "width": Game.resolution.x,
         "height": Game.resolution.y / 20,
         "color": Color.gray,
-    })
-)
+    }))
 
 left = rb.Sprite({
     "pos": Vector(0, Game.resolution.y / 2)
@@ -47,8 +45,7 @@ left = rb.Sprite({
         "width": Game.resolution.x / 20,
         "height": Game.resolution.y,
         "color": Color.gray,
-    })
-)
+    }))
 
 right = rb.Sprite({
     "pos": Vector(Game.resolution.x, Game.resolution.y / 2)
@@ -57,8 +54,7 @@ right = rb.Sprite({
         "width": Game.resolution.x / 20,
         "height": Game.resolution.y,
         "color": Color.gray,
-    })
-)
+    }))
 
 balls = []
 for i in range(num_balls):
@@ -66,22 +62,19 @@ for i in range(num_balls):
         "pos":
         Vector(randint(100, Game.resolution.y - 100),
                randint(100, Game.resolution.y - 100))
-    }).add(
-        rb.Circle({
-            "radius": Game.resolution.x / 40,
-            "color": Color.random
-        })
-    ).add(
+    }).add(rb.Circle({
+        "radius": Game.resolution.x / 40,
+        "color": Color.random
+    })).add(
         rb.RigidBody({
             "bounciness": 1,
             "gravity": Vector(0, Game.resolution.x / 20)
-        })
-    )
+        }))
     balls.append(ball)
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
-}).add_component(rb.Image({"image_location": "testing/Idle/0.png"}))
+}).add(rb.Image({"image_location": "testing/Idle/0.png"}))
 
 player_rb = rb.RigidBody({
     "mass": 10,
@@ -103,16 +96,17 @@ player.add(player_hitbox)
 
 
 def custom_update():
-    if rb.Input.is_pressed("w"):
+    if rb.Input.key_is_pressed("w"):
         player_rb.velocity.y -= Game.resolution.x * (1 / 12)
-    elif rb.Input.is_pressed("s"):
+    elif rb.Input.key_is_pressed("s"):
         player_rb.velocity.y += Game.resolution.x * (1 / 12)
-    if rb.Input.is_pressed("a"):
+    if rb.Input.key_is_pressed("a"):
         player_rb.velocity.x -= Game.resolution.x * (1 / 12)
-    elif rb.Input.is_pressed("d"):
+    elif rb.Input.key_is_pressed("d"):
         player_rb.velocity.x += Game.resolution.x * (1 / 12)
 
     #print(f"fps: {rb.Time.clock.get_fps()}")
+
 
 main_scene.add(balls)
 main_scene.add([top, bottom, left, right, player])
