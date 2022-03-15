@@ -8,8 +8,6 @@ from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Err
 
 if TYPE_CHECKING:
     from rubato.classes.component import Component
-    from rubato.classes import Group
-
 
 class Sprite:
     """

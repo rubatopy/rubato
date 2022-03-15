@@ -8,7 +8,7 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
 
-num_balls = 50
+num_balls = 60
 rb.init({
     "name": "Physics Demo",
     "fps_cap": 60,
@@ -21,56 +21,42 @@ Game.scenes.add(main_scene, "main")
 rb.Game.scenes.set("main")
 
 top = rb.Sprite({
-    "pos": Vector(Game.resolution.x / 2, -Game.resolution.x / 20)
+    "pos": Vector(Game.resolution.x / 2, 0)
 }).add(
     rb.Rectangle({
-        "width":Game.resolution.x,
-        "height":Game.resolution.y/6,
-        "debug":
-        False,
-        "color":
-        Color.maroon,
+        "width": Game.resolution.x,
+        "height": Game.resolution.y / 20,
+        "color": Color.gray,
     })
 )
 
 bottom = rb.Sprite({
-    "pos":
-    Vector(Game.resolution.x / 2, Game.resolution.y + Game.resolution.x / 20)
+    "pos": Vector(Game.resolution.x / 2, Game.resolution.y)
 }).add(
     rb.Rectangle({
-        "width":Game.resolution.x,
-        "height":Game.resolution.y/6,
-        "debug":
-        False,
-        "color":
-        Color.maroon,
+        "width": Game.resolution.x,
+        "height": Game.resolution.y / 20,
+        "color": Color.gray,
     })
 )
 
 left = rb.Sprite({
-    "pos": Vector(-Game.resolution.x / 20, Game.resolution.y / 2)
+    "pos": Vector(0, Game.resolution.y / 2)
 }).add(
     rb.Rectangle({
-        "width":Game.resolution.x/6,
-        "height":Game.resolution.y,
-        "debug":
-        False,
-        "color":
-        Color.maroon,
+        "width": Game.resolution.x / 20,
+        "height": Game.resolution.y,
+        "color": Color.gray,
     })
 )
 
 right = rb.Sprite({
-    "pos":
-    Vector(Game.resolution.x + Game.resolution.x / 20, Game.resolution.y / 2)
+    "pos": Vector(Game.resolution.x, Game.resolution.y / 2)
 }).add(
     rb.Rectangle({
-        "width":Game.resolution.x/6,
-        "height":Game.resolution.y,
-        "debug":
-        False,
-        "color":
-        Color.maroon,
+        "width": Game.resolution.x / 20,
+        "height": Game.resolution.y,
+        "color": Color.gray,
     })
 )
 
@@ -82,13 +68,13 @@ for i in range(num_balls):
                randint(100, Game.resolution.y - 100))
     }).add(
         rb.Circle({
-            "radius": Game.resolution.x / 30,
+            "radius": Game.resolution.x / 40,
             "color": Color.random
         })
     ).add(
         rb.RigidBody({
-            "bounciness": 0.75,
-            "gravity": Vector(0, Game.resolution.x / 30)
+            "bounciness": 1,
+            "gravity": Vector(0, Game.resolution.x / 20)
         })
     )
     balls.append(ball)
