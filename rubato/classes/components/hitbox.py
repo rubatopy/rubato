@@ -60,8 +60,8 @@ class Hitbox(Component):
         """
         if (col := SAT.overlap(self, other)) is not None:
             if not self.trigger and (
-                (self.sprite.get_component(RigidBody) is not None) or
-                (other.sprite.get_component(RigidBody) is not None)):
+                (self.sprite.get(RigidBody) is not None) or
+                (other.sprite.get(RigidBody) is not None)):
 
                 RigidBody.handle_collision(col)
 

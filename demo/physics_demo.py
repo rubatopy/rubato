@@ -22,7 +22,7 @@ rb.Game.scenes.set("main")
 
 top = rb.Sprite({
     "pos": Vector(Game.resolution.x / 2, -Game.resolution.x / 20)
-}).add_component(
+}).add(
     rb.Rectangle({
         "width":Game.resolution.x,
         "height":Game.resolution.y/6,
@@ -36,7 +36,7 @@ top = rb.Sprite({
 bottom = rb.Sprite({
     "pos":
     Vector(Game.resolution.x / 2, Game.resolution.y + Game.resolution.x / 20)
-}).add_component(
+}).add(
     rb.Rectangle({
         "width":Game.resolution.x,
         "height":Game.resolution.y/6,
@@ -49,7 +49,7 @@ bottom = rb.Sprite({
 
 left = rb.Sprite({
     "pos": Vector(-Game.resolution.x / 20, Game.resolution.y / 2)
-}).add_component(
+}).add(
     rb.Rectangle({
         "width":Game.resolution.x/6,
         "height":Game.resolution.y,
@@ -63,7 +63,7 @@ left = rb.Sprite({
 right = rb.Sprite({
     "pos":
     Vector(Game.resolution.x + Game.resolution.x / 20, Game.resolution.y / 2)
-}).add_component(
+}).add(
     rb.Rectangle({
         "width":Game.resolution.x/6,
         "height":Game.resolution.y,
@@ -80,12 +80,12 @@ for i in range(num_balls):
         "pos":
         Vector(randint(100, Game.resolution.y - 100),
                randint(100, Game.resolution.y - 100))
-    }).add_component(
+    }).add(
         rb.Circle({
             "radius": Game.resolution.x / 30,
             "color": Color.random
         })
-    ).add_component(
+    ).add(
         rb.RigidBody({
             "bounciness": 0.75,
             "gravity": Vector(0, Game.resolution.x / 30)
@@ -103,7 +103,7 @@ player_rb = rb.RigidBody({
     "max_speed": Vector(50, 1000),
     "gravity": Vector()
 })
-player.add_component(player_rb)
+player.add(player_rb)
 
 player_hitbox = rb.Polygon({
     "verts":
@@ -113,7 +113,7 @@ player_hitbox = rb.Polygon({
     "rotation":
     180,
 })
-player.add_component(player_hitbox)
+player.add(player_hitbox)
 
 
 def custom_update():
@@ -126,7 +126,7 @@ def custom_update():
     elif rb.Input.is_pressed("d"):
         player_rb.velocity.x += Game.resolution.x * (1 / 12)
 
-    print(f"fps: {rb.Time.clock.get_fps()}")
+    #print(f"fps: {rb.Time.clock.get_fps()}")
 
 
 main_scene.add(balls)

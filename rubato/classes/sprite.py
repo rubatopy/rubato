@@ -39,7 +39,7 @@ class Sprite:
     def components(self):
         return self.__components
 
-    def add_component(self, component: "Component") -> "Sprite":
+    def add(self, component: "Component") -> "Sprite":
         """
         Add a component to the sprite.
 
@@ -78,7 +78,7 @@ class Sprite:
 
         return self
 
-    def remove_component(self, comp_type: type):
+    def remove(self, comp_type: type):
         """
         Removes a component from the sprite.
 
@@ -89,14 +89,14 @@ class Sprite:
             Warning: The component was not on the sprite and nothing
                 was removed.
         """
-        if self.get_component(comp_type) is not None:
+        if self.get(comp_type) is not None:
             del self.components[self.components.index(
-                self.get_component(comp_type))]
+                self.get(comp_type))]
         else:
             raise Warning("The component of type " + str(comp_type) +
                           " is not on this sprite as was not removed.")
 
-    def get_component(self, comp_type: type) -> Union["Component", None]:
+    def get(self, comp_type: type) -> Union["Component", None]:
         """
         Gets a component from the sprite.
 

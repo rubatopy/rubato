@@ -63,7 +63,7 @@ class Group:
             item.fixed_update()
 
             if isinstance(item, Sprite) and \
-                (ht := item.get_component(Hitbox)) is not None:
+                (ht := item.get(Hitbox)) is not None:
                 for hitbox in hitboxes:
                     ht.collide(hitbox)
                 hitboxes.append(ht)

@@ -41,7 +41,7 @@ Finally, you can create a sprite and add it to the scene.
 
     image = rb.Sprite({
         "pos": rb.Vector(100, 100),
-    }).add_component(rb.Image())
+    }).add(rb.Image())
 
     scene.add(image)
 
