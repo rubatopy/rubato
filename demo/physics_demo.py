@@ -27,8 +27,7 @@ top = rb.Sprite({
         "width": Game.resolution.x,
         "height": Game.resolution.y / 20,
         "color": Color.gray,
-    })
-)
+    }))
 
 bottom = rb.Sprite({
     "pos": Vector(Game.resolution.x / 2, Game.resolution.y)
@@ -37,8 +36,7 @@ bottom = rb.Sprite({
         "width": Game.resolution.x,
         "height": Game.resolution.y / 20,
         "color": Color.gray,
-    })
-)
+    }))
 
 left = rb.Sprite({
     "pos": Vector(0, Game.resolution.y / 2)
@@ -47,8 +45,7 @@ left = rb.Sprite({
         "width": Game.resolution.x / 20,
         "height": Game.resolution.y,
         "color": Color.gray,
-    })
-)
+    }))
 
 right = rb.Sprite({
     "pos": Vector(Game.resolution.x, Game.resolution.y / 2)
@@ -57,8 +54,7 @@ right = rb.Sprite({
         "width": Game.resolution.x / 20,
         "height": Game.resolution.y,
         "color": Color.gray,
-    })
-)
+    }))
 
 balls = []
 for i in range(num_balls):
