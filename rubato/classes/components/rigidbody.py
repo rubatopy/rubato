@@ -180,6 +180,13 @@ class RigidBody(Component):
         else:
             friction_impulse = -j * tangent * mu  # "Dynamic friction"
 
+        if friction_impulse.y != 0:
+            print("friction error")
+            if rb_a is not None:
+                print(rb_a.velocity)
+            else:
+                print(rb_b.velocity)
+
         if rb_a is not None and not rb_a.static:
             rb_a.velocity -= friction_impulse * rb_a.inv_mass
 
@@ -187,7 +194,7 @@ class RigidBody(Component):
             rb_b.velocity += friction_impulse * rb_b.inv_mass
 
         # Position correction
-        percent = 0.8  # usually 20% to 80% interpolation
+        percent = 0.2  # usually 20% to 80% interpolation
         slop = 0.01  # usually 0.01 to 0.1 correction threshold
 
         correction = max(col.sep.magnitude - slop, 0) / (
