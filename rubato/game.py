@@ -62,7 +62,7 @@ def init(options: dict = {}):
             Defaults to the |default| for `Game`.
     """
     global name, window_size, resolution, \
-        _saved_dims, initialized, radio
+        _saved_dims, initialized
 
     initialized = True
 
