@@ -20,38 +20,38 @@ main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
 top = rb.Sprite({
-    "pos": Vector(Game.resolution.x / 2, 0)
+    "pos": Game.top_center()
 }).add(
     rb.Rectangle({
-        "width": Game.resolution.x,
-        "height": Game.resolution.y / 20,
+        "width": Game.get_width(),
+        "height": Game.get_height() / 20,
         "color": Color.gray,
     }))
 
 bottom = rb.Sprite({
-    "pos": Vector(Game.resolution.x / 2, Game.resolution.y)
+    "pos": Game.bottom_center()
 }).add(
     rb.Rectangle({
-        "width": Game.resolution.x,
-        "height": Game.resolution.y / 20,
+        "width": Game.get_width(),
+        "height": Game.get_height() / 20,
         "color": Color.gray,
     }))
 
 left = rb.Sprite({
-    "pos": Vector(0, Game.resolution.y / 2)
+    "pos": Game.center_left()
 }).add(
     rb.Rectangle({
-        "width": Game.resolution.x / 20,
-        "height": Game.resolution.y,
+        "width": Game.get_width() / 20,
+        "height": Game.get_height(),
         "color": Color.gray,
     }))
 
 right = rb.Sprite({
-    "pos": Vector(Game.resolution.x, Game.resolution.y / 2)
+    "pos": Game.center_right()
 }).add(
     rb.Rectangle({
-        "width": Game.resolution.x / 20,
-        "height": Game.resolution.y,
+        "width": Game.get_width() / 20,
+        "height": Game.get_height(),
         "color": Color.gray,
     }))
 
@@ -60,11 +60,11 @@ for _ in range(60):
         rb.Sprite({
             "pos":
             Vector(
-                randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
-                randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
+                randint(Game.get_width() / 20, 19 * Game.get_width() / 20),
+                randint(Game.get_height() / 20, 19 * Game.get_height() / 20))
         }).add(
             rb.Circle({
-                "radius": Game.resolution.x / 50,
+                "radius": Game.get_width() / 50,
                 "color": Color(*choice(
                     list(rb.Configs.color_defaults.values())))
             })).add(
@@ -74,7 +74,7 @@ for _ in range(60):
                     "friction":
                     0.2,
                     "gravity":
-                    Vector(0, Game.resolution.x / 8),
+                    Vector(0, Game.get_width() / 8),
                     "velocity":
                     Vector(randint(-100, 100), randint(-100, 100))
                 })))
@@ -98,7 +98,7 @@ player.add(player_rb)
 
 player_hitbox = rb.Polygon({
     "verts":
-    rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
+    rb.Polygon.generate_polygon(4, Game.get_width() / 25),
     "rotation":
     180,
     "debug":
@@ -109,13 +109,13 @@ player.add(player_hitbox)
 
 def custom_update():
     if rb.Input.key_is_pressed("w"):
-        player_rb.velocity.y -= Game.resolution.x / 12
+        player_rb.velocity.y -= Game.get_width() / 12
     elif rb.Input.key_is_pressed("s"):
-        player_rb.velocity.y += Game.resolution.x / 12
+        player_rb.velocity.y += Game.get_width() / 12
     if rb.Input.key_is_pressed("a"):
-        player_rb.velocity.x -= Game.resolution.x / 12
+        player_rb.velocity.x -= Game.get_width() / 12
     elif rb.Input.key_is_pressed("d"):
-        player_rb.velocity.x += Game.resolution.x / 12
+        player_rb.velocity.x += Game.get_width() / 12
 
     print(f"fps: {rb.Time.smooth_fps()}")
 

@@ -61,7 +61,6 @@ _max_screen_size: Tuple[int, int] = (0, 0)
 
 is_init = False
 
-
 def init(options: dict = {}):
     """
     Initializes a game. Should only be called by :meth:`rubato.init`.
@@ -255,3 +254,38 @@ def set_state(new_state: STATE):
 
     if _state == STATE.STOPPED:
         sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
+
+# window dimension getters
+def get_width():
+    return resolution.x
+
+def get_height():
+    return resolution.y
+
+# window position getters
+def top_left():
+    return Vector(0, 0)
+
+def top_right():
+    return Vector(resolution.x, 0)
+
+def bottom_left():
+    return Vector(0, resolution.y)
+
+def bottom_right():
+    return Vector(resolution.x, resolution.y)
+
+def top_center():
+    return Vector(resolution.x/2, 0)
+
+def bottom_center():
+    return Vector(resolution.x/2, resolution.y)
+
+def center_left():
+    return Vector(0, resolution.y/2)
+
+def center_right():
+    return Vector(resolution.x, resolution.y/2)
+
+def center():
+    return Vector(resolution.x/2, resolution.y/2)
