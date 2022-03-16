@@ -12,6 +12,7 @@ Attributes:
         every frame.
     state (STATE): The current state of the game.
 """
+from __future__ import unicode_literals
 import sys
 import sdl2
 import sdl2.ext
@@ -21,6 +22,7 @@ from rubato.utils import Display, Vector, Time, Configs, Math
 from rubato.classes import SceneManager
 import rubato.input as Input
 from enum import Enum
+from contextlib import suppress
 
 if TYPE_CHECKING:
     from rubato.radio import Radio
@@ -40,7 +42,6 @@ class STATE(Enum):
 
 
 sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
-
 
 name: str = ""
 window_size: Vector = Vector()
@@ -137,22 +138,28 @@ def update():
             window_size = Vector.from_tuple(event.size)
         if event.type == sdl2.SDL_KEYDOWN:
             key_info = event.key.keysym
+            unicode = ""
+            with suppress(ValueError):
+                unicode = chr(key_info.sym)
             radio.broadcast(
                 "keydown",
                 {
                     "key": Input.get_name(key_info.sym),
-                    "unicode": chr(key_info.sym),
+                    "unicode": unicode,
                     "code": int(key_info.sym),
                     "modifiers": key_info.mod,
                 },
             )
         if event.type == sdl2.SDL_KEYUP:
             key_info = event.key.keysym
+            unicode = ""
+            with suppress(ValueError):
+                unicode = chr(key_info.sym)
             radio.broadcast(
                 "keydown",
                 {
                     "key": Input.get_name(key_info.sym),
-                    "unicode": chr(key_info.sym),
+                    "unicode": unicode,
                     "code": int(key_info.sym),
                     "modifiers": key_info.mod,
                 },
