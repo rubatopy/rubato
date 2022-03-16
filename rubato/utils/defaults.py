@@ -2,7 +2,7 @@
 A module that houses all of the default options.
 """
 
-from rubato.utils import Math, Vector, Color
+from rubato.utils import Math, Vector
 
 # [start-defaults]
 game_defaults = {
@@ -104,24 +104,30 @@ circle_defaults = {
     "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
 }
+
+color_defaults = {
+    "black": (0, 0, 0), # . . . . . . . . . . . . . . . . . . . tuple
+    "white": (255, 255, 255), # . . . . . . . . . . . . . . . . tuple
+
+    "darkgray": (45, 52, 54), # . . . . . . . . . . . . . . . . tuple
+    "gray": (99, 110, 114), # . . . . . . . . . . . . . . . . . tuple
+    "lightgray": (178, 190, 195), # . . . . . . . . . . . . . . tuple
+    "snow": (223, 230, 233), #. . . . . . . . . . . . . . . . . tuple
+
+    "yellow": (253, 203, 110), #. . . . . . . . . . . . . . . . tuple
+    "orange": (225, 112, 85), # . . . . . . . . . . . . . . . . tuple
+    "red": (255, 118, 117), # . . . . . . . . . . . . . . . . . tuple
+    "scarlet": (214, 48, 49), # . . . . . . . . . . . . . . . . tuple
+    "magenta": (232, 67, 147), #. . . . . . . . . . . . . . . . tuple
+    "purple": (162, 155, 254), #. . . . . . . . . . . . . . . . tuple
+    "violet": (108, 92, 231), # . . . . . . . . . . . . . . . . tuple
+    "blue": (9, 132, 227), #. . . . . . . . . . . . . . . . . . tuple
+    "cyan": (116, 185, 255), #. . . . . . . . . . . . . . . . . tuple
+    "turquoize": (0, 206, 201), # . . . . . . . . . . . . . . . tuple
+    "green": (0, 184, 148), # . . . . . . . . . . . . . . . . . tuple
+    "lime": (85, 239, 196), # . . . . . . . . . . . . . . . . . tuple
+
+    "clear": (0,0,0,0) #. . . . . . . . . . . . . . . . . . . . tuple
+}
+
 # [end-defaults]
-
-button_defaults = {
-    "text": "default_text",  #. . . . . . . . . . . . . . . . . str
-    "pos": Vector(),  # . . . . . . . . . . . . . . . . . . . . Vector
-    "size": 16,  #. . . . . . . . . . . . . . . . . . . . . . . int
-    "z_index": 0,  #
-    "font_name": "Arial",  #
-    "color": Color.black,  #
-}
-
-text_defaults = {
-    "text": "default_text",
-    "pos": Vector(),
-    "size": 16,
-    "z_index": 0,
-    "font_name": "Arial",
-    "color": Color.black,
-    "static": False,
-    "onto_surface": None,
-}
