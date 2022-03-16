@@ -35,35 +35,11 @@ class Vector:
         """
         self.x, self.y = self.x + x, self.y + y
 
-    def offset(self, other: "Vector") -> "Vector":
-        """
-        Offsets the x and y coordinates of a vector by those of another vector.
-
-        Args:
-            other: Another vector.
-
-        Returns:
-            Vector: A new vector with the translated x and y coordinates.
-        """
-        return Vector(self.x - other.x, self.y - other.y)
-
     def to_tuple(self) -> tuple:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
         return self.x, self.y
-
-    @staticmethod
-    def from_tuple(coords: tuple) -> "Vector":
-        """
-        Returns a Vector from a coordinate tuple
-        Args:
-            coords: tuple with an x and y coordinate [float | int].
-
-        Returns: Vector with specified coordinates.
-
-        """
-        return Vector(coords[0], coords[1])
 
     def dot(self, other: "Vector") -> Union[float, int]:
         """
@@ -88,119 +64,6 @@ class Vector:
             Union[float, int]: The resulting cross product.
         """
         return self.x * other.y - self.y * other.x
-
-    def crossp(self) -> "Vector":
-        """
-        Does `Vector(self.y, -self.x)`.
-
-        Returns:
-            Vector: The resulting vector.
-        """
-        return Vector(self.y, -self.x)
-
-    def pow(self, num: Union[float, int]) -> "Vector":
-        """
-        Takes the power of the elements in the vector to the num.
-
-        Args:
-            num: The exponent to use.
-
-        Returns:
-            Vector: The new vector.
-        """
-        return Vector(self.x**num, self.y**num)
-
-    def __str__(self) -> str:
-        return f"({self.x}, {self.y})"
-
-    def __pow__(self, other: any) -> "Vector":
-        if isinstance(other, (int, float)):
-            return Vector(self.x ** other, self.y ** other)
-        if isinstance(other, Vector):
-            return Vector(self.x ** other.x, self.y ** other.y)
-
-    def __mul__(self, other: any) -> "Vector":
-        if isinstance(other, (int, float)):
-            return Vector(self.x * other, self.y * other)
-        if isinstance(other, Vector):
-            return Vector(self.x * other.x, self.y * other.y)
-
-    def __add__(self, other: any) -> "Vector":
-        if isinstance(other, (int, float)):
-            return Vector(self.x + other, self.y + other)
-        if isinstance(other, Vector):
-            return Vector(self.x + other.x, self.y + other.y)
-
-    __rmul__ = __mul__
-    __radd__ = __add__
-
-    def __sub__(self, other: any) -> "Vector":
-        if isinstance(other, (int, float)):
-            return Vector(self.x - other, self.y - other)
-        if isinstance(other, Vector):
-            return Vector(self.x - other.x, self.y - other.y)
-
-    def __rsub__(self, other: int | float) -> "Vector":
-        return Vector(other - self.x, other - self.y)
-
-    def __truediv__(self, other: any) -> "Vector":
-        if isinstance(other, (int, float)):
-            return Vector(self.x / other, self.y / other)
-        if isinstance(other, Vector):
-            return Vector(self.x / other.x, self.y / other.y)
-
-    def __rtruediv__(self, other: int | float) -> "Vector":
-        return Vector(other / self.x, other / self.y)
-
-    def __neg__(self) -> "Vector":
-        return Vector(-self.x, -self.y)
-
-    @classmethod
-    @property
-    def zero(cls):
-        return Vector(0, 0)
-
-    @classmethod
-    @property
-    def one(cls):
-        return Vector(1, 1)
-
-    @classmethod
-    @property
-    def two(cls):
-        return Vector(2, 2)
-
-    @classmethod
-    @property
-    def up(cls):
-        return Vector(0, -1)
-
-    @classmethod
-    @property
-    def left(cls):
-        return Vector(-1, 0)
-
-    @classmethod
-    @property
-    def down(cls):
-        return Vector(0, 1)
-
-    @classmethod
-    @property
-    def right(cls):
-        return Vector(1, 0)
-
-    @classmethod
-    @property
-    def infinity(cls):
-        return Vector(Math.INFINITY, Math.INFINITY)
-
-    def _equals(self, v: "Vector") -> bool:
-        return self.y == v.y and self.x == v.x
-
-    def __eq__(self, other: "Vector") -> bool:
-        return (other is None or not isinstance(other, Vector)
-                or self._equals(other))
 
     def clamp(self,
               lower: Union["Vector", int, float],
@@ -250,14 +113,10 @@ class Vector:
         self.y *= ratio
         self.round(8)
 
-    def normalize(self):
-        """Normalize the vector."""
-        self.magnitude = 1
-
     def unit(self) -> "Vector":
         """Returns the unit vector of this vector."""
         copy = self.clone()
-        copy.normalize()
+        copy.magnitude = 1
         return copy
 
     @staticmethod
@@ -290,27 +149,13 @@ class Vector:
         new_vector.y *= scale
         return new_vector
 
-    def invert(self, axis: str):
-        """
-        Inverts the vector in the axis given
-
-        Args:
-            axis: The axis to invert the vector in (x or y).
-
-        Raises:
-            ValueError: The value for axis is not "x" or "y"
-        """
-
-        if axis == "x":
-            self.x = -self.x
-        elif axis == "y":
-            self.y = -self.y
-        else:
-            raise ValueError(f"{axis} is not a valid axis")
-
     def to_int(self) -> "Vector":
         """Returns a new vector with values that are ints."""
         return Vector(int(self.x), int(self.y))
+
+    def tuple_int(self) -> tuple:
+        """Returns a tuple with rounded values."""
+        return int(self.x), int(self.y)
 
     def clone(self) -> "Vector":
         """Returns a copy of the vector."""
@@ -331,7 +176,7 @@ class Vector:
         return Vector(Math.lerp(self.x, target.x, t),
                       Math.lerp(self.y, target.y, t))
 
-    def round(self, decimal_places: int):
+    def round(self, decimal_places: int = 0):
         """
         Rounds x and y to decimal_places
 
@@ -342,58 +187,107 @@ class Vector:
         self.y = round(self.y, decimal_places)
 
     def ceil(self) -> "Vector":
-        """
-        Returns the cieled vector.
-        """
-
         return Vector(math.ceil(self.x), math.ceil(self.y))
 
-    def direction_to(self, vector: "Vector") -> float:
-        """
-        Treating vectors as points the direction to the other vector from the
-        current vector.
+    def floor(self) -> "Vector":
+        return Vector(math.floor(self.x), math.floor(self.y))
 
-        Args:
-            vector: The other vector.
-
-        Returns:
-            float: The direction to the new vector in radians.
-        """
-        d_x = self.x - vector.x
-        d_y = self.y - vector.y
-        direction = math.atan2(d_y, d_x)
-        return direction
-
-    def distance_to(self, vector: "Vector") -> float:
-        """
-        Treating vectors as points the distance to the other vector from
-        the current vector.
-
-        Args:
-            vector: The other vector.
-
-        Returns:
-            float: Distance to new vector.
-        """
-        d_x = self.x - vector.x
-        d_y = self.y - vector.y
-        distance = math.sqrt(d_x**2 + d_y**2)
-        return distance
-
-    def absolute(self) -> "Vector":
-        """
-        Returns a vector representing the absolute values of the current vector
-        """
+    def abs(self) -> "Vector":
         return Vector(abs(self.x), abs(self.y))
 
-    def __gt__(self, other) -> bool:
+    @classmethod
+    @property
+    def zero(cls):
+        return Vector(0, 0)
+
+    @classmethod
+    @property
+    def one(cls):
+        return Vector(1, 1)
+
+    @classmethod
+    @property
+    def up(cls):
+        return Vector(0, -1)
+
+    @classmethod
+    @property
+    def left(cls):
+        return Vector(-1, 0)
+
+    @classmethod
+    @property
+    def down(cls):
+        return Vector(0, 1)
+
+    @classmethod
+    @property
+    def right(cls):
+        return Vector(1, 0)
+
+    @classmethod
+    @property
+    def infinity(cls):
+        return Vector(Math.INFINITY, Math.INFINITY)
+
+    def __eq__(self, o: "Vector") -> bool:
+        if o is None or not isinstance(o, Vector):
+            return False
+        return self.y == o.y and self.x == o.x
+
+    def __gt__(self, other: "Vector") -> bool:
         return self.x > other.x and self.y > other.y
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: "Vector") -> bool:
         return self.x < other.x and self.y < other.y
 
-    def __ge__(self, other) -> bool:
+    def __ge__(self, other: "Vector") -> bool:
         return self.x >= other.x and self.y >= other.y
 
-    def __le__(self, other) -> bool:
+    def __le__(self, other: "Vector") -> bool:
         return self.x <= other.x and self.y <= other.y
+
+    def __str__(self) -> str:
+        return f"<{self.x}, {self.y}>"
+
+    def __pow__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x ** other, self.y ** other)
+        if isinstance(other, Vector):
+            return Vector(self.x ** other.x, self.y ** other.y)
+
+    def __mul__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x * other, self.y * other)
+        if isinstance(other, Vector):
+            return Vector(self.x * other.x, self.y * other.y)
+
+    def __add__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        if isinstance(other, Vector):
+            return Vector(self.x + other.x, self.y + other.y)
+
+    __rmul__ = __mul__
+    __radd__ = __add__
+
+    def __sub__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x - other, self.y - other)
+        if isinstance(other, Vector):
+            return Vector(self.x - other.x, self.y - other.y)
+
+    def __rsub__(self, other: int | float) -> "Vector":
+        return Vector(other - self.x, other - self.y)
+
+    def __truediv__(self, other: any) -> "Vector":
+        if isinstance(other, (int, float)):
+            return Vector(self.x / other, self.y / other)
+        if isinstance(other, Vector):
+            return Vector(self.x / other.x, self.y / other.y)
+
+    def __rtruediv__(self, other: int | float) -> "Vector":
+        return Vector(other / self.x, other / self.y)
+
+    def __neg__(self) -> "Vector":
+        return Vector(-self.x, -self.y)

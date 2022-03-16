@@ -451,7 +451,7 @@ class SAT:
                 closest = shape_b.pos + v
 
         axis = closest - shape_a.pos
-        axis.normalize()
+        axis.magnitude = 1
 
         poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
         circle_range = Vector(-shape_a.transformed_radius(),
@@ -523,7 +523,7 @@ class SAT:
 
         pt_1, pt_2 = verts[index], verts[(index + 1) % len(verts)]
         axis = Vector(pt_1.y - pt_2.y, pt_2.x - pt_1.x)
-        axis.normalize()
+        axis.magnitude = 1
         return axis
 
     @staticmethod

@@ -196,7 +196,7 @@ class RigidBody(Component):
 
         # Tangent vector
         tangent = rv - rv.dot(collision_norm) * collision_norm
-        tangent.normalize()
+        tangent.magnitude = 1
 
         # Solve for magnitude to apply along the friction vector
         jt = -rv.dot(tangent) / (inv_mass_a + inv_mass_b)
