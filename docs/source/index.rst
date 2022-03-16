@@ -12,9 +12,6 @@ Rubato has now completed the transition to SDL2. The final PyGame-based release 
 
 GitHub repo: https://github.com/rubatopy/rubato
 
-.. warning::
-    Rubato is currently in alpha. Submit bug reports `here <https://github.com/rubatopy/rubato/issues>`_
-
 .. toctree::
     :maxdepth: 0
     :caption: Contents
