@@ -25,7 +25,6 @@ class SceneManager:
         self.scenes: Dict[str, Scene] = {}
         self._current: str = ""
 
-    @property
     def is_empty(self) -> bool:
         """
         Checks if the scene manager contains no scene.
@@ -33,7 +32,7 @@ class SceneManager:
         Returns:
             bool: True if the scene is empty. False otherwise.
         """
-        return not bool(self.scenes.keys())
+        return not self.scenes
 
     @property
     def current(self) -> Scene:
@@ -48,6 +47,7 @@ class SceneManager:
     def add(self, scene: Scene, scene_id: str):
         """
         Add a scene to the current scene manager.
+        If the manager is empty the current scene will be updated.
 
         Args:
             scene: The scene to add to the manager.
@@ -59,6 +59,9 @@ class SceneManager:
         if scene_id in self.scenes:
             raise IdError(
                 f"The scene id {scene_id} is not unique in this manager")
+
+        if self.is_empty():
+            self.set(scene_id)
 
         self.scenes[scene_id] = scene
         scene.id = scene_id
@@ -73,22 +76,22 @@ class SceneManager:
         self._current = scene_id
 
     def setup(self):
-        if self.is_empty: return
+        if self.is_empty(): return
         self.current.private_setup()
 
     def draw(self):
         """Calls the draw function of the current scene."""
-        if self.is_empty: return
+        if self.is_empty(): return
         self.current.private_draw()
 
     def update(self):
         """
         Calls the update function of the current scene.
         """
-        if self.is_empty: return
+        if self.is_empty(): return
         self.current.private_update()
 
     def fixed_update(self):
         """Calls the fixed update function of the current scene."""
-        if self.is_empty: return
+        if self.is_empty(): return
         self.current.private_fixed_update()

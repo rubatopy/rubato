@@ -28,7 +28,7 @@ _last_frame = 0
 
 
 def tick():
-    global _last_frame, delta_time, fps
+    global _last_frame, delta_time
 
     if fps_cap > 0:
         cap = 1 / fps_cap
@@ -36,7 +36,6 @@ def tick():
         sdl2.timer.SDL_Delay(now() - (_last_frame + cap))
 
     delta_time = now() - _last_frame
-    fps = 1 / milli_to_sec(delta_time)
 
     if len(_past_fps) > 5:
         _past_fps.pop(0)

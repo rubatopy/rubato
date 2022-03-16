@@ -17,7 +17,6 @@ rb.init({
 
 main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
-rb.Game.scenes.set("main")
 
 top = rb.Sprite({
     "pos": Vector(Game.resolution.x / 2, 0)
