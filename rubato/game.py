@@ -50,6 +50,7 @@ radio: "Radio" = Radio()
 
 _saved_dims = window_size.clone()
 
+reset_display = False
 initialized = False
 
 
@@ -62,7 +63,7 @@ def init(options: dict = {}):
             Defaults to the |default| for `Game`.
     """
     global name, window_size, resolution, \
-        _saved_dims, initialized
+        _saved_dims, initialized, reset_display
 
     initialized = True
 
@@ -71,6 +72,7 @@ def init(options: dict = {}):
     name = params["name"]
     window_size = params["window_size"]
     resolution = params["resolution"]
+    reset_display = params["reset_display"]
 
     Time.target_fps = params["target_fps"]
     Time.physics_fps = params["physics_fps"]
@@ -116,12 +118,12 @@ def update():
             radio.broadcast("exit")
             sdl2.SDL_Quit()
             sys.exit(1)
-        if event.type == sdl2.SDL_WINDOWEVENT_RESIZED:
+        if event.type == sdl2.SDL_WINDOWEVENT_SIZE_CHANGED:
             global window_size
             radio.broadcast(
                 "resize", {
-                    "width": event.size[0],
-                    "height": event.size[1],
+                    "width": event.window.data1,
+                    "height": event.window.data2,
                     "old_width": window_size.x,
                     "old_height": window_size.y
                 })
@@ -156,17 +158,29 @@ def update():
             )
 
     # Window resize handling
-    # if (_saved_dims.x != window_size.x or _saved_dims.y != window_size.y):
-    #     scale_x = window_size.x / _saved_dims.x
-    #     scale_y = window_size.y / _saved_dims.y
-    #     Display.renderer.scale
+    aspect_ratio = resolution.x / resolution.y
+    ratio = (window_size.x / window_size.y) < aspect_ratio
+    width = (window_size.y * aspect_ratio, window_size.x)[ratio]
+    height = (window_size.y, window_size.x / aspect_ratio)[ratio]
+    new_top_left = (
+        (
+            int((window_size.x - width) // 2),
+            0,
+        ),
+        (
+            0,
+            int((window_size.y - height) // 2),
+        ),
+    )[ratio]
 
-    # aspect_ratio = resolution.x / resolution.y
-    # ratio = (window_size.x / window_size.y) < aspect_ratio
-    # width = (window_size.y * aspect_ratio, window_size.x)[ratio]
-    # height = (window_size.y, window_size.x / aspect_ratio)[ratio]
-    # top_left = (((window_size.x - width) // 2, 0),
-    #             (0, (window_size.y - height) // 2))[ratio]
+    sdl2.SDL_RenderSetViewport(
+        Display.renderer.sdlrenderer,
+        sdl2.SDL_Rect(
+            *new_top_left,
+            int(width * 2),
+            int(height * 2),
+        ),
+    )
 
     _saved_dims = window_size.clone()
 
@@ -196,12 +210,13 @@ def update():
         # normal update
         scenes.update()
 
-    # draw
+    # Draw Loop
     sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
-    Display.renderer.fill(
-        sdl2.SDL_Rect(0, 0, resolution.x, resolution.y),
-        sdl2.ext.Color(255, 255, 255, 255),
-    )
+    if reset_display:
+        Display.renderer.fill(
+            sdl2.SDL_Rect(0, 0, resolution.x, resolution.y),
+            sdl2.ext.Color(255, 255, 255, 255),
+        )
     scenes.draw()
 
     # update renderers

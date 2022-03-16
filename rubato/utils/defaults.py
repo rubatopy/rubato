@@ -16,6 +16,8 @@ game_defaults = {
     # The target FPS of the game
     "physics_fps": 60,  # . . . . . . . . . . . . . . . . . . . int
     # The target physics FPS of the game
+    "reset_display": True  #. . . . . . . . . . . . . . . . . . bool
+    # Whether or not to clear the display every frame.
 }
 
 rigidbody_defaults = {
