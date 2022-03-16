@@ -29,9 +29,8 @@ class Scene:
         self.camera = Camera()
         self.id: str = ""
 
-    def add(
-        self,
-        item: Union["Sprite", "Group", List[Union["Sprite", "Group"]]]):
+    def add(self, item: Union["Sprite", "Group", List[Union["Sprite",
+                                                            "Group"]]]):
         """
         Adds an item to the root group.
 
@@ -81,5 +80,12 @@ class Scene:
         """
         The fixed update loop for this scene. Is empty by default an can be
         overridden.
+        """
+        pass
+
+    def do_when_paused(self):
+        """
+        A function that will be run ever frame whether or not the game is
+        currently paused.
         """
         pass

@@ -95,3 +95,6 @@ class SceneManager:
         """Calls the fixed update function of the current scene."""
         if self.is_empty(): return
         self.current.private_fixed_update()
+
+    def do_when_paused(self):
+        self.current.do_when_paused()

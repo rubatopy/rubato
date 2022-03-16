@@ -192,8 +192,7 @@ def update():
     if dnd_if_paused:
         Time.process_calls()
 
-    # Fixed Update Loop
-    if dnd_if_paused:
+        # Fixed Update Loop
         Time.physics_counter += Time.delta_time
         Time.fixed_delta = 1000 / Time.physics_fps
 
@@ -201,12 +200,10 @@ def update():
             scenes.fixed_update()
             Time.physics_counter -= Time.fixed_delta
 
-    # Regular Update Loop
-    if dnd_if_paused:
+        # Regular Update Loop
         scenes.update()
 
-    # Draw Loop
-    if dnd_if_paused:
+        # Draw Loop
         sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
         if reset_display:
             Display.renderer.fill(
@@ -214,6 +211,8 @@ def update():
                 sdl2.ext.Color(255, 255, 255, 255),
             )
         scenes.draw()
+
+    scenes.do_when_paused()
 
     # Update Screen
     Display.window.refresh()
