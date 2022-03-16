@@ -27,23 +27,56 @@ class Color:
             b: The blue value. Defaults to 0.
             a: The alpha value. Defaults to 255.
         """
-        self.r: int = r
-        self.g: int = g
-        self.b: int = b
-        self.a: int = a
-        self.check_values()
+        self.r = int(Math.clamp(r, 0, 255))
+        self.g = int(Math.clamp(g, 0, 255))
+        self.b = int(Math.clamp(b, 0, 255))
+        self.a = int(Math.clamp(a, 0, 255))
 
     def __str__(self):
         return str((self.r, self.g, self.b, self.a))
 
     def __eq__(self, other):
-        if isinstance(other, type(Color)):
+        if isinstance(other, Color):
             return \
                 self.r == other.r and \
                 self.g == other.g and \
                 self.b == other.b and \
                 self.a == other.a
         return False
+
+    def darker(self, amount: int = 20):
+        """Returns a darker copy of the color
+
+        Args:
+            amount (int, optional): How much darker. Defaults to 20.
+
+        Returns:
+            Color: The resultant color.
+        """
+        return Color(self.r - amount, self.g - amount, self.b - amount, self.a)
+
+    def lighter(self, amount: int = 20):
+        """Returns a lighter copy of the color
+
+        Args:
+            amount (int, optional): How much lighter. Defaults to 20.
+
+        Returns:
+            Color: The resultant color.
+        """
+        return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
+
+    def mix(self, other: "Color"):
+        """Mix two colors together evenly.
+        Note that this does not reproduce paint-like color mixing.
+
+        Args:
+            other (Color): The other color to mix with.
+
+        Returns:
+            Color: The resultant color.
+        """
+        return self.lerp(other, 0.5)
 
     def to_tuple(self) -> Tuple[int, int, int]:
         """
@@ -53,16 +86,6 @@ class Color:
             tuple(int, int, int): The tuple representing the color.
         """
         return (self.r, self.g, self.b, self.a)
-
-    def check_values(self):
-        """
-        Makes the Color values legit. In other words, clamps them between 0 and
-        255.
-        """
-        self.r = Math.clamp(self.r, 0, 255)
-        self.g = Math.clamp(self.g, 0, 255)
-        self.b = Math.clamp(self.b, 0, 255)
-        self.a = Math.clamp(self.a, 0, 255)
 
     def lerp(self, other: "Color", t: float) -> "Color":
         """
