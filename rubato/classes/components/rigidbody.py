@@ -2,7 +2,6 @@
 The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
-import math
 from typing import TYPE_CHECKING
 from rubato.classes.component import Component
 from rubato.utils import Vector, Configs, Time
@@ -51,7 +50,7 @@ class RigidBody(Component):
         self.max_speed: Vector = params["max_speed"]
         self.min_speed: Vector = params["min_speed"]
 
-        self.velocity = Vector()
+        self.velocity: Vector = params["velocity"]
 
         # self.angvel: float = 0
         # self.rotation: float = params["rotation"]
@@ -120,16 +119,15 @@ class RigidBody(Component):
         rb_a: RigidBody = col.shape_b.sprite.get(RigidBody)
         rb_b: RigidBody = col.shape_a.sprite.get(RigidBody)
 
-        inv_mass_a: float = (0 if rb_a is None else rb_a.inv_mass)
-        inv_mass_b: float = (0 if rb_b is None else rb_b.inv_mass)
+        inv_mass_a: float = 0 if rb_a is None else rb_a.inv_mass
+        inv_mass_b: float = 0 if rb_b is None else rb_b.inv_mass
 
         # Relative velocity
         rv = (Vector() if rb_b is None else rb_b.velocity) - \
             (Vector() if rb_a is None else rb_a.velocity)
 
         # Relative velocity along collision normal
-        collision_norm = col.sep.clone()
-        collision_norm.normalize()
+        collision_norm = col.sep.unit()
         vel_along_norm = rv.dot(collision_norm)
 
         if vel_along_norm > 0:
@@ -152,7 +150,31 @@ class RigidBody(Component):
         if rb_b is not None and not rb_b.static:
             rb_b.velocity += impulse * rb_b.inv_mass
 
+        # Position correction
+        percent = 0.2  # usually 20% to 80% interpolation
+        slop = 0.01  # usually 0.01 to 0.1 correction threshold
+
+        correction = max(col.sep.magnitude - slop, 0) / (
+            inv_mass_a + inv_mass_b) * percent * collision_norm
+
+        if rb_a is not None and not rb_a.static:
+            rb_a.sprite.pos -= rb_a.inv_mass * correction
+
+        if rb_b is not None and not rb_b.static:
+            rb_b.sprite.pos += rb_b.inv_mass * correction
+
         # Friction
+
+        # Calculate friction coefficient
+        if rb_a is None:
+            mu = rb_b.friction
+        elif rb_b is None:
+            mu = rb_a.friction
+        else:
+            mu = (rb_a.friction + rb_b.friction) / 2
+
+        # Stop redundant friction calculations
+        if mu == 0: return
 
         # Relative velocity
         rv = (Vector() if rb_b is None else rb_b.velocity) - \
@@ -163,16 +185,7 @@ class RigidBody(Component):
         tangent.normalize()
 
         # Solve for magnitude to apply along the friction vector
-        jt = -rv.dot(tangent)
-        jt /= inv_mass_a + inv_mass_b
-
-        # Calculate mu
-        if rb_a is None:
-            mu = rb_b.friction
-        elif rb_b is None:
-            mu = rb_a.friction
-        else:
-            mu = math.sqrt((rb_a.friction**2) + (rb_b.friction**2))
+        jt = -rv.dot(tangent) / (inv_mass_a + inv_mass_b)
 
         # Calculate friction impulse
         if abs(jt) < j * mu:
@@ -186,18 +199,6 @@ class RigidBody(Component):
         if rb_b is not None and not rb_b.static:
             rb_b.velocity += friction_impulse * rb_b.inv_mass
 
-        # Position correction
-        percent = 0.2  # usually 20% to 80% interpolation
-        slop = 0.01  # usually 0.01 to 0.1 correction threshold
-
-        correction = max(col.sep.magnitude - slop, 0) / (
-            inv_mass_a + inv_mass_b) * percent * collision_norm
-
-        if rb_a is not None and not rb_a.static:
-            rb_a.sprite.pos -= rb_a.inv_mass * correction
-
-        if rb_b is not None and not rb_b.static:
-            rb_b.sprite.pos += rb_b.inv_mass * correction
 
     def fixed_update(self):
         """The update loop"""
