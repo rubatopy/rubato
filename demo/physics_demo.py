@@ -98,13 +98,13 @@ player.add(player_hitbox)
 
 def custom_update():
     if rb.Input.key_is_pressed("w"):
-        player_rb.velocity.y -= Game.resolution.x * (1 / 12)
+        player_rb.velocity.y -= Game.resolution.x / 12
     elif rb.Input.key_is_pressed("s"):
-        player_rb.velocity.y += Game.resolution.x * (1 / 12)
+        player_rb.velocity.y += Game.resolution.x / 12
     if rb.Input.key_is_pressed("a"):
-        player_rb.velocity.x -= Game.resolution.x * (1 / 12)
+        player_rb.velocity.x -= Game.resolution.x / 12
     elif rb.Input.key_is_pressed("d"):
-        player_rb.velocity.x += Game.resolution.x * (1 / 12)
+        player_rb.velocity.x += Game.resolution.x / 12
 
     #print(f"fps: {rb.Time.clock.get_fps()}")
 
