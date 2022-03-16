@@ -86,6 +86,6 @@ class Scene:
     def do_when_paused(self):
         """
         A function that will be run ever frame whether or not the game is
-        currently paused.
+        currently paused. Should be overriden.
         """
         pass
