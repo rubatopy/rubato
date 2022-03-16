@@ -8,7 +8,7 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
 
-num_balls = 100
+num_balls = 1
 rb.init({
     "name": "Physics Demo",
     "fps_cap": 60,
