@@ -45,7 +45,8 @@ class Color:
         return False
 
     def darker(self, amount: int = 20):
-        """Returns a darker copy of the color
+        """
+        Returns a darker copy of the color
 
         Args:
             amount (int, optional): How much darker. Defaults to 20.
@@ -56,7 +57,8 @@ class Color:
         return Color(self.r - amount, self.g - amount, self.b - amount, self.a)
 
     def lighter(self, amount: int = 20):
-        """Returns a lighter copy of the color
+        """
+        Returns a lighter copy of the color
 
         Args:
             amount (int, optional): How much lighter. Defaults to 20.
@@ -67,8 +69,8 @@ class Color:
         return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
 
     def mix(self, other: "Color"):
-        """Mix two colors together evenly.
-        Note that this does not reproduce paint-like color mixing.
+        """
+        Mix two colors together evenly.
 
         Args:
             other (Color): The other color to mix with.
@@ -76,7 +78,25 @@ class Color:
         Returns:
             Color: The resultant color.
         """
-        return self.lerp(other, 0.5)
+        return self.blend(other, 0.5)
+
+    def blend(self, other: "Color", t: float):
+        """
+        Blend two colors together by an interpolated amount.
+
+        Args:
+            other (Color): The other color.
+            t (float): The interpolation amount (0 to 1).
+
+        Returns:
+            Color: The resultant color.
+        """
+        return Color(
+            ((1-t)*(self.r**2) + t*(other.r**2))**0.5,
+            ((1-t)*(self.g**2) + t*(other.g**2))**0.5,
+            ((1-t)*(self.b**2) + t*(other.b**2))**0.5,
+            (1-t)*self.a + t*other.a
+        )
 
     def to_tuple(self) -> Tuple[int, int, int]:
         """
@@ -90,20 +110,21 @@ class Color:
     def lerp(self, other: "Color", t: float) -> "Color":
         """
         Lerps between this color and another.
+        Use :meth:`blend` to blend colors more intuitively.
 
         Args:
             other: The other Color to lerp with.
-            t: The amount to lerp.
+            t: The amount to lerp (0 to 1).
 
         Returns:
-            Color: The lerped Color. This Color remains unchanged.
+            Color: The resultant color.
         """
         t = Math.clamp(t, 0, 1)
         return Color(
-            self.r + (other.r - self.r) * t,
-            self.g + (other.g - self.g) * t,
-            self.b + (other.b - self.b) * t,
-            self.a + (other.a - self.a) * t,
+            (1-t)*self.r + t*other.r,
+            (1-t)*self.g + t*other.g,
+            (1-t)*self.b + t*other.b,
+            (1-t)*self.a + t*other.a,
         )
 
     def to_hex(self) -> str:
