@@ -13,7 +13,7 @@ rb.init({
     "fps_cap": 1,
     "physics_timestep": 20,
     "window_size": Vector(600, 600),
-    "resolution": Vector(2000, 2000),
+    "resolution": Vector(1200, 1200),
 })
 
 main_scene = rb.Scene()
