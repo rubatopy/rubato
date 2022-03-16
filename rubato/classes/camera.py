@@ -46,4 +46,8 @@ class Camera:
                 same type that is given.
         """
         center = Vector(*Display.renderer.logical_size)/2
-        return (point - self.pos - center) * self.zoom + center
+        return (point - self.pos - center) * \
+            self.zoom + center
+
+    def scale(self, dimension):
+        return dimension * self.zoom

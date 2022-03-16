@@ -238,9 +238,8 @@ def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
 
         Display.update(
             surface_scaled,
-            scenes.current.camera.transform(
-                (sprite.pos - (Vector(width, height) \
-                * scenes.current.camera.zoom / 2)).ceil()),
+            scenes.current.camera.transform(sprite.pos - \
+                Vector(width, height)/2),
         )
 
 

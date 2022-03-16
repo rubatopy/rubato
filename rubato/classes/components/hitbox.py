@@ -206,7 +206,8 @@ class Polygon(Hitbox):
         """
         list_of_points: List[tuple] = list(
             map(
-                lambda v: Game.scenes.current.camera.transform(v).to_int().to_tuple(),
+                lambda v: Game.scenes.current.camera.transform(
+                    v).to_int().to_tuple(),
                 self.real_verts(),
             ))
 
@@ -315,11 +316,12 @@ class Circle(Hitbox):
     def draw(self):
         if self.color is not None:
             relative_pos = Game.scenes.current.camera.transform(self.pos)
+            scaled_rad = Game.scenes.current.camera.scale(self.radius)
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),
                 int(relative_pos.y),
-                int(self.radius),
+                int(scaled_rad),
                 self.color.r,
                 self.color.g,
                 self.color.b,
@@ -329,7 +331,7 @@ class Circle(Hitbox):
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),
                 int(relative_pos.y),
-                int(self.radius),
+                int(scaled_rad),
                 self.color.r,
                 self.color.g,
                 self.color.b,
@@ -341,7 +343,7 @@ class Circle(Hitbox):
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),
                 int(relative_pos.y),
-                int(self.radius),
+                int(scaled_rad),
                 0,
                 255,
                 0,
