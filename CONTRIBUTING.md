@@ -100,6 +100,7 @@ available at [http://contributor-covenant.org/version/1/4][version]
 
 Bump version number in `setup.py`, `docs/source/conf.py`, and `docs/index.html` <br>
 Update Changelog <br>
+Push changes and release a version on Github<br>
 Create a new virtual environment.
 
 ```
@@ -115,5 +116,3 @@ Here it should successfully install.<br>
 pip install twine
 python -m twine upload dist/*
 ```
-
-Create and release a version on Github

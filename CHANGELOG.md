@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+-   Switched to PySDL2 from pygame
+
+### Removed
+
+-   Default sprite images
+
+### Fixed
+
 ## [v1.2.0] - March 15, 2022
 
 ### Added
