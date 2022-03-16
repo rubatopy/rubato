@@ -83,7 +83,7 @@ class Scene:
         """
         pass
 
-    def do_when_paused(self):
+    def paused_update(self):
         """
         A function that will be run ever frame whether or not the game is
         currently paused.

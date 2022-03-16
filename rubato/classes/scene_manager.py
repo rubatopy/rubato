@@ -96,5 +96,5 @@ class SceneManager:
         if self.is_empty(): return
         self.current.private_fixed_update()
 
-    def do_when_paused(self):
-        self.current.do_when_paused()
+    def paused_update(self):
+        self.current.paused_update()

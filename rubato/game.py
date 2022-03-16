@@ -46,10 +46,8 @@ sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 name: str = ""
 window_size: Vector = Vector()
 resolution: Vector = Vector()
-reset_display: bool = True
 
 _state = STATE.STOPPED
-
 scenes = SceneManager()
 radio: "Radio" = None
 
@@ -69,8 +67,7 @@ def init(options: dict = {}):
             Defaults to the |default| for `Game`.
     """
     global name, window_size, resolution, \
-        reset_display, _saved_dims, \
-        is_init
+        _saved_dims, is_init
 
     is_init = True
 
@@ -82,7 +79,6 @@ def init(options: dict = {}):
 
     Time.target_fps = params["target_fps"]
     Time.physics_fps = params["physics_fps"]
-    reset_display = params["reset_display"]
 
     flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI)
     Display.window = sdl2.ext.Window(name, window_size.to_tuple(), flags=flags)
@@ -117,7 +113,6 @@ def update():
     Will always process timed calls.
     """
     global _saved_dims
-    dnd_if_paused = get_state() != STATE.PAUSED
 
     # Event handling
     for event in sdl2.ext.get_events():
@@ -188,11 +183,14 @@ def update():
 
     frame_start = sdl2.SDL_GetTicks64()
 
-    # Delayed calls handling
-    if dnd_if_paused:
-        Time.process_calls()
+    # process delayed calls
+    Time.process_calls()
 
-        # Fixed Update Loop
+    if get_state() == STATE.PAUSED:
+        # process user set pause update
+        scenes.paused_update()
+    else:
+        # fixed update
         Time.physics_counter += Time.delta_time
         Time.fixed_delta = 1000 / Time.physics_fps
 
@@ -200,31 +198,26 @@ def update():
             scenes.fixed_update()
             Time.physics_counter -= Time.fixed_delta
 
-        # Regular Update Loop
+        # normal update
         scenes.update()
 
-        # Draw Loop
-        sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
-        if reset_display:
-            Display.renderer.fill(
-                sdl2.SDL_Rect(0, 0, resolution.x, resolution.y),
-                sdl2.ext.Color(255, 255, 255, 255),
-            )
-        scenes.draw()
+    # draw
+    sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
+    Display.renderer.fill(
+        sdl2.SDL_Rect(0, 0, resolution.x, resolution.y),
+        sdl2.ext.Color(255, 255, 255, 255),
+    )
+    scenes.draw()
 
-    scenes.do_when_paused()
-
-    # Update Screen
+    # update renderers
     Display.window.refresh()
     Display.renderer.present()
-    radio.events = []
 
     frame_end = sdl2.SDL_GetTicks64()
     Time.delta_time = frame_end - frame_start
 
-    if Time.target_fps > 1:
-        target_milli = 1000 / Time.target_fps
-        delay = target_milli - Time.delta_time
+    if Time.target_fps > 0:
+        delay = (1000 / Time.target_fps) - Time.delta_time
         if delay > 0:
             sdl2.SDL_Delay(int(delay))
 

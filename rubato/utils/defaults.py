@@ -15,9 +15,7 @@ game_defaults = {
     "target_fps": 0,  # . . . . . . . . . . . . . . . . . . . . int
     # The target FPS of the game
     "physics_fps": 60,  # . . . . . . . . . . . . . . . . . . . int
-    # The length of the physics timestep in milliseconds
-    "reset_display": True,  # . . . . . . . . . . . . . . . . . bool
-    # Wether or not to white out the display every frame.
+    # The target physics FPS of the game
 }
 
 rigidbody_defaults = {

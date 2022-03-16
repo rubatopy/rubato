@@ -31,7 +31,6 @@ class Radio:
 
     def __init__(self):
         """Initializes the Radio class"""
-        self.events: List[tuple] = []
         self.listeners: dict[str, List] = {}
 
     def listen(self, event: str, func: Callable):
@@ -82,7 +81,6 @@ class Radio:
             event: The event key to broadcast.
             params: A parameters dictionary
         """
-        self.events.append((event, params))
         for listener in self.listeners.get(event, []):
             listener.ping(params)
 
