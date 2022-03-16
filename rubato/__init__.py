@@ -9,6 +9,7 @@ Attributes:
     game (Game): The global game class that can be accessed anywhere.
         Initialized when :meth:`rubato.init()` is called.
 """
+from time import time
 import warnings
 # pylint: disable=wrong-import-position
 warnings.simplefilter("ignore", UserWarning)

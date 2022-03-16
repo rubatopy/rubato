@@ -78,7 +78,8 @@ class RigidBody(Component):
 
         self.velocity.clamp(-self.max_speed, self.max_speed)
 
-        self.sprite.pos += self.velocity * Time.fixed_delta_time("sec")
+        self.sprite.pos += self.velocity * \
+            Time.milli_to_sec(Time.fixed_delta_time)
 
     def add_force(self, force: Vector):
         """
@@ -89,7 +90,7 @@ class RigidBody(Component):
         """
         accel = force * self.inv_mass
 
-        self.velocity += accel * Time.fixed_delta_time("sec")
+        self.velocity += accel * Time.milli_to_sec(Time.fixed_delta_time)
 
     def add_cont_force(self, impulse: Vector, time: int):
         """
@@ -107,7 +108,7 @@ class RigidBody(Component):
             self.add_force(impulse)
 
             Time.delayed_frames(
-                1, lambda: self.add_impulse(impulse, time - Time.delta_time()))
+                1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
     @staticmethod
     def handle_collision(col: "CollisionInfo"):
@@ -150,7 +151,6 @@ class RigidBody(Component):
         if rb_b is not None and not rb_b.static:
             rb_b.sprite.pos += inv_mass_b * correction
 
-
         # Impulse Resolution
 
         # Relative velocity
@@ -176,7 +176,6 @@ class RigidBody(Component):
 
         if rb_b is not None and not rb_b.static:
             rb_b.velocity += inv_mass_b * impulse
-
 
         # Friction
 

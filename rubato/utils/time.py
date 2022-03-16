@@ -6,10 +6,8 @@ Attributes:
         game.
 """
 from typing import Callable
-import time
 import heapq
-
-clock = None
+import sdl2
 
 frames = 0
 frame_tasks = {}
@@ -18,49 +16,37 @@ sorted_frame_times = []
 tasks = {}
 sorted_task_times = []
 
-fdt = 20  # fixed delta time storage
+fixed_delta_time = 20
+delta_time = 16
+fps = 60
+
+_past_fps = [0]
+
+fps_cap = 0  # this means no cap
+
+_last_frame = 0
 
 
-def fixed_delta_time(form: str = "milli") -> float:
-    """
-    Gets the time since the fixed update frame.
+def tick():
+    global _last_frame, delta_time, fps
 
-    Args:
-        form: The format the output should be (sec, milli). Defaults to milli.
+    if fps_cap > 0:
+        cap = 1 / fps_cap
+        cap = sec_to_milli(cap)
+        sdl2.timer.SDL_Delay(now() - (_last_frame + cap))
 
-    Raises:
-        ValueError: The form is not "sec" or "milli".
+    delta_time = now() - _last_frame
+    fps = 1 / milli_to_sec(delta_time)
 
-    Returns:
-        float: Time since the fixed update frame, in the given form.
-    """
-    if form == "sec":
-        return milli_to_sec(fdt)
-    elif form == "milli":
-        return fdt
-    else:
-        raise ValueError(f"Style {form} is not valid")
+    if len(_past_fps) > 5:
+        _past_fps.pop(0)
+    _past_fps.append(fps)
+
+    _last_frame = now()
 
 
-def delta_time(form: str = "milli") -> float:
-    """
-    Gets the time since the last frame.
-
-    Args:
-        form: The format the output should be (sec, milli). Defaults to milli.
-
-    Raises:
-        ValueError: The form is not "sec" or "milli".
-
-    Returns:
-        float: Time since the last frame, in the given form.
-    """
-    if form == "sec":
-        return milli_to_sec(16)
-    elif form == "milli":
-        return 16
-    else:
-        raise ValueError(f"Style {form} is not valid")
+def smooth_fps():
+    return sum(_past_fps) / len(_past_fps)
 
 
 def now() -> int:
@@ -70,7 +56,7 @@ def now() -> int:
     Returns:
         int: Time since the start of the game, in milliseconds.
     """
-    return time.time()
+    return sdl2.timer.SDL_GetTicks64()
 
 
 def delayed_call(time_delta: int, func: Callable):
@@ -120,15 +106,16 @@ def milli_to_sec(milli: int) -> float:
     return milli / 1000
 
 
-def set_clock(new_clock):
+def sec_to_milli(sec: int) -> float:
     """
-    Allows you to set the clock object property to a Pygame Clock object.
+    Converts seconds to milliseconds.
 
     Args:
-        clock: A pygame Clock object.
+        sec: A number in seconds.
+    Returns:
+        float: The converted number in milliseconds.
     """
-    global clock
-    clock = new_clock
+    return sec * 1000
 
 
 def process_calls():

@@ -159,7 +159,7 @@ class Animation(Component):
                 image_and_time[0].sprite = self.sprite
 
     def draw(self):
-        self._time_count += Time.delta_time()
+        self._time_count += Time.delta_time
 
         while self._time_count > self._time_step:
             self.anim_tick()

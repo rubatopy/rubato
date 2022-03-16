@@ -59,9 +59,6 @@ radio: "Radio" = None
 
 _saved_dims = window_size.clone()
 
-_clock = None
-Time.set_clock(_clock)
-
 _max_screen_size: Tuple[int, int] = (0, 0)
 
 is_init = False
@@ -88,7 +85,7 @@ def init(options: dict = {}):
     resolution = params["resolution"]
 
     fps_cap = params["fps_cap"]
-    Time.fdt = params["physics_timestep"]
+    Time.fixed_delta_time = params["physics_timestep"]
     reset_display = params["reset_display"]
 
     flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI)
@@ -197,13 +194,13 @@ def update():
         Time.process_calls()
 
     # Fixed Update Loop
-    _physics_count += Time.delta_time()
+    _physics_count += Time.delta_time
 
-    _physics_count = Math.clamp(_physics_count, 0, Time.fdt * 100)
+    _physics_count = Math.clamp(_physics_count, 0, Time.fixed_delta_time * 100)
 
-    while dnd_if_paused and _physics_count > Time.fdt:
+    while dnd_if_paused and _physics_count > Time.fixed_delta_time:
         scenes.fixed_update()
-        _physics_count -= Time.fdt
+        _physics_count -= Time.fixed_delta_time
 
     # Regular Update Loop
     if dnd_if_paused:
@@ -224,13 +221,8 @@ def update():
     Display.window.refresh()
     Display.renderer.present()
     radio.events = []
-    # if dnd_if_paused:
-    #     if _use_better_clock:
-    #         _clock.tick_busy_loop(fps_cap)
-    #     else:
-    #         _clock.tick(fps_cap)
-    # else:
-    #     sdl2.timer.SDL_Delay(int(Time.delta_time()))
+    if dnd_if_paused:
+        Time.tick()
 
 
 def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):

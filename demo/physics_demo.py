@@ -55,23 +55,26 @@ right = rb.Sprite({
         "color": Color.gray,
     }))
 
-for _ in range(50):
-    main_scene.add(rb.Sprite({
-        "pos":
-        Vector(randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
-               randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
-    }).add(
-        rb.Circle({
-            "radius": Game.resolution.x / 40,
-            "color": Color.random
-        })
-    ).add(
-        rb.RigidBody({
-            "bounciness": 1,
-            "gravity": Vector(0, Game.resolution.x / 10),
-            "velocity": Vector(randint(-100, 100), randint(-100, 100))
-        })
-    ))
+for _ in range(60):
+    main_scene.add(
+        rb.Sprite({
+            "pos":
+            Vector(
+                randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
+                randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
+        }).add(
+            rb.Circle({
+                "radius": Game.resolution.x / 40,
+                "color": Color.random
+            })).add(
+                rb.RigidBody({
+                    "bounciness":
+                    1,
+                    "gravity":
+                    Vector(0, Game.resolution.x / 10),
+                    "velocity":
+                    Vector(randint(-100, 100), randint(-100, 100))
+                })))
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
@@ -106,7 +109,7 @@ def custom_update():
     elif rb.Input.key_is_pressed("d"):
         player_rb.velocity.x += Game.resolution.x / 12
 
-    #print(f"fps: {rb.Time.clock.get_fps()}")
+    print(f"fps: {rb.Time.smooth_fps()}")
 
 
 main_scene.add([top, bottom, left, right, player])
