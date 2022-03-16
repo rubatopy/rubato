@@ -8,7 +8,7 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
 
-num_balls = 2
+num_balls = 100
 rb.init({
     "name": "Physics Demo",
     "fps_cap": 60,
@@ -70,8 +70,7 @@ for i in range(num_balls):
     ).add(
         rb.RigidBody({
             "bounciness": 1,
-            "gravity": Vector(0, Game.resolution.x / 10),
-            "velocity": Vector(50, 0)
+            "gravity": Vector(0, Game.resolution.x / 10)
         })
     ))
 
