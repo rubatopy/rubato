@@ -50,8 +50,6 @@ fps_cap: int = 0
 physics_timestep: int = 0
 reset_display: bool = True
 
-_physics_count: float = 0
-
 _state = STATE.STOPPED
 
 scenes = SceneManager()
@@ -94,7 +92,8 @@ def init(options: dict = {}):
     Display.renderer = sdl2.ext.Renderer(
         Display.window.get_surface(),
         flags=(sdl2.SDL_RENDERER_ACCELERATED
-               | sdl2.SDL_RENDERER_PRESENTVSYNC))
+               | sdl2.SDL_RENDERER_PRESENTVSYNC),
+        logical_size=resolution.to_tuple())
 
     Display.set_window_name(name)
     if options.get("icon"):
@@ -170,13 +169,9 @@ def update():
 
     # Window resize handling
     # if (_saved_dims.x != window_size.x or _saved_dims.y != window_size.y):
-    #     Display.screen = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-    #         0,
-    #         window_size.x,
-    #         window_size.y,
-    #         64,
-    #         sdl2.SDL_PIXELFORMAT_RGBA32,
-    #     )
+    #     scale_x = window_size.x / _saved_dims.x
+    #     scale_y = window_size.y / _saved_dims.y
+    #     Display.renderer.scale
 
     # aspect_ratio = resolution.x / resolution.y
     # ratio = (window_size.x / window_size.y) < aspect_ratio
@@ -188,7 +183,7 @@ def update():
     _saved_dims = window_size.clone()
 
     # Delayed calls handling
-    if dnd_if_paused and get_state():
+    if dnd_if_paused:
         Time.process_calls()
         Time.update_time()
 
@@ -202,7 +197,7 @@ def update():
         scenes.update()
 
     # Draw Loop
-    if dnd_if_paused:
+    if dnd_if_paused and Time.should_update("draw", Time.delta_time_target()):
         sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
         if reset_display:
             Display.renderer.fill(

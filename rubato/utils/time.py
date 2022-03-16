@@ -26,12 +26,12 @@ fps_cap = 0  # this means no cap
 
 _last_time_update = 0
 
-tickers: Dict[str, int] = {"update": 0, "fixed": 0}
+tickers: Dict[str, int] = {"update": 0, "fixed": 0, "draw": 0}
 
 
 def delta_time_target() -> int:
     if fps_cap > 0:
-        return int(1 / fps_cap)
+        return int(sec_to_milli(1 / fps_cap))
     else:
         return 0
 

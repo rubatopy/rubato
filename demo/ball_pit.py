@@ -10,9 +10,10 @@ from rubato import Game, Vector, Color
 
 rb.init({
     "name": "Physics Demo",
-    "fps_cap": 100,
+    "fps_cap": 1,
+    "physics_timestep": 20,
     "window_size": Vector(600, 600),
-    "resolution": Vector(600, 600),
+    "resolution": Vector(2000, 2000),
 })
 
 main_scene = rb.Scene()
@@ -69,7 +70,8 @@ for _ in range(60):
                 rb.RigidBody({
                     "bounciness":
                     1,
-                    "friction": 0.1,
+                    "friction":
+                    0.1,
                     "gravity":
                     Vector(0, Game.resolution.x / 10),
                     "velocity":
@@ -78,7 +80,11 @@ for _ in range(60):
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
-}).add(rb.Image({"image_location": "testing/Idle/0.png"}))
+}).add(
+    rb.Image({
+        "image_location": "testing/Idle/0.png",
+        "scale_factor": rb.Vector(10 / 3, 10 / 3)
+    }))
 
 player_rb = rb.RigidBody({
     "mass": 0,
