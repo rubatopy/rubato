@@ -1,4 +1,4 @@
-"""Physics Demo... basically a ball pit"""
+"""A physics demo for Rubato"""
 import os
 import sys
 
