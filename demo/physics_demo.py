@@ -8,7 +8,7 @@ from random import randint
 import rubato as rb
 from rubato import Game, Vector, Color
 
-num_balls = 100
+num_balls = 50
 rb.init({
     "name": "Physics Demo",
     "fps_cap": 60,
@@ -58,21 +58,25 @@ right = rb.Sprite({
 
 balls = []
 for i in range(num_balls):
-    balls.append(rb.Sprite({
-        "pos":
-        Vector(randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
-               randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
-    }).add(
-        rb.Circle({
-            "radius": Game.resolution.x / 40,
-            "color": Color.random
-        })
-    ).add(
-        rb.RigidBody({
-            "bounciness": 1,
-            "gravity": Vector(0, Game.resolution.x / 10)
-        })
-    ))
+    balls.append(
+        rb.Sprite({
+            "pos":
+            Vector(
+                randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
+                randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
+        }).add(
+            rb.Circle({
+                "radius": Game.resolution.x / 40,
+                "color": Color.random
+            })).add(
+                rb.RigidBody({
+                    "bounciness":
+                    1,
+                    "gravity":
+                    Vector(0, Game.resolution.x / 10),
+                    "velocity":
+                    Vector(randint(-100, 100), randint(-100, 100))
+                })))
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
