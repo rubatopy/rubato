@@ -65,7 +65,7 @@ for i in range(num_balls):
     }).add(
         rb.Circle({
             "radius": Game.resolution.x / 40,
-            "color": Color.random
+            "color": Color.random,
         })
     ).add(
         rb.RigidBody({
@@ -79,7 +79,7 @@ player = rb.Sprite({
 }).add(rb.Image({"image_location": "testing/Idle/0.png"}))
 
 player_rb = rb.RigidBody({
-    "mass": 10,
+    "mass": 0,
     "bounciness": 0.1,
     "max_speed": Vector(50, 1000),
     "gravity": Vector()
@@ -87,12 +87,9 @@ player_rb = rb.RigidBody({
 player.add(player_rb)
 
 player_hitbox = rb.Polygon({
-    "verts":
-    rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
-    "rotation":
-    180,
-    "debug":
-    True,
+    "verts": rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
+    "rotation": 180,
+    "debug": True,
 })
 player.add(player_hitbox)
 
