@@ -46,8 +46,6 @@ sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 name: str = ""
 window_size: Vector = Vector()
 resolution: Vector = Vector()
-fps_cap: int = 0
-physics_timestep: int = 0
 reset_display: bool = True
 
 _state = STATE.STOPPED
@@ -70,7 +68,7 @@ def init(options: dict = {}):
         options: A game config.
             Defaults to the |default| for `Game`.
     """
-    global name, window_size, resolution, fps_cap, \
+    global name, window_size, resolution, \
         reset_display, _saved_dims, \
         is_init
 
@@ -82,8 +80,8 @@ def init(options: dict = {}):
     window_size = params["window_size"]
     resolution = params["resolution"]
 
-    fps_cap = params["fps_cap"]
-    Time.fixed_delta_time = params["physics_timestep"]
+    Time.target_fps = params["target_fps"]
+    Time.physics_fps = params["physics_fps"]
     reset_display = params["reset_display"]
 
     flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI)
@@ -144,7 +142,7 @@ def update():
             with suppress(ValueError):
                 unicode = chr(key_info.sym)
             radio.broadcast(
-                "keyhold" if event.key.repeat else "keydown",
+                "keyhold" if event.key.repeat > 0 else "keydown",
                 {
                     "key": Input.get_name(key_info.sym),
                     "unicode": unicode,
@@ -182,22 +180,33 @@ def update():
 
     _saved_dims = window_size.clone()
 
+    if Time.delta_time < 1:
+        frame_start = sdl2.SDL_GetTicks64()
+        sdl2.SDL_Delay(1)
+        frame_end = sdl2.SDL_GetTicks64()
+        Time.delta_time = frame_end - frame_start
+
+    frame_start = sdl2.SDL_GetTicks64()
+
     # Delayed calls handling
     if dnd_if_paused:
         Time.process_calls()
-        Time.update_time()
 
     # Fixed Update Loop
-    if dnd_if_paused and Time.should_update("fixed", Time.fixed_delta_time):
-        scenes.fixed_update()
+    if dnd_if_paused:
+        Time.physics_counter += Time.delta_time
+        Time.fixed_delta = 1000 / Time.physics_fps
+
+        while Time.physics_counter >= Time.fixed_delta:
+            scenes.fixed_update()
+            Time.physics_counter -= Time.fixed_delta
 
     # Regular Update Loop
-    if dnd_if_paused and Time.should_update("update",
-                                            Time.delta_time_target()):
+    if dnd_if_paused:
         scenes.update()
 
     # Draw Loop
-    if dnd_if_paused and Time.should_update("draw", Time.delta_time_target()):
+    if dnd_if_paused:
         sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
         if reset_display:
             Display.renderer.fill(
@@ -210,6 +219,13 @@ def update():
     Display.window.refresh()
     Display.renderer.present()
     radio.events = []
+
+    frame_end = sdl2.SDL_GetTicks64()
+    Time.delta_time = frame_end - frame_start
+    target_milli = 1000 / Time.target_fps
+    delay = target_milli - Time.delta_time
+    if delay > 0:
+        sdl2.SDL_Delay(int(delay))
 
 
 def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):

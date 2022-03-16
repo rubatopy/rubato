@@ -12,9 +12,9 @@ game_defaults = {
     # The actual size of the window
     "resolution": Vector(1920, 1080),  #. . . . . . . . . . . . Vector
     # The pixel resolution of the game
-    "fps_cap": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
-    # The max FPS of the game
-    "physics_timestep": 20,  #. . . . . . . . . . . . . . . . . int
+    "target_fps": 0,  # . . . . . . . . . . . . . . . . . . . . int
+    # The target FPS of the game
+    "physics_fps": 60,  # . . . . . . . . . . . . . . . . . . . int
     # The length of the physics timestep in milliseconds
     "reset_display": True,  # . . . . . . . . . . . . . . . . . bool
     # Wether or not to white out the display every frame.
@@ -113,33 +113,30 @@ circle_defaults = {
 }
 
 color_defaults = {
-    "yellow": (253, 203, 110), #. . . . . . . . . . . . . . . . tuple
-    "scarlet": (214, 48, 49), # . . . . . . . . . . . . . . . . tuple
-    "violet": (108, 92, 231), # . . . . . . . . . . . . . . . . tuple
-    "turquoize": (0, 206, 201), # . . . . . . . . . . . . . . . tuple
-
-    "orange": (225, 112, 85), # . . . . . . . . . . . . . . . . tuple
-    "magenta": (232, 67, 147), #. . . . . . . . . . . . . . . . tuple
-    "blue": (9, 132, 227), #. . . . . . . . . . . . . . . . . . tuple
-    "green": (0, 184, 148), # . . . . . . . . . . . . . . . . . tuple
-
-    "red": (255, 118, 117), # . . . . . . . . . . . . . . . . . tuple
-    "purple": (162, 155, 254), #. . . . . . . . . . . . . . . . tuple
-    "cyan": (116, 185, 255), #. . . . . . . . . . . . . . . . . tuple
-    "lime": (85, 239, 196), # . . . . . . . . . . . . . . . . . tuple
+    "yellow": (253, 203, 110),  #. . . . . . . . . . . . . . . . tuple
+    "scarlet": (214, 48, 49),  # . . . . . . . . . . . . . . . . tuple
+    "violet": (108, 92, 231),  # . . . . . . . . . . . . . . . . tuple
+    "turquoize": (0, 206, 201),  # . . . . . . . . . . . . . . . tuple
+    "orange": (225, 112, 85),  # . . . . . . . . . . . . . . . . tuple
+    "magenta": (232, 67, 147),  #. . . . . . . . . . . . . . . . tuple
+    "blue": (9, 132, 227),  #. . . . . . . . . . . . . . . . . . tuple
+    "green": (0, 184, 148),  # . . . . . . . . . . . . . . . . . tuple
+    "red": (255, 118, 117),  # . . . . . . . . . . . . . . . . . tuple
+    "purple": (162, 155, 254),  #. . . . . . . . . . . . . . . . tuple
+    "cyan": (116, 185, 255),  #. . . . . . . . . . . . . . . . . tuple
+    "lime": (85, 239, 196),  # . . . . . . . . . . . . . . . . . tuple
 
     # colorwheel used (rgb values are not identical):
     # https://upload.wikimedia.org/wikipedia/commons/5/54/RGV_color_wheel_1908.png
 }
 
 grayscale_defaults = {
-    "black": (0, 0, 0), # . . . . . . . . . . . . . . . . . . . tuple
-    "white": (255, 255, 255), # . . . . . . . . . . . . . . . . tuple
-
-    "darkgray": (45, 52, 54), # . . . . . . . . . . . . . . . . tuple
-    "gray": (99, 110, 114), # . . . . . . . . . . . . . . . . . tuple
-    "lightgray": (178, 190, 195), # . . . . . . . . . . . . . . tuple
-    "snow": (223, 230, 233), #. . . . . . . . . . . . . . . . . tuple
+    "black": (0, 0, 0),  # . . . . . . . . . . . . . . . . . . . tuple
+    "white": (255, 255, 255),  # . . . . . . . . . . . . . . . . tuple
+    "darkgray": (45, 52, 54),  # . . . . . . . . . . . . . . . . tuple
+    "gray": (99, 110, 114),  # . . . . . . . . . . . . . . . . . tuple
+    "lightgray": (178, 190, 195),  # . . . . . . . . . . . . . . tuple
+    "snow": (223, 230, 233),  #. . . . . . . . . . . . . . . . . tuple
 }
 
 # [end-defaults]
