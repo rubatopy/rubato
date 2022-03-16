@@ -180,13 +180,6 @@ class RigidBody(Component):
         else:
             friction_impulse = -j * tangent * mu  # "Dynamic friction"
 
-        if friction_impulse.y != 0:
-            print("friction error")
-            if rb_a is not None:
-                print(rb_a.velocity)
-            else:
-                print(rb_b.velocity)
-
         if rb_a is not None and not rb_a.static:
             rb_a.velocity -= friction_impulse * rb_a.inv_mass
 

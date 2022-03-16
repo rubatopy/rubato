@@ -238,12 +238,17 @@ class Vector:
 
     @magnitude.setter
     def magnitude(self, value: Union[float, int]):
-        """Sets the magnitude of a vector."""
+        """
+        Sets the magnitude of a vector.
+        Keep in mind this rounds to 8 decimal places.
+        This is to avoid floating point errors.
+        """
         mag = self.magnitude
         if mag == 0: return
         ratio = value / mag
         self.x *= ratio
         self.y *= ratio
+        self.round(8)
 
     def normalize(self):
         """Normalize the vector."""
