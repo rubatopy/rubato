@@ -1,11 +1,9 @@
 Getting Started
 ===============
 
-Rubato is designed so that you can get started quickly and focus on what matters.
-
 Installation
 ------------
-Installing Rubato is easy! Just run:
+Installing Rubato is simple. Just run:
 
 .. code-block:: console
 
@@ -25,38 +23,42 @@ To get started, import rubato and initilize it.
 
     rb.init()
 
-Rubato is uses a sprite based system. This means that everything you see on
-screen is a :ref:`Sprite <sprite>`. Sprites can have components attached to
-them. Components is what gives a sprite functionality. For example, you can
-attach an :ref:`Image <image>` or a :ref:`RigidBody <rigidbody>`.
+Rubato is sprite-based. This means that most objects rendered
+to the screen are :ref:`Sprites <sprite>`. However, sprites do
+very little on their own. Components are what gives a sprite
+functionality. For example, you can attach an :ref:`Image <image>`
+or a :ref:`RigidBody <rigidbody>` to a sprite to make it draw an image
+or interact with the physics engine.
 
-To add a sprite to the screen, you need to create a new :ref:`Scene <scene>`.
-Then you need to add the scene to the :ref:`Scene Manager <scenemanager>`.
-Finally, you can create a sprite and add it to the scene.
+To add a sprite to the screen in our example, you need to first create a
+new :ref:`Scene <scene>` and add it to the :ref:`Scene Manager <scenemanager>`.
+Finally, you can create your sprite and add it to the scene.
 
 .. code-block:: python
 
     scene = rb.Scene()
-    rb.game.scenes.add(scene)
+    rb.game.scenes.add(scene, "main")
 
-    image = rb.Sprite({
-        "pos": rb.Vector(100, 100),
-    }).add(rb.Image())
+    ball = rb.Sprite({
+        "pos": rb.Vector(100,100)
+    }).add(rb.Circle({
+        "color": rb.Color.green
+    }))
 
-    scene.add(image)
+    scene.add(ball)
 
 
-The code above creates an image at position :code:`(100, 100)`. Since no image path is
-given, Rubato will use the default image (a pink and black square).
+The above code creates a sprite with a circular hitbox at position :code:`(100, 100)`.
+We've also specified that we'd like for the circle to be rendered green.
 
 You might notice that after running this code, nothing happens. Thats because
-the game loop hasn't started. To start the game loop run:
+the game loop hasn't started. To start Rubato's engine, run:
 
 .. code-block:: python
 
     rb.begin()
 
-Now when running this you should see a small pink and black square draw on your
-screen!
+Hopefully you see a green circle in a new window on your screen, and if so,
+congratulations! You're up and running with your first Rubato project.
 
-To learn how to do specific things, look at the :doc:`Tutorials Page <tutorials>`
+More feature-specific tutorials can be found :doc:`here <tutorials>`.
