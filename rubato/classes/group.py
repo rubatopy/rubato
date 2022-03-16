@@ -71,5 +71,7 @@ class Group:
                 hitboxes.append(ht)
 
     def draw(self):
+        self.items.sort(key=lambda i: i.z_index)
+
         for item in self.items:
             item.draw()
