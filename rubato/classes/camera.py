@@ -3,8 +3,7 @@ The Camera is what handles where things are drawn. A camera can zoom, pan
 around, and also travel along the z-index. Items only render if their z-index
 is less than that of the camera's.
 """
-from rubato.utils import Vector
-
+from rubato.utils import Vector, Display
 
 class Camera:
     """
@@ -46,4 +45,5 @@ class Camera:
                 is the y-coordinate. The coordinates are returned with the
                 same type that is given.
         """
-        return point.offset(self.pos).to_int()
+        center = Vector(*Display.renderer.logical_size)/2
+        return (point - self.pos - center) * self.zoom + center

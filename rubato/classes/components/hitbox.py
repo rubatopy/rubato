@@ -206,8 +206,7 @@ class Polygon(Hitbox):
         """
         list_of_points: List[tuple] = list(
             map(
-                lambda v: Game.scenes.current.camera.transform(
-                    v * Game.scenes.current.camera.zoom).to_tuple(),
+                lambda v: Game.scenes.current.camera.transform(v).to_int().to_tuple(),
                 self.real_verts(),
             ))
 
