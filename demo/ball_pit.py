@@ -54,7 +54,7 @@ right = rb.Sprite({
         "color": Color.gray,
     }))
 
-for _ in range(130):
+for _ in range(60):
     main_scene.add(
         rb.Sprite({
             "pos":
@@ -69,8 +69,9 @@ for _ in range(130):
                 rb.RigidBody({
                     "bounciness":
                     1,
+                    "friction": 0.1,
                     "gravity":
-                    Vector(0, 0),
+                    Vector(0, Game.resolution.x / 10),
                     "velocity":
                     Vector(randint(-100, 100), randint(-100, 100))
                 })))
@@ -111,7 +112,7 @@ def custom_update():
     print(f"fps: {rb.Time.smooth_fps()}")
 
 
-main_scene.add([top, bottom, left, right])
+main_scene.add([top, bottom, left, right, player])
 main_scene.update = custom_update
 
 rb.radio.listen("resize", lambda: print("hi"))
