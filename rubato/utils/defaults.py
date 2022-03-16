@@ -107,17 +107,22 @@ circle_defaults = {
 
 color_defaults = {
     "yellow": (253, 203, 110), #. . . . . . . . . . . . . . . . tuple
-    "orange": (225, 112, 85), # . . . . . . . . . . . . . . . . tuple
-    "red": (255, 118, 117), # . . . . . . . . . . . . . . . . . tuple
     "scarlet": (214, 48, 49), # . . . . . . . . . . . . . . . . tuple
-    "magenta": (232, 67, 147), #. . . . . . . . . . . . . . . . tuple
-    "purple": (162, 155, 254), #. . . . . . . . . . . . . . . . tuple
     "violet": (108, 92, 231), # . . . . . . . . . . . . . . . . tuple
-    "blue": (9, 132, 227), #. . . . . . . . . . . . . . . . . . tuple
-    "cyan": (116, 185, 255), #. . . . . . . . . . . . . . . . . tuple
     "turquoize": (0, 206, 201), # . . . . . . . . . . . . . . . tuple
+
+    "orange": (225, 112, 85), # . . . . . . . . . . . . . . . . tuple
+    "magenta": (232, 67, 147), #. . . . . . . . . . . . . . . . tuple
+    "blue": (9, 132, 227), #. . . . . . . . . . . . . . . . . . tuple
     "green": (0, 184, 148), # . . . . . . . . . . . . . . . . . tuple
+
+    "red": (255, 118, 117), # . . . . . . . . . . . . . . . . . tuple
+    "purple": (162, 155, 254), #. . . . . . . . . . . . . . . . tuple
+    "cyan": (116, 185, 255), #. . . . . . . . . . . . . . . . . tuple
     "lime": (85, 239, 196), # . . . . . . . . . . . . . . . . . tuple
+
+    # colorwheel used (rgb values are not identical):
+    # https://upload.wikimedia.org/wikipedia/commons/5/54/RGV_color_wheel_1908.png
 }
 
 grayscale_defaults = {
