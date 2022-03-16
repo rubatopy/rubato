@@ -7,14 +7,16 @@ Attributes:
 """
 from typing import Callable
 import time
+import heapq
 
 clock = None
 
 frames = 0
 frame_tasks = {}
+sorted_frame_times = []
 
 tasks = {}
-sorted_task_times = []  # of the call keys
+sorted_task_times = []
 
 fdt = 20  # fixed delta time storage
 
@@ -86,13 +88,7 @@ def delayed_call(time_delta: int, func: Callable):
         tasks[run_at].append(func)
     else:
         tasks[run_at] = [func]
-
-    proper_index = _binary_search(sorted_task_times, 0,
-                                  len(sorted_task_times) - 1, run_at)
-    if proper_index < 0:  # time stamp not currently in array
-        proper_index = ~proper_index
-        sorted_task_times.insert(proper_index, run_at)
-    # otherwise we do not want to re-add time stamp
+        heapq.heappush(sorted_task_times, run_at)
 
 
 def delayed_frames(frames_delta: int, func: Callable):
@@ -104,7 +100,12 @@ def delayed_frames(frames_delta: int, func: Callable):
         func: The function to call
     """
     frame_call = frames + frames_delta
-    frame_tasks[frame_call] = frame_tasks.get(frame_call, []) + [func]
+
+    if frame_tasks.get(frame_call):
+        frame_tasks[frame_call].append(func)
+    else:
+        frame_tasks[frame_call] = [func]
+        heapq.heappush(sorted_frame_times, frame_call)
 
 
 def milli_to_sec(milli: int) -> float:
@@ -135,20 +136,25 @@ def process_calls():
     global frames
     frames += 1
 
-    if (ft := frame_tasks.get(frames, None)) is not None:
-        for task in ft:
-            task()
+    processing = True
+    while processing:
+        if sorted_frame_times[0] <= now():
+            task_time = heapq.heappop(sorted_frame_times)
+            for func in frame_tasks[task_time]:
+                func()
+            del frame_tasks[task_time]
+        else:
+            processing = False
 
-        del frame_tasks[frames]
-
-    for task_time in sorted_task_times:
-        if task_time <= now():
+    processing = True
+    while processing:
+        if sorted_task_times[0] <= now():
+            task_time = heapq.heappop(sorted_task_times)
             for func in tasks[task_time]:
                 func()
             del tasks[task_time]
-            sorted_task_times.remove(task_time)
         else:
-            break
+            processing = False
 
 
 def _binary_search(arr: list, low: int, high: int, val: any) -> int:

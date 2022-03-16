@@ -27,8 +27,7 @@ top = rb.Sprite({
         "width": Game.resolution.x,
         "height": Game.resolution.y / 20,
         "color": Color.gray,
-    })
-)
+    }))
 
 bottom = rb.Sprite({
     "pos": Vector(Game.resolution.x / 2, Game.resolution.y)
@@ -37,8 +36,7 @@ bottom = rb.Sprite({
         "width": Game.resolution.x,
         "height": Game.resolution.y / 20,
         "color": Color.gray,
-    })
-)
+    }))
 
 left = rb.Sprite({
     "pos": Vector(0, Game.resolution.y / 2)
@@ -47,8 +45,7 @@ left = rb.Sprite({
         "width": Game.resolution.x / 20,
         "height": Game.resolution.y,
         "color": Color.gray,
-    })
-)
+    }))
 
 right = rb.Sprite({
     "pos": Vector(Game.resolution.x, Game.resolution.y / 2)
@@ -57,26 +54,25 @@ right = rb.Sprite({
         "width": Game.resolution.x / 20,
         "height": Game.resolution.y,
         "color": Color.gray,
-    })
-)
+    }))
 
 balls = []
 for i in range(num_balls):
-    balls.append(rb.Sprite({
-        "pos":
-        Vector(randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
-               randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
-    }).add(
-        rb.Circle({
-            "radius": Game.resolution.x / 40,
-            "color": Color.random
-        })
-    ).add(
-        rb.RigidBody({
-            "bounciness": 1,
-            "gravity": Vector(0, Game.resolution.x / 20)
-        })
-    ))
+    balls.append(
+        rb.Sprite({
+            "pos":
+            Vector(
+                randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
+                randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
+        }).add(
+            rb.Circle({
+                "radius": Game.resolution.x / 40,
+                "color": Color.random
+            })).add(
+                rb.RigidBody({
+                    "bounciness": 1,
+                    "gravity": Vector(0, Game.resolution.x / 20)
+                })))
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
