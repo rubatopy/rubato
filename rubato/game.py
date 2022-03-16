@@ -18,7 +18,7 @@ import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING, Tuple
 from rubato.classes.sprite import Sprite
-from rubato.utils import Display, Vector, Time, Configs, Math
+from rubato.utils import Display, Vector, Time, Configs
 from rubato.classes import SceneManager
 import rubato.input as Input
 from enum import Enum
@@ -119,7 +119,7 @@ def update():
     Handles the game states.
     Will always process timed calls.
     """
-    global _saved_dims, _physics_count
+    global _saved_dims
     dnd_if_paused = get_state() != STATE.PAUSED
 
     # Event handling
