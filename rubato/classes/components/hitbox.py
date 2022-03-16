@@ -399,7 +399,7 @@ class SAT:
             if isinstance(shape_b, Circle):
                 return SAT.circle_circle_test(shape_a, shape_b)
 
-            return SAT.circle_polygon_test(shape_a, shape_b, False)
+            return SAT.circle_polygon_test(shape_a, shape_b)
 
         if isinstance(shape_b, Circle):
             return SAT.circle_polygon_test(shape_b, shape_a, True)
@@ -410,10 +410,11 @@ class SAT:
         test_b_a = SAT.polygon_polygon_test(shape_b, shape_a, True)
         if test_b_a is None: return None
 
-        return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
+        return test_a_b if test_a_b.sep.mag < test_b_a.sep.mag else test_b_a
 
     @staticmethod
-    def circle_circle_test(shape_a: Circle, shape_b: Circle):
+    def circle_circle_test(shape_a: Circle,
+                           shape_b: Circle) -> Union[CollisionInfo, None]:
         """Checks for overlap between two circles"""
         total_radius = shape_a.radius + shape_b.radius
         distance = (shape_b.pos - shape_a.pos).magnitude
@@ -422,9 +423,7 @@ class SAT:
             return None
 
         result = CollisionInfo()
-        result.shape_a = shape_a
-        result.shape_b = shape_b
-
+        result.shape_a, result.shape_b = shape_a, shape_b
         result.sep = (shape_a.pos - shape_b.pos).unit() * (total_radius -
                                                            distance)
 
@@ -433,19 +432,21 @@ class SAT:
     @staticmethod
     def circle_polygon_test(shape_a: Circle,
                             shape_b: Polygon,
-                            flip: bool = False):
-        shortest = Math.INFINITY
-
+                            flip: bool = False) -> Union[CollisionInfo, None]:
+        """Checks for overlap between a circle and a polygon"""
+        
         result = CollisionInfo()
-        result.shape_a = shape_b if flip else shape_a
-        result.shape_b = shape_a if flip else shape_b
+        result.shape_a, result.shape_b = (shape_b, shape_a) \
+            if flip else (shape_a, shape_b)
+
+        shortest = Math.INFINITY
 
         verts = shape_b.transformed_verts()
         offset = shape_b.pos - shape_a.pos
 
         closest = Vector()
         for v in verts:
-            dist = (shape_a.pos - (shape_b.pos + v)).magnitude
+            dist = (shape_a.pos - shape_b.pos - v).magnitude
             if dist < shortest:
                 shortest = dist
                 closest = shape_b.pos + v
@@ -457,37 +458,29 @@ class SAT:
         circle_range = Vector(-shape_a.transformed_radius(),
                               shape_a.transformed_radius())
 
-        if ((poly_range.x - circle_range.y > 0)
-                or (circle_range.x - poly_range.y > 0)):
+        if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
             return None
 
-        dist_min = circle_range.y - poly_range.x
+        dist_min = poly_range.x - circle_range.y
         if flip: dist_min *= -1
 
         shortest = abs(dist_min)
-
-        sep = axis * dist_min
+        result.sep = axis * dist_min
 
         for i in range(len(verts)):
             axis = SAT.perpendicular_axis(verts, i)
 
             poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
-            circle_range = Vector(-shape_a.transformed_radius(),
-                                  shape_a.transformed_radius())
 
-            if ((poly_range.x - circle_range.y > 0)
-                    or (circle_range.x - poly_range.y > 0)):
+            if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
                 return None
 
-            dist_min = circle_range.y - poly_range.x
+            dist_min = poly_range.x - circle_range.y
             if flip: dist_min *= -1
 
-            dist_min_abs = abs(dist_min)
-            if dist_min_abs < shortest:
-                shortest = dist_min_abs
-                sep = axis * dist_min
-
-        result.sep = -sep
+            if abs(dist_min) < shortest:
+                shortest = abs(dist_min)
+                result.sep = axis * dist_min
 
         return result
 
@@ -497,11 +490,11 @@ class SAT:
                              flip: bool = False) -> Union[CollisionInfo, None]:
         """Checks for overlap between two polygons"""
 
-        shortest_dist = Math.INFINITY
-
         result = CollisionInfo()
-        result.shape_a = shape_a if flip else shape_b
-        result.shape_b = shape_b if flip else shape_a
+        result.shape_a, result.shape_b = (shape_b, shape_a) \
+            if flip else (shape_a, shape_b)
+
+        shortest = Math.INFINITY
 
         verts_a = shape_a.transformed_verts()
         verts_b = shape_b.transformed_verts()
@@ -514,14 +507,13 @@ class SAT:
             a_range = SAT.project_verts(verts_a, axis) + axis.dot(offset)
             b_range = SAT.project_verts(verts_b, axis)
 
-            if (a_range.x > b_range.y) or (b_range.x > a_range.y):
+            if a_range.x > b_range.y or b_range.x > a_range.y:
                 return None
 
-            min_dist = (a_range.x - b_range.y, b_range.x - a_range.y)[flip]
-            abs_min = abs(min_dist)
+            min_dist = b_range.x - a_range.y if flip else a_range.x - b_range.y
 
-            if abs_min < shortest_dist:
-                shortest_dist = abs_min
+            if abs(min_dist) < shortest:
+                shortest = abs(min_dist)
                 result.sep = axis * min_dist
 
         return result
