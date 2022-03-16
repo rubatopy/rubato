@@ -395,22 +395,22 @@ class SAT:
             is returned. Otherwise None is returned.
         """
 
-        if isinstance(shape_a, Circle) and isinstance(shape_b, Circle):
-            return SAT.circle_circle_test(shape_a, shape_b)
+        if isinstance(shape_a, Circle):
+            if isinstance(shape_b, Circle):
+                return SAT.circle_circle_test(shape_a, shape_b)
 
-        if isinstance(shape_a, Polygon) and isinstance(shape_b, Polygon):
-            test_a_b = SAT.polygon_polygon_test(shape_a, shape_b)
-            if test_a_b is None: return None
+            return SAT.circle_polygon_test(shape_a, shape_b, False)
 
-            test_b_a = SAT.polygon_polygon_test(shape_b, shape_a, True)
-            if test_b_a is None: return None
+        if isinstance(shape_b, Circle):
+            return SAT.circle_polygon_test(shape_b, shape_a, True)
 
-            return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
+        test_a_b = SAT.polygon_polygon_test(shape_a, shape_b)
+        if test_a_b is None: return None
 
-        a_is_circle = isinstance(shape_a, Circle)
-        return SAT.circle_polygon_test((shape_b, shape_a)[a_is_circle],
-                                       (shape_a, shape_b)[a_is_circle],
-                                       not a_is_circle)
+        test_b_a = SAT.polygon_polygon_test(shape_b, shape_a, True)
+        if test_b_a is None: return None
+
+        return (test_b_a, test_a_b)[test_a_b.sep.mag < test_b_a.sep.mag]
 
     @staticmethod
     def circle_circle_test(shape_a: Circle, shape_b: Circle):
