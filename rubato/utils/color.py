@@ -68,35 +68,43 @@ class Color:
         """
         return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
 
-    def mix(self, other: "Color"):
+    def mix(self, other: "Color", t: float = 0.5, mode: str = "mix"):
         """
-        Mix two colors together evenly.
-
-        Args:
-            other (Color): The other color to mix with.
-
-        Returns:
-            Color: The resultant color.
-        """
-        return self.blend(other, 0.5)
-
-    def blend(self, other: "Color", t: float):
-        """
-        Blend two colors together by an interpolated amount.
+        Mix two colors together.
 
         Args:
             other (Color): The other color.
             t (float): The interpolation amount (0 to 1).
+                Defaults to 0.5.
+            mode (str): The blending mode ("linear", "mix", "blend").
+                Defaults to "mix".
 
         Returns:
             Color: The resultant color.
         """
+        if mode == "linear":
+            return Color(
+                (1-t)*self.r + t*other.r,
+                (1-t)*self.g + t*other.g,
+                (1-t)*self.b + t*other.b,
+                (1-t)*self.a + t*other.a
+            )
+        if mode == "blend":
+            alpha_a = (self.a/255) * (1-t)
+            a = 1 - (1-alpha_a) * (1-(other.a/255))
+            s = (other.a/255)*(1-alpha_a)/a
+            return Color(
+                ((1-s)*(self.r**2.2) + s*(other.r**2.2))**(1/2.2),
+                ((1-s)*(self.g**2.2) + s*(other.g**2.2))**(1/2.2),
+                ((1-s)*(self.b**2.2) + s*(other.b**2.2))**(1/2.2),
+                a*255
+            )
         return Color(
-            ((1-t)*(self.r**2) + t*(other.r**2))**0.5,
-            ((1-t)*(self.g**2) + t*(other.g**2))**0.5,
-            ((1-t)*(self.b**2) + t*(other.b**2))**0.5,
-            (1-t)*self.a + t*other.a
-        )
+                ((1-t)*(self.r**2.2) + t*(other.r**2.2))**(1/2.2),
+                ((1-t)*(self.g**2.2) + t*(other.g**2.2))**(1/2.2),
+                ((1-t)*(self.b**2.2) + t*(other.b**2.2))**(1/2.2),
+                (1-t)*self.a + t*other.a
+            )
 
     def to_tuple(self) -> Tuple[int, int, int]:
         """
@@ -106,26 +114,6 @@ class Color:
             tuple(int, int, int): The tuple representing the color.
         """
         return (self.r, self.g, self.b, self.a)
-
-    def lerp(self, other: "Color", t: float) -> "Color":
-        """
-        Lerps between this color and another.
-        Use :meth:`blend` to blend colors more intuitively.
-
-        Args:
-            other: The other Color to lerp with.
-            t: The amount to lerp (0 to 1).
-
-        Returns:
-            Color: The resultant color.
-        """
-        t = Math.clamp(t, 0, 1)
-        return Color(
-            (1-t)*self.r + t*other.r,
-            (1-t)*self.g + t*other.g,
-            (1-t)*self.b + t*other.b,
-            (1-t)*self.a + t*other.a,
-        )
 
     def to_hex(self) -> str:
         """
