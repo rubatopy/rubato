@@ -68,7 +68,7 @@ class Color:
         """
         return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
 
-    def mix(self, other: "Color", t: float = 0.5, mode: str = "mix"):
+    def mix(self, other: "Color", t: float = 0.5, mode: str = "mix") -> "Color":
         """
         Mix two colors together.
 
@@ -203,33 +203,38 @@ class Color:
 
     @classmethod
     @property
+    def clear(cls):
+        return Color(0, 0, 0, 0)
+
+    @classmethod
+    @property
     def black(cls):
-        return Color(*Configs.color_defaults["black"])
+        return Color(*Configs.grayscale_defaults["black"])
 
     @classmethod
     @property
     def white(cls):
-        return Color(*Configs.color_defaults["white"])
+        return Color(*Configs.grayscale_defaults["white"])
 
     @classmethod
     @property
     def darkgray(cls):
-        return Color(*Configs.color_defaults["darkgray"])
+        return Color(*Configs.grayscale_defaults["darkgray"])
 
     @classmethod
     @property
     def gray(cls):
-        return Color(*Configs.color_defaults["gray"])
+        return Color(*Configs.grayscale_defaults["gray"])
 
     @classmethod
     @property
     def lightgray(cls):
-        return Color(*Configs.color_defaults["lightgray"])
+        return Color(*Configs.grayscale_defaults["lightgray"])
 
     @classmethod
     @property
     def snow(cls):
-        return Color(*Configs.color_defaults["snow"])
+        return Color(*Configs.grayscale_defaults["snow"])
 
     @classmethod
     @property
@@ -290,8 +295,3 @@ class Color:
     @property
     def lime(cls):
         return Color(*Configs.color_defaults["lime"])
-
-    @classmethod
-    @property
-    def clear(cls):
-        return Color(*Configs.color_defaults["clear"])

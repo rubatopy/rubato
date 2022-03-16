@@ -4,7 +4,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
-from random import randint
+from random import randint, choice
 import rubato as rb
 from rubato import Game, Vector, Color
 
@@ -65,7 +65,8 @@ for _ in range(60):
         }).add(
             rb.Circle({
                 "radius": Game.resolution.x / 50,
-                "color": Color.random
+                "color": Color(*choice(
+                    list(rb.Configs.color_defaults.values())))
             })).add(
                 rb.RigidBody({
                     "bounciness":
@@ -73,7 +74,7 @@ for _ in range(60):
                     "friction":
                     0.1,
                     "gravity":
-                    Vector(0, Game.resolution.x / 10),
+                    Vector(0, Game.resolution.x / 8),
                     "velocity":
                     Vector(randint(-100, 100), randint(-100, 100))
                 })))
