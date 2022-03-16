@@ -142,8 +142,10 @@ class Sprite:
             relative_pos = Game.scenes.current.camera.transform(self.pos)
             sdl2.sdlgfx.hlineRGBA(
                 Display.renderer.sdlrenderer,
-                int(relative_pos.x) - 10,
-                int(relative_pos.x) + 10,
+                int(relative_pos.x) -
+                int(Game.scenes.current.camera.scale(10)),
+                int(relative_pos.x) +
+                int(Game.scenes.current.camera.scale(10)),
                 int(relative_pos.y),
                 0,
                 255,
@@ -153,8 +155,10 @@ class Sprite:
             sdl2.sdlgfx.vlineRGBA(
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),
-                int(relative_pos.y) - 10,
-                int(relative_pos.y) + 10,
+                int(relative_pos.y) -
+                int(Game.scenes.current.camera.scale(10)),
+                int(relative_pos.y) +
+                int(Game.scenes.current.camera.scale(10)),
                 0,
                 255,
                 0,
