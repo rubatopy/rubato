@@ -10,7 +10,7 @@ Rubato has now completed the transition to SDL2. The final PyGame-based release 
 
 *Wondering about the name? Rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to bring a fresh, modern take on game developement in python to a variety of users regardless of their coding background.*
 
-Repository: https://github.com/tinmarr/rubato
+GitHub repo: https://github.com/rubatopy/rubato
 
 .. warning::
     Rubato is currently in alpha. Submit bug reports `here <https://github.com/Rubato-Python/rubato/issues>`_
