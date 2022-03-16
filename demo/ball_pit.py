@@ -10,7 +10,7 @@ from rubato import Game, Vector, Color
 
 rb.init({
     "name": "Physics Demo",
-    "target_fps": 60,
+    "target_fps": 0,
     "physics_fps": 30,
     "window_size": Vector(600, 600),
     "resolution": Vector(1200, 1200),

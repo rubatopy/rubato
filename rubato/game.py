@@ -221,10 +221,12 @@ def update():
 
     frame_end = sdl2.SDL_GetTicks64()
     Time.delta_time = frame_end - frame_start
-    target_milli = 1000 / Time.target_fps
-    delay = target_milli - Time.delta_time
-    if delay > 0:
-        sdl2.SDL_Delay(int(delay))
+
+    if Time.target_fps > 1:
+        target_milli = 1000 / Time.target_fps
+        delay = target_milli - Time.delta_time
+        if delay > 0:
+            sdl2.SDL_Delay(int(delay))
 
 
 def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
