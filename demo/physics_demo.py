@@ -58,22 +58,25 @@ right = rb.Sprite({
 
 balls = []
 for i in range(num_balls):
-    balls.append(rb.Sprite({
-        "pos":
-        Vector(randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
-               randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
-    }).add(
-        rb.Circle({
-            "radius": Game.resolution.x / 40,
-            "color": Color.random,
-        })
-    ).add(
-        rb.RigidBody({
-            "bounciness": 1,
-            "gravity": Vector(0, Game.resolution.x / 10),
-            "velocity": Vector(randint(-100, 100), randint(-100, 100))
-        })
-    ))
+    balls.append(
+        rb.Sprite({
+            "pos":
+            Vector(
+                randint(Game.resolution.x / 20, 19 * Game.resolution.x / 20),
+                randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
+        }).add(
+            rb.Circle({
+                "radius": Game.resolution.x / 40,
+                "color": Color.random,
+            })).add(
+                rb.RigidBody({
+                    "bounciness":
+                    1,
+                    "gravity":
+                    Vector(0, Game.resolution.x / 10),
+                    "velocity":
+                    Vector(randint(-100, 100), randint(-100, 100))
+                })))
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
@@ -82,15 +85,18 @@ player = rb.Sprite({
 player_rb = rb.RigidBody({
     "mass": 0,
     "bounciness": 0.1,
-    "max_speed": Vector(50, 1000),
+    "max_speed": Vector(1000, 1000),
     "gravity": Vector()
 })
 player.add(player_rb)
 
 player_hitbox = rb.Polygon({
-    "verts": rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
-    "rotation": 180,
-    "debug": True,
+    "verts":
+    rb.Polygon.generate_polygon(4, Game.resolution.x / 25),
+    "rotation":
+    180,
+    "debug":
+    True,
 })
 player.add(player_hitbox)
 
