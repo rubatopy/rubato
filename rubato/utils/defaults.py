@@ -57,6 +57,11 @@ sprite_defaults = {
     # Whether to draw a plus sign at the sprite's position
 }
 
+group_defaults = {
+    "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
+    # The z_index of the group.
+}
+
 animation_defaults = {
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     # The startin scale factor of the animation.
