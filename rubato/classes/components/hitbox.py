@@ -22,7 +22,6 @@ class Hitbox(Component):
         super().__init__()
         self.debug = False
         self.trigger = False
-        self.tags = []
         self._pos = lambda: Vector(0, 0)
         self.scale = 1
         self.callback = lambda c: None
@@ -98,7 +97,6 @@ class Polygon(Hitbox):
         super().__init__()
         self.debug: bool = params["debug"]
         self.trigger: bool = params["trigger"]
-        self.tags: List[str] = params["tags"]
         self.verts: List[Vector] = params["verts"]
         self.rotation: float = params["rotation"]
         self.color: Color = params["color"]
@@ -255,24 +253,25 @@ class Polygon(Hitbox):
                 self.color.a,
             )
 
+
 class Rectangle(Polygon):
     """_summary_
 
     Args:
         Polygon (_type_): _description_
     """
+
     def __init__(self, options: dict):
         params = (Configs.rectangle_defaults | Configs.polygon_defaults) \
             | options
-        params["verts"] = Polygon.generate_rect(
-            params["width"],
-            params["height"]
-        )
+        params["verts"] = Polygon.generate_rect(params["width"],
+                                                params["height"])
 
         del params["width"]
         del params["height"]
 
         super().__init__(params)
+
 
 class Circle(Hitbox):
     """
@@ -301,7 +300,6 @@ class Circle(Hitbox):
         self.callback: Callable = params["callback"]
         self.debug: bool = params["debug"]
         self.trigger: bool = params["trigger"]
-        self.tags: List[str] = params["tags"]
 
     @property
     def pos(self) -> Vector:
