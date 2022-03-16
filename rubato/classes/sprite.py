@@ -3,8 +3,10 @@ A sprite is a basic element that holds components, postion, and z_index.
 """
 from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components import Hitbox
-from rubato.utils import Vector, Configs
+from rubato.utils import Vector, Configs, Display
 from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
+import sdl2
+import sdl2.sdlgfx
 
 if TYPE_CHECKING:
     from rubato.classes.component import Component
@@ -30,6 +32,7 @@ class Sprite:
         """
         param = Configs.sprite_defaults | options
         self.pos: Vector = param["pos"]
+        self.debug: bool = param["debug"]
         self.z_index: int = param["z_index"]
         self.__components: List["Component"] = []
 
@@ -133,6 +136,28 @@ class Sprite:
         """The draw loop"""
         for comp in self.components:
             comp.draw()
+
+        if self.debug:
+            sdl2.sdlgfx.hlineRGBA(
+                Display.renderer.sdlrenderer,
+                int(self.pos.x)-10,
+                int(self.pos.x)+10,
+                int(self.pos.y),
+                0,
+                255,
+                0,
+                255,
+            )
+            sdl2.sdlgfx.vlineRGBA(
+                Display.renderer.sdlrenderer,
+                int(self.pos.x),
+                int(self.pos.y)-10,
+                int(self.pos.y)+10,
+                0,
+                255,
+                0,
+                255,
+            )
 
     def update(self):
         """The update loop"""

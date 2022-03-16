@@ -53,6 +53,8 @@ sprite_defaults = {
     # The starting position of the sprite.
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The z_index of the sprite.
+    "debug": False  # . . . . . . . . . . . . . . . . . . . . . bool
+    # Whether to draw a plus sign at the sprite's position
 }
 
 animation_defaults = {

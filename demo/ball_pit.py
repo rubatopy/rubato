@@ -81,6 +81,7 @@ for _ in range(60):
 
 player = rb.Sprite({
     "pos": rb.Vector(50, 50),
+    "debug": True
 }).add(
     rb.Image({
         "image_location": "testing/Idle/0.png",
