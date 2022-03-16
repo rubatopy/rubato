@@ -181,11 +181,11 @@ class RigidBody(Component):
 
         # Calculate friction coefficient
         if rb_a is None:
-            mu = rb_b.friction
+            mu = rb_b.friction**2
         elif rb_b is None:
-            mu = rb_a.friction
+            mu = rb_a.friction**2
         else:
-            mu = (rb_a.friction + rb_b.friction) / 2
+            mu = (rb_a.friction**2 + rb_b.friction**2) / 2
 
         # Stop redundant friction calculations
         if mu == 0: return

@@ -72,7 +72,7 @@ for _ in range(60):
                     "bounciness":
                     1,
                     "friction":
-                    0.1,
+                    0.2,
                     "gravity":
                     Vector(0, Game.resolution.x / 8),
                     "velocity":
