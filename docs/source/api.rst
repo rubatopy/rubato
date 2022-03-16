@@ -66,13 +66,6 @@ _________
 
 .. _rectangle:
 
-Rectangle
-_________
-.. automodule:: rubato.classes.components.rect
-    :members:
-
-.. _hitbox:
-
 Hitbox
 _________
 .. automodule:: rubato.classes.components.hitbox
