@@ -33,14 +33,15 @@ class Color:
         self.check_values()
 
     def __str__(self):
-        return str((self.r, self.g, self.b))
+        return str((self.r, self.g, self.b, self.a))
 
     def __eq__(self, other):
         if isinstance(other, type(Color)):
             return \
-                abs(self.r - other.r) < 0.0001 and \
-                abs(self.g - other.g) < 0.0001 and \
-                abs(self.b - other.b) < 0.0001
+                self.r == other.r and \
+                self.g == other.g and \
+                self.b == other.b and \
+                self.a == other.a
         return False
 
     def to_tuple(self) -> Tuple[int, int, int]:
@@ -50,7 +51,7 @@ class Color:
         Returns:
             tuple(int, int, int): The tuple representing the color.
         """
-        return (self.r, self.g, self.b)
+        return (self.r, self.g, self.b, self.a)
 
     def check_values(self):
         """
@@ -348,3 +349,11 @@ class Color:
             Color: (0, 0, 128)
         """
         return Color(0, 0, 128)
+
+    @classmethod
+    @property
+    def clear(cls):
+        """
+        A clear Color object
+        """
+        return Color(0,0,0,0)

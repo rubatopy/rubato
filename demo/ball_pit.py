@@ -63,12 +63,13 @@ for _ in range(60):
                 randint(Game.resolution.y / 20, 19 * Game.resolution.y / 20))
         }).add(
             rb.Circle({
-                "radius": Game.resolution.x / 40,
+                "radius": Game.resolution.x / 50,
                 "color": Color.random
             })).add(
                 rb.RigidBody({
                     "bounciness":
                     1,
+                    "friction": 0.1,
                     "gravity":
                     Vector(0, Game.resolution.x / 10),
                     "velocity":

@@ -255,10 +255,9 @@ class Polygon(Hitbox):
 
 
 class Rectangle(Polygon):
-    """_summary_
-
-    Args:
-        Polygon (_type_): _description_
+    """
+    A soon-to-be depricated Polygon subclass.
+    A more robust replacement is planned.
     """
 
     def __init__(self, options: dict):
