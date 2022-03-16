@@ -59,8 +59,6 @@ __all__ = [
     "Game",
 ]
 
-radio: Radio = None
-
 
 def init(options: dict = {}):
     """
@@ -70,10 +68,7 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the |default| for `Game`.
     """
-    global radio
     Game.init(options)
-    Game.radio = Radio()
-    radio = Game.radio
 
 
 def begin():
@@ -83,7 +78,7 @@ def begin():
     Raises:
         RuntimeError: Rubato has not been initialized before calling.
     """
-    if Game.is_init:
+    if Game.initialized:
         Game.scenes.setup()
         Game.constant_loop()
     else:

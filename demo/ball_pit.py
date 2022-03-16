@@ -140,6 +140,6 @@ def custom_update():
 main_scene.add([top, bottom, left, right, player])
 main_scene.update = custom_update
 
-rb.radio.listen("resize", lambda: print("hi"))
+rb.Game.radio.listen("resize", lambda: print("hi"))
 
 rb.begin()
