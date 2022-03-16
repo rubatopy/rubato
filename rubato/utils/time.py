@@ -102,7 +102,7 @@ def sec_to_milli(sec: int) -> float:
 
 
 def process_calls():
-    """Processes the calls needed"""
+    """Processes the delayed function call as needed"""
     global frames, fps
     frames += 1
     fps = 1000 / delta_time

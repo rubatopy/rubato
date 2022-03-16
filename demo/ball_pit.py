@@ -11,7 +11,7 @@ from rubato import Game, Vector, Color
 rb.init({
     "name": "Physics Demo",
     "target_fps": 60,
-    "physics_fps": 60,
+    "physics_fps": 30,
     "window_size": Vector(600, 600),
     "resolution": Vector(1200, 1200),
 })
@@ -55,7 +55,7 @@ right = rb.Sprite({
         "color": Color.gray,
     }))
 
-for _ in range(30):
+for _ in range(60):
     main_scene.add(
         rb.Sprite({
             "pos":
