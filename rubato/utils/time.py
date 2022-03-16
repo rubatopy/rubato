@@ -136,25 +136,27 @@ def process_calls():
     global frames
     frames += 1
 
-    processing = True
-    while processing:
-        if sorted_frame_times[0] <= now():
-            task_time = heapq.heappop(sorted_frame_times)
-            for func in frame_tasks[task_time]:
-                func()
-            del frame_tasks[task_time]
-        else:
-            processing = False
+    if len(sorted_frame_times) > 0:
+        processing = True
+        while processing:
+            if sorted_frame_times[0] <= now():
+                task_time = heapq.heappop(sorted_frame_times)
+                for func in frame_tasks[task_time]:
+                    func()
+                del frame_tasks[task_time]
+            else:
+                processing = False
 
-    processing = True
-    while processing:
-        if sorted_task_times[0] <= now():
-            task_time = heapq.heappop(sorted_task_times)
-            for func in tasks[task_time]:
-                func()
-            del tasks[task_time]
-        else:
-            processing = False
+    if len(sorted_task_times) > 0:
+        processing = True
+        while processing:
+            if sorted_task_times[0] <= now():
+                task_time = heapq.heappop(sorted_task_times)
+                for func in tasks[task_time]:
+                    func()
+                del tasks[task_time]
+            else:
+                processing = False
 
 
 def _binary_search(arr: list, low: int, high: int, val: any) -> int:
