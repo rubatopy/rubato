@@ -16,7 +16,7 @@ rb.Game.scenes.add(main, "main")
 main.add(rb.Sprite({
     "pos": rb.Vector(100,100)
 }).add(rb.Circle({
-    "color": rb.Color.green
+    "color": rb.Color.olive
 })))
 
 rb.begin()

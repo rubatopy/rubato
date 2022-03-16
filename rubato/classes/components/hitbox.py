@@ -171,8 +171,6 @@ class Polygon(Hitbox):
             self.debug,
             "trigger":
             self.trigger,
-            "tags":
-            self.tags,
             "scale":
             self.scale,
             "callback":
@@ -434,7 +432,7 @@ class SAT:
                             shape_b: Polygon,
                             flip: bool = False) -> Union[CollisionInfo, None]:
         """Checks for overlap between a circle and a polygon"""
-        
+
         result = CollisionInfo()
         result.shape_a, result.shape_b = (shape_b, shape_a) \
             if flip else (shape_a, shape_b)
