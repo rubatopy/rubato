@@ -224,12 +224,12 @@ def update():
 
 
 def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
-    if sprite.z_index <= scenes.current_scene.camera.z_index:
+    if sprite.z_index <= scenes.current.camera.z_index:
         width, height = surface.w, surface.h
 
         new_size = (
-            round(width * scenes.current_scene.camera.zoom),
-            round(height * scenes.current_scene.camera.zoom),
+            round(width * scenes.current.camera.zoom),
+            round(height * scenes.current.camera.zoom),
         )
 
         surface_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
@@ -249,9 +249,9 @@ def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
 
         Display.update(
             surface_scaled,
-            scenes.current_scene.camera.transform(
-                Sprite.center_to_tl(sprite.pos, Vector(width, height)) *
-                scenes.current_scene.camera.zoom),
+            scenes.current.camera.transform(
+                (sprite.pos - (Vector(width, height) \
+                * scenes.current.camera.zoom / 2)).ceil()),
         )
 
 

@@ -142,17 +142,3 @@ class Sprite:
     def fixed_update(self):
         for comp in self.components:
             comp.fixed_update()
-
-    @staticmethod
-    def center_to_tl(center: Vector, dims: Vector) -> Vector:
-        """
-        Converts center coordinates to top left coordinates
-
-        Args:
-            center: The top left coordinate as a Vector
-            dims: The width and the height of the item as a sprite as a Vector
-
-        Returns:
-            Vector: The new coordinates.
-        """
-        return (center - (dims / 2)).ceil()

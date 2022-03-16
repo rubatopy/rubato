@@ -208,8 +208,8 @@ class Polygon(Hitbox):
         """
         list_of_points: List[Vector] = list(
             map(
-                lambda v: rb.Game.scenes.current_scene.camera.transform(
-                    v * rb.Game.scenes.current_scene.camera.zoom),
+                lambda v: rb.Game.scenes.current.camera.transform(
+                    v * rb.Game.scenes.current.camera.zoom),
                 self.real_verts(),
             ))
 

@@ -23,7 +23,7 @@ class SceneManager:
         Initializes the scene manager with no scenes and current set to 0.
         """
         self.scenes: Dict[str, Scene] = {}
-        self.current: str = ""
+        self._current: str = ""
 
     @property
     def is_empty(self) -> bool:
@@ -36,14 +36,14 @@ class SceneManager:
         return not bool(self.scenes.keys())
 
     @property
-    def current_scene(self) -> Scene:
+    def current(self) -> Scene:
         """
         Gets the current scene.
 
         Returns:
             Scene: The current scene.
         """
-        return self.scenes.get(self.current)
+        return self.scenes.get(self._current)
 
     def add(self, scene: Scene, scene_id: str):
         """
@@ -70,25 +70,25 @@ class SceneManager:
         Args:
             scene_id: The id of the new scene.
         """
-        self.current = scene_id
+        self._current = scene_id
 
     def setup(self):
         if self.is_empty: return
-        self.current_scene.private_setup()
+        self.current.private_setup()
 
     def draw(self):
         """Calls the draw function of the current scene."""
         if self.is_empty: return
-        self.current_scene.private_draw()
+        self.current.private_draw()
 
     def update(self):
         """
         Calls the update function of the current scene.
         """
         if self.is_empty: return
-        self.current_scene.private_update()
+        self.current.private_update()
 
     def fixed_update(self):
         """Calls the fixed update function of the current scene."""
         if self.is_empty: return
-        self.current_scene.private_fixed_update()
+        self.current.private_fixed_update()
