@@ -15,7 +15,7 @@ class SceneManager:
     Attributes:
         scenes (Dict[str, Scene]): The collection of scenes in the
             manager. Accessed by scene id.
-        current (str): The id of the current scene.
+        _current (str): The id of the current scene.
     """
 
     def __init__(self):
