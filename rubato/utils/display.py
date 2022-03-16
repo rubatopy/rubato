@@ -3,12 +3,13 @@ Global display class that allows for easy screen and window management.
 """
 import sdl2
 import sdl2.ext
+from rubato.utils.vector import Vector
 
 window: sdl2.ext.Window = None
 renderer: sdl2.ext.Renderer = None
 
 
-def update(surface: sdl2.surface.SDL_Surface, pos: tuple):
+def update(surface: sdl2.surface.SDL_Surface, pos: Vector):
     """
     Update the current screen.
 
@@ -20,7 +21,8 @@ def update(surface: sdl2.surface.SDL_Surface, pos: tuple):
         sdl2.ext.Texture(renderer, surface),
         None,
         (
-            *pos,
+            pos.x,
+            pos.y,
             surface.contents.w,
             surface.contents.h,
         ),

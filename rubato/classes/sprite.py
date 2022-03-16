@@ -5,11 +5,13 @@ from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components import Hitbox
 from rubato.utils import Vector, Configs, Display
 from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
+import rubato.game as Game
 import sdl2
 import sdl2.sdlgfx
 
 if TYPE_CHECKING:
     from rubato.classes.component import Component
+
 
 class Sprite:
     """
@@ -91,8 +93,7 @@ class Sprite:
                 was removed.
         """
         if self.get(comp_type) is not None:
-            del self.components[self.components.index(
-                self.get(comp_type))]
+            del self.components[self.components.index(self.get(comp_type))]
         else:
             raise Warning("The component of type " + str(comp_type) +
                           " is not on this sprite as was not removed.")
@@ -138,11 +139,12 @@ class Sprite:
             comp.draw()
 
         if self.debug:
+            relative_pos = Game.scenes.current.camera.transform(self.pos)
             sdl2.sdlgfx.hlineRGBA(
                 Display.renderer.sdlrenderer,
-                int(self.pos.x)-10,
-                int(self.pos.x)+10,
-                int(self.pos.y),
+                int(relative_pos.x) - 10,
+                int(relative_pos.x) + 10,
+                int(relative_pos.y),
                 0,
                 255,
                 0,
@@ -150,9 +152,9 @@ class Sprite:
             )
             sdl2.sdlgfx.vlineRGBA(
                 Display.renderer.sdlrenderer,
-                int(self.pos.x),
-                int(self.pos.y)-10,
-                int(self.pos.y)+10,
+                int(relative_pos.x),
+                int(relative_pos.y) - 10,
+                int(relative_pos.y) + 10,
                 0,
                 255,
                 0,

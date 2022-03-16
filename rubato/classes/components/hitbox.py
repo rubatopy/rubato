@@ -6,7 +6,7 @@ from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils import Math, Display, Vector, Configs, Color
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
-import rubato as rb
+import rubato.game as Game
 import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
@@ -206,8 +206,8 @@ class Polygon(Hitbox):
         """
         list_of_points: List[tuple] = list(
             map(
-                lambda v: rb.Game.scenes.current.camera.transform(
-                    v * rb.Game.scenes.current.camera.zoom),
+                lambda v: Game.scenes.current.camera.transform(
+                    v * Game.scenes.current.camera.zoom).to_tuple(),
                 self.real_verts(),
             ))
 
@@ -315,10 +315,11 @@ class Circle(Hitbox):
 
     def draw(self):
         if self.color is not None:
+            relative_pos = Game.scenes.current.camera.transform(self.pos)
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(self.pos.x),
-                int(self.pos.y),
+                int(relative_pos.x),
+                int(relative_pos.y),
                 int(self.radius),
                 self.color.r,
                 self.color.g,
@@ -327,8 +328,8 @@ class Circle(Hitbox):
             )
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(self.pos.x),
-                int(self.pos.y),
+                int(relative_pos.x),
+                int(relative_pos.y),
                 int(self.radius),
                 self.color.r,
                 self.color.g,
@@ -339,8 +340,8 @@ class Circle(Hitbox):
         if self.debug:
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(self.pos.x),
-                int(self.pos.y),
+                int(relative_pos.x),
+                int(relative_pos.y),
                 int(self.radius),
                 0,
                 255,

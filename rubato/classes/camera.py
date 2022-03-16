@@ -32,7 +32,7 @@ class Camera:
         self.zoom = zoom
         self.z_index = z_index
 
-    def transform(self, point: Vector) -> tuple:
+    def transform(self, point: Vector) -> Vector:
         """
         Converts world space coordinates into screen space coordinates
         according to the camera.
@@ -41,9 +41,9 @@ class Camera:
             point: The point in world space coordinates.
 
         Returns:
-            tuple: The translated coordinates,
+            Vector: The translated coordinates,
                 where the first item is the x-coordinate and the second item
                 is the y-coordinate. The coordinates are returned with the
                 same type that is given.
         """
-        return point.offset(self.pos).to_int().to_tuple()
+        return point.offset(self.pos).to_int()

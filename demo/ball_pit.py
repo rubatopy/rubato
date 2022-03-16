@@ -64,9 +64,10 @@ for _ in range(60):
                 randint(Game.get_height() / 20, 19 * Game.get_height() / 20))
         }).add(
             rb.Circle({
-                "radius": Game.get_width() / 50,
-                "color": Color(*choice(
-                    list(rb.Configs.color_defaults.values())))
+                "radius":
+                Game.get_width() / 50,
+                "color":
+                Color(*choice(list(rb.Configs.color_defaults.values())))
             })).add(
                 rb.RigidBody({
                     "bounciness":
@@ -74,7 +75,8 @@ for _ in range(60):
                     "friction":
                     0.2,
                     "gravity":
-                    Vector(0, Game.get_width() / 8),
+                    Vector(0,
+                           Game.get_width() / 8),
                     "velocity":
                     Vector(randint(-100, 100), randint(-100, 100))
                 })))
@@ -85,7 +87,7 @@ player = rb.Sprite({
 }).add(
     rb.Image({
         "image_location": "testing/Idle/0.png",
-        "scale_factor": rb.Vector(10 / 3, 10 / 3)
+        "scale_factor": rb.Vector(2, 2)
     }))
 
 player_rb = rb.RigidBody({
@@ -98,7 +100,8 @@ player.add(player_rb)
 
 player_hitbox = rb.Polygon({
     "verts":
-    rb.Polygon.generate_polygon(4, Game.get_width() / 25),
+    rb.Polygon.generate_polygon(4,
+                                Game.get_width() / 25),
     "rotation":
     180,
     "debug":
@@ -117,7 +120,18 @@ def custom_update():
     elif rb.Input.key_is_pressed("d"):
         player_rb.velocity.x += Game.get_width() / 12
 
-    print(f"fps: {rb.Time.smooth_fps()}")
+    if rb.Input.key_is_pressed("right"):
+        rb.Game.scenes.current.camera.pos.x += 5
+    elif rb.Input.key_is_pressed("left"):
+        rb.Game.scenes.current.camera.pos.x -= 5
+    if rb.Input.key_is_pressed("up"):
+        rb.Game.scenes.current.camera.pos.y -= 5
+    elif rb.Input.key_is_pressed("down"):
+        rb.Game.scenes.current.camera.pos.y += 5
+    if rb.Input.key_is_pressed("-"):
+        rb.Game.scenes.current.camera.zoom -= 0.1
+    elif rb.Input.key_is_pressed("="):
+        rb.Game.scenes.current.camera.zoom += 0.1
 
 
 main_scene.add([top, bottom, left, right, player])
