@@ -204,18 +204,39 @@ class Polygon(Hitbox):
         """
         The draw loop
         """
-        list_of_points: List[Vector] = list(
+        list_of_points: List[tuple] = list(
             map(
                 lambda v: rb.Game.scenes.current.camera.transform(
                     v * rb.Game.scenes.current.camera.zoom),
                 self.real_verts(),
             ))
 
-        x_coords = list(map(lambda v: int(v.x), list_of_points))
-        y_coords = list(map(lambda v: int(v.y), list_of_points))
+        x_coords, y_coords = zip(*list_of_points)
 
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)
+
+        if self.color is not None:
+            sdl2.sdlgfx.filledPolygonRGBA(
+                Display.renderer.sdlrenderer,
+                vx,
+                vy,
+                len(list_of_points),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
+            sdl2.sdlgfx.aapolygonRGBA(
+                Display.renderer.sdlrenderer,
+                vx,
+                vy,
+                len(list_of_points),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
 
         if self.debug:
             sdl2.sdlgfx.aapolygonRGBA(
@@ -227,28 +248,6 @@ class Polygon(Hitbox):
                 255,
                 0,
                 255,
-            )
-
-        if self.color is not None:
-            sdl2.sdlgfx.aapolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(list_of_points),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
-            sdl2.sdlgfx.filledPolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(list_of_points),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
             )
 
 
@@ -315,6 +314,28 @@ class Circle(Hitbox):
         return self.radius * self.scale
 
     def draw(self):
+        if self.color is not None:
+            sdl2.sdlgfx.filledCircleRGBA(
+                Display.renderer.sdlrenderer,
+                int(self.pos.x),
+                int(self.pos.y),
+                int(self.radius),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
+            sdl2.sdlgfx.aacircleRGBA(
+                Display.renderer.sdlrenderer,
+                int(self.pos.x),
+                int(self.pos.y),
+                int(self.radius),
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
+
         if self.debug:
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
@@ -325,28 +346,6 @@ class Circle(Hitbox):
                 255,
                 0,
                 255,
-            )
-
-        if self.color is not None:
-            sdl2.sdlgfx.aacircleRGBA(
-                Display.renderer.sdlrenderer,
-                int(self.pos.x),
-                int(self.pos.y),
-                int(self.radius),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
-            sdl2.sdlgfx.filledCircleRGBA(
-                Display.renderer.sdlrenderer,
-                int(self.pos.x),
-                int(self.pos.y),
-                int(self.radius),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
             )
 
 
