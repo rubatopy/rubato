@@ -124,11 +124,12 @@ def update():
     """
     global _saved_dims, _physics_count
     dnd_if_paused = get_state() != STATE.PAUSED
+
     # Event handling
     for event in sdl2.ext.get_events():
         sdl2.SDL_PumpEvents()
         if event.type == sdl2.SDL_QUIT:
-            radio.broadcast("EXIT")
+            radio.broadcast("exit")
             sdl2.SDL_Quit()
             sys.exit(1)
         if event.type == sdl2.SDL_WINDOWEVENT_RESIZED:
@@ -149,7 +150,7 @@ def update():
             with suppress(ValueError):
                 unicode = chr(key_info.sym)
             radio.broadcast(
-                "keydown",
+                "keyhold" if event.key.repeat else "keydown",
                 {
                     "key": Input.get_name(key_info.sym),
                     "unicode": unicode,

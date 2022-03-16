@@ -4,7 +4,14 @@ This is similar to event systems in other game engines.
 
 To use this, first you need to listen for a specific key using the
 :meth:`Radio.listen` function. Then from anywhere else in the code, you can
-broadcast that event key using the :meth:`Radio.broadcast` function.
+broadcast that event key using :meth:`Radio.broadcast`.
+
+Global events automatically broadcasted:
+exit - The user has requested for the application to close
+resize - The window was resized
+keydown - A key was pressed
+keyhold - A key that was pressed is repeating
+keyup - A key was unpressed
 """
 
 from typing import Callable, List
