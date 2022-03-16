@@ -20,8 +20,7 @@ rigidbody_defaults = {
     "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
     "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
-    "min_speed": Vector(-Math.INFINITY, -Math.INFINITY),  # . . Vector
-    "velocity": Vector(), # . . . . . . . . . . . . . . . . . . Vector
+    "velocity": Vector(),  #. . . . . . . . . . . . . . . . . . Vector
     "friction": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
@@ -47,7 +46,7 @@ animation_defaults = {
 }
 
 polygon_defaults = {
-    "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector],
+    "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector]
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     "trigger": False,  #. . . . . . . . . . . . . . . . . . . . bool
@@ -71,6 +70,7 @@ circle_defaults = {
     "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
     "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
 }
+# [end-defaults]
 
 button_defaults = {
     "text": "default_text",  #. . . . . . . . . . . . . . . . . str
@@ -91,4 +91,3 @@ text_defaults = {
     "static": False,
     "onto_surface": None,
 }
-# [end-defaults]

@@ -48,7 +48,6 @@ class RigidBody(Component):
         self.gravity: Vector = params["gravity"]
         self.friction: float = params["friction"]
         self.max_speed: Vector = params["max_speed"]
-        self.min_speed: Vector = params["min_speed"]
 
         self.velocity: Vector = params["velocity"]
 
@@ -76,6 +75,8 @@ class RigidBody(Component):
         """The physics calculation"""
         # Apply gravity
         self.add_force(self.gravity * self.mass)
+
+        self.velocity.clamp(-self.max_speed, self.max_speed)
 
         self.sprite.pos += self.velocity * Time.fixed_delta_time("sec")
 
@@ -198,7 +199,6 @@ class RigidBody(Component):
 
         if rb_b is not None and not rb_b.static:
             rb_b.velocity += friction_impulse * rb_b.inv_mass
-
 
     def fixed_update(self):
         """The update loop"""
