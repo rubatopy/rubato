@@ -112,4 +112,6 @@ def custom_update():
 main_scene.add([top, bottom, left, right, player])
 main_scene.update = custom_update
 
+rb.radio.listen("keydown", lambda: print("hi"))
+
 rb.begin()

@@ -67,7 +67,7 @@ class Radio:
 
         return listener
 
-    def broadcast(self, event: str, params: dict):
+    def broadcast(self, event: str, params: dict = {}):
         """
         Broadcast an event to be caught by listeners.
 

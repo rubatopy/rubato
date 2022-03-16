@@ -128,11 +128,20 @@ def update():
     for event in sdl2.ext.get_events():
         sdl2.SDL_PumpEvents()
         if event.type == sdl2.SDL_QUIT:
-            radio.broadcast("EXIT", {})
+            radio.broadcast("EXIT")
             sdl2.SDL_Quit()
             sys.exit(1)
         if event.type == sdl2.SDL_WINDOWEVENT_RESIZED:
             global window_size
+            radio.broadcast(
+                "resize",
+                {
+                    "width": event.size[0],
+                    "height": event.size[1],
+                    "old_width": window_size.x,
+                    "old_height": window_size.y
+                }
+            )
             window_size = Vector.from_tuple(event.size)
         if event.type == sdl2.SDL_KEYDOWN:
             key_info = event.key.keysym
@@ -154,7 +163,7 @@ def update():
             with suppress(ValueError):
                 unicode = chr(key_info.sym)
             radio.broadcast(
-                "keydown",
+                "keyup",
                 {
                     "key": Input.get_name(key_info.sym),
                     "unicode": unicode,
