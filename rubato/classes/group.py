@@ -68,7 +68,6 @@ class Group:
                     ht.collide(hitbox)
                 hitboxes.append(ht)
 
-
     def draw(self):
         for item in self.items:
             item.draw()

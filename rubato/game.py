@@ -49,7 +49,6 @@ resolution: Vector = Vector()
 fps_cap: int = 0
 physics_timestep: int = 0
 reset_display: bool = True
-_use_better_clock: bool = True
 
 _physics_count: float = 0
 
@@ -77,7 +76,7 @@ def init(options: dict = {}):
             Defaults to the |default| for `Game`.
     """
     global name, window_size, resolution, fps_cap, \
-        reset_display, _use_better_clock, _saved_dims, \
+        reset_display, _saved_dims, \
         is_init
 
     is_init = True
@@ -91,7 +90,6 @@ def init(options: dict = {}):
     fps_cap = params["fps_cap"]
     Time.fdt = params["physics_timestep"]
     reset_display = params["reset_display"]
-    _use_better_clock = params["better_clock"]
 
     flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI)
     Display.window = sdl2.ext.Window(name, window_size.to_tuple(), flags=flags)
