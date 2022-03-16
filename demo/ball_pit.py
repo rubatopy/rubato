@@ -20,38 +20,38 @@ main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
 top = rb.Sprite({
-    "pos": Game.top_center()
+    "pos": Game.top_center() + Vector(0, -30)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width(),
-        "height": Game.get_height() / 20,
+        "width": Game.get_width() + 175,
+        "height": Game.get_height() / 10,
         "color": Color.gray,
     }))
 
 bottom = rb.Sprite({
-    "pos": Game.bottom_center()
+    "pos": Game.bottom_center() + Vector(0, 30)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width(),
-        "height": Game.get_height() / 20,
+        "width": Game.get_width() + 175,
+        "height": Game.get_height() / 10,
         "color": Color.gray,
     }))
 
 left = rb.Sprite({
-    "pos": Game.center_left()
+    "pos": Game.center_left() + Vector(-30, 0)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width() / 20,
-        "height": Game.get_height(),
+        "width": Game.get_width() / 10,
+        "height": Game.get_height() + 175,
         "color": Color.gray,
     }))
 
 right = rb.Sprite({
-    "pos": Game.center_right()
+    "pos": Game.center_right() + Vector(30, 0)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width() / 20,
-        "height": Game.get_height(),
+        "width": Game.get_width() / 10,
+        "height": Game.get_height() + 175,
         "color": Color.gray,
     }))
 
@@ -128,10 +128,13 @@ def custom_update():
         rb.Game.scenes.current.camera.pos.y -= 5
     elif rb.Input.key_is_pressed("down"):
         rb.Game.scenes.current.camera.pos.y += 5
+
     if rb.Input.key_is_pressed("-"):
         rb.Game.scenes.current.camera.zoom -= 0.1
     elif rb.Input.key_is_pressed("="):
         rb.Game.scenes.current.camera.zoom += 0.1
+    if rb.Input.key_is_pressed("0"):
+        rb.Game.scenes.current.camera.zoom = 1
 
 
 main_scene.add([top, bottom, left, right, player])
