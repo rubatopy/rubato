@@ -5,7 +5,7 @@ Attributes:
     frames (int): The total number of elapsed frames since the start of the
         game.
 """
-from typing import Callable
+from typing import Callable, Dict, Union
 import heapq
 import sdl2
 
@@ -24,24 +24,60 @@ _past_fps = [0]
 
 fps_cap = 0  # this means no cap
 
-_last_frame = 0
+_last_time_update = 0
+
+tickers: Dict[str, int] = {"update": 0, "fixed": 0}
 
 
-def tick():
-    global _last_frame, delta_time
-
+def delta_time_target() -> int:
     if fps_cap > 0:
-        cap = 1 / fps_cap
-        cap = sec_to_milli(cap)
-        sdl2.timer.SDL_Delay(now() - (_last_frame + cap))
+        return int(1 / fps_cap)
+    else:
+        return 0
 
-    delta_time = now() - _last_frame
+
+def create_ticker(tick_id: str):
+    if tick_id not in tickers:
+        tickers[tick_id] = 0
+
+
+def get_ticker(tick_id: str) -> Union[int, None]:
+    return tickers.get(tick_id, None)
+
+
+def remove_ticker(tick_id: str):
+    if tick_id in tickers:
+        del tickers[tick_id]
+
+
+def should_update(tick_id: str, target: int) -> Union[bool, None]:
+    if tick_id in tickers:
+        tick = tickers[tick_id]
+        if tick >= target:
+            tick -= target
+            return True
+        return False
+    return None
+
+
+def update_time():
+    global _last_time_update, fps
+
+    current = now()
+    elapsed_time = current - _last_time_update
+    for ticker in tickers:
+        tickers[ticker] += elapsed_time
+
+    if elapsed_time != 0:
+        fps = 1 / milli_to_sec(elapsed_time)
+    else:
+        fps = 0
 
     if len(_past_fps) > 5:
         _past_fps.pop(0)
     _past_fps.append(fps)
 
-    _last_frame = now()
+    _last_time_update = current
 
 
 def smooth_fps():
