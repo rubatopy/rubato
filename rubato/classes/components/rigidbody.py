@@ -123,12 +123,36 @@ class RigidBody(Component):
         inv_mass_a: float = 0 if rb_a is None else rb_a.inv_mass
         inv_mass_b: float = 0 if rb_b is None else rb_b.inv_mass
 
+        if inv_mass_a == inv_mass_b == 0:
+            if rb_a is None:
+                inv_mass_b = 1
+            elif rb_b is None:
+                inv_mass_a = 1
+            else:
+                inv_mass_a, inv_mass_b = 1, 1
+
+        # Find collision separation normal
+        collision_norm = col.sep.unit()
+
+        # Position correction
+        percent = 0.2  # usually 20% to 80% interpolation
+        slop = 0.01  # usually 0.01 to 0.1 correction threshold
+
+        correction = max(col.sep.magnitude - slop, 0) / (
+            inv_mass_a + inv_mass_b) * percent * collision_norm
+
+        if rb_a is not None and not rb_a.static:
+            rb_a.sprite.pos -= inv_mass_a * correction
+
+        if rb_b is not None and not rb_b.static:
+            rb_b.sprite.pos += inv_mass_b * correction
+
+
+        # Impulse Resolution
+
         # Relative velocity
         rv = (Vector() if rb_b is None else rb_b.velocity) - \
             (Vector() if rb_a is None else rb_a.velocity)
-
-        # Relative velocity along collision normal
-        collision_norm = col.sep.unit()
         vel_along_norm = rv.dot(collision_norm)
 
         if vel_along_norm > 0:
@@ -139,30 +163,17 @@ class RigidBody(Component):
                 0 if rb_b is None else rb_b.bounciness)
 
         # Calculate impulse scalar
-        j = -(1 + e) * vel_along_norm
-        j /= inv_mass_a + inv_mass_b
+        j = -(1 + e) * vel_along_norm / (inv_mass_a + inv_mass_b)
 
         # Apply the impulse
         impulse = j * collision_norm
 
         if rb_a is not None and not rb_a.static:
-            rb_a.velocity -= impulse * rb_a.inv_mass
+            rb_a.velocity -= inv_mass_a * impulse
 
         if rb_b is not None and not rb_b.static:
-            rb_b.velocity += impulse * rb_b.inv_mass
+            rb_b.velocity += inv_mass_b * impulse
 
-        # Position correction
-        percent = 0.2  # usually 20% to 80% interpolation
-        slop = 0.01  # usually 0.01 to 0.1 correction threshold
-
-        correction = max(col.sep.magnitude - slop, 0) / (
-            inv_mass_a + inv_mass_b) * percent * collision_norm
-
-        if rb_a is not None and not rb_a.static:
-            rb_a.sprite.pos -= rb_a.inv_mass * correction
-
-        if rb_b is not None and not rb_b.static:
-            rb_b.sprite.pos += rb_b.inv_mass * correction
 
         # Friction
 
@@ -195,10 +206,10 @@ class RigidBody(Component):
             friction_impulse = -j * tangent * mu  # "Dynamic friction"
 
         if rb_a is not None and not rb_a.static:
-            rb_a.velocity -= friction_impulse * rb_a.inv_mass
+            rb_a.velocity -= inv_mass_a * friction_impulse
 
         if rb_b is not None and not rb_b.static:
-            rb_b.velocity += friction_impulse * rb_b.inv_mass
+            rb_b.velocity += inv_mass_b * friction_impulse
 
     def fixed_update(self):
         """The update loop"""
