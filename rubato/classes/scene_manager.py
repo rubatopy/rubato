@@ -97,4 +97,5 @@ class SceneManager:
         self.current.private_fixed_update()
 
     def paused_update(self):
+        if self.is_empty(): return
         self.current.paused_update()

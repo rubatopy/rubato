@@ -16,7 +16,7 @@ from __future__ import unicode_literals
 import sys
 import sdl2
 import sdl2.ext
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING
 from rubato.classes.sprite import Sprite
 from rubato.utils import Display, Vector, Time, Configs
 from rubato.classes import SceneManager
@@ -52,8 +52,6 @@ scenes = SceneManager()
 radio: "Radio" = None
 
 _saved_dims = window_size.clone()
-
-_max_screen_size: Tuple[int, int] = (0, 0)
 
 is_init = False
 
