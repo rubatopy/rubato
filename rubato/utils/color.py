@@ -14,6 +14,7 @@ class Color:
         r (int): The red value.
         g (int): The green value.
         b (int): The blue value.
+        a (int): The alpha value.
     """
 
     def __init__(self, r: int = 0, g: int = 0, b: int = 0, a: int = 255):
@@ -166,194 +167,119 @@ class Color:
     @classmethod
     @property
     def random(cls):
-        """
-        A Color class with a random color.
-
-        Returns:
-            Color: A random color.
-        """
+        """A Color object of a random color."""
         return Color(randint(0, 255), randint(0, 255), randint(0, 255))
 
     @classmethod
     @property
     def black(cls):
-        """
-        A Color class of the color black.
-
-        Returns:
-            Color: (0, 0, 0)
-        """
+        """A Color object of the color black."""
         return Color(0, 0, 0)
 
     @classmethod
     @property
     def white(cls):
-        """
-        A Color class of the color white.
-
-        Returns:
-            Color: (255, 255, 255)
-        """
+        """A Color object of the color white."""
         return Color(255, 255, 255)
 
     @classmethod
     @property
-    def red(cls):
-        """
-        A Color class of the color red.
+    def night(cls):
+        """A Color object of the color night."""
+        return Color(45, 52, 54)
 
-        Returns:
-            Color: (255, 0, 0)
-        """
-        return Color(255, 0, 0)
+    @classmethod
+    @property
+    def snow(cls):
+        """A Color object of the color snow."""
+        return Color(223, 249, 251)
+
+    @classmethod
+    @property
+    def red(cls):
+        """A Color object of the color red."""
+        return Color(235, 77, 75)
 
     @classmethod
     @property
     def lime(cls):
-        """
-        A Color class of the color lime.
-
-        Returns:
-            Color: (0, 255, 0)
-        """
-        return Color(0, 255, 0)
+        """A Color object of the color lime."""
+        return Color(186, 220, 88)
 
     @classmethod
     @property
     def blue(cls):
-        """
-        A Color class of the color blue.
-
-        Returns:
-            Color: (0, 0, 255)
-        """
-        return Color(0, 0, 255)
+        """A Color object of the color blue."""
+        return Color(104, 109, 224)
 
     @classmethod
     @property
     def yellow(cls):
-        """
-        A Color class of the color yellow.
-
-        Returns:
-            Color: (255, 255, 0)
-        """
-        return Color(255, 255, 0)
+        """A Color object of the color yellow."""
+        return Color(249, 202, 36)
 
     @classmethod
     @property
     def cyan(cls):
-        """
-        A Color class of the color cyan.
-
-        Returns:
-            Color: (0, 255, 255)
-        """
-        return Color(0, 255, 255)
+        """A Color object of the color cyan."""
+        return Color(126, 214, 223)
 
     @classmethod
     @property
     def magenta(cls):
-        """
-        A Color class of the color magenta.
-
-        Returns:
-            Color: (255, 0, 255)
-        """
-        return Color(255, 0, 255)
+        """A Color object of the color magenta."""
+        return Color(179, 55, 113)
 
     @classmethod
     @property
     def silver(cls):
-        """
-        A Color class of the color silver.
-
-        Returns:
-            Color: (192, 192, 192)
-        """
-        return Color(192, 192, 192)
+        """A Color object of the color silver."""
+        return Color(149, 175, 192)
 
     @classmethod
     @property
     def gray(cls):
-        """
-        A Color class of the color gray.
-
-        Returns:
-            Color: (128, 128, 128)
-        """
-        return Color(128, 128, 128)
+        """A Color object of the color gray."""
+        return Color(83, 92, 104)
 
     @classmethod
     @property
     def maroon(cls):
-        """
-        A Color class of the color maroon.
-
-        Returns:
-            Color: (128, 0, 0)
-        """
-        return Color(128, 0, 0)
+        """A Color object of the color maroon."""
+        return Color(224, 86, 253)
 
     @classmethod
     @property
     def olive(cls):
-        """
-        A Color class of the color olive.
-
-        Returns:
-            Color: (128, 128, 0)
-        """
-        return Color(128, 128, 0)
+        """A Color object of the color olive."""
+        return Color(0, 148, 50)
 
     @classmethod
     @property
     def green(cls):
-        """
-        A Color class of the color green.
-
-        Returns:
-            Color: (0, 128, 0)
-        """
-        return Color(0, 128, 0)
+        """A Color object of the color green."""
+        return Color(106, 176, 76)
 
     @classmethod
     @property
     def purple(cls):
-        """
-        A Color class of the color purple.
-
-        Returns:
-            Color: (128, 0, 128)
-        """
-        return Color(128, 0, 128)
+        """A Color object of the color purple."""
+        return Color(190, 46, 221)
 
     @classmethod
     @property
     def teal(cls):
-        """
-        A Color class of the color teal.
-
-        Returns:
-            Color: (0, 128, 128)
-        """
-        return Color(0, 128, 128)
+        """A Color object of the color teal."""
+        return Color(34, 166, 179)
 
     @classmethod
     @property
     def navy(cls):
-        """
-        A Color class of the color navy.
-
-        Returns:
-            Color: (0, 0, 128)
-        """
-        return Color(0, 0, 128)
+        """A Color object of the color navy."""
+        return Color(72, 52, 212)
 
     @classmethod
     @property
     def clear(cls):
-        """
-        A clear Color object
-        """
+        """A transparent Color object"""
         return Color(0,0,0,0)
