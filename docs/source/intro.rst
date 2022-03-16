@@ -12,6 +12,7 @@ Installing Rubato is simple. Just run:
 .. note::
     | A virtual environment is recommended
     | Python >= 3.10 required
+    | Issues have been found when using the python from Microsoft store (use python.org)
 
 Usage
 -----
