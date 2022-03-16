@@ -10,8 +10,8 @@ from rubato import Game, Vector, Color
 
 rb.init({
     "name": "Physics Demo",
-    "fps_cap": 1,
-    "physics_timestep": 20,
+    "target_fps": 60,
+    "physics_fps": 60,
     "window_size": Vector(600, 600),
     "resolution": Vector(1200, 1200),
 })
@@ -55,7 +55,7 @@ right = rb.Sprite({
         "color": Color.gray,
     }))
 
-for _ in range(60):
+for _ in range(30):
     main_scene.add(
         rb.Sprite({
             "pos":
@@ -112,13 +112,13 @@ player.add(player_hitbox)
 
 def custom_update():
     if rb.Input.key_is_pressed("w"):
-        player_rb.velocity.y -= Game.get_width() / 12
+        player_rb.velocity.y -= 100
     elif rb.Input.key_is_pressed("s"):
-        player_rb.velocity.y += Game.get_width() / 12
+        player_rb.velocity.y += 100
     if rb.Input.key_is_pressed("a"):
-        player_rb.velocity.x -= Game.get_width() / 12
+        player_rb.velocity.x -= 100
     elif rb.Input.key_is_pressed("d"):
-        player_rb.velocity.x += Game.get_width() / 12
+        player_rb.velocity.x += 100
 
     if rb.Input.key_is_pressed("right"):
         rb.Game.scenes.current.camera.pos.x += 5

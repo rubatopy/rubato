@@ -78,8 +78,7 @@ class RigidBody(Component):
 
         self.velocity.clamp(-self.max_speed, self.max_speed)
 
-        self.sprite.pos += self.velocity * \
-            Time.milli_to_sec(Time.fixed_delta_time)
+        self.sprite.pos += self.velocity * Time.milli_to_sec(Time.fixed_delta)
 
     def add_force(self, force: Vector):
         """
@@ -90,7 +89,7 @@ class RigidBody(Component):
         """
         accel = force * self.inv_mass
 
-        self.velocity += accel * Time.milli_to_sec(Time.fixed_delta_time)
+        self.velocity += accel * Time.milli_to_sec(Time.fixed_delta)
 
     def add_cont_force(self, impulse: Vector, time: int):
         """

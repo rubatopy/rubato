@@ -5,7 +5,7 @@ Attributes:
     frames (int): The total number of elapsed frames since the start of the
         game.
 """
-from typing import Callable, Dict, Union
+from typing import Callable
 import heapq
 import sdl2
 
@@ -16,68 +16,16 @@ sorted_frame_times = []
 tasks = {}
 sorted_task_times = []
 
-fixed_delta_time = 20
-delta_time = 16
+delta_time = 0
+fixed_delta = 0
 fps = 60
+
+physics_counter = 0
 
 _past_fps = [0]
 
-fps_cap = 0  # this means no cap
-
-_last_time_update = 0
-
-tickers: Dict[str, int] = {"update": 0, "fixed": 0, "draw": 0}
-
-
-def delta_time_target() -> int:
-    if fps_cap > 0:
-        return int(sec_to_milli(1 / fps_cap))
-    else:
-        return 0
-
-
-def create_ticker(tick_id: str):
-    if tick_id not in tickers:
-        tickers[tick_id] = 0
-
-
-def get_ticker(tick_id: str) -> Union[int, None]:
-    return tickers.get(tick_id, None)
-
-
-def remove_ticker(tick_id: str):
-    if tick_id in tickers:
-        del tickers[tick_id]
-
-
-def should_update(tick_id: str, target: int) -> Union[bool, None]:
-    if tick_id in tickers:
-        tick = tickers[tick_id]
-        if tick >= target:
-            tick -= target
-            return True
-        return False
-    return None
-
-
-def update_time():
-    global _last_time_update, fps
-
-    current = now()
-    elapsed_time = current - _last_time_update
-    for ticker in tickers:
-        tickers[ticker] += elapsed_time
-
-    if elapsed_time != 0:
-        fps = 1 / milli_to_sec(elapsed_time)
-    else:
-        fps = 0
-
-    if len(_past_fps) > 5:
-        _past_fps.pop(0)
-    _past_fps.append(fps)
-
-    _last_time_update = current
+target_fps = 0  # this means no cap
+physics_fps = 60
 
 
 def smooth_fps():
@@ -155,8 +103,13 @@ def sec_to_milli(sec: int) -> float:
 
 def process_calls():
     """Processes the calls needed"""
-    global frames
+    global frames, fps
     frames += 1
+    fps = 1000 / delta_time
+
+    if len(_past_fps) > 5:
+        _past_fps.pop(0)
+    _past_fps.append(fps)
 
     if len(sorted_frame_times) > 0:
         processing = True
