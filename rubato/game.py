@@ -18,7 +18,7 @@ import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING, Tuple
 from rubato.classes.sprite import Sprite
-from rubato.utils import Display, Vector, Time, Configs, Math
+from rubato.utils import Display, Vector, Time, Configs
 from rubato.classes import SceneManager
 import rubato.input as Input
 from enum import Enum
@@ -119,7 +119,7 @@ def update():
     Handles the game states.
     Will always process timed calls.
     """
-    global _saved_dims, _physics_count
+    global _saved_dims
     dnd_if_paused = get_state() != STATE.PAUSED
 
     # Event handling
@@ -132,14 +132,12 @@ def update():
         if event.type == sdl2.SDL_WINDOWEVENT_RESIZED:
             global window_size
             radio.broadcast(
-                "resize",
-                {
+                "resize", {
                     "width": event.size[0],
                     "height": event.size[1],
                     "old_width": window_size.x,
                     "old_height": window_size.y
-                }
-            )
+                })
             window_size = Vector.from_tuple(event.size)
         if event.type == sdl2.SDL_KEYDOWN:
             key_info = event.key.keysym
@@ -192,18 +190,15 @@ def update():
     # Delayed calls handling
     if dnd_if_paused and get_state():
         Time.process_calls()
+        Time.update_time()
 
     # Fixed Update Loop
-    _physics_count += Time.delta_time
-
-    _physics_count = Math.clamp(_physics_count, 0, Time.fixed_delta_time * 100)
-
-    while dnd_if_paused and _physics_count > Time.fixed_delta_time:
+    if dnd_if_paused and Time.should_update("fixed", Time.fixed_delta_time):
         scenes.fixed_update()
-        _physics_count -= Time.fixed_delta_time
 
     # Regular Update Loop
-    if dnd_if_paused:
+    if dnd_if_paused and Time.should_update("update",
+                                            Time.delta_time_target()):
         scenes.update()
 
     # Draw Loop
@@ -221,8 +216,6 @@ def update():
     Display.window.refresh()
     Display.renderer.present()
     radio.events = []
-    if dnd_if_paused:
-        Time.tick()
 
 
 def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
