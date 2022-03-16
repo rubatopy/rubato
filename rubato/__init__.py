@@ -27,6 +27,7 @@ import rubato.game as Game
 warnings.simplefilter("default", UserWarning)
 
 STATE = Game.STATE
+radio = Radio()
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -68,6 +69,7 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the |default| for `Game`.
     """
+    Game.radio = radio
     Game.init(options)
 
 

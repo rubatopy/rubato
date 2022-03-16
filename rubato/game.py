@@ -14,15 +14,18 @@ Attributes:
 """
 from __future__ import unicode_literals
 import sys
+from typing import TYPE_CHECKING
 import sdl2
 import sdl2.ext
 from rubato.classes.sprite import Sprite
 from rubato.utils import Display, Vector, Time, Configs
 from rubato.classes import SceneManager
-from rubato.radio import Radio
 import rubato.input as Input
 from enum import Enum
 from contextlib import suppress
+
+if TYPE_CHECKING:
+    from rubato.radio import Radio
 
 
 class STATE(Enum):
@@ -46,7 +49,7 @@ resolution: Vector = Vector()
 
 _state = STATE.STOPPED
 scenes = SceneManager()
-radio: "Radio" = Radio()
+radio: "Radio" = None
 
 _saved_dims = window_size.clone()
 
