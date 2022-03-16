@@ -508,7 +508,7 @@ class SAT:
             if a_range.x > b_range.y or b_range.x > a_range.y:
                 return None
 
-            min_dist = b_range.x - a_range.y if flip else a_range.x - b_range.y
+            min_dist = a_range.x - b_range.y if flip else b_range.x - a_range.y
 
             if abs(min_dist) < shortest:
                 shortest = abs(min_dist)
