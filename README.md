@@ -1,4 +1,4 @@
-# ![logo](./docs/source/_static/logo_small.png) <br> rubato
+# ![logo](https://github.com/rubatopy/rubato/blob/main/docs/source/_static/logo_small.png?raw=true) <br> rubato
 
 [![GitHub](https://img.shields.io/github/license/rubatopy/rubato?style=flat-square)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![PyPI](https://img.shields.io/pypi/v/rubato?style=flat-square)](https://pypi.org/project/rubato/)
