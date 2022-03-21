@@ -1,37 +1,6 @@
 Input Details
 =============
 
-Modifier Keys
--------------
-Here is a list of the modifier keys that exist. Use these with
-:func:`rubato.Input.combo_pressed() <rubato.input.combo_pressed()>`.
-
-.. code-block:: python
-    :linenos:
-    :lineno-start: 1
-
-    "Shift" # Any shift is down
-    "Left Shift"
-    "Right Shift"
-
-    "Alt" # Any alt is down
-    "Left Alt"
-    "Right Alt"
-
-    "Ctrl" # Any ctrl is down
-    "Left Ctrl"
-    "Right Ctrl"
-
-    "GUI" # Any gui is down
-    "Left GUI" # windows, command apple, meta
-    "Right GUI" # windows, command apple, meta
-
-    "Numlock"
-    "Caps Lock"
-
-    "AltGr"
-
-
 Key Names
 ---------
 Here is the list of all of the available key names. Note that key names ARE case
@@ -89,12 +58,41 @@ _______
     "Y"
     "Z"
 
-Function Keys
+Modifier Keys
 _____________
 
 .. code-block:: python
     :linenos:
     :lineno-start: 37
+
+    "Shift" # Any shift is down
+    "Left Shift"
+    "Right Shift"
+
+    "Alt" # Any alt is down
+    "Left Alt"
+    "Right Alt"
+
+    "Ctrl" # Any ctrl is down
+    "Left Ctrl"
+    "Right Ctrl"
+
+    "GUI" # Any gui is down
+    "Left GUI" # windows, command apple, meta
+    "Right GUI" # windows, command apple, meta
+
+    "Numlock"
+    "Caps Lock"
+
+    "AltGr"
+
+
+Function Keys
+_____________
+
+.. code-block:: python
+    :linenos:
+    :lineno-start: 56
 
     "F1"
     "F2"
@@ -128,7 +126,7 @@ __________________
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 61
+    :lineno-start: 80
 
     "'"
     "\"
@@ -147,7 +145,7 @@ ________________
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 72
+    :lineno-start: 90
 
     "Keypad -"
     "Keypad ,"
@@ -215,7 +213,7 @@ __________________________
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 132
+    :lineno-start: 149
 
 
     "AC Back"
@@ -231,7 +229,7 @@ _____________
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 139
+    :lineno-start: 156
 
     "Up"  # the Up arrow key
     "Down" # the Down arrow key
@@ -267,17 +265,6 @@ _____________
     "KBDIllumToggle"  # the Keyboard Illumination Toggle key
     "KBDIllumUp"  # the Keyboard Illumination Up key
 
-    "Left Alt"
-    "Left Ctrl"
-    "Left GUI" # windows, command apple, meta
-    "Left Shift"
-
-    "Right Alt" # alt gr, option
-    "Right Ctrl"
-    "Right GUI" # windows, command apple, meta
-    "Right Shift"
-
-    "Numlock"
     "ScrollLock"
 
     "PageDown"
@@ -291,7 +278,7 @@ ______________
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 191
+    :lineno-start: 197
 
 
     "Again"

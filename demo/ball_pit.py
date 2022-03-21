@@ -136,7 +136,7 @@ def custom_update():
     if rb.Input.key_pressed("0"):
         rb.Game.scenes.current.camera.zoom = 1
 
-    if rb.Input.combo_pressed("e", "Ctrl", "Alt"):
+    if rb.Input.key_pressed("a", "Shift"):
         print("WOW the secret combo was pressed.")
 
 
