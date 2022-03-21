@@ -98,14 +98,10 @@ player_rb = rb.RigidBody({
 })
 player.add(player_rb)
 
-player_hitbox = rb.Polygon({
-    "verts":
-    rb.Polygon.generate_polygon(4,
-                                Game.get_width() / 25),
-    "rotation":
-    180,
-    "debug":
-    True,
+player_hitbox = rb.Rectangle({
+    "width": Game.get_width() / 16,
+    "height": Game.get_width() / 16,
+    "debug": True,
 })
 player.add(player_hitbox)
 
