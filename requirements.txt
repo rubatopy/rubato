@@ -1,4 +1,7 @@
+# IF A CHANGE IS MADE TO THIS FILE, MAKE SURE SETUP.PY IS UPDATED
+# Dev dependencies
 pylint==2.12.2
 yapf==0.32.0
+# Public dependencies
 PySDL2==0.9.11
 pysdl2-dll==2.0.20
