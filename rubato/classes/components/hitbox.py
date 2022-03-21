@@ -3,7 +3,7 @@
 import math
 from typing import Callable, List, Union
 from rubato.classes.components.rigidbody import RigidBody
-from rubato.utils import Math, Display, Vector, Configs, Color
+from rubato.utils import Math, Display, Vector, Defaults, Color
 from rubato.classes.component import Component
 from rubato.utils.error import SideError
 import rubato.game as Game
@@ -93,7 +93,7 @@ class Polygon(Hitbox):
             rotation: The rotation angle of the polygon in degrees as a
                 function. Defaults to lambda: 0.
         """
-        params = Configs.polygon_defaults | options
+        params = Defaults.polygon_defaults | options
         super().__init__()
         self.debug: bool = params["debug"]
         self.trigger: bool = params["trigger"]
@@ -257,7 +257,7 @@ class Rectangle(Polygon):
     """
 
     def __init__(self, options: dict):
-        params = (Configs.rectangle_defaults | Configs.polygon_defaults) \
+        params = (Defaults.rectangle_defaults | Defaults.polygon_defaults) \
             | options
         params["verts"] = Polygon.generate_rect(params["width"],
                                                 params["height"])
@@ -287,7 +287,7 @@ class Circle(Hitbox):
             radius: The radius of the circle. Defaults to 1.
             scale: The scale of the circle. Defaults to 1.
         """
-        params = Configs.circle_defaults | options
+        params = Defaults.circle_defaults | options
         super().__init__()
         self.radius = params["radius"]
         self.color: Color = params["color"]

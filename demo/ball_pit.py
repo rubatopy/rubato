@@ -67,7 +67,7 @@ for _ in range(60):
                 "radius":
                 Game.get_width() / 50,
                 "color":
-                Color(*choice(list(rb.Configs.color_defaults.values())))
+                Color(*choice(list(rb.Defaults.color_defaults.values())))
             })).add(
                 rb.RigidBody({
                     "bounciness":

@@ -15,7 +15,7 @@ import warnings
 warnings.simplefilter("ignore", UserWarning)
 
 from rubato.utils import Math, Display, Vector, Time, \
-    Color, Error, Configs
+    Color, Error, Defaults
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
     RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
@@ -50,7 +50,7 @@ __all__ = [
     "Image",
     "RigidBody",
     "Input",
-    "Configs",
+    "Defaults",
     "Sound",
     "Animation",
     "Component",

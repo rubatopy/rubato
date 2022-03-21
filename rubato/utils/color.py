@@ -3,7 +3,7 @@ A Color implementation.
 """
 from random import randint
 from typing import Tuple
-from rubato.utils import Math, Configs
+from rubato.utils import Math, Defaults
 
 
 class Color:
@@ -68,7 +68,10 @@ class Color:
         """
         return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
 
-    def mix(self, other: "Color", t: float = 0.5, mode: str = "mix") -> "Color":
+    def mix(self,
+            other: "Color",
+            t: float = 0.5,
+            mode: str = "mix") -> "Color":
         """
         Mix two colors together.
 
@@ -84,27 +87,21 @@ class Color:
         """
         if mode == "linear":
             return Color(
-                (1-t)*self.r + t*other.r,
-                (1-t)*self.g + t*other.g,
-                (1-t)*self.b + t*other.b,
-                (1-t)*self.a + t*other.a
-            )
+                (1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g,
+                (1 - t) * self.b + t * other.b, (1 - t) * self.a + t * other.a)
         if mode == "blend":
-            alpha_a = (self.a/255) * (1-t)
-            a = 1 - (1-alpha_a) * (1-(other.a/255))
-            s = (other.a/255)*(1-alpha_a)/a
+            alpha_a = (self.a / 255) * (1 - t)
+            a = 1 - (1 - alpha_a) * (1 - (other.a / 255))
+            s = (other.a / 255) * (1 - alpha_a) / a
             return Color(
-                ((1-s)*(self.r**2.2) + s*(other.r**2.2))**(1/2.2),
-                ((1-s)*(self.g**2.2) + s*(other.g**2.2))**(1/2.2),
-                ((1-s)*(self.b**2.2) + s*(other.b**2.2))**(1/2.2),
-                a*255
-            )
-        return Color(
-                ((1-t)*(self.r**2.2) + t*(other.r**2.2))**(1/2.2),
-                ((1-t)*(self.g**2.2) + t*(other.g**2.2))**(1/2.2),
-                ((1-t)*(self.b**2.2) + t*(other.b**2.2))**(1/2.2),
-                (1-t)*self.a + t*other.a
-            )
+                ((1 - s) * (self.r**2.2) + s * (other.r**2.2))**(1 / 2.2),
+                ((1 - s) * (self.g**2.2) + s * (other.g**2.2))**(1 / 2.2),
+                ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2),
+                a * 255)
+        return Color(((1 - t) * (self.r**2.2) + t * (other.r**2.2))**(1 / 2.2),
+                     ((1 - t) * (self.g**2.2) + t * (other.g**2.2))**(1 / 2.2),
+                     ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2),
+                     (1 - t) * self.a + t * other.a)
 
     def to_tuple(self) -> Tuple[int, int, int]:
         """
@@ -198,100 +195,174 @@ class Color:
 
     @classmethod
     @property
-    def random(cls):
+    def random(cls) -> "Color":
+        """A random color."""
         return Color(randint(0, 255), randint(0, 255), randint(0, 255))
 
     @classmethod
     @property
-    def clear(cls):
+    def clear(cls) -> "Color":
+        """A transparent color object."""
         return Color(0, 0, 0, 0)
 
     @classmethod
     @property
-    def black(cls):
-        return Color(*Configs.grayscale_defaults["black"])
+    def black(cls) -> "Color":
+        """
+        The default black color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["black"])
 
     @classmethod
     @property
-    def white(cls):
-        return Color(*Configs.grayscale_defaults["white"])
+    def white(cls) -> "Color":
+        """
+        The default white color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["white"])
 
     @classmethod
     @property
-    def darkgray(cls):
-        return Color(*Configs.grayscale_defaults["darkgray"])
+    def darkgray(cls) -> "Color":
+        """
+        The default darkgray color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["darkgray"])
 
     @classmethod
     @property
-    def gray(cls):
-        return Color(*Configs.grayscale_defaults["gray"])
+    def gray(cls) -> "Color":
+        """
+        The default gray color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["gray"])
 
     @classmethod
     @property
-    def lightgray(cls):
-        return Color(*Configs.grayscale_defaults["lightgray"])
+    def lightgray(cls) -> "Color":
+        """
+        The default lightgray color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["lightgray"])
 
     @classmethod
     @property
-    def snow(cls):
-        return Color(*Configs.grayscale_defaults["snow"])
+    def snow(cls) -> "Color":
+        """
+        The default snow color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["snow"])
 
     @classmethod
     @property
-    def yellow(cls):
-        return Color(*Configs.color_defaults["yellow"])
+    def yellow(cls) -> "Color":
+        """
+        The default yellow color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["yellow"])
 
     @classmethod
     @property
-    def orange(cls):
-        return Color(*Configs.color_defaults["orange"])
+    def orange(cls) -> "Color":
+        """
+        The default orange color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["orange"])
 
     @classmethod
     @property
-    def red(cls):
-        return Color(*Configs.color_defaults["red"])
+    def red(cls) -> "Color":
+        """
+        The default red color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["red"])
 
     @classmethod
     @property
-    def scarlet(cls):
-        return Color(*Configs.color_defaults["scarlet"])
+    def scarlet(cls) -> "Color":
+        """
+        The default scarlet color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["scarlet"])
 
     @classmethod
     @property
-    def magenta(cls):
-        return Color(*Configs.color_defaults["magenta"])
+    def magenta(cls) -> "Color":
+        """
+        The default magenta color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["magenta"])
 
     @classmethod
     @property
-    def purple(cls):
-        return Color(*Configs.color_defaults["purple"])
+    def purple(cls) -> "Color":
+        """
+        The default purple color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["purple"])
 
     @classmethod
     @property
-    def violet(cls):
-        return Color(*Configs.color_defaults["violet"])
+    def violet(cls) -> "Color":
+        """
+        The default violet color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["violet"])
 
     @classmethod
     @property
-    def blue(cls):
-        return Color(*Configs.color_defaults["blue"])
+    def blue(cls) -> "Color":
+        """
+        The default blue color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["blue"])
 
     @classmethod
     @property
-    def cyan(cls):
-        return Color(*Configs.color_defaults["cyan"])
+    def cyan(cls) -> "Color":
+        """
+        The default cyan color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["cyan"])
 
     @classmethod
     @property
-    def turquoize(cls):
-        return Color(*Configs.color_defaults["turquoize"])
+    def turquoize(cls) -> "Color":
+        """
+        The default turquoize color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["turquoize"])
 
     @classmethod
     @property
-    def green(cls):
-        return Color(*Configs.color_defaults["green"])
+    def green(cls) -> "Color":
+        """
+        The default green color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["green"])
 
     @classmethod
     @property
-    def lime(cls):
-        return Color(*Configs.color_defaults["lime"])
+    def lime(cls) -> "Color":
+        """
+        The default lime color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.color_defaults["lime"])

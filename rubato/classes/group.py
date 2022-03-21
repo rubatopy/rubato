@@ -3,7 +3,7 @@ Groups contain sprites and allow specific sprites to be seperated.
 """
 
 from typing import List, Union
-from rubato.utils import Error, Configs
+from rubato.utils import Error, Defaults
 from rubato.classes import Sprite
 from rubato.classes.components import Hitbox
 
@@ -12,7 +12,7 @@ class Group:
     """A group of sprites"""
 
     def __init__(self, options: dict = {}) -> None:
-        param = Configs.group_defaults | options
+        param = Defaults.group_defaults | options
         self.items: List[Union[Sprite, "Group"]] = []
         self.z_index: int = param["z_index"]
 

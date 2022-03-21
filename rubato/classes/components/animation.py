@@ -7,7 +7,7 @@ from os import path, walk
 import sdl2
 from rubato.classes.component import Component
 from rubato.classes.components.image import Image
-from rubato.utils import Error, Configs, Vector, Time
+from rubato.utils import Error, Defaults, Vector, Time
 
 
 class Animation(Component):
@@ -37,7 +37,7 @@ class Animation(Component):
             options: A Animation config. Defaults to the |default| for
                 `Animation`.
         """
-        param = Configs.animation_defaults | options
+        param = Defaults.animation_defaults | options
         super().__init__()
 
         self.rotation = param["rotation"]

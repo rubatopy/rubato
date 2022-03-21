@@ -16,8 +16,11 @@ game_defaults = {
     # The target FPS of the game
     "physics_fps": 60,  # . . . . . . . . . . . . . . . . . . . int
     # The target physics FPS of the game
-    "reset_display": True  #. . . . . . . . . . . . . . . . . . bool
-    # Whether or not to clear the display every frame.
+    "background_color": (0, 0, 0),  # . . . . . . . . . . . . . tuple or Color
+    # The background color of the window. (Usually the borders)
+    "foreground_color": (255, 255, 255),  # . . . . . . . . . . tuple or Color
+    # The foreground color of the window.
+    # (i.e. the background of the main game).
 }
 
 rigidbody_defaults = {
@@ -35,7 +38,7 @@ rigidbody_defaults = {
     # The amount of friction experienced by the RB.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The starting rotation of the RB.
-    "static": False  #. . . . . . . . . . . . . . . . . . . . . bool
+    "static": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     # Whether the RB is static or not.
 }
 
@@ -53,7 +56,7 @@ sprite_defaults = {
     # The starting position of the sprite.
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The z_index of the sprite.
-    "debug": False  # . . . . . . . . . . . . . . . . . . . . . bool
+    "debug": False,  # . . . . . . . . . . . . . . . . . . . . . bool
     # Whether to draw a plus sign at the sprite's position
 }
 
@@ -86,14 +89,14 @@ polygon_defaults = {
     # The scale of the polygon
     "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
     # The callback function to call when a collision happens with this hitbox.
-    "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
+    "color": None,  #. . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
 }
 
 rectangle_defaults = {
     "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The width of the rectangle.
-    "height": 10  # . . . . . . . . . . . . . . . . . . . . . . int
+    "height": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The height of the rectangle.
 }
 
@@ -108,7 +111,7 @@ circle_defaults = {
     # The scale of the polygon
     "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
     # The callback function to call when a collision happens with this hitbox.
-    "color": None  #. . . . . . . . . . . . . . . . . . . . . . Color
+    "color": None,  #. . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
 }
 

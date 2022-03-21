@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 import sdl2
 import sdl2.ext
 from rubato.classes.sprite import Sprite
-from rubato.utils import Display, Vector, Time, Configs
+from rubato.utils import Display, Vector, Time, Defaults, Color
 from rubato.classes import SceneManager
 import rubato.input as Input
 from enum import Enum
@@ -46,6 +46,8 @@ sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 name: str = ""
 window_size: Vector = Vector()
 resolution: Vector = Vector()
+background_color: Color = Color(0, 0, 0)
+foreground_color: Color = Color(255, 255, 255)
 
 _state = STATE.STOPPED
 scenes = SceneManager()
@@ -53,7 +55,6 @@ radio: "Radio" = None
 
 _saved_dims = window_size.clone()
 
-reset_display = False
 initialized = False
 
 
@@ -66,25 +67,32 @@ def init(options: dict = {}):
             Defaults to the |default| for `Game`.
     """
     global name, window_size, resolution, \
-        _saved_dims, initialized, reset_display
+        _saved_dims, initialized, background_color, foreground_color
 
     initialized = True
 
-    params = Configs.game_defaults | options
+    params = Defaults.game_defaults | options
 
     name = params["name"]
     window_size = params["window_size"]
     resolution = params["resolution"]
-    reset_display = params["reset_display"]
+
+    background_color = Color(*params["background_color"]) if not isinstance(
+        params["background_color"], Color) else params["background_color"]
+
+    foreground_color = Color(*params["foreground_color"]) if not isinstance(
+        params["foreground_color"], Color) else params["foreground_color"]
 
     Time.target_fps = params["target_fps"]
     Time.physics_fps = params["physics_fps"]
 
-    flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI)
+    flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI
+             | sdl2.SDL_WINDOW_SHOWN | sdl2.SDL_WINDOW_MOUSE_FOCUS
+             | sdl2.SDL_WINDOW_INPUT_FOCUS)
     Display.window = sdl2.ext.Window(name, window_size.to_tuple(), flags=flags)
 
     Display.renderer = sdl2.ext.Renderer(
-        Display.window.get_surface(),
+        Display.window,
         flags=(sdl2.SDL_RENDERER_ACCELERATED
                | sdl2.SDL_RENDERER_PRESENTVSYNC),
         logical_size=resolution.to_tuple())
@@ -161,29 +169,29 @@ def update():
             )
 
     # Window resize handling
-    aspect_ratio = resolution.x / resolution.y
-    ratio = (window_size.x / window_size.y) < aspect_ratio
-    width = (window_size.y * aspect_ratio, window_size.x)[ratio]
-    height = (window_size.y, window_size.x / aspect_ratio)[ratio]
-    new_top_left = (
-        (
-            int((window_size.x - width) // 2),
-            0,
-        ),
-        (
-            0,
-            int((window_size.y - height) // 2),
-        ),
-    )[ratio]
+    # aspect_ratio = resolution.x / resolution.y
+    # ratio = (window_size.x / window_size.y) < aspect_ratio
+    # width = (window_size.y * aspect_ratio, window_size.x)[ratio]
+    # height = (window_size.y, window_size.x / aspect_ratio)[ratio]
+    # new_top_left = (
+    #     (
+    #         int((window_size.x - width) // 2),
+    #         0,
+    #     ),
+    #     (
+    #         0,
+    #         int((window_size.y - height) // 2),
+    #     ),
+    # )[ratio]
 
-    sdl2.SDL_RenderSetViewport(
-        Display.renderer.sdlrenderer,
-        sdl2.SDL_Rect(
-            *new_top_left,
-            int(width * 2),
-            int(height * 2),
-        ),
-    )
+    # sdl2.SDL_RenderSetViewport(
+    #     Display.renderer.sdlrenderer,
+    #     sdl2.SDL_Rect(
+    #         *new_top_left,
+    #         int(width * 2),
+    #         int(height * 2),
+    #     ),
+    # )
 
     _saved_dims = window_size.clone()
 
@@ -214,16 +222,19 @@ def update():
         scenes.update()
 
     # Draw Loop
-    sdl2.ext.draw.fill(Display.window.get_surface(), (0, 0, 0))
-    if reset_display:
-        Display.renderer.fill(
-            sdl2.SDL_Rect(0, 0, resolution.x, resolution.y),
-            sdl2.ext.Color(255, 255, 255, 255),
-        )
+    Display.renderer.clear(background_color.to_tuple())
+    Display.renderer.fill(
+        (
+            0,
+            0,
+            Display.renderer.logical_size[0],
+            Display.renderer.logical_size[1],
+        ),
+        foreground_color.to_tuple(),
+    )
     scenes.draw()
 
     # update renderers
-    Display.window.refresh()
     Display.renderer.present()
 
     frame_end = sdl2.SDL_GetTicks64()

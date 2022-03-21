@@ -3,7 +3,7 @@ A sprite is a basic element that holds components, postion, and z_index.
 """
 from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components import Hitbox
-from rubato.utils import Vector, Configs, Display
+from rubato.utils import Vector, Defaults, Display
 from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
 import rubato.game as Game
 import sdl2
@@ -32,7 +32,7 @@ class Sprite:
             options: A sprite config. Defaults to the |default| for
                 `Sprite`.
         """
-        param = Configs.sprite_defaults | options
+        param = Defaults.sprite_defaults | options
         self.pos: Vector = param["pos"]
         self.debug: bool = param["debug"]
         self.z_index: int = param["z_index"]

@@ -4,7 +4,7 @@
 # import pygame
 # from pygame.transform import scale
 # from rubato.classes.sprite import Sprite
-# from rubato.utils import Vector, Configs, Display
+# from rubato.utils import Vector, Defaults, Display
 # from rubato.classes import Camera
 # from rubato.utils.color import Color
 
@@ -33,7 +33,7 @@
 #         Raises:
 #             Exception: The font provided is not supported on the system.
 #         """
-#         param = Configs.text_defaults | options
+#         param = Defaults.text_defaults | options
 #         super().__init__({"pos": param["pos"], "z_index": param["z_index"]})
 #         self.text: str = param["text"]
 #         self.size: int = param["size"]

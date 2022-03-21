@@ -9,7 +9,7 @@ window: sdl2.ext.Window = None
 renderer: sdl2.ext.Renderer = None
 
 
-def update(surface: sdl2.surface.SDL_Surface, pos: Vector):
+def update(surface: sdl2.SDL_Surface, pos: Vector):
     """
     Update the current screen.
 
@@ -60,9 +60,8 @@ def set_window_icon(path: str):
     sdl2.video.SDL_SetWindowIcon(window, sdl2.ext.image.load_img(path))
 
 
-def clone_surface(
-        surface: sdl2.surface.SDL_Surface) -> sdl2.surface.SDL_Surface:
-    return sdl2.surface.SDL_CreateRGBSurfaceWithFormatFrom(
+def clone_surface(surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
+    return sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
         surface.pixels,
         surface.w,
         surface.h,

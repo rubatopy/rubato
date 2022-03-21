@@ -2,7 +2,7 @@
 The image component that renders an image from the filesystem.
 """
 from rubato.classes.component import Component
-from rubato.utils import Vector, Configs, Display
+from rubato.utils import Vector, Defaults, Display
 import rubato.game as Game
 import sdl2
 import sdl2.ext
@@ -25,7 +25,7 @@ class Image(Component):
             options: A Image config. Defaults to the |default| for
                     `Image`.
         """
-        param = Configs.image_defaults | options
+        param = Defaults.image_defaults | options
         super().__init__()
 
         if param["image_location"] == "":

@@ -4,7 +4,7 @@ have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import TYPE_CHECKING
 from rubato.classes.component import Component
-from rubato.utils import Vector, Configs, Time
+from rubato.utils import Vector, Defaults, Time
 
 if TYPE_CHECKING:
     from rubato.classes.components.hitbox import CollisionInfo
@@ -39,7 +39,7 @@ class RigidBody(Component):
             options: A rigidbody config. Defaults to the |default| for
                 `RigidBody`
         """
-        params = Configs.rigidbody_defaults | options
+        params = Defaults.rigidbody_defaults | options
 
         super().__init__()
 
