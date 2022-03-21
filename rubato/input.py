@@ -88,23 +88,33 @@ def get_keyboard_state():
     return ctypes.cast(keystate, ptr_t)[0]
 
 
-def key_pressed(*chars: str) -> bool:
+def key_pressed(*keys: str) -> bool:
     """
-    Checks if a key is pressed.
+    Checks if keys are pressed.
 
     Args:
-        *chars: The name of the key to check.
+        *keys: The name of the keys to check.
 
     Returns:
-        bool: Whether or not the key is pressed.
+        bool: Whether or not the keys are pressed.
+
+    Example:
+        .. code-block:: python
+
+            if rb.Input.key_pressed("a"):
+                # handle the "a" keypress
+
+            if rb.Input.key_pressed("shift", "w"):
+                # handle the "shift+w" keypress
+
     """
-    for char in chars:
-        char = char.lower()
-        if char in _mods:
-            if not sdl2.SDL_GetModState() & _mods[char]:
+    for key in keys:
+        key = key.lower()
+        if key in _mods:
+            if not sdl2.SDL_GetModState() & _mods[key]:
                 return False
         else:
-            if not get_keyboard_state()[scancode_from_name(char)]:
+            if not get_keyboard_state()[scancode_from_name(key)]:
                 return False
     return True
 
