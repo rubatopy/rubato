@@ -359,7 +359,7 @@ class Rectangle(Hitbox):
                 self.color.a,
             )
         if self.debug:
-            sdl2.sdlgfx.boxRGBA(
+            sdl2.sdlgfx.rectangleRGBA(
                 Display.renderer.sdlrenderer,
                 x_1,
                 y_1,
