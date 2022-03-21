@@ -127,23 +127,29 @@ def update():
             radio.broadcast("exit")
             sdl2.SDL_Quit()
             sys.exit(1)
-        if event.type == sdl2.SDL_WINDOWEVENT_SIZE_CHANGED:
-            global window_size
-            radio.broadcast(
-                "resize", {
-                    "width": event.window.data1,
-                    "height": event.window.data2,
-                    "old_width": window_size.x,
-                    "old_height": window_size.y
-                })
-            window_size = Vector.from_tuple(event.size)
-        if event.type == sdl2.SDL_KEYDOWN:
-            key_info = event.key.keysym
-            unicode = ""
+        if event.type == sdl2.SDL_WINDOWEVENT:
+            if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
+                global window_size
+                radio.broadcast(
+                    "resize", {
+                        "width": event.window.data1,
+                        "height": event.window.data2,
+                        "old_width": window_size.x,
+                        "old_height": window_size.y
+                    })
+                window_size = Vector(event.window.data1, event.window.data2)
+        if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
+            key_info, unicode = event.key.keysym, ""
             with suppress(ValueError):
                 unicode = chr(key_info.sym)
+
+            if event.type == sdl2.SDL_KEYUP:
+                event_name = "keyup"
+            else:
+                event_name = ("keyhold", "keydown")[not event.key.repeat]
+
             radio.broadcast(
-                "keyhold" if event.key.repeat > 0 else "keydown",
+                event_name,
                 {
                     "key": Input.get_name(key_info.sym),
                     "unicode": unicode,
@@ -151,45 +157,6 @@ def update():
                     "modifiers": key_info.mod,
                 },
             )
-        if event.type == sdl2.SDL_KEYUP:
-            key_info = event.key.keysym
-            unicode = ""
-            with suppress(ValueError):
-                unicode = chr(key_info.sym)
-            radio.broadcast(
-                "keyup",
-                {
-                    "key": Input.get_name(key_info.sym),
-                    "unicode": unicode,
-                    "code": int(key_info.sym),
-                    "modifiers": key_info.mod,
-                },
-            )
-
-    # Window resize handling
-    # aspect_ratio = resolution.x / resolution.y
-    # ratio = (window_size.x / window_size.y) < aspect_ratio
-    # width = (window_size.y * aspect_ratio, window_size.x)[ratio]
-    # height = (window_size.y, window_size.x / aspect_ratio)[ratio]
-    # new_top_left = (
-    #     (
-    #         int((window_size.x - width) // 2),
-    #         0,
-    #     ),
-    #     (
-    #         0,
-    #         int((window_size.y - height) // 2),
-    #     ),
-    # )[ratio]
-
-    # sdl2.SDL_RenderSetViewport(
-    #     Display.renderer.sdlrenderer,
-    #     sdl2.SDL_Rect(
-    #         *new_top_left,
-    #         int(width * 2),
-    #         int(height * 2),
-    #     ),
-    # )
 
     _saved_dims = window_size.clone()
 
