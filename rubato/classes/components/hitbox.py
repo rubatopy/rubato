@@ -158,14 +158,11 @@ class Polygon(Hitbox):
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
-        return list(
-            map(lambda v: v.transform(self.scale, self.rotation), self.verts))
+        return [v.transform(self.scale, self.rotation) for v in self.verts]
 
     def real_verts(self) -> List[Vector]:
         """Returns the a list of vertices in absolute coordinates"""
-        return list(
-            map(lambda v: self.pos + v.transform(self.scale, self.rotation),
-                self.verts))
+        return [self.pos + v for v in self.transformed_verts()]
 
     def __str__(self):
         return (f"{list(map(str, self.verts))}, {self.pos}, " +
@@ -239,33 +236,10 @@ class Rectangle(Hitbox):
         super().__init__(options)
         params = Defaults.rectangle_defaults | options
 
-        self._width: int = int(params["width"])
-        self._height: int = int(params["height"])
+        self.width: int = int(params["width"])
+        self.height: int = int(params["height"])
 
         self.rotation: float = params["rotation"]
-
-        self.verts = []
-        self._generate_verts()
-
-    @property
-    def width(self) -> int:
-        """The width of the rectangle"""
-        return self._width
-
-    @width.setter
-    def width(self, new: int):
-        self._width = int(new)
-        self._generate_verts()
-
-    @property
-    def height(self) -> int:
-        """The height of the rectangle"""
-        return self._height
-
-    @height.setter
-    def height(self, new: int):
-        self._height = int(new)
-        self._generate_verts()
 
     @property
     def topleft(self):
@@ -355,23 +329,49 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to set rect property before sprite assignment.")
 
-    def _generate_verts(self):
-        self.verts = [
-            Vector(-self._width / 2, -self._height / 2),
-            Vector(self._width / 2, -self._height / 2),
-            Vector(self._width / 2, self._height / 2),
-            Vector(-self._width / 2, self._height / 2)
+    def vertices(self):
+        return [
+            Vector(-self.width / 2, -self.height / 2),
+            Vector(self.width / 2, -self.height / 2),
+            Vector(self.width / 2, self.height / 2),
+            Vector(-self.width / 2, self.height / 2)
         ]
 
     def transformed_verts(self) -> List[Vector]:
-        return Polygon.transformed_verts(self)
+        return [v.transform(self.scale, self.rotation) for v in self.vertices()]
 
     def real_verts(self) -> List[Vector]:
-        return Polygon.real_verts(self)
+        return [self.pos + v for v in self.vertices()]
 
     def draw(self):
-        Polygon.draw(self)
-
+        x_1, y_1 = Game.scenes.current.camera.transform(
+            self.topright).tuple_int()
+        x_2, y_2 = Game.scenes.current.camera.transform(
+            self.bottomleft).tuple_int()
+        if self.color is not None:
+            sdl2.sdlgfx.boxRGBA(
+                Display.renderer.sdlrenderer,
+                x_1,
+                y_1,
+                x_2,
+                y_2,
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
+        if self.debug:
+            sdl2.sdlgfx.boxRGBA(
+                Display.renderer.sdlrenderer,
+                x_1,
+                y_1,
+                x_2,
+                y_2,
+                0,
+                255,
+                0,
+                255,
+            )
 
 class Circle(Hitbox):
     """
