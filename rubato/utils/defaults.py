@@ -38,7 +38,7 @@ rigidbody_defaults = {
     # The amount of friction experienced by the RB.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The starting rotation of the RB.
-    "static": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
     # Whether the RB is static or not.
 }
 
@@ -76,11 +76,7 @@ animation_defaults = {
     # The FPS that the animation should run at.
 }
 
-polygon_defaults = {
-    "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector]
-    # A list of vectors representing the vertices of the Polygon going CCW.
-    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-    # The rotation of the polygon
+hitbox_defaults = {
     "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     # Whether to draw a green outline around the Polygon or not.
     "trigger": False,  #. . . . . . . . . . . . . . . . . . . . bool
@@ -89,30 +85,29 @@ polygon_defaults = {
     # The scale of the polygon
     "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
     # The callback function to call when a collision happens with this hitbox.
-    "color": None,  #. . . . . . . . . . . . . . . . . . . . . . Color
+    "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
 }
 
-rectangle_defaults = {
+polygon_defaults = { # Can also contain elements from the hitbox defaults
+    "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector]
+    # A list of vectors representing the vertices of the Polygon going CCW.
+    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    # The rotation of the polygon
+}
+
+rectangle_defaults = { # Can also contain elements from the hitbox defaults
     "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The width of the rectangle.
     "height": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The height of the rectangle.
+    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    # The rotation of the rectangle
 }
 
-circle_defaults = {
+circle_defaults = { # Can also contain elements from the hitbox defaults
     "radius": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The radius of the circle.
-    "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
-    # Whether to draw a green outline around the Circle or not.
-    "trigger": False,  #. . . . . . . . . . . . . . . . . . . . bool
-    # Whether this hitbox is just a trigger or not.
-    "scale": 1,  #. . . . . . . . . . . . . . . . . . . . . . . int
-    # The scale of the polygon
-    "callback": lambda c: None,  #. . . . . . . . . . . . . . . Callable
-    # The callback function to call when a collision happens with this hitbox.
-    "color": None,  #. . . . . . . . . . . . . . . . . . . . . . Color
-    # The color to fill this hitbox with.
 }
 
 color_defaults = {

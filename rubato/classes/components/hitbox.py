@@ -5,7 +5,7 @@ from typing import Callable, List, Union
 from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils import Math, Display, Vector, Defaults, Color
 from rubato.classes.component import Component
-from rubato.utils.error import SideError
+from rubato.utils.error import Error, SideError
 import rubato.game as Game
 import sdl2
 import sdl2.sdlgfx
@@ -18,13 +18,20 @@ class Hitbox(Component):
     """
     hitboxes: List["Hitbox"] = []
 
-    def __init__(self):
+    def __init__(self, options: dict = {}):
+        params = Defaults.hitbox_defaults | options
         super().__init__()
-        self.debug = False
-        self.trigger = False
+        self.debug: bool = params["debug"]
+        self.trigger: bool = params["trigger"]
         self._pos = lambda: Vector(0, 0)
-        self.scale = 1
-        self.callback = lambda c: None
+        self.scale: int = params["scale"]
+        self.callback: Callable = params["callback"]
+        self.color: Color = params["color"]
+
+    @property
+    def pos(self) -> Vector:
+        """The getter method for the position of the hitbox's center"""
+        return self._pos()
 
     def update(self):
         self.draw()
@@ -93,35 +100,10 @@ class Polygon(Hitbox):
             rotation: The rotation angle of the polygon in degrees as a
                 function. Defaults to lambda: 0.
         """
+        super().__init__(options)
         params = Defaults.polygon_defaults | options
-        super().__init__()
-        self.debug: bool = params["debug"]
-        self.trigger: bool = params["trigger"]
         self.verts: List[Vector] = params["verts"]
         self.rotation: float = params["rotation"]
-        self.color: Color = params["color"]
-        self.scale: int = params["scale"]
-        self.callback: Callable = params["callback"]
-
-    @staticmethod
-    def generate_rect(w: int = 32, h: int = 32) -> List[Vector]:
-        """
-        Creates a rectangle from its dimensions.
-
-        Args:
-            w: The width of the hitbox.
-            h: The height of the hitbox.
-
-        Returns:
-            List[Vector]: The vertices of the rectangle.
-        """
-
-        return [
-            Vector(-w / 2, -h / 2),
-            Vector(w / 2, -h / 2),
-            Vector(w / 2, h / 2),
-            Vector(-w / 2, h / 2)
-        ]
 
     @staticmethod
     def generate_polygon(num_sides: int,
@@ -154,11 +136,6 @@ class Polygon(Hitbox):
                        math.sin(angle) * radius))
 
         return verts
-
-    @property
-    def pos(self) -> Vector:
-        """The getter method for the position of the Polygon's center"""
-        return self._pos()
 
     def clone(self) -> "Polygon":
         """Creates a copy of the Polygon at the current position"""
@@ -250,22 +227,150 @@ class Polygon(Hitbox):
             )
 
 
-class Rectangle(Polygon):
+class Rectangle(Hitbox):
     """
-    A soon-to-be depricated Polygon subclass.
-    A more robust replacement is planned.
+    A rectangle class
+
+    Warning:
+        Needs documentation
     """
 
     def __init__(self, options: dict):
-        params = (Defaults.rectangle_defaults | Defaults.polygon_defaults) \
-            | options
-        params["verts"] = Polygon.generate_rect(params["width"],
-                                                params["height"])
+        super().__init__(options)
+        params = Defaults.rectangle_defaults | options
 
-        del params["width"]
-        del params["height"]
+        self._width: int = int(params["width"])
+        self._height: int = int(params["height"])
 
-        super().__init__(params)
+        self.rotation: float = params["rotation"]
+
+        self.verts = []
+        self._generate_verts()
+
+    @property
+    def width(self) -> int:
+        """The width of the rectangle"""
+        return self._width
+
+    @width.setter
+    def width(self, new: int):
+        self._width = int(new)
+        self._generate_verts()
+
+    @property
+    def height(self) -> int:
+        """The height of the rectangle"""
+        return self._height
+
+    @height.setter
+    def height(self, new: int):
+        self._height = int(new)
+        self._generate_verts()
+
+    @property
+    def topleft(self):
+        """
+        The top left corner of the rectangle
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Sprite.
+        """
+        if self.sprite:
+            return self.pos - Vector(self.width / 2, self.height / 2)
+        else:
+            raise Error("Tried to get rect property before sprite assignment.")
+
+    @topleft.setter
+    def topleft(self, new: Vector):
+        if self.sprite:
+            self.sprite.pos = new + Vector(self.width / 2, self.height / 2)
+            self.sprite.pos = self.sprite.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before sprite assignment.")
+
+    @property
+    def bottomleft(self):
+        """
+        The bottom left corner of the rectangle
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Sprite.
+        """
+        if self.sprite:
+            return self.pos - Vector(self.width / 2, self.height / -2)
+        else:
+            raise Error("Tried to get rect property before sprite assignment.")
+
+    @bottomleft.setter
+    def bottomleft(self, new: Vector):
+        if self.sprite:
+            self.sprite.pos = new + Vector(self.width / 2, self.height / -2)
+            self.sprite.pos = self.sprite.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before sprite assignment.")
+
+    @property
+    def topright(self):
+        """
+        The top right corner of the rectangle
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Sprite.
+        """
+        if self.sprite:
+            return self.pos - Vector(self.width / -2, self.height / 2)
+        else:
+            raise Error("Tried to get rect property before sprite assignment.")
+
+    @topright.setter
+    def topright(self, new: Vector):
+        if self.sprite:
+            self.sprite.pos = new + Vector(self.width / -2, self.height / 2)
+            self.sprite.pos = self.sprite.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before sprite assignment.")
+
+    @property
+    def bottomright(self):
+        """
+        The bottom right corner of the rectangle
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Sprite.
+        """
+        if self.sprite:
+            return self.pos - Vector(self.width / -2, self.height / -2)
+        else:
+            raise Error("Tried to get rect property before sprite assignment.")
+
+    @bottomright.setter
+    def bottomright(self, new: Vector):
+        if self.sprite:
+            self.sprite.pos = new + Vector(self.width / -2, self.height / -2)
+            self.sprite.pos = self.sprite.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before sprite assignment.")
+
+    def _generate_verts(self):
+        self.verts = [
+            Vector(-self._width / 2, -self._height / 2),
+            Vector(self._width / 2, -self._height / 2),
+            Vector(self._width / 2, self._height / 2),
+            Vector(-self._width / 2, self._height / 2)
+        ]
+
+    def transformed_verts(self) -> List[Vector]:
+        return Polygon.transformed_verts(self)
+
+    def real_verts(self) -> List[Vector]:
+        return Polygon.real_verts(self)
+
+    def draw(self):
+        Polygon.draw(self)
 
 
 class Circle(Hitbox):
@@ -287,19 +392,9 @@ class Circle(Hitbox):
             radius: The radius of the circle. Defaults to 1.
             scale: The scale of the circle. Defaults to 1.
         """
+        super().__init__(options)
         params = Defaults.circle_defaults | options
-        super().__init__()
         self.radius = params["radius"]
-        self.color: Color = params["color"]
-        self.scale: int = params["scale"]
-        self.callback: Callable = params["callback"]
-        self.debug: bool = params["debug"]
-        self.trigger: bool = params["trigger"]
-
-    @property
-    def pos(self) -> Vector:
-        """The getter method for the position of the circle's center"""
-        return self._pos()
 
     def clone(self) -> "Circle":
         """Creates a copy of the circle at the current position"""
