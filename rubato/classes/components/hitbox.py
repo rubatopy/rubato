@@ -141,7 +141,7 @@ class Polygon(Hitbox):
         """Creates a copy of the Polygon at the current position"""
         new_poly = Polygon({
             "verts":
-            list(map((lambda v: v.clone()), self.verts)),
+            [v.clone() for v in self.verts],
             "rotation":
             self.rotation,
             "debug":
@@ -165,7 +165,7 @@ class Polygon(Hitbox):
         return [self.pos + v for v in self.transformed_verts()]
 
     def __str__(self):
-        return (f"{list(map(str, self.verts))}, {self.pos}, " +
+        return (f"{[str(v) for v in self.verts]}, {self.pos}, " +
                 f"{self.scale}, {self.rotation}")
 
     def bounding_box_dimensions(self) -> Vector:
@@ -178,11 +178,9 @@ class Polygon(Hitbox):
         """
         The draw loop
         """
-        list_of_points: List[tuple] = list(
-            map(
-                lambda v: Game.scenes.current.camera.transform(v).tuple_int(),
-                self.real_verts(),
-            ))
+        list_of_points: List[tuple] = \
+            [Game.scenes.current.camera.transform(v).tuple_int() \
+                for v in self.real_verts()]
 
         x_coords, y_coords = zip(*list_of_points)
 
