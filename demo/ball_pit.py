@@ -111,30 +111,33 @@ player.add(player_hitbox)
 
 
 def custom_update():
-    if rb.Input.key_is_pressed("w"):
+    if rb.Input.key_pressed("w"):
         player_rb.velocity.y -= 100
-    elif rb.Input.key_is_pressed("s"):
+    elif rb.Input.key_pressed("s"):
         player_rb.velocity.y += 100
-    if rb.Input.key_is_pressed("a"):
+    if rb.Input.key_pressed("a"):
         player_rb.velocity.x -= 100
-    elif rb.Input.key_is_pressed("d"):
+    elif rb.Input.key_pressed("d"):
         player_rb.velocity.x += 100
 
-    if rb.Input.key_is_pressed("right"):
+    if rb.Input.key_pressed("right"):
         rb.Game.scenes.current.camera.pos.x += 5
-    elif rb.Input.key_is_pressed("left"):
+    elif rb.Input.key_pressed("left"):
         rb.Game.scenes.current.camera.pos.x -= 5
-    if rb.Input.key_is_pressed("up"):
+    if rb.Input.key_pressed("up"):
         rb.Game.scenes.current.camera.pos.y -= 5
-    elif rb.Input.key_is_pressed("down"):
+    elif rb.Input.key_pressed("down"):
         rb.Game.scenes.current.camera.pos.y += 5
 
-    if rb.Input.key_is_pressed("-"):
+    if rb.Input.key_pressed("-"):
         rb.Game.scenes.current.camera.zoom -= 0.1
-    elif rb.Input.key_is_pressed("="):
+    elif rb.Input.key_pressed("="):
         rb.Game.scenes.current.camera.zoom += 0.1
-    if rb.Input.key_is_pressed("0"):
+    if rb.Input.key_pressed("0"):
         rb.Game.scenes.current.camera.zoom = 1
+
+    if rb.Input.combo_pressed("e", "Ctrl", "Alt"):
+        print("WOW the secret combo was pressed.")
 
 
 main_scene.add([top, bottom, left, right, player])

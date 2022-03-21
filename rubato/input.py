@@ -65,12 +65,12 @@ def get_keyboard_state():
     """ Returns a list with the current SDL keyboard state,
     which is updated on SDL_PumpEvents. """
     numkeys = ctypes.c_int()
-    keystate = sdl2.keyboard.SDL_GetKeyboardState(ctypes.byref(numkeys))
+    keystate = sdl2.SDL_GetKeyboardState(ctypes.byref(numkeys))
     ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)
     return ctypes.cast(keystate, ptr_t)[0]
 
 
-def key_is_pressed(char: str) -> bool:
+def key_pressed(char: str) -> bool:
     """
     Checks if a key is pressed.
 
@@ -81,6 +81,43 @@ def key_is_pressed(char: str) -> bool:
         bool: Whether or not the key is pressed.
     """
     return get_keyboard_state()[scancode_from_name(char)] == 1
+
+
+def combo_pressed(char: str, *mods: str) -> bool:
+    """
+    Checks if a key combo is pressed. (For example, ctrl+a or ctrl+shift+w)
+
+    Args:
+        char: The key to check with
+        *mods: The modifier keys to check for.
+
+    Returns:
+        bool: Whether or not the combo was pressed.
+    """
+    values = {
+        "Shift": sdl2.KMOD_SHIFT,
+        "Left Shift": sdl2.KMOD_LSHIFT,
+        "Right Shift": sdl2.KMOD_RSHIFT,
+        "Alt": sdl2.KMOD_ALT,
+        "Left Alt": sdl2.KMOD_LALT,
+        "Right Alt": sdl2.KMOD_RALT,
+        "Ctrl": sdl2.KMOD_CTRL,
+        "Left Ctrl": sdl2.KMOD_LCTRL,
+        "Right Ctrl": sdl2.KMOD_RCTRL,
+        "GUI": sdl2.KMOD_GUI,
+        "Left GUI": sdl2.KMOD_LGUI,
+        "Right GUI": sdl2.KMOD_RGUI,
+        "Numlock": sdl2.KMOD_NUM,
+        "Caps Lock": sdl2.KMOD_CAPS,
+        "AltGr": sdl2.KMOD_MODE,
+    }
+
+    if key_pressed(char) and (mod_state := sdl2.SDL_GetModState()):
+        for mod in mods:
+            if not mod_state & values.get(mod, 0):
+                return False
+        return True
+    return False
 
 
 # MOUSE FUNCTIONS

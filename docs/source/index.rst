@@ -21,3 +21,4 @@ GitHub repo: https://github.com/rubatopy/rubato
     tutorials
     api
     defaults
+    input-details
