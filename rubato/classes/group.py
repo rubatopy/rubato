@@ -16,25 +16,24 @@ class Group:
         self.items: List[Union[Sprite, "Group"]] = []
         self.z_index: int = param["z_index"]
 
-    def add(self, item: Union[Sprite, "Group", List[Union[Sprite, "Group"]]]):
+    def add(self, *items: Union[Sprite, "Group"]):
         """
         Adds an item to the group.
 
         Args:
-            item: The item or list of items to add to the group.
+            items: The item(s) you wish to add to the group
 
         Raises:
             Error: The item being added is the group itself. A group cannot be
                 added to itself.
         """
-        if self != item:
-            if isinstance(item, list):
-                for it in item:
-                    self.add(it)
+        for item in items:
+            if self != item:
+                if not isinstance(item, (Sprite, Group)):
+                    raise ValueError("Groups can only hold sprites/groups.")
+                self.items.append(item)
             else:
-                return self.items.append(item)
-        else:
-            raise Error("Cannot add a group to itself.")
+                raise Error("Cannot add a group to itself.")
 
     def remove(self, item: Union["Sprite", "Group"]):
         """

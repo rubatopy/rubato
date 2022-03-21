@@ -136,7 +136,7 @@ def custom_update():
         print("WOW the secret combo was pressed.")
 
 
-main_scene.add([top, bottom, left, right, player])
+main_scene.add(top, bottom, left, right, player)
 main_scene.update = custom_update
 
 rb.begin()

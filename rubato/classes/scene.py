@@ -3,7 +3,7 @@ THe Scene class which is a collection of groups. It also houses the current
 scene camera. Scenes come with a default group that everything is added to if
 no other groups are specified.
 """
-from typing import List, Union, TYPE_CHECKING
+from typing import Union, TYPE_CHECKING
 from rubato.classes import Camera, Group
 
 if TYPE_CHECKING:
@@ -29,8 +29,7 @@ class Scene:
         self.camera = Camera()
         self.id: str = ""
 
-    def add(self, item: Union["Sprite", "Group", List[Union["Sprite",
-                                                            "Group"]]]):
+    def add(self, *items: Union["Sprite", "Group"]):
         """
         Adds an item to the root group.
 
@@ -38,7 +37,7 @@ class Scene:
             item: The item or list of items to add.
 
         """
-        self.root.add(item)
+        self.root.add(*items)
 
     def remove(self, item: Union["Sprite", "Group"]):
         """
