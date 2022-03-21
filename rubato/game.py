@@ -123,10 +123,13 @@ def update():
                     "resize", {
                         "width": event.window.data1,
                         "height": event.window.data2,
-                        "old_width": window_size.x,
-                        "old_height": window_size.y
+                        "old_width": Display.window_size.x,
+                        "old_height": Display.window_size.y
                     })
-                window_size = Vector(event.window.data1, event.window.data2)
+                Display.window_size = Vector(
+                    event.window.data1,
+                    event.window.data2,
+                )
         if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
             key_info, unicode = event.key.keysym, ""
             with suppress(ValueError):
