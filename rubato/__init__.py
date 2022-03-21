@@ -1,5 +1,12 @@
 """
-This is the top level init file for all of rubato.
+Rubato is a modern 2D game engine for python. Accurate fixed-step physics
+simulations, robust scene and sprite management, event listener system and more
+all come prepackaged.
+
+Fundamentally, Rubato is built developer-focused. From intricate rigidbody
+simulations to 2D games, Rubato streamlines development for beginners and the
+poweruser. And all that finally with some legible documentation.
+
 
 Note:
     Every single class can be accessed through the top level or through the full
@@ -8,6 +15,7 @@ Note:
 Attributes:
     game (Game): The global game class that can be accessed anywhere.
         Initialized when :meth:`rubato.init()` is called.
+    radio (Radio): The global radio class.
 """
 from time import time
 import warnings

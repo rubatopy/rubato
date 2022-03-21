@@ -1,7 +1,5 @@
 """
 The main game class. It controls everything in the game.
-The Display is where your game lives at a certain aspect ratio,
-The Screen is the actual size of the window which the user interacts with.
 
 Attributes:
     scenes (SceneManager): The global scene manager.
