@@ -53,7 +53,7 @@ class Hitbox(Component):
             self,
             other: "Hitbox",
             callback: Callable = lambda c: None
-    ) -> Union["CollisionInfo", None]:
+    ) -> Union["ColInfo", None]:
         """
         A simple collision engine for most use cases.
 
@@ -63,7 +63,7 @@ class Hitbox(Component):
                 Defaults to None.
 
         Returns:
-            Union[CollisionInfo, None]: Returns a collision info object if a
+            Union[ColInfo, None]: Returns a collision info object if a
             collision is detected or nothing if no collision is detected.
         """
         if (col := SAT.overlap(self, other)) is not None:
@@ -445,7 +445,7 @@ class Circle(Hitbox):
             )
 
 
-class CollisionInfo:
+class ColInfo:
     """
     A class that represents information returned in a successful collision
 
@@ -455,17 +455,23 @@ class CollisionInfo:
         seperation (Vector): The vector that would separate the two colliders.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        shape_a: Union[Hitbox, None],
+        shape_b: Union[Hitbox, None],
+        sep: Vector = Vector()):
         """
-        Initializes a Collision Info
+        Initializes a Collision Info manifold
         """
-        self.shape_a: Union[Hitbox, None] = None
-        self.shape_b: Union[Hitbox, None] = None
-        self.sep = Vector()
+        self.shape_a = shape_a
+        self.shape_b = shape_b
+        self.sep = sep
 
-    def __str__(self):
-        return f"{self.sep}"
-
+    @staticmethod
+    def flip(info: "ColInfo") -> Union["ColInfo", None]:
+        """Flips which object a manifold is referencing to"""
+        if info is None: return None
+        return ColInfo(info.shape_b, info.shape_a, info.sep * -1)
 
 class SAT:
     """
@@ -475,7 +481,7 @@ class SAT:
 
     @staticmethod
     def overlap(shape_a: Hitbox,
-                shape_b: Hitbox) -> Union[CollisionInfo, None]:
+                shape_b: Hitbox) -> Union[ColInfo, None]:
         """
         Checks for overlap between any two shapes (Polygon or Circle)
 
@@ -484,7 +490,7 @@ class SAT:
             shape_b: The second shape.
 
         Returns:
-            Union[CollisionInfo, None]: If a collision occurs, a CollisionInfo
+            Union[ColInfo, None]: If a collision occurs, a ColInfo
             is returned. Otherwise None is returned.
         """
 
@@ -495,67 +501,53 @@ class SAT:
             return SAT.circle_polygon_test(shape_a, shape_b)
 
         if isinstance(shape_b, Circle):
-            return SAT.circle_polygon_test(shape_b, shape_a, True)
+            return ColInfo.flip(SAT.circle_polygon_test(shape_b, shape_a))
 
-        test_a_b = SAT.polygon_polygon_test(shape_a, shape_b)
-        if test_a_b is None: return None
-
-        test_b_a = SAT.polygon_polygon_test(shape_b, shape_a, True)
-        if test_b_a is None: return None
-
-        return test_a_b if test_a_b.sep.mag < test_b_a.sep.mag else test_b_a
+        return SAT.polygon_polygon_test(shape_a, shape_b)
 
     @staticmethod
-    def circle_circle_test(shape_a: Circle,
-                           shape_b: Circle) -> Union[CollisionInfo, None]:
+    def circle_circle_test(circle_a: Circle,
+                           circle_b: Circle) -> Union[ColInfo, None]:
         """Checks for overlap between two circles"""
-        total_radius = shape_a.radius + shape_b.radius
-        distance = (shape_b.pos - shape_a.pos).magnitude
+        total_radius = circle_a.radius + circle_b.radius
+        distance = (circle_b.pos - circle_a.pos).magnitude
 
         if distance > total_radius:
             return None
 
-        result = CollisionInfo()
-        result.shape_a, result.shape_b = shape_a, shape_b
-        result.sep = (shape_a.pos - shape_b.pos).unit() * (total_radius -
-                                                           distance)
-
-        return result
+        return ColInfo(circle_a, circle_b,
+            (circle_a.pos - circle_b.pos).unit() * (total_radius - distance))
 
     @staticmethod
-    def circle_polygon_test(shape_a: Circle,
-                            shape_b: Polygon,
-                            flip: bool = False) -> Union[CollisionInfo, None]:
+    def circle_polygon_test(circle: Circle,
+                            polygon: Polygon) -> Union[ColInfo, None]:
         """Checks for overlap between a circle and a polygon"""
 
-        result = CollisionInfo()
-        result.shape_a, result.shape_b = (shape_b, shape_a) \
-            if flip else (shape_a, shape_b)
+        result = ColInfo(circle, polygon)
 
         shortest = Math.INFINITY
 
-        verts = shape_b.transformed_verts()
-        offset = shape_b.pos - shape_a.pos
+        verts = polygon.transformed_verts()
+        offset = polygon.pos - circle.pos
 
         closest = Vector()
         for v in verts:
-            dist = (shape_a.pos - shape_b.pos - v).magnitude
+            dist = (circle.pos - polygon.pos - v).magnitude
             if dist < shortest:
                 shortest = dist
-                closest = shape_b.pos + v
+                closest = polygon.pos + v
 
-        axis = closest - shape_a.pos
+        axis = closest - circle.pos
         axis.magnitude = 1
 
         poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
-        circle_range = Vector(-shape_a.transformed_radius(),
-                              shape_a.transformed_radius())
+        circle_range = Vector(-circle.transformed_radius(),
+                              circle.transformed_radius())
 
         if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
             return None
 
         dist_min = poly_range.x - circle_range.y
-        if flip: dist_min *= -1
 
         shortest = abs(dist_min)
         result.sep = axis * dist_min
@@ -569,7 +561,6 @@ class SAT:
                 return None
 
             dist_min = poly_range.x - circle_range.y
-            if flip: dist_min *= -1
 
             if abs(dist_min) < shortest:
                 shortest = abs(dist_min)
@@ -579,20 +570,27 @@ class SAT:
 
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon,
-                             shape_b: Polygon,
-                             flip: bool = False) -> Union[CollisionInfo, None]:
+                            shape_b: Polygon) -> Union[ColInfo, None]:
         """Checks for overlap between two polygons"""
+        test_a_b = SAT.poly_poly_helper(shape_a, shape_b)
+        if test_a_b is None: return None
 
-        result = CollisionInfo()
-        result.shape_a, result.shape_b = (shape_b, shape_a) \
-            if flip else (shape_a, shape_b)
+        test_b_a = ColInfo.flip(SAT.poly_poly_helper(shape_b, shape_a))
+        if test_b_a is None: return None
+
+        return test_a_b if test_a_b.sep.mag < test_b_a.sep.mag else test_b_a
+
+    @staticmethod
+    def poly_poly_helper(poly_a: Polygon,
+                        poly_b: Polygon) -> Union[ColInfo, None]:
+        result = ColInfo(poly_a, poly_b)
 
         shortest = Math.INFINITY
 
-        verts_a = shape_a.transformed_verts()
-        verts_b = shape_b.transformed_verts()
+        verts_a = poly_a.transformed_verts()
+        verts_b = poly_b.transformed_verts()
 
-        offset = shape_a.pos - shape_b.pos
+        offset = poly_a.pos - poly_b.pos
 
         for i in range(len(verts_a)):
             axis = SAT.perpendicular_axis(verts_a, i)
@@ -603,7 +601,7 @@ class SAT:
             if a_range.x > b_range.y or b_range.x > a_range.y:
                 return None
 
-            min_dist = a_range.x - b_range.y if flip else b_range.x - a_range.y
+            min_dist = b_range.x - a_range.y
 
             if abs(min_dist) < shortest:
                 shortest = abs(min_dist)

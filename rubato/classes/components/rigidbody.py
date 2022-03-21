@@ -7,7 +7,7 @@ from rubato.classes.component import Component
 from rubato.utils import Vector, Defaults, Time
 
 if TYPE_CHECKING:
-    from rubato.classes.components.hitbox import CollisionInfo
+    from rubato.classes.components.hitbox import ColInfo
 
 
 class RigidBody(Component):
@@ -110,7 +110,7 @@ class RigidBody(Component):
                 1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
     @staticmethod
-    def handle_collision(col: "CollisionInfo"):
+    def handle_collision(col: "ColInfo"):
         """
         Handle the collision between two rigidbodies.
 
