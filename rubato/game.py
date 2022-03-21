@@ -42,16 +42,12 @@ class STATE(Enum):
 sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
 name: str = ""
-window_size: Vector = Vector()
-resolution: Vector = Vector()
 background_color: Color = Color(0, 0, 0)
 foreground_color: Color = Color(255, 255, 255)
 
 _state = STATE.STOPPED
 scenes = SceneManager()
 radio: "Radio" = None
-
-_saved_dims = window_size.clone()
 
 initialized = False
 
@@ -64,16 +60,11 @@ def init(options: dict = {}):
         options: A game config.
             Defaults to the |default| for `Game`.
     """
-    global name, window_size, resolution, \
-        _saved_dims, initialized, background_color, foreground_color
+    global initialized, background_color, foreground_color
 
     initialized = True
 
     params = Defaults.game_defaults | options
-
-    name = params["name"]
-    window_size = params["window_size"]
-    resolution = params["resolution"]
 
     background_color = Color(*params["background_color"]) if not isinstance(
         params["background_color"], Color) else params["background_color"]
@@ -87,19 +78,19 @@ def init(options: dict = {}):
     flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI
              | sdl2.SDL_WINDOW_SHOWN | sdl2.SDL_WINDOW_MOUSE_FOCUS
              | sdl2.SDL_WINDOW_INPUT_FOCUS)
-    Display.window = sdl2.ext.Window(name, window_size.to_tuple(), flags=flags)
+
+    Display.window = sdl2.ext.Window(params["name"],
+                                     params["window_size"].to_tuple(),
+                                     flags=flags)
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window,
         flags=(sdl2.SDL_RENDERER_ACCELERATED
                | sdl2.SDL_RENDERER_PRESENTVSYNC),
-        logical_size=resolution.to_tuple())
+        logical_size=params["resolution"].to_tuple())
 
-    Display.set_window_name(name)
-    if options.get("icon"):
-        Display.set_window_icon(options.get("icon"))
-
-    _saved_dims = window_size.clone()
+    if params["icon"] != "":
+        Display.set_window_icon(params["icon"])
 
 
 def constant_loop():
@@ -118,7 +109,6 @@ def update():
     Handles the game states.
     Will always process timed calls.
     """
-    global _saved_dims
 
     # Event handling
     for event in sdl2.ext.get_events():
@@ -129,7 +119,6 @@ def update():
             sys.exit(1)
         if event.type == sdl2.SDL_WINDOWEVENT:
             if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                global window_size
                 radio.broadcast(
                     "resize", {
                         "width": event.window.data1,
@@ -157,8 +146,6 @@ def update():
                     "modifiers": key_info.mod,
                 },
             )
-
-    _saved_dims = window_size.clone()
 
     if Time.delta_time < 1:
         frame_start = sdl2.SDL_GetTicks64()
@@ -252,49 +239,3 @@ def set_state(new_state: STATE):
 
     if _state == STATE.STOPPED:
         sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
-
-
-# window dimension getters
-def get_width():
-    return resolution.x
-
-
-def get_height():
-    return resolution.y
-
-
-# window position getters
-def top_left():
-    return Vector(0, 0)
-
-
-def top_right():
-    return Vector(resolution.x, 0)
-
-
-def bottom_left():
-    return Vector(0, resolution.y)
-
-
-def bottom_right():
-    return Vector(resolution.x, resolution.y)
-
-
-def top_center():
-    return Vector(resolution.x / 2, 0)
-
-
-def bottom_center():
-    return Vector(resolution.x / 2, resolution.y)
-
-
-def center_left():
-    return Vector(0, resolution.y / 2)
-
-
-def center_right():
-    return Vector(resolution.x, resolution.y / 2)
-
-
-def center():
-    return Vector(resolution.x / 2, resolution.y / 2)

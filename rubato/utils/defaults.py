@@ -21,6 +21,8 @@ game_defaults = {
     "foreground_color": (255, 255, 255),  # . . . . . . . . . . tuple or Color
     # The foreground color of the window.
     # (i.e. the background of the main game).
+    "icon": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    # The path to an image to use as the window icon.
 }
 
 rigidbody_defaults = {
@@ -89,14 +91,14 @@ hitbox_defaults = {
     # The color to fill this hitbox with.
 }
 
-polygon_defaults = { # Can also contain elements from the hitbox defaults
+polygon_defaults = {  # Can also contain elements from the hitbox defaults
     "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector]
     # A list of vectors representing the vertices of the Polygon going CCW.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The rotation of the polygon
 }
 
-rectangle_defaults = { # Can also contain elements from the hitbox defaults
+rectangle_defaults = {  # Can also contain elements from the hitbox defaults
     "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The width of the rectangle.
     "height": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
@@ -105,7 +107,7 @@ rectangle_defaults = { # Can also contain elements from the hitbox defaults
     # The rotation of the rectangle
 }
 
-circle_defaults = { # Can also contain elements from the hitbox defaults
+circle_defaults = {  # Can also contain elements from the hitbox defaults
     "radius": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The radius of the circle.
 }

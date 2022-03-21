@@ -70,7 +70,7 @@ add_module_names = False
 # Auto Class Config
 autodoc_class_signature = "separated"
 autodoc_member_order = "bysource"
-autodoc_mock_imports = ["pygame", "sdl2"]
+autodoc_mock_imports = ["sdl2"]
 autodoc_typehints_format = "short"
 autodoc_preserve_defaults = True
 

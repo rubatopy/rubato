@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
 from random import randint, choice
 import rubato as rb
-from rubato import Game, Vector, Color
+from rubato import Game, Vector, Color, Display
 
 rb.init({
     "name": "Physics Demo",
@@ -20,38 +20,38 @@ main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
 top = rb.Sprite({
-    "pos": Game.top_center() + Vector(0, -30)
+    "pos": Display.top_center + Vector(0, -30)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width() + 175,
-        "height": Game.get_height() / 10,
+        "width": Display.resolution.x + 175,
+        "height": Display.resolution.y / 10,
         "color": Color.gray,
     }))
 
 bottom = rb.Sprite({
-    "pos": Game.bottom_center() + Vector(0, 30)
+    "pos": Display.bottom_center + Vector(0, 30)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width() + 175,
-        "height": Game.get_height() / 10,
+        "width": Display.resolution.x + 175,
+        "height": Display.resolution.y / 10,
         "color": Color.gray,
     }))
 
 left = rb.Sprite({
-    "pos": Game.center_left() + Vector(-30, 0)
+    "pos": Display.center_left + Vector(-30, 0)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width() / 10,
-        "height": Game.get_height() + 175,
+        "width": Display.resolution.x / 10,
+        "height": Display.resolution.y + 175,
         "color": Color.gray,
     }))
 
 right = rb.Sprite({
-    "pos": Game.center_right() + Vector(30, 0)
+    "pos": Display.center_right + Vector(30, 0)
 }).add(
     rb.Rectangle({
-        "width": Game.get_width() / 10,
-        "height": Game.get_height() + 175,
+        "width": Display.resolution.x / 10,
+        "height": Display.resolution.y + 175,
         "color": Color.gray,
     }))
 
@@ -60,12 +60,14 @@ for _ in range(60):
         rb.Sprite({
             "pos":
             Vector(
-                randint(Game.get_width() / 20, 19 * Game.get_width() / 20),
-                randint(Game.get_height() / 20, 19 * Game.get_height() / 20))
+                randint(Display.resolution.x / 20,
+                        19 * Display.resolution.x / 20),
+                randint(Display.resolution.y / 20,
+                        19 * Display.resolution.y / 20))
         }).add(
             rb.Circle({
                 "radius":
-                Game.get_width() / 50,
+                Display.resolution.x / 50,
                 "color":
                 Color(*choice(list(rb.Defaults.color_defaults.values())))
             })).add(
@@ -75,8 +77,7 @@ for _ in range(60):
                     "friction":
                     0.2,
                     "gravity":
-                    Vector(0,
-                           Game.get_width() / 8),
+                    Vector(0, Display.resolution.x / 8),
                     "velocity":
                     Vector(randint(-100, 100), randint(-100, 100))
                 })))
@@ -99,8 +100,8 @@ player_rb = rb.RigidBody({
 player.add(player_rb)
 
 player_hitbox = rb.Rectangle({
-    "width": Game.get_width() / 16,
-    "height": Game.get_width() / 16,
+    "width": Display.resolution.x / 16,
+    "height": Display.resolution.x / 16,
     "debug": True,
 })
 player.add(player_hitbox)

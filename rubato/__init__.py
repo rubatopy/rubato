@@ -17,8 +17,8 @@ Attributes:
         Initialized when :meth:`rubato.init()` is called.
     radio (Radio): The global radio class.
 """
-from time import time
 import warnings
+
 # pylint: disable=wrong-import-position
 warnings.simplefilter("ignore", UserWarning)
 
