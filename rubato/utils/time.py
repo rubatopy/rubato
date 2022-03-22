@@ -1,175 +1,139 @@
 """
-A time class to monitor time and to call functions in the future.
+A static time class to monitor time and to call functions in the future.
 
-Attributes:
-    frames (int): The total number of elapsed frames since the start of the
-        game.
 """
 from typing import Callable
 import heapq
 import sdl2
-
-frames = 0
-frame_tasks = {}
-sorted_frame_times = []
-
-tasks = {}
-sorted_task_times = []
-
-delta_time = 0
-fixed_delta = 0
-fps = 60
-
-physics_counter = 0
-
-_past_fps = [0]
-
-target_fps = 0  # this means no cap
-physics_fps = 60
+from rubato.helpers import *
 
 
-def smooth_fps():
-    return sum(_past_fps) / len(_past_fps)
-
-
-def now() -> int:
+class Time(metaclass=StaticProperty):
     """
-    Gets the time since the start of the game, in milliseconds.
+    The time class
 
-    Returns:
-        int: Time since the start of the game, in milliseconds.
-    """
-    return sdl2.timer.SDL_GetTicks64()
-
-
-def delayed_call(time_delta: int, func: Callable):
-    """
-    Calls the function func at a later
-
-    Args:
-        time_delta: The time from now (in milliseconds)
-            to run the function at.
-        func: The function to call.
-    """
-    run_at = time_delta + now()
-
-    if tasks.get(run_at):
-        tasks[run_at].append(func)
-    else:
-        tasks[run_at] = [func]
-        heapq.heappush(sorted_task_times, run_at)
-
-
-def delayed_frames(frames_delta: int, func: Callable):
-    """
-    Calls the function func at a later frame.
-
-    Args:
-        frames_delta: The number of frames to wait.
-        func: The function to call
-    """
-    frame_call = frames + frames_delta
-
-    if frame_tasks.get(frame_call):
-        frame_tasks[frame_call].append(func)
-    else:
-        frame_tasks[frame_call] = [func]
-        heapq.heappush(sorted_frame_times, frame_call)
-
-
-def milli_to_sec(milli: int) -> float:
-    """
-    Converts milliseconds to seconds.
-
-    Args:
-        milli: A number in milliseconds.
-    Returns:
-        float: The converted number in seconds.
-    """
-    return milli / 1000
-
-
-def sec_to_milli(sec: int) -> float:
-    """
-    Converts seconds to milliseconds.
-
-    Args:
-        sec: A number in seconds.
-    Returns:
-        float: The converted number in milliseconds.
-    """
-    return sec * 1000
-
-
-def process_calls():
-    """Processes the delayed function call as needed"""
-    global frames, fps
-    frames += 1
-    fps = 1000 / delta_time
-
-    if len(_past_fps) > 5:
-        _past_fps.pop(0)
-    _past_fps.append(fps)
-
-    if len(sorted_frame_times) > 0:
-        processing = True
-        while processing:
-            if sorted_frame_times[0] <= now():
-                task_time = heapq.heappop(sorted_frame_times)
-                for func in frame_tasks[task_time]:
-                    func()
-                del frame_tasks[task_time]
-            else:
-                processing = False
-
-    if len(sorted_task_times) > 0:
-        processing = True
-        while processing:
-            if sorted_task_times[0] <= now():
-                task_time = heapq.heappop(sorted_task_times)
-                for func in tasks[task_time]:
-                    func()
-                del tasks[task_time]
-            else:
-                processing = False
-
-
-def _binary_search(arr: list, low: int, high: int, val: any) -> int:
-    """
-    A binary search algorithm.
-
-    Args:
-        arr: Array to be find index of insertion. Array must be pre sorted.
-        low: The low interval in which you want to find the position.
-        high: The high interval in which you want to find the position.
-        val: Value in the array of which you want to find the position.
-
-    Returns:
-        int: The index of value in the array if it exists, otherwise it bit
-        inverts (unary operator) the index if the element is not in the array.
+    Attributes:
+        frames (int): The total number of elapsed frames since the start of the
+            game.
     """
 
-    # Check base case
-    if high >= low:
+    frames = 0
+    frame_tasks = {}
+    sorted_frame_times = []
 
-        mid = (high + low) // 2
-        # If element is present at the middle itself
-        if arr[mid] == val:
-            return mid
+    tasks = {}
+    sorted_task_times = []
 
-        # If element is smaller than mid, then it can only
-        # be present in left subarray
-        elif arr[mid] > val:
-            return _binary_search(arr, low, mid - 1, val)
+    delta_time = 0
+    fixed_delta = 0
+    fps = 60
 
-        # Else the element can only be present in right subarray
+    physics_counter = 0
+
+    _past_fps = [0]
+
+    target_fps = 0  # this means no cap
+    physics_fps = 60
+
+    @classproperty
+    def smooth_fps(self) -> float:
+        """The average fps over the pas 5 frames."""
+        return sum(self._past_fps) / len(self._past_fps)
+
+    @classproperty
+    def now(self) -> int:
+        """
+        The time since the start of the game, in milliseconds.
+        """
+        return sdl2.timer.SDL_GetTicks64()
+
+    @classmethod
+    def delayed_call(cls, time_delta: int, func: Callable):
+        """
+        Calls the function func at a later
+
+        Args:
+            time_delta: The time from now (in milliseconds)
+                to run the function at.
+            func: The function to call.
+        """
+        run_at = time_delta + cls.now
+
+        if cls.tasks.get(run_at):
+            cls.tasks[run_at].append(func)
         else:
-            return _binary_search(arr, mid + 1, high, val)
+            cls.tasks[run_at] = [func]
+            heapq.heappush(cls.sorted_task_times, run_at)
 
-    else:
-        # Element is not present in the array
-        if high < len(arr) - 1:
-            return ~(high + 1)
-            # this way it will be negative if it is not present
+    @classmethod
+    def delayed_frames(cls, frames_delta: int, func: Callable):
+        """
+        Calls the function func at a later frame.
+
+        Args:
+            frames_delta: The number of frames to wait.
+            func: The function to call
+        """
+        frame_call = cls.frames + frames_delta
+
+        if cls.frame_tasks.get(frame_call):
+            cls.frame_tasks[frame_call].append(func)
         else:
-            return ~len(arr)
+            cls.frame_tasks[frame_call] = [func]
+            heapq.heappush(cls.sorted_frame_times, frame_call)
+
+    @classmethod
+    def milli_to_sec(cls, milli: int) -> float:
+        """
+        Converts milliseconds to seconds.
+
+        Args:
+            milli: A number in milliseconds.
+        Returns:
+            float: The converted number in seconds.
+        """
+        return milli / 1000
+
+    @classmethod
+    def sec_to_milli(cls, sec: int) -> float:
+        """
+        Converts seconds to milliseconds.
+
+        Args:
+            sec: A number in seconds.
+        Returns:
+            float: The converted number in milliseconds.
+        """
+        return sec * 1000
+
+    @classmethod
+    def process_calls(cls):
+        """Processes the delayed function call as needed"""
+        cls.frames += 1
+        cls.fps = 1000 / cls.delta_time
+
+        if len(cls._past_fps) > 5:
+            cls._past_fps.pop(0)
+        cls._past_fps.append(cls.fps)
+
+        if len(cls.sorted_frame_times) > 0:
+            processing = True
+            while processing:
+                if cls.sorted_frame_times[0] <= cls.now:
+                    task_time = heapq.heappop(cls.sorted_frame_times)
+                    for func in cls.frame_tasks[task_time]:
+                        func()
+                    del cls.frame_tasks[task_time]
+                else:
+                    processing = False
+
+        if len(cls.sorted_task_times) > 0:
+            processing = True
+            while processing:
+                if cls.sorted_task_times[0] <= cls.now:
+                    task_time = heapq.heappop(cls.sorted_task_times)
+                    for func in cls.tasks[task_time]:
+                        func()
+                    del cls.tasks[task_time]
+                else:
+                    processing = False

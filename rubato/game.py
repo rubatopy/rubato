@@ -1,19 +1,12 @@
 """
 The main game class. It controls everything in the game.
-
-Attributes:
-    scenes (SceneManager): The global scene manager.
-    name (str): The title of the game window.
-    fps (int): The target fps of the game.
-    reset_display (bool): Controls whether or not the display should reset
-        every frame.
-    state (int): The current state of the game.
 """
 from __future__ import unicode_literals
 import sys
 import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING
+from rubato.helpers import *
 from rubato.utils import Display, Vector, Time, Color
 from rubato.radio import Radio
 import rubato.input as Input
@@ -21,23 +14,51 @@ from contextlib import suppress
 
 if TYPE_CHECKING:
     from rubato.classes.sprite import Sprite
+    from rubato.classes import SceneManager
 
 
-class Game:
+class Game(metaclass=StaticProperty):
+    """
+    The main game class.
+
+    Attributes:
+        name (str): The title of the game window.
+        scenes (SceneManager): The global scene manager.
+        foreground_color (Color): The foreground color of the window.
+        background_color (Color): The background color of the window. (Usually the borders)
+    """
     RUNNING = 1
     STOPPED = 2
     PAUSED = 3
-
-    sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     name: str = ""
     background_color: Color = Color(0, 0, 0)
     foreground_color: Color = Color(255, 255, 255)
 
     _state: int = STOPPED
-    scenes = None
+    scenes: "SceneManager" = None
 
     initialized = False
+
+    @classproperty
+    def state(self) -> int:
+        """
+        The state of the game.
+
+        The possible states are::
+
+            Game.STOPPED
+            Game.RUNNING
+            Game.PAUSED
+        """
+        return self._state
+
+    @state.setter
+    def state(self, new: int):
+        self._state = new
+
+        if self._state == Game.STOPPED:
+            sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
 
     @classmethod
     def constant_loop(cls):
@@ -107,7 +128,7 @@ class Game:
         # process delayed calls
         Time.process_calls()
 
-        if cls.get_state() == Game.PAUSED:
+        if cls.state == Game.PAUSED:
             # process user set pause update
             cls.scenes.paused_update()
         else:
@@ -148,6 +169,13 @@ class Game:
 
     @classmethod
     def render(cls, sprite: "Sprite", surface: sdl2.surface.SDL_Surface):
+        """
+        Renders a surface to the display.
+
+        Args:
+            sprite: The sprite to render.
+            surface: The surface to render.
+        """
         if sprite.z_index <= cls.scenes.current.camera.z_index:
             width, height = surface.w, surface.h
 
@@ -175,14 +203,3 @@ class Game:
                 surface_scaled,
                 cls.scenes.current.camera.transform(sprite.pos - Vector(width, height) / 2),
             )
-
-    @classmethod
-    def get_state(cls) -> int:
-        return cls._state
-
-    @classmethod
-    def set_state(cls, new_state: int):
-        cls._state = new_state
-
-        if cls._state == Game.STOPPED:
-            sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())

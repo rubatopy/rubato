@@ -122,7 +122,6 @@ Display
 _____________
 .. automodule:: rubato.utils.display
     :members:
-    :private-members:
 
 .. _vector:
 

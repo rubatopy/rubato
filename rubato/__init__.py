@@ -76,6 +76,7 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the |default| for `Game`.
     """
+    sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
     Game.initialized = True
 
     params = Defaults.game_defaults | options
