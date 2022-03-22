@@ -130,7 +130,7 @@ html_baseurl = "https://tinmarr.github.io/rubato/"
 # Open Graph
 ogp_site_url = "https://rubatopy.github.io"
 ogp_description_length = 300
-ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"  # pylint: disable=line-too-long
+ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"
 ogp_site_name = "Rubato Documentation"
 ogp_custom_meta_tags = [
     '<meta property="og:title" content="Rubato Documentation">',
@@ -154,8 +154,7 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_preprocess_types = True
 napoleon_type_aliases = {
-    "SceneManager":
-    ":meth:`SceneManager <rubato.scenes.scene_manager.SceneManager>`",
+    "SceneManager": ":meth:`SceneManager <rubato.scenes.scene_manager.SceneManager>`",
     "Radio": ":meth:`Radio <rubato.radio.Radio>`",
     "STATE": ":meth:`STATE <rubato.utils.STATE.STATE>`",
     "Game": ":meth:`Game <rubato.game.Game>`",

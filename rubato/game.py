@@ -23,6 +23,7 @@ from contextlib import suppress
 if TYPE_CHECKING:
     from rubato.classes.sprite import Sprite
 
+
 class STATE(Enum):
     """
     An enum to keep track of the state things
@@ -34,6 +35,7 @@ class STATE(Enum):
     RUNNING = 1
     STOPPED = 2
     PAUSED = 3
+
 
 class Game:
     """_summary_
@@ -66,30 +68,23 @@ class Game:
 
         params = Defaults.game_defaults | options
 
-        cls.background_color = Color(*params["background_color"]) if not \
-            isinstance(params["background_color"], Color) \
-                else params["background_color"]
+        cls.background_color = Color(*params["background_color"]) if not isinstance(
+            params["background_color"], Color) else params["background_color"]
 
-        cls.foreground_color = Color(*params["foreground_color"]) if not \
-            isinstance(params["foreground_color"], Color) \
-                else params["foreground_color"]
+        cls.foreground_color = Color(*params["foreground_color"]) if not isinstance(
+            params["foreground_color"], Color) else params["foreground_color"]
 
         Time.target_fps = params["target_fps"]
         Time.physics_fps = params["physics_fps"]
 
-        flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI
-                | sdl2.SDL_WINDOW_SHOWN | sdl2.SDL_WINDOW_MOUSE_FOCUS
-                | sdl2.SDL_WINDOW_INPUT_FOCUS)
+        flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_SHOWN |
+                 sdl2.SDL_WINDOW_MOUSE_FOCUS | sdl2.SDL_WINDOW_INPUT_FOCUS)
 
-        Display.window = sdl2.ext.Window(params["name"],
-                                        params["window_size"].to_tuple(),
-                                        flags=flags)
+        Display.window = sdl2.ext.Window(params["name"], params["window_size"].to_tuple(), flags=flags)
 
-        Display.renderer = sdl2.ext.Renderer(
-            Display.window,
-            flags=(sdl2.SDL_RENDERER_ACCELERATED
-                | sdl2.SDL_RENDERER_PRESENTVSYNC),
-            logical_size=params["resolution"].to_tuple())
+        Display.renderer = sdl2.ext.Renderer(Display.window,
+                                             flags=(sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_PRESENTVSYNC),
+                                             logical_size=params["resolution"].to_tuple())
 
         if params["icon"] != "":
             Display.set_window_icon(params["icon"])
@@ -231,7 +226,6 @@ class Game:
                 cls.scenes.current.camera.transform(sprite.pos - \
                     Vector(width, height)/2),
             )
-
 
     @classmethod
     def get_state(cls) -> STATE:

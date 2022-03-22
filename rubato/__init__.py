@@ -31,9 +31,7 @@ from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
 import rubato.input as Input
 from rubato.sound import Sound
 
-
 warnings.simplefilter("default", UserWarning)
-
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -91,5 +89,4 @@ def begin():
         Game.constant_loop()
     else:
         raise RuntimeError(
-            "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"  # pylint: disable=line-too-long
-        )
+            "You have not initialized rubato. Make sure to run rubato.init() right after importing the library")

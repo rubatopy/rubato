@@ -52,7 +52,7 @@ class Display(metaclass=StaticProperty):
             While this value can be changed, it is recommended that you do not
             change it as it will scale your entire project in ways you might
             not expect.
-        """  # pylint: disable=line-too-long
+        """
         return Vector(*self.renderer.logical_size)
 
     @resolution.setter
