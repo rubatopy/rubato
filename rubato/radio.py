@@ -16,6 +16,7 @@ keyup - A key was unpressed
 
 from typing import Callable, List
 
+
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.
