@@ -64,8 +64,7 @@ def scancode_from_name(char: str) -> int:
     Returns:
         int: The corresponding scancode.
     """
-    return sdl2.keyboard.SDL_GetScancodeFromName(c_char_p(bytes(char,
-                                                                "utf-8")))
+    return sdl2.keyboard.SDL_GetScancodeFromName(c_char_p(bytes(char, "utf-8")))
 
 
 def window_focused() -> bool:
@@ -75,8 +74,7 @@ def window_focused() -> bool:
     Returns:
         bool: True if the window is focused, false otherwise.
     """
-    return sdl2.keyboard.SDL_GetKeyboardFocus() == Display.window or \
-        sdl2.mouse.SDL_GetMouseFocus() == Display.window
+    return sdl2.keyboard.SDL_GetKeyboardFocus() == Display.window or sdl2.mouse.SDL_GetMouseFocus() == Display.window
 
 
 def get_keyboard_state():
@@ -205,5 +203,4 @@ def mouse_over(center: Vector, dims: Vector = Vector(1, 1)) -> bool:
     top_left = (center - dims / 2).ceil()
     bottom_right = (center + dims / 2).ceil()
 
-    return (top_left.x <= mouse_pos().x <= bottom_right.x
-            and top_left.y <= mouse_pos().y <= bottom_right.y)
+    return top_left.x <= mouse_pos().x <= bottom_right.x and top_left.y <= mouse_pos().y <= bottom_right.y

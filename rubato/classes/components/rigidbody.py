@@ -106,8 +106,7 @@ class RigidBody(Component):
         else:
             self.add_force(impulse)
 
-            Time.delayed_frames(
-                1, lambda: self.add_impulse(impulse, time - Time.delta_time))
+            Time.delayed_frames(1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
     @staticmethod
     def handle_collision(col: "ColInfo"):
@@ -141,8 +140,7 @@ class RigidBody(Component):
         percent = 0.2  # usually 20% to 80% interpolation
         slop = 0.01  # usually 0.01 to 0.1 correction threshold
 
-        correction = max(col.sep.magnitude - slop, 0) / (
-            inv_mass_a + inv_mass_b) * percent * collision_norm
+        correction = max(col.sep.magnitude - slop, 0) / (inv_mass_a + inv_mass_b) * percent * collision_norm
 
         if rb_a is not None and not rb_a.static:
             rb_a.sprite.pos -= inv_mass_a * correction
@@ -153,16 +151,14 @@ class RigidBody(Component):
         # Impulse Resolution
 
         # Relative velocity
-        rv = (Vector() if rb_b is None else rb_b.velocity) - \
-            (Vector() if rb_a is None else rb_a.velocity)
+        rv = (Vector() if rb_b is None else rb_b.velocity) - (Vector() if rb_a is None else rb_a.velocity)
         vel_along_norm = rv.dot(collision_norm)
 
         if vel_along_norm > 0:
             return
 
         # Calculate restitution
-        e = max(0 if rb_a is None else rb_a.bounciness,
-                0 if rb_b is None else rb_b.bounciness)
+        e = max(0 if rb_a is None else rb_a.bounciness, 0 if rb_b is None else rb_b.bounciness)
 
         # Calculate impulse scalar
         j = -(1 + e) * vel_along_norm / (inv_mass_a + inv_mass_b)
@@ -187,11 +183,11 @@ class RigidBody(Component):
             mu = (rb_a.friction**2 + rb_b.friction**2) / 2
 
         # Stop redundant friction calculations
-        if mu == 0: return
+        if mu == 0:
+            return
 
         # Relative velocity
-        rv = (Vector() if rb_b is None else rb_b.velocity) - \
-            (Vector() if rb_a is None else rb_a.velocity)
+        rv = (Vector() if rb_b is None else rb_b.velocity) - (Vector() if rb_a is None else rb_a.velocity)
 
         # Tangent vector
         tangent = rv - rv.dot(collision_norm) * collision_norm

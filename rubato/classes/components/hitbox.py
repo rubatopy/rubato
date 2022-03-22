@@ -49,11 +49,7 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
-    def collide(
-            self,
-            other: "Hitbox",
-            callback: Callable = lambda c: None
-    ) -> Union["ColInfo", None]:
+    def collide(self, other: "Hitbox", callback: Callable = lambda c: None) -> Union["ColInfo", None]:
         """
         A simple collision engine for most use cases.
 
@@ -67,9 +63,8 @@ class Hitbox(Component):
             collision is detected or nothing if no collision is detected.
         """
         if (col := SAT.overlap(self, other)) is not None:
-            if not self.trigger and (
-                (self.sprite.get(RigidBody) is not None) or
-                (other.sprite.get(RigidBody) is not None)):
+            if not self.trigger and ((self.sprite.get(RigidBody) is not None) or
+                                     (other.sprite.get(RigidBody) is not None)):
 
                 RigidBody.handle_collision(col)
 
@@ -106,8 +101,7 @@ class Polygon(Hitbox):
         self.rotation: float = params["rotation"]
 
     @staticmethod
-    def generate_polygon(num_sides: int,
-                         radius: Union[float, int] = 1) -> List[Vector]:
+    def generate_polygon(num_sides: int, radius: Union[float, int] = 1) -> List[Vector]:
         """
         Creates a normal polygon with a specified number of sides and
         an optional radius.
@@ -123,35 +117,26 @@ class Polygon(Hitbox):
             List[Vector]: The vertices of the polygon.
         """
         if num_sides < 3:
-            raise SideError(
-                "Can't create a polygon with less than three sides")
+            raise SideError("Can't create a polygon with less than three sides")
 
         rotangle = 2 * math.pi / num_sides
         angle, verts = 0, []
 
         for i in range(num_sides):
             angle = (i * rotangle) + (math.pi - rotangle) / 2
-            verts.append(
-                Vector(math.cos(angle) * radius,
-                       math.sin(angle) * radius))
+            verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
         return verts
 
     def clone(self) -> "Polygon":
         """Creates a copy of the Polygon at the current position"""
         new_poly = Polygon({
-            "verts":
-            [v.clone() for v in self.verts],
-            "rotation":
-            self.rotation,
-            "debug":
-            self.debug,
-            "trigger":
-            self.trigger,
-            "scale":
-            self.scale,
-            "callback":
-            self.callback,
+            "verts": [v.clone() for v in self.verts],
+            "rotation": self.rotation,
+            "debug": self.debug,
+            "trigger": self.trigger,
+            "scale": self.scale,
+            "callback": self.callback,
         })
         new_poly._pos = self._pos  # pylint: disable=protected-access
         return new_poly
@@ -165,8 +150,7 @@ class Polygon(Hitbox):
         return [self.pos + v for v in self.transformed_verts()]
 
     def __str__(self):
-        return (f"{[str(v) for v in self.verts]}, {self.pos}, " +
-                f"{self.scale}, {self.rotation}")
+        return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.rotation}"
 
     def bounding_box_dimensions(self) -> Vector:
         real_verts = self.real_verts()
@@ -178,9 +162,7 @@ class Polygon(Hitbox):
         """
         The draw loop
         """
-        list_of_points: List[tuple] = \
-            [Game.scenes.current.camera.transform(v).tuple_int() \
-                for v in self.real_verts()]
+        list_of_points: List[tuple] = [Game.scenes.current.camera.transform(v).tuple_int() for v in self.real_verts()]
 
         x_coords, y_coords = zip(*list_of_points)
 
@@ -342,10 +324,8 @@ class Rectangle(Hitbox):
         return [self.pos + v for v in self.vertices()]
 
     def draw(self):
-        x_1, y_1 = Game.scenes.current.camera.transform(
-            self.topright).tuple_int()
-        x_2, y_2 = Game.scenes.current.camera.transform(
-            self.bottomleft).tuple_int()
+        x_1, y_1 = Game.scenes.current.camera.transform(self.topright).tuple_int()
+        x_2, y_2 = Game.scenes.current.camera.transform(self.bottomleft).tuple_int()
         if self.color is not None:
             sdl2.sdlgfx.boxRGBA(
                 Display.renderer.sdlrenderer,
@@ -370,6 +350,7 @@ class Rectangle(Hitbox):
                 0,
                 255,
             )
+
 
 class Circle(Hitbox):
     """
@@ -453,11 +434,7 @@ class ColInfo:
         seperation (Vector): The vector that would separate the two colliders.
     """
 
-    def __init__(
-        self,
-        shape_a: Union[Hitbox, None],
-        shape_b: Union[Hitbox, None],
-        sep: Vector = Vector()):
+    def __init__(self, shape_a: Union[Hitbox, None], shape_b: Union[Hitbox, None], sep: Vector = Vector()):
         """
         Initializes a Collision Info manifold
         """
@@ -468,8 +445,10 @@ class ColInfo:
     @staticmethod
     def flip(info: "ColInfo") -> Union["ColInfo", None]:
         """Flips which object a manifold is referencing to"""
-        if info is None: return None
+        if info is None:
+            return None
         return ColInfo(info.shape_b, info.shape_a, info.sep * -1)
+
 
 class SAT:
     """
@@ -478,8 +457,7 @@ class SAT:
     """
 
     @staticmethod
-    def overlap(shape_a: Hitbox,
-                shape_b: Hitbox) -> Union[ColInfo, None]:
+    def overlap(shape_a: Hitbox, shape_b: Hitbox) -> Union[ColInfo, None]:
         """
         Checks for overlap between any two shapes (Polygon or Circle)
 
@@ -504,8 +482,7 @@ class SAT:
         return SAT.polygon_polygon_test(shape_a, shape_b)
 
     @staticmethod
-    def circle_circle_test(circle_a: Circle,
-                           circle_b: Circle) -> Union[ColInfo, None]:
+    def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Union[ColInfo, None]:
         """Checks for overlap between two circles"""
         total_radius = circle_a.radius + circle_b.radius
         distance = (circle_b.pos - circle_a.pos).magnitude
@@ -513,12 +490,10 @@ class SAT:
         if distance > total_radius:
             return None
 
-        return ColInfo(circle_a, circle_b,
-            (circle_a.pos - circle_b.pos).unit() * (total_radius - distance))
+        return ColInfo(circle_a, circle_b, (circle_a.pos - circle_b.pos).unit() * (total_radius - distance))
 
     @staticmethod
-    def circle_polygon_test(circle: Circle,
-                            polygon: Polygon) -> Union[ColInfo, None]:
+    def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[ColInfo, None]:
         """Checks for overlap between a circle and a polygon"""
 
         result = ColInfo(circle, polygon)
@@ -539,8 +514,7 @@ class SAT:
         axis.magnitude = 1
 
         poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
-        circle_range = Vector(-circle.transformed_radius(),
-                              circle.transformed_radius())
+        circle_range = Vector(-circle.transformed_radius(), circle.transformed_radius())
 
         if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
             return None
@@ -567,20 +541,20 @@ class SAT:
         return result
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Polygon,
-                            shape_b: Polygon) -> Union[ColInfo, None]:
+    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Union[ColInfo, None]:
         """Checks for overlap between two polygons"""
         test_a_b = SAT.poly_poly_helper(shape_a, shape_b)
-        if test_a_b is None: return None
+        if test_a_b is None:
+            return None
 
         test_b_a = ColInfo.flip(SAT.poly_poly_helper(shape_b, shape_a))
-        if test_b_a is None: return None
+        if test_b_a is None:
+            return None
 
         return test_a_b if test_a_b.sep.mag < test_b_a.sep.mag else test_b_a
 
     @staticmethod
-    def poly_poly_helper(poly_a: Polygon,
-                        poly_b: Polygon) -> Union[ColInfo, None]:
+    def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:
         result = ColInfo(poly_a, poly_b)
 
         shortest = Math.INFINITY
