@@ -7,7 +7,7 @@ import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING
 from rubato.helpers import *
-from rubato.utils import Display, Vector, Time, Color
+from rubato.utils import Time, Display, Vector, Color
 from rubato.radio import Radio
 import rubato.input as Input
 from contextlib import suppress
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from rubato.classes import SceneManager
 
 
-class Game(metaclass=StaticProperty):
+class Game(metaclass=StaticClass):
     """
     The main game class.
 
@@ -65,7 +65,7 @@ class Game(metaclass=StaticProperty):
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
         """
-        cls._state = Game.RUNNING
+        cls.state = Game.RUNNING
         while True:
             cls.update()
 

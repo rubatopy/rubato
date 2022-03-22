@@ -7,7 +7,7 @@ from rubato.utils.vector import Vector
 from rubato.helpers import *
 
 
-class Display(metaclass=StaticProperty):
+class Display(metaclass=StaticClass):
     """
     A static class that houses all of the display information
 

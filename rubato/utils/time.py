@@ -8,7 +8,7 @@ import sdl2
 from rubato.helpers import *
 
 
-class Time(metaclass=StaticProperty):
+class Time(metaclass=StaticClass):
     """
     The time class
 
