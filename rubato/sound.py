@@ -57,10 +57,9 @@ class Sound():
 
         if self.name in Sound.loaded_sounds:
             mixer.Mix_FreeChunk(self.chunk)
-            raise IdError("There is already a sound with the name " +
-                          self.name)
+            raise IdError(f"There is already a sound with the name {self.name}")
         else:
-            Sound.loaded_sounds[self.name] = self.chunk
+            Sound.loaded_sounds[self.name] = self
 
     @property
     def state(self) -> int:
