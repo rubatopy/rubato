@@ -1,14 +1,13 @@
 """
 Global display class that allows for easy screen and window management.
-
-Should be accessed through :code:`rubato.Display`
 """
 import sdl2
 import sdl2.ext
 from rubato.utils.vector import Vector
+from rubato.utils.helpers import *
 
 
-class _Display(type):
+class Display(metaclass=StaticProperty):
     """
     A static class that houses all of the display information
 
@@ -17,7 +16,10 @@ class _Display(type):
         renderer (sdl2.ext.Renderer): The pysdl2 renderer element.
     """
 
-    @property
+    window: sdl2.ext.Window = None
+    renderer: sdl2.ext.Renderer = None
+
+    @classproperty
     def window_size(self) -> Vector:
         """
         The pixel size of the physical window.
@@ -33,7 +35,7 @@ class _Display(type):
     def window_size(self, new: Vector):
         self.window.size = new.to_int().to_tuple()
 
-    @property
+    @classproperty
     def resolution(self) -> Vector:
         """
         The pixel resolution of the game. This is the number of virtual
@@ -57,7 +59,7 @@ class _Display(type):
     def resolution(self, new: Vector):
         self.renderer.logical_size = new.to_int().to_tuple()
 
-    @property
+    @classproperty
     def window_pos(self) -> Vector:
         """The current position of the window in terms of screen pixels"""
         return Vector(*self.window.position)
@@ -66,7 +68,7 @@ class _Display(type):
     def window_pos(self, new: Vector):
         self.window.position = new.to_int().to_tuple()
 
-    @property
+    @classproperty
     def window_name(self):
         return self.window.title
 
@@ -74,7 +76,8 @@ class _Display(type):
     def window_name(self, new: str):
         self.window.title = new
 
-    def set_window_icon(self, path: str):
+    @classmethod
+    def set_window_icon(cls, path: str):
         """
         Set the icon of the window.
 
@@ -82,11 +85,12 @@ class _Display(type):
             path: The path to the icon.
         """
         sdl2.video.SDL_SetWindowIcon(
-            self.window,
+            cls.window,
             sdl2.ext.image.load_img(path),
         )
 
-    def update(self, surface: sdl2.SDL_Surface, pos: Vector):
+    @classmethod
+    def update(cls, surface: sdl2.SDL_Surface, pos: Vector):
         """
         Update the current screen.
 
@@ -94,8 +98,8 @@ class _Display(type):
             surface: The surface to draw on the screen.
             pos: The position to draw the surface on.
         """
-        self.renderer.copy(
-            sdl2.ext.Texture(self.renderer, surface),
+        cls.renderer.copy(
+            sdl2.ext.Texture(cls.renderer, surface),
             None,
             (
                 pos.x,
@@ -105,7 +109,8 @@ class _Display(type):
             ),
         )
 
-    def clone_surface(self, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
+    @classmethod
+    def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
         return sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
             surface.pixels,
             surface.w,
@@ -115,52 +120,47 @@ class _Display(type):
             sdl2.SDL_PIXELFORMAT_RGBA32,
         ).contents
 
-    @property
+    @classproperty
     def top_left(self) -> Vector:
         """Returns the position of the top left of the window."""
         return Vector(0, 0)
 
-    @property
+    @classproperty
     def top_right(self) -> Vector:
         """Returns the position of the top right of the window."""
         return Vector(self.resolution.x, 0)
 
-    @property
+    @classproperty
     def bottom_left(self) -> Vector:
         """Returns the position of the bottom left of the window."""
         return Vector(0, self.resolution.y)
 
-    @property
+    @classproperty
     def bottom_right(self) -> Vector:
         """Returns the position of the bottom right of the window."""
         return Vector(self.resolution.x, self.resolution.y)
 
-    @property
+    @classproperty
     def top_center(self) -> Vector:
         """Returns the position of the top center of the window."""
         return Vector(self.resolution.x / 2, 0)
 
-    @property
+    @classproperty
     def bottom_center(self) -> Vector:
         """Returns the position of the bottom center of the window."""
         return Vector(self.resolution.x / 2, self.resolution.y)
 
-    @property
+    @classproperty
     def center_left(self) -> Vector:
         """Returns the position of the center left of the window."""
         return Vector(0, self.resolution.y / 2)
 
-    @property
+    @classproperty
     def center_right(self) -> Vector:
         """Returns the position of the center right of the window."""
         return Vector(self.resolution.x, self.resolution.y / 2)
 
-    @property
+    @classproperty
     def center(self) -> Vector:
         """Returns the position of the center of the window."""
         return Vector(self.resolution.x / 2, self.resolution.y / 2)
-
-
-class Display(metaclass=_Display):
-    window: sdl2.ext.Window = None
-    renderer: sdl2.ext.Renderer = None
