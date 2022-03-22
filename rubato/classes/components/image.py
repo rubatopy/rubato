@@ -3,7 +3,7 @@ The image component that renders an image from the filesystem.
 """
 from rubato.classes.component import Component
 from rubato.utils import Vector, Defaults, Display
-import rubato.game as Game
+from rubato.game import Game
 import sdl2
 import sdl2.ext
 import sdl2.sdlgfx

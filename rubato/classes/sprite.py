@@ -5,7 +5,7 @@ from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components import Hitbox
 from rubato.utils import Vector, Defaults, Display
 from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
-import rubato.game as Game
+from rubato.game import Game
 import sdl2
 import sdl2.sdlgfx
 

@@ -15,7 +15,6 @@ import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING
 from rubato.utils import Display, Vector, Time, Defaults, Color
-from rubato.classes import SceneManager
 from rubato.radio import Radio
 import rubato.input as Input
 from enum import Enum
@@ -23,7 +22,6 @@ from contextlib import suppress
 
 if TYPE_CHECKING:
     from rubato.classes.sprite import Sprite
-
 
 class STATE(Enum):
     """
@@ -37,206 +35,211 @@ class STATE(Enum):
     STOPPED = 2
     PAUSED = 3
 
+class Game:
+    """_summary_
 
-sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
-
-name: str = ""
-background_color: Color = Color(0, 0, 0)
-foreground_color: Color = Color(255, 255, 255)
-
-_state = STATE.STOPPED
-scenes = SceneManager()
-
-initialized = False
-
-
-def init(options: dict = {}):
+    Returns:
+        _type_: _description_
     """
-    Initializes a game. Should only be called by :meth:`rubato.init`.
+    sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
-    Args:
-        options: A game config.
-            Defaults to the |default| for `Game`.
-    """
-    global initialized, background_color, foreground_color
+    name: str = ""
+    background_color: Color = Color(0, 0, 0)
+    foreground_color: Color = Color(255, 255, 255)
 
-    initialized = True
+    _state = STATE.STOPPED
+    scenes = None
 
-    params = Defaults.game_defaults | options
+    initialized = False
 
-    background_color = Color(*params["background_color"]) if not isinstance(
-        params["background_color"], Color) else params["background_color"]
+    @classmethod
+    def init(cls, options: dict = {}):
+        """
+        Initializes a game. Should only be called by :meth:`rubato.init`.
 
-    foreground_color = Color(*params["foreground_color"]) if not isinstance(
-        params["foreground_color"], Color) else params["foreground_color"]
+        Args:
+            options: A game config.
+                Defaults to the |default| for `Game`.
+        """
 
-    Time.target_fps = params["target_fps"]
-    Time.physics_fps = params["physics_fps"]
+        cls.initialized = True
 
-    flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI
-             | sdl2.SDL_WINDOW_SHOWN | sdl2.SDL_WINDOW_MOUSE_FOCUS
-             | sdl2.SDL_WINDOW_INPUT_FOCUS)
+        params = Defaults.game_defaults | options
 
-    Display.window = sdl2.ext.Window(params["name"],
-                                     params["window_size"].to_tuple(),
-                                     flags=flags)
+        cls.background_color = Color(*params["background_color"]) if not \
+            isinstance(params["background_color"], Color) \
+                else params["background_color"]
 
-    Display.renderer = sdl2.ext.Renderer(
-        Display.window,
-        flags=(sdl2.SDL_RENDERER_ACCELERATED
-               | sdl2.SDL_RENDERER_PRESENTVSYNC),
-        logical_size=params["resolution"].to_tuple())
+        cls.foreground_color = Color(*params["foreground_color"]) if not \
+            isinstance(params["foreground_color"], Color) \
+                else params["foreground_color"]
 
-    if params["icon"] != "":
-        Display.set_window_icon(params["icon"])
+        Time.target_fps = params["target_fps"]
+        Time.physics_fps = params["physics_fps"]
 
+        flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI
+                | sdl2.SDL_WINDOW_SHOWN | sdl2.SDL_WINDOW_MOUSE_FOCUS
+                | sdl2.SDL_WINDOW_INPUT_FOCUS)
 
-def constant_loop():
-    """
-    The constant game loop. Should only be called by :meth:`rubato.begin`.
-    """
-    global _state
-    _state = STATE.RUNNING
-    while True:
-        update()
+        Display.window = sdl2.ext.Window(params["name"],
+                                        params["window_size"].to_tuple(),
+                                        flags=flags)
 
+        Display.renderer = sdl2.ext.Renderer(
+            Display.window,
+            flags=(sdl2.SDL_RENDERER_ACCELERATED
+                | sdl2.SDL_RENDERER_PRESENTVSYNC),
+            logical_size=params["resolution"].to_tuple())
 
-def update():
-    """
-    The update loop for the game. Called automatically every frame.
-    Handles the game states.
-    Will always process timed calls.
-    """
+        if params["icon"] != "":
+            Display.set_window_icon(params["icon"])
 
-    # Event handling
-    for event in sdl2.ext.get_events():
-        sdl2.SDL_PumpEvents()
-        if event.type == sdl2.SDL_QUIT:
-            Radio.broadcast("exit")
-            sdl2.SDL_Quit()
-            sys.exit(1)
-        if event.type == sdl2.SDL_WINDOWEVENT:
-            if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
+    @classmethod
+    def constant_loop(cls):
+        """
+        The constant game loop. Should only be called by :meth:`rubato.begin`.
+        """
+        cls._state = STATE.RUNNING
+        while True:
+            cls.update()
+
+    @classmethod
+    def update(cls):
+        """
+        The update loop for the game. Called automatically every frame.
+        Handles the game states.
+        Will always process timed calls.
+        """
+
+        # Event handling
+        for event in sdl2.ext.get_events():
+            sdl2.SDL_PumpEvents()
+            if event.type == sdl2.SDL_QUIT:
+                Radio.broadcast("exit")
+                sdl2.SDL_Quit()
+                sys.exit(1)
+            if event.type == sdl2.SDL_WINDOWEVENT:
+                if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
+                    Radio.broadcast(
+                        "resize", {
+                            "width": event.window.data1,
+                            "height": event.window.data2,
+                            "old_width": Display.window_size.x,
+                            "old_height": Display.window_size.y
+                        })
+                    Display.window_size = Vector(
+                        event.window.data1,
+                        event.window.data2,
+                    )
+            if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
+                key_info, unicode = event.key.keysym, ""
+                with suppress(ValueError):
+                    unicode = chr(key_info.sym)
+
+                if event.type == sdl2.SDL_KEYUP:
+                    event_name = "keyup"
+                else:
+                    event_name = ("keyhold", "keydown")[not event.key.repeat]
+
                 Radio.broadcast(
-                    "resize", {
-                        "width": event.window.data1,
-                        "height": event.window.data2,
-                        "old_width": Display.window_size.x,
-                        "old_height": Display.window_size.y
-                    })
-                Display.window_size = Vector(
-                    event.window.data1,
-                    event.window.data2,
+                    event_name,
+                    {
+                        "key": Input.get_name(key_info.sym),
+                        "unicode": unicode,
+                        "code": int(key_info.sym),
+                        "modifiers": key_info.mod,
+                    },
                 )
-        if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
-            key_info, unicode = event.key.keysym, ""
-            with suppress(ValueError):
-                unicode = chr(key_info.sym)
 
-            if event.type == sdl2.SDL_KEYUP:
-                event_name = "keyup"
-            else:
-                event_name = ("keyhold", "keydown")[not event.key.repeat]
+        if Time.delta_time < 1:
+            frame_start = sdl2.SDL_GetTicks64()
+            sdl2.SDL_Delay(1)
+            frame_end = sdl2.SDL_GetTicks64()
+            Time.delta_time = frame_end - frame_start
 
-            Radio.broadcast(
-                event_name,
-                {
-                    "key": Input.get_name(key_info.sym),
-                    "unicode": unicode,
-                    "code": int(key_info.sym),
-                    "modifiers": key_info.mod,
-                },
-            )
-
-    if Time.delta_time < 1:
         frame_start = sdl2.SDL_GetTicks64()
-        sdl2.SDL_Delay(1)
+
+        # process delayed calls
+        Time.process_calls()
+
+        if cls.get_state() == STATE.PAUSED:
+            # process user set pause update
+            cls.scenes.paused_update()
+        else:
+            # fixed update
+            Time.physics_counter += Time.delta_time
+            Time.fixed_delta = 1000 / Time.physics_fps
+
+            while Time.physics_counter >= Time.fixed_delta:
+                cls.scenes.fixed_update()
+                Time.physics_counter -= Time.fixed_delta
+
+            # normal update
+            cls.scenes.update()
+
+        # Draw Loop
+        Display.renderer.clear(cls.background_color.to_tuple())
+        Display.renderer.fill(
+            (
+                0,
+                0,
+                Display.renderer.logical_size[0],
+                Display.renderer.logical_size[1],
+            ),
+            cls.foreground_color.to_tuple(),
+        )
+        cls.scenes.draw()
+
+        # update renderers
+        Display.renderer.present()
+
         frame_end = sdl2.SDL_GetTicks64()
         Time.delta_time = frame_end - frame_start
 
-    frame_start = sdl2.SDL_GetTicks64()
+        if Time.target_fps > 0:
+            delay = (1000 / Time.target_fps) - Time.delta_time
+            if delay > 0:
+                sdl2.SDL_Delay(int(delay))
 
-    # process delayed calls
-    Time.process_calls()
+    @classmethod
+    def render(cls, sprite: "Sprite", surface: sdl2.surface.SDL_Surface):
+        if sprite.z_index <= cls.scenes.current.camera.z_index:
+            width, height = surface.w, surface.h
 
-    if get_state() == STATE.PAUSED:
-        # process user set pause update
-        scenes.paused_update()
-    else:
-        # fixed update
-        Time.physics_counter += Time.delta_time
-        Time.fixed_delta = 1000 / Time.physics_fps
+            new_size = (
+                round(width * cls.scenes.current.camera.zoom),
+                round(height * cls.scenes.current.camera.zoom),
+            )
 
-        while Time.physics_counter >= Time.fixed_delta:
-            scenes.fixed_update()
-            Time.physics_counter -= Time.fixed_delta
+            surface_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
+                0,
+                new_size[0],
+                new_size[1],
+                64,
+                sdl2.SDL_PIXELFORMAT_RGBA32,
+            )
 
-        # normal update
-        scenes.update()
+            sdl2.surface.SDL_BlitScaled(
+                surface,
+                None,
+                surface_scaled,
+                sdl2.rect.SDL_Rect(0, 0, new_size[0], new_size[1]),
+            )
 
-    # Draw Loop
-    Display.renderer.clear(background_color.to_tuple())
-    Display.renderer.fill(
-        (
-            0,
-            0,
-            Display.renderer.logical_size[0],
-            Display.renderer.logical_size[1],
-        ),
-        foreground_color.to_tuple(),
-    )
-    scenes.draw()
-
-    # update renderers
-    Display.renderer.present()
-
-    frame_end = sdl2.SDL_GetTicks64()
-    Time.delta_time = frame_end - frame_start
-
-    if Time.target_fps > 0:
-        delay = (1000 / Time.target_fps) - Time.delta_time
-        if delay > 0:
-            sdl2.SDL_Delay(int(delay))
+            Display.update(
+                surface_scaled,
+                cls.scenes.current.camera.transform(sprite.pos - \
+                    Vector(width, height)/2),
+            )
 
 
-def render(sprite: "Sprite", surface: sdl2.surface.SDL_Surface):
-    if sprite.z_index <= scenes.current.camera.z_index:
-        width, height = surface.w, surface.h
+    @classmethod
+    def get_state(cls) -> STATE:
+        return cls._state
 
-        new_size = (
-            round(width * scenes.current.camera.zoom),
-            round(height * scenes.current.camera.zoom),
-        )
+    @classmethod
+    def set_state(cls, new_state: STATE):
+        cls._state = new_state
 
-        surface_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-            0,
-            new_size[0],
-            new_size[1],
-            64,
-            sdl2.SDL_PIXELFORMAT_RGBA32,
-        )
-
-        sdl2.surface.SDL_BlitScaled(
-            surface,
-            None,
-            surface_scaled,
-            sdl2.rect.SDL_Rect(0, 0, new_size[0], new_size[1]),
-        )
-
-        Display.update(
-            surface_scaled,
-            scenes.current.camera.transform(sprite.pos - \
-                Vector(width, height)/2),
-        )
-
-
-def get_state() -> STATE:
-    return _state
-
-
-def set_state(new_state: STATE):
-    global _state
-    _state = new_state
-
-    if _state == STATE.STOPPED:
-        sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
+        if cls._state == STATE.STOPPED:
+            sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())

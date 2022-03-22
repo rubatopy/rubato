@@ -21,9 +21,9 @@ import warnings
 # pylint: disable=wrong-import-position
 warnings.simplefilter("ignore", UserWarning)
 
+from rubato.game import Game, STATE
 from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Defaults
-import rubato.game as Game
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
     RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
@@ -31,9 +31,9 @@ from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
 import rubato.input as Input
 from rubato.sound import Sound
 
+
 warnings.simplefilter("default", UserWarning)
 
-STATE = Game.STATE
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -76,6 +76,7 @@ def init(options: dict = {}):
                 Defaults to the |default| for `Game`.
     """
     Game.init(options)
+    Game.scenes = SceneManager()
 
 
 def begin():

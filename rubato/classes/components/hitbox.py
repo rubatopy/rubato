@@ -6,7 +6,7 @@ from rubato.classes.components.rigidbody import RigidBody
 from rubato.utils import Math, Display, Vector, Defaults, Color
 from rubato.classes.component import Component
 from rubato.utils.error import Error, SideError
-import rubato.game as Game
+from rubato.game import Game
 import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
