@@ -80,13 +80,11 @@ def init(options: dict = {}):
 
     params = Defaults.game_defaults | options
 
-    Game.background_color = Color(*params["background_color"]) if not \
-        isinstance(params["background_color"], Color) \
-            else params["background_color"]
+    Game.background_color = Color(*params["background_color"]) if not isinstance(params["background_color"],
+                                                                                 Color) else params["background_color"]
 
-    Game.foreground_color = Color(*params["foreground_color"]) if not \
-        isinstance(params["foreground_color"], Color) \
-            else params["foreground_color"]
+    Game.foreground_color = Color(*params["foreground_color"]) if not isinstance(params["foreground_color"],
+                                                                                 Color) else params["foreground_color"]
 
     Time.target_fps = params["target_fps"]
     Time.physics_fps = params["physics_fps"]
