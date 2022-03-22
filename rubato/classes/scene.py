@@ -25,7 +25,7 @@ class Scene:
         Initializes a scene with an empty collection of sprites, a new camera,
         and a blank id.
         """
-        self.root: Group = Group()
+        self.root: Group = Group({"name": "root"})
         self.camera = Camera()
         self.id: str = ""
 

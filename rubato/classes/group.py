@@ -13,6 +13,7 @@ class Group:
 
     def __init__(self, options: dict = {}) -> None:
         param = Defaults.group_defaults | options
+        self.name: str = param["name"]
         self.items: List[Union[Sprite, "Group"]] = []
         self.z_index: int = param["z_index"]
 
@@ -29,8 +30,14 @@ class Group:
         """
         for item in items:
             if self != item:
-                if not isinstance(item, (Sprite, Group)):
-                    raise ValueError("Groups can only hold sprites/groups.")
+                if isinstance(item, Group):
+                    if item.name == "":
+                        item.name = f"Group {len(self.items)}"
+                elif isinstance(item, Sprite):
+                    if item.name == "":
+                        item.name = f"Sprite {len(self.items)}"
+                else:
+                    raise ValueError(f"The group {self.name} can only hold sprites/groups.")
                 self.items.append(item)
             else:
                 raise Error("Cannot add a group to itself.")
@@ -48,7 +55,7 @@ class Group:
         try:
             self.items.remove(item)
         except ValueError as e:
-            raise ValueError("This item is not in this group") from e
+            raise ValueError(f"The item {item.name} is not in the group {self.name}") from e
 
     def setup(self):
         for item in self.items:

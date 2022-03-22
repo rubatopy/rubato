@@ -54,6 +54,8 @@ image_defaults = {
 }
 
 sprite_defaults = {
+    "name": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    # The name of the sprite. (Used in error messages)
     "pos": Vector(),  # . . . . . . . . . . . . . . . . . . . . Vector
     # The starting position of the sprite.
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
@@ -63,6 +65,8 @@ sprite_defaults = {
 }
 
 group_defaults = {
+    "name": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    # The name of the sprite. (Used in error messages)
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The z_index of the group.
 }

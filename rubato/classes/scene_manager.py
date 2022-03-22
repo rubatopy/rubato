@@ -76,26 +76,31 @@ class SceneManager:
         self._current = scene_id
 
     def setup(self):
-        if self.is_empty(): return
+        if self.is_empty():
+            return
         self.current.private_setup()
 
     def draw(self):
         """Calls the draw function of the current scene."""
-        if self.is_empty(): return
+        if self.is_empty():
+            return
         self.current.private_draw()
 
     def update(self):
         """
         Calls the update function of the current scene.
         """
-        if self.is_empty(): return
+        if self.is_empty():
+            return
         self.current.private_update()
 
     def fixed_update(self):
         """Calls the fixed update function of the current scene."""
-        if self.is_empty(): return
+        if self.is_empty():
+            return
         self.current.private_fixed_update()
 
     def paused_update(self):
-        if self.is_empty(): return
+        if self.is_empty():
+            return
         self.current.paused_update()

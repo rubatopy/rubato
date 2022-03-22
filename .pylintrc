@@ -236,7 +236,6 @@ no-docstring-rgx=(__.*__|main|test.*|.*test|.*Test)$
 # ones are exempt.
 docstring-min-length=10
 
-
 [TYPECHECK]
 
 # List of decorators that produce context managers, such as
@@ -268,7 +267,7 @@ generated-members=
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=80
+max-line-length=120
 
 # TODO(https://github.com/PyCQA/pylint/issues/3352): Direct pylint to exempt
 # lines made too long by directives to pytype.

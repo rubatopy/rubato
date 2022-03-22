@@ -4,9 +4,13 @@
 
 ### Added
 
+-   Sound class and renewed system
+-   Key press can now take in as many keys as you want and it will check if they are all pressed
+
 ### Changed
 
 -   Switched to PySDL2 from pygame
+-   Moved all window management from Game to Display
 
 ### Removed
 
