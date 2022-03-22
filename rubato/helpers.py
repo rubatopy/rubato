@@ -14,6 +14,13 @@ class classproperty:  # pylint: disable=invalid-name
             doc = fget.__doc__
         self.__doc__ = doc
 
+        self.__code__ = fget.__code__
+        self.__name__ = fget.__name__
+        self.__doc__ = fget.__doc__
+        self.__annotations__ = fget.__annotations__
+        self.__defaults__ = fget.__defaults__
+        self.__kwdefaults__ = fget.__kwdefaults__
+
     def __get__(self, obj, objtype=None):
         if obj is None:
             return self
