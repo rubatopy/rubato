@@ -1,5 +1,5 @@
 """Helper functions for internal use only"""
-
+from functools import wraps
 
 class classproperty:  # pylint: disable=invalid-name
     """
@@ -14,29 +14,39 @@ class classproperty:  # pylint: disable=invalid-name
             doc = fget.__doc__
         self.__doc__ = doc
 
-        self.__code__ = fget.__code__
-        self.__defaults__ = fget.__defaults__
-        self.__kwdefaults__ = fget.__kwdefaults__
-
-    def __call__(self, *args, **kwargs):
-        return self.fget()
-
     def __get__(self, obj, objtype=None):
-        if obj is None:
-            return self
-        if self.fget is None:
-            raise AttributeError("unreadable attribute")
-        return self.fget(obj)
+        @wraps(self.fget)
+        def wrapper(obj):
+            if obj is None:
+                return self
+            if self.fget is None:
+                raise AttributeError("unreadable attribute")
+            return self.fget(obj)
+        return wrapper
 
     def __set__(self, obj, value):
-        if self.fset is None:
-            raise AttributeError("can't set attribute")
-        self.fset(obj, value)
+        @wraps(self.fset)
+        def wrapper(obj, value):
+            if self.fset is None:
+                raise AttributeError("can't set attribute")
+            self.fset(obj, value)
+        return wrapper
 
     def __delete__(self, obj):
-        if self.fdel is None:
-            raise AttributeError("can't delete attribute")
-        self.fdel(obj)
+        @wraps(self.fdel)
+        def wrapper(obj):
+            if self.fdel is None:
+                raise AttributeError("can't delete attribute")
+            self.fdel(obj)
+
+        return wrapper
+
+    def __call__(self, *args, **kwargs):
+        @wraps(self.fget)
+        def wrapper(*args, **kwargs):
+            return self.fget(*args, **kwargs)
+
+        return wrapper
 
     def getter(self, fget):
         return type(self)(fget, self.fset, self.fdel, self.__doc__)

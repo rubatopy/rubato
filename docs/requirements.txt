@@ -1,6 +1,5 @@
 # Project Dependencies
 PySDL2==0.9.11
-pysdl2-dll==2.0.20
 
 # Sphinx
 Sphinx==4.4.0
