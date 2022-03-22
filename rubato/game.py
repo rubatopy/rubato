@@ -3,7 +3,6 @@ The main game class. It controls everything in the game.
 
 Attributes:
     scenes (SceneManager): The global scene manager.
-    radio (Radio): The global radio system.
     name (str): The title of the game window.
     fps (int): The target fps of the game.
     reset_display (bool): Controls whether or not the display should reset
@@ -12,18 +11,18 @@ Attributes:
 """
 from __future__ import unicode_literals
 import sys
-from typing import TYPE_CHECKING
 import sdl2
 import sdl2.ext
-from rubato.classes.sprite import Sprite
+from typing import TYPE_CHECKING
 from rubato.utils import Display, Vector, Time, Defaults, Color
 from rubato.classes import SceneManager
+from rubato.radio import Radio
 import rubato.input as Input
 from enum import Enum
 from contextlib import suppress
 
 if TYPE_CHECKING:
-    from rubato.radio import Radio
+    from rubato.classes.sprite import Sprite
 
 
 class STATE(Enum):
@@ -47,7 +46,6 @@ foreground_color: Color = Color(255, 255, 255)
 
 _state = STATE.STOPPED
 scenes = SceneManager()
-radio: "Radio" = None
 
 initialized = False
 
@@ -114,12 +112,12 @@ def update():
     for event in sdl2.ext.get_events():
         sdl2.SDL_PumpEvents()
         if event.type == sdl2.SDL_QUIT:
-            radio.broadcast("exit")
+            Radio.broadcast("exit")
             sdl2.SDL_Quit()
             sys.exit(1)
         if event.type == sdl2.SDL_WINDOWEVENT:
             if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                radio.broadcast(
+                Radio.broadcast(
                     "resize", {
                         "width": event.window.data1,
                         "height": event.window.data2,
@@ -140,7 +138,7 @@ def update():
             else:
                 event_name = ("keyhold", "keydown")[not event.key.repeat]
 
-            radio.broadcast(
+            Radio.broadcast(
                 event_name,
                 {
                     "key": Input.get_name(key_info.sym),
@@ -201,7 +199,7 @@ def update():
             sdl2.SDL_Delay(int(delay))
 
 
-def render(sprite: Sprite, surface: sdl2.surface.SDL_Surface):
+def render(sprite: "Sprite", surface: sdl2.surface.SDL_Surface):
     if sprite.z_index <= scenes.current.camera.z_index:
         width, height = surface.w, surface.h
 

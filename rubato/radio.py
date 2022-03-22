@@ -15,25 +15,22 @@ keyup - A key was unpressed
 """
 
 from typing import Callable, List
-import rubato.game as Game
-
 
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.
-    Has a buffer system and a handler system.
+    Handles event callbacks during the beginning of each
+    :func:`Game.update() <rubato.game.update>` call.
 
     Attributes:
-        events (List[str]): A list with all the event keys in the queue.
         listeners (dict[str, Callable]): A dictionary with all of the
             active listeners.
     """
 
-    def __init__(self):
-        """Initializes the Radio class"""
-        self.listeners: dict[str, List] = {}
+    listeners: dict[str, List] = {}
 
-    def listen(self, event: str, func: Callable):
+    @classmethod
+    def listen(cls, event: str, func: Callable):
         """
         Creates an event listener and registers it.
 
@@ -45,14 +42,15 @@ class Radio:
         listener = Listener(event, func)
         listener.registered = True
 
-        if event in self.listeners:
-            self.listeners[event].append(listener)
+        if event in cls.listeners:
+            cls.listeners[event].append(listener)
         else:
-            self.listeners[event] = [listener]
+            cls.listeners[event] = [listener]
 
         return listener
 
-    def register(self, listener: "Listener"):
+    @classmethod
+    def register(cls, listener: "Listener"):
         """
         Registers an event listener.
 
@@ -63,17 +61,18 @@ class Radio:
             raise ValueError("Listener already registered")
         listener.registered = True
 
-        if listener.event in self.listeners:
-            if listener in self.listeners[listener.event]:
+        if listener.event in cls.listeners:
+            if listener in cls.listeners[listener.event]:
                 raise ValueError("Listener already registered")
 
-            self.listeners[listener.event].append(listener)
+            cls.listeners[listener.event].append(listener)
         else:
-            self.listeners[listener.event] = [listener]
+            cls.listeners[listener.event] = [listener]
 
         return listener
 
-    def broadcast(self, event: str, params: dict = {}):
+    @classmethod
+    def broadcast(cls, event: str, params: dict = {}):
         """
         Broadcast an event to be caught by listeners.
 
@@ -81,7 +80,7 @@ class Radio:
             event: The event key to broadcast.
             params: A parameters dictionary
         """
-        for listener in self.listeners.get(event, []):
+        for listener in cls.listeners.get(event, []):
             listener.ping(params)
 
 
@@ -120,7 +119,7 @@ class Listener:
             ValueError: Raises error when listener is not registered
         """
         try:
-            Game.radio.listeners[self.event].remove(self)
+            Radio.listeners[self.event].remove(self)
             self.registered = False
         except ValueError as e:
             raise ValueError("Listener not registered in the radio") from e

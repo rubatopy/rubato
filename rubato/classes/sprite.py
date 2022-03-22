@@ -60,9 +60,6 @@ class Sprite:
         """
         comp_type = type(component)
 
-        if isinstance(component, Hitbox):
-            component._pos = lambda: self.pos  # pylint: disable=protected-access
-
         if any(isinstance(comp, comp_type) for comp in self.components):
             raise DuplicateComponentError(
                 "There is already a component of type " + str(comp_type) +
@@ -75,6 +72,9 @@ class Sprite:
                 raise ComponentNotAllowed(
                     "The component of type " + not_allowed +
                     " conflicts with another component on the sprite.")
+
+        if isinstance(component, Hitbox):
+            component._pos = lambda: self.pos  # pylint: disable=protected-access
 
         self.__components.append(component)
         component.sprite = self

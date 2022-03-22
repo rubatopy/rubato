@@ -36,7 +36,7 @@ def input_listener(keyinfo):
             click.resume()
 
 
-rb.radio.listen("keydown", input_listener)
+rb.Radio.listen("keydown", input_listener)
 
 main_scene.update = update
 

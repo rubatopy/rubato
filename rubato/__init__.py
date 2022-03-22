@@ -15,7 +15,6 @@ Note:
 Attributes:
     game (Game): The global game class that can be accessed anywhere.
         Initialized when :meth:`rubato.init()` is called.
-    radio (Radio): The global radio class.
 """
 import warnings
 
@@ -24,18 +23,17 @@ warnings.simplefilter("ignore", UserWarning)
 
 from rubato.utils import Math, Display, Vector, Time, \
     Color, Error, Defaults
+import rubato.game as Game
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
     RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
         SAT, Hitbox, Group
 import rubato.input as Input
 from rubato.sound import Sound
-import rubato.game as Game
 
 warnings.simplefilter("default", UserWarning)
 
 STATE = Game.STATE
-radio = Radio()
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
@@ -77,7 +75,6 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the |default| for `Game`.
     """
-    Game.radio = radio
     Game.init(options)
 
 
