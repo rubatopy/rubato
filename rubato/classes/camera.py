@@ -16,10 +16,7 @@ class Camera:
         z_index (int): The current z_index of the camera.
     """
 
-    def __init__(self,
-                 pos: Vector = Vector(),
-                 zoom: float = 1,
-                 z_index: int = 0):
+    def __init__(self, pos: Vector = Vector(), zoom: float = 1, z_index: int = 0):
         """
         Initializes a camera.
 
@@ -55,8 +52,7 @@ class Camera:
                 same type that is given.
         """
         center = Vector(*Display.renderer.logical_size) / 2
-        return (point - self.pos - center) * \
-            self.zoom + center
+        return (point - self.pos - center) * self.zoom + center
 
     def scale(self, dimension):
         return dimension * self.zoom

@@ -22,12 +22,9 @@ import warnings
 warnings.simplefilter("ignore", UserWarning)
 
 from rubato.game import Game, STATE
-from rubato.utils import Math, Display, Vector, Time, \
-    Color, Error, Defaults
+from rubato.utils import Math, Display, Vector, Time, Color, Error, Defaults
 from rubato.radio import Radio
-from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
-    RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
-        SAT, Hitbox, Group
+from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, RigidBody, Animation, Component, Polygon, Rectangle, Circle, SAT, Hitbox, Group
 import rubato.input as Input
 from rubato.sound import Sound
 

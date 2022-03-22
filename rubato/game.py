@@ -223,8 +223,7 @@ class Game:
 
             Display.update(
                 surface_scaled,
-                cls.scenes.current.camera.transform(sprite.pos - \
-                    Vector(width, height)/2),
+                cls.scenes.current.camera.transform(sprite.pos - Vector(width, height) / 2),
             )
 
     @classmethod

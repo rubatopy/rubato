@@ -37,11 +37,7 @@ class Color:
 
     def __eq__(self, other):
         if isinstance(other, Color):
-            return \
-                self.r == other.r and \
-                self.g == other.g and \
-                self.b == other.b and \
-                self.a == other.a
+            return (self.r, self.g, self.b, self.a) == (other.r, other.g, other.b, other.a)
         return False
 
     def darker(self, amount: int = 20):
@@ -68,10 +64,7 @@ class Color:
         """
         return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
 
-    def mix(self,
-            other: "Color",
-            t: float = 0.5,
-            mode: str = "mix") -> "Color":
+    def mix(self, other: "Color", t: float = 0.5, mode: str = "mix") -> "Color":
         """
         Mix two colors together.
 
@@ -86,22 +79,18 @@ class Color:
             Color: The resultant color.
         """
         if mode == "linear":
-            return Color(
-                (1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g,
-                (1 - t) * self.b + t * other.b, (1 - t) * self.a + t * other.a)
+            return Color((1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g, (1 - t) * self.b + t * other.b,
+                         (1 - t) * self.a + t * other.a)
         if mode == "blend":
             alpha_a = (self.a / 255) * (1 - t)
             a = 1 - (1 - alpha_a) * (1 - (other.a / 255))
             s = (other.a / 255) * (1 - alpha_a) / a
-            return Color(
-                ((1 - s) * (self.r**2.2) + s * (other.r**2.2))**(1 / 2.2),
-                ((1 - s) * (self.g**2.2) + s * (other.g**2.2))**(1 / 2.2),
-                ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2),
-                a * 255)
+            return Color(((1 - s) * (self.r**2.2) + s * (other.r**2.2))**(1 / 2.2),
+                         ((1 - s) * (self.g**2.2) + s * (other.g**2.2))**(1 / 2.2),
+                         ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2), a * 255)
         return Color(((1 - t) * (self.r**2.2) + t * (other.r**2.2))**(1 / 2.2),
                      ((1 - t) * (self.g**2.2) + t * (other.g**2.2))**(1 / 2.2),
-                     ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2),
-                     (1 - t) * self.a + t * other.a)
+                     ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2), (1 - t) * self.a + t * other.a)
 
     def to_tuple(self) -> Tuple[int, int, int]:
         """
@@ -119,8 +108,8 @@ class Color:
         Returns:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
-        return (f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" +
-                f"{format(self.b, '02x')}" + f"{format(self.a, '02x')}")
+        return (f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" + f"{format(self.b, '02x')}" +
+                f"{format(self.a, '02x')}")
 
     @staticmethod
     def from_hex(h: str) -> "Color":
