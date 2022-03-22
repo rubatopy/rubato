@@ -7,94 +7,44 @@ Attributes:
     fps (int): The target fps of the game.
     reset_display (bool): Controls whether or not the display should reset
         every frame.
-    state (STATE): The current state of the game.
+    state (int): The current state of the game.
 """
 from __future__ import unicode_literals
 import sys
 import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING
-from rubato.utils import Display, Vector, Time, Defaults, Color
+from rubato.utils import Display, Vector, Time, Color
 from rubato.radio import Radio
 import rubato.input as Input
-from enum import Enum
 from contextlib import suppress
 
 if TYPE_CHECKING:
     from rubato.classes.sprite import Sprite
 
 
-class STATE(Enum):
-    """
-    An enum to keep track of the state things
-
-    RUNNING: will run everything normally
-    STOPPED: will quit the window
-    PAUSED: will pause physics time calls. Please do not use this feature.
-    """
+class Game:
     RUNNING = 1
     STOPPED = 2
     PAUSED = 3
 
-
-class Game:
-    """_summary_
-
-    Returns:
-        _type_: _description_
-    """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     name: str = ""
     background_color: Color = Color(0, 0, 0)
     foreground_color: Color = Color(255, 255, 255)
 
-    _state = STATE.STOPPED
+    _state: int = STOPPED
     scenes = None
 
     initialized = False
-
-    @classmethod
-    def init(cls, options: dict = {}):
-        """
-        Initializes a game. Should only be called by :meth:`rubato.init`.
-
-        Args:
-            options: A game config.
-                Defaults to the |default| for `Game`.
-        """
-
-        cls.initialized = True
-
-        params = Defaults.game_defaults | options
-
-        cls.background_color = Color(*params["background_color"]) if not isinstance(
-            params["background_color"], Color) else params["background_color"]
-
-        cls.foreground_color = Color(*params["foreground_color"]) if not isinstance(
-            params["foreground_color"], Color) else params["foreground_color"]
-
-        Time.target_fps = params["target_fps"]
-        Time.physics_fps = params["physics_fps"]
-
-        flags = (sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_SHOWN |
-                 sdl2.SDL_WINDOW_MOUSE_FOCUS | sdl2.SDL_WINDOW_INPUT_FOCUS)
-
-        Display.window = sdl2.ext.Window(params["name"], params["window_size"].to_tuple(), flags=flags)
-
-        Display.renderer = sdl2.ext.Renderer(Display.window,
-                                             flags=(sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_PRESENTVSYNC),
-                                             logical_size=params["resolution"].to_tuple())
-
-        if params["icon"] != "":
-            Display.set_window_icon(params["icon"])
 
     @classmethod
     def constant_loop(cls):
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
         """
-        cls._state = STATE.RUNNING
+        cls._state = Game.RUNNING
         while True:
             cls.update()
 
@@ -157,7 +107,7 @@ class Game:
         # process delayed calls
         Time.process_calls()
 
-        if cls.get_state() == STATE.PAUSED:
+        if cls.get_state() == Game.PAUSED:
             # process user set pause update
             cls.scenes.paused_update()
         else:
@@ -228,12 +178,12 @@ class Game:
             )
 
     @classmethod
-    def get_state(cls) -> STATE:
+    def get_state(cls) -> int:
         return cls._state
 
     @classmethod
-    def set_state(cls, new_state: STATE):
+    def set_state(cls, new_state: int):
         cls._state = new_state
 
-        if cls._state == STATE.STOPPED:
+        if cls._state == Game.STOPPED:
             sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())

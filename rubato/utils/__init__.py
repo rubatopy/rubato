@@ -7,4 +7,4 @@ from rubato.utils.vector import Vector
 import rubato.utils.time as Time
 import rubato.utils.defaults as Defaults
 from rubato.utils.color import Color
-from rubato.utils.error import Error
+from rubato.utils.error import *
