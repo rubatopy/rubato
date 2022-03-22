@@ -1,21 +1,21 @@
 """
 Global display class that allows for easy screen and window management.
 
-Should access the global static version through :code:`rubato.Display`
+Should be accessed through :code:`rubato.Display`
 """
 import sdl2
 import sdl2.ext
 from rubato.utils.vector import Vector
 
 
-class _Display():
+class _Display(type):
     """
     A static class that houses all of the display information
-    """
 
-    def __init__(self) -> None:
-        self.window: sdl2.ext.Window = None
-        self.renderer: sdl2.ext.Renderer = None
+    Attributes:
+        window (sdl2.ext.Window): The pysdl2 window element.
+        renderer (sdl2.ext.Renderer): The pysdl2 renderer element.
+    """
 
     @property
     def window_size(self) -> Vector:
@@ -161,4 +161,6 @@ class _Display():
         return Vector(self.resolution.x / 2, self.resolution.y / 2)
 
 
-Display = _Display()
+class Display(metaclass=_Display):
+    window: sdl2.ext.Window = None
+    renderer: sdl2.ext.Renderer = None
