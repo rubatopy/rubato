@@ -2,102 +2,166 @@
 A fully functional, multi-channel sound system.
 """
 
+import ctypes
 from os import path, walk
-from typing import List, Dict, Union
+from typing import Dict
 import sdl2.sdlmixer as mixer
+from sdl2 import AUDIO_F32
 from rubato.utils.error import IdError
 
-_loaded_sounds: Dict[str, List[Union[mixer.Mix_Chunk, int]]] = {}
-# Loaded sounds are saved in the format:
-# {sound_name: [sound_chunk, channel_id]}
+if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):
+    raise Exception("Could not open audio device.")
 
 
-def loaded_sounds() -> Dict[str, mixer.Mix_Chunk]:
+@ctypes.CFUNCTYPE(None, ctypes.c_int)
+def channel_finish_callback(channel_num: int):
+    sound = Sound.active_channels.pop(channel_num)
+    sound.channels &= ~(2**channel_num)
+
+
+mixer.Mix_ChannelFinished(channel_finish_callback)
+
+
+class Sound():
     """
-    A dictionary of all the loaded sounds. The keys are the filename.
+    A sound class that is used to manage the sounds throughout the project.
 
-    Returns:
-        dict[str, sdl2.sdlmixer.Mix_Chunk]: The returned dictionary.
+    Attributes:
+        loaded_sounds (Dict[str, Sound]): A dictionary housing all the loaded
+            sounds, stored by their name.
     """
-    return _loaded_sounds
+    STOPPED = 0
+    PLAYING = 1
+    PAUSED = 2
 
+    loaded_sounds: Dict[str, "Sound"] = {}
+    active_channels: Dict[int, "Sound"] = {}
 
-def import_sound(rel_path: str, sound_name: str):
-    """
-    Imports a sound and saves it in the loaded_sounds dictionary with the key
-    being the sound_name.
+    def __init__(self, rel_path: str, sound_name: str = None) -> None:
+        """
+        Initializes a sound.
 
-    Args:
-        rel_path: The relative path to the sound file you wish to import.
-        sound_name: The name of the sound.
-    """
-    sound = mixer.Mix_LoadWAV(bytes(rel_path, "utf-8"))
+        Args:
+            rel_path: The relative path to the sound file you wish to import.
+            sound_name (optional): The name of the sound. Defaults to the name
+                of the file.
+        """
+        self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))
+        self.channels = 0
+        self._paused = False
 
-    _loaded_sounds[sound_name] = [sound, -1]
+        if not sound_name:
+            self.name = rel_path.split("/")[-1].split(".")[0]
+        else:
+            self.name = sound_name
 
+        if self.name in Sound.loaded_sounds:
+            mixer.Mix_FreeChunk(self.chunk)
+            raise IdError("There is already a sound with the name " +
+                          self.name)
+        else:
+            Sound.loaded_sounds[self.name] = self.chunk
 
-def import_sound_folder(rel_path: str):
-    """
-    Imports a folder of sounds, saving each one in the loaded_sounds
-    dictionary by filename.
+    @property
+    def state(self) -> int:
+        """
+        The current state of the sound.
 
-    Args:
-        rel_path: The relative path to the folder you wish to import.
-    """
-    for _, _, files in walk(rel_path):
-        # walk to directory path and ignore name and subdirectories
-        for sound_path in files:
-            path_to_sound = path.join(rel_path, sound_path)
-            import_sound(path_to_sound, sound_path.split(".")[0])
+        The possible states are::
 
+            Sound.STOPPED
+            Sound.PLAYING
+            Sound.PAUSED
 
-def get_sound(sound_name: str) -> mixer.Mix_Chunk:
-    """
-    Gets the sound based on the sound name.
+        Returns:
+            int: The current state of the sound.
+        """
+        if not self.channels:
+            return self.STOPPED
+        elif self._paused:
+            return self.PAUSED
+        else:
+            return self.PLAYING
 
-    Args:
-        sound_name: The name of the sound.
+    def play(self, loops: int = 0):
+        """
+        Plays a sound.
 
-    Raises:
-        IdError: No sound is associated to the sound name.
+        Args:
+            sound_name: The name of the sound to play.
+            loops: The number of times to loop a sound after the first play
+                through. Use -1 to loop forever. Defaults to 0.
+        """
+        channel: int = mixer.Mix_PlayChannel(-1, self.chunk, loops)
 
-    Returns:
-        sdl2.sdlmixer.Mix_Chunk: The sound.
-    """
-    try:
-        return _loaded_sounds[sound_name]
-    except KeyError as e:
-        raise IdError(f"No sound with the name {sound_name} found") from e
+        if channel == -1:
+            mixer.Mix_AllocateChannels(mixer.Mix_AllocateChannels(-1) + 1)
+            channel: int = mixer.Mix_PlayChannel(-1, self.chunk, loops)
 
+        if self._paused:
+            mixer.Mix_Pause(channel)
 
-def play_sound(sound_name: str, loops: int = 0):
-    """
-    Plays a sound.
+        Sound.active_channels[channel] = self
+        self.channels |= 2**channel
 
-    Args:
-        sound_name: The name of the sound to play.
-        loops: The number of times to loop a sound after the first play through.
-            Use -1 to loop forever. Defaults to 0.
-    """
-    if mixer.Mix_GroupAvailable(-1) == -1:
-        mixer.Mix_AllocateChannels(mixer.Mix_GroupCount(-1) + 1)
+    def stop(self):
+        """
+        Stops all instances of the sound.
+        """
+        for i in range(self.channels.bit_count()):
+            if self.channels & (1 << i):
+                mixer.Mix_HaltChannel(i)
+                if not self.channels:
+                    return
 
-    channel = mixer.Mix_GroupAvailable(-1)
+    def pause(self):
+        """
+        Pauses all instances of the sound.
+        """
+        for i in range(self.channels.bit_count()):
+            if self.channels & (1 << i):
+                mixer.Mix_Pause(i)
+        self._paused = True
 
-    mixer.Mix_PlayChannel(
-        channel,
-        get_sound(sound_name),
-        loops,
-    )
+    def resume(self):
+        """
+        Resumes all instance of the sound.
+        """
+        for i in range(self.channels.bit_count()):
+            if self.channels & (1 << i):
+                mixer.Mix_Resume(i)
+        self._paused = False
 
-    _loaded_sounds[sound_name][1] = channel
+    @classmethod
+    def import_sound_folder(cls, rel_path: str):
+        """
+        Imports a folder of sounds, saving each one in the loaded_sounds
+        dictionary by filename.
 
+        Args:
+            rel_path: The relative path to the folder you wish to import.
+        """
+        for _, _, files in walk(rel_path):
+            # walk to directory path and ignore name and subdirectories
+            for sound_path in files:
+                path_to_sound = path.join(rel_path, sound_path)
+                cls(path_to_sound, sound_path.split(".")[0])
 
-# def stop_sound(sound_name: str):
-#     """
-#     Stops a sound.
+    @classmethod
+    def get_sound(cls, sound_name: str) -> "Sound":
+        """
+        Gets the sound based on the sound name.
 
-#     Args:
-#         sound_name: The name of the sound to stop.
-#     """
-#     get_sound(sound_name).stop()
+        Args:
+            sound_name: The name of the sound.
+
+        Raises:
+            IdError: No sound is associated to the sound name.
+
+        Returns:
+            Sound: The sound.
+        """
+        try:
+            return cls.loaded_sounds[sound_name]
+        except KeyError as e:
+            raise IdError(f"No sound with the name {sound_name} found") from e

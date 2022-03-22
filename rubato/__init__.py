@@ -29,7 +29,7 @@ from rubato.classes import SceneManager, Scene, Camera, Sprite, Image, \
     RigidBody, Animation, Component, Polygon, Rectangle, Circle, \
         SAT, Hitbox, Group
 import rubato.input as Input
-import rubato.sound as Sound
+from rubato.sound import Sound
 import rubato.game as Game
 
 warnings.simplefilter("default", UserWarning)
