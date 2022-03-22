@@ -4,7 +4,7 @@ Global display class that allows for easy screen and window management.
 import sdl2
 import sdl2.ext
 from rubato.utils.vector import Vector
-from rubato.utils.helpers import *
+from rubato.helpers import *
 
 
 class Display(metaclass=StaticProperty):
