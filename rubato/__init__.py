@@ -21,7 +21,7 @@ import warnings
 # pylint: disable=wrong-import-position
 warnings.simplefilter("ignore", UserWarning)
 
-from rubato.helpers import *
+import sdl2
 from rubato.game import Game
 from rubato.utils import Math, Display, Vector, Time, Color, Defaults
 from rubato.utils.error import *
@@ -76,7 +76,6 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the |default| for `Game`.
     """
-    import sdl2
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
     Game.initialized = True
 
