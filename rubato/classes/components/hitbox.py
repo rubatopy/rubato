@@ -70,7 +70,7 @@ class Hitbox(Component):
                 RigidBody.handle_collision(col)
 
             self.on_collide(col)
-            other.on_collide(col)
+            other.on_collide(ColInfo.flip(col))
 
 
 class Polygon(Hitbox):

@@ -23,7 +23,7 @@ from rubato.utils import Math, Display, Vector, Time, Color, Defaults
 from rubato.utils.error import *
 from rubato.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, Sprite, Image
-from rubato.classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, SAT, Hitbox, Group
+from rubato.classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, ColInfo, SAT, Hitbox, Group
 import rubato.input as Input
 from rubato.sound import Sound
 
@@ -39,6 +39,7 @@ __all__ = [
     "Polygon",
     "Rectangle",
     "Circle",
+    "ColInfo",
     "SAT",
     "Color",
     "Error",
@@ -77,8 +78,8 @@ def init(options: dict = {}):
 
     params = Defaults.game_defaults | options
 
-    Game.border_color = Color(*params["border_color"]) if not isinstance(params["border_color"],
-                                                                                 Color) else params["border_color"]
+    Game.border_color = Color(
+        *params["border_color"]) if not isinstance(params["border_color"], Color) else params["border_color"]
 
     Game.background_color = Color(*params["background_color"]) if not isinstance(params["background_color"],
                                                                                  Color) else params["background_color"]

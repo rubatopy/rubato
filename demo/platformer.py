@@ -5,6 +5,8 @@ import sys
 sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
 
+grounded = False
+
 # import rubato
 import rubato as rb
 
@@ -22,14 +24,24 @@ rb.Game.scenes.add(main, "main")
 
 # create the player
 player = rb.Sprite()
-player.add(rb.Rectangle({"width": 50, "height": 50, "color": rb.Color.purple.darker()}))
+
+
+# define a collision handler
+def player_collide(col_info: rb.ColInfo):
+    global grounded
+    if col_info.shape_b.sprite.name == "ground":
+        grounded = True
+
+
+# add a hitbox to the player with the collider
+player.add(rb.Rectangle({"width": 50, "height": 50, "color": rb.Color.purple.darker(), "on_collide": player_collide}))
 
 # define the player rigidbody
 player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000), "friction": 0.7})
 player.add(player_body)
 
 # create the ground
-ground = rb.Sprite({"pos": rb.Display.bottom_center})
+ground = rb.Sprite({"pos": rb.Display.bottom_center, "name": "ground"})
 ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green}))
 
 # add them all to the scene
