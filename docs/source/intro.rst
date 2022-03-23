@@ -62,4 +62,8 @@ the game loop hasn't started. To start Rubato's engine, run:
 Hopefully you see a green circle in a new window on your screen, and if so,
 congratulations! You're up and running with your first Rubato project.
 
-More feature-specific tutorials can be found :doc:`here <tutorials>`.
+The next step is to learn to use the rest of the library.
+
+You can follow the step-by-step tutorial where you will be making a platformer :doc:`here <tutorials>`.
+
+Or you can jump straight into the :doc:`full api documentation  <api>`.
