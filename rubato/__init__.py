@@ -11,10 +11,6 @@ poweruser. And all that finally with some legible documentation.
 Note:
     Every single class can be accessed through the top level or through the full
     module path.
-
-Attributes:
-    game (Game): The global game class that can be accessed anywhere.
-        Initialized when :meth:`rubato.init()` is called.
 """
 import warnings
 
@@ -81,11 +77,11 @@ def init(options: dict = {}):
 
     params = Defaults.game_defaults | options
 
+    Game.border_color = Color(*params["border_color"]) if not isinstance(params["border_color"],
+                                                                                 Color) else params["border_color"]
+
     Game.background_color = Color(*params["background_color"]) if not isinstance(params["background_color"],
                                                                                  Color) else params["background_color"]
-
-    Game.foreground_color = Color(*params["foreground_color"]) if not isinstance(params["foreground_color"],
-                                                                                 Color) else params["foreground_color"]
 
     Time.target_fps = params["target_fps"]
     Time.physics_fps = params["physics_fps"]

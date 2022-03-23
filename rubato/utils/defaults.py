@@ -10,17 +10,16 @@ game_defaults = {
     # The title that appears at the top of the window
     "window_size": Vector(360, 360),  # . . . . . . . . . . . . Vector
     # The actual size of the window
-    "res": Vector(1080, 1080),  #. . . . . . . . . . . . Vector
+    "res": Vector(1080, 1080),  # . . . . . . . . . . . . . . . Vector
     # The pixel resolution of the game
     "target_fps": 0,  # . . . . . . . . . . . . . . . . . . . . int
     # The target FPS of the game
     "physics_fps": 60,  # . . . . . . . . . . . . . . . . . . . int
     # The target physics FPS of the game
-    "background_color": (0, 0, 0),  # . . . . . . . . . . . . . tuple or Color
-    # The background color of the window. (Usually the borders)
-    "foreground_color": (255, 255, 255),  # . . . . . . . . . . tuple or Color
-    # The foreground color of the window.
-    # (i.e. the background of the main game).
+    "border_color": (0, 0, 0),  # . . . . . . . . . . . . . . . tuple or Color
+    # The color of the borders
+    "background_color": (255, 255, 255),  # . . . . . . . . . . tuple or Color
+    # The background color of the window
     "icon": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
     # The path to an image to use as the window icon.
 }

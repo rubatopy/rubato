@@ -61,8 +61,6 @@ class RigidBody(Component):
 
         self.bounciness: float = params["bounciness"]
 
-        self.required.append("Hitbox")
-
     @property
     def mass(self) -> float:
         """The mass of the Rigidbody (readonly)"""

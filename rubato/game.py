@@ -30,8 +30,8 @@ class Game(metaclass=StaticClass):
     Attributes:
         name (str): The title of the game window.
         scenes (SceneManager): The global scene manager.
-        foreground_color (Color): The foreground color of the window.
-        background_color (Color): The background color of the window. (Usually the borders)
+        background_color (Color): The background color of the window.
+        border_color (Color): The color of the borders of the window.
         state (int): The state of the game.
     """
     RUNNING = 1
@@ -39,8 +39,8 @@ class Game(metaclass=StaticClass):
     PAUSED = 3
 
     name: str = ""
-    background_color: Color = Color(0, 0, 0)
-    foreground_color: Color = Color(255, 255, 255)
+    border_color: Color = Color(0, 0, 0)
+    background_color: Color = Color(255, 255, 255)
 
     _state: int = STOPPED
     scenes: "SceneManager" = None
@@ -151,7 +151,7 @@ class Game(metaclass=StaticClass):
             cls.scenes.update()
 
         # Draw Loop
-        Display.renderer.clear(cls.background_color.to_tuple())
+        Display.renderer.clear(cls.border_color.to_tuple())
         Display.renderer.fill(
             (
                 0,
@@ -159,7 +159,7 @@ class Game(metaclass=StaticClass):
                 Display.renderer.logical_size[0],
                 Display.renderer.logical_size[1],
             ),
-            cls.foreground_color.to_tuple(),
+            cls.background_color.to_tuple(),
         )
         cls.scenes.draw()
 
