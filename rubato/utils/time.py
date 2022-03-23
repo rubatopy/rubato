@@ -15,6 +15,14 @@ class Time(metaclass=StaticClass):
     Attributes:
         frames (int): The total number of elapsed frames since the start of the
             game.
+        fps (float): The current fps of this frame.
+        smooth_fps (float): The average fps over the past 5 frames.
+        target_fps (float): The fps that the game should try to run at. 0 means that the game's fps will not be capped.
+            Defaults to 0.
+        physics_fps (float): The fps that the physics should run at. Defaults to 60.
+        now(int): The time since the start of the game, in milliseconds.
+        delta_time (int): The number of milliseconds since the last frame.
+        fixed_delta (int): The number of milliseconds since the last fixed update.
     """
 
     frames = 0
@@ -24,8 +32,8 @@ class Time(metaclass=StaticClass):
     tasks = {}
     sorted_task_times = []
 
-    delta_time = 0
-    fixed_delta = 0
+    delta_time: int = 0
+    fixed_delta: int = 0
     fps = 60
 
     physics_counter = 0
@@ -37,7 +45,7 @@ class Time(metaclass=StaticClass):
 
     @classproperty
     def smooth_fps(self) -> float:
-        """The average fps over the pas 5 frames."""
+        """The average fps over the past 5 frames."""
         return sum(self._past_fps) / len(self._past_fps)
 
     @classproperty

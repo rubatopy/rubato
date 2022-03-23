@@ -11,6 +11,7 @@ Game
 .. automodule:: rubato.game
     :members:
 
+
 .. _input:
 
 Input

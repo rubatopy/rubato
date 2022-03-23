@@ -21,11 +21,18 @@ class Game(metaclass=StaticClass):
     """
     The main game class.
 
+    The game can have 3 different states are::
+
+        Game.STOPPED
+        Game.RUNNING
+        Game.PAUSED
+
     Attributes:
         name (str): The title of the game window.
         scenes (SceneManager): The global scene manager.
         foreground_color (Color): The foreground color of the window.
         background_color (Color): The background color of the window. (Usually the borders)
+        state (int): The state of the game.
     """
     RUNNING = 1
     STOPPED = 2
@@ -45,7 +52,7 @@ class Game(metaclass=StaticClass):
         """
         The state of the game.
 
-        The possible states are::
+        The game states are::
 
             Game.STOPPED
             Game.RUNNING
