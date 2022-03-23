@@ -10,9 +10,11 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
+# pylint: disable=all
+import inspect
 import os
 import sys
+
 
 sys.path.insert(0, os.path.abspath("../.."))
 
@@ -169,3 +171,12 @@ napoleon_attr_annotations = True
 # Version Control
 smv_branch_whitelist = r"^(main).*$"
 smv_released_pattern = r"^tags/.*$"
+
+
+
+
+def setup(app):
+    from rubato import classproperty
+    isfunction = inspect.isfunction
+    inspect.isfunction = lambda f: isfunction(f) or isinstance(f, classproperty)
+    return {}
