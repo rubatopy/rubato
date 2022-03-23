@@ -9,7 +9,7 @@ import rubato as rb
 rb.init({
     "name": "Sound Test",
     "window_size": rb.Vector(300, 0),
-    "resolution": rb.Vector(0, 0),
+    "res": rb.Vector(0, 0),
 })
 
 main_scene = rb.Scene()

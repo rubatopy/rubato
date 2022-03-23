@@ -10,10 +10,8 @@ from rubato import Game, Vector, Color, Display
 
 rb.init({
     "name": "Physics Demo",
-    "target_fps": 0,
-    "physics_fps": 30,
     "window_size": Vector(600, 600),
-    "resolution": Vector(1200, 1200),
+    "res": Vector(1200, 1200),
 })
 
 main_scene = rb.Scene()
@@ -22,32 +20,32 @@ Game.scenes.add(main_scene, "main")
 top = rb.Sprite({
     "pos": Display.top_center + Vector(0, -30)
 }).add(rb.Rectangle({
-    "width": Display.resolution.x + 175,
-    "height": Display.resolution.y / 10,
+    "width": Display.res.x + 175,
+    "height": Display.res.y / 10,
     "color": Color.gray,
 }))
 
 bottom = rb.Sprite({
     "pos": Display.bottom_center + Vector(0, 30)
 }).add(rb.Rectangle({
-    "width": Display.resolution.x + 175,
-    "height": Display.resolution.y / 10,
+    "width": Display.res.x + 175,
+    "height": Display.res.y / 10,
     "color": Color.gray,
 }))
 
 left = rb.Sprite({
     "pos": Display.center_left + Vector(-30, 0)
 }).add(rb.Rectangle({
-    "width": Display.resolution.x / 10,
-    "height": Display.resolution.y + 175,
+    "width": Display.res.x / 10,
+    "height": Display.res.y + 175,
     "color": Color.gray,
 }))
 
 right = rb.Sprite({
     "pos": Display.center_right + Vector(30, 0)
 }).add(rb.Rectangle({
-    "width": Display.resolution.x / 10,
-    "height": Display.resolution.y + 175,
+    "width": Display.res.x / 10,
+    "height": Display.res.y + 175,
     "color": Color.gray,
 }))
 
@@ -55,17 +53,17 @@ for _ in range(60):
     main_scene.add(
         rb.Sprite({
             "pos":
-                Vector(randint(Display.resolution.x / 20, 19 * Display.resolution.x / 20),
-                       randint(Display.resolution.y / 20, 19 * Display.resolution.y / 20))
+                Vector(randint(Display.res.x / 20, 19 * Display.res.x / 20),
+                       randint(Display.res.y / 20, 19 * Display.res.y / 20))
         }).add(
             rb.Circle({
-                "radius": Display.resolution.x / 50,
+                "radius": Display.res.x / 50,
                 "color": Color(*choice(list(rb.Defaults.color_defaults.values())))
             })).add(
                 rb.RigidBody({
                     "bounciness": 1,
                     "friction": 0.2,
-                    "gravity": Vector(0, Display.resolution.x / 8),
+                    "gravity": Vector(0, Display.res.x / 8),
                     "velocity": Vector(randint(-100, 100), randint(-100, 100))
                 })))
 
@@ -81,8 +79,8 @@ player_rb = rb.RigidBody({"mass": 0, "bounciness": 0.1, "max_speed": Vector(1000
 player.add(player_rb)
 
 player_hitbox = rb.Rectangle({
-    "width": Display.resolution.x / 16,
-    "height": Display.resolution.x / 16,
+    "width": Display.res.x / 16,
+    "height": Display.res.x / 16,
     "debug": True,
 })
 player.add(player_hitbox)

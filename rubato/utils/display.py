@@ -27,7 +27,7 @@ class Display(metaclass=StaticClass):
         Warning:
             Using this value to determine the placement of your sprites will
             lead to unexpected results. Instead you should use
-            :func:`Display.resolution <rubato.utils.display.Display.resolution>`
+            :func:`Display.res <rubato.utils.display.Display.res>`
         """
         return Vector(*self.window.size)
 
@@ -36,7 +36,7 @@ class Display(metaclass=StaticClass):
         self.window.size = new.to_int().to_tuple()
 
     @classproperty
-    def resolution(self) -> Vector:
+    def res(self) -> Vector:
         """
         The pixel resolution of the game. This is the number of virtual
         pixels on the window.
@@ -55,8 +55,8 @@ class Display(metaclass=StaticClass):
         """
         return Vector(*self.renderer.logical_size)
 
-    @resolution.setter
-    def resolution(self, new: Vector):
+    @res.setter
+    def res(self, new: Vector):
         self.renderer.logical_size = new.to_int().to_tuple()
 
     @classproperty
@@ -128,39 +128,39 @@ class Display(metaclass=StaticClass):
     @classproperty
     def top_right(self) -> Vector:
         """Returns the position of the top right of the window."""
-        return Vector(self.resolution.x, 0)
+        return Vector(self.res.x, 0)
 
     @classproperty
     def bottom_left(self) -> Vector:
         """Returns the position of the bottom left of the window."""
-        return Vector(0, self.resolution.y)
+        return Vector(0, self.res.y)
 
     @classproperty
     def bottom_right(self) -> Vector:
         """Returns the position of the bottom right of the window."""
-        return Vector(self.resolution.x, self.resolution.y)
+        return Vector(self.res.x, self.res.y)
 
     @classproperty
     def top_center(self) -> Vector:
         """Returns the position of the top center of the window."""
-        return Vector(self.resolution.x / 2, 0)
+        return Vector(self.res.x / 2, 0)
 
     @classproperty
     def bottom_center(self) -> Vector:
         """Returns the position of the bottom center of the window."""
-        return Vector(self.resolution.x / 2, self.resolution.y)
+        return Vector(self.res.x / 2, self.res.y)
 
     @classproperty
     def center_left(self) -> Vector:
         """Returns the position of the center left of the window."""
-        return Vector(0, self.resolution.y / 2)
+        return Vector(0, self.res.y / 2)
 
     @classproperty
     def center_right(self) -> Vector:
         """Returns the position of the center right of the window."""
-        return Vector(self.resolution.x, self.resolution.y / 2)
+        return Vector(self.res.x, self.res.y / 2)
 
     @classproperty
     def center(self) -> Vector:
         """Returns the position of the center of the window."""
-        return Vector(self.resolution.x / 2, self.resolution.y / 2)
+        return Vector(self.res.x / 2, self.res.y / 2)

@@ -97,7 +97,7 @@ def init(options: dict = {}):
 
     Display.renderer = sdl2.ext.Renderer(Display.window,
                                          flags=(sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_PRESENTVSYNC),
-                                         logical_size=params["resolution"].to_tuple())
+                                         logical_size=params["res"].to_tuple())
 
     if params["icon"] != "":
         Display.set_window_icon(params["icon"])

@@ -10,7 +10,7 @@ game_defaults = {
     # The title that appears at the top of the window
     "window_size": Vector(360, 360),  # . . . . . . . . . . . . Vector
     # The actual size of the window
-    "resolution": Vector(1080, 1080),  #. . . . . . . . . . . . Vector
+    "res": Vector(1080, 1080),  #. . . . . . . . . . . . Vector
     # The pixel resolution of the game
     "target_fps": 0,  # . . . . . . . . . . . . . . . . . . . . int
     # The target FPS of the game
