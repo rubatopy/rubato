@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
 
-grounded = False
+jumps = 0
 
 # import rubato
 import rubato as rb
@@ -23,21 +23,21 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # create the player
-player = rb.Sprite()
+player = rb.Sprite({"pos": rb.Display.center_left})
 
 
 # define a collision handler
 def player_collide(col_info: rb.ColInfo):
-    global grounded
+    global jumps
     if col_info.shape_b.sprite.name == "ground":
-        grounded = True
+        jumps = 2
 
 
 # add a hitbox to the player with the collider
 player.add(rb.Rectangle({"width": 50, "height": 50, "color": rb.Color.purple.darker(), "on_collide": player_collide}))
 
 # define the player rigidbody
-player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000), "friction": 0.7})
+player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000)})
 player.add(player_body)
 
 # create the ground
@@ -56,14 +56,25 @@ def update():
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
-    if rb.Input.key_pressed("d"):
+    elif rb.Input.key_pressed("d"):
         player_body.velocity.x = 300
-    if rb.Input.key_pressed("w"):
-        player_body.velocity.y -= 100
+    else:
+        player_body.velocity.x = 0
 
 
 # set the scene's update function
 main.update = update
+
+
+# define a custom input listener
+def handle_keydown(event):
+    global jumps
+    if event["key"] == "w" and jumps > 0:
+        player_body.velocity.y = -800
+        jumps -= 1
+
+
+rb.Radio.listen("keydown", handle_keydown)
 
 # begin the game
 rb.begin()
