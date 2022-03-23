@@ -127,7 +127,7 @@ class Sprite:
         response = ()
         for comp in self.components:
             if isinstance(comp, comp_type):
-                response += comp
+                response += (comp,)
         return response
 
     def check_required(self):

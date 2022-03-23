@@ -70,10 +70,11 @@ class Group:
         for item in self.items:
             item.fixed_update()
 
-            if isinstance(item, Sprite) and (ht := item.get(Hitbox)) is not None:
+            if isinstance(item, Sprite) and len(hts := item.get_all(Hitbox)):
                 for hitbox in hitboxes:
-                    ht.collide(hitbox)
-                hitboxes.append(ht)
+                    for ht in hts:
+                        ht.collide(hitbox)
+                hitboxes += [*hts]
 
     def draw(self):
         self.items.sort(key=lambda i: i.z_index)
