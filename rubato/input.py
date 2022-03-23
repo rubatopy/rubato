@@ -2,14 +2,14 @@
 The Input module is the way you collect input from the user.
 """
 import ctypes
-from typing import Tuple
+from typing import Tuple, Dict
 import sdl2
 from ctypes import c_char_p, c_long, c_int
 from rubato.utils import Vector, Display
 
 # KEYBOARD FUNCTIONS
 
-_mods = {
+_mods: Dict[str, int] = {
     "shift": sdl2.KMOD_SHIFT,
     "left shift": sdl2.KMOD_LSHIFT,
     "right shift": sdl2.KMOD_RSHIFT,
@@ -39,6 +39,23 @@ def get_name(code: int) -> str:
         str: The corresponding key.
     """
     return sdl2.keyboard.SDL_GetKeyName(code).decode("utf-8").lower()
+
+
+def mods_from_code(code: int) -> Tuple[str]:
+    """
+    Gets the modifier names from a mod code.
+
+    Args:
+        code: The mod code.
+
+    Returns:
+        Tuple[str]: A tuple with the names of the currently pressed modifiers.
+    """
+    response = ()
+    for name, val in _mods.items():
+        if code & val:
+            response += (name, )
+    return response
 
 
 def key_from_name(char: str) -> int:

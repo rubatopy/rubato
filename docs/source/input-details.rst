@@ -1,8 +1,6 @@
 Input Details
 =============
 
-Key Names
----------
 Here is the list of all of the available key names. Note that names are case-
 sensitive
 

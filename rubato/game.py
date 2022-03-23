@@ -120,7 +120,7 @@ class Game(metaclass=StaticClass):
                         "key": Input.get_name(key_info.sym),
                         "unicode": unicode,
                         "code": int(key_info.sym),
-                        "modifiers": key_info.mod,
+                        "mods": key_info.mod,
                     },
                 )
 
