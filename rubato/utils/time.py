@@ -13,14 +13,17 @@ class Time(metaclass=StaticClass):
     The time class
 
     Attributes:
-        frames (int): The total number of elapsed frames since the start of the
-            game.
+        frames (int): The total number of elapsed frames since the start of the game.
+
         fps (float): The current fps of this frame.
         smooth_fps (float): The average fps over the past 5 frames.
+
         target_fps (float): The fps that the game should try to run at. 0 means that the game's fps will not be capped.
             Defaults to 0.
         physics_fps (float): The fps that the physics should run at. Defaults to 60.
+
         now(int): The time since the start of the game, in milliseconds.
+
         delta_time (int): The number of milliseconds since the last frame.
         fixed_delta (int): The number of milliseconds since the last fixed update.
     """
