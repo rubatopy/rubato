@@ -23,13 +23,13 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # create the player
-player = rb.Sprite({"pos": rb.Display.center_left})
+player = rb.Sprite({"pos": rb.Display.center_left + rb.Vector(50,0)})
 
 
 # define a collision handler
 def player_collide(col_info: rb.ColInfo):
     global jumps
-    if col_info.shape_b.sprite.name == "ground":
+    if col_info.shape_b.tag == "ground":
         jumps = 2
 
 
@@ -41,8 +41,8 @@ player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000)})
 player.add(player_body)
 
 # create the ground
-ground = rb.Sprite({"pos": rb.Display.bottom_center, "name": "ground"})
-ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green}))
+ground = rb.Sprite({"pos": rb.Display.bottom_center})
+ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 
 # add them all to the scene
 main.add(player, ground)
