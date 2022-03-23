@@ -28,6 +28,7 @@ class Hitbox(Component):
         self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
         self.multiple = params["multiple"]
+        self.tag = params["tag"]
 
     @property
     def pos(self) -> Vector:

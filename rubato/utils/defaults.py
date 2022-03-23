@@ -100,6 +100,8 @@ hitbox_defaults = {
     # The color to fill this hitbox with.
     "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
     # Whether or not multiple components of the same type are allowed on a sprite.
+    "tag": "", #. . . . . . . . . . . . . . . . . . . . . . . . str
+    # The tag of the hitbox (can be used to identify hitboxes)
 }
 
 polygon_defaults = {  # Can also contain elements from the hitbox defaults
