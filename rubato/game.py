@@ -21,10 +21,10 @@ class Game(metaclass=StaticClass):
     """
     The main game class.
 
-    The game can have 3 different states are::
+    3 different values can describe the game state::
 
-        Game.STOPPED
         Game.RUNNING
+        Game.STOPPED
         Game.PAUSED
 
     Attributes:
@@ -54,8 +54,8 @@ class Game(metaclass=StaticClass):
 
         The game states are::
 
-            Game.STOPPED
             Game.RUNNING
+            Game.STOPPED
             Game.PAUSED
         """
         return self._state

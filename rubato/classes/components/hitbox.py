@@ -25,7 +25,7 @@ class Hitbox(Component):
         self.trigger: bool = params["trigger"]
         self._pos = lambda: Vector(0, 0)
         self.scale: int = params["scale"]
-        self.callback: Callable = params["callback"]
+        self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
 
     @property
@@ -49,13 +49,13 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
-    def collide(self, other: "Hitbox", callback: Callable = lambda c: None) -> Union["ColInfo", None]:
+    def collide(self, other: "Hitbox", on_collide: Callable = lambda c: None) -> Union["ColInfo", None]:
         """
         A simple collision engine for most use cases.
 
         Args:
             other: The other rigidbody to collide with.
-            callback: The function to run when a collision is detected.
+            on_collide: The function to run when a collision is detected.
                 Defaults to None.
 
         Returns:
@@ -68,9 +68,9 @@ class Hitbox(Component):
 
                 RigidBody.handle_collision(col)
 
-            callback(col)
-            self.callback(col)
-            other.callback(col)
+            on_collide(col)
+            self.on_collide(col)
+            other.on_collide(col)
 
 
 class Polygon(Hitbox):
@@ -136,7 +136,7 @@ class Polygon(Hitbox):
             "debug": self.debug,
             "trigger": self.trigger,
             "scale": self.scale,
-            "callback": self.callback,
+            "on_collide": self.on_collide,
         })
         new_poly._pos = self._pos  # pylint: disable=protected-access
         return new_poly
