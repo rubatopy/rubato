@@ -91,7 +91,7 @@ def key_pressed(*keys: str) -> bool:
     Checks if keys are pressed.
 
     Args:
-        *keys: The name of the keys to check.
+        *keys: The names of the keys to check.
 
     Returns:
         bool: Whether or not the keys are pressed.

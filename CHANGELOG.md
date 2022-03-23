@@ -4,13 +4,15 @@
 
 ### Added
 
--   Sound class and renewed system
--   Key press can now take in as many keys as you want and it will check if they are all pressed
+-   Sound class rewritten
+-   Input.key_pressed() can now take in an arbitrary number of arguments
 
 ### Changed
 
--   Switched to PySDL2 from pygame
+-   Ported to PySDL2 from pygame
 -   Moved all window management from Game to Display
+-   Made classes that only need one instance static classes
+-   Rectangle implementation is now distinct from polygons
 
 ### Removed
 
