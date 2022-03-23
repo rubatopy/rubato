@@ -27,6 +27,7 @@ class Hitbox(Component):
         self.scale: int = params["scale"]
         self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
+        self.multiple = params["multiple"]
 
     @property
     def pos(self) -> Vector:
@@ -49,7 +50,7 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
-    def collide(self, other: "Hitbox", on_collide: Callable = lambda c: None) -> Union["ColInfo", None]:
+    def collide(self, other: "Hitbox") -> Union["ColInfo", None]:
         """
         A simple collision engine for most use cases.
 
@@ -68,7 +69,6 @@ class Hitbox(Component):
 
                 RigidBody.handle_collision(col)
 
-            on_collide(col)
             self.on_collide(col)
             other.on_collide(col)
 

@@ -39,6 +39,7 @@ class Image(Component):
         else:
             self.image = sdl2.ext.load_img(param["image_location"], False)
 
+        self.multiple = param["multiple"]
         self._original = Display.clone_surface(self.image)
 
         self._rotation: float = param["rotation"]

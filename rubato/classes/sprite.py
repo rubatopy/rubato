@@ -1,7 +1,7 @@
 """
 A sprite is a basic element that holds components, postion, and z_index.
 """
-from typing import List, Union, TYPE_CHECKING
+from typing import List, Tuple, Union, TYPE_CHECKING
 from rubato.classes.components import Hitbox
 from rubato.utils import Vector, Defaults, Display
 from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
@@ -63,7 +63,7 @@ class Sprite:
         """
         comp_type = type(component)
 
-        if any(isinstance(comp, comp_type) for comp in self.components):
+        if any((not comp.multiple) and isinstance(comp, comp_type) for comp in self.components):
             raise DuplicateComponentError(f"There is already a component of type {comp_type} on the sprite {self.name}")
 
         for not_allowed in component.not_allowed:
@@ -112,6 +112,23 @@ class Sprite:
             if isinstance(comp, comp_type):
                 return comp
         return None
+
+    def get_all(self, comp_type: type) -> Tuple["Component"]:
+        """
+        Gets all the components of a type from the sprite.
+
+        Args:
+            comp_type: The type of component to search for.
+
+        Returns:
+            Tuple["Component"]: A tuple containing all the components of that type. If no components were found, the
+            tuple is empty.
+        """
+        response = ()
+        for comp in self.components:
+            if isinstance(comp, comp_type):
+                response += comp
+        return response
 
     def check_required(self):
         for comp in self.components:

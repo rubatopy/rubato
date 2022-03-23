@@ -13,9 +13,10 @@ class Component:
         sprite (Sprite): The sprite this component is attached to.
         required (List[type]): A list of components that are required by this
             component. (For example, a RigidBody needs a Hitbox).
-        not_allowed(List[type]): A list of components that cannot be on the
+        not_allowed (List[type]): A list of components that cannot be on the
             same Sprite. (For example, an Animation and an Image cannot be
             on the same Sprite)
+        multiple (bool): Whether or not multiple components of the same type are allowed on a sprite.
     """
 
     def __init__(self) -> None:
@@ -23,6 +24,7 @@ class Component:
         self.sprite: Union["Sprite", None] = None
         self.required: List[str] = []
         self.not_allowed: List[str] = []
+        self.multiple = False
 
     def draw(self) -> None:
         """The draw loop"""

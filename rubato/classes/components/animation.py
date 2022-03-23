@@ -43,6 +43,7 @@ class Animation(Component):
         self.rotation = param["rotation"]
         self.default_animation_length = param["default_animation_length"]
         self._fps: int = param["fps"]
+        self.multiple = param["multiple"]
         self._states: Dict[str, List[Tuple[Image, int]]] = {}
         self.default_state: str = None
         self.current_state: str = ""

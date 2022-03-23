@@ -24,34 +24,6 @@ game_defaults = {
     # The path to an image to use as the window icon.
 }
 
-rigidbody_defaults = {
-    "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
-    # The mass of the RB. (0 for infinite)
-    "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
-    # The percent bounciness of the RB. (as a decimal)
-    "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
-    # The gravity applied to the RB.
-    "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
-    # The maximum speed of the RB.
-    "velocity": Vector(),  #. . . . . . . . . . . . . . . . . . Vector
-    # The starting velocity of the RB.
-    "friction": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-    # The amount of friction experienced by the RB.
-    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-    # The starting rotation of the RB.
-    "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
-    # Whether the RB is static or not.
-}
-
-image_defaults = {
-    "image_location": "",  #. . . . . . . . . . . . . . . . . . str
-    # The relative path of the image. (from the cwd)
-    "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
-    # The initial scale factor of the image.
-    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-    # The initial rotation of the image.
-}
-
 sprite_defaults = {
     "name": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
     # The name of the sprite. (Used in error messages)
@@ -70,6 +42,38 @@ group_defaults = {
     # The z_index of the group.
 }
 
+rigidbody_defaults = {
+    "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
+    # The mass of the RB. (0 for infinite)
+    "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
+    # The percent bounciness of the RB. (as a decimal)
+    "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
+    # The gravity applied to the RB.
+    "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
+    # The maximum speed of the RB.
+    "velocity": Vector(),  #. . . . . . . . . . . . . . . . . . Vector
+    # The starting velocity of the RB.
+    "friction": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    # The amount of friction experienced by the RB.
+    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    # The starting rotation of the RB.
+    "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
+    # Whether the RB is static or not.
+    "multiple": False, #. . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not multiple components of the same type are allowed on a sprite.
+}
+
+image_defaults = {
+    "image_location": "",  #. . . . . . . . . . . . . . . . . . str
+    # The relative path of the image. (from the cwd)
+    "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
+    # The initial scale factor of the image.
+    "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+    # The initial rotation of the image.
+    "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not multiple components of the same type are allowed on a sprite.
+}
+
 animation_defaults = {
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     # The startin scale factor of the animation.
@@ -79,6 +83,8 @@ animation_defaults = {
     # The rotation of the animation.
     "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
     # The FPS that the animation should run at.
+    "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not multiple components of the same type are allowed on a sprite.
 }
 
 hitbox_defaults = {
@@ -92,6 +98,8 @@ hitbox_defaults = {
     # The on_collide function to call when a collision happens with this hitbox.
     "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
+    "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not multiple components of the same type are allowed on a sprite.
 }
 
 polygon_defaults = {  # Can also contain elements from the hitbox defaults
