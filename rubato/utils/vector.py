@@ -1,7 +1,7 @@
 """
 A vector implementation.
 """
-from typing import Union
+from typing import Union, List, Tuple
 from rubato.utils import Math
 import math
 
@@ -94,11 +94,6 @@ class Vector:
         """Returns the magnitude of the vector."""
         return (self.x**2 + self.y**2)**.5
 
-    @property
-    def mag(self) -> float:
-        """Returns the squared magnitude of the vector."""
-        return self.x**2 + self.y**2
-
     @magnitude.setter
     def magnitude(self, value: Union[float, int]):
         """
@@ -113,6 +108,11 @@ class Vector:
         self.y *= ratio
         self.round(8)
 
+    @property
+    def mag_squared(self) -> float:
+        """Returns the squared magnitude of the vector."""
+        return self.x**2 + self.y**2
+
     def unit(self) -> "Vector":
         """Returns the unit vector of this vector."""
         copy = self.clone()
@@ -120,13 +120,13 @@ class Vector:
         return copy
 
     @staticmethod
-    def from_radial(angle: float, magnitude: float) -> "Vector":
+    def from_radial(magnitude: float, angle: float) -> "Vector":
         """
         Gives you a Vector from the given direction and distance.
 
         Args:
-            angle: Direction of vector in radians.
             magnitude: Length of vector.
+            angle: Direction of vector in radians.
 
         Returns:
             Vector: Vector from the given direction and distance
@@ -138,7 +138,16 @@ class Vector:
         """Returns the angle of the vector"""
         return math.atan2(self.y, self.x)
 
-    def transform(self, scale, rotation):
+    def transform(self, scale, rotation) -> "Vector":
+        """
+        transforms the vector by the scale and rotation, relative to the original vector
+        Args:
+            scale: the scale by which the vector's length is multiplied
+            rotation: (degrees) angle by which the vector angle is rotated counterclockwise
+
+        Returns:
+            The newly transformed Vector (based on the parent)
+        """
         new_vector = self.clone()
         if rotation != 0:
             hyp, angle = self.magnitude, self.angle + rotation * math.pi / 180
@@ -187,47 +196,69 @@ class Vector:
         self.y = round(self.y, decimal_places)
 
     def ceil(self) -> "Vector":
+        """
+        math.ceil the X and Y values of the Vector
+        Returns:
+            new "Ceil"ed Vector
+        """
         return Vector(math.ceil(self.x), math.ceil(self.y))
 
     def floor(self) -> "Vector":
+        """
+        math.floor the X and Y values of the Vector
+        Returns:
+            new "Floor"ed Vector
+        """
         return Vector(math.floor(self.x), math.floor(self.y))
 
     def abs(self) -> "Vector":
+        """
+        Absolute value of the vector (1st quadrant representation)
+        Returns:
+            new absolute valued Vector
+        """
         return Vector(abs(self.x), abs(self.y))
 
     @classmethod
     @property
     def zero(cls):
+        """A zeroed Vector"""
         return Vector(0, 0)
 
     @classmethod
     @property
     def one(cls):
+        """A vector with all ones"""
         return Vector(1, 1)
 
     @classmethod
     @property
     def up(cls):
+        """A vector in the up direction"""
         return Vector(0, -1)
 
     @classmethod
     @property
     def left(cls):
+        """A vector in the left direction"""
         return Vector(-1, 0)
 
     @classmethod
     @property
     def down(cls):
+        """A vector in the down direction"""
         return Vector(0, 1)
 
     @classmethod
     @property
     def right(cls):
+        """A vector in the right direction"""
         return Vector(1, 0)
 
     @classmethod
     @property
     def infinity(cls):
+        """A vector at positive infinity"""
         return Vector(Math.INFINITY, Math.INFINITY)
 
     def __eq__(self, o: "Vector") -> bool:
