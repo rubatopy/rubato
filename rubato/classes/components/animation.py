@@ -50,11 +50,11 @@ class Animation(Component):
         self.animation_frames_left: int = 0
         self.current_frame: int = 0
         self.loop = False
+        self._scale = param["scale_factor"]
 
         # time (milliseconds) to switch frames
         self._time_step = 1000 / self._fps / 4.5
         self._time_count = 0  # time since last update of frames
-        self.scale(param["scale_factor"])
 
     @property
     def image(self) -> sdl2.surface.SDL_Surface:
@@ -64,8 +64,7 @@ class Animation(Component):
         Returns:
             Surface: The surface holding the current image.
         """
-        return self._states[self.current_state][self.current_frame][
-            Animation._IMAGE_INDEX].image
+        return self._states[self.current_state][self.current_frame][Animation._IMAGE_INDEX].image
 
     @property
     def anim_frame(self) -> Image:
@@ -75,8 +74,7 @@ class Animation(Component):
         Returns:
             Image: The image representing the current frame.
         """
-        return self._states[self.current_state][self.current_frame][
-            Animation._IMAGE_INDEX]
+        return self._states[self.current_state][self.current_frame][Animation._IMAGE_INDEX]
 
     @property
     def _current(self):
@@ -89,9 +87,10 @@ class Animation(Component):
         Args:
             scale_factor: The 2-d scale factor relative to it's current size.
         """
-        for _, value in self._states:
+        for value in self._states.values():
             for anim_frame, _ in value:
-                anim_frame.scale(scale_factor)
+                anim_frame.scale = scale_factor
+        self._scale = scale_factor
 
     def resize(self, new_size: Vector):
         """
@@ -124,11 +123,9 @@ class Animation(Component):
             self.current_frame = 0
             self.animation_frames_left = self._current[Animation._TIME_INDEX]
         else:
-            raise KeyError(
-                f"The given state {new_state} is not in the initialized states"
-            )
+            raise KeyError(f"The given state {new_state} is not in the initialized states")
 
-    def add_state(self, state_name: str, image_and_times: List[tuple] | list):
+    def add_state(self, state_name: str, image_and_times: List[tuple] | List):
         """
         Initializes a state to this animation component.
 
@@ -144,15 +141,14 @@ class Animation(Component):
         for i in range(len(image_and_times)):
             image_and_time = image_and_times[i]
             if isinstance(image_and_time, Image):
-                image_and_times[i] = (image_and_time,
-                                      self.default_animation_length)
+                image_and_times[i] = (image_and_time, self.default_animation_length)
             else:
-                raise Error("This tuple is an invalid Image and time: " +
-                            image_and_time)
+                raise Error("This tuple is an invalid Image and time: " + image_and_time)
         self._states[state_name] = image_and_times
         if len(self._states) == 1:
             self.default_state = state_name
             self.current_state = state_name
+        self.scale(self._scale)
 
     def setup(self) -> None:
         for image_and_times in self._states.values():
@@ -169,15 +165,13 @@ class Animation(Component):
         self.anim_frame.draw()
 
     def anim_tick(self):
-        if self.current_frame < (length :=
-                                 len(self._states[self.current_state]) - 1):
+        if self.current_frame < (length := len(self._states[self.current_state]) - 1):
             # still in the state (extra -1 as we add if we hit a new frame)
             if self.animation_frames_left <= 0:
                 self.current_frame += 1
                 if self.current_frame > length:
                     return self.anim_tick()
-                self.animation_frames_left = self._current[
-                    Animation._TIME_INDEX]
+                self.animation_frames_left = self._current[Animation._TIME_INDEX]
             self.animation_frames_left -= 1
         elif self.loop:  # we reached the end of our state
             self.current_frame = 0
@@ -186,10 +180,10 @@ class Animation(Component):
             self.current_state = self.default_state
             self.current_frame = 0
 
-        self.anim_frame.set_rotation(self.rotation)
+        self.anim_frame.rotation = self.rotation
 
     @staticmethod
-    def import_animation_folder(rel_path: str) -> list:
+    def import_animation_folder(rel_path: str) -> List:
         """
         Imports a folder of images, creating rubato.Image for each one and
         placing it in a list by order in directory. Directory must be

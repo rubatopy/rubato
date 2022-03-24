@@ -8,66 +8,48 @@ from random import randint, choice
 import rubato as rb
 from rubato import Game, Vector, Color, Display
 
-rb.init(
-    {
-        "name": "Physics Demo",
-        "window_size": Vector(600, 600),
-        "res": Vector(1200, 1200),
-    }
-)
+rb.init({
+    "name": "Physics Demo",
+    "window_size": Vector(600, 600),
+    "res": Vector(1200, 1200),
+})
 
 main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
 top = rb.Sprite({
     "pos": Display.top_center + Vector(0, -30)
-}).add(
-    rb.Rectangle(
-        {
-            "width": Display.res.x + 175,
-            "height": Display.res.y / 10,
-            "color": Color.gray,
-        }
-    )
-)
+}).add(rb.Rectangle({
+    "width": Display.res.x + 175,
+    "height": Display.res.y / 10,
+    "color": Color.gray,
+}))
 
 bottom = rb.Sprite({
     "pos": Display.bottom_center + Vector(0, 30)
-}).add(
-    rb.Rectangle(
-        {
-            "width": Display.res.x + 175,
-            "height": Display.res.y / 10,
-            "color": Color.gray,
-        }
-    )
-)
+}).add(rb.Rectangle({
+    "width": Display.res.x + 175,
+    "height": Display.res.y / 10,
+    "color": Color.gray,
+}))
 
 left = rb.Sprite({
     "pos": Display.center_left + Vector(-30, 0)
-}).add(
-    rb.Rectangle(
-        {
-            "width": Display.res.x / 10,
-            "height": Display.res.y + 175,
-            "color": Color.gray,
-        }
-    )
-)
+}).add(rb.Rectangle({
+    "width": Display.res.x / 10,
+    "height": Display.res.y + 175,
+    "color": Color.gray,
+}))
 
 right = rb.Sprite({
     "pos": Display.center_right + Vector(30, 0)
-}).add(
-    rb.Rectangle(
-        {
-            "width": Display.res.x / 10,
-            "height": Display.res.y + 175,
-            "color": Color.gray,
-        }
-    )
-)
+}).add(rb.Rectangle({
+    "width": Display.res.x / 10,
+    "height": Display.res.y + 175,
+    "color": Color.gray,
+}))
 
-for _ in range(60):
+for _ in range(20):
     main_scene.add(
         rb.Sprite(
             {
@@ -80,12 +62,8 @@ for _ in range(60):
         ).add(
             rb.Circle(
                 {
-                    "radius":
-                        Display.res.x / 50,
-                    "color":
-                        Color(
-                            *choice(list(rb.Defaults.color_defaults.values()))
-                        )
+                    "radius": Display.res.x / 50,
+                    "color": Color(*choice(list(rb.Defaults.color_defaults.values())))
                 }
             )
         ).add(
@@ -100,35 +78,21 @@ for _ in range(60):
         )
     )
 
-player = rb.Sprite({
-    "pos": rb.Vector(50, 50),
-    "debug": True
-}).add(
-    rb.Image(
-        {
-            "image_location": "testing/Idle/0.png",
-            "scale_factor": rb.Vector(2, 2)
-        }
-    )
-)
+player = rb.Sprite({"pos": rb.Vector(50, 50), "debug": True})
 
-player_rb = rb.RigidBody(
-    {
-        "mass": 0,
-        "bounciness": 0.1,
-        "max_speed": Vector(1000, 1000),
-        "gravity": Vector()
-    }
-)
+player_anim = rb.Animation({"scale_factor": Vector(2, 2)})
+player_anim.add_state("idle", rb.Animation.import_animation_folder("testing/Idle"))
+player_anim.set_current_state("idle", True)
+player.add(player_anim)
+
+player_rb = rb.RigidBody({"mass": 0, "bounciness": 0.1, "max_speed": Vector(1000, 1000), "gravity": Vector()})
 player.add(player_rb)
 
-player_hitbox = rb.Rectangle(
-    {
-        "width": Display.res.x / 16,
-        "height": Display.res.x / 16,
-        "debug": True,
-    }
-)
+player_hitbox = rb.Rectangle({
+    "width": Display.res.x / 16,
+    "height": Display.res.x / 16,
+    "debug": True,
+})
 player.add(player_hitbox)
 
 

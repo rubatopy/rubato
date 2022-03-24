@@ -76,6 +76,7 @@ class Group:
                         ht.collide(hitbox)
                 hitboxes += [*hts]
 
+
     def draw(self):
         self.items.sort(key=lambda i: i.z_index)
 

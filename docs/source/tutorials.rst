@@ -6,6 +6,14 @@ will show you how to use nearly every aspect of Rubato.
 
 This tutorial works with python 3.10.x and Rubato v2.x.x.
 
+.. Basic Structure
+.. Creating a Player
+.. Handling Input
+.. Creating a Level
+.. Adding Enemies
+.. Adding Sound
+.. Final Touches
+
 .. toctree::
     :caption: Making a Platformer
     :glob:

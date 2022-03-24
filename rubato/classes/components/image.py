@@ -44,7 +44,7 @@ class Image(Component):
 
         self._rotation: float = param["rotation"]
         self._scale: Vector = param["scale_factor"]
-        self._update_rotozoom(0, Vector.one)
+        self._update_rotozoom()
 
     @property
     def rotation(self) -> float:
@@ -52,9 +52,8 @@ class Image(Component):
 
     @rotation.setter
     def rotation(self, new_rotation: float):
-        old = self.rotation
         self._rotation = new_rotation
-        self._update_rotozoom(old, self.scale)
+        self._update_rotozoom()
 
     @property
     def scale(self) -> Vector:
@@ -62,9 +61,8 @@ class Image(Component):
 
     @scale.setter
     def scale(self, new_scale: Vector):
-        old = self.scale
         self._scale = new_scale
-        self._update_rotozoom(self.rotation, old)
+        self._update_rotozoom()
 
     def get_size(self) -> Vector:
         """
@@ -84,16 +82,12 @@ class Image(Component):
         """
         return Vector(self._original.w, self._original.h)
 
-    def _update_rotozoom(self, old_rotation: float, old_scale: Vector):
-        if old_scale.x == 0 or old_scale.y == 0:
-            self._scale = Vector.zero
-            old_scale = Vector.one
-
+    def _update_rotozoom(self):
         self.image = sdl2.sdlgfx.rotozoomSurfaceXY(
-            self.image,
-            self.rotation - old_rotation,
-            self.scale.x / old_scale.x,
-            self.scale.y / old_scale.y,
+            self._original,
+            self.rotation,
+            self.scale.x,
+            self.scale.y,
             1,
         ).contents
 

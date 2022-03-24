@@ -25,7 +25,9 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # create the player
-player = rb.Sprite({"pos": rb.Display.center_left + rb.Vector(50, 0)})
+player = rb.Sprite({
+    "pos": rb.Display.center_left + rb.Vector(50, 0),
+})
 
 
 # define a collision handler
@@ -36,26 +38,16 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(
-    rb.Rectangle(
-        {
-            "width": 50,
-            "height": 50,
-            "color": rb.Color.purple.darker()
-        }
-    )
-)
+player.add(rb.Rectangle({"width": 50, "height": 50, "color": rb.Color.purple.darker()}))
 # add a ground detector
 player.add(
-    rb.Rectangle(
-        {
-            "width": 50,
-            "height": 3,
-            "offset": rb.Vector(0, 25),
-            "trigger": True,
-            "on_collide": player_collide
-        }
-    )
+    rb.Rectangle({
+        "width": 50,
+        "height": 3,
+        "offset": rb.Vector(0, 25),
+        "trigger": True,
+        "on_collide": player_collide
+    })
 )
 
 # define the player rigidbody
@@ -64,29 +56,11 @@ player.add(player_body)
 
 # create the ground
 ground = rb.Sprite({"pos": rb.Display.bottom_center})
-ground.add(
-    rb.Rectangle(
-        {
-            "width": rb.Display.res.x,
-            "height": 50,
-            "color": rb.Color.green,
-            "tag": "ground"
-        }
-    )
-)
+ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 
 # create the ground
 ground = rb.Sprite({"pos": rb.Display.bottom_center})
-ground.add(
-    rb.Rectangle(
-        {
-            "width": rb.Display.res.x,
-            "height": 50,
-            "color": rb.Color.green,
-            "tag": "ground"
-        }
-    )
-)
+ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 
 # add them all to the scene
 main.add(player, ground)
@@ -95,9 +69,7 @@ main.add(player, ground)
 # define a custom update function
 def update():
     # have the camera follow the player
-    rb.Game.scenes.current.camera.pos.x = max(
-        0, player.pos.x - rb.Display.res.x / 4
-    )
+    rb.Game.scenes.current.camera.pos.x = max(0, player.pos.x - rb.Display.res.x / 4)
 
     # check for user directional input
     if rb.Input.key_pressed("a"):
