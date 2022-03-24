@@ -132,19 +132,23 @@ class Sound():
         self._paused = False
 
     @classmethod
-    def import_sound_folder(cls, rel_path: str):
+    def import_sound_folder(cls, rel_path: str, duplicate_names=False):
         """
         Imports a folder of sounds, saving each one in the loaded_sounds
         dictionary by filename.
 
         Args:
             rel_path: The relative path to the folder you wish to import.
+            duplicate_names: if you wish to have duplicate names to your sounds,
+            it will use the relative and the sound path for the sounds name
         """
         for _, _, files in walk(rel_path):
             # walk to directory path and ignore name and subdirectories
             for sound_path in files:
                 path_to_sound = path.join(rel_path, sound_path)
-                cls(path_to_sound, sound_path.split(".")[0])
+                name = (rel_path + sound_path).split(".")[0] \
+                if duplicate_names else sound_path.split(".")[0]
+                cls(path_to_sound, name)
 
     @classmethod
     def get_sound(cls, sound_name: str) -> "Sound":
