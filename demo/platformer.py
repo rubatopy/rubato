@@ -23,7 +23,7 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # create the player
-player = rb.Sprite({"pos": rb.Display.center_left + rb.Vector(50,0)})
+player = rb.Sprite({"pos": rb.Display.center_left + rb.Vector(50, 0)})
 
 
 # define a collision handler
@@ -34,7 +34,20 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 50, "height": 50, "color": rb.Color.purple.darker(), "on_collide": player_collide}))
+player.add(rb.Rectangle({
+    "width": 50,
+    "height": 50,
+    "color": rb.Color.purple.darker(),
+}))
+# add a ground detector
+player.add(
+    rb.Rectangle({
+        "width": 50,
+        "height": 3,
+        "offset": rb.Vector(0, 25),
+        "trigger": True,
+        "on_collide": player_collide,
+    }))
 
 # define the player rigidbody
 player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000)})

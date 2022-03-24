@@ -102,6 +102,8 @@ hitbox_defaults = {
     # Whether or not multiple components of the same type are allowed on a sprite.
     "tag": "", #. . . . . . . . . . . . . . . . . . . . . . . . str
     # The tag of the hitbox (can be used to identify hitboxes)
+    "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
+    # The offset from the center of the sprite that the hitbox should be placed.
 }
 
 polygon_defaults = {  # Can also contain elements from the hitbox defaults

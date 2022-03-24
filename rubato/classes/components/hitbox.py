@@ -15,6 +15,16 @@ from ctypes import c_int16
 class Hitbox(Component):
     """
     The basic hitbox
+
+    Attributes:
+        debug (bool): Whether to draw a green outline around the Polygon or not.
+        trigger (bool): Whether this hitbox is just a trigger or not.
+        scale (int): The scale of the polygon
+        on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
+        color (Color) The color to fill this hitbox with.
+        multiple (bool) Whether or not multiple components of the same type are allowed on a sprite.
+        tag (str): The tag of the hitbox (can be used to identify hitboxes)
+        offset (Vector): The offset from the center of the sprite that the hitbox should be placed.
     """
     hitboxes: List["Hitbox"] = []
 
@@ -27,13 +37,14 @@ class Hitbox(Component):
         self.scale: int = params["scale"]
         self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
-        self.multiple = params["multiple"]
-        self.tag = params["tag"]
+        self.multiple: bool = params["multiple"]
+        self.tag: str = params["tag"]
+        self.offset: Vector = params["offset"]
 
     @property
     def pos(self) -> Vector:
         """The getter method for the position of the hitbox's center"""
-        return self._pos()
+        return self._pos() + self.offset
 
     def update(self):
         self.draw()
