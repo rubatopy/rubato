@@ -15,7 +15,11 @@ rb.init({
 main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")
 
-click = rb.Sound("sounds/click.wav")
+rb.Sound.import_sound_folder("sounds")
+# rb.Sound.import_sound_folder("sounds/player1", True)
+# rb.Sound.import_sound_folder("sounds/player2", True)
+
+click = rb.Sound.get_sound("click")
 
 
 def update():
