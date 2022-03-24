@@ -14,4 +14,8 @@ rb.Game.scenes.add(main, "main")
 
 main.add(rb.Sprite({"pos": rb.Vector(100, 100)}).add(rb.Circle({"color": rb.Color.green})))
 
+vec = rb.Vector(10, 10).dir_to(rb.Vector(11, 20))
+vec.round(3)
+print(vec)
+
 rb.begin()

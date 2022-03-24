@@ -219,7 +219,7 @@ class Vector:
         """
         return Vector(abs(self.x), abs(self.y))
 
-    def dir_to(self, other: "Vector" | List[int] | Tuple[int]):
+    def dir_to(self, other: "Vector" | List[int] | Tuple[int]) -> "Vector":
         """
         direction from the Vector to another Vector or a two element list or tuple treating everything as points
         Args:
@@ -228,7 +228,7 @@ class Vector:
         Returns:
             A unit vector that is in the direction to the position passed in
         """
-        Vector.from_radial(1, math.atan2(other.y - self.y, other.x - self.x))
+        return Vector.from_radial(1, math.atan2(other.y - self.y, other.x - self.x))
 
     @classmethod
     @property
