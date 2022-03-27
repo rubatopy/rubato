@@ -24,10 +24,24 @@ rb.init(
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
+blue_dino = rb.Spritesheet(
+    {
+        "rel_path": "sprites/dino/DinoSprites - blue.png",
+        "sprite_size": rb.Vector(24, 24),
+        "grid_size": rb.Vector(24, 1)
+    }
+)
+
 # create the player
 player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),
 })
+
+p_animation = rb.Animation({"scale_factor": rb.Vector(2.1, 2.1)})
+p_animation.add_spritesheet("idle", blue_dino, rb.Vector(0, 0), rb.Vector(3, 0))
+p_animation.add_spritesheet("running", blue_dino, rb.Vector(4, 0), rb.Vector(7, 0))
+p_animation.set_current_state("idle", True)
+player.add(p_animation)
 
 
 # define a collision handler
@@ -38,7 +52,7 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 50, "height": 50, "color": rb.Color.purple.darker()}))
+player.add(rb.Rectangle({"width": 50, "height": 50, "debug": True}))
 # add a ground detector
 player.add(
     rb.Rectangle({
@@ -54,16 +68,17 @@ player.add(
 player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000)})
 player.add(player_body)
 
-# create the ground
-ground = rb.GameObject({"pos": rb.Display.bottom_center})
-ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
+# Side boundary
+left = rb.GameObject({"pos": rb.Display.center_left - rb.Vector(25, 0)})
+left.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
 
 # create the ground
 ground = rb.GameObject({"pos": rb.Display.bottom_center})
-ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
+ground.add(rb.Rectangle({"width": rb.Display.res.x * 4, "height": 50, "color": rb.Color.green, "tag": "ground"}))
+ground.get(rb.Rectangle).topleft = rb.Display.bottom_left - rb.Vector(0, 25)
 
 # add them all to the scene
-main.add(player, ground)
+main.add(player, ground, left)
 
 
 # define a custom update function
@@ -74,8 +89,12 @@ def update():
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
+        p_animation.flipx = True
+        p_animation.set_current_state("running")
     elif rb.Input.key_pressed("d"):
         player_body.velocity.x = 300
+        p_animation.flipx = False
+        p_animation.set_current_state("running")
     else:
         player_body.velocity.x = 0
 

@@ -77,7 +77,12 @@ image_defaults = {
     # The initial scale factor of the image.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The initial rotation of the image.
-
+    "anti_aliasing": False,  #. . . . . . . . . . . . . . . . . bool
+    # Whether or not to enable anti aliasing.
+    "flipx": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not to flip the image along the x axis
+    "flipy": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not to flip the image along the y axis
 }
 
 animation_defaults = {
@@ -87,6 +92,12 @@ animation_defaults = {
     # The rotation of the animation.
     "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
     # The FPS that the animation should run at.
+    "anti_aliasing": False,  #. . . . . . . . . . . . . . . . . bool
+    # Whether or not to enable anti aliasing.
+    "flipx": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not to flip the animation along the x axis
+    "flipy": False,  #. . . . . . . . . . . . . . . . . . . . . bool
+    # Whether or not to flip the animation along the y axis
 }
 
 hitbox_defaults = {

@@ -12,6 +12,11 @@ import sdl2.sdlgfx
 class Image(Component):
     """
     A component that handles Images.
+
+    Attributes:
+        aa (bool): Whether or not to enable anti aliasing.
+        flipx (bool): Whether or not to flip the image along the x axis
+        flipy (bool): Whether or not to flip the image along the y axis
     """
 
     def __init__(self, options: dict = {}):
@@ -41,6 +46,11 @@ class Image(Component):
                 raise TypeError(f"{fname} is not a valid image file") from e
 
         self.multiple = True
+
+        self.aa = param["anti_aliasing"]
+        self.flipx = param["flipx"]
+        self.flipy = param["flipy"]
+
         self._original = Display.clone_surface(self._image)
 
         self._rotation: float = param["rotation"]
@@ -111,9 +121,9 @@ class Image(Component):
         self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
             self.rotation,
-            self.scale.x,
-            self.scale.y,
-            1,
+            self.scale.x * (-1 if self.flipx else 1),
+            self.scale.y * (-1 if self.flipy else 1),
+            int(self.aa),
         ).contents
 
     def resize(self, new_size: Vector):

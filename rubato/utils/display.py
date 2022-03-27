@@ -128,47 +128,56 @@ class Display(metaclass=StaticClass):
             sdl2.SDL_PIXELFORMAT_RGBA32,
         ).contents
 
-    @classproperty
-    def top_left(self) -> Vector:
+    @classmethod
+    @property
+    def top_left(cls) -> Vector:
         """Returns the position of the top left of the window."""
         return Vector(0, 0)
 
-    @classproperty
-    def top_right(self) -> Vector:
+    @classmethod
+    @property
+    def top_right(cls) -> Vector:
         """Returns the position of the top right of the window."""
-        return Vector(self.res.x, 0)
+        return Vector(cls.res.x, 0)
 
-    @classproperty
-    def bottom_left(self) -> Vector:
+    @classmethod
+    @property
+    def bottom_left(cls) -> Vector:
         """Returns the position of the bottom left of the window."""
-        return Vector(0, self.res.y)
+        return Vector(0, cls.res.y)
 
-    @classproperty
-    def bottom_right(self) -> Vector:
+    @classmethod
+    @property
+    def bottom_right(cls) -> Vector:
         """Returns the position of the bottom right of the window."""
-        return Vector(self.res.x, self.res.y)
+        return Vector(cls.res.x, cls.res.y)
 
-    @classproperty
-    def top_center(self) -> Vector:
+    @classmethod
+    @property
+    def top_center(cls) -> Vector:
         """Returns the position of the top center of the window."""
-        return Vector(self.res.x / 2, 0)
+        return Vector(cls.res.x / 2, 0)
 
-    @classproperty
-    def bottom_center(self) -> Vector:
+    @classmethod
+    @property
+    def bottom_center(cls) -> Vector:
         """Returns the position of the bottom center of the window."""
-        return Vector(self.res.x / 2, self.res.y)
+        return Vector(cls.res.x / 2, cls.res.y)
 
-    @classproperty
-    def center_left(self) -> Vector:
+    @classmethod
+    @property
+    def center_left(cls) -> Vector:
         """Returns the position of the center left of the window."""
-        return Vector(0, self.res.y / 2)
+        return Vector(0, cls.res.y / 2)
 
-    @classproperty
-    def center_right(self) -> Vector:
+    @classmethod
+    @property
+    def center_right(cls) -> Vector:
         """Returns the position of the center right of the window."""
-        return Vector(self.res.x, self.res.y / 2)
+        return Vector(cls.res.x, cls.res.y / 2)
 
-    @classproperty
-    def center(self) -> Vector:
+    @classmethod
+    @property
+    def center(cls) -> Vector:
         """Returns the position of the center of the window."""
-        return Vector(self.res.x / 2, self.res.y / 2)
+        return Vector(cls.res.x / 2, cls.res.y / 2)

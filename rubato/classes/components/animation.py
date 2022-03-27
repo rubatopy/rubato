@@ -24,6 +24,9 @@ class Animation(Component):
         current_state (str): The key of the current state. Defaults to "".
         animation_frames_left (int): The number of animation frames left.
         loop (bool): Whether the animation should loop. Defaults to False.
+        aa (bool): Whether or not to enable anti aliasing.
+        flipx (bool): Whether or not to flip the image along the x axis
+        flipy (bool): Whether or not to flip the image along the y axis
     """
 
     def __init__(self, options: dict = {}):
@@ -47,6 +50,9 @@ class Animation(Component):
         self._current_frame: int = 0
         self.loop = False
         self._scale = param["scale_factor"]
+        self.aa = param["anti_aliasing"]
+        self.flipx = param["flipx"]
+        self.flipy = param["flipy"]
 
         # time (milliseconds) to switch frames
         self._time_step = 1000 / self._fps
@@ -74,11 +80,12 @@ class Animation(Component):
         """
         The current frame.
         """
-        return self._states[self.current_state][self.current_frame]
-
-    @property
-    def _current(self):
-        return self._states[self.current_state][self.current_frame]
+        img = self._states[self.current_state][self.current_frame]
+        img.aa = self.aa
+        img.flipx = self.flipx
+        img.flipy = self.flipy
+        img.scale = self._scale
+        return img
 
     def scale(self, scale_factor: Vector):
         """
@@ -87,9 +94,6 @@ class Animation(Component):
         Args:
             scale_factor: The 2-d scale factor relative to it's current size.
         """
-        for value in self._states.values():
-            for anim_frame in value:
-                anim_frame.scale = scale_factor
         self._scale = scale_factor
 
     def resize(self, new_size: Vector):
@@ -139,8 +143,7 @@ class Animation(Component):
         if len(self._states) == 1:
             self.default_state = state_name
             self.current_state = state_name
-
-        self.scale(self._scale)
+            self.reset()
 
     def add_folder(self, state_name: str, rel_path: str):
         """
