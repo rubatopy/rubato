@@ -51,7 +51,7 @@ class RigidBody(Component):
 
         self.velocity: Vector = params["velocity"]
 
-        self.multiple = False
+        self.singular = True
 
         # self.angvel: float = 0
         # self.rotation: float = params["rotation"]

@@ -4,7 +4,7 @@ A game object is a basic element that holds components, postion, and z_index.
 from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components.hitbox import Hitbox
 from rubato.utils import Vector, Defaults, Display
-from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
+from rubato.utils.error import DuplicateComponentError
 from rubato.game import Game
 import sdl2
 import sdl2.sdlgfx
@@ -63,20 +63,12 @@ class GameObject:
         """
         comp_type = type(component)
 
-        if any((not comp.multiple) and isinstance(comp, comp_type) for comp in self.components):
-            raise DuplicateComponentError(
-                f"There is already a component of type {comp_type} on the game object {self.name}"
-            )
-
-        for not_allowed in component.not_allowed:
-            if any(
-                not_allowed == type(c).__name__ or any(not_allowed == base.__name__
-                                                       for base in type(c).__bases__)
-                for c in self.components
-            ):
-                raise ComponentNotAllowed(
-                    f"The component of type {not_allowed} conflicts with another component on {self.name}"
-                )
+        if component.singular:
+            for comp in self.components:
+                if isinstance(comp, comp_type):
+                    raise DuplicateComponentError(
+                        f"There is already a component of type {comp_type} on the game object {self.name}"
+                    )
 
         if isinstance(component, Hitbox):
             component._pos = lambda: self.pos  # pylint: disable=protected-access
@@ -133,22 +125,10 @@ class GameObject:
         """
         return [comp for comp in self.components if isinstance(comp, comp_type)]
 
-    def check_required(self):
-        for comp in self.components:
-            for required in comp.required:
-                # Checks if required matches either the class or the parent
-                if not any(
-                    required == type(c).__name__ or any(required == base.__name__
-                                                        for base in type(c).__bases__)
-                    for c in self.components
-                ):
-                    raise Error(f"The component {comp} is missing its requirements")
-
     def setup(self):
         """
         Run after initialization and before update loop begins
         """
-        self.check_required()
         for comp in self.components:
             comp.setup()
 

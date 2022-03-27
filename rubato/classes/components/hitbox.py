@@ -42,7 +42,7 @@ class Hitbox(Component):
         self.scale: int = params["scale"]
         self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
-        self.multiple: bool = True
+        self.singular: bool = False
         self.tag: str = params["tag"]
         self.offset: Vector = params["offset"]
 

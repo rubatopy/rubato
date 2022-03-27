@@ -45,7 +45,7 @@ class Image(Component):
                 fname = param["rel_path"].replace("\\", "/").split("/")[-1]
                 raise TypeError(f"{fname} is not a valid image file") from e
 
-        self.multiple = True
+        self.singular = False
 
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]

@@ -42,7 +42,7 @@ class Animation(Component):
 
         self.rotation = param["rotation"]
         self._fps: int = param["fps"]
-        self.multiple = True
+        self.singular = False
         self._states: Dict[str, List[Image]] = {}
         self.default_state: str = None
         self.current_state: str = ""
