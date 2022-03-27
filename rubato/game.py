@@ -5,15 +5,14 @@ import sys
 import sdl2
 import sdl2.ext
 from typing import TYPE_CHECKING
-from rubato.helpers import *
 from rubato.utils import Time, Display, Vector, Color
+from rubato.helpers import *
 from rubato.radio import Radio
 import rubato.input as Input
 from contextlib import suppress
 
 if TYPE_CHECKING:
-    from rubato.classes.game_object import GameObject
-    from rubato.classes import SceneManager
+    from rubato.classes import SceneManager, GameObject, Camera
 
 
 class Game(metaclass=StaticClass):
@@ -65,6 +64,22 @@ class Game(metaclass=StaticClass):
 
         if self._state == Game.STOPPED:
             sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
+
+    @classmethod
+    @property
+    def camera(cls) -> "Camera":
+        """
+        A getter allowing easy access to the current camera.
+
+        Note:
+            This is a get-only property but returns a pointer to the current camera object.
+            This is so you can access/change the current camera properties faster, but you'd still need to
+            use :func:`Game.scenes.current.camera <rubato.classes.scene.Scene.camera>` to access the camera directly.
+
+        Returns:
+            Camera: The current scene's camera
+        """
+        return cls.scenes.current.camera
 
     @classmethod
     def constant_loop(cls):
