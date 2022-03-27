@@ -22,13 +22,19 @@ class Hitbox(Component):
         scale (int): The scale of the polygon
         on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
         color (Color) The color to fill this hitbox with.
-        multiple (bool) Whether or not multiple components of the same type are allowed on a sprite.
         tag (str): The tag of the hitbox (can be used to identify hitboxes)
-        offset (Vector): The offset from the center of the sprite that the hitbox should be placed.
+        offset (Vector): The offset from the center of the game object that the hitbox should be placed.
     """
     hitboxes: List["Hitbox"] = []
 
     def __init__(self, options: dict = {}):
+        """
+        Initializes a Hitbox.
+
+        Args:
+            options: A Hitbox config. Defaults to the |default| for
+                `Hitbox`.
+        """
         params = Defaults.hitbox_defaults | options
         super().__init__()
         self.debug: bool = params["debug"]
@@ -37,7 +43,7 @@ class Hitbox(Component):
         self.scale: int = params["scale"]
         self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
-        self.multiple: bool = params["multiple"]
+        self.multiple: bool = True
         self.tag: str = params["tag"]
         self.offset: Vector = params["offset"]
 
@@ -76,8 +82,9 @@ class Hitbox(Component):
             collision is detected or nothing if no collision is detected.
         """
         if (col := SAT.overlap(self, other)) is not None:
-            if not self.trigger and ((self.sprite.get(RigidBody) is not None) or
-                                     (other.sprite.get(RigidBody) is not None)):
+            if not self.trigger and (
+                (self.gameobj.get(RigidBody) is not None) or (other.gameobj.get(RigidBody) is not None)
+            ):
 
                 RigidBody.handle_collision(col)
 
@@ -97,15 +104,11 @@ class Polygon(Hitbox):
 
     def __init__(self, options: dict = {}):
         """
-        Initializes a Polygon
+        Initializes a Polygon.
 
         Args:
-            verts: A list of the vertices in the Polygon.
-            pos: The position of the center of the Polygon as a function.
-                Defaults to lambda: Vector(0, 0).
-            scale: The scale of the polygon. Defaults to 1.
-            rotation: The rotation angle of the polygon in degrees as a
-                function. Defaults to lambda: 0.
+            options: A Polygon config. Defaults to the |default| for
+                `Polygon`.
         """
         super().__init__(options)
         params = Defaults.polygon_defaults | options
@@ -142,14 +145,16 @@ class Polygon(Hitbox):
 
     def clone(self) -> "Polygon":
         """Creates a copy of the Polygon at the current position"""
-        new_poly = Polygon({
-            "verts": [v.clone() for v in self.verts],
-            "rotation": self.rotation,
-            "debug": self.debug,
-            "trigger": self.trigger,
-            "scale": self.scale,
-            "on_collide": self.on_collide,
-        })
+        new_poly = Polygon(
+            {
+                "verts": [v.clone() for v in self.verts],
+                "rotation": self.rotation,
+                "debug": self.debug,
+                "trigger": self.trigger,
+                "scale": self.scale,
+                "on_collide": self.on_collide,
+            }
+        )
         new_poly._pos = self._pos  # pylint: disable=protected-access
         return new_poly
 
@@ -225,6 +230,13 @@ class Rectangle(Hitbox):
     """
 
     def __init__(self, options: dict):
+        """
+        Initializes a Rectangle.
+
+        Args:
+            options: A Rectangle config. Defaults to the |default| for
+                `Rectangle`.
+        """
         super().__init__(options)
         params = Defaults.rectangle_defaults | options
 
@@ -240,20 +252,20 @@ class Rectangle(Hitbox):
 
         Note:
             This can only be accessed and set after the Rectangle has been
-            added to a Sprite.
+            added to a Game Object.
         """
-        if self.sprite:
+        if self.gameobj:
             return self.pos - Vector(self.width / 2, self.height / 2)
         else:
-            raise Error("Tried to get rect property before sprite assignment.")
+            raise Error("Tried to get rect property before game object assignment.")
 
     @topleft.setter
     def topleft(self, new: Vector):
-        if self.sprite:
-            self.sprite.pos = new + Vector(self.width / 2, self.height / 2)
-            self.sprite.pos = self.sprite.pos.to_int()
+        if self.gameobj:
+            self.gameobj.pos = new + Vector(self.width / 2, self.height / 2)
+            self.gameobj.pos = self.gameobj.pos.to_int()
         else:
-            raise Error("Tried to set rect property before sprite assignment.")
+            raise Error("Tried to set rect property before game object assignment.")
 
     @property
     def bottomleft(self):
@@ -262,20 +274,20 @@ class Rectangle(Hitbox):
 
         Note:
             This can only be accessed and set after the Rectangle has been
-            added to a Sprite.
+            added to a Game Object.
         """
-        if self.sprite:
+        if self.gameobj:
             return self.pos - Vector(self.width / 2, self.height / -2)
         else:
-            raise Error("Tried to get rect property before sprite assignment.")
+            raise Error("Tried to get rect property before game object assignment.")
 
     @bottomleft.setter
     def bottomleft(self, new: Vector):
-        if self.sprite:
-            self.sprite.pos = new + Vector(self.width / 2, self.height / -2)
-            self.sprite.pos = self.sprite.pos.to_int()
+        if self.gameobj:
+            self.gameobj.pos = new + Vector(self.width / 2, self.height / -2)
+            self.gameobj.pos = self.gameobj.pos.to_int()
         else:
-            raise Error("Tried to set rect property before sprite assignment.")
+            raise Error("Tried to set rect property before game object assignment.")
 
     @property
     def topright(self):
@@ -284,20 +296,20 @@ class Rectangle(Hitbox):
 
         Note:
             This can only be accessed and set after the Rectangle has been
-            added to a Sprite.
+            added to a Game Object.
         """
-        if self.sprite:
+        if self.gameobj:
             return self.pos - Vector(self.width / -2, self.height / 2)
         else:
-            raise Error("Tried to get rect property before sprite assignment.")
+            raise Error("Tried to get rect property before game object assignment.")
 
     @topright.setter
     def topright(self, new: Vector):
-        if self.sprite:
-            self.sprite.pos = new + Vector(self.width / -2, self.height / 2)
-            self.sprite.pos = self.sprite.pos.to_int()
+        if self.gameobj:
+            self.gameobj.pos = new + Vector(self.width / -2, self.height / 2)
+            self.gameobj.pos = self.gameobj.pos.to_int()
         else:
-            raise Error("Tried to set rect property before sprite assignment.")
+            raise Error("Tried to set rect property before game object assignment.")
 
     @property
     def bottomright(self):
@@ -306,20 +318,20 @@ class Rectangle(Hitbox):
 
         Note:
             This can only be accessed and set after the Rectangle has been
-            added to a Sprite.
+            added to a Game Object.
         """
-        if self.sprite:
+        if self.gameobj:
             return self.pos - Vector(self.width / -2, self.height / -2)
         else:
-            raise Error("Tried to get rect property before sprite assignment.")
+            raise Error("Tried to get rect property before game object assignment.")
 
     @bottomright.setter
     def bottomright(self, new: Vector):
-        if self.sprite:
-            self.sprite.pos = new + Vector(self.width / -2, self.height / -2)
-            self.sprite.pos = self.sprite.pos.to_int()
+        if self.gameobj:
+            self.gameobj.pos = new + Vector(self.width / -2, self.height / -2)
+            self.gameobj.pos = self.gameobj.pos.to_int()
         else:
-            raise Error("Tried to set rect property before sprite assignment.")
+            raise Error("Tried to set rect property before game object assignment.")
 
     def vertices(self):
         return [
@@ -375,13 +387,11 @@ class Circle(Hitbox):
 
     def __init__(self, options: dict = {}):
         """
-        Initializes a Circle
+        Initializes a Circle.
 
         Args:
-            pos: The position of the circle as a function.
-                Defaults to lambda: Vector(0, 0).
-            radius: The radius of the circle. Defaults to 1.
-            scale: The scale of the circle. Defaults to 1.
+            options: A Circle config. Defaults to the |default| for
+                `Circle`.
         """
         super().__init__(options)
         params = Defaults.circle_defaults | options

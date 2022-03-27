@@ -25,7 +25,7 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # create the player
-player = rb.Sprite({
+player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),
 })
 
@@ -55,11 +55,11 @@ player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000)})
 player.add(player_body)
 
 # create the ground
-ground = rb.Sprite({"pos": rb.Display.bottom_center})
+ground = rb.GameObject({"pos": rb.Display.bottom_center})
 ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 
 # create the ground
-ground = rb.Sprite({"pos": rb.Display.bottom_center})
+ground = rb.GameObject({"pos": rb.Display.bottom_center})
 ground.add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 
 # add them all to the scene

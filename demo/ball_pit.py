@@ -17,7 +17,7 @@ rb.init({
 main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
-top = rb.Sprite({
+top = rb.GameObject({
     "pos": Display.top_center + Vector(0, -30)
 }).add(rb.Rectangle({
     "width": Display.res.x + 175,
@@ -25,7 +25,7 @@ top = rb.Sprite({
     "color": Color.gray,
 }))
 
-bottom = rb.Sprite({
+bottom = rb.GameObject({
     "pos": Display.bottom_center + Vector(0, 30)
 }).add(rb.Rectangle({
     "width": Display.res.x + 175,
@@ -33,7 +33,7 @@ bottom = rb.Sprite({
     "color": Color.gray,
 }))
 
-left = rb.Sprite({
+left = rb.GameObject({
     "pos": Display.center_left + Vector(-30, 0)
 }).add(rb.Rectangle({
     "width": Display.res.x / 10,
@@ -41,7 +41,7 @@ left = rb.Sprite({
     "color": Color.gray,
 }))
 
-right = rb.Sprite({
+right = rb.GameObject({
     "pos": Display.center_right + Vector(30, 0)
 }).add(rb.Rectangle({
     "width": Display.res.x / 10,
@@ -51,7 +51,7 @@ right = rb.Sprite({
 
 for _ in range(20):
     main_scene.add(
-        rb.Sprite(
+        rb.GameObject(
             {
                 "pos":
                     Vector(
@@ -78,10 +78,19 @@ for _ in range(20):
         )
     )
 
-player = rb.Sprite({"pos": rb.Vector(50, 50), "debug": True})
+blue_dino = rb.Spritesheet(
+    {
+        "rel_path": "sprites/dino/DinoSprites - blue.png",
+        "sprite_size": Vector(24, 24),
+        "grid_size": Vector(24, 1)
+    }
+)
 
-player_anim = rb.Animation({"scale_factor": Vector(2, 2)})
-player_anim.add_state("idle", rb.Animation.import_animation_folder("testing/Idle"))
+player = rb.GameObject({"pos": rb.Vector(50, 50), "debug": True})
+
+player_anim = rb.Animation({"scale_factor": Vector(3, 3), "fps": 10})
+player_anim.add_spritesheet("idle", blue_dino, Vector(0, 0), Vector(3, 0))
+player_anim.add_spritesheet("run", blue_dino, Vector(4, 0), Vector(7, 0))
 player_anim.set_current_state("idle", True)
 player.add(player_anim)
 
@@ -99,12 +108,16 @@ player.add(player_hitbox)
 def custom_update():
     if rb.Input.key_pressed("w"):
         player_rb.velocity.y -= 100
+        player_anim.set_current_state("run")
     elif rb.Input.key_pressed("s"):
         player_rb.velocity.y += 100
+        player_anim.set_current_state("run")
     if rb.Input.key_pressed("a"):
         player_rb.velocity.x -= 100
+        player_anim.set_current_state("run")
     elif rb.Input.key_pressed("d"):
         player_rb.velocity.x += 100
+        player_anim.set_current_state("run")
 
     if rb.Input.key_pressed("right"):
         rb.Game.scenes.current.camera.pos.x += 5

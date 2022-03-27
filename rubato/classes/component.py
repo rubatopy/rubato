@@ -1,8 +1,8 @@
-"""A component gives functionally to sprites."""
+"""A component gives functionally to game objects."""
 from typing import List, Union, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from rubato.classes.sprite import Sprite
+    from rubato.classes.game_object import GameObject
 
 
 class Component:
@@ -10,18 +10,18 @@ class Component:
     A base component. Does nothing by itself.
 
     Attributes:
-        sprite (Sprite): The sprite this component is attached to.
+        gameobj (GameObject): The game object this component is attached to.
         required (List[type]): A list of components that are required by this
             component. (For example, a RigidBody needs a Hitbox).
         not_allowed (List[type]): A list of components that cannot be on the
-            same Sprite. (For example, an Animation and an Image cannot be
-            on the same Sprite)
-        multiple (bool): Whether or not multiple components of the same type are allowed on a sprite.
+            same Game Object. (For example, an Animation and an Image cannot be
+            on the same Game Object)
+        multiple (bool): Whether or not multiple components of the same type are allowed on a game object.
     """
 
     def __init__(self) -> None:
         """Initializes a component"""
-        self.sprite: Union["Sprite", None] = None
+        self.gameobj: Union["GameObject", None] = None
         self.required: List[str] = []
         self.not_allowed: List[str] = []
         self.multiple = False

@@ -33,13 +33,42 @@ Sound
 .. automodule:: rubato.sound
     :members:
 
-.. _sprite:
+.. _scenemanager:
 
-Sprite
-------
-The default Sprite class.
+SceneManager
+-------------
+.. automodule:: rubato.classes.scene_manager
+    :members:
 
-.. autoclass:: rubato.classes.sprite.Sprite
+
+.. _scene:
+
+Scene
+-----
+.. automodule:: rubato.classes.scene
+    :members:
+
+.. _camera:
+
+Camera
+______
+.. automodule:: rubato.classes.camera
+    :members:
+
+.. _group:
+
+Group
+-----
+.. automodule:: rubato.classes.group
+    :members:
+
+.. _gameobj:
+
+Game Object
+-----------
+The default Game Object class.
+
+.. autoclass:: rubato.classes.game_object.GameObject
     :members:
 
 .. _components:
@@ -79,33 +108,13 @@ _________
 .. automodule:: rubato.classes.components.rigidbody
     :members:
 
-.. _group:
+.. _spritesheet:
 
-Group
------
-.. automodule:: rubato.classes.group
+Spritesheet
+-----------
+.. automodule:: rubato.classes.spritesheet
     :members:
 
-.. _scene:
-
-Scene
------
-.. automodule:: rubato.classes.scene
-    :members:
-
-.. _scenemanager:
-
-SceneManager
--------------
-.. automodule:: rubato.classes.scene_manager
-    :members:
-
-.. _camera:
-
-Camera
-------
-.. automodule:: rubato.classes.camera
-    :members:
 
 Utilities
 ---------

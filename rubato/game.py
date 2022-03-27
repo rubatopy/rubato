@@ -12,7 +12,7 @@ import rubato.input as Input
 from contextlib import suppress
 
 if TYPE_CHECKING:
-    from rubato.classes.sprite import Sprite
+    from rubato.classes.game_object import GameObject
     from rubato.classes import SceneManager
 
 
@@ -98,7 +98,8 @@ class Game(metaclass=StaticClass):
                             "height": event.window.data2,
                             "old_width": Display.window_size.x,
                             "old_height": Display.window_size.y
-                        })
+                        }
+                    )
                     Display.window_size = Vector(
                         event.window.data1,
                         event.window.data2,
@@ -174,15 +175,15 @@ class Game(metaclass=StaticClass):
                 sdl2.SDL_Delay(int(delay))
 
     @classmethod
-    def render(cls, sprite: "Sprite", surface: sdl2.surface.SDL_Surface):
+    def render(cls, gameobj: "GameObject", surface: sdl2.surface.SDL_Surface):
         """
         Renders a surface to the display.
 
         Args:
-            sprite: The sprite to render.
+            gameobj: The Game Object to render.
             surface: The surface to render.
         """
-        if sprite.z_index <= cls.scenes.current.camera.z_index:
+        if gameobj.z_index <= cls.scenes.current.camera.z_index:
             width, height = surface.w, surface.h
 
             new_size = (
@@ -207,5 +208,5 @@ class Game(metaclass=StaticClass):
 
             Display.update(
                 surface_scaled,
-                cls.scenes.current.camera.transform(sprite.pos - Vector(width, height) / 2),
+                cls.scenes.current.camera.transform(gameobj.pos - Vector(width, height) / 2),
             )

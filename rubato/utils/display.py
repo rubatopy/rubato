@@ -25,7 +25,7 @@ class Display(metaclass=StaticClass):
         The pixel size of the physical window.
 
         Warning:
-            Using this value to determine the placement of your sprites will
+            Using this value to determine the placement of your game objects will
             lead to unexpected results. Instead you should use
             :func:`Display.res <rubato.utils.display.Display.res>`
         """
@@ -44,7 +44,7 @@ class Display(metaclass=StaticClass):
         Example:
             The window (:func:`Display.window_size <rubato.utils.display.Display.window_size>`)
             could be rendered at 720p while the resolution is still at 1080p.
-            This means that you can place sprites
+            This means that you can place game objects
             at 1000, 1000 and still have them draw despite the window not being
             1000 pixels wide.
 
@@ -98,19 +98,27 @@ class Display(metaclass=StaticClass):
             surface: The surface to draw on the screen.
             pos: The position to draw the surface on.
         """
+        try:
+            w, h = surface.w, surface.h
+        except AttributeError:
+            w, h = surface.contents.w, surface.contents.h
+
+        texture = sdl2.ext.Texture(cls.renderer, surface)
+
         cls.renderer.copy(
-            sdl2.ext.Texture(cls.renderer, surface),
+            texture,
             None,
             (
                 pos.x,
                 pos.y,
-                surface.contents.w,
-                surface.contents.h,
+                w,
+                h,
             ),
         )
 
     @classmethod
     def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
+        """Clones an SDL surface."""
         return sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
             surface.pixels,
             surface.w,

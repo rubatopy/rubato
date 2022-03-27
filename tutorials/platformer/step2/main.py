@@ -19,7 +19,7 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # Create the player
-player = rb.Sprite({
+player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),  # Set the starting position of the player
 })
 

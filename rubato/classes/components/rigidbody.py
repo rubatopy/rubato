@@ -51,7 +51,7 @@ class RigidBody(Component):
 
         self.velocity: Vector = params["velocity"]
 
-        self.multiple = params["multiple"]
+        self.multiple = False
 
         # self.angvel: float = 0
         # self.rotation: float = params["rotation"]
@@ -78,7 +78,7 @@ class RigidBody(Component):
 
         self.velocity.clamp(-self.max_speed, self.max_speed)
 
-        self.sprite.pos += self.velocity * Time.milli_to_sec(Time.fixed_delta)
+        self.gameobj.pos += self.velocity * Time.milli_to_sec(Time.fixed_delta)
 
     def add_force(self, force: Vector):
         """
@@ -117,8 +117,8 @@ class RigidBody(Component):
             col: The collision information.
         """
         # Get the rigidbody components
-        rb_a: RigidBody = col.shape_b.sprite.get(RigidBody)
-        rb_b: RigidBody = col.shape_a.sprite.get(RigidBody)
+        rb_a: RigidBody = col.shape_b.gameobj.get(RigidBody)
+        rb_b: RigidBody = col.shape_a.gameobj.get(RigidBody)
 
         # Find inverse masses
         inv_mass_a: float = 0 if rb_a is None else rb_a.inv_mass
@@ -143,10 +143,10 @@ class RigidBody(Component):
         correction = max(col.sep.magnitude - slop, 0) / (inv_mass_a + inv_mass_b) * percent * collision_norm
 
         if rb_a is not None and not rb_a.static:
-            rb_a.sprite.pos -= inv_mass_a * correction
+            rb_a.gameobj.pos -= inv_mass_a * correction
 
         if rb_b is not None and not rb_b.static:
-            rb_b.sprite.pos += inv_mass_b * correction
+            rb_b.gameobj.pos += inv_mass_b * correction
 
         # Impulse Resolution
 

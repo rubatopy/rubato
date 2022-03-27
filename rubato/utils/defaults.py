@@ -24,22 +24,31 @@ game_defaults = {
     # The path to an image to use as the window icon.
 }
 
-sprite_defaults = {
-    "name": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
-    # The name of the sprite. (Used in error messages)
-    "pos": Vector(),  # . . . . . . . . . . . . . . . . . . . . Vector
-    # The starting position of the sprite.
-    "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
-    # The z_index of the sprite.
-    "debug": False,  # . . . . . . . . . . . . . . . . . . . . . bool
-    # Whether to draw a plus sign at the sprite's position
-}
-
 group_defaults = {
     "name": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
-    # The name of the sprite. (Used in error messages)
+    # The name of the game object. (Used in error messages)
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The z_index of the group.
+}
+
+spritesheet_defaults = {
+    "rel_path": "",  #. . . . . . . . . . . . . . . . . . . . . str
+    # The relative path to the spritesheet (from the cwd).
+    "sprite_size": Vector(32, 32),  # . . . . . . . . . . . . . Vector
+    # The size of each sprite in pixels.
+    "grid_size": Vector(16, 16),  # . . . . . . . . . . . . . . Vector
+    # The size of the spritesheet grid.
+}
+
+gameobj_defaults = {
+    "name": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    # The name of the game object. (Used in error messages)
+    "pos": Vector(),  # . . . . . . . . . . . . . . . . . . . . Vector
+    # The starting position of the game object.
+    "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
+    # The z_index of the game object.
+    "debug": False,  # . . . . . . . . . . . . . . . . . . . . . bool
+    # Whether to draw a plus sign at the game object's position
 }
 
 rigidbody_defaults = {
@@ -59,32 +68,25 @@ rigidbody_defaults = {
     # The starting rotation of the RB.
     "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
     # Whether the RB is static or not.
-    "multiple": False, #. . . . . . . . . . . . . . . . . . . . bool
-    # Whether or not multiple components of the same type are allowed on a sprite.
 }
 
 image_defaults = {
-    "image_location": "",  #. . . . . . . . . . . . . . . . . . str
+    "rel_path": "",  #. . . . . . . . . . . . . . . . . . str
     # The relative path of the image. (from the cwd)
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     # The initial scale factor of the image.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The initial rotation of the image.
-    "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
-    # Whether or not multiple components of the same type are allowed on a sprite.
+
 }
 
 animation_defaults = {
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     # The startin scale factor of the animation.
-    "default_animation_length": 5,  # . . . . . . . . . . . . . int
-    # The default number of frames in the animation.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The rotation of the animation.
     "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
     # The FPS that the animation should run at.
-    "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
-    # Whether or not multiple components of the same type are allowed on a sprite.
 }
 
 hitbox_defaults = {
@@ -98,12 +100,10 @@ hitbox_defaults = {
     # The on_collide function to call when a collision happens with this hitbox.
     "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
-    "multiple": True, # . . . . . . . . . . . . . . . . . . . . bool
-    # Whether or not multiple components of the same type are allowed on a sprite.
-    "tag": "", #. . . . . . . . . . . . . . . . . . . . . . . . str
+    "tag": "",  #. . . . . . . . . . . . . . . . . . . . . . . . str
     # The tag of the hitbox (can be used to identify hitboxes)
     "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
-    # The offset from the center of the sprite that the hitbox should be placed.
+    # The offset from the center of the game object that the hitbox should be placed.
 }
 
 polygon_defaults = {  # Can also contain elements from the hitbox defaults
@@ -153,5 +153,4 @@ grayscale_defaults = {
     "lightgray": (178, 190, 195),  # . . . . . . . . . . . . . . tuple
     "snow": (223, 230, 233),  #. . . . . . . . . . . . . . . . . tuple
 }
-
 # [end-defaults]

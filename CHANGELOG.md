@@ -6,6 +6,7 @@
 
 -   Sound class rewritten
 -   Input.key_pressed() can now take in an arbitrary number of arguments
+-   Spritesheet support
 
 ### Changed
 
@@ -13,6 +14,7 @@
 -   Moved all window management from Game to Display
 -   Made classes that only need one instance static classes
 -   Rectangle implementation is now distinct from polygons
+-   Rename sprite to game object
 
 ### Removed
 

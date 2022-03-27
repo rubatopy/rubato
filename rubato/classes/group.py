@@ -1,23 +1,23 @@
 """
-Groups contain sprites and allow specific sprites to be seperated.
+Groups contain game objects and allow specific game objects to be seperated.
 """
 
 from typing import List, Union
 from rubato.utils import Error, Defaults
-from rubato.classes import Sprite
+from rubato.classes import GameObject
 from rubato.classes.components import Hitbox
 
 
 class Group:
-    """A group of sprites"""
+    """A group of game objects"""
 
     def __init__(self, options: dict = {}) -> None:
         param = Defaults.group_defaults | options
         self.name: str = param["name"]
-        self.items: List[Union[Sprite, "Group"]] = []
+        self.items: List[Union[GameObject, "Group"]] = []
         self.z_index: int = param["z_index"]
 
-    def add(self, *items: Union[Sprite, "Group"]):
+    def add(self, *items: Union[GameObject, "Group"]):
         """
         Adds an item to the group.
 
@@ -33,16 +33,16 @@ class Group:
                 if isinstance(item, Group):
                     if item.name == "":
                         item.name = f"Group {len(self.items)}"
-                elif isinstance(item, Sprite):
+                elif isinstance(item, GameObject):
                     if item.name == "":
-                        item.name = f"Sprite {len(self.items)}"
+                        item.name = f"Game Object {len(self.items)}"
                 else:
-                    raise ValueError(f"The group {self.name} can only hold sprites/groups.")
+                    raise ValueError(f"The group {self.name} can only hold game objects/groups.")
                 self.items.append(item)
             else:
                 raise Error("Cannot add a group to itself.")
 
-    def remove(self, item: Union["Sprite", "Group"]):
+    def remove(self, item: Union["GameObject", "Group"]):
         """
         Removes an item from the group.
 
@@ -70,12 +70,11 @@ class Group:
         for item in self.items:
             item.fixed_update()
 
-            if isinstance(item, Sprite) and len(hts := item.get_all(Hitbox)):
+            if isinstance(item, GameObject) and len(hts := item.get_all(Hitbox)):
                 for hitbox in hitboxes:
                     for ht in hts:
                         ht.collide(hitbox)
                 hitboxes += [*hts]
-
 
     def draw(self):
         self.items.sort(key=lambda i: i.z_index)

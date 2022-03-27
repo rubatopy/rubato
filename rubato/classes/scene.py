@@ -7,7 +7,7 @@ from typing import Union, TYPE_CHECKING
 from rubato.classes import Camera, Group
 
 if TYPE_CHECKING:
-    from rubato.classes import Sprite
+    from rubato.classes import GameObject
 
 
 class Scene:
@@ -15,21 +15,21 @@ class Scene:
     A scene is a collection of groups.
 
     Attributes:
-        root (Group): The base group of sprites in the scene.
+        root (Group): The base group of game objects in the scene.
         camera (Camera): The camera of this scene.
         id (str): The id of this scene.
     """
 
     def __init__(self):
         """
-        Initializes a scene with an empty collection of sprites, a new camera,
+        Initializes a scene with an empty collection of game objects, a new camera,
         and a blank id.
         """
         self.root: Group = Group({"name": "root"})
         self.camera = Camera()
         self.id: str = ""
 
-    def add(self, *items: Union["Sprite", "Group"]):
+    def add(self, *items: Union["GameObject", "Group"]):
         """
         Adds an item to the root group.
 
@@ -39,7 +39,7 @@ class Scene:
         """
         self.root.add(*items)
 
-    def remove(self, item: Union["Sprite", "Group"]):
+    def remove(self, item: Union["GameObject", "Group"]):
         """
         Removes an item from the root group.
 
@@ -50,6 +50,7 @@ class Scene:
         self.root.remove(item)
 
     def private_draw(self):
+        self.draw()
         self.root.draw()
 
     def private_update(self):
@@ -66,6 +67,13 @@ class Scene:
 
     def setup(self):
         """The start loop for this scene. It is run before the first frame."""
+        pass
+
+    def draw(self):
+        """
+        The draw loop for this scene. Is empty by default an can be
+        overridden.
+        """
         pass
 
     def update(self):

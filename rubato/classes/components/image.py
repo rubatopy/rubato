@@ -12,9 +12,6 @@ import sdl2.sdlgfx
 class Image(Component):
     """
     A component that handles Images.
-
-    Attributes:
-        image (sdl2.surface.Surface): The surface containing the image.
     """
 
     def __init__(self, options: dict = {}):
@@ -28,26 +25,42 @@ class Image(Component):
         param = Defaults.image_defaults | options
         super().__init__()
 
-        if param["image_location"] == "":
-            self.image = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
+        if param["rel_path"] == "":
+            self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
                 0,
-                0,
-                0,
+                32,
+                32,
                 64,
                 sdl2.SDL_PIXELFORMAT_RGBA32,
             ).contents
         else:
-            self.image = sdl2.ext.load_img(param["image_location"], False)
+            try:
+                self._image: sdl2.SDL_Surface = sdl2.ext.load_img(param["rel_path"], False)
+            except sdl2.ext.SDLError as e:
+                fname = param["rel_path"].replace("\\", "/").split("/")[-1]
+                raise TypeError(f"{fname} is not a valid image file") from e
 
-        self.multiple = param["multiple"]
-        self._original = Display.clone_surface(self.image)
+        self.multiple = True
+        self._original = Display.clone_surface(self._image)
 
         self._rotation: float = param["rotation"]
         self._scale: Vector = param["scale_factor"]
         self._update_rotozoom()
 
     @property
+    def image(self) -> sdl2.SDL_Surface:
+        """The SDL Surface of the image."""
+        return self._image
+
+    @image.setter
+    def image(self, new: sdl2.SDL_Surface):
+        self._image = new
+        self._original = Display.clone_surface(new)
+        self._update_rotozoom()
+
+    @property
     def rotation(self) -> float:
+        """The rotation of the image."""
         return self._rotation
 
     @rotation.setter
@@ -57,12 +70,24 @@ class Image(Component):
 
     @property
     def scale(self) -> Vector:
+        """The scale of the image in relation to it's original size."""
         return self._scale
 
     @scale.setter
     def scale(self, new_scale: Vector):
         self._scale = new_scale
         self._update_rotozoom()
+
+    def clone(self) -> "Image":
+        """
+        Clones the current image.
+
+        Returns:
+            Image: The cloned image.
+        """
+        new = Image({"rotation": self.rotation, "scale": self.scale})
+        new.image = Display.clone_surface(self.image)
+        return new
 
     def get_size(self) -> Vector:
         """
@@ -83,7 +108,7 @@ class Image(Component):
         return Vector(self._original.w, self._original.h)
 
     def _update_rotozoom(self):
-        self.image = sdl2.sdlgfx.rotozoomSurfaceXY(
+        self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
             self.rotation,
             self.scale.x,
@@ -127,4 +152,4 @@ class Image(Component):
         Args:
             camera: The current Camera viewing the scene.
         """
-        Game.render(self.sprite, self.image)
+        Game.render(self.gameobj, self.image)

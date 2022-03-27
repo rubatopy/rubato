@@ -1,13 +1,15 @@
 """
 Animations are a series of images that loop in a set loop
 """
-from typing import List, Tuple, Dict
+from typing import List, Dict, TYPE_CHECKING
 from os import path, walk
-
 import sdl2
-from rubato.classes.component import Component
+from rubato.classes import Component
 from rubato.classes.components.image import Image
-from rubato.utils import Error, Defaults, Vector, Time
+from rubato.utils import Defaults, Vector, Time
+
+if TYPE_CHECKING:
+    from rubato.classes import Spritesheet
 
 
 class Animation(Component):
@@ -17,17 +19,12 @@ class Animation(Component):
 
     Attributes:
         rotation (float): The rotation of the animation.
-        default_animation_length (int): The default length of an animation in
-            frames.
         default_state (Union[str, None]): The key of the default state. Defaults
             to None.
         current_state (str): The key of the current state. Defaults to "".
         animation_frames_left (int): The number of animation frames left.
-        current_frame (int): The current frame of the animation.
         loop (bool): Whether the animation should loop. Defaults to False.
     """
-    _IMAGE_INDEX = 0
-    _TIME_INDEX = 1
 
     def __init__(self, options: dict = {}):
         """
@@ -41,14 +38,13 @@ class Animation(Component):
         super().__init__()
 
         self.rotation = param["rotation"]
-        self.default_animation_length = param["default_animation_length"]
         self._fps: int = param["fps"]
-        self.multiple = param["multiple"]
-        self._states: Dict[str, List[Tuple[Image, int]]] = {}
+        self.multiple = True
+        self._states: Dict[str, List[Image]] = {}
         self.default_state: str = None
         self.current_state: str = ""
         self.animation_frames_left: int = 0
-        self.current_frame: int = 0
+        self._current_frame: int = 0
         self.loop = False
         self._scale = param["scale_factor"]
 
@@ -57,24 +53,28 @@ class Animation(Component):
         self._time_count = 0  # time since last update of frames
 
     @property
+    def current_frame(self) -> int:
+        """The current frame that the animation is on."""
+        return self._current_frame
+
+    @current_frame.setter
+    def current_frame(self, new: int):
+        self._current_frame = new
+        self.animation_frames_left = len(self._states[self.current_state]) - (1 + self._current_frame)
+
+    @property
     def image(self) -> sdl2.surface.SDL_Surface:
         """
-        The current image.
-
-        Returns:
-            Surface: The surface holding the current image.
+        The current SDL Surface holding the image.
         """
-        return self._states[self.current_state][self.current_frame][Animation._IMAGE_INDEX].image
+        return self._states[self.current_state][self.current_frame].image
 
     @property
     def anim_frame(self) -> Image:
         """
         The current frame.
-
-        Returns:
-            Image: The image representing the current frame.
         """
-        return self._states[self.current_state][self.current_frame][Animation._IMAGE_INDEX]
+        return self._states[self.current_state][self.current_frame]
 
     @property
     def _current(self):
@@ -82,25 +82,25 @@ class Animation(Component):
 
     def scale(self, scale_factor: Vector):
         """
-        Scales the Images to the given scale factor.
+        Scales the Animation to the given scale factor.
 
         Args:
             scale_factor: The 2-d scale factor relative to it's current size.
         """
         for value in self._states.values():
-            for anim_frame, _ in value:
+            for anim_frame in value:
                 anim_frame.scale = scale_factor
         self._scale = scale_factor
 
     def resize(self, new_size: Vector):
         """
-        Resize the image to a given size in pixels.
+        Resize the Animation to a given size in pixels.
 
         Args:
-            new_size: The new size of the image in pixels.
+            new_size: The new size of the Animation in pixels.
         """
         for value in self._states.values():
-            for anim_frame, _ in value:
+            for anim_frame in value:
                 anim_frame.resize(new_size)
 
     def set_current_state(self, new_state: str, loop: bool = False):
@@ -114,46 +114,86 @@ class Animation(Component):
         Raises:
             KeyError: The new_state key is not in the initialized states.
         """
-        if self.current_state == new_state:
-            self.loop = loop
-            return
-        if new_state in self._states:
-            self.loop = loop
-            self.current_state = new_state
-            self.current_frame = 0
-            self.animation_frames_left = self._current[Animation._TIME_INDEX]
-        else:
-            raise KeyError(f"The given state {new_state} is not in the initialized states")
+        if new_state != self.current_state:
+            if new_state in self._states:
+                self.loop = loop
+                self.current_state = new_state
+                self.reset()
+            else:
+                raise KeyError(f"The given state {new_state} is not in the initialized states")
 
-    def add_state(self, state_name: str, image_and_times: List[tuple] | List):
+    def reset(self):
+        """Reset the animation state back to frame 0"""
+        self.current_frame = 0
+
+    def add(self, state_name: str, images: List[Image]):
         """
-        Initializes a state to this animation component.
+        Adds a state to this animation component.
 
         Args:
             state_name: The key used to reference this state.
-            image_and_times: The list of images and times. Should be the output
-                of the ``import_animation_folder`` function or a list containing
-                tuples following the format: (Image, frame_number)
-
-        Raises:
-            Error: The animation frame tuple is invalid.
+            images: A list of images to use as the animation.
         """
-        for i in range(len(image_and_times)):
-            image_and_time = image_and_times[i]
-            if isinstance(image_and_time, Image):
-                image_and_times[i] = (image_and_time, self.default_animation_length)
-            else:
-                raise Error("This tuple is an invalid Image and time: " + image_and_time)
-        self._states[state_name] = image_and_times
+        self._states[state_name] = images
+
         if len(self._states) == 1:
             self.default_state = state_name
             self.current_state = state_name
+
         self.scale(self._scale)
 
-    def setup(self) -> None:
-        for image_and_times in self._states.values():
-            for image_and_time in image_and_times:
-                image_and_time[0].sprite = self.sprite
+    def add_folder(self, state_name: str, rel_path: str):
+        """
+        Adds a state from an folder of images. Directory must be
+        solely comprised of images.
+
+        Args:
+            state_name: The key used to reference this state.
+            rel_path: The relative path to the folder you wish to import
+        """
+        ret_list = []
+        for _, _, files in walk(rel_path):
+            # walk to directory path and ignore name and subdirectories
+            files.sort()
+            for image_path in files:
+                path_to_image = path.join(rel_path, image_path)
+                image = Image({
+                    "rel_path": path_to_image,
+                })
+                ret_list.append(image)
+
+        self.add(state_name, ret_list)
+
+    def add_spritesheet(self, state_name: str, spritesheet: "Spritesheet", from_coord: Vector, to_coord: Vector):
+        """
+        Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.
+
+        Args:
+            state_name: The key used to reference this state.
+            spritesheet: The spritesheet to use.
+            from_coord: The grid coordinate of the first frame.
+            to_coord: The grid coordinate of the last coord.
+        """
+        state = []
+        x = from_coord.x
+        y = from_coord.y
+        while True:
+            state.append(spritesheet.get(x, y))
+            if y == to_coord.y and x == to_coord.x:
+                break
+            x += 1
+            if x >= spritesheet.grid_size.x:
+                x = 0
+                if y >= spritesheet.grid_size.y:
+                    break
+                y += 1
+
+        self.add(state_name, state)
+
+    def setup(self):
+        for images in self._states.values():
+            for image in images:
+                image.gameobj = self.gameobj
 
     def draw(self):
         self._time_count += Time.delta_time
@@ -165,44 +205,13 @@ class Animation(Component):
         self.anim_frame.draw()
 
     def anim_tick(self):
-        if self.current_frame < (length := len(self._states[self.current_state]) - 1):
-            # still in the state (extra -1 as we add if we hit a new frame)
-            if self.animation_frames_left <= 0:
-                self.current_frame += 1
-                if self.current_frame > length:
-                    return self.anim_tick()
-                self.animation_frames_left = self._current[Animation._TIME_INDEX]
-            self.animation_frames_left -= 1
+        """An animation processing tick"""
+        if self.animation_frames_left > 0:
+            # still frames left
+            self.current_frame += 1
         elif self.loop:  # we reached the end of our state
-            self.current_frame = 0
-            self.anim_tick()
+            self.reset()
         else:
-            self.current_state = self.default_state
-            self.current_frame = 0
+            self.set_current_state(self.default_state, True)
 
         self.anim_frame.rotation = self.rotation
-
-    @staticmethod
-    def import_animation_folder(rel_path: str) -> List:
-        """
-        Imports a folder of images, creating rubato.Image for each one and
-        placing it in a list by order in directory. Directory must be
-        solely comprised of images.
-
-        Args:
-            rel_path: The relative path to the folder you wish to import
-
-        Returns:
-            list: a list of rubato.Image s. Filled with all images in
-            given directory.
-        """
-        ret_list = []
-        for _, _, files in walk(rel_path):
-            # walk to directory path and ignore name and subdirectories
-            for image_path in files:
-                path_to_image = path.join(rel_path, image_path)
-                image = Image({
-                    "image_location": path_to_image,
-                })
-                ret_list.append(image)
-        return ret_list
