@@ -53,7 +53,7 @@ class Animation(Component):
         self._scale = param["scale_factor"]
 
         # time (milliseconds) to switch frames
-        self._time_step = 1000 / self._fps / 4.5
+        self._time_step = 1000 / self._fps
         self._time_count = 0  # time since last update of frames
 
     @property

@@ -1,7 +1,6 @@
 """
 The main game class. It controls everything in the game.
 """
-from __future__ import unicode_literals
 import sys
 import sdl2
 import sdl2.ext

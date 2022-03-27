@@ -563,7 +563,7 @@ class SAT:
         if test_b_a is None:
             return None
 
-        return test_a_b if test_a_b.sep.mag < test_b_a.sep.mag else test_b_a
+        return test_a_b if test_a_b.sep.mag_squared < test_b_a.sep.mag_squared else test_b_a
 
     @staticmethod
     def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:
