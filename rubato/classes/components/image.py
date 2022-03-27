@@ -47,9 +47,10 @@ class Image(Component):
 
         self.multiple = True
 
-        self.aa = param["anti_aliasing"]
-        self.flipx = param["flipx"]
-        self.flipy = param["flipy"]
+        self.aa: bool = param["anti_aliasing"]
+        self.flipx: bool = param["flipx"]
+        self.flipy: bool = param["flipy"]
+        self.offset: Vector = param["offset"]
 
         self._original = Display.clone_surface(self._image)
 
@@ -162,4 +163,4 @@ class Image(Component):
         Args:
             camera: The current Camera viewing the scene.
         """
-        Game.render(self.gameobj, self.image)
+        Game.render(self.gameobj.pos + self.offset, self.gameobj.z_index, self.image)

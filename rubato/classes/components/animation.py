@@ -50,9 +50,10 @@ class Animation(Component):
         self._current_frame: int = 0
         self.loop = False
         self._scale = param["scale_factor"]
-        self.aa = param["anti_aliasing"]
-        self.flipx = param["flipx"]
-        self.flipy = param["flipy"]
+        self.aa: bool = param["anti_aliasing"]
+        self.flipx: bool = param["flipx"]
+        self.flipy: bool = param["flipy"]
+        self.offset: Vector = param["offset"]
 
         # time (milliseconds) to switch frames
         self._time_step = 1000 / self._fps
@@ -85,6 +86,7 @@ class Animation(Component):
         img.flipx = self.flipx
         img.flipy = self.flipy
         img.scale = self._scale
+        img.offset = self.offset
         return img
 
     def scale(self, scale_factor: Vector):

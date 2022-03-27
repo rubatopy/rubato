@@ -37,7 +37,7 @@ player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),
 })
 
-p_animation = rb.Animation({"scale_factor": rb.Vector(2.1, 2.1)})
+p_animation = rb.Animation({"scale_factor": rb.Vector(3, 3), "offset": rb.Vector(0, 3)})
 p_animation.add_spritesheet("idle", blue_dino, rb.Vector(0, 0), rb.Vector(3, 0))
 p_animation.add_spritesheet("running", blue_dino, rb.Vector(4, 0), rb.Vector(7, 0))
 p_animation.set_current_state("idle", True)
@@ -52,11 +52,11 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 50, "height": 50, "debug": True}))
+player.add(rb.Rectangle({"width": 72, "height": 72, "debug": True}))
 # add a ground detector
 player.add(
     rb.Rectangle({
-        "width": 50,
+        "width": 80,
         "height": 3,
         "offset": rb.Vector(0, 25),
         "trigger": True,

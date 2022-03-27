@@ -190,15 +190,16 @@ class Game(metaclass=StaticClass):
                 sdl2.SDL_Delay(int(delay))
 
     @classmethod
-    def render(cls, gameobj: "GameObject", surface: sdl2.surface.SDL_Surface):
+    def render(cls, pos: Vector, z_index: int, surface: sdl2.surface.SDL_Surface):
         """
         Renders a surface to the display.
 
         Args:
-            gameobj: The Game Object to render.
+            pos: The position to render the surface at.
+            z_index: The z index to use for the surface.
             surface: The surface to render.
         """
-        if gameobj.z_index <= cls.scenes.current.camera.z_index:
+        if z_index <= cls.scenes.current.camera.z_index:
             width, height = surface.w, surface.h
 
             new_size = (
@@ -223,5 +224,5 @@ class Game(metaclass=StaticClass):
 
             Display.update(
                 surface_scaled,
-                cls.scenes.current.camera.transform(gameobj.pos - Vector(width, height) / 2),
+                cls.scenes.current.camera.transform(pos - Vector(width, height) / 2),
             )

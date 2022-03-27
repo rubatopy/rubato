@@ -23,7 +23,6 @@ class Hitbox(Component):
         on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
         color (Color) The color to fill this hitbox with.
         tag (str): The tag of the hitbox (can be used to identify hitboxes)
-        offset (Vector): The offset from the center of the game object that the hitbox should be placed.
     """
     hitboxes: List["Hitbox"] = []
 

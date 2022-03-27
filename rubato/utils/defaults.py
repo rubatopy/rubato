@@ -83,6 +83,8 @@ image_defaults = {
     # Whether or not to flip the image along the x axis
     "flipy": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     # Whether or not to flip the image along the y axis
+    "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
+    # The offset from the center of the game object that the hitbox should be placed.
 }
 
 animation_defaults = {
@@ -98,6 +100,8 @@ animation_defaults = {
     # Whether or not to flip the animation along the x axis
     "flipy": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     # Whether or not to flip the animation along the y axis
+    "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
+    # The offset from the center of the game object that the hitbox should be placed.
 }
 
 hitbox_defaults = {

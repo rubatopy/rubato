@@ -1,6 +1,8 @@
 """A component gives functionally to game objects."""
 from typing import List, Union, TYPE_CHECKING
 
+from rubato.utils import Vector
+
 if TYPE_CHECKING:
     from rubato.classes.game_object import GameObject
 
@@ -17,6 +19,7 @@ class Component:
             same Game Object. (For example, an Animation and an Image cannot be
             on the same Game Object)
         multiple (bool): Whether or not multiple components of the same type are allowed on a game object.
+        offset (Vector): The offset from the center of the game object that the hitbox should be placed.
     """
 
     def __init__(self) -> None:
@@ -25,6 +28,7 @@ class Component:
         self.required: List[str] = []
         self.not_allowed: List[str] = []
         self.multiple = False
+        self.offset: Vector = Vector(0, 0)
 
     def draw(self) -> None:
         """The draw loop"""
