@@ -27,15 +27,16 @@ class Group:
         Raises:
             Error: The item being added is the group itself. A group cannot be
                 added to itself.
+            ValueError: The group can only hold game objects or other groups.
         """
         for item in items:
             if self != item:
-                if isinstance(item, Group):
-                    if item.name == "":
-                        item.name = f"Group {len(self.items)}"
-                elif isinstance(item, GameObject):
+                if isinstance(item, GameObject):
                     if item.name == "":
                         item.name = f"Game Object {len(self.items)}"
+                elif isinstance(item, Group):
+                    if item.name == "":
+                        item.name = f"Group {len(self.items)}"
                 else:
                     raise ValueError(f"The group {self.name} can only hold game objects/groups.")
                 self.items.append(item)
@@ -71,10 +72,10 @@ class Group:
             item.fixed_update()
 
             if isinstance(item, GameObject) and len(hts := item.get_all(Hitbox)):
-                for hitbox in hitboxes:
-                    for ht in hts:
+                for ht in hts:
+                    for hitbox in hitboxes:
                         ht.collide(hitbox)
-                hitboxes += [*hts]
+                hitboxes += hts
 
     def draw(self):
         self.items.sort(key=lambda i: i.z_index)

@@ -1,7 +1,7 @@
 """
 A game object is a basic element that holds components, postion, and z_index.
 """
-from typing import List, Tuple, Union, TYPE_CHECKING
+from typing import List, Union, TYPE_CHECKING
 from rubato.classes.components.hitbox import Hitbox
 from rubato.utils import Vector, Defaults, Display
 from rubato.utils.error import ComponentNotAllowed, DuplicateComponentError, Error
@@ -120,7 +120,7 @@ class GameObject:
                 return comp
         return None
 
-    def get_all(self, comp_type: type) -> Tuple["Component"]:
+    def get_all(self, comp_type: type) -> List["Component"]:
         """
         Gets all the components of a type from the game object.
 
@@ -128,14 +128,10 @@ class GameObject:
             comp_type: The type of component to search for.
 
         Returns:
-            Tuple["Component"]: A tuple containing all the components of that type. If no components were found, the
-            tuple is empty.
+            List["Component"]: A list containing all the components of that type. If no components were found, the
+            list is empty.
         """
-        response = ()
-        for comp in self.components:
-            if isinstance(comp, comp_type):
-                response += (comp,)
-        return response
+        return [comp for comp in self.components if isinstance(comp, comp_type)]
 
     def check_required(self):
         for comp in self.components:
