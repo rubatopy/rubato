@@ -209,7 +209,7 @@ class Vector:
 
     def abs(self) -> "Vector":
         """
-        Absolute value of the vector (1st quadrant representation)
+        Absolute value of the Vector (1st quadrant representation)
         Returns:
             new absolute valued Vector
         """
@@ -235,37 +235,37 @@ class Vector:
     @classmethod
     @property
     def one(cls):
-        """A vector with all ones"""
+        """A Vector with all ones"""
         return Vector(1, 1)
 
     @classmethod
     @property
     def up(cls):
-        """A vector in the up direction"""
+        """A Vector in the up direction"""
         return Vector(0, -1)
 
     @classmethod
     @property
     def left(cls):
-        """A vector in the left direction"""
+        """A Vector in the left direction"""
         return Vector(-1, 0)
 
     @classmethod
     @property
     def down(cls):
-        """A vector in the down direction"""
+        """A Vector in the down direction"""
         return Vector(0, 1)
 
     @classmethod
     @property
     def right(cls):
-        """A vector in the right direction"""
+        """A Vector in the right direction"""
         return Vector(1, 0)
 
     @classmethod
     @property
     def infinity(cls):
-        """A vector at positive infinity"""
+        """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
 
     def __eq__(self, o: "Vector") -> bool:
