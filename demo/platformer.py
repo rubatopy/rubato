@@ -107,9 +107,6 @@ main.add(player, ground, left)
 
 # define a custom update function
 def update():
-    # have the camera follow the player
-    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, max(0, player.pos.x - rb.Display.res.x / 4), 0.1)
-
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
@@ -127,8 +124,16 @@ def update():
             p_animation.set_current_state("idle")
 
 
+# define a custom fixed update function
+def fixed_update():
+    # have the camera follow the player
+    camera_ideal = max(0, player.pos.x - rb.Display.res.x / 4)
+    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 400)
+
+
 # set the scene's update function
 main.update = update
+main.fixed_update = fixed_update
 
 
 # define a custom input listener
