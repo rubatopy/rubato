@@ -39,11 +39,7 @@ class GameObject:
         self.pos: Vector = param["pos"]
         self.debug: bool = param["debug"]
         self.z_index: int = param["z_index"]
-        self.__components: List["Component"] = []
-
-    @property
-    def components(self):
-        return self.__components
+        self.__components: dict = {}
 
     def add(self, component: "Component") -> "GameObject":
         """
@@ -63,17 +59,18 @@ class GameObject:
         """
         comp_type = type(component)
 
-        if component.singular:
-            for comp in self.components:
-                if isinstance(comp, comp_type):
-                    raise DuplicateComponentError(
-                        f"There is already a component of type {comp_type} on the game object {self.name}"
-                    )
+        if component.singular and comp_type in self.__components:
+            raise DuplicateComponentError(
+                f"There is already a component of type {comp_type} on the game object {self.name}"
+            )
 
         if isinstance(component, Hitbox):
             component._pos = lambda: self.pos  # pylint: disable=protected-access
+            comp_type = Hitbox
 
-        self.__components.append(component)
+        if comp_type not in self.__components:
+            self.__components[comp_type] = []
+        self.__components[comp_type].append(component)
         component.gameobj = self
 
         return self
@@ -86,14 +83,34 @@ class GameObject:
             comp_type: The type of the component to remove.
 
         Raises:
-            Warning: The component was not on the game object and nothing
+            Warning: The component was not in the game object and nothing
                 was removed.
         """
-        if self.get(comp_type) is not None:
-            del self.components[self.components.index(self.get(comp_type))]
+        if comp_type in self.__components:
+            del self.__components[comp_type][0]
+            if not self.__components[comp_type]:
+                del self.__components[comp_type]
         else:
             raise Warning(
-                f"The component of type {comp_type} is not on the game object {self.name} and was not removed."
+                f"The component of type {comp_type} is not in the game object {self.name} and was not removed."
+            )
+
+    def remove_all(self, comp_type: type):
+        """
+        Removes all components of a type from the game object.
+
+        Args:
+            comp_type: The type of the component to remove.
+
+        Raises:
+            Warning: The components were not in the game object and nothing
+                was removed.
+        """
+        if comp_type in self.__components:
+            del self.__components[comp_type]
+        else:
+            raise Warning(
+                f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
             )
 
     def get(self, comp_type: type) -> Union["Component", None]:
@@ -107,9 +124,8 @@ class GameObject:
             Union[Component, None]: The component if it was found or None if it
             wasn't.
         """
-        for comp in self.components:
-            if isinstance(comp, comp_type):
-                return comp
+        if comp_type in self.__components:
+            return self.__components[comp_type][0]
         return None
 
     def get_all(self, comp_type: type) -> List["Component"]:
@@ -123,19 +139,23 @@ class GameObject:
             List["Component"]: A list containing all the components of that type. If no components were found, the
             list is empty.
         """
-        return [comp for comp in self.components if isinstance(comp, comp_type)]
+        if comp_type in self.__components:
+            return self.__components[comp_type]
+        return []
 
     def setup(self):
         """
         Run after initialization and before update loop begins
         """
-        for comp in self.components:
-            comp.setup()
+        for comps in self.__components.values():
+            for comp in comps:
+                comp.setup()
 
     def draw(self):
         """The draw loop"""
-        for comp in self.components:
-            comp.draw()
+        for comps in self.__components.values():
+            for comp in comps:
+                comp.draw()
 
         if self.debug or Game.debug:
             relative_pos = Game.camera.transform(self.pos)
@@ -153,10 +173,12 @@ class GameObject:
 
     def update(self):
         """The update loop"""
-        for comp in self.components:
-            comp.update()
+        for comps in self.__components.values():
+            for comp in comps:
+                comp.update()
 
     def fixed_update(self):
         """The fixed update loop"""
-        for comp in self.components:
-            comp.fixed_update()
+        for comps in self.__components.values():
+            for comp in comps:
+                comp.fixed_update()
