@@ -43,7 +43,10 @@ class Animation(Component):
         self.rotation = param["rotation"]
         self._fps: int = param["fps"]
         self.singular = False
+
         self._states: Dict[str, List[Image]] = {}
+        self._freeze: int = -1
+
         self.default_state: str = None
         self.current_state: str = ""
         self.animation_frames_left: int = 0
@@ -109,13 +112,14 @@ class Animation(Component):
             for anim_frame in value:
                 anim_frame.resize(new_size)
 
-    def set_current_state(self, new_state: str, loop: bool = False):
+    def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
         Set the current animation state.
 
         Args:
             new_state: The key of the new current state.
             loop: Whether to loop the state. Defaults to False.
+            freeze: Freezes the animation once the specified frame is reached. Use -1 to never freeze. Defaults to -1.
 
         Raises:
             KeyError: The new_state key is not in the initialized states.
@@ -125,6 +129,7 @@ class Animation(Component):
                 self.loop = loop
                 self.current_state = new_state
                 self.reset()
+                self._freeze = freeze
             else:
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
 
@@ -211,12 +216,13 @@ class Animation(Component):
 
     def anim_tick(self):
         """An animation processing tick"""
-        if self.animation_frames_left > 0:
-            # still frames left
-            self.current_frame += 1
-        elif self.loop:  # we reached the end of our state
-            self.reset()
-        else:
-            self.set_current_state(self.default_state, True)
+        if self.current_frame != self._freeze:
+            if self.animation_frames_left > 0:
+                # still frames left
+                self.current_frame += 1
+            elif self.loop:  # we reached the end of our state
+                self.reset()
+            else:
+                self.set_current_state(self.default_state, True)
 
         self.anim_frame.rotation = self.rotation

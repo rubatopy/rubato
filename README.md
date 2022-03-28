@@ -17,4 +17,4 @@ _Wondering about the name? Rubato is a music term that indicates a phrase that s
 
 ### Get started [here](https://rubatopy.github.io/).
 
-_Credit to [@ArksDigital](https://twitter.com/ArksDigital) for the dino animation used in the demos and in the tutorial._
+_Credit to [@ArksDigital](https://twitter.com/ArksDigital) for the dino animation used in the demos and in the tutorial. ([itch page](https://arks.itch.io/dino-characters))_

@@ -5,8 +5,6 @@ import sys
 sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=wrong-import-position
 
-jumps = 0
-
 # import rubato
 import rubato as rb
 
@@ -24,44 +22,70 @@ rb.init(
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-blue_dino = rb.Spritesheet(
+blue_dino_main = rb.Spritesheet(
     {
         "rel_path": "sprites/dino/DinoSprites - blue.png",
         "sprite_size": rb.Vector(24, 24),
         "grid_size": rb.Vector(24, 1)
     }
 )
+blue_dino_jump = rb.Spritesheet(
+    {
+        "rel_path": "sprites/dino/jump - blue.png",
+        "sprite_size": rb.Vector(24, 24),
+        "grid_size": rb.Vector(3, 1),
+    }
+)
+blue_dino_somer = rb.Spritesheet(
+    {
+        "rel_path": "sprites/dino/somer - blue.png",
+        "sprite_size": rb.Vector(24, 24),
+        "grid_size": rb.Vector(4, 1),
+    }
+)
+
+# Tracks the grounded state of the player
+grounded = False
+# Tracks the number of jumps the player has left
+jumps = 0
 
 # create the player
 player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),
 })
 
-p_animation = rb.Animation({"scale_factor": rb.Vector(3, 3), "offset": rb.Vector(0, 3)})
-p_animation.add_spritesheet("idle", blue_dino, rb.Vector(0, 0), rb.Vector(3, 0))
-p_animation.add_spritesheet("running", blue_dino, rb.Vector(4, 0), rb.Vector(7, 0))
-p_animation.set_current_state("idle", True)
+p_animation = rb.Animation({"scale_factor": rb.Vector(4, 4), "offset": rb.Vector(0, 0), "fps": 10})
+p_animation.add_spritesheet("idle", blue_dino_main, rb.Vector(0, 0), rb.Vector(3, 0))
+p_animation.add_spritesheet("running", blue_dino_main, rb.Vector(4, 0), rb.Vector(7, 0))
+p_animation.add_spritesheet("jump", blue_dino_jump, rb.Vector(0, 0), rb.Vector(2, 0))
+p_animation.add_spritesheet("somer", blue_dino_somer, rb.Vector(0, 0), rb.Vector(3, 0))
 player.add(p_animation)
 
 
 # define a collision handler
 def player_collide(col_info: rb.ColInfo):
-    global jumps
+    global jumps, grounded
     if col_info.shape_b.tag == "ground":
+        grounded = True
+        if jumps <= 1:
+            p_animation.set_current_state("idle", True)
         jumps = 2
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 72, "height": 72, "debug": True}))
+player.add(rb.Rectangle({"width": 64, "height": 80, "debug": True}))
 # add a ground detector
 player.add(
-    rb.Rectangle({
-        "width": 80,
-        "height": 3,
-        "offset": rb.Vector(0, 25),
-        "trigger": True,
-        "on_collide": player_collide
-    })
+    rb.Rectangle(
+        {
+            "width": 80,
+            "height": 5,
+            "offset": rb.Vector(0, 40),
+            "trigger": True,
+            "on_collide": player_collide,
+            "debug": True,
+        }
+    )
 )
 
 # define the player rigidbody
@@ -90,11 +114,13 @@ def update():
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
         p_animation.flipx = True
-        p_animation.set_current_state("running")
+        if grounded:
+            p_animation.set_current_state("running")
     elif rb.Input.key_pressed("d"):
         player_body.velocity.x = 300
         p_animation.flipx = False
-        p_animation.set_current_state("running")
+        if grounded:
+            p_animation.set_current_state("running")
     else:
         player_body.velocity.x = 0
 
@@ -105,9 +131,14 @@ main.update = update
 
 # define a custom input listener
 def handle_keydown(event):
-    global jumps
+    global jumps, grounded
     if event["key"] == "w" and jumps > 0:
+        grounded = False
         player_body.velocity.y = -800
+        if jumps == 2:
+            p_animation.set_current_state("jump", freeze=2)
+        elif jumps == 1:
+            p_animation.set_current_state("somer", True)
         jumps -= 1
 
 
