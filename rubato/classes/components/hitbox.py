@@ -342,7 +342,7 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
-    @bottom_right.setter
+    @bottom.setter
     def bottom(self, new: float):
         if self.gameobj:
             self.gameobj.pos.y += new + self.height / -2
