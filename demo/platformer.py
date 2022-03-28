@@ -97,7 +97,7 @@ player.add(
 )
 
 # define the player rigidbody
-player_body = rb.RigidBody({"gravity": rb.Vector(0, 1000)})
+player_body = rb.RigidBody({"gravity": rb.Vector(0, rb.Display.res.y * 1.5)})
 player.add(player_body)
 
 # Side boundary
