@@ -106,14 +106,14 @@ left.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
 
 # create the ground
 ground = rb.GameObject({"pos": rb.Display.bottom_center})
-ground.add(rb.Rectangle({"width": rb.Display.res.x * 4, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 ground.add(rb.Rectangle({
     "width": rb.Display.res.x * 4,
     "height": 100,
     "color": rb.Color.green,
     "trigger": True,
 }))
-ground.get(rb.Rectangle).top_left = rb.Display.bottom_left - rb.Vector(0, 25)
+ground.add(rb.Rectangle({"width": rb.Display.res.x * 4, "height": 50, "color": rb.Color.green, "tag": "ground"}))
+ground.get_all(rb.Rectangle)[1].top_left = rb.Display.bottom_left - rb.Vector(0, 25)
 
 # add them all to the scene
 main.add(player, ground, left)

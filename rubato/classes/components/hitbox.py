@@ -211,7 +211,7 @@ class Polygon(Hitbox):
             for i in range(len(list_of_points)):
                 sdl2.sdlgfx.thickLineRGBA(
                     Display.renderer.sdlrenderer, list_of_points[i][0], list_of_points[i][1],
-                    list_of_points[i % len(list_of_points)][0], list_of_points[i % len(list_of_points)][1],
+                    list_of_points[(i + 1) % len(list_of_points)][0], list_of_points[(i + 1) % len(list_of_points)][1],
                     int(2 * Display.display_ratio.x), 0, 255, 0, 255
                 )
 
@@ -358,18 +358,12 @@ class Rectangle(Hitbox):
                 self.color.a,
             )
         if self.debug or Game.debug:
-            sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, x_1, y_1, x_1, y_2, int(2 * Display.display_ratio.x), 0, 255, 0, 255
-            )
-            sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, x_1, y_2, x_2, y_2, int(2 * Display.display_ratio.x), 0, 255, 0, 255
-            )
-            sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, x_2, y_2, x_2, y_1, int(2 * Display.display_ratio.x), 0, 255, 0, 255
-            )
-            sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, x_2, y_1, x_1, y_1, int(2 * Display.display_ratio.x), 0, 255, 0, 255
-            )
+            verts = [(x_1, y_1), (x_1, y_2), (x_2, y_2), (x_2, y_1)]
+            for i in range(len(verts)):
+                sdl2.sdlgfx.thickLineRGBA(
+                    Display.renderer.sdlrenderer, verts[i][0], verts[i][1], verts[(i + 1) % len(verts)][0],
+                    verts[(i + 1) % len(verts)][1], int(2 * Display.display_ratio.x), 0, 255, 0, 255
+                )
 
 
 class Circle(Hitbox):
