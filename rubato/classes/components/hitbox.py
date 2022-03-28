@@ -178,7 +178,7 @@ class Polygon(Hitbox):
         """
         The draw loop
         """
-        list_of_points: List[tuple] = [Game.scenes.current.camera.transform(v).tuple_int() for v in self.real_verts()]
+        list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]
 
         x_coords, y_coords = zip(*list_of_points)
 
@@ -365,8 +365,8 @@ class Rectangle(Hitbox):
         return [self.pos + v for v in self.vertices()]
 
     def draw(self):
-        x_1, y_1 = Game.scenes.current.camera.transform(self.top_right).tuple_int()
-        x_2, y_2 = Game.scenes.current.camera.transform(self.bottom_left).tuple_int()
+        x_1, y_1 = Game.camera.transform(self.top_right).tuple_int()
+        x_2, y_2 = Game.camera.transform(self.bottom_left).tuple_int()
         if self.color is not None:
             sdl2.sdlgfx.boxRGBA(
                 Display.renderer.sdlrenderer,
@@ -422,8 +422,8 @@ class Circle(Hitbox):
 
     def draw(self):
         if self.color is not None:
-            relative_pos = Game.scenes.current.camera.transform(self.pos)
-            scaled_rad = Game.scenes.current.camera.scale(self.radius)
+            relative_pos = Game.camera.transform(self.pos)
+            scaled_rad = Game.camera.scale(self.radius)
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),

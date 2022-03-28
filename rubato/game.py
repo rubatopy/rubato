@@ -200,12 +200,12 @@ class Game:
             z_index: The z index to use for the surface.
             surface: The surface to render.
         """
-        if z_index <= cls.scenes.current.camera.z_index:
+        if z_index <= cls.camera.z_index:
             width, height = surface.w, surface.h
 
             new_size = (
-                round(width * cls.scenes.current.camera.zoom),
-                round(height * cls.scenes.current.camera.zoom),
+                round(width * cls.camera.zoom),
+                round(height * cls.camera.zoom),
             )
 
             surface_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
@@ -225,5 +225,5 @@ class Game:
 
             Display.update(
                 surface_scaled,
-                cls.scenes.current.camera.transform(pos - Vector(width, height) / 2),
+                cls.camera.transform(pos - Vector(width, height) / 2),
             )

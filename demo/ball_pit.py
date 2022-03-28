@@ -14,7 +14,6 @@ rb.init({
     "res": Vector(1200, 1200),
 })
 
-
 main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
@@ -121,20 +120,20 @@ def custom_update():
         player_anim.set_current_state("run")
 
     if rb.Input.key_pressed("right"):
-        rb.Game.scenes.current.camera.pos.x += 5
+        rb.Game.camera.pos.x += 5
     elif rb.Input.key_pressed("left"):
-        rb.Game.scenes.current.camera.pos.x -= 5
+        rb.Game.camera.pos.x -= 5
     if rb.Input.key_pressed("up"):
-        rb.Game.scenes.current.camera.pos.y -= 5
+        rb.Game.camera.pos.y -= 5
     elif rb.Input.key_pressed("down"):
-        rb.Game.scenes.current.camera.pos.y += 5
+        rb.Game.camera.pos.y += 5
 
     if rb.Input.key_pressed("-"):
-        rb.Game.scenes.current.camera.zoom -= 0.1
+        rb.Game.camera.zoom -= 0.1
     elif rb.Input.key_pressed("="):
-        rb.Game.scenes.current.camera.zoom += 0.1
+        rb.Game.camera.zoom += 0.1
     if rb.Input.key_pressed("0"):
-        rb.Game.scenes.current.camera.zoom = 1
+        rb.Game.camera.zoom = 1
 
     if rb.Input.key_pressed("a", "Shift"):
         print("WOW the secret combo was pressed.")
