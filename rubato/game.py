@@ -130,7 +130,7 @@ class Game(metaclass=StaticClass):
                 if event.type == sdl2.SDL_KEYUP:
                     event_name = "keyup"
                 else:
-                    event_name = ("keyhold", "keydown")[not event.key.repeat]
+                    event_name = ("keydown", "keyhold")[event.key.repeat]
 
                 Radio.broadcast(
                     event_name,

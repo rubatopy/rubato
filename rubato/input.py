@@ -2,7 +2,7 @@
 The Input module is the way you collect input from the user.
 """
 import ctypes
-from typing import Tuple, Dict
+from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_long, c_int
 from rubato.utils import Vector, Display
@@ -41,7 +41,7 @@ def get_name(code: int) -> str:
     return sdl2.keyboard.SDL_GetKeyName(code).decode("utf-8").lower()
 
 
-def mods_from_code(code: int) -> Tuple[str]:
+def mods_from_code(code: int) -> List[str]:
     """
     Gets the modifier names from a mod code.
 
@@ -49,13 +49,9 @@ def mods_from_code(code: int) -> Tuple[str]:
         code: The mod code.
 
     Returns:
-        Tuple[str]: A tuple with the names of the currently pressed modifiers.
+        List[str]: A list with the names of the currently pressed modifiers.
     """
-    response = ()
-    for name, val in _mods.items():
-        if code & val:
-            response += (name,)
-    return response
+    return [name for name, val in _mods.items() if code & val]
 
 
 def key_from_name(char: str) -> int:
@@ -97,10 +93,9 @@ def window_focused() -> bool:
 def get_keyboard_state():
     """ Returns a list with the current SDL keyboard state,
     which is updated on SDL_PumpEvents. """
-    numkeys = ctypes.c_int()
-    keystate = sdl2.SDL_GetKeyboardState(ctypes.byref(numkeys))
-    ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)
-    return ctypes.cast(keystate, ptr_t)[0]
+    return ctypes.cast(
+        sdl2.SDL_GetKeyboardState(ctypes.byref(ctypes.c_int())), ctypes.POINTER(ctypes.c_uint8 * ctypes.c_int().value)
+    )[0]
 
 
 def key_pressed(*keys: str) -> bool:
@@ -130,20 +125,15 @@ def key_pressed(*keys: str) -> bool:
                 return False
         else:
             if key == "shift":
-                key1 = "left shift"
-                key2 = "right shift"
+                key1, key2 = "left shift", "right shift"
             elif key == "ctrl":
-                key1 = "left ctrl"
-                key2 = "right ctrl"
+                key1, key2 = "left ctrl", "right ctrl"
             elif key == "alt":
-                key1 = "left alt"
-                key2 = "right alt"
+                key1, key2 = "left alt", "right alt"
             elif key == "gui":
-                key1 = "left gui"
-                key2 = "right gui"
+                key1, key2 = "left gui", "right gui"
             else:
-                key1 = key
-                key2 = key
+                key1, key2 = key, key
 
             if not (get_keyboard_state()[scancode_from_name(key1)] or get_keyboard_state()[scancode_from_name(key2)]):
                 return False
@@ -161,9 +151,7 @@ def mouse_is_pressed() -> Tuple[bool]:
         Tuple[bool]: A tuple with 5 booleans representing the state of each
         mouse button. (button1, button2, button3, button4, button5)
     """
-    x = c_long(0)
-    y = c_long(0)
-    info = sdl2.mouse.SDL_GetMouseState(x, y)
+    info = sdl2.mouse.SDL_GetMouseState(c_long(0), c_long(0))
     return (
         (info & sdl2.mouse.SDL_BUTTON_LMASK) != 0,
         (info & sdl2.mouse.SDL_BUTTON_MMASK) != 0,
@@ -180,8 +168,7 @@ def mouse_pos() -> Vector:
     Returns:
         Vector: A Vector representing position.
     """
-    x = c_long(0)
-    y = c_long(0)
+    x, y = c_long(0), c_long(0)
     sdl2.mouse.SDL_GetMouseState(x, y)
     return Vector(x, y)
 
@@ -204,8 +191,7 @@ def mouse_is_visible() -> bool:
     Returns:
         bool: True for visible, false otherwise.
     """
-    state = sdl2.mouse.SDL_ShowCursor(sdl2.SDL_QUERY)
-    return state == sdl2.SDL_ENABLE
+    return sdl2.mouse.SDL_ShowCursor(sdl2.SDL_QUERY) == sdl2.SDL_ENABLE
 
 
 def set_mouse_visibility(toggle: bool):
@@ -215,13 +201,10 @@ def set_mouse_visibility(toggle: bool):
     Args:
         toggle: True to show the mouse and false to hide the mouse.
     """
-    if toggle:
-        sdl2.mouse.SDL_ShowCursor(sdl2.SDL_ENABLE)
-    else:
-        sdl2.mouse.SDL_ShowCursor(sdl2.SDL_DISABLE)
+    sdl2.mouse.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
 
-def mouse_over(center: Vector, dims: Vector = Vector(1, 1)) -> bool:
+def mouse_in(center: Vector, dims: Vector) -> bool:
     """
     Checks if the mouse is inside a rectangle defined by its center
     and dimensions
