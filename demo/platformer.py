@@ -172,7 +172,7 @@ def update():
 # define a custom fixed update function
 def fixed_update():
     # have the camera follow the player
-    camera_ideal = min(max(0, player.pos.x - rb.Display.res.x / 4), level_size - rb.Display.res.x)
+    camera_ideal = rb.Math.clamp(player.pos.x - rb.Display.res.x / 4, 0, level_size - rb.Display.res.x)
     rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 400)
 
 
