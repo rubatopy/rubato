@@ -69,6 +69,8 @@ p_animation.add_spritesheet("idle", blue_dino_main, rb.Vector(0, 0), rb.Vector(3
 p_animation.add_spritesheet("running", blue_dino_main, rb.Vector(4, 0), rb.Vector(7, 0))
 p_animation.add_spritesheet("jump", blue_dino_jump, rb.Vector(0, 0), rb.Vector(2, 0))
 p_animation.add_spritesheet("somer", blue_dino_somer, rb.Vector(0, 0), rb.Vector(3, 0))
+p_animation.add_spritesheet("crouch_idle", blue_dino_main, rb.Vector(17, 0), rb.Vector(19, 0))
+p_animation.add_spritesheet("crouch_run", blue_dino_main, rb.Vector(20, 0), rb.Vector(23, 0))
 player.add(p_animation)
 
 
@@ -126,16 +128,26 @@ def update():
         player_body.velocity.x = -300
         p_animation.flipx = True
         if grounded:
-            p_animation.set_current_state("running")
+            if rb.Input.key_pressed("s"):
+                p_animation.set_current_state("crouch_run", True)
+            else:
+                p_animation.set_current_state("running")
     elif rb.Input.key_pressed("d"):
         player_body.velocity.x = 300
         p_animation.flipx = False
         if grounded:
-            p_animation.set_current_state("running")
+            if rb.Input.key_pressed("s"):
+                p_animation.set_current_state("crouch_run", True)
+            else:
+                p_animation.set_current_state("running")
     else:
         player_body.velocity.x = 0
         if grounded:
-            p_animation.set_current_state("idle", True)
+            if rb.Input.key_pressed("s"):
+                p_animation.set_current_state("crouch_idle", True)
+            else:
+                p_animation.set_current_state("idle", True)
+
     p_shadow.visible = grounded
 
 
