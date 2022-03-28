@@ -179,7 +179,7 @@ class Game:
 
         # dont allow updates to occur more than once in a millisecond
         # this will likely never occur but is a failsafe
-        while sdl2.SDL_GetTicks64() < frame_start + 1:
+        while sdl2.SDL_GetTicks64() == frame_start:
             sdl2.SDL_Delay(1)
 
         # clock the time the update call took
