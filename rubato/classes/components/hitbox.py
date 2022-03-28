@@ -88,7 +88,7 @@ class Hitbox(Component):
                 RigidBody.handle_collision(col)
 
             self.on_collide(col)
-            other.on_collide(ColInfo.flip(col))
+            other.on_collide(col.flip())
 
 
 class Polygon(Hitbox):
@@ -476,12 +476,15 @@ class ColInfo:
         self.shape_b = shape_b
         self.sep = sep
 
-    @staticmethod
-    def flip(info: "ColInfo") -> Union["ColInfo", None]:
-        """Flips which object a manifold is referencing to"""
-        if info is None:
-            return None
-        return ColInfo(info.shape_b, info.shape_a, info.sep * -1)
+    def flip(self) -> "ColInfo":
+        """Flips the reference shape in a collision manifold
+
+        Returns:
+            ColInfo: a reference to self.
+        """
+        self.shape_a, self.shape_b = self.shape_b, self.shape_a
+        self.sep *= -1
+        return self
 
 
 class SAT:
@@ -511,20 +514,20 @@ class SAT:
             return SAT.circle_polygon_test(shape_a, shape_b)
 
         if isinstance(shape_b, Circle):
-            return ColInfo.flip(SAT.circle_polygon_test(shape_b, shape_a))
+            r = SAT.circle_polygon_test(shape_b, shape_a)
+            return None if r is None else r.flip()
 
         return SAT.polygon_polygon_test(shape_a, shape_b)
 
     @staticmethod
     def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Union[ColInfo, None]:
         """Checks for overlap between two circles"""
-        total_radius = circle_a.radius + circle_b.radius
-        distance = (circle_b.pos - circle_a.pos).magnitude
+        t_rad = circle_a.radius + circle_b.radius
+        dist = (circle_b.pos - circle_a.pos).magnitude
 
-        if distance > total_radius:
-            return None
-
-        return ColInfo(circle_a, circle_b, (circle_a.pos - circle_b.pos).unit() * (total_radius - distance))
+        return None if dist > t_rad else ColInfo(
+            circle_a, circle_b, (circle_a.pos - circle_b.pos).unit() * (t_rad - dist)
+        )
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[ColInfo, None]:
@@ -581,11 +584,11 @@ class SAT:
         if test_a_b is None:
             return None
 
-        test_b_a = ColInfo.flip(SAT.poly_poly_helper(shape_b, shape_a))
+        test_b_a = SAT.poly_poly_helper(shape_b, shape_a)
         if test_b_a is None:
             return None
 
-        return test_a_b if test_a_b.sep.mag_squared < test_b_a.sep.mag_squared else test_b_a
+        return test_a_b if test_a_b.sep.mag_squared < test_b_a.sep.mag_squared else test_b_a.flip()
 
     @staticmethod
     def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:

@@ -49,7 +49,7 @@ right = rb.GameObject({
     "color": Color.gray,
 }))
 
-for _ in range(50):
+for _ in range(3):
     main_scene.add(
         rb.GameObject(
             {
@@ -71,7 +71,7 @@ for _ in range(50):
                 {
                     "bounciness": 1,
                     "friction": 0.2,
-                    "gravity": Vector(0, Display.res.x / 8),
+                    "gravity": Vector(0, Display.res.x / 2),
                     "velocity": Vector(randint(-100, 100), randint(-100, 100))
                 }
             )

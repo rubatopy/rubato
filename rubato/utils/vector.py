@@ -89,33 +89,28 @@ class Vector:
     @property
     def magnitude(self) -> float:
         """Returns the magnitude of the vector."""
-        return (self.x**2 + self.y**2)**.5
+        return (self.x * self.x + self.y * self.y)**.5
 
     @magnitude.setter
     def magnitude(self, value: Union[float, int]):
         """
         Sets the magnitude of a vector.
-        Keep in mind this rounds to 8 decimal places.
-        This is to avoid floating point errors.
         """
-        mag = self.magnitude
-        if mag == 0:
+        if self.x == self.y == 0:
             return
-        ratio = value / mag
+        ratio = value * (self.x * self.x + self.y * self.y)**-.5
         self.x *= ratio
         self.y *= ratio
-        self.round(8)
 
     @property
     def mag_squared(self) -> float:
         """Returns the squared magnitude of the vector."""
-        return self.x**2 + self.y**2
+        return self.x * self.x + self.y * self.y
 
     def unit(self) -> "Vector":
         """Returns the unit vector of this vector."""
-        copy = self.clone()
-        copy.magnitude = 1
-        return copy
+        inv_mag = (self.x * self.x + self.y * self.y)**-.5
+        return Vector(self.x * inv_mag, self.y * inv_mag)
 
     @staticmethod
     def from_radial(magnitude: float, angle: float) -> "Vector":
