@@ -328,6 +328,28 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
+    @property
+    def bottom(self):
+        """
+        The bottom side of the rectangle
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.y - self.height / -2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @bottom_right.setter
+    def bottom(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.y += new + self.height / -2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
     def vertices(self):
         return [
             Vector(-self.width / 2, -self.height / 2),

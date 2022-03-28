@@ -115,8 +115,9 @@ hitbox_defaults = {
     # Whether this hitbox is just a trigger or not.
     "scale": 1,  #. . . . . . . . . . . . . . . . . . . . . . . int
     # The scale of the polygon
-    "on_collide": lambda c: None,  #. . . . . . . . . . . . . . . Callable
-    # The on_collide function to call when a collision happens with this hitbox.
+    "on_collide": lambda colInfo: None,  #. . . . . . . . . . . . . . . Callable
+    # The on_collide function to call when a collision happens with this hitbox
+    # Must take a rb.ColInfo.
     "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
     "tag": "",  #. . . . . . . . . . . . . . . . . . . . . . . . str
