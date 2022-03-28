@@ -49,4 +49,4 @@ def lerp(a: Union[float, int], b: Union[float, int], t: float) -> float:
     Returns:
         float: The lerped value.
     """
-    return (t * b) + ((1 - t) * a)
+    return a + t * (b - a)
