@@ -7,7 +7,6 @@ import sdl2.ext
 import sdl2.sdlgfx
 from typing import TYPE_CHECKING
 from rubato.utils import Time, Display, Vector, Color
-from rubato.helpers import *
 from rubato.radio import Radio
 import rubato.input as Input
 from contextlib import suppress
@@ -16,22 +15,15 @@ if TYPE_CHECKING:
     from rubato.classes import SceneManager, Camera
 
 
-class Game(metaclass=StaticClass):
+class Game:
     """
     The main game class.
-
-    3 different values can describe the game state::
-
-        Game.RUNNING
-        Game.STOPPED
-        Game.PAUSED
 
     Attributes:
         name (str): The title of the game window.
         scenes (SceneManager): The global scene manager.
         background_color (Color): The background color of the window.
         border_color (Color): The color of the borders of the window.
-        state (int): The state of the game.
         debug (bool): Turn on debug rendering for everything in the game.
     """
     RUNNING = 1
@@ -48,8 +40,8 @@ class Game(metaclass=StaticClass):
 
     initialized = False
 
-    @classproperty
-    def state(self) -> int:
+    @classmethod
+    def __get_state(cls) -> int:
         """
         The state of the game.
 
@@ -59,14 +51,16 @@ class Game(metaclass=StaticClass):
             Game.STOPPED
             Game.PAUSED
         """
-        return self._state
+        return cls._state
 
-    @state.setter
-    def state(self, new: int):
-        self._state = new
+    @classmethod
+    def __set_state(cls, new: int):
+        cls._state = new
 
-        if self._state == Game.STOPPED:
+        if cls._state == Game.STOPPED:
             sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
+
+    state = classmethod(property(__get_state, __set_state, doc=__get_state.__doc__))
 
     @classmethod
     @property
