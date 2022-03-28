@@ -77,6 +77,16 @@ class Display(metaclass=StaticClass):
         self.window.title = new
 
     @classmethod
+    @property
+    def display_ratio(cls) -> Vector:
+        """The ratio of the renderer resolution to the window size.
+
+        Returns:
+            Vector: The vector value of this ratio
+        """
+        return cls.res / cls.window_size
+
+    @classmethod
     def set_window_icon(cls, path: str):
         """
         Set the icon of the window.

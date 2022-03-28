@@ -208,16 +208,12 @@ class Polygon(Hitbox):
             )
 
         if self.debug:
-            sdl2.sdlgfx.aapolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(list_of_points),
-                0,
-                255,
-                0,
-                255,
-            )
+            for i in range(len(list_of_points)):
+                sdl2.sdlgfx.thickLineRGBA(
+                    Display.renderer.sdlrenderer, list_of_points[i][0], list_of_points[i][1],
+                    list_of_points[i % len(list_of_points)][0], list_of_points[i % len(list_of_points)][1],
+                    int(2 * Display.display_ratio.x), 0, 255, 0, 255
+                )
 
 
 class Rectangle(Hitbox):
@@ -362,16 +358,17 @@ class Rectangle(Hitbox):
                 self.color.a,
             )
         if self.debug:
-            sdl2.sdlgfx.rectangleRGBA(
-                Display.renderer.sdlrenderer,
-                x_1,
-                y_1,
-                x_2,
-                y_2,
-                0,
-                255,
-                0,
-                255,
+            sdl2.sdlgfx.thickLineRGBA(
+                Display.renderer.sdlrenderer, x_1, y_1, x_1, y_2, int(2 * Display.display_ratio.x), 0, 255, 0, 255
+            )
+            sdl2.sdlgfx.thickLineRGBA(
+                Display.renderer.sdlrenderer, x_1, y_2, x_2, y_2, int(2 * Display.display_ratio.x), 0, 255, 0, 255
+            )
+            sdl2.sdlgfx.thickLineRGBA(
+                Display.renderer.sdlrenderer, x_2, y_2, x_2, y_1, int(2 * Display.display_ratio.x), 0, 255, 0, 255
+            )
+            sdl2.sdlgfx.thickLineRGBA(
+                Display.renderer.sdlrenderer, x_2, y_1, x_1, y_1, int(2 * Display.display_ratio.x), 0, 255, 0, 255
             )
 
 

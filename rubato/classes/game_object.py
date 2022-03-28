@@ -139,25 +139,17 @@ class GameObject:
 
         if self.debug:
             relative_pos = Game.scenes.current.camera.transform(self.pos)
-            sdl2.sdlgfx.hlineRGBA(
+            sdl2.sdlgfx.thickLineRGBA(
                 Display.renderer.sdlrenderer,
-                int(relative_pos.x) - int(Game.scenes.current.camera.scale(10)),
-                int(relative_pos.x) + int(Game.scenes.current.camera.scale(10)),
-                int(relative_pos.y),
-                0,
-                255,
-                0,
-                255,
+                int(relative_pos.x) - int(Game.scenes.current.camera.scale(10)), int(relative_pos.y),
+                int(relative_pos.x) + int(Game.scenes.current.camera.scale(10)), int(relative_pos.y),
+                int(2 * Display.display_ratio.y), 0, 255, 0, 255
             )
-            sdl2.sdlgfx.vlineRGBA(
-                Display.renderer.sdlrenderer,
-                int(relative_pos.x),
-                int(relative_pos.y) - int(Game.scenes.current.camera.scale(10)),
-                int(relative_pos.y) + int(Game.scenes.current.camera.scale(10)),
-                0,
-                255,
-                0,
-                255,
+            sdl2.sdlgfx.thickLineRGBA(
+                Display.renderer.sdlrenderer, int(relative_pos.x),
+                int(relative_pos.y) - int(Game.scenes.current.camera.scale(10)), int(relative_pos.x),
+                int(relative_pos.y) + int(Game.scenes.current.camera.scale(10)), int(2 * Display.display_ratio.x), 0,
+                255, 0, 255
             )
 
     def update(self):
