@@ -54,7 +54,7 @@ def mods_from_code(code: int) -> Tuple[str]:
     response = ()
     for name, val in _mods.items():
         if code & val:
-            response += (name, )
+            response += (name,)
     return response
 
 
@@ -125,7 +125,7 @@ def key_pressed(*keys: str) -> bool:
     """
     for key in keys:
         key = key.lower()
-        if key in _mods:
+        if key in _mods and len(keys) == 1:
             if not sdl2.SDL_GetModState() & _mods[key]:
                 return False
         else:
