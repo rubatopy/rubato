@@ -20,6 +20,12 @@ rb.init(
 
 # Change the global debug level
 rb.Game.debug = False
+# Tracks the grounded state of the player
+grounded = False
+# Tracks the number of jumps the player has left
+jumps = 0
+# size of level
+level_size = rb.Display.res.x * 2
 
 # create the scene for level one
 main = rb.Scene()
@@ -47,11 +53,6 @@ blue_dino_somer = rb.Spritesheet(
         "grid_size": rb.Vector(4, 1),
     }
 )
-
-# Tracks the grounded state of the player
-grounded = False
-# Tracks the number of jumps the player has left
-jumps = 0
 
 # create the player
 player = rb.GameObject({
@@ -105,20 +106,37 @@ player.add(player_body)
 # Side boundary
 left = rb.GameObject({"pos": rb.Display.center_left - rb.Vector(25, 0)})
 left.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
+right = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(level_size + 25, 0)})
+right.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
 
 # create the ground
 ground = rb.GameObject({"pos": rb.Display.bottom_center})
 ground.add(rb.Rectangle({
-    "width": rb.Display.res.x * 4,
+    "width": level_size,
     "height": 100,
     "color": rb.Color.green,
     "trigger": True,
 }))
-ground.add(rb.Rectangle({"width": rb.Display.res.x * 4, "height": 50, "color": rb.Color.green, "tag": "ground"}))
+ground.add(rb.Rectangle({"width": level_size, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 ground.get_all(rb.Rectangle)[1].top_left = rb.Display.bottom_left - rb.Vector(0, 25)
 
+# Create animation for portal
+all_portal_images = rb.Spritesheet(
+    {
+        "rel_path": "sprites/portals/portal1_spritesheet.png",
+        "sprite_size": rb.Vector(32, 32),
+        "grid_size": rb.Vector(8, 1)
+    }
+)
+portal_animation = rb.Animation({"scale_factor": rb.Vector(4, 4), "fps": 2})
+portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_images.end)
+
+# create the end portal
+portal = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(level_size - 50, 450)})
+portal.add(portal_animation)
+
 # add them all to the scene
-main.add(player, ground, left)
+main.add(player, ground, left, right, portal)
 
 
 # define a custom update function
@@ -154,7 +172,7 @@ def update():
 # define a custom fixed update function
 def fixed_update():
     # have the camera follow the player
-    camera_ideal = max(0, player.pos.x - rb.Display.res.x / 4)
+    camera_ideal = min(max(0, player.pos.x - rb.Display.res.x / 4), level_size - rb.Display.res.x)
     rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 400)
 
 
