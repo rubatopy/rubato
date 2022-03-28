@@ -4,10 +4,9 @@ Global display class that allows for easy screen and window management.
 import sdl2
 import sdl2.ext
 from rubato.utils.vector import Vector
-from rubato.helpers import *
 
 
-class Display(metaclass=StaticClass):
+class Display:
     """
     A static class that houses all of the display information
 
@@ -19,8 +18,7 @@ class Display(metaclass=StaticClass):
     window: sdl2.ext.Window = None
     renderer: sdl2.ext.Renderer = None
 
-    @classproperty
-    def window_size(self) -> Vector:
+    def __get_window_size(self) -> Vector:
         """
         The pixel size of the physical window.
 
@@ -31,12 +29,12 @@ class Display(metaclass=StaticClass):
         """
         return Vector(*self.window.size)
 
-    @window_size.setter
-    def window_size(self, new: Vector):
+    def __set_window_size(self, new: Vector):
         self.window.size = new.to_int().to_tuple()
 
-    @classproperty
-    def res(self) -> Vector:
+    window_size = classmethod(property(__get_window_size, __set_window_size, doc=__get_window_size.__doc__))
+
+    def __get_res(self) -> Vector:
         """
         The pixel resolution of the game. This is the number of virtual
         pixels on the window.
@@ -55,26 +53,27 @@ class Display(metaclass=StaticClass):
         """
         return Vector(*self.renderer.logical_size)
 
-    @res.setter
-    def res(self, new: Vector):
+    def __set_res(self, new: Vector):
         self.renderer.logical_size = new.to_int().to_tuple()
 
-    @classproperty
-    def window_pos(self) -> Vector:
+    res = classmethod(property(__get_res, __set_res, doc=__get_res.__doc__))
+
+    def __get_window_pos(self) -> Vector:
         """The current position of the window in terms of screen pixels"""
         return Vector(*self.window.position)
 
-    @window_pos.setter
-    def window_pos(self, new: Vector):
+    def __set_window_pos(self, new: Vector):
         self.window.position = new.to_int().to_tuple()
 
-    @classproperty
-    def window_name(self):
+    window_pos = classmethod(property(__get_window_pos, __set_window_pos, doc=__get_window_pos.__doc__))
+
+    def __get_window_name(self):
         return self.window.title
 
-    @window_name.setter
-    def window_name(self, new: str):
+    def __set_window_name(self, new: str):
         self.window.title = new
+
+    window_name = classmethod(property(__get_window_name, __set_window_name, doc=__get_window_name.__doc__))
 
     @classmethod
     @property

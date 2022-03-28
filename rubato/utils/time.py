@@ -5,10 +5,9 @@ A static time class to monitor time and to call functions in the future.
 from typing import Callable
 import heapq
 import sdl2
-from rubato.helpers import *
 
 
-class Time(metaclass=StaticClass):
+class Time:
     """
     The time class
 
@@ -16,13 +15,10 @@ class Time(metaclass=StaticClass):
         frames (int): The total number of elapsed frames since the start of the game.
 
         fps (float): The current fps of this frame.
-        smooth_fps (float): The average fps over the past 5 frames.
 
         target_fps (float): The fps that the game should try to run at. 0 means that the game's fps will not be capped.
             Defaults to 0.
         physics_fps (float): The fps that the physics should run at. Defaults to 60.
-
-        now(int): The time since the start of the game, in milliseconds.
 
         delta_time (int): The number of milliseconds since the last frame.
         fixed_delta (int): The number of milliseconds since the last fixed update.
@@ -46,17 +42,19 @@ class Time(metaclass=StaticClass):
     target_fps = 0  # this means no cap
     physics_fps = 60
 
-    @classproperty
-    def smooth_fps(self) -> float:
+    def __get_smooth_fps(self) -> float:
         """The average fps over the past 5 frames."""
         return sum(self._past_fps) / len(self._past_fps)
 
-    @classproperty
-    def now(self) -> int:
+    smooth_fps = classmethod(property(__get_smooth_fps, doc=__get_smooth_fps.__doc__))
+
+    def __get_now(self) -> int:
         """
         The time since the start of the game, in milliseconds.
         """
         return sdl2.timer.SDL_GetTicks64()
+
+    now = classmethod(property(__get_now, doc=__get_now.__doc__))
 
     @classmethod
     def delayed_call(cls, time_delta: int, func: Callable):
