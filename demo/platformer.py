@@ -75,11 +75,10 @@ player.add(p_animation)
 # define a collision handler
 def player_collide(col_info: rb.ColInfo):
     global jumps, grounded
-    if col_info.shape_b.tag == "ground":
+    if col_info.shape_b.tag == "ground" and not grounded:
         grounded = True
-        if jumps <= 1:
-            p_animation.set_current_state("idle", True)
         jumps = 2
+        p_animation.set_current_state("idle", True)
 
 
 # add a hitbox to the player with the collider
