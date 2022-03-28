@@ -4,6 +4,7 @@ The main game class. It controls everything in the game.
 import sys
 import sdl2
 import sdl2.ext
+import sdl2.sdlgfx
 from typing import TYPE_CHECKING
 from rubato.utils import Time, Display, Vector, Color
 from rubato.helpers import *
@@ -179,6 +180,12 @@ class Game(metaclass=StaticClass):
             cls.background_color.to_tuple(),
         )
         cls.scenes.draw()
+
+        if cls.debug:
+            # make this actually draw using sdl.ttf font rendering
+            sdl2.sdlgfx.stringRGBA(
+                Display.renderer.sdlrenderer, 0, 0, f"{int(Time.smooth_fps)}".encode(), 0, 255, 0, 255
+            )
 
         # update renderers
         Display.renderer.present()
