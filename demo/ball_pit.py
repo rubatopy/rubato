@@ -49,7 +49,7 @@ right = rb.GameObject({
     "color": Color.gray,
 }))
 
-for _ in range(20):
+for _ in range(50):
     main_scene.add(
         rb.GameObject(
             {

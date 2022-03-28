@@ -168,6 +168,7 @@ color_defaults = {
 grayscale_defaults = {
     "black": (0, 0, 0),  # . . . . . . . . . . . . . . . . . . . tuple
     "white": (255, 255, 255),  # . . . . . . . . . . . . . . . . tuple
+    "night": (20, 20, 22),  #. . . . . . . . . . . . . . . . . . tuple
     "darkgray": (45, 52, 54),  # . . . . . . . . . . . . . . . . tuple
     "gray": (99, 110, 114),  # . . . . . . . . . . . . . . . . . tuple
     "lightgray": (178, 190, 195),  # . . . . . . . . . . . . . . tuple

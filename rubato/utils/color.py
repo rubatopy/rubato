@@ -79,18 +79,24 @@ class Color:
             Color: The resultant color.
         """
         if mode == "linear":
-            return Color((1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g, (1 - t) * self.b + t * other.b,
-                         (1 - t) * self.a + t * other.a)
+            return Color(
+                (1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g, (1 - t) * self.b + t * other.b,
+                (1 - t) * self.a + t * other.a
+            )
         if mode == "blend":
             alpha_a = (self.a / 255) * (1 - t)
             a = 1 - (1 - alpha_a) * (1 - (other.a / 255))
             s = (other.a / 255) * (1 - alpha_a) / a
-            return Color(((1 - s) * (self.r**2.2) + s * (other.r**2.2))**(1 / 2.2),
-                         ((1 - s) * (self.g**2.2) + s * (other.g**2.2))**(1 / 2.2),
-                         ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2), a * 255)
-        return Color(((1 - t) * (self.r**2.2) + t * (other.r**2.2))**(1 / 2.2),
-                     ((1 - t) * (self.g**2.2) + t * (other.g**2.2))**(1 / 2.2),
-                     ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2), (1 - t) * self.a + t * other.a)
+            return Color(
+                ((1 - s) * (self.r**2.2) + s * (other.r**2.2))**(1 / 2.2),
+                ((1 - s) * (self.g**2.2) + s * (other.g**2.2))**(1 / 2.2),
+                ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2), a * 255
+            )
+        return Color(
+            ((1 - t) * (self.r**2.2) + t * (other.r**2.2))**(1 / 2.2),
+            ((1 - t) * (self.g**2.2) + t * (other.g**2.2))**(1 / 2.2),
+            ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2), (1 - t) * self.a + t * other.a
+        )
 
     def to_tuple(self) -> Tuple[int, int, int]:
         """
@@ -108,8 +114,10 @@ class Color:
         Returns:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
-        return (f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" + f"{format(self.b, '02x')}" +
-                f"{format(self.a, '02x')}")
+        return (
+            f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" + f"{format(self.b, '02x')}" +
+            f"{format(self.a, '02x')}"
+        )
 
     @staticmethod
     def from_hex(h: str) -> "Color":
@@ -211,6 +219,15 @@ class Color:
         |default|.
         """
         return Color(*Defaults.grayscale_defaults["white"])
+
+    @classmethod
+    @property
+    def night(cls) -> "Color":
+        """
+        The default night color. To see the RGB values, check out the
+        |default|.
+        """
+        return Color(*Defaults.grayscale_defaults["night"])
 
     @classmethod
     @property
