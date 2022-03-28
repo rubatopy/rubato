@@ -14,7 +14,8 @@ class Group:
     def __init__(self, options: dict = {}) -> None:
         param = Defaults.group_defaults | options
         self.name: str = param["name"]
-        self.items: List[Union[GameObject, "Group"]] = []
+        self.groups: List["Group"] = []
+        self.game_objects: List[GameObject] = []
         self.z_index: int = param["z_index"]
 
     def add(self, *items: Union[GameObject, "Group"]):
@@ -30,18 +31,24 @@ class Group:
             ValueError: The group can only hold game objects or other groups.
         """
         for item in items:
-            if self != item:
-                if isinstance(item, GameObject):
-                    if item.name == "":
-                        item.name = f"Game Object {len(self.items)}"
-                elif isinstance(item, Group):
-                    if item.name == "":
-                        item.name = f"Group {len(self.items)}"
-                else:
-                    raise ValueError(f"The group {self.name} can only hold game objects/groups.")
-                self.items.append(item)
+            if isinstance(item, GameObject):
+                self.add_game_obj(item)
+            elif isinstance(item, Group):
+                self.add_group(item)
             else:
-                raise Error("Cannot add a group to itself.")
+                raise ValueError(f"The group {self.name} can only hold game objects/groups.")
+
+    def add_group(self, g: "Group"):
+        if self == g:
+            raise Error("Cannot add a group to itself.")
+        if g.name == "":
+            g.name = f"Group {len(self.groups)}"
+        self.groups.append(g)
+
+    def add_game_obj(self, g: GameObject):
+        if g.name == "":
+            g.name = f"Game Object {len(self.game_objects)}"
+        self.game_objects.append(g)
 
     def remove(self, item: Union["GameObject", "Group"]):
         """
@@ -54,31 +61,44 @@ class Group:
             ValueError: The item is not in the group and cannot be deleted.
         """
         try:
-            self.items.remove(item)
+            if isinstance(item, GameObject):
+                self.game_objects.remove(item)
+            elif isinstance(item, Group):
+                self.groups.remove(item)
         except ValueError as e:
             raise ValueError(f"The item {item.name} is not in the group {self.name}") from e
 
     def setup(self):
-        for item in self.items:
-            item.setup()
+        for group in self.groups:
+            group.setup()
+        for game_obj in self.game_objects:
+            game_obj.setup()
 
     def update(self):
-        for item in self.items:
-            item.update()
+        for group in self.groups:
+            group.update()
+        for game_obj in self.game_objects:
+            game_obj.update()
 
     def fixed_update(self):
-        hitboxes: List["Hitbox"] = []
-        for item in self.items:
-            item.fixed_update()
+        for group in self.groups:
+            group.fixed_update()
 
-            if isinstance(item, GameObject) and len(hts := item.get_all(Hitbox)):
+        hitboxes: List["Hitbox"] = []
+        for game_obj in self.game_objects:
+            game_obj.fixed_update()
+
+            if len(hts := game_obj.get_all(Hitbox)):
                 for ht in hts:
                     for hitbox in hitboxes:
                         ht.collide(hitbox)
-                hitboxes.append(*hts)
+                hitboxes.extend(hts)
 
     def draw(self):
-        self.items.sort(key=lambda i: i.z_index)
+        self.groups.sort(key=lambda i: i.z_index)
+        for group in self.groups:
+            group.draw()
 
-        for item in self.items:
-            item.draw()
+        self.game_objects.sort(key=lambda i: i.z_index)
+        for game_obj in self.game_objects:
+            game_obj.draw()
