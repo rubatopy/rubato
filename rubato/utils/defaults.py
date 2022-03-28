@@ -47,7 +47,7 @@ gameobj_defaults = {
     # The starting position of the game object.
     "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The z_index of the game object.
-    "debug": False,  # . . . . . . . . . . . . . . . . . . . . . bool
+    "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
     # Whether to draw a plus sign at the game object's position
 }
 
@@ -71,7 +71,7 @@ rigidbody_defaults = {
 }
 
 image_defaults = {
-    "rel_path": "",  #. . . . . . . . . . . . . . . . . . str
+    "rel_path": "",  #. . . . . . . . . . . . . . . . . . . . . str
     # The relative path of the image. (from the cwd)
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     # The initial scale factor of the image.
@@ -115,12 +115,12 @@ hitbox_defaults = {
     # Whether this hitbox is just a trigger or not.
     "scale": 1,  #. . . . . . . . . . . . . . . . . . . . . . . int
     # The scale of the polygon
-    "on_collide": lambda colInfo: None,  #. . . . . . . . . . . . . . . Callable
+    "on_collide": lambda colInfo: None,  #. . . . . . . . . . . Callable
     # The on_collide function to call when a collision happens with this hitbox
     # Must take a rb.ColInfo.
     "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
     # The color to fill this hitbox with.
-    "tag": "",  #. . . . . . . . . . . . . . . . . . . . . . . . str
+    "tag": "",  # . . . . . . . . . . . . . . . . . . . . . . . str
     # The tag of the hitbox (can be used to identify hitboxes)
     "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
     # The offset from the center of the game object that the hitbox should be placed.
@@ -136,7 +136,7 @@ polygon_defaults = {  # Can also contain elements from the hitbox defaults
 rectangle_defaults = {  # Can also contain elements from the hitbox defaults
     "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The width of the rectangle.
-    "height": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
+    "height": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
     # The height of the rectangle.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The rotation of the rectangle
@@ -148,30 +148,30 @@ circle_defaults = {  # Can also contain elements from the hitbox defaults
 }
 
 color_defaults = {
-    "yellow": (253, 203, 110),  #. . . . . . . . . . . . . . . . tuple
-    "scarlet": (214, 48, 49),  # . . . . . . . . . . . . . . . . tuple
-    "violet": (108, 92, 231),  # . . . . . . . . . . . . . . . . tuple
-    "turquoize": (0, 206, 201),  # . . . . . . . . . . . . . . . tuple
-    "orange": (225, 112, 85),  # . . . . . . . . . . . . . . . . tuple
-    "magenta": (232, 67, 147),  #. . . . . . . . . . . . . . . . tuple
-    "blue": (9, 132, 227),  #. . . . . . . . . . . . . . . . . . tuple
-    "green": (0, 184, 148),  # . . . . . . . . . . . . . . . . . tuple
-    "red": (255, 118, 117),  # . . . . . . . . . . . . . . . . . tuple
-    "purple": (162, 155, 254),  #. . . . . . . . . . . . . . . . tuple
-    "cyan": (116, 185, 255),  #. . . . . . . . . . . . . . . . . tuple
-    "lime": (85, 239, 196),  # . . . . . . . . . . . . . . . . . tuple
+    "yellow": (253, 203, 110),  # . . . . . . . . . . . . . . . tuple
+    "scarlet": (214, 48, 49),  #. . . . . . . . . . . . . . . . tuple
+    "violet": (108, 92, 231),  #. . . . . . . . . . . . . . . . tuple
+    "turquoize": (0, 206, 201),  #. . . . . . . . . . . . . . . tuple
+    "orange": (225, 112, 85),  #. . . . . . . . . . . . . . . . tuple
+    "magenta": (232, 67, 147),  # . . . . . . . . . . . . . . . tuple
+    "blue": (9, 132, 227),  # . . . . . . . . . . . . . . . . . tuple
+    "green": (0, 184, 148),  #. . . . . . . . . . . . . . . . . tuple
+    "red": (255, 118, 117),  #. . . . . . . . . . . . . . . . . tuple
+    "purple": (162, 155, 254),  # . . . . . . . . . . . . . . . tuple
+    "cyan": (116, 185, 255),  # . . . . . . . . . . . . . . . . tuple
+    "lime": (85, 239, 196),  #. . . . . . . . . . . . . . . . . tuple
 
     # colorwheel used (rgb values are not identical):
     # https://upload.wikimedia.org/wikipedia/commons/5/54/RGV_color_wheel_1908.png
 }
 
 grayscale_defaults = {
-    "black": (0, 0, 0),  # . . . . . . . . . . . . . . . . . . . tuple
-    "white": (255, 255, 255),  # . . . . . . . . . . . . . . . . tuple
-    "night": (20, 20, 22),  #. . . . . . . . . . . . . . . . . . tuple
-    "darkgray": (45, 52, 54),  # . . . . . . . . . . . . . . . . tuple
-    "gray": (99, 110, 114),  # . . . . . . . . . . . . . . . . . tuple
-    "lightgray": (178, 190, 195),  # . . . . . . . . . . . . . . tuple
-    "snow": (223, 230, 233),  #. . . . . . . . . . . . . . . . . tuple
+    "black": (0, 0, 0),  #. . . . . . . . . . . . . . . . . . . tuple
+    "white": (255, 255, 255),  #. . . . . . . . . . . . . . . . tuple
+    "night": (20, 20, 22),  # . . . . . . . . . . . . . . . . . tuple
+    "darkgray": (45, 52, 54),  #. . . . . . . . . . . . . . . . tuple
+    "gray": (99, 110, 114),  #. . . . . . . . . . . . . . . . . tuple
+    "lightgray": (178, 190, 195),  #. . . . . . . . . . . . . . tuple
+    "snow": (223, 230, 233),  # . . . . . . . . . . . . . . . . tuple
 }
 # [end-defaults]

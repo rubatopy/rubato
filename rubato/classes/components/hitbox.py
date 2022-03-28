@@ -525,9 +525,12 @@ class SAT:
         t_rad = circle_a.radius + circle_b.radius
         dist = (circle_b.pos - circle_a.pos).magnitude
 
-        return None if dist > t_rad else ColInfo(
-            circle_a, circle_b, (circle_a.pos - circle_b.pos).unit() * (t_rad - dist)
-        )
+        if dist > t_rad:
+            return None
+
+        norm_dist = circle_a.pos - circle_b.pos
+        norm_dist.magnitude = t_rad - dist
+        return ColInfo(circle_a, circle_b, norm_dist)
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[ColInfo, None]:

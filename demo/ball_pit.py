@@ -10,6 +10,7 @@ from rubato import Game, Vector, Color, Display
 
 rb.init({
     "name": "Physics Demo",
+    "physics_fps": 60,
     "window_size": Vector(600, 600),
     "res": Vector(1200, 1200),
 })
@@ -49,7 +50,7 @@ right = rb.GameObject({
     "color": Color.gray,
 }))
 
-for _ in range(3):
+for _ in range(30):
     main_scene.add(
         rb.GameObject(
             {
@@ -71,7 +72,7 @@ for _ in range(3):
                 {
                     "bounciness": 1,
                     "friction": 0.2,
-                    "gravity": Vector(0, Display.res.x / 2),
+                    "gravity": Vector(0, Display.res.x / 8),
                     "velocity": Vector(randint(-100, 100), randint(-100, 100))
                 }
             )
