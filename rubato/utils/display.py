@@ -99,23 +99,21 @@ class Display:
         )
 
     @classmethod
-    def update(cls, surface: sdl2.SDL_Surface, pos: Vector):
+    def update(cls, tex: sdl2.ext.Texture, pos: Vector):
         """
         Update the current screen.
 
         Args:
-            surface: The surface to draw on the screen.
-            pos: The position to draw the surface on.
+            tex: The texture to draw on the screen.
+            pos: The position to draw the texture on.
         """
         try:
-            w, h = surface.w, surface.h
+            w, h = tex.size
         except AttributeError:
-            w, h = surface.contents.w, surface.contents.h
-
-        texture = sdl2.ext.Texture(cls.renderer, surface)
+            w, h = tex.contents.size
 
         cls.renderer.copy(
-            texture,
+            tex,
             None,
             (
                 pos.x,

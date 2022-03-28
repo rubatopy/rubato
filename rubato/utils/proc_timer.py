@@ -21,4 +21,4 @@ def endthenstart(name):  # should be used when chaining time
 
 def printall():  # should be called when u want to sample the values.
     for key, value in timers.items():
-        print(f"{key}: {sum(value) / len(value)}")
+        print(f"{key}: {(sum(value) * 1000) / len(value)}")

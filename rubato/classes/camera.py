@@ -4,6 +4,7 @@ around, and also travel along the z-index. Items only render if their z-index
 is less than that of the camera's.
 """
 from rubato.utils import Vector, Display, Math
+from rubato.radio import Radio
 
 
 class Camera:
@@ -36,6 +37,7 @@ class Camera:
     @zoom.setter
     def zoom(self, new: float):
         self._zoom = Math.clamp(new, 0.01, Math.INF)
+        Radio.broadcast("zoom_change")
 
     def transform(self, point: Vector) -> Vector:
         """

@@ -4,6 +4,7 @@ The image component that renders an image from the filesystem.
 from rubato.classes.component import Component
 from rubato.utils import Vector, Defaults, Display
 from rubato.game import Game
+from rubato.radio import Radio
 import sdl2
 import sdl2.ext
 import sdl2.sdlgfx
@@ -55,10 +56,13 @@ class Image(Component):
         self.visible: bool = param["visible"]
 
         self._original = Display.clone_surface(self._image)
+        self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
         self._rotation: float = param["rotation"]
         self._scale: Vector = param["scale_factor"]
         self._update_rotozoom()
+
+        Radio.listen("zoom_change", self.cam_update)
 
     @property
     def image(self) -> sdl2.SDL_Surface:
@@ -128,6 +132,7 @@ class Image(Component):
             self.scale.y * (-1 if self.flipy else 1),
             int(self.aa),
         ).contents
+        self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def resize(self, new_size: Vector):
         """
@@ -157,6 +162,17 @@ class Image(Component):
         )
 
         self.image = image_scaled
+        self._tx = sdl2.ext.Texture(Display.renderer, self.image)
+
+    def cam_update(self):
+        width, height = self.image.w, self.image.h
+
+        new_size = Vector(
+            round(width * Game.camera.zoom),
+            round(height * Game.camera.zoom),
+        )
+
+        self.resize(new_size)
 
     def draw(self):
         """
@@ -166,29 +182,8 @@ class Image(Component):
             camera: The current Camera viewing the scene.
         """
         if self.visible and self.gameobj.z_index <= Game.camera.z_index:
-            width, height = self.image.w, self.image.h
-
-            new_size = (
-                round(width * Game.camera.zoom),
-                round(height * Game.camera.zoom),
-            )
-
-            surface_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-                0,
-                new_size[0],
-                new_size[1],
-                64,
-                sdl2.SDL_PIXELFORMAT_RGBA32,
-            )
-
-            sdl2.surface.SDL_BlitScaled(
-                self.image,
-                None,
-                surface_scaled,
-                sdl2.rect.SDL_Rect(0, 0, new_size[0], new_size[1]),
-            )
 
             Display.update(
-                surface_scaled,
-                Game.camera.transform(self.gameobj.pos - Vector(width, height) / 2),
+                self._tx,
+                Game.camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2),
             )
