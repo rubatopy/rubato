@@ -84,7 +84,7 @@ class Group:
         for group in self.groups:
             group.fixed_update()
 
-        hitboxes: List["Hitbox"] = []
+        hitboxes: List[Hitbox] = []
         for game_obj in self.game_objects:
             game_obj.fixed_update()
 
