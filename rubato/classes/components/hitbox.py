@@ -510,7 +510,7 @@ class SAT:
 
         result = ColInfo(circle, polygon)
 
-        shortest = Math.INFINITY
+        shortest = Math.INF
 
         verts = polygon.transformed_verts()
         offset = polygon.pos - circle.pos
@@ -569,7 +569,7 @@ class SAT:
     def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:
         result = ColInfo(poly_a, poly_b)
 
-        shortest = Math.INFINITY
+        shortest = Math.INF
 
         verts_a = poly_a.transformed_verts()
         verts_b = poly_b.transformed_verts()
@@ -609,7 +609,7 @@ class SAT:
         Returns as a vector x is min, y is max
         """
 
-        minval, maxval = Math.INFINITY, -Math.INFINITY
+        minval, maxval = Math.INF, -Math.INF
 
         for v in verts:
             temp = axis.dot(v)

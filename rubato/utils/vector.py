@@ -65,10 +65,7 @@ class Vector:
         """
         return self.x * other.y - self.y * other.x
 
-    def clamp(self,
-              lower: Union["Vector", int, float],
-              upper: Union["Vector", int, float],
-              absolute: bool = False):
+    def clamp(self, lower: Union["Vector", int, float], upper: Union["Vector", int, float], absolute: bool = False):
         """
         Clamps x and y between the two values given.
 
@@ -102,7 +99,8 @@ class Vector:
         This is to avoid floating point errors.
         """
         mag = self.magnitude
-        if mag == 0: return
+        if mag == 0:
+            return
         ratio = value / mag
         self.x *= ratio
         self.y *= ratio
@@ -151,8 +149,7 @@ class Vector:
         new_vector = self.clone()
         if rotation != 0:
             hyp, angle = self.magnitude, self.angle + rotation * math.pi / 180
-            new_vector.x, new_vector.y = math.cos(angle) * hyp, math.sin(
-                angle) * hyp
+            new_vector.x, new_vector.y = math.cos(angle) * hyp, math.sin(angle) * hyp
 
         new_vector.x *= scale
         new_vector.y *= scale
@@ -182,8 +179,7 @@ class Vector:
             Vector: The resulting vector.
         """
         t = Math.clamp(t, 0, 1)
-        return Vector(Math.lerp(self.x, target.x, t),
-                      Math.lerp(self.y, target.y, t))
+        return Vector(Math.lerp(self.x, target.x, t), Math.lerp(self.y, target.y, t))
 
     def round(self, decimal_places: int = 0):
         """
@@ -270,7 +266,7 @@ class Vector:
     @property
     def infinity(cls):
         """A vector at positive infinity"""
-        return Vector(Math.INFINITY, Math.INFINITY)
+        return Vector(Math.INF, Math.INF)
 
     def __eq__(self, o: "Vector") -> bool:
         if o is None or not isinstance(o, Vector):
@@ -294,9 +290,9 @@ class Vector:
 
     def __pow__(self, other: any) -> "Vector":
         if isinstance(other, (int, float)):
-            return Vector(self.x ** other, self.y ** other)
+            return Vector(self.x**other, self.y**other)
         if isinstance(other, Vector):
-            return Vector(self.x ** other.x, self.y ** other.y)
+            return Vector(self.x**other.x, self.y**other.y)
 
     def __mul__(self, other: any) -> "Vector":
         if isinstance(other, (int, float)):

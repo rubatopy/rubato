@@ -35,7 +35,7 @@ class Camera:
 
     @zoom.setter
     def zoom(self, new: float):
-        self._zoom = Math.clamp(new, 0.01, Math.INFINITY)
+        self._zoom = Math.clamp(new, 0.01, Math.INF)
 
     def transform(self, point: Vector) -> Vector:
         """

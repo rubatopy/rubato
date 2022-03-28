@@ -2,11 +2,11 @@
 A more complete math class.
 
 Attributes:
-    INFINITY (float): The max value of a float.
+    INF (float): The max value of a float.
 """
 from typing import Union
 
-INFINITY = float('inf')
+INF = float('inf')
 
 
 def clamp(a: Union[float, int], lower: Union[float, int], upper: Union[float, int]) -> float:

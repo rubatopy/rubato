@@ -58,7 +58,7 @@ rigidbody_defaults = {
     # The percent bounciness of the RB. (as a decimal)
     "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     # The gravity applied to the RB.
-    "max_speed": Vector(Math.INFINITY, Math.INFINITY),  # . . . Vector
+    "max_speed": Vector(Math.INF, Math.INF),  # . . . Vector
     # The maximum speed of the RB.
     "velocity": Vector(),  #. . . . . . . . . . . . . . . . . . Vector
     # The starting velocity of the RB.
