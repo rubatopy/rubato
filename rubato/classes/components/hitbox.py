@@ -81,7 +81,7 @@ class Hitbox(Component):
             collision is detected or nothing if no collision is detected.
         """
         if (col := SAT.overlap(self, other)) is not None:
-            if not self.trigger and (
+            if not self.trigger and not other.trigger and (
                 (self.gameobj.get(RigidBody) is not None) or (other.gameobj.get(RigidBody) is not None)
             ):
 
