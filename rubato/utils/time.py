@@ -49,10 +49,8 @@ class Time:
     smooth_fps = classmethod(property(__get_smooth_fps, doc=__get_smooth_fps.__doc__))
 
     def __get_now(self) -> int:
-        """
-        The time since the start of the game, in milliseconds.
-        """
-        return sdl2.timer.SDL_GetTicks64()
+        """The time since the start of the game, in milliseconds."""
+        return sdl2.SDL_GetTicks64() * 1  # This "* 1" is to so that sphinx can see the next line as a property function
 
     now = classmethod(property(__get_now, doc=__get_now.__doc__))
 
