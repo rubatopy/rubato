@@ -21,6 +21,7 @@ rb.init(
 
 # Change the global debug level
 rb.Game.debug = False
+
 # Tracks the grounded state of the player
 grounded = False
 # Tracks the number of jumps the player has left
@@ -86,18 +87,16 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 64, "height": 80, "tag": "player"}))
+player.add(rb.Rectangle({"width": 64, "height": 48, "offset": Vector(0, -8), "tag": "player"}))
 # add a ground detector
 player.add(
-    rb.Rectangle(
-        {
-            "width": 60,
-            "height": 5,
-            "offset": Vector(0, 40),
-            "trigger": True,
-            "on_collide": player_collide,
-        }
-    )
+    rb.Rectangle({
+        "width": 5,
+        "height": 5,
+        "offset": Vector(0, 16),
+        "trigger": True,
+        "on_collide": player_collide,
+    })
 )
 
 # define the player rigidbody
@@ -111,34 +110,51 @@ right = rb.GameObject({"pos": rb.Display.center_left + Vector(level_size + 25, 0
 right.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
 
 # create the ground
-ground = rb.GameObject({"pos": rb.Display.bottom_center})
-ground.add(rb.Rectangle({
-    "width": level_size,
-    "height": 100,
-    "color": rb.Color.green,
-    "trigger": True,
-}))
+ground = rb.GameObject()
 ground.add(rb.Rectangle({"width": level_size, "height": 50, "color": rb.Color.green, "tag": "ground"}))
-ground.get_all(rb.Rectangle)[1].top_left = rb.Display.bottom_left - Vector(0, 25)
+ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
 
 # create platforms
 platforms = [
-    rb.GameObject({"pos": Vector(200, rb.Display.bottom - 100)}).add(rb.Rectangle({"width": 90, "height": 20,
-                                                                    "tag": "ground", "color": rb.Color.blue})),
-    rb.GameObject({"pos": Vector(400, rb.Display.bottom - 300)}).add(rb.Rectangle({"width": 150, "height": 20,
-                                                                    "tag": "ground", "color": rb.Color.blue})),
+    rb.GameObject({
+        "pos": Vector(200, rb.Display.bottom - 140)
+    }).add(rb.Rectangle({
+        "width": 90,
+        "height": 40,
+        "tag": "ground",
+        "color": rb.Color.blue
+    })),
+    rb.GameObject({
+        "pos": Vector(400, rb.Display.bottom - 340)
+    }).add(rb.Rectangle({
+        "width": 150,
+        "height": 40,
+        "tag": "ground",
+        "color": rb.Color.blue
+    })),
 ]
 
 # create obstacles
 obstacles = [
-    rb.GameObject({"pos": Vector(700)}).add(rb.Rectangle({"width": 90, "height": 500,
-                                                                    "tag": "ground", "color": rb.Color.purple})),
-    rb.GameObject({"pos": Vector(1200)}).add(rb.Rectangle({"width": 70, "height": 350,
-                                                                    "tag": "ground", "color": rb.Color.purple})),
+    rb.GameObject({
+        "pos": Vector(700)
+    }).add(rb.Rectangle({
+        "width": 90,
+        "height": 500,
+        "tag": "ground",
+        "color": rb.Color.purple
+    })),
+    rb.GameObject({
+        "pos": Vector(1200)
+    }).add(rb.Rectangle({
+        "width": 70,
+        "height": 350,
+        "tag": "ground",
+        "color": rb.Color.purple
+    })),
 ]
 for obstacle in obstacles:
     obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
-
 
 # Create animation for portal
 all_portal_images = rb.Spritesheet(
@@ -161,12 +177,16 @@ def on_collide(collision_info: rb.ColInfo):
         print("WIN!")
 
 
-portal.add(rb.Rectangle({
-    "trigger": True,
-    "on_collide": on_collide,
-    "width": portal_animation.anim_frame.get_size().x,
-    "height": portal_animation.anim_frame.get_size().y,
-}))
+portal.add(
+    rb.Rectangle(
+        {
+            "trigger": True,
+            "on_collide": on_collide,
+            "width": portal_animation.anim_frame.get_size().x,
+            "height": portal_animation.anim_frame.get_size().y,
+        }
+    )
+)
 
 # add them all to the scene
 main.add(player, ground, left, right, portal, *platforms, *obstacles)
