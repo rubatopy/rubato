@@ -34,7 +34,7 @@ def sign(n: Union[float, int]) -> int:
     Returns:
         int: The sign of the number. (1 for positive, -1 for negative)
     """
-    return (n > 0) - (n < 0)
+    return (n >= 0) - (n < 0)
 
 
 def lerp(a: Union[float, int], b: Union[float, int], t: float) -> float:
