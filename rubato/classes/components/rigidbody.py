@@ -142,17 +142,23 @@ class RigidBody(Component):
         inv_sys_mass = 1 / (inv_mass_a + inv_mass_b)
 
         # Find collision separation normal
-        collision_norm = col.sep.unit()
+        collision_norm = col.sep.unit().to_tuple()
 
         # Position correction
-        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm * 0.25
+        correction = (
+            max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm[0] * 0.25,
+            max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm[1] * 0.25
+        )
 
         # Impulse Resolution
 
         # Relative velocity
-        rv = (0 if rb_b_none else rb_b.velocity) - (0 if rb_a_none else rb_a.velocity)
+        rv = (
+            (0 if rb_b_none else rb_b.velocity.x) - (0 if rb_a_none else rb_a.velocity.x),
+            (0 if rb_b_none else rb_b.velocity.y) - (0 if rb_a_none else rb_a.velocity.y),
+        )
 
-        if (vel_along_norm := rv.dot(collision_norm)) > 0:
+        if (vel_along_norm := (rv[0] * collision_norm[0] + rv[1] * collision_norm[1])) > 0:
             return
 
         # Calculate restitution
@@ -162,15 +168,19 @@ class RigidBody(Component):
         j = -(1 + e) * vel_along_norm * inv_sys_mass
 
         # Apply the impulse
-        impulse = j * collision_norm
+        impulse = (j * collision_norm[0], j * collision_norm[1])
 
         if not (rb_a_none or rb_a.static):
-            rb_a.gameobj.pos -= inv_mass_a * correction
-            rb_a.velocity -= inv_mass_a * impulse
+            rb_a.gameobj.pos.x -= inv_mass_a * correction[0]
+            rb_a.gameobj.pos.y -= inv_mass_a * correction[1]
+            rb_a.velocity.x -= inv_mass_a * impulse[0]
+            rb_a.velocity.y -= inv_mass_a * impulse[1]
 
         if not (rb_b_none or rb_b.static):
-            rb_b.gameobj.pos += inv_mass_b * correction
-            rb_b.velocity += inv_mass_b * impulse
+            rb_b.gameobj.pos.x += inv_mass_b * correction[0]
+            rb_b.gameobj.pos.y += inv_mass_b * correction[1]
+            rb_b.velocity.x += inv_mass_b * impulse[0]
+            rb_b.velocity.y += inv_mass_b * impulse[1]
 
         # Friction
 
@@ -187,23 +197,27 @@ class RigidBody(Component):
             return
 
         # Tangent vector
-        tangent = rv - rv.dot(collision_norm) * collision_norm
-        tangent.magnitude = 1
+        tangent = (rv[0] - vel_along_norm * collision_norm[0], rv[1] - vel_along_norm * collision_norm[1])
+
+        ratio = (tangent[0] * tangent[0] + tangent[1] * tangent[1])**-.5
+        tangent = (tangent[0] * ratio, tangent[1] * ratio)
 
         # Solve for magnitude to apply along the friction vector
-        jt = -rv.dot(tangent) * inv_sys_mass
+        jt = -(rv[0] * tangent[0] + rv[1] * tangent[1]) * inv_sys_mass
 
         # Calculate friction impulse
         if abs(jt) < j * mu:
-            friction_impulse = jt * tangent  # "Static friction"
+            friction_impulse = (jt * tangent[0], jt * tangent[1])  # "Static friction"
         else:
-            friction_impulse = -j * tangent * mu  # "Dynamic friction"
+            friction_impulse = (-j * tangent[0] * mu, -j * tangent[1] * mu)  # "Dynamic friction"
 
         if not (rb_a_none or rb_a.static):
-            rb_a.velocity -= inv_mass_a * friction_impulse
+            rb_a.velocity.x -= inv_mass_a * friction_impulse[0]
+            rb_a.velocity.y -= inv_mass_a * friction_impulse[1]
 
         if not (rb_b_none or rb_b.static):
-            rb_b.velocity += inv_mass_b * friction_impulse
+            rb_b.velocity.x += inv_mass_b * friction_impulse[0]
+            rb_b.velocity.y += inv_mass_b * friction_impulse[1]
 
     def fixed_update(self):
         """The update loop"""

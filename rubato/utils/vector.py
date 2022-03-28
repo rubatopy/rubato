@@ -14,6 +14,7 @@ class Vector:
         x (Union[float, int]): The x coordinate.
         y (Union[float, int]): The y coordinate.
     """
+    count = 0
 
     def __init__(self, x: Union[float, int] = 0, y: Union[float, int] = 0):
         """
@@ -23,6 +24,7 @@ class Vector:
             x: The x coordinate. Defaults to 0.
             y: The y coordinate. Defaults to 0.
         """
+        Vector.count += 1
         self.x, self.y = x, y
 
     def translate(self, x: Union[float, int], y: Union[float, int]):
