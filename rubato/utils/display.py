@@ -190,3 +190,27 @@ class Display:
     def center(cls) -> Vector:
         """Returns the position of the center of the window."""
         return Vector(cls.res.x / 2, cls.res.y / 2)
+
+    @classmethod
+    @property
+    def top(cls) -> int:
+        """Returns the position of the top of the window."""
+        return 0
+
+    @classmethod
+    @property
+    def right(cls) -> int:
+        """Returns the position of the right of the window."""
+        return cls.res.x
+
+    @classmethod
+    @property
+    def left(cls) -> int:
+        """Returns the position of the left of the window."""
+        return 0
+
+    @classmethod
+    @property
+    def bottom(cls) -> int:
+        """Returns the position of the bottom of the window."""
+        return cls.res.y

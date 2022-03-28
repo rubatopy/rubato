@@ -37,7 +37,7 @@ spritesheet_defaults = {
     "sprite_size": Vector(32, 32),  # . . . . . . . . . . . . . Vector
     # The size of each sprite in pixels.
     "grid_size": Vector(16, 16),  # . . . . . . . . . . . . . . Vector
-    # The size of the spritesheet grid.
+    # The size of the spritesheet grid (columns/x, rows/y).
 }
 
 gameobj_defaults = {

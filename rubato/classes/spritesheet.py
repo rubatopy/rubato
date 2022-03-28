@@ -17,6 +17,9 @@ class Spritesheet():
         Args:
             options: A Spritesheet config. Defaults to the |default| for
                 `Spritesheet`.
+
+        Raises:
+            IndexError: If user does not load the entire sheet.
         """
         params = Defaults.spritesheet_defaults | options
 
@@ -24,6 +27,9 @@ class Spritesheet():
         self._sprite_size: Vector = params["sprite_size"]
         self._sheet = Image({"rel_path": params["rel_path"]})
         self._sprites: List[List[Image]] = []
+
+        if (self._sprite_size * self._grid) != self._sheet.get_size():
+            raise IndexError("Your sprite size or grid size is incorrect, please check")
 
         for y in range(0, self._grid.y * self._sprite_size.y, self._sprite_size.y):
             self._sprites.append([])
@@ -79,3 +85,8 @@ class Spritesheet():
         if x >= self.grid_size.x or y >= self.grid_size.y:
             raise IndexError(f"The coordinates ({x}, {y}) are out of range of the spritesheet.")
         return self.sprites[y][x].clone()
+
+    @property
+    def end(self):
+        """The last coordinate you can use the get function on (end of the Spritesheet)"""
+        return self.grid_size - Vector.one

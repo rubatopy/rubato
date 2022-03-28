@@ -177,15 +177,16 @@ class Animation(Component):
 
         self.add(state_name, ret_list)
 
-    def add_spritesheet(self, state_name: str, spritesheet: "Spritesheet", from_coord: Vector, to_coord: Vector):
+    def add_spritesheet(self, state_name: str, spritesheet: "Spritesheet", from_coord: Vector = Vector(),
+                        to_coord: Vector = Vector()):
         """
         Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.
 
         Args:
             state_name: The key used to reference this state.
             spritesheet: The spritesheet to use.
-            from_coord: The grid coordinate of the first frame.
-            to_coord: The grid coordinate of the last coord.
+            from_coord: The grid coordinate of the first frame. Defaults to Vector().
+            to_coord: The grid coordinate of the last coord. Defaults to Vector().
         """
         state = []
         x = from_coord.x
