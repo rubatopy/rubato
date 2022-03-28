@@ -80,15 +80,14 @@ class Hitbox(Component):
             Union[ColInfo, None]: Returns a collision info object if a
             collision is detected or nothing if no collision is detected.
         """
-        if (col := SAT.overlap(self, other)) is not None:
-            if not self.trigger and not other.trigger and (
-                (self.gameobj.get(RigidBody) is not None) or (other.gameobj.get(RigidBody) is not None)
-            ):
+        if (col := SAT.overlap(self, other)) is None:
+            return
 
-                RigidBody.handle_collision(col)
+        if not (self.trigger or other.trigger):
+            RigidBody.handle_collision(col)
 
-            self.on_collide(col)
-            other.on_collide(col.flip())
+        self.on_collide(col)
+        other.on_collide(col.flip())
 
 
 class Polygon(Hitbox):

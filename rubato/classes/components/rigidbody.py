@@ -120,6 +120,9 @@ class RigidBody(Component):
         rb_a: RigidBody = col.shape_b.gameobj.get(RigidBody)
         rb_b: RigidBody = col.shape_a.gameobj.get(RigidBody)
 
+        if rb_a is None and rb_b is None:
+            return
+
         # Find inverse masses
         inv_mass_a: float = 0 if rb_a is None else rb_a.inv_mass
         inv_mass_b: float = 0 if rb_b is None else rb_b.inv_mass
