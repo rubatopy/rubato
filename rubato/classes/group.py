@@ -88,7 +88,7 @@ class Group:
         for game_obj in self.game_objects:
             game_obj.fixed_update()
 
-            if len(hts := game_obj.get_all(Hitbox)):
+            if hts := game_obj.get_all(Hitbox):
                 for ht in hts:
                     for hitbox in hitboxes:
                         ht.collide(hitbox)
