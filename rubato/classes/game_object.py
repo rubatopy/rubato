@@ -39,7 +39,7 @@ class GameObject:
         self.pos: Vector = param["pos"]
         self.debug: bool = param["debug"]
         self.z_index: int = param["z_index"]
-        self.__components: dict = {}
+        self._components: dict = {}
 
     def add(self, component: "Component") -> "GameObject":
         """
@@ -59,7 +59,7 @@ class GameObject:
         """
         comp_type = type(component)
 
-        if component.singular and comp_type in self.__components:
+        if component.singular and comp_type in self._components:
             raise DuplicateComponentError(
                 f"There is already a component of type {comp_type} on the game object {self.name}"
             )
@@ -68,9 +68,9 @@ class GameObject:
             component._pos = lambda: self.pos  # pylint: disable=protected-access
             comp_type = Hitbox
 
-        if comp_type not in self.__components:
-            self.__components[comp_type] = []
-        self.__components[comp_type].append(component)
+        if comp_type not in self._components:
+            self._components[comp_type] = []
+        self._components[comp_type].append(component)
         component.gameobj = self
 
         return self
@@ -86,10 +86,10 @@ class GameObject:
             Warning: The component was not in the game object and nothing
                 was removed.
         """
-        if comp_type in self.__components:
-            del self.__components[comp_type][0]
-            if not self.__components[comp_type]:
-                del self.__components[comp_type]
+        if comp_type in self._components:
+            del self._components[comp_type][0]
+            if not self._components[comp_type]:
+                del self._components[comp_type]
         else:
             raise Warning(
                 f"The component of type {comp_type} is not in the game object {self.name} and was not removed."
@@ -106,8 +106,8 @@ class GameObject:
             Warning: The components were not in the game object and nothing
                 was removed.
         """
-        if comp_type in self.__components:
-            del self.__components[comp_type]
+        if comp_type in self._components:
+            del self._components[comp_type]
         else:
             raise Warning(
                 f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
@@ -124,8 +124,8 @@ class GameObject:
             Union[Component, None]: The component if it was found or None if it
             wasn't.
         """
-        if comp_type in self.__components:
-            return self.__components[comp_type][0]
+        if comp_type in self._components:
+            return self._components[comp_type][0]
         return None
 
     def get_all(self, comp_type: type) -> List["Component"]:
@@ -139,21 +139,21 @@ class GameObject:
             List["Component"]: A list containing all the components of that type. If no components were found, the
             list is empty.
         """
-        if comp_type in self.__components:
-            return self.__components[comp_type]
+        if comp_type in self._components:
+            return self._components[comp_type]
         return []
 
     def setup(self):
         """
         Run after initialization and before update loop begins
         """
-        for comps in self.__components.values():
+        for comps in self._components.values():
             for comp in comps:
                 comp.setup()
 
     def draw(self):
         """The draw loop"""
-        for comps in self.__components.values():
+        for comps in self._components.values():
             for comp in comps:
                 comp.draw()
 
@@ -173,12 +173,12 @@ class GameObject:
 
     def update(self):
         """The update loop"""
-        for comps in self.__components.values():
+        for comps in self._components.values():
             for comp in comps:
                 comp.update()
 
     def fixed_update(self):
         """The fixed update loop"""
-        for comps in self.__components.values():
+        for comps in self._components.values():
             for comp in comps:
                 comp.fixed_update()
