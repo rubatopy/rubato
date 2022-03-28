@@ -128,7 +128,7 @@ def update():
         player_body.velocity.x = -300
         p_animation.flipx = True
         if grounded:
-            if rb.Input.key_pressed("left shift") or rb.Input.key_pressed("s"):
+            if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
                 p_animation.set_current_state("crouch_run", True)
             else:
                 p_animation.set_current_state("running")
@@ -136,14 +136,14 @@ def update():
         player_body.velocity.x = 300
         p_animation.flipx = False
         if grounded:
-            if rb.Input.key_pressed("left shift") or rb.Input.key_pressed("s"):
+            if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
                 p_animation.set_current_state("crouch_run", True)
             else:
                 p_animation.set_current_state("running")
     else:
         player_body.velocity.x = 0
         if grounded:
-            if rb.Input.key_pressed("left shift") or rb.Input.key_pressed("s"):
+            if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
                 p_animation.set_current_state("crouch_idle", True)
             else:
                 p_animation.set_current_state("idle", True)

@@ -21,7 +21,7 @@ _mods: Dict[str, int] = {
     "right ctrl": sdl2.KMOD_RCTRL,
     "gui": sdl2.KMOD_GUI,
     "left gui": sdl2.KMOD_LGUI,
-    "right gUI": sdl2.KMOD_RGUI,
+    "right gui": sdl2.KMOD_RGUI,
     "numlock": sdl2.KMOD_NUM,
     "caps lock": sdl2.KMOD_CAPS,
     "altgr": sdl2.KMOD_MODE,
@@ -129,7 +129,23 @@ def key_pressed(*keys: str) -> bool:
             if not sdl2.SDL_GetModState() & _mods[key]:
                 return False
         else:
-            if not get_keyboard_state()[scancode_from_name(key)]:
+            if key == "shift":
+                key1 = "left shift"
+                key2 = "right shift"
+            elif key == "ctrl":
+                key1 = "left ctrl"
+                key2 = "right ctrl"
+            elif key == "alt":
+                key1 = "left alt"
+                key2 = "right alt"
+            elif key == "gui":
+                key1 = "left gui"
+                key2 = "right gui"
+            else:
+                key1 = key
+                key2 = key
+
+            if not (get_keyboard_state()[scancode_from_name(key1)] or get_keyboard_state()[scancode_from_name(key2)]):
                 return False
     return True
 
