@@ -86,14 +86,9 @@ class GameObject:
             Warning: The component was not in the game object and nothing
                 was removed.
         """
-        if comp_type in self.__components:
-            del self.__components[comp_type][0]
-            if not self.__components[comp_type]:
-                del self.__components[comp_type]
-        else:
-            raise Warning(
-                f"The component of type {comp_type} is not in the game object {self.name} and was not removed."
-            )
+        del self.__components[comp_type][0]
+        if not self.__components[comp_type]:
+            del self.__components[comp_type]
 
     def remove_all(self, comp_type: type):
         """
@@ -106,12 +101,7 @@ class GameObject:
             Warning: The components were not in the game object and nothing
                 was removed.
         """
-        if comp_type in self.__components:
-            del self.__components[comp_type]
-        else:
-            raise Warning(
-                f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
-            )
+        del self.__components[comp_type]
 
     def get(self, comp_type: type) -> Union["Component", None]:
         """
@@ -124,9 +114,7 @@ class GameObject:
             Union[Component, None]: The component if it was found or None if it
             wasn't.
         """
-        if comp_type in self.__components:
-            return self.__components[comp_type][0]
-        return None
+        return self.__components[comp_type][0]
 
     def get_all(self, comp_type: type) -> List["Component"]:
         """
@@ -139,9 +127,7 @@ class GameObject:
             List["Component"]: A list containing all the components of that type. If no components were found, the
             list is empty.
         """
-        if comp_type in self.__components:
-            return self.__components[comp_type]
-        return []
+        return self.__components[comp_type]
 
     def setup(self):
         """
