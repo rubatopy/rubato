@@ -9,8 +9,7 @@ from typing import Union
 INFINITY = float('inf')
 
 
-def clamp(a: Union[float, int], lower: Union[float, int],
-          upper: Union[float, int]) -> float:
+def clamp(a: Union[float, int], lower: Union[float, int], upper: Union[float, int]) -> float:
     """
     Clamps a value.
 
@@ -50,5 +49,4 @@ def lerp(a: Union[float, int], b: Union[float, int], t: float) -> float:
     Returns:
         float: The lerped value.
     """
-    t = clamp(t, 0, 1)
     return (t * b) + ((1 - t) * a)
