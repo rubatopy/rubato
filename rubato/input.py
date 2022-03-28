@@ -93,9 +93,10 @@ def window_focused() -> bool:
 def get_keyboard_state():
     """ Returns a list with the current SDL keyboard state,
     which is updated on SDL_PumpEvents. """
-    return ctypes.cast(
-        sdl2.SDL_GetKeyboardState(ctypes.byref(ctypes.c_int())), ctypes.POINTER(ctypes.c_uint8 * ctypes.c_int().value)
-    )[0]
+    numkeys = ctypes.c_int()
+    keystate = sdl2.SDL_GetKeyboardState(ctypes.byref(numkeys))
+    ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)
+    return ctypes.cast(keystate, ptr_t)[0]
 
 
 def key_pressed(*keys: str) -> bool:
