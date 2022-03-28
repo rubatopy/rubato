@@ -18,10 +18,14 @@ rb.init(
     }
 )
 
+# Change the global debug level
+rb.Game.debug = False
+
 # create the scene for level one
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
+# Load various spritesheets
 blue_dino_main = rb.Spritesheet(
     {
         "rel_path": "sprites/dino/DinoSprites - blue.png",
@@ -52,9 +56,15 @@ jumps = 0
 # create the player
 player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),
+    "z_index": 1,
 })
 
-p_animation = rb.Animation({"scale_factor": rb.Vector(4, 4), "offset": rb.Vector(0, 0), "fps": 10})
+# Add shadow
+p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale_factor": rb.Vector(4, 4)})
+player.add(p_shadow)
+
+# Create animation and initialize states
+p_animation = rb.Animation({"scale_factor": rb.Vector(4, 4), "fps": 10})
 p_animation.add_spritesheet("idle", blue_dino_main, rb.Vector(0, 0), rb.Vector(3, 0))
 p_animation.add_spritesheet("running", blue_dino_main, rb.Vector(4, 0), rb.Vector(7, 0))
 p_animation.add_spritesheet("jump", blue_dino_jump, rb.Vector(0, 0), rb.Vector(2, 0))
@@ -73,7 +83,7 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 64, "height": 80, "debug": True}))
+player.add(rb.Rectangle({"width": 64, "height": 80}))
 # add a ground detector
 player.add(
     rb.Rectangle(
@@ -83,7 +93,6 @@ player.add(
             "offset": rb.Vector(0, 40),
             "trigger": True,
             "on_collide": player_collide,
-            "debug": True,
         }
     )
 )
@@ -121,7 +130,8 @@ def update():
     else:
         player_body.velocity.x = 0
         if grounded:
-            p_animation.set_current_state("idle")
+            p_animation.set_current_state("idle", True)
+    p_shadow.visible = grounded
 
 
 # define a custom fixed update function

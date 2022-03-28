@@ -17,6 +17,7 @@ class Image(Component):
         aa (bool): Whether or not to enable anti aliasing.
         flipx (bool): Whether or not to flip the image along the x axis
         flipy (bool): Whether or not to flip the image along the y axis
+        visible (bool): Whether or not the image is visible.
     """
 
     def __init__(self, options: dict = {}):
@@ -51,6 +52,7 @@ class Image(Component):
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
         self.offset: Vector = param["offset"]
+        self.visible: bool = param["visible"]
 
         self._original = Display.clone_surface(self._image)
 
@@ -163,4 +165,5 @@ class Image(Component):
         Args:
             camera: The current Camera viewing the scene.
         """
-        Game.render(self.gameobj.pos + self.offset, self.gameobj.z_index, self.image)
+        if self.visible:
+            Game.render(self.gameobj.pos + self.offset, self.gameobj.z_index, self.image)

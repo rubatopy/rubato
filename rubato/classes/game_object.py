@@ -137,7 +137,7 @@ class GameObject:
         for comp in self.components:
             comp.draw()
 
-        if self.debug:
+        if self.debug or Game.debug:
             relative_pos = Game.scenes.current.camera.transform(self.pos)
             sdl2.sdlgfx.thickLineRGBA(
                 Display.renderer.sdlrenderer,

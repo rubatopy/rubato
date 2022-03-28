@@ -12,7 +12,7 @@ import rubato.input as Input
 from contextlib import suppress
 
 if TYPE_CHECKING:
-    from rubato.classes import SceneManager, GameObject, Camera
+    from rubato.classes import SceneManager, Camera
 
 
 class Game(metaclass=StaticClass):
@@ -31,6 +31,7 @@ class Game(metaclass=StaticClass):
         background_color (Color): The background color of the window.
         border_color (Color): The color of the borders of the window.
         state (int): The state of the game.
+        debug (bool): Turn on debug rendering for everything in the game.
     """
     RUNNING = 1
     STOPPED = 2
@@ -39,6 +40,7 @@ class Game(metaclass=StaticClass):
     name: str = ""
     border_color: Color = Color(0, 0, 0)
     background_color: Color = Color(255, 255, 255)
+    debug: bool = False
 
     _state: int = STOPPED
     scenes: "SceneManager" = None

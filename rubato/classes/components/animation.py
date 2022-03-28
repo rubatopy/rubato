@@ -25,8 +25,9 @@ class Animation(Component):
         animation_frames_left (int): The number of animation frames left.
         loop (bool): Whether the animation should loop. Defaults to False.
         aa (bool): Whether or not to enable anti aliasing.
-        flipx (bool): Whether or not to flip the image along the x axis
-        flipy (bool): Whether or not to flip the image along the y axis
+        flipx (bool): Whether or not to flip the image along the x axis.
+        flipy (bool): Whether or not to flip the image along the y axis.
+        visible (bool): Whether or not the image is visible.
     """
 
     def __init__(self, options: dict = {}):
@@ -57,6 +58,7 @@ class Animation(Component):
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
         self.offset: Vector = param["offset"]
+        self.visible: bool = param["visible"]
 
         # time (milliseconds) to switch frames
         self._time_step = 1000 / self._fps
@@ -90,6 +92,7 @@ class Animation(Component):
         img.flipy = self.flipy
         img.scale = self._scale
         img.offset = self.offset
+        img.visible = self.visible
         return img
 
     def scale(self, scale_factor: Vector):

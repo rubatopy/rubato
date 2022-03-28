@@ -16,14 +16,14 @@ class Camera:
         z_index (int): The current z_index of the camera.
     """
 
-    def __init__(self, pos: Vector = Vector(), zoom: float = 1, z_index: int = 0):
+    def __init__(self, pos: Vector = Vector(), zoom: float = 1, z_index: int = 100):
         """
         Initializes a camera.
 
         Args:
             pos: The starting position of the camera. Defaults to Vector().
             zoom: The starting zoom of the camera. Defaults to 1.
-            z_index: The starting z_index of the camera. Defaults to 0.
+            z_index: The starting z_index of the camera. Defaults to 100.
         """
         self.pos = pos
         self._zoom = zoom

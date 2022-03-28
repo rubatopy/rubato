@@ -207,7 +207,7 @@ class Polygon(Hitbox):
                 self.color.a,
             )
 
-        if self.debug:
+        if self.debug or Game.debug:
             for i in range(len(list_of_points)):
                 sdl2.sdlgfx.thickLineRGBA(
                     Display.renderer.sdlrenderer, list_of_points[i][0], list_of_points[i][1],
@@ -357,7 +357,7 @@ class Rectangle(Hitbox):
                 self.color.b,
                 self.color.a,
             )
-        if self.debug:
+        if self.debug or Game.debug:
             sdl2.sdlgfx.thickLineRGBA(
                 Display.renderer.sdlrenderer, x_1, y_1, x_1, y_2, int(2 * Display.display_ratio.x), 0, 255, 0, 255
             )
@@ -429,7 +429,7 @@ class Circle(Hitbox):
                 self.color.a,
             )
 
-        if self.debug:
+        if self.debug or Game.debug:
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),
