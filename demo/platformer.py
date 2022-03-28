@@ -108,7 +108,7 @@ main.add(player, ground, left)
 # define a custom update function
 def update():
     # have the camera follow the player
-    rb.Game.camera.pos.x = max(0, player.pos.x - rb.Display.res.x / 4)
+    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, max(0, player.pos.x - rb.Display.res.x / 4), 0.1)
 
     # check for user directional input
     if rb.Input.key_pressed("a"):
