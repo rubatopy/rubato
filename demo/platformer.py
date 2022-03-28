@@ -123,6 +123,7 @@ def update():
             p_animation.set_current_state("running")
     else:
         player_body.velocity.x = 0
+        p_animation.set_current_state("idle")
 
 
 # set the scene's update function
