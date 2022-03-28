@@ -52,7 +52,7 @@ class Animation(Component):
         self.current_state: str = ""
         self.animation_frames_left: int = 0
         self._current_frame: int = 0
-        self.loop = False
+        self.loop = True
         self._scale = param["scale_factor"]
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
