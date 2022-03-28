@@ -241,7 +241,7 @@ class Rectangle(Hitbox):
         self.rotation: float = params["rotation"]
 
     @property
-    def topleft(self):
+    def top_left(self):
         """
         The top left corner of the rectangle
 
@@ -254,8 +254,8 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
-    @topleft.setter
-    def topleft(self, new: Vector):
+    @top_left.setter
+    def top_left(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / 2, self.height / 2)
             self.gameobj.pos = self.gameobj.pos.to_int()
@@ -263,7 +263,7 @@ class Rectangle(Hitbox):
             raise Error("Tried to set rect property before game object assignment.")
 
     @property
-    def bottomleft(self):
+    def bottom_left(self):
         """
         The bottom left corner of the rectangle
 
@@ -276,8 +276,8 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
-    @bottomleft.setter
-    def bottomleft(self, new: Vector):
+    @bottom_left.setter
+    def bottom_left(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / 2, self.height / -2)
             self.gameobj.pos = self.gameobj.pos.to_int()
@@ -285,7 +285,7 @@ class Rectangle(Hitbox):
             raise Error("Tried to set rect property before game object assignment.")
 
     @property
-    def topright(self):
+    def top_right(self):
         """
         The top right corner of the rectangle
 
@@ -298,8 +298,8 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
-    @topright.setter
-    def topright(self, new: Vector):
+    @top_right.setter
+    def top_right(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / -2, self.height / 2)
             self.gameobj.pos = self.gameobj.pos.to_int()
@@ -307,7 +307,7 @@ class Rectangle(Hitbox):
             raise Error("Tried to set rect property before game object assignment.")
 
     @property
-    def bottomright(self):
+    def bottom_right(self):
         """
         The bottom right corner of the rectangle
 
@@ -320,8 +320,8 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
-    @bottomright.setter
-    def bottomright(self, new: Vector):
+    @bottom_right.setter
+    def bottom_right(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / -2, self.height / -2)
             self.gameobj.pos = self.gameobj.pos.to_int()
@@ -343,8 +343,8 @@ class Rectangle(Hitbox):
         return [self.pos + v for v in self.vertices()]
 
     def draw(self):
-        x_1, y_1 = Game.scenes.current.camera.transform(self.topright).tuple_int()
-        x_2, y_2 = Game.scenes.current.camera.transform(self.bottomleft).tuple_int()
+        x_1, y_1 = Game.scenes.current.camera.transform(self.top_right).tuple_int()
+        x_2, y_2 = Game.scenes.current.camera.transform(self.bottom_left).tuple_int()
         if self.color is not None:
             sdl2.sdlgfx.boxRGBA(
                 Display.renderer.sdlrenderer,

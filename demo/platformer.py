@@ -113,7 +113,7 @@ ground.add(rb.Rectangle({
     "color": rb.Color.green,
     "trigger": True,
 }))
-ground.get(rb.Rectangle).topleft = rb.Display.bottom_left - rb.Vector(0, 25)
+ground.get(rb.Rectangle).top_left = rb.Display.bottom_left - rb.Vector(0, 25)
 
 # add them all to the scene
 main.add(player, ground, left)
