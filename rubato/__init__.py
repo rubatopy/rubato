@@ -86,7 +86,11 @@ def init(options: dict = {}):
                                  ) if not isinstance(params["background_color"], Color) else params["background_color"]
 
     Time.target_fps = params["target_fps"]
+    Time.capped = not Time.target_fps == 0
+    if Time.capped:
+        Time.normal_delta = 1000 / params["target_fps"]
     Time.physics_fps = params["physics_fps"]
+    Time.fixed_delta = 1000 / params["physics_fps"]
 
     flags = (
         sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_SHOWN |

@@ -31,8 +31,9 @@ class Time:
     tasks = {}
     sorted_task_times = []
 
-    delta_time: int = 0
+    delta_time: int = 1
     fixed_delta: int = 0
+    normal_delta: int = 0
     fps = 60
 
     physics_counter = 0
@@ -40,6 +41,8 @@ class Time:
     _past_fps = [0]
 
     target_fps = 0  # this means no cap
+    capped = False
+
     physics_fps = 60
 
     def __get_smooth_fps(self) -> float:

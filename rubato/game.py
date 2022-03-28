@@ -93,6 +93,9 @@ class Game:
         Will always process timed calls.
         """
 
+        # start timing the update loop
+        frame_start = sdl2.SDL_GetTicks64()
+
         # Event handling
         for event in sdl2.ext.get_events():
             sdl2.SDL_PumpEvents()
@@ -134,14 +137,6 @@ class Game:
                     },
                 )
 
-        if Time.delta_time < 1:
-            frame_start = sdl2.SDL_GetTicks64()
-            sdl2.SDL_Delay(1)
-            frame_end = sdl2.SDL_GetTicks64()
-            Time.delta_time = frame_end - frame_start
-
-        frame_start = sdl2.SDL_GetTicks64()
-
         # process delayed calls
         Time.process_calls()
 
@@ -151,7 +146,6 @@ class Game:
         else:
             # fixed update
             Time.physics_counter += Time.delta_time
-            Time.fixed_delta = 1000 / Time.physics_fps
 
             while Time.physics_counter >= Time.fixed_delta:
                 cls.scenes.fixed_update()
@@ -163,12 +157,7 @@ class Game:
         # Draw Loop
         Display.renderer.clear(cls.border_color.to_tuple())
         Display.renderer.fill(
-            (
-                0,
-                0,
-                Display.renderer.logical_size[0],
-                Display.renderer.logical_size[1],
-            ),
+            (0, 0, *Display.renderer.logical_size),
             cls.background_color.to_tuple(),
         )
         cls.scenes.draw()
@@ -182,13 +171,19 @@ class Game:
         # update renderers
         Display.renderer.present()
 
-        frame_end = sdl2.SDL_GetTicks64()
-        Time.delta_time = frame_end - frame_start
-
-        if Time.target_fps > 0:
-            delay = (1000 / Time.target_fps) - Time.delta_time
+        # use delay to cap the fps if need be
+        if Time.capped:
+            delay = Time.normal_delta - Time.delta_time
             if delay > 0:
                 sdl2.SDL_Delay(int(delay))
+
+        # dont allow updates to occur more than once in a millisecond
+        # this will likely never occur but is a failsafe
+        while sdl2.SDL_GetTicks64() < frame_start + 1:
+            sdl2.SDL_Delay(1)
+
+        # clock the time the update call took
+        Time.delta_time = sdl2.SDL_GetTicks64() - frame_start
 
     @classmethod
     def render(cls, pos: Vector, z_index: int, surface: sdl2.surface.SDL_Surface):

@@ -8,8 +8,10 @@ from random import randint, choice
 import rubato as rb
 from rubato import Game, Vector, Color, Display
 
+num_balls = 30
+
 rb.init({
-    "name": "Physics Demo",
+    "name": "Ball Pit",
     "physics_fps": 60,
     "window_size": Vector(600, 600),
     "res": Vector(1200, 1200),
@@ -50,7 +52,9 @@ right = rb.GameObject({
     "color": Color.gray,
 }))
 
-for _ in range(30):
+main_scene.add(top, bottom, left, right)
+
+for _ in range(num_balls):
     main_scene.add(
         rb.GameObject(
             {
@@ -63,7 +67,7 @@ for _ in range(30):
         ).add(
             rb.Circle(
                 {
-                    "radius": Display.res.x / 50,
+                    "radius": Display.res.x / num_balls,
                     "color": Color(*choice(list(rb.Defaults.color_defaults.values())))
                 }
             )
@@ -78,69 +82,5 @@ for _ in range(30):
             )
         )
     )
-
-blue_dino = rb.Spritesheet(
-    {
-        "rel_path": "sprites/dino/DinoSprites - blue.png",
-        "sprite_size": Vector(24, 24),
-        "grid_size": Vector(24, 1)
-    }
-)
-
-player = rb.GameObject({"pos": rb.Vector(50, 50), "debug": True})
-
-player_anim = rb.Animation({"scale_factor": Vector(3, 3), "fps": 10})
-player_anim.add_spritesheet("idle", blue_dino, Vector(0, 0), Vector(3, 0))
-player_anim.add_spritesheet("run", blue_dino, Vector(4, 0), Vector(7, 0))
-player_anim.set_current_state("idle", True)
-player.add(player_anim)
-
-player_rb = rb.RigidBody({"mass": 0, "bounciness": 0.1, "max_speed": Vector(1000, 1000), "gravity": Vector()})
-player.add(player_rb)
-
-player_hitbox = rb.Rectangle({
-    "width": Display.res.x / 16,
-    "height": Display.res.x / 16,
-    "debug": True,
-})
-player.add(player_hitbox)
-
-
-def custom_update():
-    if rb.Input.key_pressed("w"):
-        player_rb.velocity.y -= 100
-        player_anim.set_current_state("run")
-    elif rb.Input.key_pressed("s"):
-        player_rb.velocity.y += 100
-        player_anim.set_current_state("run")
-    if rb.Input.key_pressed("a"):
-        player_rb.velocity.x -= 100
-        player_anim.set_current_state("run")
-    elif rb.Input.key_pressed("d"):
-        player_rb.velocity.x += 100
-        player_anim.set_current_state("run")
-
-    if rb.Input.key_pressed("right"):
-        rb.Game.camera.pos.x += 5
-    elif rb.Input.key_pressed("left"):
-        rb.Game.camera.pos.x -= 5
-    if rb.Input.key_pressed("up"):
-        rb.Game.camera.pos.y -= 5
-    elif rb.Input.key_pressed("down"):
-        rb.Game.camera.pos.y += 5
-
-    if rb.Input.key_pressed("-"):
-        rb.Game.camera.zoom -= 0.1
-    elif rb.Input.key_pressed("="):
-        rb.Game.camera.zoom += 0.1
-    if rb.Input.key_pressed("0"):
-        rb.Game.camera.zoom = 1
-
-    if rb.Input.key_pressed("a", "Shift"):
-        print("WOW the secret combo was pressed.")
-
-
-main_scene.add(top, bottom, left, right, player)
-main_scene.update = custom_update
 
 rb.begin()
