@@ -2,7 +2,7 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from typing import List, Union, TYPE_CHECKING
-from rubato.classes.components.hitbox import Hitbox
+from rubato.classes.components.hitbox import Hitbox, Polygon, Circle, Rectangle
 from rubato.utils import Vector, Defaults, Display
 from rubato.utils.error import DuplicateComponentError
 from rubato.game import Game
@@ -124,6 +124,8 @@ class GameObject:
             Union[Component, None]: The component if it was found or None if it
             wasn't.
         """
+        if comp_type in (Rectangle, Polygon, Circle):
+            comp_type = Hitbox
         if comp_type in self._components:
             return self._components[comp_type][0]
         return None
@@ -139,6 +141,8 @@ class GameObject:
             List["Component"]: A list containing all the components of that type. If no components were found, the
             list is empty.
         """
+        if comp_type in (Rectangle, Polygon, Circle):
+            comp_type = Hitbox
         if comp_type in self._components:
             return self._components[comp_type]
         return []

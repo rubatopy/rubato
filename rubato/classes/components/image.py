@@ -165,5 +165,30 @@ class Image(Component):
         Args:
             camera: The current Camera viewing the scene.
         """
-        if self.visible:
-            Game.render(self.gameobj.pos + self.offset, self.gameobj.z_index, self.image)
+        if self.visible and self.gameobj.z_index <= Game.camera.z_index:
+            width, height = self.image.w, self.image.h
+
+            new_size = (
+                round(width * Game.camera.zoom),
+                round(height * Game.camera.zoom),
+            )
+
+            surface_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
+                0,
+                new_size[0],
+                new_size[1],
+                64,
+                sdl2.SDL_PIXELFORMAT_RGBA32,
+            )
+
+            sdl2.surface.SDL_BlitScaled(
+                self.image,
+                None,
+                surface_scaled,
+                sdl2.rect.SDL_Rect(0, 0, new_size[0], new_size[1]),
+            )
+
+            Display.update(
+                surface_scaled,
+                Game.camera.transform(self.gameobj.pos - Vector(width, height) / 2),
+            )
