@@ -40,8 +40,7 @@ class Game:
 
     initialized = False
 
-    @classmethod
-    def __get_state(cls) -> int:
+    def __get_state(self) -> int:
         """
         The state of the game.
 
@@ -51,13 +50,12 @@ class Game:
             Game.STOPPED
             Game.PAUSED
         """
-        return cls._state
+        return self._state
 
-    @classmethod
-    def __set_state(cls, new: int):
-        cls._state = new
+    def __set_state(self, new: int):
+        self._state = new
 
-        if cls._state == Game.STOPPED:
+        if self._state == Game.STOPPED:
             sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
 
     state = classmethod(property(__get_state, __set_state, doc=__get_state.__doc__))

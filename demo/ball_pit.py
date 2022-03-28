@@ -14,6 +14,8 @@ rb.init({
     "res": Vector(1200, 1200),
 })
 
+print(Game.state)
+
 main_scene = rb.Scene()
 Game.scenes.add(main_scene, "main")
 
