@@ -8,7 +8,7 @@ from random import randint, choice
 import rubato as rb
 from rubato import Game, Vector, Color, Display
 
-num_balls = 70
+num_balls = 120
 
 rb.init({
     "name": "Ball Pit",
@@ -76,7 +76,7 @@ for _ in range(num_balls):
                 {
                     "bounciness": 1,
                     "friction": 0.2,
-                    "gravity": Vector(0, Display.res.x / 8),
+                    "gravity": Vector(0, 0),
                     "velocity": Vector(randint(-100, 100), randint(-100, 100))
                 }
             )

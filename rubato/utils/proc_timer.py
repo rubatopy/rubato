@@ -35,7 +35,9 @@ class ProcTimer(ContextDecorator):
 
         # Report elapsed time
         if self.name:
-            ProcTimer.timers[self.name] = ProcTimer.timers.get(self.name, []) + [elapsed_time]
+            if self.name not in ProcTimer.timers:
+                ProcTimer.timers[self.name] = []
+            ProcTimer.timers[self.name].append(elapsed_time)
 
         return elapsed_time
 
