@@ -263,6 +263,26 @@ class Vector:
         """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
 
+    @staticmethod
+    def is_vectorlike(subscriptable: "Vector" | List[int | float] | Tuple[int | float]):
+        """
+        Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
+        Use:
+            if Vector.is_vectorlike(pos): pass
+            else: raise ValueError(f"pos: {pos} is not length 2")
+        Args:
+            subscriptable:
+                An object to check whether it is length 2 and subscriptable.
+        Returns:
+            True if length 2, False if not, and raises an error if wrong type.
+        """
+        try:
+            return isinstance(subscriptable, Vector) or (len(subscriptable) == 2 and
+                                                         isinstance(subscriptable[0], (int, float)))
+        except TypeError as trace:
+            raise TypeError(f"{subscriptable} should be a list | tuple | Vector not a {subscriptable.__class__}.")\
+                .with_traceback(trace.__traceback__)
+
     def __eq__(self, o: "Vector") -> bool:
         if isinstance(o, Vector):
             return self.y == o.y and self.x == o.x
@@ -324,3 +344,11 @@ class Vector:
 
     def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y)
+
+    def __getitem__(self, item: int) -> int | float:
+        if item == 0:
+            return self.x
+        elif item == 1:
+            return self.y
+        else:
+            raise ValueError("Vector is only subscriptable by 0 for x and 1 for y.")
