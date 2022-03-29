@@ -6,10 +6,6 @@ from typing import List, Union
 from rubato.utils import Error, Defaults
 from rubato.classes import GameObject
 from rubato.classes.components import Hitbox
-from rubato.utils.proc_timer import ProcTimer
-
-colt = ProcTimer(name="group col")
-objt = ProcTimer(name="object col")
 
 
 class Group:
@@ -92,16 +88,11 @@ class Group:
         for game_obj in self.game_objects:
             game_obj.fixed_update()
 
-        colt.start()
-        for game_obj in self.game_objects:
-            objt.start()
             if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
                 for ht in hts:
                     for hitbox in hitboxes:
                         ht.collide(hitbox)
                 hitboxes.extend(hts)
-            objt.stop()
-        colt.stop()
 
     def draw(self):
         self.groups.sort(key=lambda i: i.z_index)
