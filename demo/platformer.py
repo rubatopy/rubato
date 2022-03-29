@@ -20,7 +20,7 @@ rb.init(
 )
 
 # Change the global debug level
-rb.Game.debug = False
+rb.Game.debug = True
 
 # Tracks the grounded state of the player
 grounded = False
@@ -105,7 +105,7 @@ player.add(rb.Rectangle({"width": 64, "height": 48, "offset": Vector(0, -8), "ta
 # add a ground detector
 player.add(
     rb.Rectangle({
-        "width": 5,
+        "width": 63,
         "height": 5,
         "offset": Vector(0, 16),
         "trigger": True,
