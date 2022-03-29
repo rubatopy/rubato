@@ -11,6 +11,11 @@ import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
 
+from rubato.utils.proc_timer import ProcTimer
+
+
+overt = ProcTimer(name="overlap time")
+phyt = ProcTimer(name="physics time")
 
 class Hitbox(Component):
     """
@@ -80,12 +85,14 @@ class Hitbox(Component):
             Union[ColInfo, None]: Returns a collision info object if a
             collision is detected or nothing if no collision is detected.
         """
+        overt.start()
         if (col := SAT.overlap(self, other)) is None:
             return
-
+        overt.stop()
+        phyt.start()
         if not (self.trigger or other.trigger):
             RigidBody.handle_collision(col)
-
+        phyt.stop()
         self.on_collide(col)
         other.on_collide(col.flip())
 

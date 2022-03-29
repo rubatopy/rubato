@@ -11,8 +11,13 @@ from rubato.radio import Radio
 import rubato.input as Input
 from contextlib import suppress
 
+from rubato.utils.proc_timer import ProcTimer
+
 if TYPE_CHECKING:
     from rubato.classes import SceneManager, Camera
+
+framet = ProcTimer(name="frame")
+fixedt = ProcTimer(name="fixed")
 
 
 class Game:
@@ -92,7 +97,7 @@ class Game:
         Handles the game states.
         Will always process timed calls.
         """
-
+        framet.start()
         # start timing the update loop
         frame_start = sdl2.SDL_GetTicks64()
 
@@ -100,6 +105,7 @@ class Game:
         for event in sdl2.ext.get_events():
             sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
+                ProcTimer.end()
                 Radio.broadcast("exit")
                 sdl2.SDL_Quit()
                 sys.exit(1)
@@ -144,13 +150,14 @@ class Game:
             # process user set pause update
             cls.scenes.paused_update()
         else:
+            fixedt.start()
             # fixed update
             Time.physics_counter += Time.delta_time
 
             while Time.physics_counter >= Time.fixed_delta:
                 cls.scenes.fixed_update()
                 Time.physics_counter -= Time.fixed_delta
-
+            fixedt.stop()
             # normal update
             cls.scenes.update()
 
@@ -184,3 +191,4 @@ class Game:
 
         # clock the time the update call took
         Time.delta_time = sdl2.SDL_GetTicks64() - frame_start
+        framet.stop()
