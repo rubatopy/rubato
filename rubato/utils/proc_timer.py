@@ -1,6 +1,7 @@
 """A file to time processes easily"""
 from time import time
 
+begin_time = time()
 timers = {}
 s = 0
 
@@ -12,6 +13,9 @@ def start():  # should be used before a thing to time
 
 def end(name):  # should be used after a thing to time
     timers[name] = timers.get(name, []) + [time() - s]
+
+    if (time() - begin_time) > 20:
+        print("done")
 
 
 def endthenstart(name):  # should be used when chaining time
