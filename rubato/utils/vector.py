@@ -267,18 +267,22 @@ class Vector:
     def is_vectorlike(subscriptable: "Vector" | List[int | float] | Tuple[int | float]):
         """
         Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
-        Use:
-            if Vector.is_vectorlike(pos): pass
-            else: raise ValueError(f"pos: {pos} is not length 2")
+
         Args:
-            subscriptable:
-                An object to check whether it is length 2 and subscriptable.
+            subscriptable: An object to check whether it is length 2 and subscriptable.
+
         Returns:
-            True if length 2, False if not, and raises an error if wrong type.
+            bool: True if length 2, False if not, and raises an error if wrong type.
+
+        Example:
+            >>> Vector.is_vectorlike((0, 0))
+            True
+            >>> Vector.is_vectorlike((0, 0, 0))
+            False
         """
         try:
-            return isinstance(subscriptable, Vector) or (len(subscriptable) == 2 and
-                                                         isinstance(subscriptable[0], (int, float)))
+            return isinstance(subscriptable,
+                              Vector) or (len(subscriptable) == 2 and isinstance(subscriptable[0], (int, float)))
         except TypeError as trace:
             raise TypeError(f"{subscriptable} should be a list | tuple | Vector not a {subscriptable.__class__}.")\
                 .with_traceback(trace.__traceback__)

@@ -2,9 +2,11 @@
 The Camera is what handles where things are drawn. A camera can zoom, pan
 around, and also travel along the z-index. Items only render if their z-index
 is less than that of the camera's.
+
+The current scene's camera can be accessed through :code:`Game.camera`.
 """
 from rubato.utils import Vector, Display, Math
-from rubato.radio import Radio
+from rubato.utils.radio import Radio
 
 
 class Camera:

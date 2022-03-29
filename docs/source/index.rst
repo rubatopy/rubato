@@ -13,7 +13,7 @@ Rubato has now completed the transition to SDL2. The final PyGame-based release 
 GitHub repo: https://github.com/rubatopy/rubato
 
 .. toctree::
-    :maxdepth: 0
+    :maxdepth: 1
     :caption: Contents
     :hidden:
 

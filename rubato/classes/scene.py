@@ -1,5 +1,5 @@
 """
-THe Scene class which is a collection of groups. It also houses the current
+The Scene class which is a collection of groups. It also houses the current
 scene camera. Scenes come with a default group that everything is added to if
 no other groups are specified.
 """

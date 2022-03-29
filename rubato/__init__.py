@@ -21,7 +21,7 @@ import sdl2
 from rubato.game import Game
 from rubato.utils import Math, Display, Vector, Time, Color, Defaults
 from rubato.utils.error import *
-from rubato.radio import Radio
+from rubato.utils.radio import Radio
 from rubato.classes import SceneManager, Scene, Camera, GameObject, Image, Spritesheet
 from rubato.classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, ColInfo, SAT, Hitbox, Group
 import rubato.input as Input

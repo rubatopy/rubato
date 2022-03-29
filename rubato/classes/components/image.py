@@ -4,7 +4,7 @@ The image component that renders an image from the filesystem.
 from rubato.classes.component import Component
 from rubato.utils import Vector, Defaults, Display
 from rubato.game import Game
-from rubato.radio import Radio
+from rubato.utils.radio import Radio
 import sdl2
 import sdl2.ext
 import sdl2.sdlgfx
