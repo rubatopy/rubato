@@ -155,7 +155,7 @@ class Image(Component):
         )
 
         sdl2.surface.SDL_BlitScaled(
-            self.image.contents,
+            self.image,
             None,
             image_scaled,
             sdl2.rect.SDL_Rect(0, 0, new_size.x, new_size.y),
