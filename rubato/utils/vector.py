@@ -264,9 +264,9 @@ class Vector:
         return Vector(Math.INF, Math.INF)
 
     def __eq__(self, o: "Vector") -> bool:
-        if o is None or not isinstance(o, Vector):
-            return False
-        return self.y == o.y and self.x == o.x
+        if isinstance(o, Vector):
+            return self.y == o.y and self.x == o.x
+        return False
 
     def __gt__(self, other: "Vector") -> bool:
         return self.x > other.x and self.y > other.y
