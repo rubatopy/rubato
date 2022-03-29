@@ -141,10 +141,10 @@ class Color:
         """
         rgba_str = bin(RGBA32)
         new = Color()
-        new.r = int(rgba_str[2:10], 2)
-        new.g = int(rgba_str[10:18], 2)
-        new.b = int(rgba_str[18:26], 2)
-        new.a = int(rgba_str[26:34], 2)
+        new.a = int(rgba_str[2:10], 2)
+        new.b = int(rgba_str[10:18], 2)
+        new.g = int(rgba_str[18:26], 2)
+        new.r = int(rgba_str[26:34], 2)
         return new
 
     @staticmethod
