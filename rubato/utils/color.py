@@ -120,7 +120,7 @@ class Color:
         )
 
     @property
-    def RGBA32(self):
+    def rgba32(self):
         """returns an integer32 representation of the color as an RGBA"""
         res = 0
         res += int(self.r) << (0*8)
@@ -130,14 +130,14 @@ class Color:
         return res
 
     @staticmethod
-    def from_RGBA32(RGBA32: int) -> "Color":
+    def from_rgba32(RGBA32: int) -> "Color":
         """
         Takes an int32 formatted RGBA and converts it to a Color.
         Args:
             RGBA32: integer with each 8 bits being R, G, B, A.
 
         Returns:
-            New Color from the inputted int32 representation of a color
+            Color: New Color from the inputted int32 representation of a color.
         """
         rgba_str = bin(RGBA32)
         new = Color()
