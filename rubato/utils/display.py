@@ -10,7 +10,6 @@ if TYPE_CHECKING:
     from rubato.utils.color import Color
 
 
-
 class Display:
     """
     A static class that houses all of the display information

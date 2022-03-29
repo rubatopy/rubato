@@ -33,6 +33,16 @@ level_size = rb.Display.res.x * 1.2
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
+# create the player
+player = rb.GameObject({
+    "pos": rb.Display.center_left + Vector(50, 0),
+    "z_index": 1,
+})
+
+# Add shadow
+p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale_factor": Vector(4, 4)})
+player.add(p_shadow)
+
 # Load various spritesheets
 blue_dino_main = rb.Spritesheet(
     {
@@ -56,16 +66,6 @@ blue_dino_somer = rb.Spritesheet(
     }
 )
 
-# create the player
-player = rb.GameObject({
-    "pos": rb.Display.center_left + Vector(50, 0),
-    "z_index": 1,
-})
-
-# Add shadow
-p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale_factor": Vector(4, 4)})
-player.add(p_shadow)
-
 # Create animation and initialize states
 p_animation = rb.Animation({"scale_factor": Vector(4, 4), "fps": 10})
 p_animation.add_spritesheet("idle", blue_dino_main, Vector(0, 0), Vector(3, 0))
@@ -78,12 +78,26 @@ player.add(p_animation)
 
 
 # define a collision handler
+won = False
+retry_allowed = True
 def player_collide(col_info: rb.ColInfo):
-    global jumps, grounded
+    global jumps, grounded, won, retry_allowed
     if col_info.shape_b.tag == "ground" and not grounded:
         grounded = True
         jumps = 2
         p_animation.set_current_state("idle", True)
+    if col_info.shape_b.tag == "retry_collider":
+        if retry_allowed:
+            print("r to retry")
+            retry_allowed = False
+            def re_allow():
+                global retry_allowed
+                retry_allowed = True
+            rb.Time.delayed_call(rb.Time.sec_to_milli(2), re_allow)
+    if col_info.shape_b.tag == "portal":
+        if not won:
+            print("WIN!")
+            won = True
 
 
 # add a hitbox to the player with the collider
@@ -148,11 +162,25 @@ obstacles = [
         "pos": Vector(1200)
     }).add(rb.Rectangle({
         "width": 70,
-        "height": 350,
+        "height": 450,
         "tag": "ground",
         "color": rb.Color.purple
     })),
 ]
+
+# create triggers
+
+triggers = [
+    rb.GameObject({
+        "pos": Vector(950, rb.Display.bottom - 45),
+    }).add(rb.Rectangle({
+        "width": 400,
+        "height": 30,
+        "tag": "retry_collider",
+        "trigger": True
+    })),
+]
+
 for obstacle in obstacles:
     obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
 
@@ -171,17 +199,11 @@ portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_imag
 portal = rb.GameObject({"pos": rb.Display.bottom_left + Vector(level_size - 50, -100)})
 portal.add(portal_animation)
 
-
-def on_collide(collision_info: rb.ColInfo):
-    if collision_info.shape_b.tag == "player":
-        print("WIN!")
-
-
 portal.add(
     rb.Rectangle(
         {
             "trigger": True,
-            "on_collide": on_collide,
+            "tag": "portal",
             "width": portal_animation.anim_frame.get_size().x,
             "height": portal_animation.anim_frame.get_size().y,
         }
@@ -189,7 +211,7 @@ portal.add(
 )
 
 # add them all to the scene
-main.add(player, ground, left, right, portal, *platforms, *obstacles)
+main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 
 
 # define a custom update function
@@ -218,6 +240,10 @@ def update():
                 p_animation.set_current_state("crouch_idle", True)
             else:
                 p_animation.set_current_state("idle", True)
+
+    if rb.Input.key_pressed("r"):
+        player.pos = rb.Display.center_left + Vector(50, 0)
+        player.get(rb.RigidBody).velocity = rb.Vector.zero
 
     p_shadow.visible = grounded
 
