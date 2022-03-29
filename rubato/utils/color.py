@@ -119,6 +119,34 @@ class Color:
             f"{format(self.a, '02x')}"
         )
 
+    @property
+    def RGBA32(self):
+        """returns an integer32 representation of the color as an RGBA"""
+        res = 0
+        res += int(self.r) << (0*8)
+        res += int(self.g) << (1*8)
+        res += int(self.b) << (2*8)
+        res += int(self.a) << (3*8)
+        return res
+
+    @staticmethod
+    def from_RGBA32(RGBA32: int) -> "Color":
+        """
+        Takes an int32 formatted RGBA and converts it to a Color.
+        Args:
+            RGBA32: integer with each 8 bits being R, G, B, A.
+
+        Returns:
+            New Color from the inputted int32 representation of a color
+        """
+        rgba_str = bin(RGBA32)
+        new = Color()
+        new.r = int(rgba_str[2:10], 2)
+        new.g = int(rgba_str[10:18], 2)
+        new.b = int(rgba_str[18:26], 2)
+        new.a = int(rgba_str[26:34], 2)
+        return new
+
     @staticmethod
     def from_hex(h: str) -> "Color":
         """
@@ -372,3 +400,8 @@ class Color:
         |default|.
         """
         return Color(*Defaults.color_defaults["lime"])
+
+    def __eq__(self, other: "Color") -> bool:
+        if other is None or not isinstance(other, Color):
+            return False
+        return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a

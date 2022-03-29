@@ -134,13 +134,16 @@ class Image(Component):
         ).contents
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-    def resize(self, new_size: Vector):
+    def resize(self, new_size: Vector | tuple | list):
         """
         Resize the image to a given size in pixels.
 
         Args:
             new_size: The new size of the image in pixels.
         """
+        # if new_size.__class__ in [tuple.__class__, list.__class__]:
+        #     if len(new_size) != 2:
+        #         raise ValueError("")
         if abs(new_size.x) < 1:
             new_size.x = 1
         if abs(new_size.y) < 1:

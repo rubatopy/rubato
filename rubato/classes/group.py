@@ -88,7 +88,7 @@ class Group:
         for game_obj in self.game_objects:
             game_obj.fixed_update()
 
-            if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
+            if hts := game_obj._components.get(Hitbox, None):  # pylint: disable=protected-access
                 for ht in hts:
                     for hitbox in hitboxes:
                         ht.collide(hitbox)
