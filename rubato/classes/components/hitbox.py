@@ -522,14 +522,13 @@ class SAT:
     def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Union[ColInfo, None]:
         """Checks for overlap between two circles"""
         t_rad = circle_a.radius + circle_b.radius
-        dist = (circle_b.pos - circle_a.pos).magnitude
+        d_x, d_y = circle_a.pos.x - circle_b.pos.x, circle_a.pos.y - circle_b.pos.y
+        dist = (d_x * d_x + d_y * d_y)**.5
 
         if dist > t_rad:
             return None
 
-        norm_dist = circle_a.pos - circle_b.pos
-        norm_dist.magnitude = t_rad - dist
-        return ColInfo(circle_a, circle_b, norm_dist)
+        return ColInfo(circle_a, circle_b, Vector((t_rad - dist) * d_x / dist, (t_rad - dist) * d_y / dist))
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[ColInfo, None]:
