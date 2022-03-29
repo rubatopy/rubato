@@ -15,7 +15,8 @@ This tutorial works with python 3.10.x and Rubato v2.x.x.
 .. Final Touches
 
 .. toctree::
-    :caption: Making a Platformer
-    :glob:
+    :maxdepth: 1
+    :caption: Tutorials
 
-    tutorials/*
+    tutorials/platformer
+    tutorials/advanced
