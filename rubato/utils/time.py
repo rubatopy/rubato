@@ -60,7 +60,7 @@ class Time:
     @classmethod
     def delayed_call(cls, time_delta: int, func: Callable):
         """
-        Calls the function func at a later
+        Calls the function func at a later time.
 
         Args:
             time_delta: The time from now (in milliseconds)
@@ -126,24 +126,22 @@ class Time:
             cls._past_fps.pop(0)
         cls._past_fps.append(cls.fps)
 
-        if len(cls.sorted_frame_times) > 0:
-            processing = True
-            while processing:
-                if cls.sorted_frame_times[0] <= cls.now:
-                    task_time = heapq.heappop(cls.sorted_frame_times)
-                    for func in cls.frame_tasks[task_time]:
-                        func()
-                    del cls.frame_tasks[task_time]
-                else:
-                    processing = False
+        processing = True
+        while processing and len(cls.sorted_frame_times) > 0:
+            if cls.sorted_frame_times[0] <= cls.now:
+                task_time = heapq.heappop(cls.sorted_frame_times)
+                for func in cls.frame_tasks[task_time]:
+                    func()
+                del cls.frame_tasks[task_time]
+            else:
+                processing = False
 
-        if len(cls.sorted_task_times) > 0:
-            processing = True
-            while processing:
-                if cls.sorted_task_times[0] <= cls.now:
-                    task_time = heapq.heappop(cls.sorted_task_times)
-                    for func in cls.tasks[task_time]:
-                        func()
-                    del cls.tasks[task_time]
-                else:
-                    processing = False
+        processing = True
+        while processing and len(cls.sorted_task_times) > 0:
+            if cls.sorted_task_times[0] <= cls.now:
+                task_time = heapq.heappop(cls.sorted_task_times)
+                for func in cls.tasks[task_time]:
+                    func()
+                del cls.tasks[task_time]
+            else:
+                processing = False
