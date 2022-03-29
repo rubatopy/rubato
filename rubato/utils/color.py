@@ -35,9 +35,9 @@ class Color:
     def __str__(self):
         return str((self.r, self.g, self.b, self.a))
 
-    def __eq__(self, other):
+    def __eq__(self, other: "Color") -> bool:
         if isinstance(other, Color):
-            return (self.r, self.g, self.b, self.a) == (other.r, other.g, other.b, other.a)
+            return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a
         return False
 
     def darker(self, amount: int = 20):
@@ -400,8 +400,3 @@ class Color:
         |default|.
         """
         return Color(*Defaults.color_defaults["lime"])
-
-    def __eq__(self, other: "Color") -> bool:
-        if other is None or not isinstance(other, Color):
-            return False
-        return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a
