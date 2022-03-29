@@ -155,13 +155,13 @@ class Image(Component):
         )
 
         sdl2.surface.SDL_BlitScaled(
-            self.image,
+            self.image.contents,
             None,
             image_scaled,
             sdl2.rect.SDL_Rect(0, 0, new_size.x, new_size.y),
         )
 
-        self.image = image_scaled
+        self.image = image_scaled.contents
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def cam_update(self):
