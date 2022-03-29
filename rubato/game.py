@@ -184,5 +184,3 @@ class Game:
 
         # clock the time the update call took
         Time.delta_time = sdl2.SDL_GetTicks64() - frame_start
-
-        Vector.count = 0
