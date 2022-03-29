@@ -8,7 +8,7 @@ from random import randint, choice
 import rubato as rb
 from rubato import Game, Vector, Color, Display
 
-num_balls = 120
+num_balls = 70
 
 rb.init({
     "name": "Ball Pit",
