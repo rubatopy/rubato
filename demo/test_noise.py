@@ -3,7 +3,7 @@ import os, sys, opensimplex, sdl2, numpy
 import sdl2.ext.pixelaccess as pixel_access
 
 sys.path.insert(0, os.path.abspath("../"))
-# pylint: disable=wrong-import-position
+# pylint: disable=all
 import rubato as rb
 
 rb.init({
@@ -40,7 +40,7 @@ def draw(image: sdl2.SDL_Surface):
             gray = (noise + 1) / 2 * 255
             color = (gray, gray, gray)
             color = rb.Color(*color)
-            pixels[x][y] = color.RGBA32
+            pixels[x][y] = color.rgba32
 
     print(minimum, maximum)
     return image
