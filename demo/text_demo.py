@@ -1,7 +1,10 @@
-"""Text demo for rubato"""
-import sdl2
+"""Text demo for rubato"""  # pylint: disable=all
+import sdl2, sys, os
+
+sys.path.insert(0, os.path.abspath("../"))
 
 import rubato as rb
+
 rb.init()
 import sdl2.sdlttf as ttf
 
