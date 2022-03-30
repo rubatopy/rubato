@@ -7,10 +7,10 @@ Fundamentally, Rubato is built developer-focused. From intricate rigidbody
 simulations to 2D games, Rubato streamlines development for beginners and the
 poweruser. And all that finally with some legible documentation.
 """
-import warnings
+#import warnings
 
 # pylint: disable=wrong-import-position
-warnings.simplefilter("ignore", UserWarning)
+#warnings.simplefilter("ignore", UserWarning)
 
 import sdl2
 
@@ -18,7 +18,7 @@ from .utils import *
 from .game import Game
 from .classes import *
 
-warnings.simplefilter("default", UserWarning)
+#warnings.simplefilter("default", UserWarning)
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
