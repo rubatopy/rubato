@@ -6,11 +6,6 @@ all come prepackaged.
 Fundamentally, Rubato is built developer-focused. From intricate rigidbody
 simulations to 2D games, Rubato streamlines development for beginners and the
 poweruser. And all that finally with some legible documentation.
-
-
-Note:
-    Every single class can be accessed through the top level or through the full
-    module path.
 """
 import warnings
 

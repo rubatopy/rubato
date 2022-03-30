@@ -2,8 +2,9 @@
 import sdl2
 import sdl2.ext
 from typing import List
-from ... import Defaults, Vector
+
 from . import Image
+from ... import Defaults, Vector
 
 
 class Spritesheet():

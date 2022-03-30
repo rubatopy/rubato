@@ -3,6 +3,7 @@ The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import TYPE_CHECKING
+
 from . import Component
 from ... import Vector, Defaults, Time
 
