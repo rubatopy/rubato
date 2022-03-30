@@ -18,8 +18,8 @@ import warnings
 warnings.simplefilter("ignore", UserWarning)
 
 import sdl2
-from .game import Game
 from .utils import *
+from .game import Game
 from .classes import *
 
 warnings.simplefilter("default", UserWarning)

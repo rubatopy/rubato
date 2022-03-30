@@ -2,10 +2,8 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from typing import List, Union, TYPE_CHECKING
-from rubato.classes.components.hitbox import Hitbox, Polygon, Circle, Rectangle
-from rubato.utils import Vector, Defaults, Display
-from rubato.utils.error import DuplicateComponentError
-from rubato.game import Game
+from .components.hitbox import Hitbox, Polygon, Circle, Rectangle
+from .. import Game, Vector, Defaults, Display, DuplicateComponentError
 import sdl2
 import sdl2.sdlgfx
 

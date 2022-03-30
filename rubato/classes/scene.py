@@ -4,10 +4,10 @@ scene camera. Scenes come with a default group that everything is added to if
 no other groups are specified.
 """
 from typing import Union, TYPE_CHECKING
-from rubato.classes import Camera, Group
+from . import Camera, Group
 
 if TYPE_CHECKING:
-    from rubato.classes import GameObject
+    from . import GameObject
 
 
 class Scene:

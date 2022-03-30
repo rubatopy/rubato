@@ -3,9 +3,9 @@ Groups contain game objects and allow specific game objects to be seperated.
 """
 
 from typing import List, Union
-from rubato.utils import Error, Defaults
-from rubato.classes import GameObject
-from rubato.classes.components import Hitbox
+from .. import Error, Defaults
+from .components import Hitbox
+from . import GameObject
 
 
 class Group:

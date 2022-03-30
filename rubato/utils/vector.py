@@ -2,8 +2,8 @@
 A vector implementation.
 """
 from typing import Union, List, Tuple
-from . import Math
 import math
+from . import Math
 
 
 class Vector:

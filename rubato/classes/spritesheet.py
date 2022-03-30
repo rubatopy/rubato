@@ -2,9 +2,8 @@
 import sdl2
 import sdl2.ext
 from typing import List
-from rubato.utils import Defaults
-from rubato.classes.components import Image
-from rubato.utils import Vector
+from .. import Defaults, Vector
+from .components import Image
 
 
 class Spritesheet():
