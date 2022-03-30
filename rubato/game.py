@@ -8,10 +8,10 @@ import sdl2.sdlgfx
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Vector, Color, Input, Radio
+from rubato import Time, Display, Vector, Color, Input, Radio
 
 if TYPE_CHECKING:
-    from . import SceneManager, Camera
+    from rubato.classes import SceneManager, Camera
 
 fps_total = 0  # DELETE ME BEFORE RELEASE v2.0!
 

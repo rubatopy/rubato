@@ -1,13 +1,13 @@
 """
 This module houses all the utils
 """
-from .error import *
-from .math import Math
-from .vector import Vector
-from . import defaults as Defaults
-from .color import Color
-from .display import Display
-from .time import Time
-from .radio import Radio
-from .input import Input
-from .sound import Sound
+from rubato.utils.error import *
+from rubato.utils.math import Math
+from rubato.utils.vector import Vector
+import rubato.utils.defaults as Defaults
+from rubato.utils.color import Color
+from rubato.utils.display import Display
+from rubato.utils.time import Time
+from rubato.utils.radio import Radio
+from rubato.utils.input import Input
+from rubato.utils.sound import Sound

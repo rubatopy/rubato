@@ -4,7 +4,7 @@ A vector implementation.
 from typing import Union, List, Tuple
 import math
 
-from . import Math
+from rubato.utils import Math
 
 
 class Vector:

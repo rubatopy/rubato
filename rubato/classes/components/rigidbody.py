@@ -4,11 +4,11 @@ have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import TYPE_CHECKING
 
-from . import Component
-from ... import Vector, Defaults, Time
+from rubato.classes.components import Component
+from rubato import Vector, Defaults, Time
 
 if TYPE_CHECKING:
-    from . import ColInfo
+    from rubato.classes.components import ColInfo
 
 
 class RigidBody(Component):

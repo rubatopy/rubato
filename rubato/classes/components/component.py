@@ -1,10 +1,10 @@
 """A component gives functionally to game objects."""
 from typing import Union, TYPE_CHECKING
 
-from ... import Vector
+from rubato import Vector
 
 if TYPE_CHECKING:
-    from .. import GameObject
+    from rubato.classes import GameObject
 
 
 class Component:

@@ -5,8 +5,8 @@ from typing import List, Dict
 from os import path, walk
 import sdl2
 
-from . import Component, Image, Spritesheet
-from ... import Defaults, Vector, Time
+from rubato.classes.components import Component, Image, Spritesheet
+from rubato import Defaults, Vector, Time
 
 
 class Animation(Component):

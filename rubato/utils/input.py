@@ -6,7 +6,7 @@ from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_long, c_int
 
-from . import Vector, Display
+from rubato.utils import Vector, Display
 
 
 class Input:

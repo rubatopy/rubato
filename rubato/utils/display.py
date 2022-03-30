@@ -4,7 +4,7 @@ Global display class that allows for easy screen and window management.
 import sdl2
 import sdl2.ext
 
-from . import Vector, Color
+from rubato.utils import Vector, Color
 
 
 class Display:

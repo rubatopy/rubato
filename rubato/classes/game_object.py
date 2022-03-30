@@ -5,8 +5,8 @@ from typing import List, Union
 import sdl2
 import sdl2.sdlgfx
 
-from . import Hitbox, Polygon, Circle, Rectangle, Component
-from .. import Game, Vector, Defaults, Display, DuplicateComponentError
+from rubato.classes import Hitbox, Polygon, Circle, Rectangle, Component
+from rubato import Game, Vector, Defaults, Display, DuplicateComponentError
 
 
 class GameObject:

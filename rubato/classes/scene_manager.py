@@ -5,8 +5,8 @@ and updating the current scene.
 """
 from typing import Dict
 
-from . import Scene
-from .. import IdError
+from rubato.classes import Scene
+from rubato import IdError
 
 
 class SceneManager:

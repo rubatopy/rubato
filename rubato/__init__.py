@@ -17,9 +17,9 @@ import sdl2
 
 simplefilter("default", UserWarning)
 
-from .utils import *
-from .game import Game
-from .classes import *
+from rubato.utils import *
+from rubato.game import Game
+from rubato.classes import *
 
 # This variable tells python which things are included in the library.
 # Apparently just importing them isn't enough.
