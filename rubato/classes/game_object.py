@@ -1,14 +1,12 @@
 """
 A game object is a basic element that holds components, postion, and z_index.
 """
-from typing import List, Union, TYPE_CHECKING
-from .components.hitbox import Hitbox, Polygon, Circle, Rectangle
-from .. import Game, Vector, Defaults, Display, DuplicateComponentError
+from typing import List, Union
 import sdl2
 import sdl2.sdlgfx
 
-if TYPE_CHECKING:
-    from rubato.classes.component import Component
+from . import Hitbox, Polygon, Circle, Rectangle, Component
+from .. import Game, Vector, Defaults, Display, DuplicateComponentError
 
 
 class GameObject:
@@ -39,7 +37,7 @@ class GameObject:
         self.z_index: int = param["z_index"]
         self._components: dict = {}
 
-    def add(self, component: "Component") -> "GameObject":
+    def add(self, component: Component) -> "GameObject":
         """
         Add a component to the game object.
 
@@ -111,7 +109,7 @@ class GameObject:
                 f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
             )
 
-    def get(self, comp_type: type) -> Union["Component", None]:
+    def get(self, comp_type: type) -> Union[Component, None]:
         """
         Gets a component from the game object.
 
@@ -128,7 +126,7 @@ class GameObject:
             return self._components[comp_type][0]
         return None
 
-    def get_all(self, comp_type: type) -> List["Component"]:
+    def get_all(self, comp_type: type) -> List[Component]:
         """
         Gets all the components of a type from the game object.
 
@@ -136,7 +134,7 @@ class GameObject:
             comp_type: The type of component to search for.
 
         Returns:
-            List["Component"]: A list containing all the components of that type. If no components were found, the
+            List[Component]: A list containing all the components of that type. If no components were found, the
             list is empty.
         """
         if comp_type in (Rectangle, Polygon, Circle):

@@ -3,6 +3,7 @@ A vector implementation.
 """
 from typing import Union, List, Tuple
 import math
+
 from . import Math
 
 

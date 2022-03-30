@@ -2,14 +2,12 @@
 
 import math
 from typing import Callable, List, Union
-from rubato.classes.components.rigidbody import RigidBody
-from rubato.utils import Math, Display, Vector, Defaults, Color
-from rubato.classes.component import Component
-from rubato.utils.error import Error, SideError
-from rubato.game import Game
 import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
+
+from . import Component, RigidBody
+from ... import Math, Display, Vector, Defaults, Color, Error, SideError, Game
 
 
 class Hitbox(Component):

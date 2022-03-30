@@ -4,7 +4,8 @@ different scenes. Each Game object has a scene manager. It also handles drawing
 and updating the current scene.
 """
 from typing import Dict
-from .scene import Scene
+
+from . import Scene
 from .. import IdError
 
 

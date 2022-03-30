@@ -3,6 +3,7 @@ A Color implementation.
 """
 from random import randint
 from typing import Tuple
+
 from . import Math, Defaults
 
 

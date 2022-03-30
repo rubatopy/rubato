@@ -1,10 +1,10 @@
 """A component gives functionally to game objects."""
 from typing import Union, TYPE_CHECKING
 
-from .. import Vector
+from ... import Vector
 
 if TYPE_CHECKING:
-    from .game_object import GameObject
+    from .. import GameObject
 
 
 class Component:

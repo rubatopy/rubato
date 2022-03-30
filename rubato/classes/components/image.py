@@ -1,13 +1,12 @@
 """
 The image component that renders an image from the filesystem.
 """
-from rubato.classes.component import Component
-from rubato.utils import Vector, Defaults, Display
-from rubato.game import Game
-from rubato.utils.radio import Radio
 import sdl2
 import sdl2.ext
 import sdl2.sdlgfx
+
+from . import Component
+from ... import Vector, Defaults, Display, Game, Radio
 
 
 class Image(Component):

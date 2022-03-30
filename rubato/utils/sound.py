@@ -7,6 +7,7 @@ from os import path, walk
 from typing import Dict
 import sdl2.sdlmixer as mixer
 from sdl2 import AUDIO_F32
+
 from . import IdError
 
 if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):

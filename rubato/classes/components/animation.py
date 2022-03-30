@@ -1,15 +1,12 @@
 """
 Animations are a series of images that loop in a set loop
 """
-from typing import List, Dict, TYPE_CHECKING
+from typing import List, Dict
 from os import path, walk
 import sdl2
-from rubato.classes import Component
-from rubato.classes.components.image import Image
-from rubato.utils import Defaults, Vector, Time
 
-if TYPE_CHECKING:
-    from rubato.classes import Spritesheet
+from . import Component, Image, Spritesheet
+from ... import Defaults, Vector, Time
 
 
 class Animation(Component):
@@ -178,7 +175,7 @@ class Animation(Component):
         self.add(state_name, ret_list)
 
     def add_spritesheet(
-        self, state_name: str, spritesheet: "Spritesheet", from_coord: Vector = Vector(), to_coord: Vector = Vector()
+        self, state_name: str, spritesheet: Spritesheet, from_coord: Vector = Vector(), to_coord: Vector = Vector()
     ):
         """
         Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.

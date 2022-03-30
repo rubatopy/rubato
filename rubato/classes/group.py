@@ -3,9 +3,9 @@ Groups contain game objects and allow specific game objects to be seperated.
 """
 
 from typing import List, Union
+
+from . import GameObject, Hitbox
 from .. import Error, Defaults
-from .components import Hitbox
-from . import GameObject
 
 
 class Group:

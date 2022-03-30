@@ -7,10 +7,11 @@ import sdl2.ext
 import sdl2.sdlgfx
 from contextlib import suppress
 from typing import TYPE_CHECKING
-from .utils import Time, Display, Vector, Color, Input, Radio
+
+from . import Time, Display, Vector, Color, Input, Radio
 
 if TYPE_CHECKING:
-    from .classes import SceneManager, Camera
+    from . import SceneManager, Camera
 
 fps_total = 0
 

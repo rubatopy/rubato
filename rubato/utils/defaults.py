@@ -1,7 +1,6 @@
 """
 A module that houses all of the default options.
 """
-
 from . import Math, Vector
 
 # [start-defaults]
