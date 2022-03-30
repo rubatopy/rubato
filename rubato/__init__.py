@@ -19,13 +19,8 @@ warnings.simplefilter("ignore", UserWarning)
 
 import sdl2
 from .game import Game
-from .utils import Math, Display, Vector, Time, Color, Defaults
-from .utils.error import *
-from .utils.radio import Radio
-from .classes import SceneManager, Scene, Camera, GameObject, Image, Spritesheet
-from .classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, ColInfo, SAT, Hitbox, Group
-from .input import Input
-from .sound import Sound
+from .utils import *
+from .classes import *
 
 warnings.simplefilter("default", UserWarning)
 

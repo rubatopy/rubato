@@ -2,7 +2,7 @@
 A vector implementation.
 """
 from typing import Union, List, Tuple
-from rubato.utils import Math
+from . import Math
 import math
 
 

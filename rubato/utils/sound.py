@@ -7,7 +7,7 @@ from os import path, walk
 from typing import Dict
 import sdl2.sdlmixer as mixer
 from sdl2 import AUDIO_F32
-from rubato.utils.error import IdError
+from . import IdError
 
 if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):
     raise Exception("Could not open audio device.")

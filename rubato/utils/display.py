@@ -4,7 +4,7 @@ Global display class that allows for easy screen and window management.
 import sdl2
 import sdl2.ext
 
-from rubato.utils.vector import Vector
+from . import Vector
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from rubato.utils.color import Color
@@ -221,4 +221,5 @@ class Display:
     def draw_point(pos: Vector, color: "Color"):
         if Vector.is_vectorlike(pos):
             Display.renderer.draw_point([pos[0], pos[1]], color.argb32)
-        else: raise ValueError(f"pos: {pos} is not length 2")
+        else:
+            raise ValueError(f"pos: {pos} is not length 2")
