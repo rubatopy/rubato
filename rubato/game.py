@@ -8,7 +8,7 @@ import sdl2.sdlgfx
 from typing import TYPE_CHECKING
 from rubato.utils import Time, Display, Vector, Color
 from rubato.utils.radio import Radio
-import rubato.input as Input
+from rubato.input import Input
 from contextlib import suppress
 
 if TYPE_CHECKING:

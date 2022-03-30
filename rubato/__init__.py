@@ -18,14 +18,14 @@ import warnings
 warnings.simplefilter("ignore", UserWarning)
 
 import sdl2
-from rubato.game import Game
-from rubato.utils import Math, Display, Vector, Time, Color, Defaults
-from rubato.utils.error import *
-from rubato.utils.radio import Radio
-from rubato.classes import SceneManager, Scene, Camera, GameObject, Image, Spritesheet
-from rubato.classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, ColInfo, SAT, Hitbox, Group
-import rubato.input as Input
-from rubato.sound import Sound
+from .game import Game
+from .utils import Math, Display, Vector, Time, Color, Defaults
+from .utils.error import *
+from .utils.radio import Radio
+from .classes import SceneManager, Scene, Camera, GameObject, Image, Spritesheet
+from .classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, ColInfo, SAT, Hitbox, Group
+from .input import Input
+from .sound import Sound
 
 warnings.simplefilter("default", UserWarning)
 
