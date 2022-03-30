@@ -170,10 +170,9 @@ class Input:
             (info & sdl2.mouse.SDL_BUTTON_X2MASK) != 0,
         )
 
-    @classmethod
-    def mouse_pos(cls) -> Vector:
+    def __get_mouse_pos(self) -> Vector:
         """
-        Returns the current position of the mouse.
+        The current position of the mouse.
 
         Returns:
             Vector: A Vector representing position.
@@ -182,16 +181,10 @@ class Input:
         sdl2.mouse.SDL_GetMouseState(x, y)
         return Vector(x, y)
 
-    @classmethod
-    def set_mouse_pos(cls, x: int, y: int):
-        """
-        Sets the mouse position in the game window.
+    def __set_mouse_pos(self, v: Vector):
+        sdl2.mouse.SDL_WarpMouseInWindow(Display.window, c_int(v.x), c_int(v.y))
 
-        Args:
-            x: The new x position of the cursor.
-            y: The new y position of the cursor.
-        """
-        sdl2.mouse.SDL_WarpMouseInWindow(Display.window, c_int(x), c_int(y))
+    mouse_pos = classmethod(property(__get_mouse_pos, __set_mouse_pos, doc=__get_mouse_pos.__doc__))
 
     @classmethod
     def mouse_is_visible(cls) -> bool:
@@ -229,4 +222,4 @@ class Input:
         top_left = (center - dims / 2).ceil()
         bottom_right = (center + dims / 2).ceil()
 
-        return top_left.x <= cls.mouse_pos().x <= bottom_right.x and top_left.y <= cls.mouse_pos().y <= bottom_right.y
+        return top_left.x <= cls.mouse_pos.x <= bottom_right.x and top_left.y <= cls.mouse_pos.y <= bottom_right.y
