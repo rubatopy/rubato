@@ -1,12 +1,9 @@
 """Text demo for rubato"""  # pylint: disable=all
-import sdl2, sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
+import sdl2
+import sdl2.sdlttf as ttf
 import rubato as rb
 
 rb.init()
-import sdl2.sdlttf as ttf
 
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
