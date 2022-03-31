@@ -2,10 +2,10 @@
 A UI is a an object that is drawn to the screen at a constant position no matter how the camera moves. They are also
 always drawn on top of everything else.
 """
-from sdl2.sdlgfx import thickLineRGBA
+from typing import Union
 
 from . import GameObject
-from .. import Defaults, Game, Display
+from .. import Defaults, Vector, Game
 
 
 class UI(GameObject):
@@ -31,20 +31,44 @@ class UI(GameObject):
         param = Defaults.ui_defaults | options
         super().__init__(param)
 
-    def draw(self):
-        """The draw loop"""
-        for comps in self._components.values():
-            for comp in comps:
-                comp.draw()
+    @property
+    def z_index(self):
+        """
+        The z_index of the UI.
+        """
+        return Game.camera.z_index
 
-        if self.debug or Game.debug:
-            thickLineRGBA(
-                Display.renderer.sdlrenderer,
-                int(self.pos.x) - 10, int(self.pos.y),
-                int(self.pos.x) + 10, int(self.pos.y), int(2 * Display.display_ratio.y), 0, 255, 0, 255
-            )
-            thickLineRGBA(
-                Display.renderer.sdlrenderer, int(self.pos.x),
-                int(self.pos.y) - 10, int(self.pos.x),
-                int(self.pos.y) + 10, int(2 * Display.display_ratio.x), 0, 255, 0, 255
-            )
+    @z_index.setter
+    def z_index(self, value: int):
+        pass
+
+    @property
+    def relative_pos(self) -> Vector:
+        """
+        The relative position of the UI.
+        """
+        return self.pos
+
+    def map_coord(self, coord: Vector) -> Vector:
+        """
+        Maps a coordinate to the UI's coordinate system.
+
+        Args:
+            coord: The coordinate to map.
+
+        Returns:
+            Vector: The mapped coordinate.
+        """
+        return coord
+
+    def scale_value(self, value: Union[int, float]) -> Union[int, float]:
+        """
+        Scales a value to match the UI's scale.
+
+        Args:
+            value: The value to scale.
+
+        Returns:
+            Union[int, float]: The scaled value.
+        """
+        return value
