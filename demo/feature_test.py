@@ -12,10 +12,11 @@ rb.init()
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-main.add(rb.GameObject({"pos": rb.Vector(100, 100)}).add(rb.Circle({"color": rb.Color.green})))
+img = rb.Image()
 
-vec = rb.Vector(10, 10).dir_to(rb.Vector(11, 20))
-vec.round(3)
-print(vec)
+img.draw_point(rb.Vector(0, 0), rb.Color.blue)
+
+img.resize(rb.Vector(1000, 1000))
+main.add(rb.GameObject({"pos": rb.Vector(500, 500)}).add(img))
 
 rb.begin()

@@ -3,8 +3,13 @@ Global display class that allows for easy screen and window management.
 """
 import sdl2
 import sdl2.ext
+from sdl2.sdlgfx import pixelColor, thickLineColor
+from typing import TYPE_CHECKING
 
-from . import Vector, Color
+from . import Vector
+
+if TYPE_CHECKING:
+    from . import Color
 
 
 class Display:
@@ -12,12 +17,14 @@ class Display:
     A static class that houses all of the display information
 
     Attributes:
-        window (sdl2.ext.Window): The pysdl2 window element.
-        renderer (sdl2.ext.Renderer): The pysdl2 renderer element.
+        window (sdl2.Window): The pysdl2 window element.
+        renderer (sdl2.Renderer): The pysdl2 renderer element.
+        format (sdl2.PixelFormat): The pysdl2 pixel format element.
     """
 
     window: sdl2.ext.Window = None
     renderer: sdl2.ext.Renderer = None
+    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
 
     def __get_window_size(self) -> Vector:
         """
@@ -100,21 +107,45 @@ class Display:
         )
 
     @classmethod
-    def update(cls, tex: sdl2.ext.Texture, pos: Vector):
+    def draw_point(cls, pos: Vector, color: "Color"):
+        """
+        Draw a point onto the renderer.
+
+        Args:
+            pos: The position of the point.
+            color: The color to use for the pixel. Defaults to black.
+        """
+        pixelColor(cls.renderer, pos.x, pos.y, color.rgba32)
+
+    @classmethod
+    def draw_line(cls, p1: Vector, p2: Vector, color: "Color", width: int = 1):
+        """
+        Draw a line onto the renderer.
+
+        Args:
+            p1: The first point of the line.
+            p2: The second point of the line.
+            color: The color to use for the line. Defaults to black.
+            width: The width of the line. Defaults to 1.
+        """
+        thickLineColor(cls.renderer, p1.x, p1.y, p2.x, p2.y, width, color.rgba32)
+
+    @classmethod
+    def update(cls, tx: sdl2.ext.Texture, pos: Vector):
         """
         Update the current screen.
 
         Args:
-            tex: The texture to draw on the screen.
+            tx: The texture to draw on the screen.
             pos: The position to draw the texture on.
         """
         try:
-            w, h = tex.size
+            w, h = tx.size
         except AttributeError:
-            w, h = tex.contents.size
+            w, h = tx.contents.size
 
         cls.renderer.copy(
-            tex,
+            tx,
             None,
             (
                 pos.x,
@@ -131,9 +162,9 @@ class Display:
             surface.pixels,
             surface.w,
             surface.h,
-            64,
+            32,
             surface.pitch,
-            sdl2.SDL_PIXELFORMAT_RGBA32,
+            surface.format.contents.format,
         ).contents
 
     @classmethod
@@ -213,10 +244,3 @@ class Display:
     def bottom(cls) -> int:
         """Returns the position of the bottom of the window."""
         return cls.res.y
-
-    @staticmethod
-    def draw_point(pos: Vector, color: Color):
-        if Vector.is_vectorlike(pos):
-            Display.renderer.draw_point([pos[0], pos[1]], color.argb32)
-        else:
-            raise ValueError(f"pos: {pos} is not length 2")

@@ -16,7 +16,7 @@ main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")
 
 onto_renderer = False
-one_way = True
+one_way = False
 scale = 0.02
 
 if onto_renderer:
@@ -57,24 +57,20 @@ elif one_way:
     main_scene.add(perlin)
 
 else:
-    image = rb.Image({"rel_path": "sprites/dino/shadow.png"})
+    image = rb.Image()
     image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))
+
+    for x in range(rb.Display.res.x):
+        for y in range(rb.Display.res.y):
+            noise = opensimplex.noise2(x * scale, y * scale)  # Note simplex perlin noise ranges from -1 to 1
+            gray = (noise + 1) / 2 * 255
+            color = (gray, gray, gray)
+            color = rb.Color(*color)
+
+            image.draw_point(rb.Vector(x, y), color)
+
     perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
-
-    def draw(surf: sdl2.SDL_Surface):
-        view = sdl2.ext.PixelView(surf)
-
-        for x in range(rb.Display.res.x):
-            for y in range(rb.Display.res.y):
-                noise = opensimplex.noise2(x * scale, y * scale)  # Note simplex perlin noise ranges from -1 to 1
-                gray = (noise + 1) / 2 * 255
-                color = (gray, gray, gray)
-                color = rb.Color(*color)
-                view[y][x] = color.rgba32
-
-        return surf
-
-    image.image = draw(image.image)
     main_scene.add(perlin)
 
+print("done")
 rb.begin()

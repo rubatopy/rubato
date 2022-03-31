@@ -35,7 +35,7 @@ class Spritesheet():
             self._sprites.append([])
             for x in range(0, self._grid.x * self._sprite_size.x, self._sprite_size.x):
                 sub = sdl2.SDL_CreateRGBSurfaceWithFormat(
-                    0, self._sprite_size.x, self._sprite_size.y, 64, sdl2.SDL_PIXELFORMAT_RGBA32
+                    0, self._sprite_size.x, self._sprite_size.y, 32, sdl2.SDL_PIXELFORMAT_RGBA8888
                 )
                 sdl2.SDL_BlitSurface(
                     self._sheet.image,

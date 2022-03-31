@@ -6,7 +6,7 @@ import sdl2.ext
 import sdl2.sdlgfx
 
 from . import Component
-from ... import Vector, Defaults, Display, Game, Radio
+from ... import Vector, Defaults, Display, Game, Radio, Color
 
 
 class Image(Component):
@@ -36,8 +36,8 @@ class Image(Component):
                 0,
                 32,
                 32,
-                64,
-                sdl2.SDL_PIXELFORMAT_RGBA32,
+                32,
+                sdl2.SDL_PIXELFORMAT_RGBA8888,
             ).contents
         else:
             try:
@@ -70,7 +70,7 @@ class Image(Component):
 
     @image.setter
     def image(self, new: sdl2.SDL_Surface):
-        self._image = new
+        self._image = sdl2.SDL_ConvertSurfaceFormat(new, sdl2.SDL_PIXELFORMAT_RGBA8888, 0).contents
         self._original = Display.clone_surface(new)
         self._update_rotozoom()
 
@@ -133,16 +133,13 @@ class Image(Component):
         ).contents
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-    def resize(self, new_size: Vector | tuple | list):
+    def resize(self, new_size: Vector):
         """
         Resize the image to a given size in pixels.
 
         Args:
             new_size: The new size of the image in pixels.
         """
-        # if new_size.__class__ in [tuple.__class__, list.__class__]:
-        #     if len(new_size) != 2:
-        #         raise ValueError("")
         if abs(new_size.x) < 1:
             new_size.x = 1
         if abs(new_size.y) < 1:
@@ -152,8 +149,8 @@ class Image(Component):
             0,
             new_size.x,
             new_size.y,
-            64,
-            sdl2.SDL_PIXELFORMAT_RGBA32,
+            32,
+            sdl2.SDL_PIXELFORMAT_RGBA8888,
         )
 
         sdl2.surface.SDL_BlitScaled(
@@ -165,6 +162,37 @@ class Image(Component):
 
         self.image = image_scaled.contents
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
+
+    def draw_point(self, pos: Vector, color: Color = Color.black):
+        """
+        Draws a point on the image.
+
+        Args:
+            pos: The position to draw the point.
+            color: The color of the point. Defaults to black.
+        """
+        sdl2.ext.fill(
+            self._image,
+            sdl2.ext.rgba_to_color(color.rgba32),
+            (pos.x, pos.y, 1, 1),
+        )
+
+    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, width: int = 1):
+        """
+        Draws a line on the image.
+
+        Args:
+            start: The start of the line.
+            end: The end of the line.
+            color: The color of the line. Defaults to black.
+            width: The width of the line. Defaults to 1.
+        """
+        sdl2.ext.line(
+            self.image,
+            sdl2.ext.rgba_to_color(color.rgba32),
+            (start.x, start.y, end.x, end.y),
+            width,
+        )
 
     def cam_update(self):
         width, height = self.image.w, self.image.h

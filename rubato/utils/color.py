@@ -3,8 +3,9 @@ A Color implementation.
 """
 from random import randint
 from typing import Tuple
+import sdl2
 
-from . import Math, Defaults
+from . import Math, Defaults, Display
 
 
 class Color:
@@ -34,7 +35,7 @@ class Color:
         self.a = int(Math.clamp(a, 0, 255))
 
     def __str__(self):
-        return str((self.r, self.g, self.b, self.a))
+        return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
 
     def __eq__(self, other: "Color") -> bool:
         if isinstance(other, Color):
@@ -99,7 +100,7 @@ class Color:
             ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2), (1 - t) * self.a + t * other.a
         )
 
-    def to_tuple(self) -> Tuple[int, int, int]:
+    def to_tuple(self) -> Tuple[int]:
         """
         Converts the Color to a tuple.
 
@@ -122,23 +123,8 @@ class Color:
 
     @property
     def rgba32(self):
-        """returns an integer32 representation of the color as an RGBA"""
-        res = 0
-        res += int(self.r) << (0 * 8)
-        res += int(self.g) << (1 * 8)
-        res += int(self.b) << (2 * 8)
-        res += int(self.a) << (3 * 8)
-        return res
-
-    @property
-    def argb32(self):
-        """returns an integer32 representation of the color as an ARGB"""
-        res = 0
-        res += int(self.a) << (0 * 8)
-        res += int(self.r) << (1 * 8)
-        res += int(self.g) << (2 * 8)
-        res += int(self.b) << (3 * 8)
-        return res
+        """The RGBA32 representation of the color."""
+        return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
 
     @staticmethod
     def from_rgba32(rgba32: int) -> "Color":

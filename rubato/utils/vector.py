@@ -349,11 +349,3 @@ class Vector:
 
     def __neg__(self) -> "Vector":
         return Vector(-self.x, -self.y)
-
-    def __getitem__(self, item: int) -> int | float:
-        if item == 0:
-            return self.x
-        elif item == 1:
-            return self.y
-        else:
-            raise ValueError("Vector is only subscriptable by 0 for x and 1 for y.")
