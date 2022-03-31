@@ -30,13 +30,7 @@ group_defaults = {
     # The z_index of the group.
 }
 
-spritesheet_defaults = {
-    "rel_path": "",  #. . . . . . . . . . . . . . . . . . . . . str
-    # The relative path to the spritesheet (from the cwd).
-    "sprite_size": Vector(32, 32),  # . . . . . . . . . . . . . Vector
-    # The size of each sprite in pixels.
-    "grid_size": Vector(16, 16),  # . . . . . . . . . . . . . . Vector
-    # The size of the spritesheet grid (columns/x, rows/y).
+ui_defaults = {  # Can also contain elements from the game object defaults
 }
 
 gameobj_defaults = {
@@ -108,6 +102,15 @@ animation_defaults = {
     # The offset from the center of the game object that the hitbox should be placed.
     "visible": True,  # . . . . . . . . . . . . . . . . . . . . bool
     # Whether or not the image is visible.
+}
+
+spritesheet_defaults = {
+    "rel_path": "",  #. . . . . . . . . . . . . . . . . . . . . str
+    # The relative path to the spritesheet (from the cwd).
+    "sprite_size": Vector(32, 32),  # . . . . . . . . . . . . . Vector
+    # The size of each sprite in pixels.
+    "grid_size": Vector(16, 16),  # . . . . . . . . . . . . . . Vector
+    # The size of the spritesheet grid (columns/x, rows/y).
 }
 
 hitbox_defaults = {
