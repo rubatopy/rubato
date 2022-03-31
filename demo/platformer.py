@@ -117,7 +117,7 @@ player.add(
 )
 
 # define the player rigidbody
-player_body = rb.RigidBody({"gravity": Vector(y=rb.Display.res.y * 1.5)})
+player_body = rb.RigidBody({"gravity": Vector(y=rb.Display.res.y * 1.5), "pos_correction": 1})
 player.add(player_body)
 
 # Side boundary
@@ -219,6 +219,7 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 
 # define a custom update function
 def update():
+    global grounded
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
@@ -247,6 +248,7 @@ def update():
     if rb.Input.key_pressed("r"):
         player.pos = rb.Display.center_left + Vector(50, 0)
         player.get(rb.RigidBody).velocity = rb.Vector.zero
+        grounded = False
 
     p_shadow.visible = grounded
 

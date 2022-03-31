@@ -42,7 +42,6 @@
         "Yamm"
     ],
     "python.analysis.diagnosticMode": "workspace",
-    "python.languageServer": "Pylance",
     "python.formatting.provider": "yapf",
     "python.linting.pylintCategorySeverity.refactor": "Information"
 }

@@ -50,6 +50,8 @@ class RigidBody(Component):
         self.friction: float = params["friction"]
         self.max_speed: Vector = params["max_speed"]
 
+        self.pos_correction: float = params["pos_correction"]
+
         self.velocity: Vector = params["velocity"]
 
         self.singular = True
@@ -146,7 +148,9 @@ class RigidBody(Component):
         collision_norm = col.sep.unit()
 
         # Position correction
-        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm * 0.25
+        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm * max(
+            0 if rb_a_none else rb_a.pos_correction, 0 if rb_b_none else rb_b.pos_correction
+        )
 
         # Impulse Resolution
 
