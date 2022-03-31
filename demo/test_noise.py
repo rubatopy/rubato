@@ -41,7 +41,6 @@ elif one_way:
     image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))
     perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
 
-
     def draw(pixels: pixel_access.PixelView):
         for x in range(rb.Display.res.x):
             for y in range(rb.Display.res.y):

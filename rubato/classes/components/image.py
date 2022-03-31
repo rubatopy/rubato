@@ -34,8 +34,8 @@ class Image(Component):
         if param["rel_path"] == "":
             self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
                 0,
-                32,
-                32,
+                param["size"].x,
+                param["size"].y,
                 32,
                 sdl2.SDL_PIXELFORMAT_RGBA8888,
             ).contents
@@ -151,16 +151,16 @@ class Image(Component):
             new_size.y,
             32,
             sdl2.SDL_PIXELFORMAT_RGBA8888,
-        )
+        ).contents
 
         sdl2.surface.SDL_BlitScaled(
             self.image,
-            None,
+            sdl2.SDL_Rect(0, 0, self.image.w, self.image.h),
             image_scaled,
-            sdl2.rect.SDL_Rect(0, 0, new_size.x, new_size.y),
+            sdl2.SDL_Rect(0, 0, new_size.x, new_size.y),
         )
 
-        self.image = image_scaled.contents
+        self.image = image_scaled
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def draw_point(self, pos: Vector, color: Color = Color.black):
@@ -172,7 +172,7 @@ class Image(Component):
             color: The color of the point. Defaults to black.
         """
         sdl2.ext.fill(
-            self._image,
+            self.image,
             sdl2.ext.rgba_to_color(color.rgba32),
             (pos.x, pos.y, 1, 1),
         )

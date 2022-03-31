@@ -73,6 +73,8 @@ rigidbody_defaults = {
 image_defaults = {
     "rel_path": "",  #. . . . . . . . . . . . . . . . . . . . . str
     # The relative path of the image. (from the cwd)
+    "size": Vector(32, 32),  #. . . . . . . . . . . . . . . . . Vector
+    # The size of the image in pixels. (if a rel path is set this value will be ignored)
     "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
     # The initial scale factor of the image.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
