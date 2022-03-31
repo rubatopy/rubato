@@ -21,42 +21,6 @@ from rubato.utils import *
 from rubato.game import Game
 from rubato.classes import *
 
-# This variable tells python which things are included in the library.
-# Apparently just importing them isn't enough.
-__all__ = [
-    "Math",
-    "Display",
-    "Vector",
-    "Time",
-    "Polygon",
-    "Rectangle",
-    "Circle",
-    "ColInfo",
-    "SAT",
-    "Color",
-    "Error",
-    "IdError",
-    "SideError",
-    "DuplicateComponentError",
-    "ComponentNotAllowed",
-    "SceneManager",
-    "Scene",
-    "Camera",
-    "Radio",
-    "GameObject",
-    "Image",
-    "RigidBody",
-    "Input",
-    "Defaults",
-    "Sound",
-    "Animation",
-    "Component",
-    "Hitbox",
-    "Group",
-    "Game",
-    "Spritesheet",
-]
-
 
 def init(options: dict = {}):
     """

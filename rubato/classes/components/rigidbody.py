@@ -148,9 +148,7 @@ class RigidBody(Component):
         collision_norm = col.sep.unit()
 
         # Position correction
-        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm * max(
-            0 if rb_a_none else rb_a.pos_correction, 0 if rb_b_none else rb_b.pos_correction
-        )
+        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm
 
         # Impulse Resolution
 
@@ -170,11 +168,11 @@ class RigidBody(Component):
         impulse = j * collision_norm
 
         if not (rb_a_none or rb_a.static):
-            rb_a.gameobj.pos -= inv_mass_a * correction
+            rb_a.gameobj.pos -= inv_mass_a * correction * rb_a.pos_correction
             rb_a.velocity -= inv_mass_a * impulse
 
         if not (rb_b_none or rb_b.static):
-            rb_b.gameobj.pos += inv_mass_b * correction
+            rb_b.gameobj.pos += inv_mass_b * correction * rb_b.pos_correction
             rb_b.velocity += inv_mass_b * impulse
 
         # Friction
