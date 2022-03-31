@@ -4,8 +4,9 @@ different scenes. Each Game object has a scene manager. It also handles drawing
 and updating the current scene.
 """
 from typing import Dict
-from rubato.classes.scene import Scene
-from rubato.utils.error import IdError
+
+from . import Scene
+from .. import IdError
 
 
 class SceneManager:
@@ -57,8 +58,7 @@ class SceneManager:
             IdError: The given scene id is already used.
         """
         if scene_id in self.scenes:
-            raise IdError(
-                f"The scene id {scene_id} is not unique in this manager")
+            raise IdError(f"The scene id {scene_id} is not unique in this manager")
 
         if self.is_empty():
             self.set(scene_id)

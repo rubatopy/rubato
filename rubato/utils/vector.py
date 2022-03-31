@@ -2,8 +2,9 @@
 A vector implementation.
 """
 from typing import Union, List, Tuple
-from rubato.utils import Math
 import math
+
+from . import Math
 
 
 class Vector:

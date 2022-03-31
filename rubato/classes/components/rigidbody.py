@@ -3,11 +3,12 @@ The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from typing import TYPE_CHECKING
-from rubato.classes.component import Component
-from rubato.utils import Vector, Defaults, Time
+
+from . import Component
+from ... import Vector, Defaults, Time
 
 if TYPE_CHECKING:
-    from rubato.classes.components.hitbox import ColInfo
+    from . import ColInfo
 
 
 class RigidBody(Component):
@@ -48,6 +49,8 @@ class RigidBody(Component):
         self.gravity: Vector = params["gravity"]
         self.friction: float = params["friction"]
         self.max_speed: Vector = params["max_speed"]
+
+        self.pos_correction: float = params["pos_correction"]
 
         self.velocity: Vector = params["velocity"]
 
@@ -145,7 +148,7 @@ class RigidBody(Component):
         collision_norm = col.sep.unit()
 
         # Position correction
-        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm * 0.25
+        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm
 
         # Impulse Resolution
 
@@ -165,11 +168,11 @@ class RigidBody(Component):
         impulse = j * collision_norm
 
         if not (rb_a_none or rb_a.static):
-            rb_a.gameobj.pos -= inv_mass_a * correction
+            rb_a.gameobj.pos -= inv_mass_a * correction * rb_a.pos_correction
             rb_a.velocity -= inv_mass_a * impulse
 
         if not (rb_b_none or rb_b.static):
-            rb_b.gameobj.pos += inv_mass_b * correction
+            rb_b.gameobj.pos += inv_mass_b * correction * rb_b.pos_correction
             rb_b.velocity += inv_mass_b * impulse
 
         # Friction

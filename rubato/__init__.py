@@ -6,64 +6,20 @@ all come prepackaged.
 Fundamentally, Rubato is built developer-focused. From intricate rigidbody
 simulations to 2D games, Rubato streamlines development for beginners and the
 poweruser. And all that finally with some legible documentation.
-
-
-Note:
-    Every single class can be accessed through the top level or through the full
-    module path.
 """
-import warnings
 
 # pylint: disable=wrong-import-position
-warnings.simplefilter("ignore", UserWarning)
+from warnings import simplefilter
+
+simplefilter("ignore", UserWarning)
 
 import sdl2
-from rubato.game import Game
-from rubato.utils import Math, Display, Vector, Time, Color, Defaults
-from rubato.utils.error import *
-from rubato.utils.radio import Radio
-from rubato.classes import SceneManager, Scene, Camera, GameObject, Image, Spritesheet
-from rubato.classes import RigidBody, Animation, Component, Polygon, Rectangle, Circle, ColInfo, SAT, Hitbox, Group
-import rubato.input as Input
-from rubato.sound import Sound
 
-warnings.simplefilter("default", UserWarning)
+simplefilter("default", UserWarning)
 
-# This variable tells python which things are included in the library.
-# Apparently just importing them isn't enough.
-__all__ = [
-    "Math",
-    "Display",
-    "Vector",
-    "Time",
-    "Polygon",
-    "Rectangle",
-    "Circle",
-    "ColInfo",
-    "SAT",
-    "Color",
-    "Error",
-    "IdError",
-    "SideError",
-    "DuplicateComponentError",
-    "ComponentNotAllowed",
-    "SceneManager",
-    "Scene",
-    "Camera",
-    "Radio",
-    "GameObject",
-    "Image",
-    "RigidBody",
-    "Input",
-    "Defaults",
-    "Sound",
-    "Animation",
-    "Component",
-    "Hitbox",
-    "Group",
-    "Game",
-    "Spritesheet",
-]
+from .utils import *
+from .game import Game
+from .classes import *
 
 
 def init(options: dict = {}):

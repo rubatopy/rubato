@@ -3,7 +3,8 @@ A Color implementation.
 """
 from random import randint
 from typing import Tuple
-from rubato.utils import Math, Defaults
+
+from . import Math, Defaults
 
 
 class Color:
@@ -133,10 +134,10 @@ class Color:
     def argb32(self):
         """returns an integer32 representation of the color as an ARGB"""
         res = 0
-        res += int(self.a) << (0*8)
-        res += int(self.r) << (1*8)
-        res += int(self.g) << (2*8)
-        res += int(self.b) << (3*8)
+        res += int(self.a) << (0 * 8)
+        res += int(self.r) << (1 * 8)
+        res += int(self.g) << (2 * 8)
+        res += int(self.b) << (3 * 8)
         return res
 
     @staticmethod

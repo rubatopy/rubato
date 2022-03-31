@@ -1,5 +1,6 @@
+##########################
 Game Object and Components
-==========================
+##########################
 
 :func:`Game Objects <rubato.classes.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
@@ -10,8 +11,9 @@ Game Object's position.
 
 .. _gameobj:
 
+***********
 Game Object
------------
+***********
 The default Game Object class.
 
 .. autoclass:: rubato.classes.game_object.GameObject
@@ -19,8 +21,9 @@ The default Game Object class.
 
 .. _components:
 
+**********
 Components
-----------
+**********
 The default Component class.
 
 .. automodule:: rubato.classes.component
@@ -29,27 +32,35 @@ The default Component class.
 .. _image:
 
 Image
-_________
+=========
 .. automodule:: rubato.classes.components.image
     :members:
 
 .. _animation:
 
 Animation
-_________
+=========
 .. automodule:: rubato.classes.components.animation
     :members:
+
+.. _spritesheet:
+
+Spritesheet
+-----------
+.. automodule:: rubato.classes.components.spritesheet
+    :members:
+
 
 .. _rectangle:
 
 Hitbox
-_________
+=========
 .. automodule:: rubato.classes.components.hitbox
     :members:
 
 .. _rigidbody:
 
 RigidBody
-_________
+=========
 .. automodule:: rubato.classes.components.rigidbody
     :members:

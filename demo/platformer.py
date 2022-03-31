@@ -76,10 +76,11 @@ p_animation.add_spritesheet("crouch_idle", blue_dino_main, Vector(17, 0), Vector
 p_animation.add_spritesheet("crouch_run", blue_dino_main, Vector(20, 0), Vector(23, 0))
 player.add(p_animation)
 
-
 # define a collision handler
 won = False
 retry_allowed = True
+
+
 def player_collide(col_info: rb.ColInfo):
     global jumps, grounded, won, retry_allowed
     if col_info.shape_b.tag == "ground" and not grounded:
@@ -90,9 +91,11 @@ def player_collide(col_info: rb.ColInfo):
         if retry_allowed:
             print("r to retry")
             retry_allowed = False
+
             def re_allow():
                 global retry_allowed
                 retry_allowed = True
+
             rb.Time.delayed_call(rb.Time.sec_to_milli(2), re_allow)
     if col_info.shape_b.tag == "portal":
         if not won:
@@ -114,7 +117,7 @@ player.add(
 )
 
 # define the player rigidbody
-player_body = rb.RigidBody({"gravity": Vector(y=rb.Display.res.y * 1.5)})
+player_body = rb.RigidBody({"gravity": Vector(y=rb.Display.res.y * 1.5), "pos_correction": 1})
 player.add(player_body)
 
 # Side boundary
@@ -216,6 +219,7 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 
 # define a custom update function
 def update():
+    global grounded
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
@@ -244,6 +248,7 @@ def update():
     if rb.Input.key_pressed("r"):
         player.pos = rb.Display.center_left + Vector(50, 0)
         player.get(rb.RigidBody).velocity = rb.Vector.zero
+        grounded = False
 
     p_shadow.visible = grounded
 

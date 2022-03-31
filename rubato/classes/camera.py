@@ -5,8 +5,7 @@ is less than that of the camera's.
 
 The current scene's camera can be accessed through :code:`Game.camera`.
 """
-from rubato.utils import Vector, Display, Math
-from rubato.utils.radio import Radio
+from .. import Vector, Display, Math, Radio
 
 
 class Camera:

@@ -1,5 +1,6 @@
+###########################
 Scenes and Their Management
-===========================
+###########################
 
 :func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
 :func:`Camera <rubato.classes.camera.Camera>`. Scenes are used to compartmentalize code. For example,
@@ -14,24 +15,19 @@ we won't be using Groups as we don't need this functionality here.
 
 .. _scenemanager:
 
+************
 SceneManager
--------------
+************
 .. automodule:: rubato.classes.scene_manager
     :members:
 
 
 .. _scene:
 
+*****
 Scene
------
+*****
 .. automodule:: rubato.classes.scene
-    :members:
-
-.. _group:
-
-Group
------
-.. automodule:: rubato.classes.group
     :members:
 
 .. _camera:
@@ -40,3 +36,13 @@ Camera
 ------
 .. automodule:: rubato.classes.camera
     :members:
+
+
+.. _group:
+
+*****
+Group
+*****
+.. automodule:: rubato.classes.group
+    :members:
+

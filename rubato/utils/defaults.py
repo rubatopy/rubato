@@ -1,8 +1,7 @@
 """
 A module that houses all of the default options.
 """
-
-from rubato.utils import Math, Vector
+from . import Math, Vector
 
 # [start-defaults]
 game_defaults = {
@@ -68,6 +67,7 @@ rigidbody_defaults = {
     # The starting rotation of the RB.
     "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
     # Whether the RB is static or not.
+    "pos_correction": 0.25,  #. . . . . . . . . . . . . . . . . float
 }
 
 image_defaults = {
