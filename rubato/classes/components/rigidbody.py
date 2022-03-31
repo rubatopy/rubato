@@ -8,7 +8,7 @@ from . import Component
 from ... import Vector, Defaults, Time
 
 if TYPE_CHECKING:
-    from rubato.classes.components import ColInfo
+    from . import ColInfo
 
 
 class RigidBody(Component):
