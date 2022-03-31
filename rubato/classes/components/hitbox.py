@@ -6,8 +6,8 @@ import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
 
-from rubato.classes.components import Component, RigidBody
-from rubato import Math, Display, Vector, Defaults, Color, Error, SideError, Game
+from . import Component, RigidBody
+from ... import Math, Display, Vector, Defaults, Color, Error, SideError, Game
 
 
 class Hitbox(Component):

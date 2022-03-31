@@ -1,7 +1,7 @@
 """
 A module that houses all of the default options.
 """
-from rubato.utils import Math, Vector
+from . import Math, Vector
 
 # [start-defaults]
 game_defaults = {

@@ -17,9 +17,9 @@ import sdl2
 
 simplefilter("default", UserWarning)
 
-from rubato.utils import *
-from rubato.game import Game
-from rubato.classes import *
+from .utils import *
+from .game import Game
+from .classes import *
 
 
 def init(options: dict = {}):

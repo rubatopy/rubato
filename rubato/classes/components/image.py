@@ -5,8 +5,8 @@ import sdl2
 import sdl2.ext
 import sdl2.sdlgfx
 
-from rubato.classes.components import Component
-from rubato import Vector, Defaults, Display, Game, Radio
+from . import Component
+from ... import Vector, Defaults, Display, Game, Radio
 
 
 class Image(Component):

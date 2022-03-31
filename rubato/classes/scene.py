@@ -5,7 +5,7 @@ no other groups are specified.
 """
 from typing import Union
 
-from rubato.classes import Camera, Group, GameObject
+from . import Camera, Group, GameObject
 
 
 class Scene:

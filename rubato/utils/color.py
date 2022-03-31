@@ -4,7 +4,7 @@ A Color implementation.
 from random import randint
 from typing import Tuple
 
-from rubato.utils import Math, Defaults
+from . import Math, Defaults
 
 
 class Color:

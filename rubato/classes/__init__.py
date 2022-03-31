@@ -2,9 +2,9 @@
 The sprite folder holds all of the classes dealing with sprites.
 Everything here works with rubato.sprite.Sprite.
 """
-from rubato.classes.camera import Camera
-from rubato.classes.components import *
-from rubato.classes.game_object import GameObject
-from rubato.classes.group import Group
-from rubato.classes.scene import Scene
-from rubato.classes.scene_manager import SceneManager
+from .camera import Camera
+from .components import *
+from .game_object import GameObject
+from .group import Group
+from .scene import Scene
+from .scene_manager import SceneManager
