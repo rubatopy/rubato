@@ -1,6 +1,6 @@
 """A Perlin Noise demo for Rubato"""
-import os, sys, opensimplex, sdl2
-import sdl2.ext
+import os, sys, opensimplex, sdl2, numpy, ctypes
+import sdl2.ext.pixelaccess as pixel_access
 
 sys.path.insert(0, os.path.abspath("../"))
 # pylint: disable=all
@@ -16,6 +16,7 @@ main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")
 
 onto_renderer = False
+one_way = True
 scale = 0.02
 
 if onto_renderer:
@@ -35,6 +36,25 @@ if onto_renderer:
                 rb.Display.renderer.draw_point(*saved[x][y])
 
     main_scene.draw = draw
+elif one_way:
+    image = rb.Image()
+    image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))
+    perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
+
+
+    def draw(pixels: pixel_access.PixelView):
+        for x in range(rb.Display.res.x):
+            for y in range(rb.Display.res.y):
+                noise = opensimplex.noise2(x * scale, y * scale)  # Note simplex perlin noise ranges from -1 to 1
+                gray = (noise + 1) / 2 * 255
+                color = (gray, gray, gray)
+                color = rb.Color(*color)
+                pixels[x][y] = color.rgba32
+        print("done")
+        # return image
+
+    draw(sdl2.ext.PixelView(image.image))
+    main_scene.add(perlin)
 
 else:
     image = rb.Image({"rel_path": "sprites/dino/shadow.png"})
@@ -50,7 +70,6 @@ else:
                 gray = (noise + 1) / 2 * 255
                 color = (gray, gray, gray)
                 color = rb.Color(*color)
-
                 view[y][x] = color.rgba32
 
         return surf
