@@ -44,6 +44,18 @@ gameobj_defaults = {
     # Whether to draw a plus sign at the game object's position
 }
 
+text_defaults = {
+    "font": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    # The name of the font to use. (either built-in or previously loaded)
+    "text": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    # The text to display.
+    "size": 16,  #. . . . . . . . . . . . . . . . . . . . . . . int
+    # The size of the text.
+    "style": ["normal"],  # . . . . . . . . . . . . . . . . . . List[str]
+    # A list containing the style to apply to the text. (bold, italic, underline, strikethrough)
+    "color": (0, 0, 0, 255),  # . . . . . . . . . . . . . . . . tuple or Color
+}
+
 rigidbody_defaults = {
     "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
     # The mass of the RB. (0 for infinite)
@@ -51,7 +63,7 @@ rigidbody_defaults = {
     # The percent bounciness of the RB. (as a decimal)
     "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
     # The gravity applied to the RB.
-    "max_speed": Vector(Math.INF, Math.INF),  # . . . Vector
+    "max_speed": Vector(Math.INF, Math.INF),  # . . . . . . . . Vector
     # The maximum speed of the RB.
     "velocity": Vector(),  #. . . . . . . . . . . . . . . . . . Vector
     # The starting velocity of the RB.

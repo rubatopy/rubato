@@ -13,7 +13,7 @@ from warnings import simplefilter
 
 simplefilter("ignore", UserWarning)
 
-import sdl2
+import sdl2, sdl2.sdlttf
 
 simplefilter("default", UserWarning)
 
@@ -31,6 +31,8 @@ def init(options: dict = {}):
                 Defaults to the |default| for `Game`.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
+    sdl2.sdlttf.TTF_Init()
+
     Game.initialized = True
 
     params = Defaults.game_defaults | options

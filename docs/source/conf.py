@@ -50,14 +50,15 @@ extensions = [
 templates_path = ["_templates"]
 
 html_sidebars = {
-    "**": [
-        "sidebar/scroll-start.html",
-        "sidebar/brand.html",
-        "sidebar/search.html",
-        "sidebar/navigation.html",
-        "versioning.html",
-        "sidebar/scroll-end.html",
-    ],
+    "**":
+        [
+            "sidebar/scroll-start.html",
+            "brand.html",
+            "sidebar/search.html",
+            "sidebar/navigation.html",
+            "versioning.html",
+            "sidebar/scroll-end.html",
+        ],
 }
 
 # List of patterns, relative to source directory, that match files and
@@ -94,7 +95,7 @@ html_css_files = ["custom.css"]
 
 add_module_names = False
 
-html_logo = "_static/logo_small.png"
+html_logo = "_static/logo.png"
 
 html_favicon = "_static/logo.png"
 
@@ -103,17 +104,19 @@ theme_color = "#ff9484"
 html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
-    "light_css_variables": {
-        "color-brand-primary": theme_color,
-        "color-brand-content": theme_color,
-        "color-api-name": theme_color,
-        "font-stack": "Fredoka, sans-serif"
-    },
-    "dark_css_variables": {
-        "color-brand-primary": theme_color,
-        "color-brand-content": theme_color,
-        "color-api-name": theme_color,
-    }
+    "light_css_variables":
+        {
+            "color-brand-primary": theme_color,
+            "color-brand-content": theme_color,
+            "color-api-name": theme_color,
+            "font-stack": "Fredoka, sans-serif"
+        },
+    "dark_css_variables":
+        {
+            "color-brand-primary": theme_color,
+            "color-brand-content": theme_color,
+            "color-api-name": theme_color,
+        }
 }
 
 html_use_index = False

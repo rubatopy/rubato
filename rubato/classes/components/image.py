@@ -71,7 +71,7 @@ class Image(Component):
     @image.setter
     def image(self, new: sdl2.SDL_Surface):
         self._image = sdl2.SDL_ConvertSurfaceFormat(new, sdl2.SDL_PIXELFORMAT_RGBA8888, 0).contents
-        self._original = Display.clone_surface(new)
+        self._original = Display.clone_surface(self._image)
         self._update_rotozoom()
 
     @property
