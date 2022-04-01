@@ -2,8 +2,9 @@
 import sdl2
 import sdl2.ext
 from typing import List
+from os import path, walk
 
-from . import Image
+from . import Image, Animation
 from ... import Defaults, Vector
 
 
@@ -27,7 +28,10 @@ class Spritesheet():
         self._sprite_size: Vector = params["sprite_size"]
         self._sheet = Image({"rel_path": params["rel_path"]})
         self._sprites: List[List[Image]] = []
-
+        if not self._grid:
+            self._grid = self._sheet.get_size() / self._sprite_size
+            self._grid = self._grid.to_int()
+            # TODO: check if grid is integer
         if (self._sprite_size * self._grid) != self._sheet.get_size():
             raise IndexError("Your sprite size or grid size is incorrect, please check")
 
@@ -90,3 +94,30 @@ class Spritesheet():
     def end(self):
         """The last coordinate you can use the get function on (end of the Spritesheet)"""
         return self.grid_size - Vector.one
+
+    @staticmethod
+    def from_folder(rel_path: str, sprite_size: Vector) -> Animation:
+        """
+        Gives back an Animation from a folder of spritesheets. Directory must be
+        solely comprised of spritesheets. Added in alphabetically, predictable default.
+
+        Args:
+            rel_path: The relative path to the folder you wish to import
+            sprite_size: The size of a single sprite in your spritesheet, should be the same in all imported sheets.
+
+        Returns:
+            Animation: the animation loaded from the folder of spritesheets
+        """
+        anim = Animation()
+        for _, _, files in walk(rel_path):
+            # walk to directory path and ignore name and subdirectories
+            files.sort()
+            for sprite_path in files:
+                path_to_spritesheet = path.join(rel_path, sprite_path)
+                sprite_sheet = Spritesheet({
+                    "rel_path": path_to_spritesheet,
+                    "sprite_size": sprite_size,
+                })
+                print(sprite_path.split(".")[0])
+                anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
+        return anim

@@ -2,11 +2,15 @@
 Animations are a series of images that loop in a set loop
 """
 from typing import List, Dict
+from typing import TYPE_CHECKING
 from os import path, walk
 import sdl2
 
-from . import Component, Image, Spritesheet
+from . import Component, Image
 from ... import Defaults, Vector, Time
+
+if TYPE_CHECKING:
+    from . import Spritesheet
 
 
 class Animation(Component):
@@ -60,6 +64,17 @@ class Animation(Component):
         # time (milliseconds) to switch frames
         self._time_step = 1000 / self._fps
         self._time_count = 0  # time since last update of frames
+
+    @property
+    def fps(self):
+        """Get the fps"""
+        return self._fps
+
+    @fps.setter
+    def fps(self, fps):
+        """Set the fps"""
+        self._fps = fps
+        self._time_step = 1000 / self._fps
 
     @property
     def current_frame(self) -> int:
@@ -154,7 +169,7 @@ class Animation(Component):
 
     def add_folder(self, state_name: str, rel_path: str):
         """
-        Adds a state from an folder of images. Directory must be
+        Adds a state from a folder of images. Directory must be
         solely comprised of images.
 
         Args:
@@ -175,7 +190,7 @@ class Animation(Component):
         self.add(state_name, ret_list)
 
     def add_spritesheet(
-        self, state_name: str, spritesheet: Spritesheet, from_coord: Vector = Vector(), to_coord: Vector = Vector()
+        self, state_name: str, spritesheet: "Spritesheet", from_coord: Vector = Vector(), to_coord: Vector = Vector()
     ):
         """
         Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.
