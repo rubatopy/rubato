@@ -14,7 +14,7 @@ main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")
 
 onto_renderer = False
-one_way = False
+one_way = True
 scale = 0.02
 
 if onto_renderer:
@@ -39,19 +39,29 @@ elif one_way:
     image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))
     perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
 
-    def draw(pixels: pixel_access.PixelView):
+    def draw(surf):
+        pixels: pixel_access.PixelView = sdl2.ext.PixelView(surf)
         global noise, gray, color
+        # print(surf.format.contents.format.__class__)
+        # print(sdl2.SDL_GetPixelFormatName(surf.format.contents.format))
+        print(f"before: {pixels[1][0]}")
+
         for i in range(rb.Display.res.x):
             for j in range(rb.Display.res.y):
                 noise = opensimplex.noise2(i * scale, j * scale)  # Note simplex perlin noise ranges from -1 to 1
                 gray = (noise + 1) / 2 * 255
-                color = (gray, gray, gray)
+                color = (0, 0, gray)
                 color = rb.Color(*color)
-                pixels[i][j] = color.rgba32
-        print("done")
-        # return image
+                if i == 0 and j == 1:
+                    print(f"using converter {rb.Color.from_rgba32(color.rgba32)}")
+                pixels[j][i] = rb.Color(color.a, color.r, color.g, color.b).rgba32
+        print(f"after: {rb.Color.from_rgba32(pixels[1][0])}")
+        # print(sdl2.SDL_GetPixelFormatName(surf.format.contents.format))
+        # print(color)
+        return image.image
 
-    draw(sdl2.ext.PixelView(image.image))
+    image.image = draw(image.image)
+    # print(sdl2.SDL_GetPixelFormatName(rb.Display.format.format))
     main_scene.add(perlin)
 
 else:

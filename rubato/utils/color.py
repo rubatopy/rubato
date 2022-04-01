@@ -136,12 +136,12 @@ class Color:
         Returns:
             Color: New Color from the inputted int32 representation of a color.
         """
-        rgba_str = bin(rgba32)
+        rgba_str = format(rgba32, '#034b')
         new = Color()
-        new.a = int(rgba_str[2:10], 2)
-        new.b = int(rgba_str[10:18], 2)
-        new.g = int(rgba_str[18:26], 2)
-        new.r = int(rgba_str[26:34], 2)
+        new.r = int(rgba_str[2:10], 2)  # TODO: bugged with 0
+        new.g = int(rgba_str[10:18], 2)
+        new.b = int(rgba_str[18:26], 2)
+        new.a = int(rgba_str[26:34], 2)
         return new
 
     @staticmethod
