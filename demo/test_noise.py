@@ -1,9 +1,7 @@
 """A Perlin Noise demo for Rubato"""
-import os, sys, opensimplex, sdl2, numpy, ctypes
+import opensimplex
+import sdl2
 import sdl2.ext.pixelaccess as pixel_access
-
-sys.path.insert(0, os.path.abspath("../"))
-# pylint: disable=all
 import rubato as rb
 
 rb.init({
@@ -31,9 +29,9 @@ if onto_renderer:
             rb.Display.renderer.draw_point([x, y], color)
 
     def draw():
-        for x in range(rb.Display.res.x):
-            for y in range(rb.Display.res.y):
-                rb.Display.renderer.draw_point(*saved[x][y])
+        for i in range(rb.Display.res.x):
+            for j in range(rb.Display.res.y):
+                rb.Display.renderer.draw_point(*saved[i][j])
 
     main_scene.draw = draw
 elif one_way:
@@ -42,13 +40,14 @@ elif one_way:
     perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
 
     def draw(pixels: pixel_access.PixelView):
-        for x in range(rb.Display.res.x):
-            for y in range(rb.Display.res.y):
-                noise = opensimplex.noise2(x * scale, y * scale)  # Note simplex perlin noise ranges from -1 to 1
+        global noise, gray, color
+        for i in range(rb.Display.res.x):
+            for j in range(rb.Display.res.y):
+                noise = opensimplex.noise2(i * scale, j * scale)  # Note simplex perlin noise ranges from -1 to 1
                 gray = (noise + 1) / 2 * 255
                 color = (gray, gray, gray)
                 color = rb.Color(*color)
-                pixels[x][y] = color.rgba32
+                pixels[i][j] = color.rgba32
         print("done")
         # return image
 
@@ -58,6 +57,7 @@ elif one_way:
 else:
     image = rb.Image()
     image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))
+    perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
 
     for x in range(rb.Display.res.x):
         for y in range(rb.Display.res.y):
@@ -68,7 +68,7 @@ else:
 
             image.draw_point(rb.Vector(x, y), color)
 
-    perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
+    rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
     main_scene.add(perlin)
 
 print("done")
