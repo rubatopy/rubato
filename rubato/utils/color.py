@@ -117,9 +117,8 @@ class Color:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
         return (
-            f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" + f"{format(self.b, '02x')}" +
-            f"{format(self.a, '02x')}"
-        )
+            f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}"
+        ).replace(" ", "")
 
     @property
     def rgba32(self):
