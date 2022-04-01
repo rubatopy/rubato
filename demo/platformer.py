@@ -1,5 +1,4 @@
 """The platformer example tutorial"""
-# import rubato
 from rubato import *
 
 # initialize a new game
@@ -44,29 +43,13 @@ blue_dino_main = Spritesheet(
         "grid_size": Vector(24, 1)
     }
 )
-blue_dino_jump = Spritesheet(
-    {
-        "rel_path": "sprites/dino/jump - blue.png",
-        "sprite_size": Vector(24, 24),
-        "grid_size": Vector(3, 1),
-    }
-)
-blue_dino_somer = Spritesheet(
-    {
-        "rel_path": "sprites/dino/somer - blue.png",
-        "sprite_size": Vector(24, 24),
-        "grid_size": Vector(4, 1),
-    }
-)
 
 # Create animation and initialize states
-p_animation = Animation({"scale_factor": Vector(4, 4), "fps": 10})
-p_animation.add_spritesheet("idle", blue_dino_main, Vector(0, 0), Vector(3, 0))
-p_animation.add_spritesheet("running", blue_dino_main, Vector(4, 0), Vector(7, 0))
-p_animation.add_spritesheet("jump", blue_dino_jump, Vector(0, 0), Vector(2, 0))
-p_animation.add_spritesheet("somer", blue_dino_somer, Vector(0, 0), Vector(3, 0))
-p_animation.add_spritesheet("crouch_idle", blue_dino_main, Vector(17, 0), Vector(19, 0))
+p_animation = Spritesheet.from_folder("sprites/dino/blue", Vector(24, 24))
+p_animation.add_spritesheet("crouch_idle", blue_dino_main, Vector(17, 0), Vector(19, 0))  # TODO: add the crouch states
 p_animation.add_spritesheet("crouch_run", blue_dino_main, Vector(20, 0), Vector(23, 0))
+p_animation.scale(Vector(4, 4))
+p_animation.fps = 10
 player.add(p_animation)
 
 # define a collision handler
@@ -221,7 +204,7 @@ def update():
             if Input.key_pressed("shift") or Input.key_pressed("s"):
                 p_animation.set_current_state("crouch_run", True)
             else:
-                p_animation.set_current_state("running")
+                p_animation.set_current_state("run")
     elif Input.key_pressed("d"):
         player_body.velocity.x = 300
         p_animation.flipx = False
@@ -229,7 +212,7 @@ def update():
             if Input.key_pressed("shift") or Input.key_pressed("s"):
                 p_animation.set_current_state("crouch_run", True)
             else:
-                p_animation.set_current_state("running")
+                p_animation.set_current_state("run")
     else:
         player_body.velocity.x = 0
         if grounded:
