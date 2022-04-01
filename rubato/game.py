@@ -101,7 +101,7 @@ class Game:
             if event.type == sdl2.SDL_QUIT:
                 Radio.broadcast("exit")
                 print(fps_total / Time.frames)
-                sdl2.sdltff.TTF_Quit()
+                sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
                 sys.exit(1)
             if event.type == sdl2.SDL_WINDOWEVENT:

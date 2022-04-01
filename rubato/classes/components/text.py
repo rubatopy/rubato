@@ -9,7 +9,13 @@ from ... import Defaults, Color, Display, Game, Vector
 class Text(Component):
     """A text class"""
 
-    fonts = {}
+    fonts = {
+        "Comfortaa": "../../../static/fonts/Comfortaa-Regular.ttf",
+        "Fredoka": "../../../static/fonts/Fredoka-Regular.ttf",
+        "Merriweather": "../../../static/fonts/Merriweather-Regular.ttf",
+        "Roboto": "../../../static/fonts/Roboto-Regular.ttf",
+        "SourceCodePro": "../../../static/fonts/SourceCodePro-Regular.ttf",
+    }
 
     styles = {
         "bold": sdl2.sdlttf.TTF_STYLE_BOLD,
@@ -35,9 +41,12 @@ class Text(Component):
         self._color = Color(*param["color"]) if not isinstance(param["color"], Color) else param["color"]
 
         if param["font"] in Text.fonts:
-            self._font = Text.fonts[param["font"]]
+            fontfile = os.path.abspath(os.path.join(os.path.abspath(__file__),
+                                                    Text.fonts[param["font"]])).encode("utf-8")
+            print(fontfile)
         else:
             fontfile = os.path.join(os.path.abspath(os.getcwd()), param["font"]).encode("utf-8")
+
         try:
             self._font = sdl2.sdlttf.TTF_OpenFont(fontfile, self._size).contents
         except ValueError as e:
