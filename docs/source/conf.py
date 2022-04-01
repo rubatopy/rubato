@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
-project = "Rubato"
+project = "rubato"
 copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disable=redefined-builtin
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
@@ -50,14 +50,15 @@ extensions = [
 templates_path = ["_templates"]
 
 html_sidebars = {
-    "**": [
-        "sidebar/scroll-start.html",
-        "sidebar/brand.html",
-        "sidebar/search.html",
-        "sidebar/navigation.html",
-        "versioning.html",
-        "sidebar/scroll-end.html",
-    ],
+    "**":
+        [
+            "sidebar/scroll-start.html",
+            "sidebar/brand.html",
+            "sidebar/search.html",
+            "sidebar/navigation.html",
+            "versioning.html",
+            "sidebar/scroll-end.html",
+        ],
 }
 
 # List of patterns, relative to source directory, that match files and
@@ -103,37 +104,39 @@ theme_color = "#ff9484"
 html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
-    "light_css_variables": {
-        "color-brand-primary": theme_color,
-        "color-brand-content": theme_color,
-        "color-api-name": theme_color,
-        "font-stack": "Fredoka, sans-serif"
-    },
-    "dark_css_variables": {
-        "color-brand-primary": theme_color,
-        "color-brand-content": theme_color,
-        "color-api-name": theme_color,
-    }
+    "light_css_variables":
+        {
+            "color-brand-primary": theme_color,
+            "color-brand-content": theme_color,
+            "color-api-name": theme_color,
+            "font-stack": "Fredoka, sans-serif"
+        },
+    "dark_css_variables":
+        {
+            "color-brand-primary": theme_color,
+            "color-brand-content": theme_color,
+            "color-api-name": theme_color,
+        }
 }
 
 html_use_index = False
 
-html_title = f"{project} Documentation"
+html_title = f"{project} docs"
 
-html_short_title = f"{project} Docs"
+html_short_title = f"{project} docs"
 
 html_show_sphinx = False
 html_show_sourcelink = False
 
-html_baseurl = "https://tinmarr.github.io/rubato/"
+html_baseurl = "https://rubatopy.github.io/rubato/"
 
 # Open Graph
 ogp_site_url = "https://rubatopy.github.io"
 ogp_description_length = 300
 ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"
-ogp_site_name = "Rubato Documentation"
+ogp_site_name = "rubato docs"
 ogp_custom_meta_tags = [
-    '<meta property="og:title" content="Rubato Documentation">',
+    '<meta property="og:title" content="rubato docs">',
 ]
 
 rst_epilog = """
