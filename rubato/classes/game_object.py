@@ -37,6 +37,37 @@ class GameObject:
         self.z_index: int = param["z_index"]
         self._components: dict = {}
 
+    @property
+    def relative_pos(self) -> Vector:
+        """
+        The relative position of the game object.
+        """
+        return self.map_coord(self.pos)
+
+    def map_coord(self, coord: Vector) -> Vector:
+        """
+        Maps a coordinate to the camera's coordinate system.
+
+        Args:
+            coord: The coordinate to map.
+
+        Returns:
+            Vector: The mapped coordinate.
+        """
+        return Game.camera.transform(coord)
+
+    def scale_value(self, value: Union[int, float]) -> Union[int, float]:
+        """
+        Scales a value to match the current camera's scale.
+
+        Args:
+            value: The value to scale.
+
+        Returns:
+            Union[int, float]: The scaled value.
+        """
+        return Game.camera.scale(value)
+
     def add(self, component: Component) -> "GameObject":
         """
         Add a component to the game object.
@@ -158,17 +189,17 @@ class GameObject:
                 comp.draw()
 
         if self.debug or Game.debug:
-            relative_pos = Game.camera.transform(self.pos)
+            rel_pos = self.relative_pos
             sdl2.sdlgfx.thickLineRGBA(
                 Display.renderer.sdlrenderer,
-                int(relative_pos.x) - int(Game.camera.scale(10)), int(relative_pos.y),
-                int(relative_pos.x) + int(Game.camera.scale(10)), int(relative_pos.y), int(2 * Display.display_ratio.y),
-                0, 255, 0, 255
+                int(rel_pos.x) - int(self.scale_value(10)), int(rel_pos.y),
+                int(rel_pos.x) + int(self.scale_value(10)), int(rel_pos.y), int(2 * max(1, Display.display_ratio.y)), 0,
+                255, 0, 255
             )
             sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, int(relative_pos.x),
-                int(relative_pos.y) - int(Game.camera.scale(10)), int(relative_pos.x),
-                int(relative_pos.y) + int(Game.camera.scale(10)), int(2 * Display.display_ratio.x), 0, 255, 0, 255
+                Display.renderer.sdlrenderer, int(rel_pos.x),
+                int(rel_pos.y) - int(self.scale_value(10)), int(rel_pos.x),
+                int(rel_pos.y) + int(self.scale_value(10)), int(2 * max(1, Display.display_ratio.x)), 0, 255, 0, 255
             )
 
     def update(self):

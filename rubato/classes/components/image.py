@@ -154,13 +154,13 @@ class Image(Component):
         ).contents
 
         sdl2.surface.SDL_BlitScaled(
-            self.image,
-            sdl2.SDL_Rect(0, 0, self.image.w, self.image.h),
+            self._original,
+            None,
             image_scaled,
             sdl2.SDL_Rect(0, 0, new_size.x, new_size.y),
         )
 
-        self.image = image_scaled
+        self._image = image_scaled
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def draw_point(self, pos: Vector, color: Color = Color.black):
@@ -198,8 +198,8 @@ class Image(Component):
         width, height = self.image.w, self.image.h
 
         new_size = Vector(
-            round(width * Game.camera.zoom),
-            round(height * Game.camera.zoom),
+            round(self.gameobj.scale_value(width)),
+            round(self.gameobj.scale_value(height)),
         )
 
         self.resize(new_size)
@@ -213,7 +213,4 @@ class Image(Component):
         """
         if self.visible and self.gameobj.z_index <= Game.camera.z_index:
 
-            Display.update(
-                self._tx,
-                Game.camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2),
-            )
+            Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))

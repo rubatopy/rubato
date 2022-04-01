@@ -1,17 +1,46 @@
 """A place to test new WIP features"""
-import rubato as rb
+import os
+import sys
 
-rb.init({"res": rb.Vector(100, 100)})
+sys.path.insert(0, os.path.abspath("../"))
+# pylint: disable=all
 
-main = rb.Scene()
-rb.Game.scenes.add(main, "main")
+from rubato import *
 
-img = rb.Image({"size": rb.Vector(100, 100)})
+init({"res": Vector(350, 350)})
 
-img.draw_point(rb.Vector(0, 0), rb.Color.blue)
+main = Scene()
+Game.scenes.add(main, "main")
 
-img.resize(rb.Vector(100, 100))
+ui = UI({"pos": Vector(49, 49), "debug": True})
 
-main.add(rb.GameObject({"pos": rb.Vector(50, 50), "debug": True}).add(img))
+ui.add(Image({"rel_path": "testing/Run/0.png", "scale_factor": Vector(2, 2)}))
 
-rb.begin()
+main.add(ui)
+
+gm = GameObject({"pos": Vector(51, 51), "debug": False})
+
+gm.add(Image({"rel_path": "testing/Run/0.png", "scale_factor": Vector(2, 2)}))
+
+main.add(gm)
+
+
+def update():
+    if Input.key_pressed("a"):
+        Game.camera.pos.x -= 10
+    if Input.key_pressed("d"):
+        Game.camera.pos.x += 10
+    if Input.key_pressed("w"):
+        Game.camera.pos.y -= 10
+    if Input.key_pressed("s"):
+        Game.camera.pos.y += 10
+
+    if Input.key_pressed("-"):
+        Game.camera.zoom -= 0.01
+    if Input.key_pressed("="):
+        Game.camera.zoom += 0.01
+
+
+main.update = update
+
+begin()
