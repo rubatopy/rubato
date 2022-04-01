@@ -57,6 +57,7 @@ elif one_way:
 else:
     image = rb.Image()
     image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))
+    perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
 
     for x in range(rb.Display.res.x):
         for y in range(rb.Display.res.y):
@@ -67,7 +68,7 @@ else:
 
             image.draw_point(rb.Vector(x, y), color)
 
-    perlin = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
+    rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
     main_scene.add(perlin)
 
 print("done")
