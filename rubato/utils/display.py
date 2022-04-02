@@ -1,6 +1,7 @@
 """
 Global display class that allows for easy screen and window management.
 """
+from __future__ import annotations
 import sdl2
 import sdl2.ext
 from sdl2.sdlgfx import pixelColor, thickLineColor
@@ -107,7 +108,7 @@ class Display:
         )
 
     @classmethod
-    def draw_point(cls, pos: Vector, color: "Color"):
+    def draw_point(cls, pos: Vector, color: Color):
         """
         Draw a point onto the renderer.
 
@@ -118,7 +119,7 @@ class Display:
         pixelColor(cls.renderer, pos.x, pos.y, color.rgba32)
 
     @classmethod
-    def draw_line(cls, p1: Vector, p2: Vector, color: "Color", width: int = 1):
+    def draw_line(cls, p1: Vector, p2: Vector, color: Color, width: int = 1):
         """
         Draw a line onto the renderer.
 
