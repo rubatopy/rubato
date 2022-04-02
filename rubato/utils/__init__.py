@@ -4,7 +4,7 @@ This module houses all the utils
 from .error import *
 from .math import Math
 from .vector import Vector
-from . import defaults as Defaults
+from .defaults import Defaults
 from .display import Display
 from .color import Color
 from .time import Time
