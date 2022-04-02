@@ -22,6 +22,8 @@ rb.Game.scenes.add(main, "main")
 player = rb.GameObject({
     "pos": rb.Display.center_left + rb.Vector(50, 0),  # Set the starting position of the player
 })
+dino_image = Image({"rel_path": "sprites/dino/shadow.png", "scale_factor": Vector(4, 4)})
+
 
 # Add the player to the scene
 main.add(player)

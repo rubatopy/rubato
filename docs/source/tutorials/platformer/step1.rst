@@ -21,19 +21,19 @@ of this file, import rubato:
 
 .. code-block:: python
 
-    import rubato as rb
+    from rubato import *
 
-This will allow to access the entire Rubato library using rb.
+This will allow to access the entire Rubato library by just typing the name
 
 Next we need to initialize rubato:
 
 .. code-block:: python
 
     # initialize a new game
-    rb.init()
+    init()
 
     # begin the game
-    rb.begin()
+    begin()
 
 At this point, if you run the code, you should see a white window appear.
 
@@ -59,12 +59,12 @@ Replace the previous :code:`rb.init()` call with this:
 .. code-block:: python
 
     # initialize a new game
-    rb.init(
+    init(
         {
             "name": "Platformer Demo",  # Set a name
-            "window_size": rb.Vector(960, 540),  # Set the window size
-            "background_color": rb.Color.cyan.lighter(),  # Set the background color
-            "res": rb.Vector(1920, 1080),  # Increase the window resolution
+            "window_size": Vector(960, 540),  # Set the window size
+            "background_color": Color.cyan.lighter(),  # Set the background color
+            "res": Vector(1920, 1080),  # Increase the window resolution
         }
     )
 
@@ -94,20 +94,21 @@ Here is what you main.py should look like:
 
 .. code-block:: python
 
-    import rubato as rb
+    from rubato import *
 
     # initialize a new game
-    rb.init(
+    init(
         {
             "name": "Platformer Demo",  # Set a name
-            "window_size": rb.Vector(960, 540),  # Set the window size
-            "background_color": rb.Color.cyan.lighter(),  # Set the background color
-            "res": rb.Vector(1920, 1080),  # Increase the window resolution
+            "window_size": Vector(960, 540),  # Set the window size
+            "background_color": Color.cyan.lighter(),  # Set the background color
+            "res": Vector(1920, 1080),  # Increase the window resolution
         }
     )
 
     # begin the game
-    rb.begin()
+    begin()
+
 
 There we go! Now your game is set up. In the next step, we will create a player
 and add him to the game.

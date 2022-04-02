@@ -12,7 +12,7 @@ init(
 )
 
 # Change the global debug level
-Game.debug = True
+Game.debug = False
 
 # Tracks the grounded state of the player
 grounded = False

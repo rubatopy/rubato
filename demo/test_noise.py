@@ -50,7 +50,7 @@ elif one_way:
             for j in range(rb.Display.res.y):
                 noise = opensimplex.noise2(i * scale, j * scale)  # Note simplex perlin noise ranges from -1 to 1
                 gray = (noise + 1) / 2 * 255
-                color = (0, 0, gray)
+                color = (gray, gray, gray)
                 color = rb.Color(*color)
                 if i == 0 and j == 1:
                     print(f"using converter {rb.Color.from_rgba32(color.rgba32)}")
@@ -63,7 +63,6 @@ elif one_way:
     image.image = draw(image.image)
     # print(sdl2.SDL_GetPixelFormatName(rb.Display.format.format))
     main_scene.add(perlin)
-
 else:
     image = rb.Image()
     image.resize(rb.Vector(rb.Display.res.x, rb.Display.res.y))

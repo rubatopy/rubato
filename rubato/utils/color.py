@@ -135,7 +135,7 @@ class Color:
         Returns:
             Color: New Color from the inputted int32 representation of a color.
         """
-        rgba_str = format(rgba32, '#034b')
+        rgba_str = format(rgba32, "#034b")
         new = Color()
         new.r = int(rgba_str[2:10], 2)  # TODO: bugged with 0
         new.g = int(rgba_str[10:18], 2)
