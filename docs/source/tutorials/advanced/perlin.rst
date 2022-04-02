@@ -18,9 +18,12 @@ Import to your python file
 
 As a developer we need to know how to use the :code:`opensimplex.noise2()` function
 which generates 2D OpenSimplex noise from X,Y coordinates.
+
 Simplex noise has values from -1 to 1 and moves smoothly between values.
+
 For the resolution of the noise we use a scale value by which we divide.
 (The higher the value the more zoomed)
+
 To get a different noise region (different randomness) we use an offset variable.
 
 .. code-block:: python
