@@ -6,7 +6,7 @@ import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.sdlttf
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Vector, Color, Input, Radio
+from . import Time, Display, Vector, Color, Input, Radio, Font
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -30,7 +30,9 @@ class Game:
     name: str = ""
     border_color: Color = Color(0, 0, 0)
     background_color: Color = Color(255, 255, 255)
+
     debug: bool = False
+    debug_font: Font
 
     _state: int = STOPPED
     scenes: "SceneManager" = None
@@ -159,9 +161,7 @@ class Game:
         cls.scenes.draw()
 
         if cls.debug:
-            Display.draw_text(
-                str(int(Time.smooth_fps)), size=Display.res.y // 30, font="PressStart", color=Color(0, 255, 0)
-            )
+            Display.draw_text(str(int(Time.smooth_fps)), font=cls.debug_font)
 
         # update renderers
         Display.renderer.present()

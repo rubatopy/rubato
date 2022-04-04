@@ -65,6 +65,8 @@ def init(options: dict = {}):
     if params["icon"] != "":
         Display.set_window_icon(params["icon"])
 
+    Game.debug_font = Font({"size": Display.res.y // 30, "font": "Comfortaa", "color": Color(0, 255, 0)})
+
     Game.scenes = SceneManager()
 
 

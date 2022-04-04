@@ -7,6 +7,7 @@ from .vector import Vector
 from .defaults import Defaults
 from .display import Display
 from .color import Color
+from .font import Font
 from .time import Time
 from .radio import Radio
 from .input import Input

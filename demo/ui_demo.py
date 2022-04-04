@@ -14,10 +14,11 @@ main = Scene()
 Game.scenes.add(main, "main")
 
 text = Text({
-    "font": "Fredoka",
-    "size": 64,
-    "text": "I am de Rubato",
-    "style": [],
+    "font": Font({
+        "font": "Fredoka",
+        "size": 64
+    }),
+    "text": "hello world",
     "align": "center",
     "width": -1,
 })

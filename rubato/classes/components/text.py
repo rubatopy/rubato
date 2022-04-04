@@ -1,9 +1,8 @@
 """A text component."""
-import os
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
-from ... import Defaults, Color, Display, Vector
+from ... import Defaults, Display, Vector, Color
 
 
 class Text(Component):
@@ -19,26 +18,11 @@ class Text(Component):
         """
         param = Defaults.text_defaults | options
         super().__init__()
-        self._size = param["size"]
-        self._style = param["style"]
         self._text = param["text"]
-        self._color = param["color"] if isinstance(param["color"], Color) else Color(*param["color"])
+        self._font = param["font"]
         self._align = param["align"]
         self._width = param["width"]
 
-        if param["font"] in Defaults.text_fonts:
-            fontfile = os.path.abspath(
-                os.path.join(os.path.abspath(__file__), "../../../" + Defaults.text_fonts[param["font"]])
-            )
-        else:
-            fontfile = param["font"]
-
-        try:
-            self._font = sdl2.ext.FontTTF(fontfile, self._size, self._color.to_tuple())
-        except ValueError as e:
-            raise FileNotFoundError(f"Font {param['font']} cannot be found.") from e
-
-        self.apply_style()
         self.generate_surface()
 
     @property
@@ -55,32 +39,6 @@ class Text(Component):
             text: The text to set.
         """
         self._text = text
-        self.generate_surface()
-
-    @property
-    def font_size(self) -> int:
-        """The size of the text in points."""
-        return self._size
-
-    @font_size.setter
-    def font_size(self, size: int):
-        self._size = size
-        sdl2.sdlttf.TTF_SetFontSize(self._font, self._size)
-
-    @property
-    def color(self) -> Color:
-        """The color of the text."""
-        return self._color
-
-    @color.setter
-    def color(self, color: Color):
-        """
-        Sets the color of the text.
-
-        Args:
-            color: The color to set.
-        """
-        self._color = color
         self.generate_surface()
 
     @property
@@ -106,52 +64,35 @@ class Text(Component):
         self._width = width
         self.generate_surface()
 
-    def add_style(self, style: str):
-        """
-        Adds a style to the text.
+    @property
+    def font_size(self) -> int:
+        return self._font.size
 
-        Args:
-            style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.
-        """
-        if style in Defaults.text_styles and style not in self._style:
-            self._style.append(style)
-            self.apply_style()
-        else:
-            raise ValueError(f"Style {style} is not valid or is already applied.")
+    @font_size.setter
+    def font_size(self, size: int):
+        self._font.size = size
+        self.generate_surface()
+
+    @property
+    def font_color(self) -> Color:
+        return self._font.color
+
+    @font_color.setter
+    def font_color(self, color: Color):
+        self._font.color = color
+        self.generate_surface()
+
+    def add_style(self, style: str):
+        self._font.add_style(style)
+        self.generate_surface()
 
     def remove_style(self, style: str):
-        """
-        Removes a style from the text.
-
-        Args:
-            style: The style to remove. Can be one of the following: bold, italic, underline, strikethrough.
-        """
-        if style in self._style:
-            self._style.remove(style)
-            self.apply_style()
-        else:
-            raise ValueError(f"Style {style} is not currently applied.")
-
-    def apply_style(self):
-        """Applies the style to the text."""
-        s = Defaults.text_styles["normal"]
-        for style in self._style:
-            s |= Defaults.text_styles[style]
-
-        sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
+        self._font.remove_style(style)
         self.generate_surface()
 
     def generate_surface(self):
         """Generates the surface of the text."""
-        try:
-            self._surf = self._font.render_text(
-                self._text, width=None if self.width < 0 else self.width, align=self._align
-            )
-        except RuntimeError as e:
-            raise ValueError(f"The width {self.width} is too small for the text.") from e
-        except OSError as e:
-            raise ValueError(f"The size {self.font_size} is too big for the text.") from e
-        self._tx = sdl2.ext.Texture(Display.renderer, self._surf)
+        self._tx = sdl2.ext.Texture(Display.renderer, self._font.generate_surface(self._text, self._align, self._width))
 
     def draw(self):
         """Draws the text."""

@@ -2,15 +2,14 @@
 Global display class that allows for easy screen and window management.
 """
 from __future__ import annotations
-import os
 import sdl2, sdl2.sdlttf, sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineColor
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 from . import Vector, Defaults
 
 if TYPE_CHECKING:
-    from . import Color
+    from . import Color, Font
 
 
 class Display:
@@ -135,41 +134,12 @@ class Display:
     def draw_text(
         cls,
         text: str,
+        font: Font,
         pos: Vector = Vector(),
-        size: int = 16,
-        styles: List[str] = ["normal"],
-        color: Color = None,
-        font: str = "Roboto",
-        align: str = "left",
-        width: int = -1
+        align: str = Defaults.text_defaults["align"],
+        width: int = Defaults.text_defaults["width"]
     ):
-        if font in Defaults.text_fonts:
-            fontfile = os.path.abspath(os.path.join(os.path.abspath(__file__), "../../" + Defaults.text_fonts[font]))
-        else:
-            fontfile = font
-
-        try:
-            if color is None:
-                font_ttf = sdl2.ext.FontTTF(fontfile, size, (0, 0, 0, 255))
-            else:
-                font_ttf = sdl2.ext.FontTTF(fontfile, size, color.to_tuple())
-        except ValueError as e:
-            raise FileNotFoundError(f"Font {font} cannot be found.") from e
-
-        s = Defaults.text_styles["normal"]
-        for style in styles:
-            s |= Defaults.text_styles[style]
-
-        sdl2.sdlttf.TTF_SetFontStyle(font_ttf.get_ttf_font(), s)
-
-        try:
-            surf = font_ttf.render_text(text, width=None if width < 0 else width, align=align)
-        except RuntimeError as e:
-            raise ValueError(f"The width {width} is too small for the text.") from e
-        except OSError as e:
-            raise ValueError(f"The size {size} is too big for the text.") from e
-
-        cls.update(sdl2.ext.Texture(cls.renderer, surf), pos)
+        cls.update(sdl2.ext.Texture(cls.renderer, font.generate_surface(text, align, width)), pos)
 
     @classmethod
     def update(cls, tx: sdl2.ext.Texture, pos: Vector):

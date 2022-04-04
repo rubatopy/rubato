@@ -47,20 +47,23 @@ gameobj_defaults = {
 }
 
 text_defaults = {
-    "font": "Roboto",  #. . . . . . . . . . . . . . . . . . . . . . . str
-    # The name of the font to use. (either built-in or previously loaded)
     "text": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
     # The text to display.
+    "align": "left",  # . . . . . . . . . . . . . . . . . . . . str
+    # The alignment of the text. (left, center, right)
+    "width": -1,  # . . . . . . . . . . . . . . . . . . . . . . int
+    # The maximum width of the text. Will automatically wrap the text.
+}
+
+font_defaults = {
+    "font": "Roboto",  #. . . . . . . . . . . . . . . . . . . . str
+    # The name of the font to use. (either built-in or previously loaded)
     "size": 16,  #. . . . . . . . . . . . . . . . . . . . . . . int
     # The size of the text.
-    "style": ["normal"],  # . . . . . . . . . . . . . . . . . . List[str]
+    "styles": ["normal"],  # . . . . . . . . . . . . . . . . . . List[str]
     # A list containing the style to apply to the text. (bold, italic, underline, strikethrough)
     "color": (0, 0, 0, 255),  # . . . . . . . . . . . . . . . . tuple or Color
     # The color of the text.
-    "align": "left",  # . . . . . . . . . . . . . . . . . . . . str
-    # The alignment of the text. (left, center, right)
-    "width": -1,  #. . . . . . . . . . . . . . . . . . . . . int
-    # The maximum width of the text. Will automatically wrap the text.
 }
 
 rigidbody_defaults = {
@@ -227,6 +230,7 @@ class Defaults:
     ui_defaults = ui_defaults
     gameobj_defaults = gameobj_defaults
     text_defaults = text_defaults
+    font_defaults = font_defaults
     rigidbody_defaults = rigidbody_defaults
     image_defaults = image_defaults
     animation_defaults = animation_defaults
