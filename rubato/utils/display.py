@@ -89,7 +89,7 @@ class DisplayProperties(type):
         return cls.res / cls.window_size
 
 
-class Display:
+class Display(metaclass=DisplayProperties):
     """
     A static class that houses all of the display information
 
