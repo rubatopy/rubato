@@ -31,7 +31,6 @@ def init(options: dict = {}):
                 Defaults to the |default| for `Game`.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
-    sdl2.sdlttf.TTF_Init()
 
     Game.initialized = True
 

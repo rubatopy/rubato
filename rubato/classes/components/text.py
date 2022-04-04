@@ -10,11 +10,11 @@ class Text(Component):
     """A text class"""
 
     fonts = {
-        "Comfortaa": "../../../static/fonts/Comfortaa-Regular.ttf",
-        "Fredoka": "../../../static/fonts/Fredoka-Regular.ttf",
+        "Comfortaa": "../../../static/fonts/Comfortaa-VariableFont_wght.ttf",
+        "Fredoka": "../../../static/fonts/Fredoka-VariableFont_wdth,wght.ttf",
         "Merriweather": "../../../static/fonts/Merriweather-Regular.ttf",
         "Roboto": "../../../static/fonts/Roboto-Regular.ttf",
-        "SourceCodePro": "../../../static/fonts/SourceCodePro-Regular.ttf",
+        "SourceCodePro": "../../../static/fonts/SourceCodePro-VariableFont_wght.ttf",
     }
 
     styles = {

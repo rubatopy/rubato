@@ -21,5 +21,6 @@ text = Text(
     }
 )
 
-main.add(GameObject({"pos": Display.center}).add(text))
+main.add(UI({"pos": Display.center}).add(text))
+print(main.root.game_objects)
 begin()

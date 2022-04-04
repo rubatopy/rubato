@@ -4,8 +4,8 @@ Groups contain game objects and allow specific game objects to be seperated.
 
 from typing import List, Union
 
-from . import GameObject, Hitbox, Game
-from .. import Error, Defaults
+from . import GameObject, Hitbox, UI
+from .. import Error, Defaults, Game
 
 
 class Group:
@@ -31,7 +31,9 @@ class Group:
             ValueError: The group can only hold game objects or other groups.
         """
         for item in items:
-            if isinstance(item, GameObject):
+            if isinstance(item, UI):
+                self.add_ui_element(item)
+            elif isinstance(item, GameObject):
                 self.add_game_obj(item)
             elif isinstance(item, Group):
                 self.add_group(item)
@@ -49,6 +51,11 @@ class Group:
         if g.name == "":
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
+
+    def add_ui_element(self, ui: UI):
+        if ui.name == "":
+            ui.name = f"UI {len(self.game_objects)}"
+        self.game_objects.append(ui)
 
     def remove(self, item: Union["GameObject", "Group"]):
         """
