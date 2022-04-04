@@ -36,6 +36,15 @@ Color
     :members:
     :undoc-members:
 
+.. _font:
+
+****
+Font
+****
+.. automodule:: rubato.utils.font
+    :members:
+    :undoc-members:
+
 .. _radio:
 
 *****

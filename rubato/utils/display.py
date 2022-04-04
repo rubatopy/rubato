@@ -16,9 +16,9 @@ class DisplayProperties(type):
     """
     Defines static property methods for Display.
 
-    Warning:
+    Attention:
         This is only a metaclass for the class below it, so you wont be able to access this class.
-        To use the property methods here, simply access them as you would any other Display property.
+        To use the property methods here, simply access them as you would any other ``Display`` property.
     """
 
     @property
@@ -80,11 +80,10 @@ class DisplayProperties(type):
 
     @property
     def display_ratio(cls) -> Vector:
-        """The ratio of the renderer resolution to the window size.
-        This is a get-only property.
+        """The ratio of the renderer resolution to the window size. This is a read-only property.
 
         Returns:
-            Vector: The vector value of this ratio
+            Vector: The ratio of the renderer resolution to the window size seperated by x and y.
         """
         return cls.res / cls.window_size
 
@@ -150,6 +149,17 @@ class Display(metaclass=DisplayProperties):
         align: Vector = Defaults.text_defaults["align"],
         width: int = Defaults.text_defaults["width"]
     ):
+        """
+        Draws some text onto the renderer.
+
+        Args:
+            text: The text to draw.
+            font: The Font object to use.
+            pos: The position of the text. Defaults to Vector(0, 0).
+            justify: The justification of the text. (left, center, right). Defaults to "left".
+            align: The alignment of the text. Defaults to Vector(0, 0).
+            width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
+        """
         tx = sdl2.ext.Texture(cls.renderer, font.generate_surface(text, justify, width))
         cls.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
@@ -180,7 +190,15 @@ class Display(metaclass=DisplayProperties):
 
     @classmethod
     def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
-        """Clones an SDL surface."""
+        """
+        Clones an SDL surface.
+
+        Args:
+            surface: The surface to clone.
+
+        Returns:
+            sdl2.SDL_Surface: The cloned surface.
+        """
         return sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
             surface.pixels,
             surface.w,
@@ -193,77 +211,77 @@ class Display(metaclass=DisplayProperties):
     @classmethod
     @property
     def top_left(cls) -> Vector:
-        """Returns the position of the top left of the window."""
+        """The position of the top left of the window."""
         return Vector(0, 0)
 
     @classmethod
     @property
     def top_right(cls) -> Vector:
-        """Returns the position of the top right of the window."""
+        """The position of the top right of the window."""
         return Vector(cls.res.x, 0)
 
     @classmethod
     @property
     def bottom_left(cls) -> Vector:
-        """Returns the position of the bottom left of the window."""
+        """The position of the bottom left of the window."""
         return Vector(0, cls.res.y)
 
     @classmethod
     @property
     def bottom_right(cls) -> Vector:
-        """Returns the position of the bottom right of the window."""
+        """The position of the bottom right of the window."""
         return Vector(cls.res.x, cls.res.y)
 
     @classmethod
     @property
     def top_center(cls) -> Vector:
-        """Returns the position of the top center of the window."""
+        """The position of the top center of the window."""
         return Vector(cls.res.x / 2, 0)
 
     @classmethod
     @property
     def bottom_center(cls) -> Vector:
-        """Returns the position of the bottom center of the window."""
+        """The position of the bottom center of the window."""
         return Vector(cls.res.x / 2, cls.res.y)
 
     @classmethod
     @property
     def center_left(cls) -> Vector:
-        """Returns the position of the center left of the window."""
+        """The position of the center left of the window."""
         return Vector(0, cls.res.y / 2)
 
     @classmethod
     @property
     def center_right(cls) -> Vector:
-        """Returns the position of the center right of the window."""
+        """The position of the center right of the window."""
         return Vector(cls.res.x, cls.res.y / 2)
 
     @classmethod
     @property
     def center(cls) -> Vector:
-        """Returns the position of the center of the window."""
+        """The position of the center of the window."""
         return Vector(cls.res.x / 2, cls.res.y / 2)
 
     @classmethod
     @property
     def top(cls) -> int:
-        """Returns the position of the top of the window."""
+        """The position of the top of the window."""
         return 0
 
     @classmethod
     @property
     def right(cls) -> int:
-        """Returns the position of the right of the window."""
+        """The position of the right of the window."""
         return cls.res.x
 
     @classmethod
     @property
     def left(cls) -> int:
-        """Returns the position of the left of the window."""
+        """The position of the left of the window."""
         return 0
 
     @classmethod
     @property
     def bottom(cls) -> int:
-        """Returns the position of the bottom of the window."""
+        """The position of the bottom of the window."""
         return cls.res.y
