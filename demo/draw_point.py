@@ -1,27 +1,31 @@
 """Drawing to specific pixels"""  # pylint: disable=all
 import numpy, random, sdl2.ext.pixelaccess as pixel_access
-from rubato import *
+import sys, os
 
-init({
+sys.path.insert(0, os.path.abspath("../"))
+
+import rubato as rb
+
+rb.init({
     "name": "Point drawing",
-    "res": Vector(300, 300),
-    "window_size": Vector(600, 600),
+    "res": rb.Vector(300, 300),
+    "window_size": rb.Vector(600, 600),
 })
 
-main_scene = Scene()
-Game.scenes.add(main_scene, "main")
+main_scene = rb.Scene()
+rb.Game.scenes.add(main_scene, "main")
 
-image = Image()
-image.resize(Vector(90, 90))
-pixel_obj = GameObject({"pos": Vector(150, 150)}).add(image)
+image = rb.Image()
+image.resize(rb.Vector(90, 90))
+pixel_obj = rb.GameObject({"pos": rb.Vector(150, 150)}).add(image)
 
 
-def draw_on(surf: sdl2.SDL_Surface):
+def draw_on(surf):
     pixels: numpy.ndarray = pixel_access.pixels2d(surf)
     for x in range(pixels.shape[0]):
         for y in range(pixels.shape[1]):
-            random.shuffle((new := list(Defaults.color_defaults.values())))
-            pixels[x][y] = Color(*(new[0])).rgba32
+            random.shuffle((new := list(rb.Defaults.color_defaults.values())))
+            pixels[x][y] = rb.Color(*(new[0])).rgba32
     return surf
 
 
@@ -33,4 +37,4 @@ main_scene.update = draw
 
 main_scene.add(pixel_obj)
 
-begin()
+rb.begin()

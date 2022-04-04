@@ -3,23 +3,23 @@ import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))
 
-from rubato import *
+import rubato as rb
 
-init({
-    "window_size": Vector(512, 512),
-    "res": Vector(1024, 1024),
+rb.init({
+    "window_size": rb.Vector(512, 512),
+    "res": rb.Vector(1024, 1024),
 })
 
-main = Scene()
-Game.scenes.add(main, "main")
+main = rb.Scene()
+rb.Game.scenes.add(main, "main")
 
-text = Text({
-    "font": Font({
+text = rb.Text({
+    "font": rb.Font({
         "font": "Fredoka",
         "size": 64
     }),
     "text": "hello world",
 })
 
-main.add(UI({"pos": Display.center}).add(text))
-begin()
+main.add(rb.UI({"pos": rb.Display.center}).add(text))
+rb.begin()

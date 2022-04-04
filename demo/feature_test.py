@@ -1,17 +1,21 @@
 """A place to test new WIP features"""  # pylint: disable=all
-import os
-import sys
+import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))
 
-from rubato import *
+import rubato as rb
 
-init({"res": Vector(600, 600)})
+rb.init({"res": rb.Vector(600, 600)})
 
-main = Scene()
-Game.scenes.add(main, "main")
+main = rb.Scene()
+rb.Game.scenes.add(main, "main")
 
-gm = GameObject({"pos": Vector(250, 250)}).add(Image({"rel_path": "testing/Run/0.png", "scale_factor": Vector(2, 2)}))
+gm = rb.GameObject({
+    "pos": rb.Vector(250, 250)
+}).add(rb.Image({
+    "rel_path": "testing/Run/0.png",
+    "scale_factor": rb.Vector(2, 2)
+}))
 
 main.add(gm)
 
@@ -30,8 +34,8 @@ def listener(info):
         main.add(gm)
 
 
-Radio.listen("keydown", listener)
+rb.Radio.listen("keydown", listener)
 
 main.update = update
 
-begin()
+rb.begin()
