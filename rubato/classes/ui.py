@@ -13,12 +13,11 @@ class UI(GameObject):
     An empty UI element.
 
     Attributes:
-        name (str): The name of the game object. Will default to:
-            "Game Object {number in group}"
-        pos (Vector): The current position of the game object.
-        z_index (int): The z_index of the game object.
+        name (str): The name of the UI. Will default to:
+            "UI {number in group}"
+        pos (Vector): The current position of the UI.
         components (List[Component]): All the components attached to this
-            game object.
+            UI.
     """
 
     def __init__(self, options: dict = {}):
@@ -49,7 +48,8 @@ class UI(GameObject):
         """
         return self.pos
 
-    def map_coord(self, coord: Vector) -> Vector:
+    @staticmethod
+    def map_coord(coord: Vector) -> Vector:
         """
         Maps a coordinate to the UI's coordinate system.
 
@@ -61,7 +61,8 @@ class UI(GameObject):
         """
         return coord
 
-    def scale_value(self, value: Union[int, float]) -> Union[int, float]:
+    @staticmethod
+    def scale_value(value: Union[int, float]) -> Union[int, float]:
         """
         Scales a value to match the UI's scale.
 

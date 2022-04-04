@@ -91,7 +91,6 @@ class Game:
         Handles the game states.
         Will always process timed calls.
         """
-        global fps_total
         # start timing the update loop
         frame_start = sdl2.SDL_GetTicks64()
 
@@ -100,7 +99,6 @@ class Game:
             sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
                 Radio.broadcast("exit")
-                print(fps_total / Time.frames)
                 sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
                 sys.exit(1)
@@ -184,4 +182,3 @@ class Game:
 
         # clock the time the update call took
         Time.delta_time = sdl2.SDL_GetTicks64() - frame_start
-        fps_total += int(Time.fps)
