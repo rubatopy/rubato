@@ -6,7 +6,7 @@ import sdl2.ext
 import sdl2.sdlgfx
 
 from . import Component
-from ... import Vector, Defaults, Display, Game, Radio, Color
+from ... import Vector, Defaults, Display, Radio, Color
 
 
 class Image(Component):
@@ -211,6 +211,5 @@ class Image(Component):
         Args:
             camera: The current Camera viewing the scene.
         """
-        if self.visible and self.gameobj.z_index <= Game.camera.z_index:
-
+        if self.visible:
             Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
