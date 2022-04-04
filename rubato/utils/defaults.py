@@ -49,8 +49,12 @@ gameobj_defaults = {
 text_defaults = {
     "text": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
     # The text to display.
-    "align": "left",  # . . . . . . . . . . . . . . . . . . . . str
-    # The alignment of the text. (left, center, right)
+    "justify": "left",  # . . . . . . . . . . . . . . . . . . . str
+    # The justification of the text. (left, center, right)
+    "align": Vector(),  # . . . . . . . . . . . . . . . . . . . str
+    # The alignment of the text. The zero vector means it is centered.
+    # x component is whether to shift left, none, or right (-1, 0, 1)
+    # y component is whether to shift top, none, or bottom (-1, 0, 1)
     "width": -1,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The maximum width of the text. Will automatically wrap the text.
 }

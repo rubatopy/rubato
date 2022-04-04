@@ -146,10 +146,12 @@ class Display(metaclass=DisplayProperties):
         text: str,
         font: Font,
         pos: Vector = Vector(),
-        align: str = Defaults.text_defaults["align"],
+        justify: str = Defaults.text_defaults["justify"],
+        align: Vector = Defaults.text_defaults["align"],
         width: int = Defaults.text_defaults["width"]
     ):
-        cls.update(sdl2.ext.Texture(cls.renderer, font.generate_surface(text, align, width)), pos)
+        tx = sdl2.ext.Texture(cls.renderer, font.generate_surface(text, justify, width))
+        cls.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
     def update(cls, tx: sdl2.ext.Texture, pos: Vector):

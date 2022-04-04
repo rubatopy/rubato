@@ -21,6 +21,7 @@ class Text(Component):
         self._text = param["text"]
         self._font = param["font"]
         self._align = param["align"]
+        self._justify = param["justify"]
         self._width = param["width"]
 
         self.generate_surface()
@@ -42,17 +43,26 @@ class Text(Component):
         self.generate_surface()
 
     @property
+    def justify(self) -> str:
+        """The justification of the text."""
+        return self._justify
+
+    @justify.setter
+    def justify(self, new: str):
+        if new in ["left", "center", "right"]:
+            self._justify = new
+            self.generate_surface()
+        else:
+            raise ValueError(f"Justification {new} is not left, center or right.")
+
+    @property
     def align(self) -> str:
-        """The alignment of the text."""
+        """The alignment vector of the text."""
         return self._align
 
     @align.setter
-    def align(self, new: str):
-        if new in ["left", "center", "right"]:
-            self._align = new
-            self.generate_surface()
-        else:
-            raise ValueError(f"Alignment {new} is not left, center or right.")
+    def align(self, new: Vector):
+        self._align = new
 
     @property
     def width(self) -> int:
@@ -92,8 +102,13 @@ class Text(Component):
 
     def generate_surface(self):
         """Generates the surface of the text."""
-        self._tx = sdl2.ext.Texture(Display.renderer, self._font.generate_surface(self._text, self._align, self._width))
+        self._tx = sdl2.ext.Texture(
+            Display.renderer, self._font.generate_surface(self._text, self._justify, self._width)
+        )
 
     def draw(self):
         """Draws the text."""
-        Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
+
+        Display.update(
+            self._tx, self.gameobj.map_coord(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2)
+        )

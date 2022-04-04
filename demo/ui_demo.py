@@ -19,8 +19,6 @@ text = Text({
         "size": 64
     }),
     "text": "hello world",
-    "align": "center",
-    "width": -1,
 })
 
 main.add(UI({"pos": Display.center}).add(text))

@@ -171,7 +171,7 @@ class Game(metaclass=GameProperties):
         cls.scenes.draw()
 
         if cls.debug:
-            Display.draw_text(str(int(Time.smooth_fps)), font=cls.debug_font)
+            Display.draw_text(str(int(Time.smooth_fps)), font=cls.debug_font, align=Vector(1, 1))
 
         # update renderers
         Display.renderer.present()
