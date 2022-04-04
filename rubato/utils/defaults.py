@@ -45,7 +45,7 @@ gameobj_defaults = {
 }
 
 text_defaults = {
-    "font": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
+    "font": "Roboto",  #. . . . . . . . . . . . . . . . . . . . . . . str
     # The name of the font to use. (either built-in or previously loaded)
     "text": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
     # The text to display.
@@ -54,6 +54,9 @@ text_defaults = {
     "style": ["normal"],  # . . . . . . . . . . . . . . . . . . List[str]
     # A list containing the style to apply to the text. (bold, italic, underline, strikethrough)
     "color": (0, 0, 0, 255),  # . . . . . . . . . . . . . . . . tuple or Color
+    # The color of the text.
+    "align": "left",  # . . . . . . . . . . . . . . . . . . . . str
+    # The alignment of the text. (left, center, right)
 }
 
 rigidbody_defaults = {
@@ -202,6 +205,7 @@ class Defaults:
     group_defaults = group_defaults
     ui_defaults = ui_defaults
     gameobj_defaults = gameobj_defaults
+    text_defaults = text_defaults
     rigidbody_defaults = rigidbody_defaults
     image_defaults = image_defaults
     animation_defaults = animation_defaults

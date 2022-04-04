@@ -1,6 +1,6 @@
 """A text component."""
 import os
-import sdl2, sdl2.sdlttf
+import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
 from ... import Defaults, Color, Display, Game, Vector
@@ -39,16 +39,15 @@ class Text(Component):
         self._style = param["style"]
         self._text = param["text"]
         self._color = Color(*param["color"]) if not isinstance(param["color"], Color) else param["color"]
+        self._align = param["align"]
 
         if param["font"] in Text.fonts:
-            fontfile = os.path.abspath(os.path.join(os.path.abspath(__file__),
-                                                    Text.fonts[param["font"]])).encode("utf-8")
-            print(fontfile)
+            fontfile = os.path.abspath(os.path.join(os.path.abspath(__file__), Text.fonts[param["font"]]))
         else:
-            fontfile = os.path.join(os.path.abspath(os.getcwd()), param["font"]).encode("utf-8")
+            fontfile = param["font"]
 
         try:
-            self._font = sdl2.sdlttf.TTF_OpenFont(fontfile, self._size).contents
+            self._font = sdl2.ext.FontTTF(fontfile, self._size, self._color.to_tuple())
         except ValueError as e:
             raise FileNotFoundError(f"Font {param['font']} cannot be found.") from e
 
@@ -97,6 +96,18 @@ class Text(Component):
         self._color = color
         self.generate_surface()
 
+    @property
+    def align(self) -> str:
+        """The alignment of the text."""
+        return self._align
+
+    @align.setter
+    def align(self, new: str):
+        if new in ["left", "center", "right"]:
+            self._align = new
+        else:
+            raise ValueError(f"Alignment {new} is not left, center or right.")
+
     def add_style(self, style: str):
         """
         Adds a style to the text.
@@ -129,14 +140,12 @@ class Text(Component):
         for style in self._style:
             s |= Text.styles[style]
 
-        sdl2.sdlttf.TTF_SetFontStyle(self._font, s)
+        sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
         self.generate_surface()
 
     def generate_surface(self):
         """Generates the surface of the text."""
-        self._surf = sdl2.sdlttf.TTF_RenderUTF8_Solid(
-            self._font, self._text.encode("utf-8"), sdl2.SDL_Color(*self._color.to_tuple())
-        ).contents
+        self._surf = self._font.render_text(self._text, align=self._align)
         self._tx = sdl2.ext.Texture(Display.renderer, self._surf)
 
     def draw(self):

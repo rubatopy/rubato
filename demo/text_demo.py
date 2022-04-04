@@ -3,21 +3,20 @@ import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))
 
-import rubato as rb
+from rubato import *
 
-rb.init()
+init()
 
-main = rb.Scene()
-rb.Game.scenes.add(main, "main")
+main = Scene()
+Game.scenes.add(main, "main")
 
-text = rb.Text(
-    {
-        "font": "testing/fonts/32bit Regular.ttf",
-        "size": 128,
-        "text": "Hello World!",
-        "style": ["italic", "bold"],
-    }
-)
+text = Text({
+    "font": "Roboto",
+    "size": 128,
+    "text": "Hello World!\nThis is a test",
+    "style": [],
+    "align": "center",
+})
 
-main.add(rb.GameObject({"pos": rb.Vector(100, 100)}).add(text))
-rb.begin()
+main.add(GameObject({"pos": Display.center}).add(text))
+begin()
