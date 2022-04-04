@@ -206,6 +206,7 @@ text_fonts = {
     "Merriweather": "static/fonts/Merriweather-Regular.ttf",
     "Roboto": "static/fonts/Roboto-Regular.ttf",
     "SourceCodePro": "static/fonts/SourceCodePro-Regular.ttf",
+    "PressStart": "static/fonts/PressStart2P-Regular.ttf",
 }
 
 text_styles = {

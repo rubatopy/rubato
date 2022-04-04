@@ -1,4 +1,4 @@
-"""The platformer example tutorial"""
+"""The platformer example tutorial""" # pylint: disable=wrong-import-position
 import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))

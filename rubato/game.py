@@ -160,7 +160,7 @@ class Game:
 
         if cls.debug:
             Display.draw_text(
-                str(int(Time.smooth_fps)), size=Display.res.y // 30, font="Comfortaa", color=Color(0, 255, 0)
+                str(int(Time.smooth_fps)), size=Display.res.y // 30, font="PressStart", color=Color(0, 255, 0)
             )
 
         # update renderers
