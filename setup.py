@@ -18,4 +18,5 @@ setup(
     packages=find_packages(),
     install_requires=open("requirements.txt").read().split("\n")[5:],
     python_requires=">=3.10",
+    package_data={"rubato": ["static/fonts/*.ttf"]},
 )
