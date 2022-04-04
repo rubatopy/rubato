@@ -12,7 +12,7 @@ Game.scenes.add(main, "main")
 
 text = Text(
     {
-        "font": "SourceCodePro",
+        "font": "Roboto",
         "size": 128,
         "text": "Hello World!\nThis is a test",
         "style": [],

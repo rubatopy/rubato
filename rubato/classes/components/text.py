@@ -3,7 +3,7 @@ import os
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
-from ... import Defaults, Color, Display, Game, Vector
+from ... import Defaults, Color, Display, Vector
 
 
 class Text(Component):
@@ -167,6 +167,4 @@ class Text(Component):
 
     def draw(self):
         """Draws the text."""
-        if self.gameobj.z_index <= Game.camera.z_index:
-
-            Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
+        Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
