@@ -31,6 +31,8 @@ class Group:
             ValueError: The group can only hold game objects or other groups.
         """
         for item in items:
+            if Game.state == Game.RUNNING:
+                item.setup()
             if isinstance(item, UI):
                 self.add_ui_element(item)
             elif isinstance(item, GameObject):

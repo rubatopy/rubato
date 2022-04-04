@@ -10,31 +10,43 @@ rb.init({"res": rb.Vector(600, 600)})
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-gm = rb.GameObject({
-    "pos": rb.Vector(250, 250)
-}).add(rb.Image({
-    "rel_path": "testing/Run/0.png",
-    "scale_factor": rb.Vector(2, 2)
-}))
+player = rb.GameObject({
+    "pos": rb.Display.center_left + rb.Vector(50, 0),
+    "z_index": 1,
+})
 
-main.add(gm)
+# Add shadow
+p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale_factor": rb.Vector(4, 4)})
+player.add(p_shadow)
+
+# Load various spritesheets
+blue_dino_main = rb.Spritesheet(
+    {
+        "rel_path": "sprites/dino/DinoSprites - blue.png",
+        "sprite_size": rb.Vector(24, 24),
+        "grid_size": rb.Vector(24, 1)
+    }
+)
+
+# Create animation and initialize states
+p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24))
+p_animation.add_spritesheet("crouch_idle", blue_dino_main, rb.Vector(17, 0), rb.Vector(19, 0))
+p_animation.add_spritesheet("crouch_run", blue_dino_main, rb.Vector(20, 0), rb.Vector(23, 0))
+p_animation.scale(rb.Vector(4, 4))
+p_animation.fps = 10
+player.add(p_animation)
 
 
 def update():
-    try:
-        print(gm)
-    except Exception:
-        pass
+    pass
 
 
 def listener(info):
     if info["key"] == "space":
-        main.delete(gm)
-    if info["key"] == "a":
-        main.add(gm)
+        main.add(player)
 
 
-rb.Radio.listen("keydown", listener)
+rb.Radio.listen("KEYDOWN", listener)
 
 main.update = update
 
