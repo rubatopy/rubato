@@ -5,22 +5,23 @@
 ### Added
 
 -   Sound class rewritten
--   Input.key_pressed() can now take in an arbitrary number of arguments
 -   Spritesheet support
+-   A full UI system
+-   Text
+-   Quick draw functions in `Display`
 
 ### Changed
 
 -   Ported to PySDL2 from pygame
--   Moved all window management from Game to Display
+-   Moved all window management from `Game` to `Display`
 -   Made classes that only need one instance static classes
 -   Rectangle implementation is now distinct from polygons
 -   Rename sprite to game object
+-   `Input.key_pressed()` can now take in an arbitrary number of arguments
 
 ### Removed
 
 -   Default sprite images
-
-### Fixed
 
 ## [v1.2.0] - March 15, 2022
 
