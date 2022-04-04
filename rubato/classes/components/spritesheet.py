@@ -31,7 +31,6 @@ class Spritesheet():
         if not self._grid:
             self._grid = self._sheet.get_size() / self._sprite_size
             self._grid = self._grid.to_int()
-            # TODO: check if grid is integer
         if (self._sprite_size * self._grid) != self._sheet.get_size():
             raise IndexError("Your sprite size or grid size is incorrect, please check")
 
