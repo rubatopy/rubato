@@ -1,4 +1,8 @@
 """The platformer example tutorial"""
+import sys, os
+
+sys.path.insert(0, os.path.abspath("../"))
+
 from rubato import *
 # TESTING
 import sdl2
@@ -18,7 +22,7 @@ init(
 )
 
 # Change the global debug level
-Game.debug = False
+Game.debug = True
 
 # Tracks the grounded state of the player
 grounded = False

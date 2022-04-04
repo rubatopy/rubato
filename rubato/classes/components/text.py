@@ -9,22 +9,6 @@ from ... import Defaults, Color, Display, Vector
 class Text(Component):
     """A text class"""
 
-    fonts = {
-        "Comfortaa": "../../../static/fonts/Comfortaa-Regular.ttf",
-        "Fredoka": "../../../static/fonts/Fredoka-Regular.ttf",
-        "Merriweather": "../../../static/fonts/Merriweather-Regular.ttf",
-        "Roboto": "../../../static/fonts/Roboto-Regular.ttf",
-        "SourceCodePro": "../../../static/fonts/SourceCodePro-Regular.ttf",
-    }
-
-    styles = {
-        "bold": sdl2.sdlttf.TTF_STYLE_BOLD,
-        "italic": sdl2.sdlttf.TTF_STYLE_ITALIC,
-        "underline": sdl2.sdlttf.TTF_STYLE_UNDERLINE,
-        "strikethrough": sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH,
-        "normal": sdl2.sdlttf.TTF_STYLE_NORMAL,
-    }
-
     def __init__(self, options: dict = {}):
         """
         Initializes an Text.
@@ -38,12 +22,14 @@ class Text(Component):
         self._size = param["size"]
         self._style = param["style"]
         self._text = param["text"]
-        self._color = Color(*param["color"]) if not isinstance(param["color"], Color) else param["color"]
+        self._color = param["color"] if isinstance(param["color"], Color) else Color(*param["color"])
         self._align = param["align"]
         self._width = param["width"]
 
-        if param["font"] in Text.fonts:
-            fontfile = os.path.abspath(os.path.join(os.path.abspath(__file__), Text.fonts[param["font"]]))
+        if param["font"] in Defaults.text_fonts:
+            fontfile = os.path.abspath(
+                os.path.join(os.path.abspath(__file__), "../../../" + Defaults.text_fonts[param["font"]])
+            )
         else:
             fontfile = param["font"]
 
@@ -127,7 +113,7 @@ class Text(Component):
         Args:
             style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.
         """
-        if style in Text.styles and style not in self._style:
+        if style in Defaults.text_styles and style not in self._style:
             self._style.append(style)
             self.apply_style()
         else:
@@ -148,9 +134,9 @@ class Text(Component):
 
     def apply_style(self):
         """Applies the style to the text."""
-        s = Text.styles["normal"]
+        s = Defaults.text_styles["normal"]
         for style in self._style:
-            s |= Text.styles[style]
+            s |= Defaults.text_styles[style]
 
         sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
         self.generate_surface()

@@ -1,6 +1,8 @@
 """
 A module that houses all of the default options.
 """
+import sdl2, sdl2.sdlttf
+
 from . import Math, Vector
 
 # [start-defaults]
@@ -198,6 +200,22 @@ grayscale_defaults = {
 }
 # [end-defaults]
 
+text_fonts = {
+    "Comfortaa": "static/fonts/Comfortaa-Regular.ttf",
+    "Fredoka": "static/fonts/Fredoka-Regular.ttf",
+    "Merriweather": "static/fonts/Merriweather-Regular.ttf",
+    "Roboto": "static/fonts/Roboto-Regular.ttf",
+    "SourceCodePro": "static/fonts/SourceCodePro-Regular.ttf",
+}
+
+text_styles = {
+    "bold": sdl2.sdlttf.TTF_STYLE_BOLD,
+    "italic": sdl2.sdlttf.TTF_STYLE_ITALIC,
+    "underline": sdl2.sdlttf.TTF_STYLE_UNDERLINE,
+    "strikethrough": sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH,
+    "normal": sdl2.sdlttf.TTF_STYLE_NORMAL,
+}
+
 
 class Defaults:
     """
@@ -218,3 +236,5 @@ class Defaults:
     circle_defaults = circle_defaults
     color_defaults = color_defaults
     grayscale_defaults = grayscale_defaults
+    text_fonts = text_fonts
+    text_styles = text_styles

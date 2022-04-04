@@ -159,9 +159,8 @@ class Game:
         cls.scenes.draw()
 
         if cls.debug:
-            # make this actually draw using sdl.ttf font rendering
-            sdl2.sdlgfx.stringRGBA(
-                Display.renderer.sdlrenderer, 0, 0, f"{int(Time.smooth_fps)}".encode(), 0, 255, 0, 255
+            Display.draw_text(
+                str(int(Time.smooth_fps)), size=Display.res.y // 30, font="Comfortaa", color=Color(0, 255, 0)
             )
 
         # update renderers
