@@ -12,7 +12,8 @@ main_scene = Scene()
 Game.scenes.add(main_scene, "main")
 
 image = Image()
-image.resize(Vector(Display.res.x, Display.res.y))
+image.resize(Vector(90, 90))
+pixel_obj = GameObject({"pos": Vector(150, 150)}).add(image)
 
 
 def draw_on(surf: sdl2.SDL_Surface):
@@ -29,5 +30,7 @@ def draw():
 
 
 main_scene.update = draw
+
+main_scene.add(pixel_obj)
 
 begin()

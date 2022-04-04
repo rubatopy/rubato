@@ -1,35 +1,35 @@
 """A Perlin Noise demo for Rubato"""
 import opensimplex
-import rubato as rb
+from rubato import *
 
-rb.init({
+init({
     "name": "Perlin Test",
-    "res": rb.Vector(480, 270),
-    "window_size": rb.Vector(960, 540),
+    "res": Vector(480, 270),
+    "window_size": Vector(960, 540),
 })
 
-main_scene = rb.Scene()
-rb.Game.scenes.add(main_scene, "main")
+main_scene = Scene()
+Game.scenes.add(main_scene, "main")
 
 scale = 50
-offset = rb.Vector(100, 100)
+offset = Vector(100, 100)
 
 saved = []
-for x in range(rb.Display.res.x):
+for x in range(Display.res.x):
     saved.append([])
-    for y in range(rb.Display.res.y):
+    for y in range(Display.res.y):
         noise = opensimplex.noise2((x + offset.x) / scale, (y + offset.y) / scale)
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = [gray for i in range(3)]
-        saved[x].append(([x, y], color))
-        rb.Display.renderer.draw_point([x, y], color)
+        color = Color(*color)
+        saved[x].append((Vector(x, y), color))
 
 def draw():
-    for i in range(rb.Display.res.x):
-        for j in range(rb.Display.res.y):
-            rb.Display.renderer.draw_point(*saved[i][j])
+    for i in range(Display.res.x):
+        for j in range(Display.res.y):
+            Display.draw_point(*saved[i][j])
 
 
 main_scene.draw = draw
 
-rb.begin()
+begin()

@@ -4,7 +4,7 @@ Global display class that allows for easy screen and window management.
 from __future__ import annotations
 import sdl2
 import sdl2.ext
-from sdl2.sdlgfx import pixelColor, thickLineColor
+from sdl2.sdlgfx import pixelRGBA, thickLineColor
 from typing import TYPE_CHECKING
 
 from . import Vector
@@ -116,7 +116,7 @@ class Display:
             pos: The position of the point.
             color: The color to use for the pixel. Defaults to black.
         """
-        pixelColor(cls.renderer, pos.x, pos.y, color.rgba32)
+        pixelRGBA(cls.renderer.renderer, pos.x, pos.y, *color.to_tuple())
 
     @classmethod
     def draw_line(cls, p1: Vector, p2: Vector, color: Color, width: int = 1):
