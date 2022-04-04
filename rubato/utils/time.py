@@ -7,7 +7,27 @@ import heapq
 import sdl2
 
 
-class Time:
+class TimeProperties(type):
+    """
+    Defines static property methods for Time.
+
+    Warning:
+        This is only a metaclass for the class below it, so you wont be able to access this class.
+        To use the property methods here, simply access them as you would any other Time property.
+    """
+
+    @property
+    def smooth_fps(cls) -> float:
+        """The average fps over the past 5 frames. This is a get-only property."""
+        return sum(cls._past_fps) / len(cls._past_fps)
+
+    @property
+    def now(cls) -> int:
+        """The time since the start of the game, in milliseconds. This is a get-only property."""
+        return sdl2.SDL_GetTicks64()
+
+
+class Time(metaclass=TimeProperties):
     """
     The time class
 
@@ -44,18 +64,6 @@ class Time:
     capped = False
 
     physics_fps = 60
-
-    def __get_smooth_fps(self) -> float:
-        """The average fps over the past 5 frames."""
-        return sum(self._past_fps) / len(self._past_fps)
-
-    smooth_fps = classmethod(property(__get_smooth_fps, doc=__get_smooth_fps.__doc__))
-
-    def __get_now(self) -> int:
-        """The time since the start of the game, in milliseconds."""
-        return sdl2.SDL_GetTicks64() * 1  # This "* 1" is to so that sphinx can see the next line as a property function
-
-    now = classmethod(property(__get_now, doc=__get_now.__doc__))
 
     @classmethod
     def delayed_call(cls, time_delta: int, func: Callable):

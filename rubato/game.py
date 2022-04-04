@@ -1,5 +1,5 @@
 """
-The main game class. It controls everything in the game.
+The main game module. It controls everything in the game.
 """
 import sys
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.sdlttf
@@ -12,7 +12,53 @@ if TYPE_CHECKING:
     from . import SceneManager, Camera
 
 
-class Game:
+class GameProperties(type):
+    """
+    Defines static property methods for Game.
+
+    Warning:
+        This is only a metaclass for the class below it, so you wont be able to access this class.
+        To use the property methods here, simply access them as you would any other Game property.
+    """
+
+    @property
+    def state(cls) -> int:
+        """
+        The state of the game.
+
+        The game states are::
+
+            Game.RUNNING
+            Game.STOPPED
+            Game.PAUSED
+        """
+        return cls._state
+
+    @state.setter
+    def state(cls, new: int):
+        cls._state = new
+
+        if cls._state == Game.STOPPED:
+            sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
+
+    @property
+    def camera(cls) -> "Camera":
+        """
+        A shortcut getter allowing easy access to the current camera.
+        This is a get-only property.
+
+        Note:
+            Returns a pointer to the current camera object.
+            This is so you can access/change the current camera properties faster, but you'd still need to
+            use :func:`Game.scenes.current.camera <rubato.classes.scene.Scene.camera>` to access the camera directly.
+
+        Returns:
+            Camera: The current scene's camera
+        """
+        return cls.scenes.current.camera
+
+
+class Game(metaclass=GameProperties):
     """
     The main game class.
 
@@ -38,42 +84,6 @@ class Game:
     scenes: "SceneManager" = None
 
     initialized = False
-
-    def __get_state(self) -> int:
-        """
-        The state of the game.
-
-        The game states are::
-
-            Game.RUNNING
-            Game.STOPPED
-            Game.PAUSED
-        """
-        return self._state
-
-    def __set_state(self, new: int):
-        self._state = new
-
-        if self._state == Game.STOPPED:
-            sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
-
-    state = classmethod(property(__get_state, __set_state, doc=__get_state.__doc__))
-
-    @classmethod
-    @property
-    def camera(cls) -> "Camera":
-        """
-        A getter allowing easy access to the current camera.
-
-        Note:
-            This is a get-only property but returns a pointer to the current camera object.
-            This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.scenes.current.camera <rubato.classes.scene.Scene.camera>` to access the camera directly.
-
-        Returns:
-            Camera: The current scene's camera
-        """
-        return cls.scenes.current.camera
 
     @classmethod
     def constant_loop(cls):

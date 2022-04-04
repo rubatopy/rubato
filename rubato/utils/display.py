@@ -12,21 +12,17 @@ if TYPE_CHECKING:
     from . import Color, Font
 
 
-class Display:
+class DisplayProperties(type):
     """
-    A static class that houses all of the display information
+    Defines static property methods for Display.
 
-    Attributes:
-        window (sdl2.Window): The pysdl2 window element.
-        renderer (sdl2.Renderer): The pysdl2 renderer element.
-        format (sdl2.PixelFormat): The pysdl2 pixel format element.
+    Warning:
+        This is only a metaclass for the class below it, so you wont be able to access this class.
+        To use the property methods here, simply access them as you would any other Display property.
     """
 
-    window: sdl2.ext.Window = None
-    renderer: sdl2.ext.Renderer = None
-    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
-
-    def __get_window_size(self) -> Vector:
+    @property
+    def window_size(cls) -> Vector:
         """
         The pixel size of the physical window.
 
@@ -35,14 +31,14 @@ class Display:
             lead to unexpected results. Instead you should use
             :func:`Display.res <rubato.utils.display.Display.res>`
         """
-        return Vector(*self.window.size)
+        return Vector(*cls.window.size)
 
-    def __set_window_size(self, new: Vector):
-        self.window.size = new.to_int().to_tuple()
+    @window_size.setter
+    def window_size(cls, new: Vector):
+        cls.window.size = new.to_int().to_tuple()
 
-    window_size = classmethod(property(__get_window_size, __set_window_size, doc=__get_window_size.__doc__))
-
-    def __get_res(self) -> Vector:
+    @property
+    def res(cls) -> Vector:
         """
         The pixel resolution of the game. This is the number of virtual
         pixels on the window.
@@ -59,39 +55,53 @@ class Display:
             change it as it will scale your entire project in ways you might
             not expect.
         """
-        return Vector(*self.renderer.logical_size)
+        return Vector(*cls.renderer.logical_size)
 
-    def __set_res(self, new: Vector):
-        self.renderer.logical_size = new.to_int().to_tuple()
+    @res.setter
+    def res(cls, new: Vector):
+        cls.renderer.logical_size = new.to_int().to_tuple()
 
-    res = classmethod(property(__get_res, __set_res, doc=__get_res.__doc__))
-
-    def __get_window_pos(self) -> Vector:
+    @property
+    def window_pos(cls) -> Vector:
         """The current position of the window in terms of screen pixels"""
-        return Vector(*self.window.position)
+        return Vector(*cls.window.position)
 
-    def __set_window_pos(self, new: Vector):
-        self.window.position = new.to_int().to_tuple()
+    @window_pos.setter
+    def window_pos(cls, new: Vector):
+        cls.window.position = new.to_int().to_tuple()
 
-    window_pos = classmethod(property(__get_window_pos, __set_window_pos, doc=__get_window_pos.__doc__))
+    @property
+    def window_name(cls):
+        return cls.window.title
 
-    def __get_window_name(self):
-        return self.window.title
+    @window_name.setter
+    def window_name(cls, new: str):
+        cls.window.title = new
 
-    def __set_window_name(self, new: str):
-        self.window.title = new
-
-    window_name = classmethod(property(__get_window_name, __set_window_name, doc=__get_window_name.__doc__))
-
-    @classmethod
     @property
     def display_ratio(cls) -> Vector:
         """The ratio of the renderer resolution to the window size.
+        This is a get-only property.
 
         Returns:
             Vector: The vector value of this ratio
         """
         return cls.res / cls.window_size
+
+
+class Display:
+    """
+    A static class that houses all of the display information
+
+    Attributes:
+        window (sdl2.Window): The pysdl2 window element.
+        renderer (sdl2.Renderer): The pysdl2 renderer element.
+        format (sdl2.PixelFormat): The pysdl2 pixel format element.
+    """
+
+    window: sdl2.ext.Window = None
+    renderer: sdl2.ext.Renderer = None
+    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
 
     @classmethod
     def set_window_icon(cls, path: str):
