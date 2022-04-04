@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.abspath("../"))
 from rubato import *
 
 init({
-    "window_size": Vector(1000, 1000),
-    "res": Vector(2000, 2000),
+    "window_size": Vector(512, 512),
+    "res": Vector(1024, 1024),
 })
 
 main = Scene()
