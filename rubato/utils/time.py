@@ -122,12 +122,12 @@ class Time:
         cls.frames += 1
         cls.fps = 1000 / cls.delta_time
 
-        if len(cls._past_fps) > 5:
+        if len(cls._past_fps) > 4:
             cls._past_fps.pop(0)
         cls._past_fps.append(cls.fps)
 
         processing = True
-        while processing and len(cls.sorted_frame_times) > 0:
+        while processing and cls.sorted_frame_times:
             if cls.sorted_frame_times[0] <= cls.now:
                 task_time = heapq.heappop(cls.sorted_frame_times)
                 for func in cls.frame_tasks[task_time]:
@@ -137,7 +137,7 @@ class Time:
                 processing = False
 
         processing = True
-        while processing and len(cls.sorted_task_times) > 0:
+        while processing and cls.sorted_task_times:
             if cls.sorted_task_times[0] <= cls.now:
                 task_time = heapq.heappop(cls.sorted_task_times)
                 for func in cls.tasks[task_time]:
