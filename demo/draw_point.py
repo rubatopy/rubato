@@ -1,4 +1,4 @@
-"""Drawing to specific pixels"""
+"""Drawing to specific pixels"""  # pylint: disable=all
 import numpy, random, sdl2.ext.pixelaccess as pixel_access
 from rubato import *
 

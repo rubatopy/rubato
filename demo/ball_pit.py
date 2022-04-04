@@ -1,7 +1,7 @@
-"""A physics demo for Rubato"""
+"""A physics demo for Rubato"""  # pylint: disable=all
 from random import randint, choice
 import rubato as rb
-from rubato import Game, Vector, Color, Display
+from rubato import Game, Vector, Color, Display, Defaults
 
 num_balls = 70
 
@@ -63,7 +63,7 @@ for _ in range(num_balls):
             rb.Circle(
                 {
                     "radius": Display.res.x / num_balls,
-                    "color": Color(*choice(list(rb.Defaults.color_defaults.values())))
+                    "color": Color(*choice(list(Defaults.color_defaults.values())))
                 }
             )
         ).add(
