@@ -72,12 +72,12 @@ class Text(Component):
         self.generate_surface()
 
     @property
-    def size(self) -> int:
-        """The size of the text."""
+    def font_size(self) -> int:
+        """The size of the text in points."""
         return self._size
 
-    @size.setter
-    def size(self, size: int):
+    @font_size.setter
+    def font_size(self, size: int):
         self._size = size
         sdl2.sdlttf.TTF_SetFontSize(self._font, self._size)
 
@@ -162,7 +162,9 @@ class Text(Component):
                 self._text, width=None if self.width < 0 else self.width, align=self._align
             )
         except RuntimeError as e:
-            raise RuntimeError(f"The width {self.width} is too small for the text.") from e
+            raise ValueError(f"The width {self.width} is too small for the text.") from e
+        except OSError as e:
+            raise ValueError(f"The size {self.font_size} is too big for the text.") from e
         self._tx = sdl2.ext.Texture(Display.renderer, self._surf)
 
     def draw(self):

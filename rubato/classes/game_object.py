@@ -44,7 +44,8 @@ class GameObject:
         """
         return self.map_coord(self.pos)
 
-    def map_coord(self, coord: Vector) -> Vector:
+    @staticmethod
+    def map_coord(coord: Vector) -> Vector:
         """
         Maps a coordinate to the camera's coordinate system.
 
@@ -56,7 +57,8 @@ class GameObject:
         """
         return Game.camera.transform(coord)
 
-    def scale_value(self, value: Union[int, float]) -> Union[int, float]:
+    @staticmethod
+    def scale_value(value: Union[int, float]) -> Union[int, float]:
         """
         Scales a value to match the current camera's scale.
 

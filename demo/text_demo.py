@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.abspath("../"))
 from rubato import *
 
 init({
-    "window_size": Vector(512, 512),
-    "res": Vector(1024, 1024),
+    "window_size": Vector(1000, 1000),
+    "res": Vector(2000, 2000),
 })
 
 main = Scene()
@@ -15,8 +15,8 @@ Game.scenes.add(main, "main")
 
 text = Text(
     {
-        "font": "Fredoka",
-        "size": 128,
+        "font": "SourceCodePro",
+        "size": 64,
         "text": "Hello World!\nThis is a test",
         "style": [],
         "align": "center",
@@ -24,5 +24,6 @@ text = Text(
     }
 )
 
-main.add(GameObject({"pos": Display.center}).add(text))
+main.add(UI({"pos": Display.center}).add(text))
+print(main.root.game_objects)
 begin()
