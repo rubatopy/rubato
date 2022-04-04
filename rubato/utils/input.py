@@ -124,7 +124,6 @@ class Input:
 
                 if rb.Input.key_pressed("shift", "w"):
                     # handle the "shift+w" keypress
-
         """
         for key in keys:
             key = key.lower()

@@ -3,7 +3,7 @@ import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))
 
-import rubato as rb
+import rubato as rb  # pylint: disable=wrong-import-position
 
 rb.init({
     "name": "Sound Test",
