@@ -98,8 +98,7 @@ class Input:
 
     @classmethod
     def get_keyboard_state(cls):
-        """ Returns a list with the current SDL keyboard state,
-        which is updated on SDL_PumpEvents. """
+        """Returns a list with the current SDL keyboard state."""
         numkeys = ctypes.c_int()
         keystate = sdl2.SDL_GetKeyboardState(ctypes.byref(numkeys))
         ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)

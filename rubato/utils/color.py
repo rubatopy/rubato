@@ -160,11 +160,14 @@ class Color:
         lv = len(h)
         if lv < 8:
             raise ValueError(f"Invalid hex string: {h}")
-        h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+        try:
+            h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+        except ValueError:
+            raise ValueError(f"Invalid hex string: {h}") from ValueError
         return cls(h[0], h[1], h[2], h[3])
 
-    @staticmethod
-    def from_hsv(h: int, s: int, v: int) -> "Color":
+    @classmethod
+    def from_hsv(cls, h: int, s: int, v: int) -> Color:
         """
         Creates an Color from an HSV.
 
@@ -176,7 +179,7 @@ class Color:
         Returns:
             Color: The Color value.
         """
-        out = Color()
+        out = cls()
         if s == 0:
             out.set(v)
         hh = h
@@ -221,183 +224,164 @@ class Color:
 
     @classmethod
     @property
-    def random(cls) -> "Color":
+    def random(cls) -> Color:
         """A random color."""
         return Color(randint(0, 255), randint(0, 255), randint(0, 255))
 
     @classmethod
     @property
-    def clear(cls) -> "Color":
+    def clear(cls) -> Color:
         """A transparent color object."""
         return Color(0, 0, 0, 0)
 
     @classmethod
     @property
-    def black(cls) -> "Color":
+    def black(cls) -> Color:
         """
-        The default black color. To see the RGB values, check out the
-        |default|.
+        The default black color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["black"])
 
     @classmethod
     @property
-    def white(cls) -> "Color":
+    def white(cls) -> Color:
         """
-        The default white color. To see the RGB values, check out the
-        |default|.
+        The default white color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["white"])
 
     @classmethod
     @property
-    def night(cls) -> "Color":
+    def night(cls) -> Color:
         """
-        The default night color. To see the RGB values, check out the
-        |default|.
+        The default night color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["night"])
 
     @classmethod
     @property
-    def darkgray(cls) -> "Color":
+    def darkgray(cls) -> Color:
         """
-        The default darkgray color. To see the RGB values, check out the
-        |default|.
+        The default darkgray color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["darkgray"])
 
     @classmethod
     @property
-    def gray(cls) -> "Color":
+    def gray(cls) -> Color:
         """
-        The default gray color. To see the RGB values, check out the
-        |default|.
+        The default gray color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["gray"])
 
     @classmethod
     @property
-    def lightgray(cls) -> "Color":
+    def lightgray(cls) -> Color:
         """
-        The default lightgray color. To see the RGB values, check out the
-        |default|.
+        The default lightgray color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["lightgray"])
 
     @classmethod
     @property
-    def snow(cls) -> "Color":
+    def snow(cls) -> Color:
         """
-        The default snow color. To see the RGB values, check out the
-        |default|.
+        The default snow color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.grayscale_defaults["snow"])
 
     @classmethod
     @property
-    def yellow(cls) -> "Color":
+    def yellow(cls) -> Color:
         """
-        The default yellow color. To see the RGB values, check out the
-        |default|.
+        The default yellow color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["yellow"])
 
     @classmethod
     @property
-    def orange(cls) -> "Color":
+    def orange(cls) -> Color:
         """
-        The default orange color. To see the RGB values, check out the
-        |default|.
+        The default orange color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["orange"])
 
     @classmethod
     @property
-    def red(cls) -> "Color":
+    def red(cls) -> Color:
         """
-        The default red color. To see the RGB values, check out the
-        |default|.
+        The default red color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["red"])
 
     @classmethod
     @property
-    def scarlet(cls) -> "Color":
+    def scarlet(cls) -> Color:
         """
-        The default scarlet color. To see the RGB values, check out the
-        |default|.
+        The default scarlet color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["scarlet"])
 
     @classmethod
     @property
-    def magenta(cls) -> "Color":
+    def magenta(cls) -> Color:
         """
-        The default magenta color. To see the RGB values, check out the
-        |default|.
+        The default magenta color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["magenta"])
 
     @classmethod
     @property
-    def purple(cls) -> "Color":
+    def purple(cls) -> Color:
         """
-        The default purple color. To see the RGB values, check out the
-        |default|.
+        The default purple color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["purple"])
 
     @classmethod
     @property
-    def violet(cls) -> "Color":
+    def violet(cls) -> Color:
         """
-        The default violet color. To see the RGB values, check out the
-        |default|.
+        The default violet color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["violet"])
 
     @classmethod
     @property
-    def blue(cls) -> "Color":
+    def blue(cls) -> Color:
         """
-        The default blue color. To see the RGB values, check out the
-        |default|.
+        The default blue color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["blue"])
 
     @classmethod
     @property
-    def cyan(cls) -> "Color":
+    def cyan(cls) -> Color:
         """
-        The default cyan color. To see the RGB values, check out the
-        |default|.
+        The default cyan color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["cyan"])
 
     @classmethod
     @property
-    def turquoize(cls) -> "Color":
+    def turquoize(cls) -> Color:
         """
-        The default turquoize color. To see the RGB values, check out the
-        |default|.
+        The default turquoize color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["turquoize"])
 
     @classmethod
     @property
-    def green(cls) -> "Color":
+    def green(cls) -> Color:
         """
-        The default green color. To see the RGB values, check out the
-        |default|.
+        The default green color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["green"])
 
     @classmethod
     @property
-    def lime(cls) -> "Color":
+    def lime(cls) -> Color:
         """
-        The default lime color. To see the RGB values, check out the
-        |default|.
+        The default lime color. To see the RGB values, check out the |default|.
         """
         return Color(*Defaults.color_defaults["lime"])

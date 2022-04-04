@@ -1,7 +1,7 @@
 """
 A fully functional, multi-channel sound system.
 """
-
+from __future__ import annotations
 import ctypes
 from os import path, walk
 from typing import Dict
@@ -35,8 +35,8 @@ class Sound():
     PLAYING = 1
     PAUSED = 2
 
-    loaded_sounds: Dict[str, "Sound"] = {}
-    active_channels: Dict[int, "Sound"] = {}
+    loaded_sounds: Dict[str, Sound] = {}
+    active_channels: Dict[int, Sound] = {}
 
     def __init__(self, rel_path: str, sound_name: str = None) -> None:
         """
@@ -152,7 +152,7 @@ class Sound():
                 cls(path_to_sound, name)
 
     @classmethod
-    def get_sound(cls, sound_name: str) -> "Sound":
+    def get_sound(cls, sound_name: str) -> Sound:
         """
         Gets the sound based on the sound name.
 

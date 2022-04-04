@@ -7,12 +7,15 @@ To use this, first you need to listen for a specific key using the
 broadcast that event key using :meth:`Radio.broadcast`.
 
 Global events automatically broadcasted:
-EXIT - The user has requested for the application to close
-RESIZE - The window was resized
-KEYDOWN - A key was pressed
-KEYHOLD - A key that was pressed is repeating
-KEYUP - A key was unpressed
-ZOOM - The camera zoom changed
+
+.. code-block:: text
+
+    EXIT - The user has requested for the application to close
+    RESIZE - The window was resized
+    KEYDOWN - A key was pressed
+    KEYHOLD - A key that was pressed is repeating
+    KEYUP - A key was unpressed
+    ZOOM - The camera zoom changed
 """
 
 from typing import Callable, List

@@ -31,8 +31,26 @@ class Font:
         self.apply_styles()
 
     def generate_surface(
-        self, text: str, align: str = Defaults.text_defaults["align"], width: int = Defaults.text_defaults["width"]
-    ):
+        self,
+        text: str,
+        align: str = Defaults.text_defaults["align"],
+        width: int = Defaults.text_defaults["width"]
+    ) -> sdl2.SDL_Surface:
+        """
+        Generate the surface containing the text.
+
+        Args:
+            text: The text to render.
+            align: The alignment to use. Defaults to Vector(0, 0).
+            width: The maximum width to use. Defaults to -1.
+
+        Raises:
+            ValueError: The width is too small for the text.
+            ValueError: The size of the text is too large for the font.
+
+        Returns:
+            sdl2.SDL_Surface: The surface containing the text.
+        """
         try:
             return self._tx.render_text(text, width=None if width < 0 else width, align=align)
         except RuntimeError as e:
@@ -57,12 +75,6 @@ class Font:
 
     @color.setter
     def color(self, color: Color):
-        """
-        Sets the color of the text.
-
-        Args:
-            color: The color to set.
-        """
         self._color = color
         self._tx = sdl2.ext.FontTTF(self._font, self._size, self._color.to_tuple())
 

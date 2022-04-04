@@ -41,7 +41,7 @@ class Vector:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
-        return self.x, self.y
+        return (*self,)
 
     def dot(self, other: Vector) -> Union[float, int]:
         """
@@ -90,14 +90,11 @@ class Vector:
 
     @property
     def magnitude(self) -> float:
-        """Returns the magnitude of the vector."""
+        """The magnitude of the vector."""
         return (self.x * self.x + self.y * self.y)**.5
 
     @magnitude.setter
     def magnitude(self, value: Union[float, int]):
-        """
-        Sets the magnitude of a vector.
-        """
         if self.x == self.y == 0:
             return
         ratio = value * (self.x * self.x + self.y * self.y)**-.5
@@ -106,7 +103,7 @@ class Vector:
 
     @property
     def mag_squared(self) -> float:
-        """Returns the squared magnitude of the vector."""
+        """The squared magnitude of the vector."""
         return self.x * self.x + self.y * self.y
 
     def unit(self) -> Vector:
@@ -130,18 +127,19 @@ class Vector:
 
     @property
     def angle(self) -> float:
-        """Returns the angle of the vector"""
+        """The angle of the vector"""
         return math.atan2(self.y, self.x)
 
     def transform(self, scale, rotation) -> Vector:
         """
-        transforms the vector by the scale and rotation, relative to the original vector
+        Transforms the vector by the scale and rotation, relative to the original vector.
+
         Args:
-            scale: the scale by which the vector's length is multiplied
-            rotation: (degrees) angle by which the vector angle is rotated counterclockwise
+            scale: The scale by which the vector's length is multiplied.
+            rotation: The angle by which the vector angle is rotated counterclockwise in degrees.
 
         Returns:
-            The newly transformed Vector (based on the parent)
+            Vector: The newly transformed Vector (based on the parent).
         """
         new_vector = self.clone()
         if rotation != 0:
@@ -162,15 +160,15 @@ class Vector:
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""
-        return Vector(self.x, self.y)
+        return Vector(*self)
 
     def lerp(self, target: Vector, t: float) -> Vector:
         """
-        Changes its values x and y to fit the target vector by amount t.
+        Lerps the current vector to target by a factor of t.
 
         Args:
-            target: the target velocity.
-            t: the amount you lerp between 0 and 1.
+            target: The target Vector.
+            t: The lerping amount (between 0 and 1).
 
         Returns:
             Vector: The resulting vector.
@@ -180,41 +178,45 @@ class Vector:
 
     def round(self, decimal_places: int = 0):
         """
-        Rounds x and y to decimal_places
+        Rounds x and y to a number of decimal places.
 
         Args:
-            decimal_places: the amount of decimal places rounded to.
+            decimal_places: The amount of decimal places rounded to.
         """
         self.x = round(self.x, decimal_places)
         self.y = round(self.y, decimal_places)
 
     def ceil(self) -> Vector:
         """
-        math.ceil the X and Y values of the Vector
+        Ceil the X and Y values of the Vector.
+
         Returns:
-            new "Ceil"ed Vector
+            Vector: The "Ceil"ed Vector.
         """
         return Vector(math.ceil(self.x), math.ceil(self.y))
 
     def floor(self) -> Vector:
         """
-        math.floor the X and Y values of the Vector
+        Floors the X and Y values of the Vector
+
         Returns:
-            new "Floor"ed Vector
+            Vector: The "Floor"ed Vector
         """
         return Vector(math.floor(self.x), math.floor(self.y))
 
     def abs(self) -> Vector:
         """
-        Absolute value of the Vector (1st quadrant representation)
+        Absolute value of the Vector.
+
         Returns:
-            new absolute valued Vector
+            Vector: The absolute valued Vector
         """
         return Vector(abs(self.x), abs(self.y))
 
-    def dir_to(self, other: Vector | List[int] | Tuple[int]) -> Vector:
+    def dir_to(self, other: Vector) -> Vector:
         """
-        direction from the Vector to another Vector or a two element list or tuple treating everything as points
+        Direction from the Vector to another Vector.
+
         Args:
             other: the position to which you are pointing
 
