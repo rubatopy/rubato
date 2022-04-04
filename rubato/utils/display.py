@@ -48,7 +48,7 @@ class DisplayProperties(type):
             could be rendered at 720p while the resolution is still at 1080p.
             This means that you can place game objects
             at 1000, 1000 and still have them draw despite the window not being
-            1000 pixels wide.
+            1000 pixels tall.
 
         Warning:
             While this value can be changed, it is recommended that you do not
