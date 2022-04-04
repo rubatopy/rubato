@@ -42,3 +42,7 @@ class Component:
     def fixed_update(self):
         """The fixed update loop"""
         pass
+
+    def delete(self):
+        """Deletes the component"""
+        pass

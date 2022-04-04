@@ -37,7 +37,7 @@ class Scene:
         """
         self.root.add(*items)
 
-    def remove(self, item: Union[GameObject, "Group"]):
+    def delete(self, item: Union[GameObject, "Group"]):
         """
         Removes an item from the root group.
 
@@ -45,7 +45,7 @@ class Scene:
             item: The item to remove.
 
         """
-        self.root.remove(item)
+        self.root.delete(item)
 
     def private_draw(self):
         self.draw()

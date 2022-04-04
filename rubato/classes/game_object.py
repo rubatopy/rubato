@@ -1,7 +1,7 @@
 """
 A game object is a basic element that holds components, postion, and z_index.
 """
-from typing import List, Union
+from typing import List, Union, Dict
 import sdl2
 import sdl2.sdlgfx
 
@@ -35,7 +35,7 @@ class GameObject:
         self.pos: Vector = param["pos"]
         self.debug: bool = param["debug"]
         self.z_index: int = param["z_index"]
-        self._components: dict = {}
+        self._components: Dict[type, List[Component]] = {}
 
     @property
     def relative_pos(self) -> Vector:
@@ -175,6 +175,17 @@ class GameObject:
         if comp_type in self._components:
             return self._components[comp_type]
         return []
+
+    def delete(self):
+        """
+        Deletes and frees everything from the game object. This is called when you remove it from a group or scene.
+
+        Note:
+            Calling this delete function will render the gameobject useless in the future.
+        """
+        for comps in self._components.values():
+            for comp in comps:
+                comp.delete()
 
     def setup(self):
         """

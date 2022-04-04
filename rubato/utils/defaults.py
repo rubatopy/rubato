@@ -61,7 +61,7 @@ text_defaults = {
 
 font_defaults = {
     "font": "Roboto",  #. . . . . . . . . . . . . . . . . . . . str
-    # The name of the font to use. (either built-in or previously loaded)
+    # The name or path of the font to use.
     "size": 16,  #. . . . . . . . . . . . . . . . . . . . . . . int
     # The size of the text.
     "styles": ["normal"],  # . . . . . . . . . . . . . . . . . . List[str]

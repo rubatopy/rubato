@@ -213,3 +213,12 @@ class Image(Component):
         """
         if self.visible:
             Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
+
+    def delete(self):
+        """Deletes the image"""
+        self._tx.destroy()
+        sdl2.SDL_FreeSurface(self._image)
+        sdl2.SDL_FreeSurface(self._original)
+        self._image = None
+        self._tx = None
+        self._original = None

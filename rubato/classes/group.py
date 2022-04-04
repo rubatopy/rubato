@@ -57,7 +57,7 @@ class Group:
             ui.name = f"UI {len(self.game_objects)}"
         self.game_objects.append(ui)
 
-    def remove(self, item: Union["GameObject", "Group"]):
+    def delete(self, item: Union["GameObject", "Group"]):
         """
         Removes an item from the group.
 

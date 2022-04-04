@@ -252,3 +252,10 @@ class Animation(Component):
                 self.set_current_state(self.default_state, True)
 
         self.anim_frame.rotation = self.rotation
+
+    def delete(self):
+        """Deletes the animation component"""
+        for state in self._states.values():
+            for image in state:
+                image.delete()
+        self._states = {}
