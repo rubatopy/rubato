@@ -224,4 +224,5 @@ class Input:
         top_left = (center - dims / 2).ceil()
         bottom_right = (center + dims / 2).ceil()
 
-        return top_left.x <= cls.get_mouse_pos().x <= bottom_right.x and top_left.y <= cls.get_mouse_pos().y <= bottom_right.y
+        return top_left.x <= cls.get_mouse_pos().x <= bottom_right.x and top_left.y <= cls.get_mouse_pos(
+        ).y <= bottom_right.y
