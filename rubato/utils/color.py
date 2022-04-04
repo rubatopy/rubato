@@ -1,6 +1,7 @@
 """
-A Color implementation.
+This color module contains the Color class, which is used to represent colors in the game.
 """
+from __future__ import annotations
 from random import randint
 from typing import Tuple
 import sdl2
@@ -10,7 +11,7 @@ from . import Math, Defaults, Display
 
 class Color:
     """
-    A Color implentation.
+    An RGBA color.
 
     Attributes:
         r (int): The red value.
@@ -37,17 +38,17 @@ class Color:
     def __str__(self):
         return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
 
-    def __eq__(self, other: "Color") -> bool:
+    def __eq__(self, other: Color) -> bool:
         if isinstance(other, Color):
             return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a
         return False
 
     def darker(self, amount: int = 20):
         """
-        Returns a darker copy of the color
+        Returns a darker copy of the color. It subtracts ``amount`` from the RGB values.
 
         Args:
-            amount (int, optional): How much darker. Defaults to 20.
+            amount: How much darker. Defaults to 20.
 
         Returns:
             Color: The resultant color.
@@ -56,25 +57,26 @@ class Color:
 
     def lighter(self, amount: int = 20):
         """
-        Returns a lighter copy of the color
+        Returns a lighter copy of the color. It adds ``amount`` to the RGB values.
 
         Args:
-            amount (int, optional): How much lighter. Defaults to 20.
+            amount: How much lighter. Defaults to 20.
 
         Returns:
             Color: The resultant color.
         """
         return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
 
-    def mix(self, other: "Color", t: float = 0.5, mode: str = "mix") -> "Color":
+    def mix(self, other: Color, t: float = 0.5, mode: str = "mix") -> Color:
         """
         Mix two colors together.
 
         Args:
-            other (Color): The other color.
-            t (float): The interpolation amount (0 to 1).
+            other: The other color.
+            t: The interpolation amount (0 to 1).
                 Defaults to 0.5.
-            mode (str): The blending mode ("linear", "mix", "blend").
+            mode: The blending mode ("linear", "mix", "blend"). Linear is the linear interpolation between the two
+                colors. Mix and Blend are 2 different algorithms to mix colors. They tend to look better then linear.
                 Defaults to "mix".
 
         Returns:
@@ -105,13 +107,13 @@ class Color:
         Converts the Color to a tuple.
 
         Returns:
-            tuple(int, int, int): The tuple representing the color.
+            tuple(int, int, int, int): The tuple representing the color.
         """
         return (self.r, self.g, self.b, self.a)
 
     def to_hex(self) -> str:
         """
-        Converts the Color to hexadecimal.
+        Converts the Color to a hexadecimal string.
 
         Returns:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
@@ -123,40 +125,43 @@ class Color:
         """The RGBA32 representation of the color."""
         return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
 
-    @staticmethod
-    def from_rgba32(rgba32: int) -> "Color":
+    @classmethod
+    def from_rgba32(cls, rgba32: int) -> Color:
         """
-        Takes an int32 formatted RGBA and converts it to a Color.
+        Creates a Color from an RGBA32 representation.
+
         Args:
-            rgba32: integer with each 8 bits being R, G, B, A.
+            rgba32: The RGBA32 representation as an int.
 
         Returns:
-            Color: New Color from the inputted int32 representation of a color.
+            Color: The color object from the RGBA32.
         """
         if rgba32 == 0:
-            return Color(0, 0, 0, 0)
+            return cls(0, 0, 0, 0)
         rgba_str = format(rgba32, "#034b")
-        new = Color()
+        new = cls()
         new.r = int(rgba_str[2:10], 2)
         new.g = int(rgba_str[10:18], 2)
         new.b = int(rgba_str[18:26], 2)
         new.a = int(rgba_str[26:34], 2)
         return new
 
-    @staticmethod
-    def from_hex(h: str) -> "Color":
+    @classmethod
+    def from_hex(cls, h: str) -> Color:
         """
         Creates an Color from a hex string.
 
         Args:
-            h: The hexadecimal value in lowercase.
+            h: The hexadecimal value in the format "RRGGBBAA".
 
         Returns:
             Color: The Color value.
         """
         lv = len(h)
+        if lv < 8:
+            raise ValueError(f"Invalid hex string: {h}")
         h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-        return Color(h[0], h[1], h[2], h[3])
+        return cls(h[0], h[1], h[2], h[3])
 
     @staticmethod
     def from_hsv(h: int, s: int, v: int) -> "Color":

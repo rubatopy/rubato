@@ -2,7 +2,7 @@
 A vector implementation.
 """
 from __future__ import annotations
-from typing import Union, List, Tuple
+from typing import Iterator, Union, List, Tuple
 import math
 
 from . import Math
@@ -350,3 +350,6 @@ class Vector:
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)
+
+    def __iter__(self) -> Iterator[int]:
+        return iter([self.x, self.y])
