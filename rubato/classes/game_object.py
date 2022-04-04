@@ -1,6 +1,7 @@
 """
 A game object is a basic element that holds components, postion, and z_index.
 """
+from __future__ import annotations
 from typing import List, Union, Dict
 import sdl2
 import sdl2.sdlgfx
@@ -39,9 +40,7 @@ class GameObject:
 
     @property
     def relative_pos(self) -> Vector:
-        """
-        The relative position of the game object.
-        """
+        """The relative position of the game object."""
         return self.map_coord(self.pos)
 
     @staticmethod
@@ -70,21 +69,18 @@ class GameObject:
         """
         return Game.camera.scale(value)
 
-    def add(self, component: Component) -> "GameObject":
+    def add(self, component: Component) -> GameObject:
         """
         Add a component to the game object.
 
         Args:
-            component: The component to add.
+            component (Component): The component to add.
 
         Raises:
-            DuplicateComponentError: Raised when there is already a component
-                of the same type on the game object.
-            ComponentNotAllowed: Raised when an added component conflicts with
-                another component.
+            DuplicateComponentError: Raised when there is already a component of the same type on the game object.
 
         Returns:
-            Game Object: The current game object
+            GameObject: The current game object
         """
         comp_type = type(component)
 
@@ -109,11 +105,10 @@ class GameObject:
         Removes a component from the game object.
 
         Args:
-            comp_type: The type of the component to remove.
+            comp_type (type): The type of the component to remove.
 
         Raises:
-            Warning: The component was not in the game object and nothing
-                was removed.
+            Warning: The component was not in the game object and nothing was removed.
         """
         if comp_type in self._components:
             del self._components[comp_type][0]
@@ -129,11 +124,10 @@ class GameObject:
         Removes all components of a type from the game object.
 
         Args:
-            comp_type: The type of the component to remove.
+            comp_type (type): The type of the component to remove.
 
         Raises:
-            Warning: The components were not in the game object and nothing
-                was removed.
+            Warning: The components were not in the game object and nothing was removed.
         """
         if comp_type in self._components:
             del self._components[comp_type]
@@ -147,11 +141,10 @@ class GameObject:
         Gets a component from the game object.
 
         Args:
-            comp_type: The type of the component to search for.
+            comp_type (type): The type of the component to search for.
 
         Returns:
-            Union[Component, None]: The component if it was found or None if it
-            wasn't.
+            Union[Component, None]: The component if it was found or None if it wasn't.
         """
         if comp_type in (Rectangle, Polygon, Circle):
             comp_type = Hitbox
@@ -164,11 +157,11 @@ class GameObject:
         Gets all the components of a type from the game object.
 
         Args:
-            comp_type: The type of component to search for.
+            comp_type (type): The type of component to search for.
 
         Returns:
             List[Component]: A list containing all the components of that type. If no components were found, the
-            list is empty.
+                list is empty.
         """
         if comp_type in (Rectangle, Polygon, Circle):
             comp_type = Hitbox
@@ -180,23 +173,19 @@ class GameObject:
         """
         Deletes and frees everything from the game object. This is called when you remove it from a group or scene.
 
-        Note:
-            Calling this delete function will render the gameobject useless in the future.
+        Warning:
+            Calling this will render the gameobject useless in the future.
         """
         for comps in self._components.values():
             for comp in comps:
                 comp.delete()
 
     def setup(self):
-        """
-        Run after initialization and before update loop begins
-        """
         for comps in self._components.values():
             for comp in comps:
                 comp.setup()
 
     def draw(self):
-        """The draw loop"""
         for comps in self._components.values():
             for comp in comps:
                 comp.draw()
@@ -216,13 +205,11 @@ class GameObject:
             )
 
     def update(self):
-        """The update loop"""
         for comps in self._components.values():
             for comp in comps:
                 comp.update()
 
     def fixed_update(self):
-        """The fixed update loop"""
         for comps in self._components.values():
             for comp in comps:
                 comp.fixed_update()

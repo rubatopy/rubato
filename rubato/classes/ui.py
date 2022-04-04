@@ -1,6 +1,6 @@
 """
-A UI is a an object that is drawn to the screen at a constant position no matter how the camera moves. They are also
-always drawn on top of everything else.
+A UIElement is a game object that is drawn to the screen at a constant position no matter how the camera moves.
+They are drawn at the camera's z-index, meaning they will usually draw on top of other game objects.
 """
 from typing import Union
 
@@ -10,7 +10,7 @@ from .. import Defaults, Vector, Game
 
 class UIElement(GameObject):
     """
-    An empty UI element.
+    Defines a UIElement.
 
     Attributes:
         name (str): The name of the UI. Will default to:
@@ -22,19 +22,17 @@ class UIElement(GameObject):
 
     def __init__(self, options: dict = {}):
         """
-        Initializes a UI.
+        Initializes a UIElement.
 
         Args:
-            options: A UI config. Defaults to the |default| for `UI`.
+            options: A UIElement config. Defaults to the |default| for `UIElement`.
         """
         param = Defaults.ui_defaults | options
         super().__init__(param)
 
     @property
     def z_index(self):
-        """
-        The z_index of the UI.
-        """
+        """The z_index of the UIElement."""
         return Game.camera.z_index
 
     @z_index.setter
@@ -43,15 +41,13 @@ class UIElement(GameObject):
 
     @property
     def relative_pos(self) -> Vector:
-        """
-        The relative position of the UI.
-        """
+        """The relative position of the UIElement."""
         return self.pos
 
     @staticmethod
     def map_coord(coord: Vector) -> Vector:
         """
-        Maps a coordinate to the UI's coordinate system.
+        Maps a coordinate to the UIElement's coordinate system.
 
         Args:
             coord: The coordinate to map.
@@ -64,7 +60,7 @@ class UIElement(GameObject):
     @staticmethod
     def scale_value(value: Union[int, float]) -> Union[int, float]:
         """
-        Scales a value to match the UI's scale.
+        Scales a value to match the UIElement's scale.
 
         Args:
             value: The value to scale.

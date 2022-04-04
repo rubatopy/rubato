@@ -1,7 +1,7 @@
 """
-Groups contain game objects and allow specific game objects to be seperated.
+Groups contain game objects or other groups and allow separation between game objects.
 """
-
+from __future__ import annotations
 from typing import List, Union
 
 from . import GameObject, Hitbox, UIElement
@@ -9,16 +9,23 @@ from .. import Error, Defaults, Game
 
 
 class Group:
-    """A group of game objects"""
+    """The group class implementation."""
 
     def __init__(self, options: dict = {}) -> None:
+        """
+        Initializes a group object.
+
+        Args:
+            options: A group object config. Defaults to the |default| for
+                `Group`.
+        """
         param = Defaults.group_defaults | options
         self.name: str = param["name"]
-        self.groups: List["Group"] = []
+        self.groups: List[Group] = []
         self.game_objects: List[GameObject] = []
         self.z_index: int = param["z_index"]
 
-    def add(self, *items: Union[GameObject, "Group"]):
+    def add(self, *items: Union[GameObject, Group]):
         """
         Adds an item to the group.
 
@@ -42,7 +49,8 @@ class Group:
             else:
                 raise ValueError(f"The group {self.name} can only hold game objects/groups.")
 
-    def add_group(self, g: "Group"):
+    def add_group(self, g: Group):
+        """Add a group to the group."""
         if self == g:
             raise Error("Cannot add a group to itself.")
         if g.name == "":
@@ -50,16 +58,18 @@ class Group:
         self.groups.append(g)
 
     def add_game_obj(self, g: GameObject):
+        """Add a game object to the group"""
         if g.name == "":
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
 
     def add_ui_element(self, ui: UIElement):
+        """Add a ui element to the group."""
         if ui.name == "":
             ui.name = f"UI {len(self.game_objects)}"
         self.game_objects.append(ui)
 
-    def delete(self, item: Union["GameObject", "Group"]):
+    def delete(self, item: Union[GameObject, Group]):
         """
         Removes an item from the group.
 
@@ -90,6 +100,7 @@ class Group:
             game_obj.update()
 
     def fixed_update(self):
+        """Runs a physics iteration on the group. Called automatically by Rubato when added to a scene."""
         for group in self.groups:
             group.fixed_update()
 

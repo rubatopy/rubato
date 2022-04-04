@@ -1,7 +1,6 @@
 """
-The Scene Manager houses a collection of scenes and allows switching between
-different scenes. Each Game object has a scene manager. It also handles drawing
-and updating the current scene.
+The Scene Manager houses a collection of scenes and allows switching between scenes.
+It also handles drawing and updating the current scene.
 """
 from typing import Dict
 
@@ -51,8 +50,8 @@ class SceneManager:
         If the manager is empty the current scene will be updated.
 
         Args:
-            scene: The scene to add to the manager.
-            scene_id: The id of the scene.
+            scene (Scene): The scene to add to the manager.
+            scene_id (str): The id of the scene.
 
         Raises:
             IdError: The given scene id is already used.
@@ -71,11 +70,12 @@ class SceneManager:
         Changes the current scene.
 
         Args:
-            scene_id: The id of the new scene.
+            scene_id (str): The id of the new scene.
         """
         self._current = scene_id
 
     def setup(self):
+        """Calls the setup function of the current scene."""
         if self.is_empty():
             return
         self.current.private_setup()
@@ -87,9 +87,7 @@ class SceneManager:
         self.current.private_draw()
 
     def update(self):
-        """
-        Calls the update function of the current scene.
-        """
+        """Calls the update function of the current scene."""
         if self.is_empty():
             return
         self.current.private_update()
@@ -101,6 +99,7 @@ class SceneManager:
         self.current.private_fixed_update()
 
     def paused_update(self):
+        """Calls the paused update function of the current scene."""
         if self.is_empty():
             return
         self.current.paused_update()

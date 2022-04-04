@@ -1,6 +1,5 @@
 """
-The sprite folder holds all of the classes dealing with sprites.
-Everything here works with rubato.sprite.Sprite.
+The classes module holds all of the high-dependency modules relating to game objects.
 """
 from .camera import Camera
 from .components import *
