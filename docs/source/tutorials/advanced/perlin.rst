@@ -38,5 +38,5 @@ To get a different noise region (different randomness) we use an offset variable
 That is how we get noise, in order to use it with rubato visually we need to
 draw points to the renderer.
 
-The source code for this step is available
+The source code is available
 `here <https://github.com/rubatopy/rubato/tree/main/demo/test_noise.py>`__.
