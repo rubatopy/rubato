@@ -7,11 +7,12 @@ To use this, first you need to listen for a specific key using the
 broadcast that event key using :meth:`Radio.broadcast`.
 
 Global events automatically broadcasted:
-exit - The user has requested for the application to close
-resize - The window was resized
-keydown - A key was pressed
-keyhold - A key that was pressed is repeating
-keyup - A key was unpressed
+EXIT - The user has requested for the application to close
+RESIZE - The window was resized
+KEYDOWN - A key was pressed
+KEYHOLD - A key that was pressed is repeating
+KEYUP - A key was unpressed
+ZOOM - The camera zoom changed
 """
 
 from typing import Callable, List
@@ -73,13 +74,13 @@ class Radio:
         return listener
 
     @classmethod
-    def broadcast(cls, event: str, params: dict = {}):
+    def broadcast(cls, event: str, params={}):
         """
         Broadcast an event to be caught by listeners.
 
         Args:
             event: The event key to broadcast.
-            params: A parameters dictionary
+            params: The event parameters (usually a dictionary)
         """
         for listener in cls.listeners.get(event, []):
             listener.ping(params)
@@ -100,12 +101,12 @@ class Listener:
         self.callback = callback
         self.registered = False
 
-    def ping(self, params: dict):
+    def ping(self, params):
         """
         Calls the callback of this listener.
 
         Args:
-            params: A parameters dictionary
+            params: The event parameters (usually a dictionary)
         """
         try:
             self.callback(params)

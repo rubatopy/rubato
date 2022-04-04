@@ -108,7 +108,6 @@ class Text(Component):
 
     def draw(self):
         """Draws the text."""
-
         Display.update(
             self._tx, self.gameobj.map_coord(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2)
         )

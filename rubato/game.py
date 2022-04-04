@@ -108,14 +108,14 @@ class Game(metaclass=GameProperties):
         for event in sdl2.ext.get_events():
             sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
-                Radio.broadcast("exit")
+                Radio.broadcast("EXIT")
                 sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
                 sys.exit(1)
             if event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     Radio.broadcast(
-                        "resize", {
+                        "RESIZE", {
                             "width": event.window.data1,
                             "height": event.window.data2,
                             "old_width": Display.window_size.x,
@@ -132,9 +132,9 @@ class Game(metaclass=GameProperties):
                     unicode = chr(key_info.sym)
 
                 if event.type == sdl2.SDL_KEYUP:
-                    event_name = "keyup"
+                    event_name = "KEYUP"
                 else:
-                    event_name = ("keydown", "keyhold")[event.key.repeat]
+                    event_name = ("KEYDOWN", "KEYHOLD")[event.key.repeat]
 
                 Radio.broadcast(
                     event_name,

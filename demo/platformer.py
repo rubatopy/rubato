@@ -264,7 +264,7 @@ def handle_keydown(event):
         jumps -= 1
 
 
-Radio.listen("keydown", handle_keydown)
+Radio.listen("KEYDOWN", handle_keydown)
 
 # begin the game
 begin()

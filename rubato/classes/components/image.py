@@ -61,7 +61,7 @@ class Image(Component):
         self._scale: Vector = param["scale_factor"]
         self._update_rotozoom()
 
-        Radio.listen("zoom_change", self.cam_update)
+        Radio.listen("ZOOM", self.cam_update)
 
     @property
     def image(self) -> sdl2.SDL_Surface:
