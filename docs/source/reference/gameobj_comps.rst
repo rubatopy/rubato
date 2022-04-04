@@ -14,9 +14,15 @@ Game Object's position.
 ***********
 Game Object
 ***********
-The default Game Object class.
+.. automodule:: rubato.classes.game_object
+    :members:
 
-.. autoclass:: rubato.classes.game_object.GameObject
+.. _ui:
+
+***********
+UI Element
+***********
+.. automodule:: rubato.classes.ui
     :members:
 
 .. _components:
@@ -34,6 +40,13 @@ The default Component class.
 Image
 =========
 .. automodule:: rubato.classes.components.image
+    :members:
+
+.. _text:
+
+Text
+=========
+.. automodule:: rubato.classes.components.text
     :members:
 
 .. _animation:
