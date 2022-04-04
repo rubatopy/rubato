@@ -117,6 +117,5 @@ class Spritesheet():
                     "rel_path": path_to_spritesheet,
                     "sprite_size": sprite_size,
                 })
-                print(sprite_path.split(".")[0])
                 anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
         return anim

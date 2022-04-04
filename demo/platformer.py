@@ -1,5 +1,11 @@
 """The platformer example tutorial"""
 from rubato import *
+# TESTING
+import sdl2
+import sdl2.sdlttf
+import sdl2.ext
+import sdl2.sdlgfx
+# TESTING
 
 # initialize a new game
 init(
