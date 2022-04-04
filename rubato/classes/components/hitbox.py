@@ -12,7 +12,8 @@ from ... import Math, Display, Vector, Defaults, Color, Error, SideError, Game
 
 class Hitbox(Component):
     """
-    The basic hitbox
+    A hitbox superclass. Do not use this to attach hitboxes to your game objects.
+    Instead, use Polygon, Rectangle, or Circle.
 
     Attributes:
         debug (bool): Whether to draw a green outline around the Polygon or not.
@@ -65,9 +66,13 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
+    def overlap(self, other: "Hitbox") -> Union["ColInfo", None]:
+        """Wraps the SAT collide function. Returns a ColInfo manifold if a collision occurs but does not resolve."""
+        return SAT.overlap(self, other)
+
     def collide(self, other: "Hitbox") -> Union["ColInfo", None]:
         """
-        A simple collision engine for most use cases.
+        Collides two hitboxes and resolves the collision using RigidBody impulse momentum if applicable.
 
         Args:
             other: The other rigidbody to collide with.
@@ -90,7 +95,7 @@ class Hitbox(Component):
 
 class Polygon(Hitbox):
     """
-    A custom polygon class with an arbitrary number of vertices
+    A polygon Hitbox subclass with an arbitrary number of vertices.
 
     Attributes:
         verts (List[Vector]): A list of the vertices in the Polygon, in either
@@ -166,15 +171,18 @@ class Polygon(Hitbox):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.rotation}"
 
     def bounding_box_dimensions(self) -> Vector:
+        """
+        Returns the width and height of the smallest x, y axis aligned bounding box that fits around the polygon.
+
+        Returns:
+            Vector: The vector representation of the width and height.
+        """
         real_verts = self.real_verts()
         x_dir = SAT.project_verts(real_verts, Vector(1, 0))
         y_dir = SAT.project_verts(real_verts, Vector(0, 1))
         return Vector(x_dir.y - x_dir.x, y_dir.y - y_dir.x)
 
     def draw(self):
-        """
-        The draw loop
-        """
         list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]
 
         x_coords, y_coords = zip(*list_of_points)
@@ -215,10 +223,12 @@ class Polygon(Hitbox):
 
 class Rectangle(Hitbox):
     """
-    A rectangle class
+    A rectangle implementation of the Hitbox subclass.
 
-    Warning:
-        Needs documentation
+    Attributes:
+        width (int): The width of the rectangle
+        height (int): The height of the rectangle
+        rotation (float): The rotation of the rectangle
     """
 
     def __init__(self, options: dict):
@@ -240,7 +250,7 @@ class Rectangle(Hitbox):
     @property
     def top_left(self):
         """
-        The top left corner of the rectangle
+        The top left corner of the rectangle.
 
         Note:
             This can only be accessed and set after the Rectangle has been
@@ -262,7 +272,7 @@ class Rectangle(Hitbox):
     @property
     def bottom_left(self):
         """
-        The bottom left corner of the rectangle
+        The bottom left corner of the rectangle.
 
         Note:
             This can only be accessed and set after the Rectangle has been
@@ -284,7 +294,7 @@ class Rectangle(Hitbox):
     @property
     def top_right(self):
         """
-        The top right corner of the rectangle
+        The top right corner of the rectangle.
 
         Note:
             This can only be accessed and set after the Rectangle has been
@@ -306,7 +316,7 @@ class Rectangle(Hitbox):
     @property
     def bottom_right(self):
         """
-        The bottom right corner of the rectangle
+        The bottom right corner of the rectangle.
 
         Note:
             This can only be accessed and set after the Rectangle has been
@@ -328,7 +338,7 @@ class Rectangle(Hitbox):
     @property
     def bottom(self):
         """
-        The bottom side of the rectangle
+        The bottom side of the rectangle.
 
         Note:
             This can only be accessed and set after the Rectangle has been
@@ -347,7 +357,13 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
-    def vertices(self):
+    def vertices(self) -> List[Vector]:
+        """
+        Generates a list of the rectangle's vertices with no transformations applied.
+
+        Returns:
+            List[Vector]: The list of vertices
+        """
         return [
             Vector(-self.width / 2, -self.height / 2),
             Vector(self.width / 2, -self.height / 2),
@@ -356,9 +372,21 @@ class Rectangle(Hitbox):
         ]
 
     def transformed_verts(self) -> List[Vector]:
+        """
+        Generates a list of the rectangle's vertices, scaled and rotated.
+
+        Returns:
+            List[Vector]: The list of vertices
+        """
         return [v.transform(self.scale, self.rotation) for v in self.vertices()]
 
     def real_verts(self) -> List[Vector]:
+        """
+        Generates a list of the rectangle's vertices, relative to its position.
+
+        Returns:
+            List[Vector]: The list of vertices
+        """
         return [self.pos + v for v in self.vertices()]
 
     def draw(self):
@@ -387,7 +415,7 @@ class Rectangle(Hitbox):
 
 class Circle(Hitbox):
     """
-    A custom circle class defined by a position, radius, and scale
+    A circle Hitbox subclass defined by a position, radius, and scale.
 
     Attributes:
         radius (int): The radius of the circle.
@@ -467,14 +495,16 @@ class ColInfo:
 
     def __init__(self, shape_a: Union[Hitbox, None], shape_b: Union[Hitbox, None], sep: Vector = Vector()):
         """
-        Initializes a Collision Info manifold
+        Initializes a Collision Info manifold.
+        This is used internally by :func:`SAT <rubato.classes.components.hitbox.SAT>`.
         """
         self.shape_a = shape_a
         self.shape_b = shape_b
         self.sep = sep
 
     def flip(self) -> "ColInfo":
-        """Flips the reference shape in a collision manifold
+        """
+        Flips the reference shape in a collision manifold
 
         Returns:
             ColInfo: a reference to self.
@@ -486,8 +516,7 @@ class ColInfo:
 
 class SAT:
     """
-    A general class that does the collision detection math between
-    circles and polygons
+    A general class that does the collision detection math between different hitboxes.
     """
 
     @staticmethod
@@ -591,6 +620,7 @@ class SAT:
 
     @staticmethod
     def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:
+        """Checks for half overlap. Don't use this by itself unless you know what you are doing."""
         result = ColInfo(poly_a, poly_b)
 
         shortest = Math.INF

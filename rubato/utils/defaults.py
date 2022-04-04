@@ -95,7 +95,7 @@ image_defaults = {
     # The relative path of the image. (from the cwd)
     "size": Vector(32, 32),  #. . . . . . . . . . . . . . . . . Vector
     # The size of the image in pixels. (if a rel path is set this value will be ignored)
-    "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
+    "scale": Vector(1, 1),  # . . . . . . . . . . . . . . . . . Vector
     # The initial scale factor of the image.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The initial rotation of the image.
@@ -112,7 +112,7 @@ image_defaults = {
 }
 
 animation_defaults = {
-    "scale_factor": Vector(1, 1),  #. . . . . . . . . . . . . . Vector
+    "scale": Vector(1, 1),  # . . . . . . . . . . . . . . . . . Vector
     # The startin scale factor of the animation.
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The rotation of the animation.

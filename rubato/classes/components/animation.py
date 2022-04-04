@@ -1,9 +1,8 @@
 """
-Animations are a series of images that loop in a set loop
+This is the animation component module for game objects.
 """
 from __future__ import annotations
-from typing import List, Dict
-from typing import TYPE_CHECKING
+from typing import List, Dict, TYPE_CHECKING
 from os import path, walk
 import sdl2
 
@@ -16,8 +15,7 @@ if TYPE_CHECKING:
 
 class Animation(Component):
     """
-    Made of a a dictionary holding the different states ie. running, idle, etc.
-    each holding separate frames and their times.
+    Animations are a series of images that update automatically in accordance with parameters.
 
     Attributes:
         rotation (float): The rotation of the animation.
@@ -27,9 +25,9 @@ class Animation(Component):
         animation_frames_left (int): The number of animation frames left.
         loop (bool): Whether the animation should loop. Defaults to False.
         aa (bool): Whether or not to enable anti aliasing.
-        flipx (bool): Whether or not to flip the image along the x axis.
-        flipy (bool): Whether or not to flip the image along the y axis.
-        visible (bool): Whether or not the image is visible.
+        flipx (bool): Whether or not to flip the animation along the x axis.
+        flipy (bool): Whether or not to flip the animation along the y axis.
+        visible (bool): Whether or not the animation is visible.
     """
 
     def __init__(self, options: dict = {}):
@@ -55,25 +53,23 @@ class Animation(Component):
         self.animation_frames_left: int = 0
         self._current_frame: int = 0
         self.loop = True
-        self._scale = param["scale_factor"]
+        self.scale = param["scale"]
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
         self.offset: Vector = param["offset"]
         self.visible: bool = param["visible"]
 
-        # time (milliseconds) to switch frames
         self._time_step = 1000 / self._fps
-        self._time_count = 0  # time since last update of frames
+        self._time_count = 0
 
     @property
     def fps(self):
-        """Get the fps"""
+        """The fps of the animation."""
         return self._fps
 
     @fps.setter
     def fps(self, fps):
-        """Set the fps"""
         self._fps = fps
         self._time_step = 1000 / self._fps
 
@@ -89,33 +85,20 @@ class Animation(Component):
 
     @property
     def image(self) -> sdl2.surface.SDL_Surface:
-        """
-        The current SDL Surface holding the image.
-        """
+        """The current SDL Surface holding the image."""
         return self._states[self.current_state][self.current_frame].image
 
     @property
     def anim_frame(self) -> Image:
-        """
-        The current frame.
-        """
+        """The current animation frame."""
         img = self._states[self.current_state][self.current_frame]
         img.aa = self.aa
         img.flipx = self.flipx
         img.flipy = self.flipy
-        img.scale = self._scale
+        img.scale = self.scale
         img.offset = self.offset
         img.visible = self.visible
         return img
-
-    def scale(self, scale_factor: Vector):
-        """
-        Scales the Animation to the given scale factor.
-
-        Args:
-            scale_factor: The 2-d scale factor relative to it's current size.
-        """
-        self._scale = scale_factor
 
     def resize(self, new_size: Vector):
         """
@@ -150,12 +133,12 @@ class Animation(Component):
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
 
     def reset(self):
-        """Reset the animation state back to frame 0"""
+        """Reset the animation state back to the first frame."""
         self.current_frame = 0
 
     def add(self, state_name: str, images: List[Image]):
         """
-        Adds a state to this animation component.
+        Adds a state to the animation.
 
         Args:
             state_name: The key used to reference this state.
@@ -170,8 +153,7 @@ class Animation(Component):
 
     def add_folder(self, state_name: str, rel_path: str):
         """
-        Adds a state from a folder of images. Directory must be
-        solely comprised of images.
+        Adds a state from a folder of images. Directory must be solely comprised of images.
 
         Args:
             state_name: The key used to reference this state.
@@ -228,11 +210,13 @@ class Animation(Component):
         self.add(state_name, state)
 
     def setup(self):
+        """Sets up the animation component."""
         for images in self._states.values():
             for image in images:
                 image.gameobj = self.gameobj
 
     def draw(self):
+        """Draws the animation frame and steps the animation forward."""
         self._time_count += Time.delta_time
 
         while self._time_count > self._time_step:
@@ -242,7 +226,7 @@ class Animation(Component):
         self.anim_frame.draw()
 
     def anim_tick(self):
-        """An animation processing tick"""
+        """An animation processing tick."""
         if self.current_frame != self._freeze:
             if self.animation_frames_left > 0:
                 # still frames left

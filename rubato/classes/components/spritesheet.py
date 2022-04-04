@@ -8,7 +8,7 @@ from . import Image, Animation
 from ... import Defaults, Vector
 
 
-class Spritesheet():
+class Spritesheet:
     """A spritesheet from the filesystem."""
 
     def __init__(self, options: dict = {}):

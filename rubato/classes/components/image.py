@@ -58,7 +58,7 @@ class Image(Component):
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
         self._rotation: float = param["rotation"]
-        self._scale: Vector = param["scale_factor"]
+        self._scale: Vector = param["scale"]
         self._update_rotozoom()
 
         Radio.listen("ZOOM", self.cam_update)

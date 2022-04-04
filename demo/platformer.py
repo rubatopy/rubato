@@ -54,7 +54,7 @@ p_animation.add_spritesheet(
     "crouch_idle", blue_dino_main, rb.Vector(17, 0), rb.Vector(19, 0)
 )  # TODO: add the crouch states
 p_animation.add_spritesheet("crouch_run", blue_dino_main, rb.Vector(20, 0), rb.Vector(23, 0))
-p_animation.scale(rb.Vector(4, 4))
+p_animation.scale = rb.Vector(4, 4)
 p_animation.fps = 10
 player.add(p_animation)
 
