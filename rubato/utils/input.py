@@ -4,7 +4,7 @@ The Input module is the way you collect input from the user.
 import ctypes
 from typing import Tuple, List, Dict
 import sdl2
-from ctypes import c_char_p, c_long, c_int
+from ctypes import c_char_p, c_float, c_long, c_int
 
 from . import Vector, Display
 
@@ -169,21 +169,23 @@ class Input:
             (info & sdl2.mouse.SDL_BUTTON_X2MASK) != 0,
         )
 
-    def __get_mouse_pos(self) -> Vector:
+    @staticmethod
+    def get_mouse_pos() -> Vector:
         """
         The current position of the mouse.
 
         Returns:
             Vector: A Vector representing position.
         """
-        x, y = c_long(0), c_long(0)
-        sdl2.mouse.SDL_GetMouseState(x, y)
-        return Vector(x, y)
+        x_window, y_window = c_long(0), c_long(0)
+        sdl2.SDL_GetMouseState(x_window, y_window)
+        x_render, y_render = c_float(0), c_float(0)
+        sdl2.SDL_RenderWindowToLogical(Display.renderer.renderer, x_window, y_window, x_render, y_render)
+        return Vector(x_render.value, y_render.value)
 
-    def __set_mouse_pos(self, v: Vector):
-        sdl2.mouse.SDL_WarpMouseInWindow(Display.window, c_int(v.x), c_int(v.y))
-
-    mouse_pos = classmethod(property(__get_mouse_pos, __set_mouse_pos, doc=__get_mouse_pos.__doc__))
+    @staticmethod
+    def set_mouse_pos(v: Vector):
+        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v.x), c_int(v.y))
 
     @classmethod
     def mouse_is_visible(cls) -> bool:
@@ -201,6 +203,7 @@ class Input:
         Sets the mouse visibility.
 
         Args:
+
             toggle: True to show the mouse and false to hide the mouse.
         """
         sdl2.mouse.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
@@ -221,4 +224,4 @@ class Input:
         top_left = (center - dims / 2).ceil()
         bottom_right = (center + dims / 2).ceil()
 
-        return top_left.x <= cls.mouse_pos.x <= bottom_right.x and top_left.y <= cls.mouse_pos.y <= bottom_right.y
+        return top_left.x <= cls.get_mouse_pos().x <= bottom_right.x and top_left.y <= cls.get_mouse_pos().y <= bottom_right.y
