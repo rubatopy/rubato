@@ -1,4 +1,5 @@
 """A component gives functionally to game objects."""
+from __future__ import annotations
 from typing import Union, TYPE_CHECKING
 
 from ... import Vector
@@ -19,7 +20,7 @@ class Component:
 
     def __init__(self) -> None:
         """Initializes a component"""
-        self.gameobj: Union["GameObject", None] = None
+        self.gameobj: Union[GameObject, None] = None
         self.singular: bool = False
         self.offset: Vector = Vector(0, 0)
 

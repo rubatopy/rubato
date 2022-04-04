@@ -1,6 +1,7 @@
 """
 The main game module. It controls everything in the game.
 """
+from __future__ import annotations
 import sys
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.sdlttf
 from contextlib import suppress
@@ -42,7 +43,7 @@ class GameProperties(type):
             sdl2.events.SDL_PushEvent(sdl2.events.SDL_QuitEvent())
 
     @property
-    def camera(cls) -> "Camera":
+    def camera(cls) -> Camera:
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -81,7 +82,7 @@ class Game(metaclass=GameProperties):
     debug_font: Font
 
     _state: int = STOPPED
-    scenes: "SceneManager" = None
+    scenes: SceneManager = None
 
     initialized = False
 

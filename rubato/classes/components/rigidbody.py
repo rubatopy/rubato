@@ -2,6 +2,7 @@
 The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
+from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from . import Component
@@ -112,7 +113,7 @@ class RigidBody(Component):
             Time.delayed_frames(1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
     @staticmethod
-    def handle_collision(col: "ColInfo"):
+    def handle_collision(col: ColInfo):
         """
         Handle the collision between two rigidbodies.
 
