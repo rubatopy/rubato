@@ -1,6 +1,7 @@
 """
 A vector implementation.
 """
+from __future__ import annotations
 from typing import Union, List, Tuple
 import math
 
@@ -42,7 +43,7 @@ class Vector:
         """
         return self.x, self.y
 
-    def dot(self, other: "Vector") -> Union[float, int]:
+    def dot(self, other: Vector) -> Union[float, int]:
         """
         Takes the dot product of vectors.
 
@@ -54,7 +55,7 @@ class Vector:
         """
         return self.x * other.x + self.y * other.y
 
-    def cross(self, other: "Vector") -> Union[float, int]:
+    def cross(self, other: Vector) -> Union[float, int]:
         """
         Takes the cross product of vectors.
 
@@ -66,7 +67,7 @@ class Vector:
         """
         return self.x * other.y - self.y * other.x
 
-    def clamp(self, lower: Union["Vector", int, float], upper: Union["Vector", int, float], absolute: bool = False):
+    def clamp(self, lower: Union[Vector, int, float], upper: Union[Vector, int, float], absolute: bool = False):
         """
         Clamps x and y between the two values given.
 
@@ -108,13 +109,13 @@ class Vector:
         """Returns the squared magnitude of the vector."""
         return self.x * self.x + self.y * self.y
 
-    def unit(self) -> "Vector":
+    def unit(self) -> Vector:
         """Returns the unit vector of this vector."""
         inv_mag = (self.x * self.x + self.y * self.y)**-.5
         return Vector(self.x * inv_mag, self.y * inv_mag)
 
     @staticmethod
-    def from_radial(magnitude: float, angle: float) -> "Vector":
+    def from_radial(magnitude: float, angle: float) -> Vector:
         """
         Gives you a Vector from the given direction and distance.
 
@@ -132,7 +133,7 @@ class Vector:
         """Returns the angle of the vector"""
         return math.atan2(self.y, self.x)
 
-    def transform(self, scale, rotation) -> "Vector":
+    def transform(self, scale, rotation) -> Vector:
         """
         transforms the vector by the scale and rotation, relative to the original vector
         Args:
@@ -151,7 +152,7 @@ class Vector:
         new_vector.y *= scale
         return new_vector
 
-    def to_int(self) -> "Vector":
+    def to_int(self) -> Vector:
         """Returns a new vector with values that are ints."""
         return Vector(int(self.x), int(self.y))
 
@@ -159,11 +160,11 @@ class Vector:
         """Returns a tuple with rounded values."""
         return int(self.x), int(self.y)
 
-    def clone(self) -> "Vector":
+    def clone(self) -> Vector:
         """Returns a copy of the vector."""
         return Vector(self.x, self.y)
 
-    def lerp(self, target: "Vector", t: float) -> "Vector":
+    def lerp(self, target: Vector, t: float) -> Vector:
         """
         Changes its values x and y to fit the target vector by amount t.
 
@@ -187,7 +188,7 @@ class Vector:
         self.x = round(self.x, decimal_places)
         self.y = round(self.y, decimal_places)
 
-    def ceil(self) -> "Vector":
+    def ceil(self) -> Vector:
         """
         math.ceil the X and Y values of the Vector
         Returns:
@@ -195,7 +196,7 @@ class Vector:
         """
         return Vector(math.ceil(self.x), math.ceil(self.y))
 
-    def floor(self) -> "Vector":
+    def floor(self) -> Vector:
         """
         math.floor the X and Y values of the Vector
         Returns:
@@ -203,7 +204,7 @@ class Vector:
         """
         return Vector(math.floor(self.x), math.floor(self.y))
 
-    def abs(self) -> "Vector":
+    def abs(self) -> Vector:
         """
         Absolute value of the Vector (1st quadrant representation)
         Returns:
@@ -211,7 +212,7 @@ class Vector:
         """
         return Vector(abs(self.x), abs(self.y))
 
-    def dir_to(self, other: "Vector" | List[int] | Tuple[int]) -> "Vector":
+    def dir_to(self, other: Vector | List[int] | Tuple[int]) -> Vector:
         """
         direction from the Vector to another Vector or a two element list or tuple treating everything as points
         Args:
@@ -265,7 +266,7 @@ class Vector:
         return Vector(Math.INF, Math.INF)
 
     @staticmethod
-    def is_vectorlike(subscriptable: "Vector" | List[int | float] | Tuple[int | float]):
+    def is_vectorlike(subscriptable: Vector | List[int | float] | Tuple[int | float]):
         """
         Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
 
@@ -288,39 +289,39 @@ class Vector:
             raise TypeError(f"{subscriptable} should be a list | tuple | Vector not a {subscriptable.__class__}.")\
                 .with_traceback(trace.__traceback__)
 
-    def __eq__(self, o: "Vector") -> bool:
+    def __eq__(self, o: Vector) -> bool:
         if isinstance(o, Vector):
             return self.y == o.y and self.x == o.x
         return False
 
-    def __gt__(self, other: "Vector") -> bool:
+    def __gt__(self, other: Vector) -> bool:
         return self.x > other.x and self.y > other.y
 
-    def __lt__(self, other: "Vector") -> bool:
+    def __lt__(self, other: Vector) -> bool:
         return self.x < other.x and self.y < other.y
 
-    def __ge__(self, other: "Vector") -> bool:
+    def __ge__(self, other: Vector) -> bool:
         return self.x >= other.x and self.y >= other.y
 
-    def __le__(self, other: "Vector") -> bool:
+    def __le__(self, other: Vector) -> bool:
         return self.x <= other.x and self.y <= other.y
 
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
 
-    def __pow__(self, other: any) -> "Vector":
+    def __pow__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x**other, self.y**other)
         if isinstance(other, Vector):
             return Vector(self.x**other.x, self.y**other.y)
 
-    def __mul__(self, other: any) -> "Vector":
+    def __mul__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
 
-    def __add__(self, other: any) -> "Vector":
+    def __add__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         if isinstance(other, Vector):
@@ -329,23 +330,23 @@ class Vector:
     __rmul__ = __mul__
     __radd__ = __add__
 
-    def __sub__(self, other: any) -> "Vector":
+    def __sub__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x - other, self.y - other)
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y)
 
-    def __rsub__(self, other: int | float) -> "Vector":
+    def __rsub__(self, other: int | float) -> Vector:
         return Vector(other - self.x, other - self.y)
 
-    def __truediv__(self, other: any) -> "Vector":
+    def __truediv__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
 
-    def __rtruediv__(self, other: int | float) -> "Vector":
+    def __rtruediv__(self, other: int | float) -> Vector:
         return Vector(other / self.x, other / self.y)
 
-    def __neg__(self) -> "Vector":
+    def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)

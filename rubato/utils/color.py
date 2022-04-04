@@ -117,9 +117,8 @@ class Color:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
         return (
-            f"{format(self.r, '02x')}" + f"{format(self.g, '02x')}" + f"{format(self.b, '02x')}" +
-            f"{format(self.a, '02x')}"
-        )
+            f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}"
+        ).replace(" ", "")
 
     @property
     def rgba32(self):
@@ -136,12 +135,12 @@ class Color:
         Returns:
             Color: New Color from the inputted int32 representation of a color.
         """
-        rgba_str = bin(rgba32)
+        rgba_str = format(rgba32, "#034b")
         new = Color()
-        new.a = int(rgba_str[2:10], 2)
-        new.b = int(rgba_str[10:18], 2)
-        new.g = int(rgba_str[18:26], 2)
-        new.r = int(rgba_str[26:34], 2)
+        new.r = int(rgba_str[2:10], 2)  # TODO: bugged with 0
+        new.g = int(rgba_str[10:18], 2)
+        new.b = int(rgba_str[18:26], 2)
+        new.a = int(rgba_str[26:34], 2)
         return new
 
     @staticmethod

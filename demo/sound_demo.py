@@ -1,4 +1,8 @@
 """A sound demo for Rubato"""
+import sys, os
+
+sys.path.insert(0, os.path.abspath("../"))
+
 import rubato as rb
 
 rb.init({

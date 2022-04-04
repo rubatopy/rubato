@@ -103,7 +103,7 @@ animation_defaults = {
     "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
     # The rotation of the animation.
     "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
-    # The FPS that the animation should run at.
+    # The FPS that the animation should run at. Greater than 0.
     "anti_aliasing": False,  #. . . . . . . . . . . . . . . . . bool
     # Whether or not to enable anti aliasing.
     "flipx": False,  #. . . . . . . . . . . . . . . . . . . . . bool
@@ -121,7 +121,7 @@ spritesheet_defaults = {
     # The relative path to the spritesheet (from the cwd).
     "sprite_size": Vector(32, 32),  # . . . . . . . . . . . . . Vector
     # The size of each sprite in pixels.
-    "grid_size": Vector(16, 16),  # . . . . . . . . . . . . . . Vector
+    "grid_size": None,  # . . . . . . . . . . . . . . Vector
     # The size of the spritesheet grid (columns/x, rows/y).
 }
 
@@ -192,3 +192,23 @@ grayscale_defaults = {
     "snow": (223, 230, 233),  # . . . . . . . . . . . . . . . . tuple
 }
 # [end-defaults]
+
+
+class Defaults:
+    """
+    The default values for everything.
+    """
+    game_defaults = game_defaults
+    group_defaults = group_defaults
+    ui_defaults = ui_defaults
+    gameobj_defaults = gameobj_defaults
+    rigidbody_defaults = rigidbody_defaults
+    image_defaults = image_defaults
+    animation_defaults = animation_defaults
+    spritesheet_defaults = spritesheet_defaults
+    hitbox_defaults = hitbox_defaults
+    polygon_defaults = polygon_defaults
+    rectangle_defaults = rectangle_defaults
+    circle_defaults = circle_defaults
+    color_defaults = color_defaults
+    grayscale_defaults = grayscale_defaults

@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
-project = "Rubato"
+project = "rubato"
 copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disable=redefined-builtin
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
@@ -121,22 +121,22 @@ html_theme_options = {
 
 html_use_index = False
 
-html_title = f"{project} Documentation"
+html_title = f"{project} docs"
 
-html_short_title = f"{project} Docs"
+html_short_title = f"{project} docs"
 
 html_show_sphinx = False
 html_show_sourcelink = False
 
-html_baseurl = "https://tinmarr.github.io/rubato/"
+html_baseurl = "https://rubatopy.github.io/rubato/"
 
 # Open Graph
 ogp_site_url = "https://rubatopy.github.io"
 ogp_description_length = 300
 ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"
-ogp_site_name = "Rubato Documentation"
+ogp_site_name = "rubato docs"
 ogp_custom_meta_tags = [
-    '<meta property="og:title" content="Rubato Documentation">',
+    '<meta property="og:title" content="rubato docs">',
 ]
 
 rst_epilog = """

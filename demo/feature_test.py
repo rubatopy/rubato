@@ -16,13 +16,12 @@ ui = UI({"pos": Vector(49, 49), "debug": True})
 
 ui.add(Image({"rel_path": "testing/Run/0.png", "scale_factor": Vector(2, 2)}))
 
-main.add(ui)
 
 gm = GameObject({"pos": Vector(51, 51), "debug": False})
 
 gm.add(Image({"rel_path": "testing/Run/0.png", "scale_factor": Vector(2, 2)}))
 
-main.add(gm)
+main.add(ui, gm)
 
 
 def update():
