@@ -53,7 +53,7 @@ html_sidebars = {
     "**":
         [
             "sidebar/scroll-start.html",
-            "sidebar/brand.html",
+            "brand.html",
             "sidebar/search.html",
             "sidebar/navigation.html",
             "versioning.html",
@@ -95,7 +95,7 @@ html_css_files = ["custom.css"]
 
 add_module_names = False
 
-html_logo = "_static/logo_small.png"
+html_logo = "_static/logo.png"
 
 html_favicon = "_static/logo.png"
 

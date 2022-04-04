@@ -2,9 +2,7 @@
 The main game class. It controls everything in the game.
 """
 import sys
-import sdl2
-import sdl2.ext
-import sdl2.sdlgfx
+import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.sdlttf
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
@@ -103,6 +101,7 @@ class Game:
             if event.type == sdl2.SDL_QUIT:
                 Radio.broadcast("exit")
                 print(fps_total / Time.frames)
+                sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
                 sys.exit(1)
             if event.type == sdl2.SDL_WINDOWEVENT:
