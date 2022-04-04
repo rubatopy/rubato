@@ -6,15 +6,15 @@ from ... import Defaults, Display, Vector, Color
 
 
 class Text(Component):
-    """A text class"""
+    """A text component subclass. Add this to game objects or UI elements to give them text."""
 
     def __init__(self, options: dict = {}):
         """
-        Initializes an Text.
+        Initializes a Label.
 
         Args:
             options: A Text config. Defaults to the |default| for
-                    `Text`.
+                `Text`.
         """
         param = Defaults.text_defaults | options
         super().__init__()
@@ -28,13 +28,13 @@ class Text(Component):
 
     @property
     def text(self) -> str:
-        """The text of the text."""
+        """The text of the Text."""
         return self._text
 
     @text.setter
     def text(self, text: str):
         """
-        Sets the text of the text.
+        Sets the text of the Text.
 
         Args:
             text: The text to set.
@@ -76,6 +76,12 @@ class Text(Component):
 
     @property
     def font_size(self) -> int:
+        """
+        The font size.
+
+        Warning:
+            Don't set this too high or font smoothing may misbehave on some systems.
+        """
         return self._font.size
 
     @font_size.setter
@@ -85,6 +91,7 @@ class Text(Component):
 
     @property
     def font_color(self) -> Color:
+        """The font color."""
         return self._font.color
 
     @font_color.setter
@@ -93,28 +100,28 @@ class Text(Component):
         self.generate_surface()
 
     def add_style(self, style: str):
+        """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
         self._font.add_style(style)
         self.generate_surface()
 
     def remove_style(self, style: str):
+        """Remove a style from a font."""
         self._font.remove_style(style)
         self.generate_surface()
 
     def generate_surface(self):
-        """Generates the surface of the text."""
+        """(Re)generates the surface of the text."""
         self._tx = sdl2.ext.Texture(
             Display.renderer, self._font.generate_surface(self._text, self._justify, self._width)
         )
 
     def draw(self):
-        """Draws the text."""
-
         Display.update(
             self._tx, self.gameobj.map_coord(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2)
         )
 
     def delete(self):
-        """Deletes the text."""
+        """Deletes the text component."""
         self._tx.destroy()
         self._font.close()
         self._tx = None

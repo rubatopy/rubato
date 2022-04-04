@@ -1,4 +1,6 @@
-"""A class to load, manage, and interact with spritesheets."""
+"""
+A module to load, manage, and interact with spritesheets.
+"""
 import sdl2
 import sdl2.ext
 from typing import List
@@ -9,7 +11,9 @@ from ... import Defaults, Vector
 
 
 class Spritesheet:
-    """A spritesheet from the filesystem."""
+    """
+    A spritesheet from the filesystem.
+    """
 
     def __init__(self, options: dict = {}):
         """
@@ -53,22 +57,22 @@ class Spritesheet:
 
     @property
     def grid_size(self) -> Vector:
-        """The size of the spritesheet grid."""
+        """The size of the spritesheet grid (readonly)."""
         return self._grid
 
     @property
     def sprite_size(self) -> Vector:
-        """The size of each sprite."""
+        """The size of each sprite (readonly)."""
         return self._sprite_size
 
     @property
     def sheet(self) -> Image:
-        """The actual spritesheet image."""
+        """The actual spritesheet image (readonly)."""
         return self._sheet
 
     @property
     def sprites(self) -> List[List[Image]]:
-        """The list of all the sprites as images"""
+        """The list of all the sprites as images (readonly)."""
         return self._sprites
 
     def get(self, x: int, y: int) -> Image:
@@ -91,14 +95,20 @@ class Spritesheet:
 
     @property
     def end(self):
-        """The last coordinate you can use the get function on (end of the Spritesheet)"""
+        """
+        The end indexes of the Spritesheet as a vector.
+
+        Example:
+            You can use :code:`spritesheet.get(*spritesheet.end)` to get the final image
+        """
         return self.grid_size - Vector.one
 
     @staticmethod
     def from_folder(rel_path: str, sprite_size: Vector) -> Animation:
         """
-        Gives back an Animation from a folder of spritesheets. Directory must be
-        solely comprised of spritesheets. Added in alphabetically, predictable default.
+        Creates an Animation from a folder of spritesheets.
+        Directory must be comprised solely of spritesheets.
+        Added alphabetically. Default is the first sheet loaded.
 
         Args:
             rel_path: The relative path to the folder you wish to import

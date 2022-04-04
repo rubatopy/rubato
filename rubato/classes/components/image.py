@@ -22,11 +22,11 @@ class Image(Component):
 
     def __init__(self, options: dict = {}):
         """
-        Initializes an Image
+        Initializes an Image.
 
         Args:
             options: A Image config. Defaults to the |default| for
-                    `Image`.
+                `Image`.
         """
         param = Defaults.image_defaults | options
         super().__init__()
@@ -107,7 +107,7 @@ class Image(Component):
 
     def get_size(self) -> Vector:
         """
-        Gets the current size of the frame.
+        Gets the current size of the image.
 
         Returns:
             Vector: The size of the image
@@ -124,11 +124,12 @@ class Image(Component):
         return Vector(self._original.w, self._original.h)
 
     def _update_rotozoom(self):
+        """Updates the image surface. Called automatically when image scale or rotation are updated"""
         self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
             self.rotation,
-            self.scale.x * (-1 if self.flipx else 1),
-            self.scale.y * (-1 if self.flipy else 1),
+            -self.scale.x if self.flipx else self.scale.x,
+            -self.scale.y if self.flipy else self.scale.y,
             int(self.aa),
         ).contents
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
@@ -140,9 +141,9 @@ class Image(Component):
         Args:
             new_size: The new size of the image in pixels.
         """
-        if abs(new_size.x) < 1:
+        if -1 < new_size.x < 1:
             new_size.x = 1
-        if abs(new_size.y) < 1:
+        if -1 < new_size.y < 1:
             new_size.y = 1
 
         image_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
@@ -195,6 +196,7 @@ class Image(Component):
         )
 
     def cam_update(self):
+        """Updates the image sizing when the camera zoom changes."""
         width, height = self.image.w, self.image.h
 
         new_size = Vector(
@@ -205,17 +207,11 @@ class Image(Component):
         self.resize(new_size)
 
     def draw(self):
-        """
-        Draws the image if the z index is below the camera's.
-
-        Args:
-            camera: The current Camera viewing the scene.
-        """
         if self.visible:
             Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
 
     def delete(self):
-        """Deletes the image"""
+        """Deletes the image component"""
         self._tx.destroy()
         sdl2.SDL_FreeSurface(self._image)
         sdl2.SDL_FreeSurface(self._original)

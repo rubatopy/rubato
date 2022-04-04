@@ -4,7 +4,7 @@ Groups contain game objects and allow specific game objects to be seperated.
 
 from typing import List, Union
 
-from . import GameObject, Hitbox, UI
+from . import GameObject, Hitbox, UIElement
 from .. import Error, Defaults, Game
 
 
@@ -33,7 +33,7 @@ class Group:
         for item in items:
             if Game.state == Game.RUNNING:
                 item.setup()
-            if isinstance(item, UI):
+            if isinstance(item, UIElement):
                 self.add_ui_element(item)
             elif isinstance(item, GameObject):
                 self.add_game_obj(item)
@@ -54,7 +54,7 @@ class Group:
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
 
-    def add_ui_element(self, ui: UI):
+    def add_ui_element(self, ui: UIElement):
         if ui.name == "":
             ui.name = f"UI {len(self.game_objects)}"
         self.game_objects.append(ui)

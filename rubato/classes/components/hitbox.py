@@ -1,7 +1,7 @@
 """Various hitbox components that enable collisions"""
-
-import math
+from __future__ import annotations
 from typing import Callable, List, Union
+import math
 import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
@@ -23,7 +23,7 @@ class Hitbox(Component):
         color (Color) The color to fill this hitbox with.
         tag (str): The tag of the hitbox (can be used to identify hitboxes)
     """
-    hitboxes: List["Hitbox"] = []
+    hitboxes: List[Hitbox] = []
 
     def __init__(self, options: dict = {}):
         """
@@ -66,11 +66,11 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
-    def overlap(self, other: "Hitbox") -> Union["ColInfo", None]:
+    def overlap(self, other: Hitbox) -> Union[ColInfo, None]:
         """Wraps the SAT collide function. Returns a ColInfo manifold if a collision occurs but does not resolve."""
         return SAT.overlap(self, other)
 
-    def collide(self, other: "Hitbox") -> Union["ColInfo", None]:
+    def collide(self, other: Hitbox) -> Union[ColInfo, None]:
         """
         Collides two hitboxes and resolves the collision using RigidBody impulse momentum if applicable.
 
@@ -143,21 +143,6 @@ class Polygon(Hitbox):
             verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
         return verts
-
-    def clone(self) -> "Polygon":
-        """Creates a copy of the Polygon at the current position"""
-        new_poly = Polygon(
-            {
-                "verts": [v.clone() for v in self.verts],
-                "rotation": self.rotation,
-                "debug": self.debug,
-                "trigger": self.trigger,
-                "scale": self.scale,
-                "on_collide": self.on_collide,
-            }
-        )
-        new_poly._pos = self._pos  # pylint: disable=protected-access
-        return new_poly
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -434,13 +419,6 @@ class Circle(Hitbox):
         params = Defaults.circle_defaults | options
         self.radius = params["radius"]
 
-    def clone(self) -> "Circle":
-        """Creates a copy of the circle at the current position"""
-        new_circle = Circle(self.radius)
-        new_circle._pos = self._pos  # pylint: disable=protected-access
-        new_circle.scale = self.scale
-        return new_circle
-
     def transformed_radius(self) -> int:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
@@ -502,7 +480,7 @@ class ColInfo:
         self.shape_b = shape_b
         self.sep = sep
 
-    def flip(self) -> "ColInfo":
+    def flip(self) -> ColInfo:
         """
         Flips the reference shape in a collision manifold
 

@@ -8,7 +8,7 @@ from . import GameObject
 from .. import Defaults, Vector, Game
 
 
-class UI(GameObject):
+class UIElement(GameObject):
     """
     An empty UI element.
 

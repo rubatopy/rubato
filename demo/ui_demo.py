@@ -21,5 +21,5 @@ text = rb.Text({
     "text": "hello world",
 })
 
-main.add(rb.UI({"pos": rb.Display.center}).add(text))
+main.add(rb.UIElement({"pos": rb.Display.center}).add(text))
 rb.begin()

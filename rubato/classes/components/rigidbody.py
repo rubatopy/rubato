@@ -57,9 +57,6 @@ class RigidBody(Component):
 
         self.singular = True
 
-        # self.angvel: float = 0
-        # self.rotation: float = params["rotation"]
-
         if params["mass"] == 0 or self.static:
             self.inv_mass = 0
         else:
@@ -76,8 +73,7 @@ class RigidBody(Component):
             return 1 / self.inv_mass
 
     def physics(self):
-        """The physics calculation"""
-        # Apply gravity
+        """Applies general kinematic laws to the rigidbody."""
         self.add_force(self.gravity * self.mass)
 
         self.velocity.clamp(-self.max_speed, self.max_speed)
@@ -89,7 +85,7 @@ class RigidBody(Component):
         Add a force to the Rigidbody.
 
         Args:
-            force: The force to add.
+            force (Vector): The force to add.
         """
         accel = force * self.inv_mass
 
@@ -97,25 +93,25 @@ class RigidBody(Component):
 
     def add_cont_force(self, impulse: Vector, time: int):
         """
-        Add a continuous force to the Rigidbody. A continuous force is a force
-        that is continuously applied over a time period. (the force is added
-        every frame for a specific duration).
+        Add a continuous force to the Rigidbody.
+        A continuous force is a force that is continuously applied over a time period.
+        (the force is added every frame for a specific duration).
 
         Args:
-            impulse: The force to add.
-            time: The time in seconds that the force should be added.
+            impulse (Vector): The force to add.
+            time (int): The time in seconds that the force should be added.
         """
         if time <= 0:
             return
         else:
             self.add_force(impulse)
-
             Time.delayed_frames(1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
     @staticmethod
     def handle_collision(col: ColInfo):
         """
-        Handle the collision between two rigidbodies.
+        Resolve the collision between two rigidbodies.
+        Utilizes a simplistic impulse resolution method.
 
         Args:
             col: The collision information.
@@ -210,6 +206,6 @@ class RigidBody(Component):
             rb_b.velocity += inv_mass_b * friction_impulse
 
     def fixed_update(self):
-        """The update loop"""
+        """The physics loop for the rigidbody component."""
         if not self.static:
             self.physics()
