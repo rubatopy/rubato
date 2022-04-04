@@ -39,7 +39,7 @@ class UI(GameObject):
         return Game.camera.z_index
 
     @z_index.setter
-    def z_index(self, value: int):
+    def z_index(self, _):
         pass
 
     @property

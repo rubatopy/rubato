@@ -4,7 +4,7 @@ Groups contain game objects and allow specific game objects to be seperated.
 
 from typing import List, Union
 
-from . import GameObject, Hitbox
+from . import GameObject, Hitbox, Game
 from .. import Error, Defaults
 
 
@@ -97,8 +97,10 @@ class Group:
     def draw(self):
         self.groups.sort(key=lambda i: i.z_index)
         for group in self.groups:
-            group.draw()
+            if group.z_index <= Game.camera.z_index:
+                group.draw()
 
         self.game_objects.sort(key=lambda i: i.z_index)
         for game_obj in self.game_objects:
-            game_obj.draw()
+            if game_obj.z_index <= Game.camera.z_index:
+                game_obj.draw()
