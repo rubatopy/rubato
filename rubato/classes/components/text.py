@@ -40,6 +40,7 @@ class Text(Component):
         self._text = param["text"]
         self._color = Color(*param["color"]) if not isinstance(param["color"], Color) else param["color"]
         self._align = param["align"]
+        self._width = param["width"]
 
         if param["font"] in Text.fonts:
             fontfile = os.path.abspath(os.path.join(os.path.abspath(__file__), Text.fonts[param["font"]]))
@@ -105,8 +106,19 @@ class Text(Component):
     def align(self, new: str):
         if new in ["left", "center", "right"]:
             self._align = new
+            self.generate_surface()
         else:
             raise ValueError(f"Alignment {new} is not left, center or right.")
+
+    @property
+    def width(self) -> int:
+        """The maximum width of the text. Will automatically wrap the text."""
+        return self._width
+
+    @width.setter
+    def width(self, width: int):
+        self._width = width
+        self.generate_surface()
 
     def add_style(self, style: str):
         """
@@ -145,7 +157,12 @@ class Text(Component):
 
     def generate_surface(self):
         """Generates the surface of the text."""
-        self._surf = self._font.render_text(self._text, align=self._align)
+        try:
+            self._surf = self._font.render_text(
+                self._text, width=None if self.width < 0 else self.width, align=self._align
+            )
+        except RuntimeError as e:
+            raise RuntimeError(f"The width {self.width} is too small for the text.") from e
         self._tx = sdl2.ext.Texture(Display.renderer, self._surf)
 
     def draw(self):

@@ -10,13 +10,16 @@ init()
 main = Scene()
 Game.scenes.add(main, "main")
 
-text = Text({
-    "font": "Roboto",
-    "size": 128,
-    "text": "Hello World!\nThis is a test",
-    "style": [],
-    "align": "center",
-})
+text = Text(
+    {
+        "font": "Roboto",
+        "size": 128,
+        "text": "Hello World!\nThis is a test",
+        "style": [],
+        "align": "center",
+        "width": -1,
+    }
+)
 
 main.add(GameObject({"pos": Display.center}).add(text))
 begin()

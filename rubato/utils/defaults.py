@@ -57,6 +57,8 @@ text_defaults = {
     # The color of the text.
     "align": "left",  # . . . . . . . . . . . . . . . . . . . . str
     # The alignment of the text. (left, center, right)
+    "width": -1,  #. . . . . . . . . . . . . . . . . . . . . int
+    # The maximum width of the text. Will automatically wrap the text.
 }
 
 rigidbody_defaults = {
