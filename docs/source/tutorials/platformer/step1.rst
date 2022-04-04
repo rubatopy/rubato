@@ -7,9 +7,9 @@ be setting up our project and laying down the foundation for the next steps.
 First, lets make sure you have Rubato installed. Make sure you have python 3.10.x
 installed and run
 
-.. code-block:: bash
+.. code-block:: console
 
-    pip install rubato
+    $ pip install rubato
 
 It should then successfully install. Now we are ready to start programming. Note that
 if you run into any issues. The source code for this step is available

@@ -200,6 +200,15 @@ class Animation(Component):
             spritesheet: The spritesheet to use.
             from_coord: The grid coordinate of the first frame. Defaults to Vector().
             to_coord: The grid coordinate of the last coord. Defaults to Vector().
+        Example:
+            .. code-block:: python
+
+                animation.add_spritesheet("idle", spritesheet, Vector(0, 0), Vector(1, 3))
+                # This will add the frames (0, 0) to (0, size) and (1, 0) to (1, 3) inclusive to the animation
+                # with the state name "idle".
+
+                animation.add_spritesheet("idle", spritesheet, to_coord=spritesheet.end)
+                # This will just load from the start to the end of the spritesheet.
         """
         state = []
         x = from_coord.x
