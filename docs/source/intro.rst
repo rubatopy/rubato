@@ -7,7 +7,7 @@ Installing Rubato is simple. Just run:
 
 .. code-block:: console
 
-    (.venv) $ pip install rubato
+    $ pip install rubato
 
 .. note::
     | A virtual environment is recommended
@@ -20,9 +20,9 @@ To get started, import rubato and initilize it.
 
 .. code-block:: python
 
-    import rubato as rb
+    from rubato import *
 
-    rb.init()
+    init()
 
 Rubato is "game object"-based. This means that most objects rendered
 to the screen are :ref:`Game Objects <gameobj>`. However, game objects do
@@ -37,13 +37,13 @@ Finally, you can create your game object and add it to the scene.
 
 .. code-block:: python
 
-    scene = rb.Scene()
-    rb.game.scenes.add(scene, "main")
+    scene = Scene()
+    Game.scenes.add(scene, "main")
 
-    ball = rb.GameObject({
-        "pos": rb.Vector(100,100)
-    }).add(rb.Circle({
-        "color": rb.Color.green
+    ball = GameObject({
+        "pos": Vector(100,100)
+    }).add(Circle({
+        "color": Color.green
     }))
 
     scene.add(ball)
@@ -57,7 +57,7 @@ the game loop hasn't started. To start Rubato's engine, run:
 
 .. code-block:: python
 
-    rb.begin()
+    begin()
 
 Hopefully you see a green circle in a new window on your screen, and if so,
 congratulations! You're up and running with your first Rubato project.
