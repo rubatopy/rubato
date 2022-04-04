@@ -1,5 +1,9 @@
-"""A Perlin Noise demo for Rubato"""
+"""A Perlin Noise demo for Rubato"""  # pylint: disable=all
 import opensimplex
+import sys, os
+
+sys.path.insert(0, os.path.abspath("../"))
+
 import rubato as rb
 
 rb.init({
@@ -23,6 +27,7 @@ for x in range(rb.Display.res.x):
         color = [gray for i in range(3)]
         saved[x].append(([x, y], color))
         rb.Display.renderer.draw_point([x, y], color)
+
 
 def draw():
     for i in range(rb.Display.res.x):

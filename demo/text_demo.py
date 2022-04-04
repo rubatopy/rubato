@@ -13,16 +13,14 @@ init({
 main = Scene()
 Game.scenes.add(main, "main")
 
-text = Text(
-    {
-        "font": "SourceCodePro",
-        "size": 64,
-        "text": "Hello World!\nThis is a test",
-        "style": [],
-        "align": "center",
-        "width": -1,
-    }
-)
+text = Text({
+    "font": "Fredoka",
+    "size": 64,
+    "text": "I am de Rubato",
+    "style": [],
+    "align": "center",
+    "width": -1,
+})
 
 main.add(UI({"pos": Display.center}).add(text))
 print(main.root.game_objects)

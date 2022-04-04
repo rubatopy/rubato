@@ -11,8 +11,6 @@ from . import Time, Display, Vector, Color, Input, Radio
 if TYPE_CHECKING:
     from . import SceneManager, Camera
 
-fps_total = 0  # TODO: DELETE ME BEFORE RELEASE v2.0!
-
 
 class Game:
     """
