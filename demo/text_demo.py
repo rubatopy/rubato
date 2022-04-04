@@ -5,14 +5,17 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from rubato import *
 
-init()
+init({
+    "window_size": Vector(512, 512),
+    "res": Vector(1024, 1024),
+})
 
 main = Scene()
 Game.scenes.add(main, "main")
 
 text = Text(
     {
-        "font": "Roboto",
+        "font": "Fredoka",
         "size": 128,
         "text": "Hello World!\nThis is a test",
         "style": [],
