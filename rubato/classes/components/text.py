@@ -99,18 +99,6 @@ class Text(Component):
         self._font.color = color
         self.generate_surface()
 
-    def clone(self) -> Text:
-        """Clones the text component."""
-        return Text(
-            {
-                "text": self._text,
-                "font": self._font,
-                "align": self._align,
-                "justify": self._justify,
-                "width": self._width,
-            }
-        )
-
     def add_style(self, style: str):
         """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
         self._font.add_style(style)
@@ -138,3 +126,15 @@ class Text(Component):
         self._font.close()
         self._tx = None
         self._font = None
+
+    def clone(self) -> Text:
+        """Clones the text component."""
+        return Text(
+            {
+                "text": self._text,
+                "font": self._font,
+                "align": self._align,
+                "justify": self._justify,
+                "width": self._width,
+            }
+        )

@@ -30,7 +30,6 @@ def init(options: dict = {}):
         options: A game config.
                 Defaults to the :ref:`Game defaults <gamedef>`.
     """
-    global _icon
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     Game.initialized = True

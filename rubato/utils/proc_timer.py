@@ -1,4 +1,7 @@
 # pylint: disable=all
+"""
+An internal file for the Rubato project.
+"""
 import time
 from contextlib import ContextDecorator
 from dataclasses import dataclass, field

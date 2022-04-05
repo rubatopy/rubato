@@ -74,6 +74,16 @@ class Spritesheet:
         """The list of all the sprites as images (readonly)."""
         return self._sprites
 
+    @property
+    def end(self):
+        """
+        The end indexes of the Spritesheet as a vector.
+
+        Example:
+            You can use :code:`spritesheet.get(*spritesheet.end)` to get the final image
+        """
+        return self.grid_size - Vector.one
+
     def get(self, x: int, y: int) -> Image:
         """
         Gets the Image at the coorsponding grid coordinate of the spritesheet.
@@ -91,16 +101,6 @@ class Spritesheet:
         if x >= self.grid_size.x or y >= self.grid_size.y:
             raise IndexError(f"The coordinates ({x}, {y}) are out of range of the spritesheet.")
         return self.sprites[y][x].clone()
-
-    @property
-    def end(self):
-        """
-        The end indexes of the Spritesheet as a vector.
-
-        Example:
-            You can use :code:`spritesheet.get(*spritesheet.end)` to get the final image
-        """
-        return self.grid_size - Vector.one
 
     @staticmethod
     def from_folder(rel_path: str, sprite_size: Vector, default_state=None) -> Animation:

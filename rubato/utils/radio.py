@@ -82,7 +82,7 @@ class Radio:
 
 class Listener:
     """
-    The actual listener object itself.
+    The actual listener object itself. A backend class for the Radio.
 
     Attributes:
         event (str): The event descriptor

@@ -106,6 +106,11 @@ class RigidBody(Component):
             self.add_force(impulse)
             Time.delayed_frames(1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
+    def fixed_update(self):
+        """The physics loop for the rigidbody component."""
+        if not self.static:
+            self.physics()
+
     def clone(self) -> RigidBody:
         return RigidBody(
             {
@@ -218,8 +223,3 @@ class RigidBody(Component):
 
         if not (rb_b_none or rb_b.static):
             rb_b.velocity += inv_mass_b * friction_impulse
-
-    def fixed_update(self):
-        """The physics loop for the rigidbody component."""
-        if not self.static:
-            self.physics()

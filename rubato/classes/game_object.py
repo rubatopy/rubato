@@ -42,32 +42,6 @@ class GameObject:
         """The relative position of the game object."""
         return self.map_coord(self.pos)
 
-    @staticmethod
-    def map_coord(coord: Vector) -> Vector:
-        """
-        Maps a coordinate to the camera's coordinate system.
-
-        Args:
-            coord: The coordinate to map.
-
-        Returns:
-            Vector: The mapped coordinate.
-        """
-        return Game.camera.transform(coord)
-
-    @staticmethod
-    def scale_value(value: Union[int, float]) -> Union[int, float]:
-        """
-        Scales a value to match the current camera's scale.
-
-        Args:
-            value: The value to scale.
-
-        Returns:
-            Union[int, float]: The scaled value.
-        """
-        return Game.camera.scale(value)
-
     def add(self, component: Component) -> GameObject:
         """
         Add a component to the game object.
@@ -212,3 +186,29 @@ class GameObject:
         for comps in self._components.values():
             for comp in comps:
                 comp.fixed_update()
+
+    @staticmethod
+    def map_coord(coord: Vector) -> Vector:
+        """
+        Maps a coordinate to the camera's coordinate system.
+
+        Args:
+            coord: The coordinate to map.
+
+        Returns:
+            Vector: The mapped coordinate.
+        """
+        return Game.camera.transform(coord)
+
+    @staticmethod
+    def scale_value(value: Union[int, float]) -> Union[int, float]:
+        """
+        Scales a value to match the current camera's scale.
+
+        Args:
+            value: The value to scale.
+
+        Returns:
+            Union[int, float]: The scaled value.
+        """
+        return Game.camera.scale(value)

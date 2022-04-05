@@ -99,17 +99,6 @@ class Animation(Component):
         img.visible = self.visible
         return img
 
-    def resize(self, new_size: Vector):
-        """
-        Resize the Animation to a given size in pixels.
-
-        Args:
-            new_size: The new size of the Animation in pixels.
-        """
-        for value in self._states.values():
-            for anim_frame in value:
-                anim_frame.resize(new_size)
-
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
         Set the current animation state.
@@ -131,6 +120,17 @@ class Animation(Component):
                 self._freeze = freeze
             else:
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
+
+    def resize(self, new_size: Vector):
+        """
+        Resize the Animation to a given size in pixels.
+
+        Args:
+            new_size: The new size of the Animation in pixels.
+        """
+        for value in self._states.values():
+            for anim_frame in value:
+                anim_frame.resize(new_size)
 
     def reset(self):
         """Reset the animation state back to the first frame."""
@@ -212,29 +212,6 @@ class Animation(Component):
 
         self.add(state_name, state)
 
-    def clone(self) -> Animation:
-        """Clones the animation."""
-        new = Animation(
-            {
-                "scale": self.scale,
-                "fps": self.fps,
-                "anti_aliasing": self.aa,
-                "flipx": self.flipx,
-                "flipy": self.flipy,
-                "rotation": self.rotation,
-                "offset": self.offset,
-                "visible": self.visible
-            }
-        )
-        # pylint: disable=protected-access
-        new._states = self._states
-        new.default_state = self.default_state
-        new.current_state = self.current_state
-        new.loop = self.loop
-        new.current_frame = self.current_frame
-        new._freeze = self._freeze
-        return new
-
     def setup(self):
         """Sets up the animation component."""
         for images in self._states.values():
@@ -270,3 +247,26 @@ class Animation(Component):
             for image in state:
                 image.delete()
         self._states = {}
+
+    def clone(self) -> Animation:
+        """Clones the animation."""
+        new = Animation(
+            {
+                "scale": self.scale,
+                "fps": self.fps,
+                "anti_aliasing": self.aa,
+                "flipx": self.flipx,
+                "flipy": self.flipy,
+                "rotation": self.rotation,
+                "offset": self.offset,
+                "visible": self.visible
+            }
+        )
+        # pylint: disable=protected-access
+        new._states = self._states
+        new.default_state = self.default_state
+        new.current_state = self.current_state
+        new.loop = self.loop
+        new.current_frame = self.current_frame
+        new._freeze = self._freeze
+        return new

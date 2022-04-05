@@ -25,15 +25,6 @@ class SceneManager:
         self.scenes: Dict[str, Scene] = {}
         self._current: str = ""
 
-    def is_empty(self) -> bool:
-        """
-        Checks if the scene manager contains no scene.
-
-        Returns:
-            bool: True if the scene is empty. False otherwise.
-        """
-        return not self.scenes
-
     @property
     def current(self) -> Scene:
         """
@@ -43,6 +34,15 @@ class SceneManager:
             Scene: The current scene.
         """
         return self.scenes.get(self._current)
+
+    def is_empty(self) -> bool:
+        """
+        Checks if the scene manager contains no scene.
+
+        Returns:
+            bool: True if the scene is empty. False otherwise.
+        """
+        return not self.scenes
 
     def add(self, scene: Scene, scene_id: str):
         """

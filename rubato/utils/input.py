@@ -36,6 +36,58 @@ class Input:
     }
 
     @classmethod
+    def key_pressed(cls, *keys: str) -> bool:
+        """
+        Checks if keys are pressed.
+
+        Args:
+            *keys: The names of the keys to check.
+
+        Returns:
+            bool: Whether or not the keys are pressed.
+
+        Example:
+            .. code-block:: python
+
+                if rb.Input.key_pressed("a"):
+                    # handle the "a" keypress
+
+                if rb.Input.key_pressed("shift", "w"):
+                    # handle the "shift+w" keypress
+        """
+        for key in keys:
+            key = key.lower()
+            if key in cls._mods and len(keys) > 1:
+                if not sdl2.SDL_GetModState() & cls._mods[key]:
+                    return False
+            else:
+                if key == "shift":
+                    key1, key2 = "left shift", "right shift"
+                elif key == "ctrl":
+                    key1, key2 = "left ctrl", "right ctrl"
+                elif key == "alt":
+                    key1, key2 = "left alt", "right alt"
+                elif key == "gui":
+                    key1, key2 = "left gui", "right gui"
+                else:
+                    key1, key2 = key, key
+
+                if not (
+                    cls.get_keyboard_state()[cls.scancode_from_name(key1)] or
+                    cls.get_keyboard_state()[cls.scancode_from_name(key2)]
+                ):
+                    return False
+        return True
+
+    @classmethod
+    def get_keyboard_state(cls):
+        """Returns a list with the current SDL keyboard state."""
+        numkeys = ctypes.c_int()
+        keystate = sdl2.SDL_GetKeyboardState(ctypes.byref(numkeys))
+        ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)
+        return ctypes.cast(keystate, ptr_t)[0]
+
+    @classmethod
     def get_name(cls, code: int) -> str:
         """
         Gets the name of a key from its keycode.
@@ -97,58 +149,6 @@ class Input:
         """
         return sdl2.keyboard.SDL_GetKeyboardFocus() == Display.window or sdl2.mouse.SDL_GetMouseFocus(
         ) == Display.window
-
-    @classmethod
-    def get_keyboard_state(cls):
-        """Returns a list with the current SDL keyboard state."""
-        numkeys = ctypes.c_int()
-        keystate = sdl2.SDL_GetKeyboardState(ctypes.byref(numkeys))
-        ptr_t = ctypes.POINTER(ctypes.c_uint8 * numkeys.value)
-        return ctypes.cast(keystate, ptr_t)[0]
-
-    @classmethod
-    def key_pressed(cls, *keys: str) -> bool:
-        """
-        Checks if keys are pressed.
-
-        Args:
-            *keys: The names of the keys to check.
-
-        Returns:
-            bool: Whether or not the keys are pressed.
-
-        Example:
-            .. code-block:: python
-
-                if rb.Input.key_pressed("a"):
-                    # handle the "a" keypress
-
-                if rb.Input.key_pressed("shift", "w"):
-                    # handle the "shift+w" keypress
-        """
-        for key in keys:
-            key = key.lower()
-            if key in cls._mods and len(keys) > 1:
-                if not sdl2.SDL_GetModState() & cls._mods[key]:
-                    return False
-            else:
-                if key == "shift":
-                    key1, key2 = "left shift", "right shift"
-                elif key == "ctrl":
-                    key1, key2 = "left ctrl", "right ctrl"
-                elif key == "alt":
-                    key1, key2 = "left alt", "right alt"
-                elif key == "gui":
-                    key1, key2 = "left gui", "right gui"
-                else:
-                    key1, key2 = key, key
-
-                if not (
-                    cls.get_keyboard_state()[cls.scancode_from_name(key1)] or
-                    cls.get_keyboard_state()[cls.scancode_from_name(key2)]
-                ):
-                    return False
-        return True
 
     # MOUSE FUNCTIONS
 

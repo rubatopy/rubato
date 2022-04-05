@@ -111,34 +111,6 @@ class Polygon(Hitbox):
         self.verts: List[Vector] = params["verts"]
         self.rotation: float = params["rotation"]
 
-    @staticmethod
-    def generate_polygon(num_sides: int, radius: Union[float, int] = 1) -> List[Vector]:
-        """
-        Creates a normal polygon with a specified number of sides and
-        an optional radius.
-
-        Args:
-            num_sides: The number of sides of the polygon.
-            radius: The radius of the polygon. Defaults to 1.
-
-        Raises:
-            SideError: Raised when the number of sides is less than 3.
-
-        Returns:
-            List[Vector]: The vertices of the polygon.
-        """
-        if num_sides < 3:
-            raise SideError("Can't create a polygon with less than three sides")
-
-        rotangle = 2 * math.pi / num_sides
-        angle, verts = 0, []
-
-        for i in range(num_sides):
-            angle = (i * rotangle) + (math.pi - rotangle) / 2
-            verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
-
-        return verts
-
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
@@ -215,6 +187,34 @@ class Polygon(Hitbox):
                     list_of_points[(i + 1) % len(list_of_points)][0], list_of_points[(i + 1) % len(list_of_points)][1],
                     int(2 * Display.display_ratio.x), 0, 255, 0, 255
                 )
+
+    @staticmethod
+    def generate_polygon(num_sides: int, radius: Union[float, int] = 1) -> List[Vector]:
+        """
+        Creates a normal polygon with a specified number of sides and
+        an optional radius.
+
+        Args:
+            num_sides: The number of sides of the polygon.
+            radius: The radius of the polygon. Defaults to 1.
+
+        Raises:
+            SideError: Raised when the number of sides is less than 3.
+
+        Returns:
+            List[Vector]: The vertices of the polygon.
+        """
+        if num_sides < 3:
+            raise SideError("Can't create a polygon with less than three sides")
+
+        rotangle = 2 * math.pi / num_sides
+        angle, verts = 0, []
+
+        for i in range(num_sides):
+            angle = (i * rotangle) + (math.pi - rotangle) / 2
+            verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
+
+        return verts
 
 
 class Rectangle(Hitbox):
@@ -352,22 +352,6 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
-    def clone(self) -> Rectangle:
-        return Rectangle(
-            {
-                "width": self.width,
-                "height": self.height,
-                "rotation": self.rotation,
-                "debug": self.debug,
-                "trigger": self.trigger,
-                "scale": self.scale,
-                "on_collide": self.on_collide,
-                "color": self.color,
-                "tag": self.tag,
-                "offset": self.offset,
-            }
-        )
-
     def vertices(self) -> List[Vector]:
         """
         Generates a list of the rectangle's vertices with no transformations applied.
@@ -423,6 +407,22 @@ class Rectangle(Hitbox):
                     verts[(i + 1) % len(verts)][1], int(2 * Display.display_ratio.x), 0, 255, 0, 255
                 )
 
+    def clone(self) -> Rectangle:
+        return Rectangle(
+            {
+                "width": self.width,
+                "height": self.height,
+                "rotation": self.rotation,
+                "debug": self.debug,
+                "trigger": self.trigger,
+                "scale": self.scale,
+                "on_collide": self.on_collide,
+                "color": self.color,
+                "tag": self.tag,
+                "offset": self.offset,
+            }
+        )
+
 
 class Circle(Hitbox):
     """
@@ -447,20 +447,6 @@ class Circle(Hitbox):
     def transformed_radius(self) -> int:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
-
-    def clone(self) -> Circle:
-        return Circle(
-            {
-                "debug": self.debug,
-                "trigger": self.trigger,
-                "scale": self.scale,
-                "on_collide": self.on_collide,
-                "color": self.color,
-                "tag": self.tag,
-                "offset": self.offset,
-                "radius": self.radius,
-            }
-        )
 
     def draw(self):
         relative_pos = Game.camera.transform(self.pos)
@@ -499,6 +485,20 @@ class Circle(Hitbox):
                 0,
                 255,
             )
+
+    def clone(self) -> Circle:
+        return Circle(
+            {
+                "debug": self.debug,
+                "trigger": self.trigger,
+                "scale": self.scale,
+                "on_collide": self.on_collide,
+                "color": self.color,
+                "tag": self.tag,
+                "offset": self.offset,
+                "radius": self.radius,
+            }
+        )
 
 
 class ColInfo:

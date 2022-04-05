@@ -30,6 +30,26 @@ class Font:
 
         self.apply_styles()
 
+    @property
+    def size(self) -> int:
+        """The size of the text in points."""
+        return self._size
+
+    @size.setter
+    def size(self, size: int):
+        self._size = size
+        sdl2.sdlttf.TTF_SetFontSize(self._tx, size)
+
+    @property
+    def color(self) -> Color:
+        """The color of the text."""
+        return self._color
+
+    @color.setter
+    def color(self, color: Color):
+        self._color = color
+        self._tx = sdl2.ext.FontTTF(self._font, self._size, self._color.to_tuple())
+
     def generate_surface(
         self,
         text: str,
@@ -57,26 +77,6 @@ class Font:
             raise ValueError(f"The width {width} is too small for the text.") from e
         except OSError as e:
             raise ValueError(f"The size {self._size} is too big for the text.") from e
-
-    @property
-    def size(self) -> int:
-        """The size of the text in points."""
-        return self._size
-
-    @size.setter
-    def size(self, size: int):
-        self._size = size
-        sdl2.sdlttf.TTF_SetFontSize(self._tx, size)
-
-    @property
-    def color(self) -> Color:
-        """The color of the text."""
-        return self._color
-
-    @color.setter
-    def color(self, color: Color):
-        self._color = color
-        self._tx = sdl2.ext.FontTTF(self._font, self._size, self._color.to_tuple())
 
     def add_style(self, style: str):
         """

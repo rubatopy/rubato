@@ -27,6 +27,34 @@ class Vector:
         """
         self.x, self.y = x, y
 
+    @property
+    def magnitude(self) -> float:
+        """The magnitude of the vector."""
+        return (self.x * self.x + self.y * self.y)**.5
+
+    @magnitude.setter
+    def magnitude(self, value: Union[float, int]):
+        if self.x == self.y == 0:
+            return
+        ratio = value * (self.x * self.x + self.y * self.y)**-.5
+        self.x *= ratio
+        self.y *= ratio
+
+    @property
+    def mag_squared(self) -> float:
+        """The squared magnitude of the vector."""
+        return self.x * self.x + self.y * self.y
+
+    @property
+    def angle(self) -> float:
+        """The angle of the vector"""
+        return math.atan2(self.y, self.x)
+
+    def unit(self) -> Vector:
+        """Returns the unit vector of this vector."""
+        inv_mag = (self.x * self.x + self.y * self.y)**-.5
+        return Vector(self.x * inv_mag, self.y * inv_mag)
+
     def translate(self, x: Union[float, int], y: Union[float, int]):
         """
         Translates the vector's x y and z coordinates by some constants.
@@ -87,48 +115,6 @@ class Vector:
         else:
             self.x = Math.abs_clamp(self.x, lower.x, upper.x)
             self.y = Math.abs_clamp(self.y, lower.y, upper.y)
-
-    @property
-    def magnitude(self) -> float:
-        """The magnitude of the vector."""
-        return (self.x * self.x + self.y * self.y)**.5
-
-    @magnitude.setter
-    def magnitude(self, value: Union[float, int]):
-        if self.x == self.y == 0:
-            return
-        ratio = value * (self.x * self.x + self.y * self.y)**-.5
-        self.x *= ratio
-        self.y *= ratio
-
-    @property
-    def mag_squared(self) -> float:
-        """The squared magnitude of the vector."""
-        return self.x * self.x + self.y * self.y
-
-    def unit(self) -> Vector:
-        """Returns the unit vector of this vector."""
-        inv_mag = (self.x * self.x + self.y * self.y)**-.5
-        return Vector(self.x * inv_mag, self.y * inv_mag)
-
-    @staticmethod
-    def from_radial(magnitude: float, angle: float) -> Vector:
-        """
-        Gives you a Vector from the given direction and distance.
-
-        Args:
-            magnitude: Length of vector.
-            angle: Direction of vector in radians.
-
-        Returns:
-            Vector: Vector from the given direction and distance
-        """
-        return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
-
-    @property
-    def angle(self) -> float:
-        """The angle of the vector"""
-        return math.atan2(self.y, self.x)
 
     def transform(self, scale, rotation) -> Vector:
         """
@@ -225,6 +211,44 @@ class Vector:
         """
         return Vector.from_radial(1, math.atan2(other.y - self.y, other.x - self.x))
 
+    @staticmethod
+    def from_radial(magnitude: float, angle: float) -> Vector:
+        """
+        Gives you a Vector from the given direction and distance.
+
+        Args:
+            magnitude: Length of vector.
+            angle: Direction of vector in radians.
+
+        Returns:
+            Vector: Vector from the given direction and distance
+        """
+        return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
+
+    @staticmethod
+    def is_vectorlike(subscriptable: Vector | List[int | float] | Tuple[int | float]):
+        """
+        Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
+
+        Args:
+            subscriptable: An object to check whether it is length 2 and subscriptable.
+
+        Returns:
+            bool: True if length 2, False if not, and raises an error if wrong type.
+
+        Example:
+            >>> Vector.is_vectorlike((0, 0))
+            True
+            >>> Vector.is_vectorlike((0, 0, 0))
+            False
+        """
+        try:
+            return isinstance(subscriptable,
+                              Vector) or (len(subscriptable) == 2 and isinstance(subscriptable[0], (int, float)))
+        except TypeError as trace:
+            raise TypeError(f"{subscriptable} should be a list | tuple | Vector not a {subscriptable.__class__}.") \
+                .with_traceback(trace.__traceback__)
+
     @classmethod
     @property
     def zero(cls):
@@ -266,30 +290,6 @@ class Vector:
     def infinity(cls):
         """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
-
-    @staticmethod
-    def is_vectorlike(subscriptable: Vector | List[int | float] | Tuple[int | float]):
-        """
-        Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
-
-        Args:
-            subscriptable: An object to check whether it is length 2 and subscriptable.
-
-        Returns:
-            bool: True if length 2, False if not, and raises an error if wrong type.
-
-        Example:
-            >>> Vector.is_vectorlike((0, 0))
-            True
-            >>> Vector.is_vectorlike((0, 0, 0))
-            False
-        """
-        try:
-            return isinstance(subscriptable,
-                              Vector) or (len(subscriptable) == 2 and isinstance(subscriptable[0], (int, float)))
-        except TypeError as trace:
-            raise TypeError(f"{subscriptable} should be a list | tuple | Vector not a {subscriptable.__class__}.")\
-                .with_traceback(trace.__traceback__)
 
     def __eq__(self, o: Vector) -> bool:
         if isinstance(o, Vector):

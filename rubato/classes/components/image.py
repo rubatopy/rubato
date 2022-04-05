@@ -93,27 +93,6 @@ class Image(Component):
         self._scale = new_scale
         self._update_rotozoom()
 
-    def clone(self) -> "Image":
-        """
-        Clones the current image.
-
-        Returns:
-            Image: The cloned image.
-        """
-        new = Image(
-            {
-                "rotation": self.rotation,
-                "scale": self.scale,
-                "anti_aliasing": self.aa,
-                "flipx": self.flipx,
-                "flipy": self.flipy,
-                "offset": self.offset,
-                "visible": self.visible,
-            }
-        )
-        new.image = Display.clone_surface(self.image)
-        return new
-
     def get_size(self) -> Vector:
         """
         Gets the current size of the image.
@@ -227,3 +206,24 @@ class Image(Component):
         self._image = None
         self._tx = None
         self._original = None
+
+    def clone(self) -> "Image":
+        """
+        Clones the current image.
+
+        Returns:
+            Image: The cloned image.
+        """
+        new = Image(
+            {
+                "rotation": self.rotation,
+                "scale": self.scale,
+                "anti_aliasing": self.aa,
+                "flipx": self.flipx,
+                "flipy": self.flipy,
+                "offset": self.offset,
+                "visible": self.visible,
+            }
+        )
+        new.image = Display.clone_surface(self.image)
+        return new

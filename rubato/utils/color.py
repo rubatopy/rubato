@@ -43,6 +43,11 @@ class Color:
             return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a
         return False
 
+    @property
+    def rgba32(self):
+        """The RGBA32 representation of the color."""
+        return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
+
     def darker(self, amount: int = 20):
         """
         Returns a darker copy of the color. It subtracts ``amount`` from the RGB values.
@@ -119,11 +124,6 @@ class Color:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
         return (f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}").replace(" ", "")
-
-    @property
-    def rgba32(self):
-        """The RGBA32 representation of the color."""
-        return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
 
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:
