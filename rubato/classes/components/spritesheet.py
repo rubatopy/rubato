@@ -123,9 +123,12 @@ class Spritesheet:
             files.sort()
             for sprite_path in files:
                 path_to_spritesheet = path.join(rel_path, sprite_path)
-                sprite_sheet = Spritesheet({
-                    "rel_path": path_to_spritesheet,
-                    "sprite_size": sprite_size,
-                })
-                anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
+                try:
+                    sprite_sheet = Spritesheet({
+                        "rel_path": path_to_spritesheet,
+                        "sprite_size": sprite_size,
+                    })
+                    anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
+                except TypeError:
+                    continue
         return anim

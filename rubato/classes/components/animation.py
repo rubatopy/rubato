@@ -164,11 +164,14 @@ class Animation(Component):
             # walk to directory path and ignore name and subdirectories
             files.sort()
             for image_path in files:
-                path_to_image = path.join(rel_path, image_path)
-                image = Image({
-                    "rel_path": path_to_image,
-                })
-                ret_list.append(image)
+                try:
+                    path_to_image = path.join(rel_path, image_path)
+                    image = Image({
+                        "rel_path": path_to_image,
+                    })
+                    ret_list.append(image)
+                except TypeError:
+                    continue
 
         self.add(state_name, ret_list)
 
