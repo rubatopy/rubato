@@ -5,25 +5,33 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/png" href="source/_static/logo.png">
+        <link rel="icon" type="image/png" href="source/_static/logo.png" />
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="bootstrap.min.css"/>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="source/_static/bootstrap.min.css" />
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Fredoka&display=swap');
+            @import url("https://fonts.googleapis.com/css2?family=Fredoka&display=swap");
 
             * {
-                font-family: 'Fredoka', sans-serif;
+                font-family: "Fredoka", sans-serif;
             }
 
             body {
                 background-color: rgb(20, 20, 22);
                 overflow-x: hidden;
-                
+
                 /* remove scrollbars */
-                -ms-overflow-style: none;  /* IE and Edge */
-                scrollbar-width: none;  /* Firefox */
+                -ms-overflow-style: none; /* IE and Edge */
+                scrollbar-width: none; /* Firefox */
             }
 
             body::-webkit-scrollbar {
@@ -34,7 +42,7 @@
             .back-black {
                 background-color: rgb(20, 20, 22);
             }
-            
+
             .back-night {
                 background-color: rgb(26, 28, 30);
             }
@@ -51,7 +59,8 @@
                 border: 1px solid rgb(255, 148, 132);
             }
 
-            a:focus, b:focus {
+            a:focus,
+            b:focus {
                 outline: none;
                 box-shadow: none;
             }
@@ -61,22 +70,32 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark back-black">
             <a class="navbar-brand" href="#">
-                <img src="source/_static/logo.png" width="30" height="30" alt="" loading="lazy">
+                <img src="source/_static/logo.png" width="30" height="30" alt="" loading="lazy" />
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="#">home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://rubatopy.github.io/rubato/v2.0.0/index.html">docs</a> <!--REFACTOR-->
+                        <a class="nav-link" href="https://rubatopy.github.io/rubato/v2.0.0/index.html">docs</a>
+                        <!--REFACTOR-->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://rubatopy.github.io/rubato/v2.0.0/api.html">api</a> <!--REFACTOR-->
+                        <a class="nav-link" href="https://rubatopy.github.io/rubato/v2.0.0/api.html">api</a>
+                        <!--REFACTOR-->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://github.com/rubatopy/rubato">github</a>
@@ -88,33 +107,34 @@
             <div class="container">
                 <h1 class="display-4">Welcome to <span class="text-red">rubato</span>!</h1>
                 <p class="lead">Game design, made intuitive.</p>
-                <br>
+                <br />
                 <div class="text-right text-white">
                     <p>
                         Rubato is a modern tool for designing 2D games and physics simulations in Python.
-                        <br>
+                        <br />
                         Prototype ideas quickly and build performant applications compiled directly to C.
                     </p>
-                    <a class="btn btn-danger btn-lg" href="https://rubatopy.github.io/rubato/v2.0.0/intro.html" role="button">get started</a> <!--REFACTOR-->
+                    <a class="btn btn-danger btn-lg" href="https://rubatopy.github.io/rubato/v2.0.0/intro.html" role="button">get started</a>
+                    <!--REFACTOR-->
                 </div>
-                <br><br>
+                <br /><br />
             </div>
             <h1 class="text-center">Features</h1>
-            <div class="small-line ml-auto mr-auto"><hr></div>
+            <div class="small-line ml-auto mr-auto"><hr /></div>
             <div class="d-flex flex-wrap justify-content-center text-white">
-                <div class="card back-night m-2" style="max-width: 18rem;">
+                <div class="card back-night m-2" style="max-width: 18rem">
                     <div class="card-body">
                         <h5 class="card-title">Intuitive</h5>
                         <p class="card-text text-muted">Rubato's first priority is simplicity. Get started with just three lines of code, and build your projects concisely and effortlessly.</p>
                     </div>
                 </div>
-                <div class="card back-night m-2" style="max-width: 18rem;">
+                <div class="card back-night m-2" style="max-width: 18rem">
                     <div class="card-body">
                         <h5 class="card-title">Accessible</h5>
                         <p class="card-text text-muted">Offering comprehensive documentation and step-by-step guides, anyone can make games with Rubato.</p>
                     </div>
                 </div>
-                <div class="card back-night m-2" style="max-width: 18rem;">
+                <div class="card back-night m-2" style="max-width: 18rem">
                     <div class="card-body">
                         <h5 class="card-title">Educational</h5>
                         <p class="card-text text-muted">Structured similarly to Unity, Rubato provides a way for students to start learning serious game design without having to touch C# code.</p>
@@ -122,24 +142,26 @@
                 </div>
             </div>
             <div class="d-flex flex-wrap justify-content-center text-white">
-                <div class="card back-night m-2" style="max-width: 18rem;">
+                <div class="card back-night m-2" style="max-width: 18rem">
                     <div class="card-body">
                         <h5 class="card-title">Robust</h5>
-                        <p class="card-text text-muted">Native rigidbody support is built into Rubato and enables easy 2D physics simulations with complex geometries, utilizing a modern impulse resolution model.</p>
+                        <p class="card-text text-muted">
+                            Native rigidbody support is built into Rubato and enables easy 2D physics simulations with complex geometries, utilizing a modern impulse resolution model.
+                        </p>
                     </div>
                 </div>
-                <div class="card back-night m-2" style="max-width: 18rem;">
+                <div class="card back-night m-2" style="max-width: 18rem">
                     <div class="card-body">
                         <h5 class="card-title">Performant</h5>
-                        <p class="card-text text-muted">Based on the Simple DirectMedia Library, Rubato features hardware rendering, antialiasing, and fixed time-step processing right out of the box.</p>
+                        <p class="card-text text-muted">
+                            Based on the Simple DirectMedia Library, Rubato features hardware rendering, antialiasing, and fixed time-step processing right out of the box.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <footer class="text-muted">
-            <p class="m-4">
-                Copyright © 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave
-            </p>
+            <p class="m-4">Copyright © 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave</p>
         </footer>
     </body>
 </html>

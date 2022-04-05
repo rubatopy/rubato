@@ -1,7 +1,7 @@
 # pylint: disable=all
 from setuptools import setup, find_packages
 
-VERSION = "1.2.4"
+VERSION = "2.0.0"
 DESCRIPTION = "A lightweight, developer-first game engine built for Python."
 LONG_DESCRIPTION = (open("README.md").read() + "\n\n" + open("CHANGELOG.md").read())
 
