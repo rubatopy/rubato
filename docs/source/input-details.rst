@@ -1,8 +1,9 @@
 Input Details
 =============
 
-Here is the list of all of the available key names. Note that names are case-
-sensitive
+Here is the list of all of the available key names. Note that names are case-sensitive.
+
+You use these in our :ref:`Input <input>` class.
 
 Numbers
 _______

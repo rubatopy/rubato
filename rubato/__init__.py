@@ -13,6 +13,9 @@ from warnings import simplefilter
 
 simplefilter("ignore", UserWarning)
 
+import os  # testing purposes only
+os.environ["PYSDL2_DLL_PATH"] = "C:\\Users\\klavl\\PycharmProjects\\rubato\\venv\\Lib\\site-packages\\sdl2dll\\dll"
+
 import sdl2, sdl2.sdlttf
 
 simplefilter("default", UserWarning)
