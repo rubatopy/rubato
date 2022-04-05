@@ -1,4 +1,8 @@
 """Testing how many things we can draw"""
+import sys, os
+
+sys.path.insert(0, os.path.abspath("../"))
+
 from rubato import *
 import random
 
@@ -18,12 +22,16 @@ image = Image({
 group = Group()
 amt = 10
 
+
 def handle_keydown(event):
     global amt
     if event["key"] == "a":
-        gos = [GameObject({"pos": Vector(random.random() * Display.res.x, random.random() * Display.res.y)}).add(
-            image.clone())
-               for _ in range(amt)]
+        gos = [
+            GameObject({
+                "pos": Vector(random.random() * Display.res.x,
+                              random.random() * Display.res.y)
+            }).add(image.clone()) for _ in range(amt)
+        ]
         amt *= 1.1
         amt = int(amt)
         group_mini = Group()
