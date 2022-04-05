@@ -83,6 +83,4 @@ You're officially up and running with Rubato.
     Code not working? It's possible something went wrong during the dependency installation process.
     Check your terminal log for errors and reinstall Rubato and the SDL dlls if necessary.
 
-Read more in depth step-by-step tutorials and examples :doc:`here <tutorials>`.
-
-Or you can jump straight into the :doc:`full api documentation  <api>`.
+you can jump straight into the :doc:`full api documentation  <api>`.
