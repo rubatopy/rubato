@@ -25,7 +25,7 @@ class UIElement(GameObject):
         Initializes a UIElement.
 
         Args:
-            options: A UIElement config. Defaults to the |default| for `UIElement`.
+            options: A UIElement config. Defaults to the :ref:`UI Element defaults <uidef>`.
         """
         param = Defaults.ui_defaults | options
         super().__init__(param)

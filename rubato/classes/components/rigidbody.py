@@ -38,8 +38,7 @@ class RigidBody(Component):
         Initializes a Rigidbody.
 
         Args:
-            options: A rigidbody config. Defaults to the |default| for
-                `RigidBody`
+            options: A rigidbody config. Defaults to the :ref:`Rigidbody defaults <rigidbodydef>`.
         """
         params = Defaults.rigidbody_defaults | options
 

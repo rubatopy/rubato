@@ -14,8 +14,7 @@ class Text(Component):
         Initializes a Label.
 
         Args:
-            options: A Text config. Defaults to the |default| for
-                `Text`.
+            options: A Text config. Defaults to the :ref:`Text defaults <textdef>`.
         """
         param = Defaults.text_defaults | options
         super().__init__()

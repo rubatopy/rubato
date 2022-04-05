@@ -28,8 +28,7 @@ class GameObject:
         Initializes a game object.
 
         Args:
-            options: A game object config. Defaults to the |default| for
-                `Game Object`.
+            options: A game object config. Defaults to the :ref:`Game Object defaults <gameobjdef>`.
         """
         param = Defaults.gameobj_defaults | options
         self.name: str = param["name"]

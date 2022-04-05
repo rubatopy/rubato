@@ -30,8 +30,7 @@ class Hitbox(Component):
         Initializes a Hitbox.
 
         Args:
-            options: A Hitbox config. Defaults to the |default| for
-                `Hitbox`.
+            options: A Hitbox config. Defaults to the :ref:`Hitbox defaults <hitboxdef>`.
         """
         params = Defaults.hitbox_defaults | options
         super().__init__()
@@ -105,8 +104,7 @@ class Polygon(Hitbox):
         Initializes a Polygon.
 
         Args:
-            options: A Polygon config. Defaults to the |default| for
-                `Polygon`.
+            options: A Polygon config. Defaults to the :ref:`Polygon defaults <polygondef>`.
         """
         super().__init__(options)
         params = Defaults.polygon_defaults | options
@@ -234,8 +232,7 @@ class Rectangle(Hitbox):
         Initializes a Rectangle.
 
         Args:
-            options: A Rectangle config. Defaults to the |default| for
-                `Rectangle`.
+            options: A Rectangle config. Defaults to the :ref:`Rectangle defaults <rectangledef>`.
         """
         super().__init__(options)
         params = Defaults.rectangle_defaults | options
@@ -441,8 +438,7 @@ class Circle(Hitbox):
         Initializes a Circle.
 
         Args:
-            options: A Circle config. Defaults to the |default| for
-                `Circle`.
+            options: A Circle config. Defaults to the :ref:`Circle defaults <circledef>`.
         """
         super().__init__(options)
         params = Defaults.circle_defaults | options

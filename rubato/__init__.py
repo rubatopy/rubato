@@ -28,7 +28,7 @@ def init(options: dict = {}):
 
     Args:
         options: A game config.
-                Defaults to the |default| for `Game`.
+                Defaults to the :ref:`Game defaults <gamedef>`.
     """
     global _icon
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)

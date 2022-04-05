@@ -35,8 +35,7 @@ class Animation(Component):
         Initializes an Animation.
 
         Args:
-            options: A Animation config. Defaults to the |default| for
-                `Animation`.
+            options: A Animation config. Defaults to the :ref:`Animation defaults <animationdef>`.
         """
         param = Defaults.animation_defaults | options
         super().__init__()

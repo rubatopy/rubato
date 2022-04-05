@@ -16,8 +16,7 @@ class Group:
         Initializes a group object.
 
         Args:
-            options: A group object config. Defaults to the |default| for
-                `Group`.
+            options: A group object config. Defaults to the :ref:`Group defaults <groupdef>`.
         """
         param = Defaults.group_defaults | options
         self.name: str = param["name"]

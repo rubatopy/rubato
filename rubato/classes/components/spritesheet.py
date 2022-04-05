@@ -20,8 +20,7 @@ class Spritesheet:
         Initializes a Spritesheet.
 
         Args:
-            options: A Spritesheet config. Defaults to the |default| for
-                `Spritesheet`.
+            options: A Spritesheet config. Defaults to the :ref:`Spritesheet defaults <spritesheetdef>`.
 
         Raises:
             IndexError: If user does not load the entire sheet.

@@ -25,8 +25,7 @@ class Image(Component):
         Initializes an Image.
 
         Args:
-            options: A Image config. Defaults to the |default| for
-                `Image`.
+            options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
         """
         param = Defaults.image_defaults | options
         super().__init__()

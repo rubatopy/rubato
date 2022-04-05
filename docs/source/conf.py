@@ -142,10 +142,6 @@ ogp_custom_meta_tags = [
     '<meta property="og:title" content="rubato docs">',
 ]
 
-rst_epilog = """
-.. |default| replace:: :ref:`default config <defaults>`
-"""
-
 # Napoleon settings
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
