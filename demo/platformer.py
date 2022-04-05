@@ -39,10 +39,6 @@ player = rb.GameObject({
     "z_index": 1,
 })
 
-# Add shadow
-p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale": rb.Vector(4, 4)})
-player.add(p_shadow)
-
 # Create animation and initialize states
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24))
 p_animation.scale = rb.Vector(4, 4)
@@ -77,14 +73,14 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 64, "height": 48, "offset": rb.Vector(0, -8), "tag": "player"}))
+player.add(rb.Rectangle({"width": 58, "height": 64, "tag": "player"}))
 # add a ground detector
 player.add(
     rb.Rectangle(
         {
-            "width": 63,
+            "width": 57,
             "height": 5,
-            "offset": rb.Vector(0, 16),
+            "offset": rb.Vector(0, 32),
             "trigger": True,
             "on_collide": player_collide,
         }
@@ -224,8 +220,6 @@ def update():
         player.pos = rb.Display.center_left + rb.Vector(50, 0)
         player.get(rb.RigidBody).velocity = rb.Vector.zero
         grounded = False
-
-    p_shadow.visible = grounded
 
 
 # define a custom fixed update function
