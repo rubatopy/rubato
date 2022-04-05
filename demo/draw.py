@@ -1,4 +1,4 @@
-"""Testing how many things we can draw"""  #pylint: diable=wrong-import-position
+"""Testing how many things we can draw"""  #pylint: disable=wrong-import-position
 import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))
