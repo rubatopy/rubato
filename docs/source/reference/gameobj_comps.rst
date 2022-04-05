@@ -32,7 +32,7 @@ Components
 **********
 The default Component class.
 
-.. automodule:: rubato.classes.component
+.. automodule:: rubato.classes.components.component
     :members:
 
 .. _image:
