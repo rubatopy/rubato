@@ -424,9 +424,10 @@ class Circle(Hitbox):
         return self.radius * self.scale
 
     def draw(self):
+        relative_pos = Game.camera.transform(self.pos)
+        scaled_rad = Game.camera.scale(self.radius)
+
         if self.color is not None:
-            relative_pos = Game.camera.transform(self.pos)
-            scaled_rad = Game.camera.scale(self.radius)
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
                 int(relative_pos.x),

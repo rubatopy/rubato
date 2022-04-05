@@ -20,7 +20,7 @@ rb.init(
 )
 
 # Change the global debug level
-rb.Game.debug = False
+rb.Game.debug = True
 
 # Tracks the grounded state of the player
 grounded = False
@@ -73,12 +73,12 @@ def player_collide(col_info: rb.ColInfo):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 58, "height": 64, "tag": "player"}))
+player.add(rb.Circle({"radius": 32, "tag": "player"}))
 # add a ground detector
 player.add(
     rb.Rectangle(
         {
-            "width": 57,
+            "width": 10,
             "height": 5,
             "offset": rb.Vector(0, 32),
             "trigger": True,
