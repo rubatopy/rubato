@@ -9,6 +9,39 @@ Installing Rubato is simple. Just run:
 
     $ pip install rubato
 
+You also need to install the SDL dlls. (These are just the c-library files needed to make Rubato work):
+
+.. tab-set::
+
+    .. tab-item:: Windows
+        :sync: win
+
+        .. code-block:: console
+
+            $ pip install pysdl-dll
+
+
+    .. tab-item:: Linux
+        :sync: linux
+
+        .. code-block:: console
+
+            $ pip install pysdl-dll
+
+    .. tab-item:: Mac OS X (Intel)
+        :sync: macintel
+
+        .. code-block:: console
+
+            $ pip install pysdl-dll
+
+    .. tab-item:: Mac OS X (Silicon)
+        :sync: macsil
+
+        .. code-block:: console
+
+            $ brew install sdl2 sdl2_mixer sdl2_ttf sdl2_gfx sdl2_image
+
 .. note::
     | A virtual environment is recommended
     | Python >= 3.10 required
@@ -20,7 +53,7 @@ To get started, import rubato and initilize it.
 
 .. code-block:: python
 
-    from rubato import *
+    import rubato as rb
 
     init()
 

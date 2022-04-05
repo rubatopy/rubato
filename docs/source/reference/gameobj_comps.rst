@@ -64,7 +64,7 @@ Spritesheet
     :members:
 
 
-.. _rectangle:
+.. _hitbox:
 
 Hitbox
 =========
