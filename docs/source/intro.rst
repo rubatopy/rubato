@@ -3,13 +3,18 @@ Getting Started
 
 Installation
 ------------
-Installing Rubato is simple. Just run:
+Installing Rubato is simple. Just run the following in a terminal:
 
 .. code-block:: console
 
     $ pip install rubato
 
-You also need to install the SDL dlls. (These are just the c-library files needed to make Rubato work):
+.. note::
+    | Python 3.10 required
+    | We recommend installing python direct from python.org if you do not already have it.
+
+You'll also need to install the SDL dlls (they're the C-lib files that Rubato needs).
+Here's how you can do that on your platform:
 
 .. tab-set::
 
@@ -28,79 +33,52 @@ You also need to install the SDL dlls. (These are just the c-library files neede
 
             $ pip install pysdl-dll
 
-    .. tab-item:: Mac OS X (Intel)
-        :sync: macintel
 
-        .. code-block:: console
-
-            $ pip install pysdl-dll
-
-    .. tab-item:: Mac OS X (Silicon)
-        :sync: macsil
+    .. tab-item:: Mac
+        :sync: mac
 
         .. code-block:: console
 
             $ brew install sdl2 sdl2_mixer sdl2_ttf sdl2_gfx sdl2_image
 
-.. note::
-    | A virtual environment is recommended
-    | Python >= 3.10 required
-    | Issues have been found when using the python from Microsoft store (use python.org)
 
-Usage
------
-To get started, import rubato and initilize it.
+Setting Up
+----------
+Once you've installed Rubato, setting up a new project is easy.
+To create a new blank project, simply create a new python file and type the following:
 
 .. code-block:: python
 
     import rubato as rb
 
-    init()
+    rb.init()
 
-Rubato is "game object"-based. This means that most objects rendered
-to the screen are :ref:`Game Objects <gameobj>`. However, game objects do
-very little on their own. Components are what gives a game object
-functionality. For example, you can attach a :func:`Circle <rubato.classes.components.hitbox.Circle>`
-or any other :ref:`components <components>` to a game object to make it draw an image
-or interact with the physics engine.
+:func:`rb.init() <rubato.init>` initializes Rubato.
+An optional dictionary argument passed into :func:`rb.init() <rubato.init>` can specify such things as window size, resolution, background color, and more.
 
-To add a game object to the screen in our example, you need to first create a
-new :ref:`Scene <scene>` and add it to the :ref:`Scene Manager <scenemanager>`.
-Finally, you can create your game object and add it to the scene.
+Rubato documentation describes exactly what custom parameters you can specify when creating Rubato objects or calling specific functions such as ``init()``.
+You can see these parameters and their default values on the :doc:`defaults page <defaults>`.
 
-.. code-block:: python
+.. warning::
+    You should `only` interact with Rubato (adding scenes, game objects, etc.) **AFTER** calling ``init()``.
 
-    scene = Scene()
-    Game.scenes.add(scene, "main")
-
-    ball = GameObject({
-        "pos": Vector(100,100)
-    }).add(Circle({
-        "color": Color.green
-    }))
-
-    scene.add(ball)
-
-
-The above code creates a game object with a circular hitbox at position :code:`(100, 100)`.
-We've also specified that we'd like for the circle to be rendered green.
-
-This is how we do class parameters in rubato. Game Object and Component classes
-take in a dictionary of parameters. You can find all the
-:ref:`default options<defaults>` in our docs.
-
-You might notice that after running this code, nothing happens. That's because
-the game loop hasn't started. To start Rubato's engine, run:
+Now that Rubato is ready, add the following line of code to the end of the file:
 
 .. code-block:: python
 
-    begin()
+    rb.begin()
 
-Hopefully you see a green circle in a new window on your screen, and if so,
-congratulations! You're up and running with your first Rubato project.
+:func:`rb.begin() <rubato.begin>` is the function that starts the Rubato engine.
+Without it, Rubato won't know to begin the engine cycle, and your game won't run.
+It is recommended to call :func:`rb.begin() <rubato.begin>` at the bottom of your project file as in this example.
 
-The next step is to learn to use the rest of the library.
+Now run your code in a terminal using ``python3 YOUR_FILENAME.py``. If you see a white square window, congrats!
+You're officially up and running with Rubato.
 
-You can follow the step-by-step tutorial where you will be making a platformer :doc:`here <tutorials>`.
+.. note::
+    Code not working? It's possible something went wrong during the dependency installation process.
+    Check your terminal log for errors and reinstall Rubato and the SDL dlls if necessary.
+
+Read more in depth step-by-step tutorials and examples :doc:`here <tutorials>`.
 
 Or you can jump straight into the :doc:`full api documentation  <api>`.
