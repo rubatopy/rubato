@@ -213,6 +213,29 @@ class Animation(Component):
 
         self.add(state_name, state)
 
+    def clone(self) -> Animation:
+        """Clones the animation."""
+        new = Animation(
+            {
+                "scale": self.scale,
+                "fps": self.fps,
+                "anti_aliasing": self.aa,
+                "flipx": self.flipx,
+                "flipy": self.flipy,
+                "rotation": self.rotation,
+                "offset": self.offset,
+                "visible": self.visible
+            }
+        )
+        # pylint: disable=protected-access
+        new._states = self._states
+        new.default_state = self.default_state
+        new.current_state = self.current_state
+        new.loop = self.loop
+        new.current_frame = self.current_frame
+        new._freeze = self._freeze
+        return new
+
     def setup(self):
         """Sets up the animation component."""
         for images in self._states.values():

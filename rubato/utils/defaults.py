@@ -57,6 +57,8 @@ text_defaults = {
     # y component is whether to shift top, none, or bottom (-1, 0, 1)
     "width": -1,  # . . . . . . . . . . . . . . . . . . . . . . int
     # The maximum width of the text. Will automatically wrap the text.
+    "font": None,  #. . . . . . . . . . . . . . . . . . . . . . Font
+    # The font object to use. Defaults to an object using the Fredoka font.
 }
 
 font_defaults = {

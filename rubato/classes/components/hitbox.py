@@ -53,9 +53,6 @@ class Hitbox(Component):
     def update(self):
         self.draw()
 
-    def draw(self):
-        pass
-
     def bounding_box_dimensions(self) -> Vector:
         """
         Returns the dimensions of the bounding box surrounding the polygon.
@@ -143,6 +140,22 @@ class Polygon(Hitbox):
             verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
         return verts
+
+    def clone(self) -> Polygon:
+        """Clones the Polygon"""
+        return Polygon(
+            {
+                "debug": self.debug,
+                "trigger": self.trigger,
+                "scale": self.scale,
+                "on_collide": self.on_collide,
+                "color": self.color,
+                "tag": self.tag,
+                "offset": self.offset,
+                "verts": self.verts,
+                "rotation": self.rotation,
+            }
+        )
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -342,6 +355,22 @@ class Rectangle(Hitbox):
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
+    def clone(self) -> Rectangle:
+        return Rectangle(
+            {
+                "width": self.width,
+                "height": self.height,
+                "rotation": self.rotation,
+                "debug": self.debug,
+                "trigger": self.trigger,
+                "scale": self.scale,
+                "on_collide": self.on_collide,
+                "color": self.color,
+                "tag": self.tag,
+                "offset": self.offset,
+            }
+        )
+
     def vertices(self) -> List[Vector]:
         """
         Generates a list of the rectangle's vertices with no transformations applied.
@@ -422,6 +451,20 @@ class Circle(Hitbox):
     def transformed_radius(self) -> int:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
+
+    def clone(self) -> Circle:
+        return Circle(
+            {
+                "debug": self.debug,
+                "trigger": self.trigger,
+                "scale": self.scale,
+                "on_collide": self.on_collide,
+                "color": self.color,
+                "tag": self.tag,
+                "offset": self.offset,
+                "radius": self.radius,
+            }
+        )
 
     def draw(self):
         relative_pos = Game.camera.transform(self.pos)

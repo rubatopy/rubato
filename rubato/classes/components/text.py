@@ -1,4 +1,5 @@
 """A text component."""
+from __future__ import annotations
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
@@ -98,6 +99,18 @@ class Text(Component):
     def font_color(self, color: Color):
         self._font.color = color
         self.generate_surface()
+
+    def clone(self) -> Text:
+        """Clones the text component."""
+        return Text(
+            {
+                "text": self._text,
+                "font": self._font,
+                "align": self._align,
+                "justify": self._justify,
+                "width": self._width,
+            }
+        )
 
     def add_style(self, style: str):
         """Add a style to the font (bold, italic, underline, strikethrough, normal)."""

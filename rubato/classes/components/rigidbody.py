@@ -107,6 +107,21 @@ class RigidBody(Component):
             self.add_force(impulse)
             Time.delayed_frames(1, lambda: self.add_impulse(impulse, time - Time.delta_time))
 
+    def clone(self) -> RigidBody:
+        return RigidBody(
+            {
+                "static": self.static,
+                "gravity": self.gravity,
+                "friction": self.friction,
+                "max_speed": self.max_speed,
+                "pos_correction": self.pos_correction,
+                "velocity": self.velocity,
+                "mass": self.mass,
+                "bounciness": self.bounciness,
+                "rotation": self.rotation,
+            }
+        )
+
     @staticmethod
     def handle_collision(col: ColInfo):
         """
