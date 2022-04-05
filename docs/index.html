@@ -19,6 +19,16 @@
 
             body {
                 background-color: rgb(20, 20, 22);
+                overflow-x: hidden;
+                
+                /* remove scrollbars */
+                -ms-overflow-style: none;  /* IE and Edge */
+                scrollbar-width: none;  /* Firefox */
+            }
+
+            body::-webkit-scrollbar {
+                /* remove scrollbars */
+                display: none;
             }
 
             .back-black {
@@ -33,10 +43,12 @@
                 color: rgb(255, 148, 132) !important;
             }
 
+            .small-line {
+                max-width: 4rem;
+            }
+
             hr {
-                height: 1px;
-                background-color: rgb(130, 134, 140);
-                border: none;
+                border: 1px solid rgb(255, 148, 132);
             }
 
             a:focus, b:focus {
@@ -86,41 +98,40 @@
                     <a class="btn btn-danger btn-lg" href="https://rubatopy.github.io/rubato/v2.0.0/intro.html" role="button">get started</a> <!--REFACTOR-->
                 </div>
                 <br><br>
-                <div class="card-deck">
-                    <div class="card back-night text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Easy and Readable Code</h5>
-                            <p class="card-text">Rubato is built for simplicity and readability. As opposed to our competitors, Rubato requires only 3 lines of code to get a resizeable window rendering.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 5 April 2022</small></p>
-                        </div>
+            </div>
+            <h1 class="text-center">Features</h1>
+            <div class="small-line ml-auto mr-auto"><hr></div>
+            <div class="d-flex flex-wrap justify-content-center text-white">
+                <div class="card back-night m-2" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Intuitive</h5>
+                        <p class="card-text text-muted">Rubato's first priority is simplicity. Get started with just three lines of code, and build your projects concisely and effortlessly.</p>
                     </div>
-                    <div class="card back-night text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Accessibility</h5>
-                            <p class="card-text">With easy to read documentation and step-by-step guides, anyone can make games in Rubato.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 5 April 2022</small></p>
-                        </div>
+                </div>
+                <div class="card back-night m-2" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Accessible</h5>
+                        <p class="card-text text-muted">Offering comprehensive documentation and step-by-step guides, anyone can make games with Rubato.</p>
                     </div>
-                    <div class="card back-night text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Stepping Stone to Unity</h5>
-                            <p class="card-text">Built similarly to popular Game Engine Unity, we provide a way for students to learn the powerfully complex structure in a simple language</p>
-                            <p class="card-text"><small class="text-muted">Last updated 5 April 2022</small></p>
-                        </div>
+                </div>
+                <div class="card back-night m-2" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Educational</h5>
+                        <p class="card-text text-muted">Structured similarly to Unity, Rubato provides a way for students to start learning serious game design without having to touch C# code.</p>
                     </div>
-                    <div class="card back-night text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Rigid body physics</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 5 April 2022</small></p>
-                        </div>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-center text-white">
+                <div class="card back-night m-2" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Robust</h5>
+                        <p class="card-text text-muted">Native rigidbody support is built into Rubato and enables easy 2D physics simulations with complex geometries, utilizing a modern impulse resolution model.</p>
                     </div>
-                    <div class="card back-night text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">High Performance</h5>
-                            <p class="card-text">Rubato is written on SDL2 utilizing GPU rendering and ctypes to speed up calculations.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 5 April 2022</small></p>
-                        </div>
+                </div>
+                <div class="card back-night m-2" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Performant</h5>
+                        <p class="card-text text-muted">Based on the Simple DirectMedia Library, Rubato features hardware rendering, antialiasing, and fixed time-step processing right out of the box.</p>
                     </div>
                 </div>
             </div>
