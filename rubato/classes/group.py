@@ -124,3 +124,14 @@ class Group:
         for game_obj in self.game_objects:
             if game_obj.z_index <= Game.camera.z_index:
                 game_obj.draw()
+
+    def count(self) -> int:
+        """
+        Counts all the GameObjects in this group and all groups it contains.
+        Returns:
+            int: The number of GameObjects in a group
+        """
+        children = 0
+        for group in self.groups:
+            children += group.count()
+        return len(self.game_objects) + children
