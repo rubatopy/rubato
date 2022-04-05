@@ -1,5 +1,9 @@
 """
 The component module that represents the template for all components.
+
+Attention:
+    Each component can only be attached to one game object. To add one component to multiple game objects, use the
+    ``clone()`` method.
 """
 from __future__ import annotations
 from typing import Union, TYPE_CHECKING
@@ -48,3 +52,10 @@ class Component:
     def delete(self):
         """The delete function template for a component subclass."""
         pass
+
+    def clone(self) -> Component:
+        """Clones the component."""
+        new = Component()
+        new.gameobj = self.gameobj
+        new.offset = self.offset
+        return new
