@@ -5,7 +5,7 @@ Rubato is a modern 2D game engine for python. Accurate fixed-step physics simula
 Fundamentally, Rubato is built developer-focused. From intricate rigidbody simulations to 2D games, Rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
 
 .. toctree::
-    :caption: Table of Contents
+    :hidden:
 
     reference/hardware
     reference/scenes

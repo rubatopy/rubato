@@ -18,5 +18,4 @@ This tutorial works with python 3.10.x and Rubato v2.x.x.
     :maxdepth: 1
     :caption: Tutorials
 
-    .. tutorials/platformer
     tutorials/advanced

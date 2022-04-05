@@ -5,7 +5,7 @@ Game Object and Components
 :func:`Game Objects <rubato.classes.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
 
-:func:`Components <rubato.classes.component.Component>` are how Game Objects get their functionality. Each component adds or
+:func:`Components <rubato.classes.components.component.Component>` are how Game Objects get their functionality. Each component adds or
 changes something about the Game Object. For example, an Image component draws an image from your filesystem to the game at the
 Game Object's position.
 

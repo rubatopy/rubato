@@ -117,7 +117,9 @@ html_theme_options = {
             "color-brand-primary": theme_color,
             "color-brand-content": theme_color,
             "color-api-name": theme_color,
-        }
+        },
+    "globaltoc_maxdepth": -1,
+    "globaltoc_includehidden": True,
 }
 
 html_use_index = False

@@ -199,7 +199,7 @@ def update():
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
                 p_animation.set_current_state("sneak", True)
             else:
-                p_animation.set_current_state("run")
+                p_animation.set_current_state("run", True)
     elif rb.Input.key_pressed("d"):
         player_body.velocity.x = 300
         p_animation.flipx = False
@@ -207,8 +207,7 @@ def update():
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
                 p_animation.set_current_state("sneak", True)
             else:
-                print(rb.Time.frames)
-                p_animation.set_current_state("run")
+                p_animation.set_current_state("run", True)
     else:
         player_body.velocity.x = 0
         if grounded:
