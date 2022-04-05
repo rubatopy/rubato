@@ -1,6 +1,7 @@
+.. _defaults:
+
 Default Options
 ===============
-.. _defaults:
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python

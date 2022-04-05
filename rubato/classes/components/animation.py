@@ -118,7 +118,8 @@ class Animation(Component):
         Args:
             new_state: The key of the new current state.
             loop: Whether to loop the state. Defaults to False.
-            freeze: Freezes the animation once the specified frame is reached. Use -1 to never freeze. Defaults to -1.
+            freeze: Freezes the animation once the specified frame is reached (No animation).
+                Use -1 to never freeze. Defaults to -1.
 
         Raises:
             KeyError: The new_state key is not in the initialized states.
@@ -237,6 +238,7 @@ class Animation(Component):
             elif self.loop:  # we reached the end of our state
                 self.reset()
             else:
+                print(self.default_state)
                 self.set_current_state(self.default_state, True)
 
         self.anim_frame.rotation = self.rotation
