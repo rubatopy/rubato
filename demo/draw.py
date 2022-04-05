@@ -16,21 +16,25 @@ image = Image({
 })
 
 group = Group()
-
+amt = 10
 
 def handle_keydown(event):
+    global amt
     if event["key"] == "a":
         GOs = [GameObject({"pos": Vector(random.random() * Display.res.x, random.random() * Display.res.y)}).add(
             image.clone())
-               for _ in range(10)]
-        group.add(*GOs)
+               for _ in range(amt)]
+        amt *= 1.1
+        amt = int(amt)
+        group_mini = Group()
+        group_mini.add(*GOs)
+        group.add(group_mini)
     elif event["key"] == "c":
-        print(len(group.game_objects))
-
-
-
+        print(group.count())
+        print(Time.smooth_fps)
 
 Radio.listen("KEYDOWN", handle_keydown)
+Radio.listen("KEYHOLD", handle_keydown)
 
 main_scene.add(group)
 
