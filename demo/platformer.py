@@ -36,7 +36,7 @@ player = rb.GameObject({
 })
 
 # Add shadow
-p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale_factor": rb.Vector(4, 4)})
+p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale": rb.Vector(4, 4)})
 player.add(p_shadow)
 
 # Load various spritesheets
@@ -179,7 +179,7 @@ all_portal_images = rb.Spritesheet(
         "grid_size": rb.Vector(8, 1)
     }
 )
-portal_animation = rb.Animation({"scale_factor": rb.Vector(4, 4), "fps": 2})
+portal_animation = rb.Animation({"scale": rb.Vector(4, 4), "fps": 2})
 portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_images.end)
 
 # create the end portal
