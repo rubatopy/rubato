@@ -5,21 +5,27 @@ Rubato is a modern 2D game engine for python. Accurate fixed-step physics simula
 
 Fundamentally, Rubato is built developer-focused. From intricate rigidbody simulations to 2D games, Rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
 
+.. toctree::
+    :hidden:
+
+    events
+    key-names
+
 .. autofunction:: rubato.init
 
 .. autofunction:: rubato.begin
 
 .. _game_class:
 
-____
+****
 Game
-____
+****
 .. automodule:: rubato.game
     :members:
 
-___________________________
+***************************
 Scenes and Their Management
-___________________________
+***************************
 
 :func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
 :func:`Camera <rubato.classes.camera.Camera>`. Scenes are used to compartmentalize code. For example,
@@ -34,18 +40,16 @@ we won't be using Groups as we don't need this functionality here.
 
 .. _scenemanager:
 
-************
 SceneManager
-************
+============
 .. automodule:: rubato.classes.scene_manager
     :members:
 
 
 .. _scene:
 
-*****
 Scene
-*****
+=====
 .. automodule:: rubato.classes.scene
     :members:
 
@@ -59,15 +63,14 @@ Camera
 
 .. _group:
 
-*****
 Group
-*****
+=====
 .. automodule:: rubato.classes.group
     :members:
 
-__________________________
+**************************
 Game Object and Components
-__________________________
+**************************
 
 :func:`Game Objects <rubato.classes.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
@@ -78,25 +81,22 @@ Game Object's position.
 
 .. _gameobj:
 
-***********
 Game Object
-***********
+============
 .. automodule:: rubato.classes.game_object
     :members:
 
 .. _ui:
 
-***********
 UI Element
-***********
+============
 .. automodule:: rubato.classes.ui
     :members:
 
 .. _components:
 
-**********
 Components
-**********
+==========
 The default Component class.
 
 .. automodule:: rubato.classes.components.component
@@ -105,28 +105,28 @@ The default Component class.
 .. _image:
 
 Image
-=========
+---------
 .. automodule:: rubato.classes.components.image
     :members:
 
 .. _text:
 
 Text
-=========
+---------
 .. automodule:: rubato.classes.components.text
     :members:
 
 .. _animation:
 
 Animation
-=========
+---------
 .. automodule:: rubato.classes.components.animation
     :members:
 
 .. _spritesheet:
 
 Spritesheet
------------
+___________
 .. automodule:: rubato.classes.components.spritesheet
     :members:
 
@@ -134,105 +134,97 @@ Spritesheet
 .. _hitbox:
 
 Hitbox
-=========
+---------
 .. automodule:: rubato.classes.components.hitbox
     :members:
 
 .. _rigidbody:
 
 RigidBody
-=========
+---------
 .. automodule:: rubato.classes.components.rigidbody
     :members:
 
-____________________
+********************
 Hardware Interaction
-____________________
+********************
 
 All of these static classes let you interact with the hardware. Either by checking for user input, drawing to the screen
 or playing a sound.
 
 .. _display:
 
-*******
 Display
-*******
+=======
 .. automodule:: rubato.utils.display
     :members:
 
 .. _input:
 
-*****
 Input
-*****
+=====
 .. automodule:: rubato.utils.input
     :members:
 
 .. _sound:
 
-*****
 Sound
-*****
+=====
 .. automodule:: rubato.utils.sound
     :members:
 
-_________
+*********
 Utilities
-_________
+*********
 These classes are utility classes that are used to make certain tasks easier.
 
 .. _vector:
 
-******
 Vector
-******
+======
 .. automodule:: rubato.utils.vector
     :members:
 
 .. _math:
 
-****
 Math
-****
+====
 .. automodule:: rubato.utils.math
     :members:
 
 .. _time:
 
-****
 Time
-****
+====
 .. automodule:: rubato.utils.time
     :members:
 
 .. _color:
 
-*****
 Color
-*****
+=====
 .. automodule:: rubato.utils.color
     :members:
     :undoc-members:
 
 .. _font:
 
-****
 Font
-****
+====
 .. automodule:: rubato.utils.font
     :members:
     :undoc-members:
 
 .. _radio:
 
-*****
 Radio
-*****
+=====
 .. automodule:: rubato.utils.radio
     :members:
 
-******
+.. _errors:
+
 Errors
-******
+======
 .. automodule:: rubato.utils.error
     :members:

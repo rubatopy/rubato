@@ -20,5 +20,3 @@ GitHub repo: https://github.com/rubatopy/rubato
     tutorials
     api
     defaults
-    events
-    input-details
