@@ -3,13 +3,14 @@ Using Pixel Mutation
 
 Assumes you finished getting started.
 
-Pixel mutation is not currently implemented to surfaces in rubato as of `2.0.0`.
-This will hopefully come in future
+Pixel mutation is not currently implemented to surfaces in rubato as of ``2.0.0``.
+This will hopefully come in future.
+
 .. code-block:: console
 
     $ pip install numpy
 
-In your code we need to import `numpy` and `sdl2.ext.pixelaccess`
+In your code we need to import ``numpy`` and ``sdl2.ext.pixelaccess``:
 
 .. code-block:: python
 
