@@ -231,6 +231,8 @@ class Animation(Component):
 
     def anim_tick(self):
         """An animation processing tick."""
+        print(Time.frames, self.current_state, self.default_state, self.animation_frames_left)
+
         if self.current_frame != self._freeze:
             if self.animation_frames_left > 0:
                 # still frames left
@@ -238,7 +240,7 @@ class Animation(Component):
             elif self.loop:  # we reached the end of our state
                 self.reset()
             else:
-                print(self.default_state)
+                print(Time.frames, self.current_state, self.default_state, self.animation_frames_left, "!")
                 self.set_current_state(self.default_state, True)
 
         self.anim_frame.rotation = self.rotation

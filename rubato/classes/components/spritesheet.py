@@ -104,7 +104,7 @@ class Spritesheet:
         return self.grid_size - Vector.one
 
     @staticmethod
-    def from_folder(rel_path: str, sprite_size: Vector) -> Animation:
+    def from_folder(rel_path: str, sprite_size: Vector, default_state=None) -> Animation:
         """
         Creates an Animation from a folder of spritesheets.
         Directory must be comprised solely of spritesheets.
@@ -113,6 +113,7 @@ class Spritesheet:
         Args:
             rel_path: The relative path to the folder you wish to import
             sprite_size: The size of a single sprite in your spritesheet, should be the same in all imported sheets.
+            default_state: Sets the default state of the animation.
 
         Returns:
             Animation: the animation loaded from the folder of spritesheets
@@ -131,4 +132,8 @@ class Spritesheet:
                     anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
                 except TypeError:
                     continue
+        if default_state:
+            anim.default_state = default_state
+            anim.current_state = default_state
+            anim.reset()
         return anim

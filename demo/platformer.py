@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 # TEST
 # Issue comes from venv/Lib/site-packages/sdl2/dll.py line 322
-# os.environ["PYSDL2_DLL_PATH"] = "C:\\Users\\klavl\\PycharmProjects\\rubato\\venv\\Lib\\site-packages\\sdl2dll\\dll"
+# os.environ["PYSDL2_DLL_PATH"] = "system"
 
 import rubato as rb
 
@@ -40,7 +40,7 @@ player = rb.GameObject({
 })
 
 # Create animation and initialize states
-p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24))
+p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24), default_state="idle")
 p_animation.scale = rb.Vector(4, 4)
 p_animation.fps = 10
 player.add(p_animation)
@@ -207,6 +207,7 @@ def update():
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
                 p_animation.set_current_state("sneak", True)
             else:
+                print(rb.Time.frames)
                 p_animation.set_current_state("run")
     else:
         player_body.velocity.x = 0

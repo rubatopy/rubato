@@ -30,7 +30,7 @@ def draw_on(surf):
             pixels[x][y] = rb.Color(*(new[0])).rgba32
     return surf
 
-# C:\Users\klavl\PycharmProjects\rubato\venv\Lib\site-packages\sdl2\examples\pixelaccess.py
+# venv\Lib\site-packages\sdl2\examples\pixelaccess.py
 def draw_horizontal_stripes(surface, x1, x2, y1, y2):
     # Fill the entire surface with a black color. In contrast to
     # colorpalettes.py we use a Color() value here, just to demonstrate that
@@ -64,8 +64,8 @@ def draw_horizontal_stripes(surface, x1, x2, y1, y2):
 
 
 def draw():
-    image.image = draw_on(image.image)
-    # draw_horizontal_stripes(image.image, 0, 40, 0, 40) # TODO: TEST
+    # image.image = draw_on(image.image)
+    draw_horizontal_stripes(image.image, 0, 40, 0, 40)  # TODO: TEST
 
 main_scene.update = draw
 
