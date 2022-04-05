@@ -54,10 +54,6 @@ blue_dino_main = rb.Spritesheet(
 
 # Create animation and initialize states
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24))
-p_animation.add_spritesheet(
-    "crouch_idle", blue_dino_main, rb.Vector(17, 0), rb.Vector(19, 0)
-)  # TODO: add the crouch states
-p_animation.add_spritesheet("crouch_run", blue_dino_main, rb.Vector(20, 0), rb.Vector(23, 0))
 p_animation.scale = rb.Vector(4, 4)
 p_animation.fps = 10
 player.add(p_animation)
@@ -214,7 +210,7 @@ def update():
         p_animation.flipx = True
         if grounded:
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
-                p_animation.set_current_state("crouch_run", True)
+                p_animation.set_current_state("sneak", True)
             else:
                 p_animation.set_current_state("run")
     elif rb.Input.key_pressed("d"):
@@ -222,14 +218,14 @@ def update():
         p_animation.flipx = False
         if grounded:
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
-                p_animation.set_current_state("crouch_run", True)
+                p_animation.set_current_state("sneak", True)
             else:
                 p_animation.set_current_state("run")
     else:
         player_body.velocity.x = 0
         if grounded:
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
-                p_animation.set_current_state("crouch_idle", True)
+                p_animation.set_current_state("crouch", True)
             else:
                 p_animation.set_current_state("idle", True)
 
