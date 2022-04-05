@@ -107,12 +107,20 @@ class Display(metaclass=DisplayProperties):
         """
         Set the icon of the window.
 
+        Warning:
+            The image must be less than 128x128
+
         Args:
             path: The path to the icon.
         """
-        sdl2.video.SDL_SetWindowIcon(
-            cls.window,
-            sdl2.ext.image.load_img(path),
+
+        image = sdl2.ext.image.load_img(path)
+        if image.w > 128 or image.h > 128:
+            raise ValueError("The logo image must be less than 128x128")
+
+        sdl2.SDL_SetWindowIcon(
+            cls.window.window,
+            image,
         )
 
     @classmethod
