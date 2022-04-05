@@ -3,6 +3,9 @@ import sys, os
 
 sys.path.insert(0, os.path.abspath("../"))
 
+# TEST
+# os.environ["PYSDL2_DLL_PATH"] = "C:\\Users\\klavl\\PycharmProjects\\rubato\\venv\\Lib\\site-packages\\sdl2dll\\dll"
+
 import rubato as rb
 
 # initialize a new game

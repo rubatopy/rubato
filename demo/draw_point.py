@@ -5,6 +5,8 @@ import sys, os
 sys.path.insert(0, os.path.abspath("../"))
 
 import rubato as rb
+import sdl2
+import sdl2.ext
 
 rb.init({
     "name": "Point drawing",
@@ -28,10 +30,42 @@ def draw_on(surf):
             pixels[x][y] = rb.Color(*(new[0])).rgba32
     return surf
 
+# C:\Users\klavl\PycharmProjects\rubato\venv\Lib\site-packages\sdl2\examples\pixelaccess.py
+def draw_horizontal_stripes(surface, x1, x2, y1, y2):
+    # Fill the entire surface with a black color. In contrast to
+    # colorpalettes.py we use a Color() value here, just to demonstrate that
+    # it really works.
+    sdl2.ext.fill(surface, rb.Color.black)
+
+    # Create a 2D view that allows us to directly access each individual pixel
+    # of the surface. The PixelView class is quite slow, since it uses an non-
+    # optimised read-write access to each individual pixel and offset. It
+    # works on every platform, though.
+    pixelview = sdl2.ext.PixelView(surface)
+
+    # Loop over the area bounds, considering each fourth line and every column
+    # on the 2D view. The PixelView uses a y-x alignment to access pixels.
+    # This mkeans that the first accessible dimension of the PixelView denotes
+    # the horizontal lines of an image, and the second the vertical lines.
+    for y in range(y1, y2, 4):
+        for x in range(x1, x2):
+            # Change the color of each individual pixel. We can assign any
+            # color-like value here, since the assignment method of the
+            # PixelView will implicitly check and convert the value to a
+            # matching color for its target surface.
+            pixelview[y][x] = rb.Color.white
+
+    # Explicitly delete the PixelView. Some surface types need to be locked
+    # in order to access their pixels directly. The PixelView will do that
+    # implicitly at creation time. Once we are done with all necessary
+    # operations, we need to unlock the surface, which will be done
+    # automatically at the time the PixelView is garbage-collected.
+    del pixelview
+
 
 def draw():
     image.image = draw_on(image.image)
-
+    # draw_horizontal_stripes(image.image, 0, 40, 0, 40) # TODO: TEST
 
 main_scene.update = draw
 
