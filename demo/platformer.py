@@ -43,15 +43,6 @@ player = rb.GameObject({
 p_shadow = rb.Image({"rel_path": "sprites/dino/shadow.png", "scale": rb.Vector(4, 4)})
 player.add(p_shadow)
 
-# Load various spritesheets
-blue_dino_main = rb.Spritesheet(
-    {
-        "rel_path": "sprites/dino/DinoSprites - blue.png",
-        "sprite_size": rb.Vector(24, 24),
-        "grid_size": rb.Vector(24, 1)
-    }
-)
-
 # Create animation and initialize states
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24))
 p_animation.scale = rb.Vector(4, 4)
