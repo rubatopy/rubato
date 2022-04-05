@@ -23,7 +23,7 @@ copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disab
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
 # CHANGE WITH EVERY UPDATE
-html_context = {"latest": "v2.0.0"}
+html_context = {"latest": "v1.2.0"}
 
 # -- General configuration ---------------------------------------------------
 
