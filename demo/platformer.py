@@ -4,6 +4,7 @@ import sys, os
 sys.path.insert(0, os.path.abspath("../"))
 
 # TEST
+# Issue comes from venv/Lib/site-packages/sdl2/dll.py line 322
 # os.environ["PYSDL2_DLL_PATH"] = "C:\\Users\\klavl\\PycharmProjects\\rubato\\venv\\Lib\\site-packages\\sdl2dll\\dll"
 
 import rubato as rb
@@ -19,7 +20,7 @@ rb.init(
 )
 
 # Change the global debug level
-rb.Game.debug = True
+rb.Game.debug = False
 
 # Tracks the grounded state of the player
 grounded = False
