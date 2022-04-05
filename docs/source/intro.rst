@@ -10,7 +10,7 @@ Installing Rubato is simple. Just run the following in a terminal:
     $ pip install rubato
 
 .. note::
-    | Python 3.10 required
+    | Python 3.10.x required
     | We recommend installing python direct from python.org if you do not already have it.
 
 You'll also need to install the SDL dlls (they're the C-lib files that Rubato needs).
@@ -55,6 +55,10 @@ To create a new blank project, simply create a new python file and type the foll
 
 :func:`rb.init() <rubato.init>` initializes Rubato.
 An optional dictionary argument passed into :func:`rb.init() <rubato.init>` can specify such things as window size, resolution, background color, and more.
+
+.. note::
+
+    Throughout our documentation, we assume that Rubato is imported as ``rb``.
 
 Rubato documentation describes exactly what custom parameters you can specify when creating Rubato objects or calling specific functions such as ``init()``.
 You can see these parameters and their default values on the :doc:`defaults page <defaults>`.
