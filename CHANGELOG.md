@@ -7,11 +7,13 @@
 ### Changed
 
 -   Some "to" and "from" methods for colors.
--   Underlying Vector functionality from some methods.
+-   Significantly changed internal Vector functionality to allow custom pointers.
 
 ### Removed
 
 -   Vector's static method `is_vectorlike()`.
+-   Vector instance method `translate()`. Use the `+` operator instead.
+-   Vector instance method `transform()`. Use the `*` operator and `rotate()` instead.
 
 ### Fixed
 

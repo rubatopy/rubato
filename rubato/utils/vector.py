@@ -29,7 +29,7 @@ class Vector:
 
     @property
     def magnitude(self) -> float:
-        """The magnitude of the vector."""
+        """The magnitude of the vector. You can set to this value."""
         return (self.x * self.x + self.y * self.y)**.5
 
     @magnitude.setter
@@ -41,29 +41,33 @@ class Vector:
         self.y *= ratio
 
     @property
-    def mag_squared(self) -> float:
-        """The squared magnitude of the vector."""
+    def mag_sq(self) -> float:
+        """The squared magnitude of the vector (readonly)."""
         return self.x * self.x + self.y * self.y
 
     @property
     def angle(self) -> float:
-        """The angle of the vector"""
+        """The angle of the vector (readonly)."""
         return math.atan2(self.y, self.x)
 
-    def unit(self) -> Vector:
-        """Returns the unit vector of this vector."""
-        inv_mag = (self.x * self.x + self.y * self.y)**-.5
-        return Vector(self.x * inv_mag, self.y * inv_mag)
-
-    def translate(self, x: Union[float, int], y: Union[float, int]):
+    def unit(self, out: Vector = None) -> Vector:
         """
-        Translates the vector's x y and z coordinates by some constants.
+        Determines the unit vector of this vector.
 
         Args:
-            x: The change in x.
-            y: The change in y.
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
+        Returns:
+            Vector: The vector output of the operation.
         """
-        self.x, self.y = self.x + x, self.y + y
+        if out is None:
+            out = Vector()
+
+        inv_mag = (self.x * self.x + self.y * self.y)**-.5
+        out.x, out.y = self.x * inv_mag, self.y * inv_mag
+
+        return out
 
     def to_tuple(self) -> tuple:
         """
@@ -95,19 +99,32 @@ class Vector:
         """
         return self.x * other.y - self.y * other.x
 
-    def perpendicular(self, scalar: Union[float, int]) -> Vector:
+    def perpendicular(self, scalar: Union[float, int], out: Vector = None) -> Vector:
         """
         Computes a scaled 90 degree clockwise rotation on a given vector.
 
         Args:
             scalar (Union[float, int]): The scalar value.
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
             Vector: The resultant vector when transformed.
         """
-        return Vector(scalar * self.y, -scalar * self.x)
+        if out is None:
+            out = Vector()
 
-    def clamp(self, lower: Union[Vector, int, float], upper: Union[Vector, int, float], absolute: bool = False):
+        out.x, out.y = scalar * self.y, -scalar * self.x
+
+        return out
+
+    def clamp(
+        self,
+        lower: Union[Vector, int, float],
+        upper: Union[Vector, int, float],
+        absolute: bool = False,
+        out: Vector = None
+    ):
         """
         Clamps x and y between the two values given.
 
@@ -118,45 +135,45 @@ class Vector:
                 If a vector is specified, its x coord is used to clamp the x coordinate and same for y.
             absolute (bool): Whether to clamp the absolute value of the vector
                 instead of the actual value. Defaults to False.
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
         """
+        if out is None:
+            out = Vector()
+
         if not isinstance(lower, Vector):
             lower = Vector(*lower)
         if not isinstance(upper, Vector):
             upper = Vector(*upper)
 
-        if not absolute:
-            self.x = Math.clamp(self.x, lower.x, upper.x)
-            self.y = Math.clamp(self.y, lower.y, upper.y)
+        if absolute:
+            out.x = Math.abs_clamp(self.x, lower.x, upper.x)
+            out.y = Math.abs_clamp(self.y, lower.y, upper.y)
         else:
-            self.x = Math.abs_clamp(self.x, lower.x, upper.x)
-            self.y = Math.abs_clamp(self.y, lower.y, upper.y)
+            out.x = Math.clamp(self.x, lower.x, upper.x)
+            out.y = Math.clamp(self.y, lower.y, upper.y)
 
-    def transform(self, scale: Union[float, int], rotation: Union[float, int]) -> Vector:
-        """
-        Transforms the vector by a scale and rotation.
+        return out
 
-        Args:
-            scale (Union[float, int]): The scale by which the vector's length is multiplied.
-            rotation (Union[float, int]): The angle by which the vector angle is rotated counterclockwise, in degrees.
-
-        Returns:
-            Vector: The transformed Vector.
-        """
-        hyp, angle = self.magnitude * scale, self.angle + rotation * math.pi / 180
-        return Vector(math.cos(angle) * hyp, math.sin(angle) * hyp)
-
-    def rotate(self, angle: Union[float, int]) -> Vector:
+    def rotate(self, angle: Union[float, int], out: Vector = None) -> Vector:
         """
         Rotates the vector by a given number of degees.
 
         Args:
             angle (Union[float, int]): The counterclockwise rotation amount in degrees.
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
             Vector: The resultant Vector.
         """
+        if out is None:
+            out = Vector()
+
         c, s = math.cos(angle), math.sin(angle)
-        return Vector(self.x * c - self.y * s, self.x * s + self.y * c)
+        out.x, out.y = self.x * c - self.y * s, self.x * s + self.y * c
+
+        return out
 
     def to_int(self) -> Vector:
         """Returns a new vector with values that are ints."""
@@ -170,57 +187,98 @@ class Vector:
         """Returns a copy of the vector."""
         return Vector(self.x, self.y)
 
-    def lerp(self, target: Vector, t: float) -> Vector:
+    def lerp(self, target: Vector, t: float, out: Vector = None) -> Vector:
         """
         Lerps the current vector to target by a factor of t.
 
         Args:
             target: The target Vector.
             t: The lerping amount (between 0 and 1).
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
             Vector: The resulting vector.
         """
-        return Vector(Math.lerp(self.x, target.x, t), Math.lerp(self.y, target.y, t))
+        if out is None:
+            out = Vector()
 
-    def round(self, decimal_places: int = 0):
+        out.x, out.y = Math.lerp(self.x, target.x, t), Math.lerp(self.y, target.y, t)
+
+        return out
+
+    def round(self, decimal_places: int = 0, out: Vector = None):
         """
         Returns a new vector with the coordinates rounded.
 
         Args:
             decimal_places: The amount of decimal places rounded to. Defaults to 0.
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
             Vector: The resultant Vector.
         """
-        return Vector(round(self.x, decimal_places), round(self.y, decimal_places))
+        if out is None:
+            out = Vector()
 
-    def ceil(self) -> Vector:
+        out.x, out.y = round(self.x, decimal_places), round(self.y, decimal_places)
+
+        return out
+
+    def ceil(self, out: Vector = None) -> Vector:
         """
         Returns a new vector with the coordinates ciel-ed.
 
+        Args:
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
         Returns:
             Vector: The resultant Vector.
         """
-        return Vector(math.ceil(self.x), math.ceil(self.y))
+        if out is None:
+            out = Vector()
 
-    def floor(self) -> Vector:
+        out.x, out.y = math.ceil(self.x), math.ceil(self.y)
+
+        return out
+
+    def floor(self, out: Vector = None) -> Vector:
         """
         Returns a new vector with the coordinates floored.
 
+        Args:
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
         Returns:
             Vector: The resultant Vector.
         """
-        return Vector(math.floor(self.x), math.floor(self.y))
+        if out is None:
+            out = Vector()
 
-    def abs(self) -> Vector:
+        out.x, out.y = math.floor(self.x), math.floor(self.y)
+
+        return out
+
+    def abs(self, out: Vector = None) -> Vector:
         """
         Returns a new vector with the absolute value of the original coordinates.
 
+        Args:
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
         Returns:
             Vector: The resultant Vector.
         """
-        return Vector(abs(self.x), abs(self.y))
+        if out is None:
+            out = Vector()
+
+        out.x, out.y = abs(self.x), abs(self.y)
+
+        return out
 
     def dir_to(self, other: Vector) -> Vector:
         """
@@ -237,7 +295,7 @@ class Vector:
     @staticmethod
     def from_radial(magnitude: float, angle: float) -> Vector:
         """
-        Gives you a Vector from the given direction and distance.
+        Generates a Vector from the given angle and magnitude.
 
         Args:
             magnitude: Length of vector.
