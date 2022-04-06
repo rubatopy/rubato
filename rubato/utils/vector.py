@@ -145,6 +145,19 @@ class Vector:
         hyp, angle = self.magnitude * scale, self.angle + rotation * math.pi / 180
         return Vector(math.cos(angle) * hyp, math.sin(angle) * hyp)
 
+    def rotate(self, angle: Union[float, int]) -> Vector:
+        """
+        Rotates the vector by a given number of degees.
+
+        Args:
+            angle (Union[float, int]): The counterclockwise rotation amount in degrees.
+
+        Returns:
+            Vector: The resultant Vector.
+        """
+        c, s = math.cos(angle), math.sin(angle)
+        return Vector(self.x * c - self.y * s, self.x * s + self.y * c)
+
     def to_int(self) -> Vector:
         """Returns a new vector with values that are ints."""
         return Vector(int(self.x), int(self.y))
