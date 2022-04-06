@@ -125,10 +125,39 @@ class Color:
         """
         return (f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}").replace(" ", "")
 
+    def to_hsv(self) -> tuple[int]:
+        """
+        Converts the Color to a tuple containing its HSV values.
+
+        Returns:
+            tuple[int]: The Color values as HSV in the form of a tuple.
+        """
+        rp, gp, bp = self.r / 255, self.g / 255, self.b / 255
+        c_max = max(rp, gp, bp)
+        delta = c_max - min(rp, gp, bp)
+
+        if delta == 0:
+            h = 0
+        elif c_max == rp:
+            h = 60 * (((gp - bp) / delta) % 6)
+        elif c_max == gp:
+            h = 60 * (((bp - rp) / delta) + 2)
+        elif c_max == bp:
+            h = 60 * (((rp - gp) / delta) + 4)
+
+        if c_max == 0:
+            s = 0
+        else:
+            s = delta / c_max
+
+        v = c_max
+
+        return (h, s, v)
+
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:
         """
-        Creates a Color from an RGBA32 representation.
+        Creates a Color object from an RGBA32 representation.
 
         Args:
             rgba32: The RGBA32 representation as an int.
@@ -149,13 +178,13 @@ class Color:
     @classmethod
     def from_hex(cls, h: str) -> Color:
         """
-        Creates an Color from a hex string.
+        Creates a Color object from a hex string.
 
         Args:
             h: The hexadecimal value in the format "RRGGBBAA".
 
         Returns:
-            Color: The Color value.
+            Color: The Color object.
         """
         lv = len(h)
         if lv < 8:
@@ -167,60 +196,26 @@ class Color:
         return cls(h[0], h[1], h[2], h[3])
 
     @classmethod
-    def from_hsv(cls, h: int, s: int, v: int) -> Color:
+    def from_hsv(cls, h: float, s: float, v: float) -> Color:
         """
-        Creates an Color from an HSV.
+        Creates a Color object from HSV values.
 
         Args:
-            h: The hue amount.
-            s: The saturation amount.
-            v: The value amount.
+            h: The hue degree (0 to 360).
+            s: The saturation proportion (0 to 1).
+            v: The value proportion (0 to 1).
 
         Returns:
-            Color: The Color value.
+            Color: The Color object.
         """
-        out = cls()
-        if s == 0:
-            out.set(v)
-        hh = h
-        if hh >= 360.0:
-            hh = 0.0
-        hh /= 60.0
+        hh = h / 60
         i = int(hh)
         ff = hh - i
-        p = v * (1.0 - s)
-        q = v * (1.0 - (s * ff))
-        t = v * (1.0 - (s * (1.0 - ff)))
-        if i == 0:
-            out.r = v
-            out.g = t
-            out.b = p
-        elif i == 1:
-            out.r = q
-            out.g = v
-            out.b = p
-        elif i == 2:
-            out.r = p
-            out.g = v
-            out.b = t
-        elif i == 3:
-            out.r = p
-            out.g = q
-            out.b = v
-        elif i == 4:
-            out.r = t
-            out.g = p
-            out.b = v
-        elif i == 5:
-            out.r = v
-            out.g = p
-            out.b = q
-        else:
-            out.r = v
-            out.g = p
-            out.b = q
-
-        return out
+        x = v * 255
+        p = x * (1 - s)
+        q = x * (1 - (s * ff))
+        t = x * (1 - (s * (1 - ff)))
+        return cls(((x, t, p), (q, x, p), (p, x, t), (p, q, x), (t, p, x), (x, p, q), (x, p, q))[i])
 
     @classmethod
     @property
