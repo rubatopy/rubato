@@ -41,6 +41,7 @@ Here's how you can do that on your platform:
 
             $ brew install sdl2 sdl2_mixer sdl2_ttf sdl2_gfx sdl2_image
 
+        Go `here <https://brew.sh/>`__ to install Homebrew if you don't have it already.
 
 Setting Up
 ----------

@@ -14,6 +14,8 @@ from . import Vector, Display
 class Input:
     """
     The input class, handling keyboard and mouse getter and setter functionality
+
+    Go :doc:`here <key-names>` for a list of all the available keys.
     """
     # KEYBOARD METHODS
 
