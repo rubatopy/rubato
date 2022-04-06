@@ -2,7 +2,7 @@
 A vector implementation.
 """
 from __future__ import annotations
-from typing import Iterator, Union, List, Tuple
+from typing import Iterator, Union
 import math
 
 from . import Math
@@ -73,10 +73,10 @@ class Vector:
 
     def dot(self, other: Vector) -> Union[float, int]:
         """
-        Takes the dot product of vectors.
+        Takes the dot product of two vectors.
 
         Args:
-            other: The other vector.
+            other (Vector): The other vector.
 
         Returns:
             Union[float, int]: The resulting dot product.
@@ -85,30 +85,45 @@ class Vector:
 
     def cross(self, other: Vector) -> Union[float, int]:
         """
-        Takes the cross product of vectors.
+        Takes the cross product of two vectors.
 
         Args:
-            other: The other vector.
+            other (Vector): The other vector.
 
         Returns:
-            Union[float, int]: The resulting cross product.
+            Union[float, int]: The resultant scalar magnitude of the orthogonal vector along an imaginary z-axis.
         """
         return self.x * other.y - self.y * other.x
+
+    def perpendicular(self, scalar: Union[float, int]) -> Vector:
+        """
+        Computes a scaled 90 degree clockwise rotation on a given vector.
+
+        Args:
+            scalar (Union[float, int]): The scalar value.
+
+        Returns:
+            Vector: The resultant vector when transformed.
+        """
+        return Vector(scalar * self.y, -scalar * self.x)
 
     def clamp(self, lower: Union[Vector, int, float], upper: Union[Vector, int, float], absolute: bool = False):
         """
         Clamps x and y between the two values given.
 
         Args:
-            lower: The lower bound.
-            upper: The upper bound.
-            absolute: Whether to clamp the absolute value of the vector
-                instead of the actual value.
+            lower (Union[Vector, int, float]): The lower bound.
+                If a vector is specified, its x coord is used to clamp the x coordinate and same for y.
+            upper (Union[Vector, int, float]): The upper bound.
+                If a vector is specified, its x coord is used to clamp the x coordinate and same for y.
+            absolute (bool): Whether to clamp the absolute value of the vector
+                instead of the actual value. Defaults to False.
         """
         if not isinstance(lower, Vector):
             lower = Vector(*lower)
         if not isinstance(upper, Vector):
             upper = Vector(*upper)
+
         if not absolute:
             self.x = Math.clamp(self.x, lower.x, upper.x)
             self.y = Math.clamp(self.y, lower.y, upper.y)
@@ -116,25 +131,19 @@ class Vector:
             self.x = Math.abs_clamp(self.x, lower.x, upper.x)
             self.y = Math.abs_clamp(self.y, lower.y, upper.y)
 
-    def transform(self, scale, rotation) -> Vector:
+    def transform(self, scale: Union[float, int], rotation: Union[float, int]) -> Vector:
         """
-        Transforms the vector by the scale and rotation, relative to the original vector.
+        Transforms the vector by a scale and rotation.
 
         Args:
-            scale: The scale by which the vector's length is multiplied.
-            rotation: The angle by which the vector angle is rotated counterclockwise in degrees.
+            scale (Union[float, int]): The scale by which the vector's length is multiplied.
+            rotation (Union[float, int]): The angle by which the vector angle is rotated counterclockwise, in degrees.
 
         Returns:
-            Vector: The newly transformed Vector (based on the parent).
+            Vector: The transformed Vector.
         """
-        new_vector = self.clone()
-        if rotation != 0:
-            hyp, angle = self.magnitude, self.angle + rotation * math.pi / 180
-            new_vector.x, new_vector.y = math.cos(angle) * hyp, math.sin(angle) * hyp
-
-        new_vector.x *= scale
-        new_vector.y *= scale
-        return new_vector
+        hyp, angle = self.magnitude * scale, self.angle + rotation * math.pi / 180
+        return Vector(math.cos(angle) * hyp, math.sin(angle) * hyp)
 
     def to_int(self) -> Vector:
         """Returns a new vector with values that are ints."""
@@ -146,7 +155,7 @@ class Vector:
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""
-        return Vector(*self)
+        return Vector(self.x, self.y)
 
     def lerp(self, target: Vector, t: float) -> Vector:
         """
@@ -159,43 +168,44 @@ class Vector:
         Returns:
             Vector: The resulting vector.
         """
-        t = Math.clamp(t, 0, 1)
         return Vector(Math.lerp(self.x, target.x, t), Math.lerp(self.y, target.y, t))
 
     def round(self, decimal_places: int = 0):
         """
-        Rounds x and y to a number of decimal places.
+        Returns a new vector with the coordinates rounded.
 
         Args:
-            decimal_places: The amount of decimal places rounded to.
+            decimal_places: The amount of decimal places rounded to. Defaults to 0.
+
+        Returns:
+            Vector: The resultant Vector.
         """
-        self.x = round(self.x, decimal_places)
-        self.y = round(self.y, decimal_places)
+        return Vector(round(self.x, decimal_places), round(self.y, decimal_places))
 
     def ceil(self) -> Vector:
         """
-        Ceil the X and Y values of the Vector.
+        Returns a new vector with the coordinates ciel-ed.
 
         Returns:
-            Vector: The "Ceil"ed Vector.
+            Vector: The resultant Vector.
         """
         return Vector(math.ceil(self.x), math.ceil(self.y))
 
     def floor(self) -> Vector:
         """
-        Floors the X and Y values of the Vector
+        Returns a new vector with the coordinates floored.
 
         Returns:
-            Vector: The "Floor"ed Vector
+            Vector: The resultant Vector.
         """
         return Vector(math.floor(self.x), math.floor(self.y))
 
     def abs(self) -> Vector:
         """
-        Absolute value of the Vector.
+        Returns a new vector with the absolute value of the original coordinates.
 
         Returns:
-            Vector: The absolute valued Vector
+            Vector: The resultant Vector.
         """
         return Vector(abs(self.x), abs(self.y))
 
@@ -209,7 +219,7 @@ class Vector:
         Returns:
             A unit vector that is in the direction to the position passed in
         """
-        return Vector.from_radial(1, math.atan2(other.y - self.y, other.x - self.x))
+        return (other - self).unit()
 
     @staticmethod
     def from_radial(magnitude: float, angle: float) -> Vector:
@@ -224,30 +234,6 @@ class Vector:
             Vector: Vector from the given direction and distance
         """
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
-
-    @staticmethod
-    def is_vectorlike(subscriptable: Vector | List[int | float] | Tuple[int | float]):
-        """
-        Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
-
-        Args:
-            subscriptable: An object to check whether it is length 2 and subscriptable.
-
-        Returns:
-            bool: True if length 2, False if not, and raises an error if wrong type.
-
-        Example:
-            >>> Vector.is_vectorlike((0, 0))
-            True
-            >>> Vector.is_vectorlike((0, 0, 0))
-            False
-        """
-        try:
-            return isinstance(subscriptable,
-                              Vector) or (len(subscriptable) == 2 and isinstance(subscriptable[0], (int, float)))
-        except TypeError as trace:
-            raise TypeError(f"{subscriptable} should be a list | tuple | Vector not a {subscriptable.__class__}.") \
-                .with_traceback(trace.__traceback__)
 
     @classmethod
     @property
@@ -291,22 +277,30 @@ class Vector:
         """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
 
-    def __eq__(self, o: Vector) -> bool:
-        if isinstance(o, Vector):
-            return self.y == o.y and self.x == o.x
+    def __eq__(self, other: Vector) -> bool:
+        if isinstance(other, Vector):
+            return self.y == other.y and self.x == other.x
         return False
 
     def __gt__(self, other: Vector) -> bool:
-        return self.x > other.x and self.y > other.y
+        if isinstance(other, Vector):
+            return self.x > other.x and self.y > other.y
+        return False
 
     def __lt__(self, other: Vector) -> bool:
-        return self.x < other.x and self.y < other.y
+        if isinstance(other, Vector):
+            return self.x < other.x and self.y < other.y
+        return False
 
     def __ge__(self, other: Vector) -> bool:
-        return self.x >= other.x and self.y >= other.y
+        if isinstance(other, Vector):
+            return self.x >= other.x and self.y >= other.y
+        return False
 
     def __le__(self, other: Vector) -> bool:
-        return self.x <= other.x and self.y <= other.y
+        if isinstance(other, Vector):
+            return self.x <= other.x and self.y <= other.y
+        return False
 
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
@@ -338,7 +332,7 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y)
 
-    def __rsub__(self, other: int | float) -> Vector:
+    def __rsub__(self, other: any) -> Vector:
         return Vector(other - self.x, other - self.y)
 
     def __truediv__(self, other: any) -> Vector:
@@ -347,7 +341,7 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
 
-    def __rtruediv__(self, other: int | float) -> Vector:
+    def __rtruediv__(self, other: any) -> Vector:
         return Vector(other / self.x, other / self.y)
 
     def __neg__(self) -> Vector:

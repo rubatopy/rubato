@@ -6,7 +6,12 @@
 
 ### Changed
 
+-   Some "to" and "from" methods for colors.
+-   Underlying Vector functionality from some methods.
+
 ### Removed
+
+-   Vector's static method `is_vectorlike()`.
 
 ### Fixed
 
