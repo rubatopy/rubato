@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v2.0.0] - April 5, 2022
 
 ### Added
