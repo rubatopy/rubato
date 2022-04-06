@@ -2,9 +2,14 @@
 <div class="sidebar-tree">
     <p class="caption" role="heading"><span class="caption-text">{{ _('Versions') }}</span></p>
     <ul>
+        {% if current_version.name == "main" %} <strong> {% endif %}
         <li class="toctree-l1"><a class="reference internal" href="{{ vpathto('main') }}">Nightly</a></li>
+        {% if current_version.name == "main" %} </strong> {% endif %}
+
         {%- for item in versions.in_development|reverse %} {% if item.name != "main" %}
+        {% if current_version.name == item.name %} <strong> {% endif %}
         <li class="toctree-l1"><a class="reference internal" href="{{ item.url }}">{{ item.name }}</a></li>
+        {% if current_version.name == item.name %} </strong> {% endif %}
         {% endif %} {%- endfor %}
     </ul>
 </div>

@@ -80,6 +80,10 @@ autodoc_default_options = {
     "show-inheritance": True,
 }
 
+rst_epilog = """
+.. |default| replace:: :ref:`default config <defaults>`
+"""
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
