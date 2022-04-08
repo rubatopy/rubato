@@ -114,7 +114,7 @@ class Image(Component):
         """Updates the image surface. Called automatically when image scale or rotation are updated"""
         self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
-            self.gameobj.rotation,
+            self.gameobj.rotation if self.gameobj else 0,
             -self.scale.x if self.flipx else self.scale.x,
             -self.scale.y if self.flipy else self.scale.y,
             int(self.aa),
