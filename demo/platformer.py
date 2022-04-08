@@ -20,7 +20,7 @@ rb.init(
 )
 
 # Change the global debug level
-rb.Game.debug = False
+rb.Game.debug = True
 
 # Tracks the grounded state of the player
 grounded = False
@@ -34,10 +34,7 @@ main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
 # create the player
-player = rb.GameObject({
-    "pos": rb.Display.center_left + rb.Vector(50, 0),
-    "z_index": 1,
-})
+player = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(50, 0), "z_index": 1, "rotation": 45})
 
 # Create animation and initialize states
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24), default_state="idle")

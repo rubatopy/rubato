@@ -170,7 +170,8 @@ class Vector:
         if out is None:
             out = Vector()
 
-        c, s = math.cos(angle), math.sin(angle)
+        degrees = math.radians(angle)
+        c, s = math.cos(degrees), math.sin(degrees)
         out.x, out.y = self.x * c - self.y * s, self.x * s + self.y * c
 
         return out

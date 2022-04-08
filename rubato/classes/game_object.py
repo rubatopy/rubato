@@ -166,17 +166,21 @@ class GameObject:
                 comp.draw()
 
         if self.debug or Game.debug:
-            rel_pos = self.relative_pos
+            rotated_x = Vector(int(self.scale_value(10)), 0).rotate(self.rotation)
+            rotated_y = Vector(0, int(self.scale_value(10))).rotate(self.rotation)
+            x_1, y_1 = (self.relative_pos + rotated_x).tuple_int()
+            x_2, y_2 = (self.relative_pos - rotated_x).tuple_int()
+
+            x_3, y_3 = (self.relative_pos + rotated_y).tuple_int()
+            x_4, y_4 = (self.relative_pos - rotated_y).tuple_int()
+
             sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer,
-                int(rel_pos.x) - int(self.scale_value(10)), int(rel_pos.y),
-                int(rel_pos.x) + int(self.scale_value(10)), int(rel_pos.y), int(2 * max(1, Display.display_ratio.y)), 0,
-                255, 0, 255
+                Display.renderer.sdlrenderer, x_1, y_1, x_2, y_2, int(2 * max(1, Display.display_ratio.y)), 0, 255, 0,
+                255
             )
             sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, int(rel_pos.x),
-                int(rel_pos.y) - int(self.scale_value(10)), int(rel_pos.x),
-                int(rel_pos.y) + int(self.scale_value(10)), int(2 * max(1, Display.display_ratio.x)), 0, 255, 0, 255
+                Display.renderer.sdlrenderer, x_3, y_3, x_4, y_4, int(2 * max(1, Display.display_ratio.x)), 0, 255, 0,
+                255
             )
 
     def update(self):
