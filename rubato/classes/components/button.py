@@ -12,7 +12,10 @@ class Button(Component):
         pressed (bool): Whether the button is currently pressed.
         hover (bool): Whether the mouse is hovering over the button.
         dims (Vector): The dimensions of the button.
-        callback (Callable): The function to call when the button is pressed.
+        onclick (Callable): The function to call when the button is clicked.
+        onrelease (Callable): The function to call when the button is released.
+        onhover (Callable): The function to call when the mouse enters the button.
+        onexit (Callable): The function to call when the mouse exits the button.
     """
 
     def __init__(self, options: dict = {}):
@@ -33,6 +36,7 @@ class Button(Component):
         self.onexit: Callable = params["onexit"]
 
     def update(self):
+        """The update function for buttons."""
         if not self.hover and Input.mouse_in(self.gameobj.pos, self.dims, self.gameobj.rotation + self.rotation_offset):
             self.hover = True
             self.onhover()

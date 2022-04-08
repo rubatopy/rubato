@@ -116,6 +116,13 @@ Text
 .. automodule:: rubato.classes.components.text
     :members:
 
+.. _button:
+
+Button
+---------
+.. automodule:: rubato.classes.components.button
+    :members:
+
 .. _animation:
 
 Animation
