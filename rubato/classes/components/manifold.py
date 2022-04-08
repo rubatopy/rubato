@@ -23,7 +23,9 @@ class Manifold:
         shape_a: Union[Hitbox, None],
         shape_b: Union[Hitbox, None],
         penetration: float = 0,
-        normal: Vector = Vector()
+        normal: Vector = Vector(),
+        contacts: List[Vector] = [],
+        contact_count: int = 0
     ):
         """
         Initializes a Collision Info manifold.
@@ -33,6 +35,8 @@ class Manifold:
         self.shape_b = shape_b
         self.penetration = penetration
         self.normal = normal
+        self.contacts = contacts
+        self.contact_count = contact_count
 
     def flip(self) -> Manifold:
         """
@@ -61,7 +65,8 @@ class Engine:
         if dist > t_rad:
             return None
 
-        return Manifold(circle_a, circle_b, Vector((t_rad - dist) * d_x / dist, (t_rad - dist) * d_y / dist))
+        pen, norm = t_rad - dist, Vector(d_x / dist, d_y / dist)
+        return Manifold(circle_a, circle_b, abs(pen), norm * Math.sign(pen))
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[Manifold, None]:
