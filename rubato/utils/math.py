@@ -37,10 +37,8 @@ class Math:
             n: A number to check.
 
         Returns:
-            int: The sign of the number. (1 for positive, 0 for 0, -1 for negative)
+            int: The sign of the number. (1 for positive, -1 for negative)
         """
-        if n == 0:
-            return 0
         return (n >= 0) - (n < 0)
 
     @classmethod

@@ -4,6 +4,8 @@
 
 ### Added
 
+-   `penetration` and `normal` Manifold properties.
+
 ### Changed
 
 -   Some "to" and "from" methods for colors.
@@ -17,6 +19,7 @@
 -   Vector instance method `translate()`. Use the `+` operator instead.
 -   Vector instance method `transform()`. Use the `*` operator and `rotate()` instead.
 -   Engine static method `overlap()`. Use the built in Hitbox `overlap()` method instead.
+-   Removed `sep` property from Manifolds.
 
 ### Fixed
 

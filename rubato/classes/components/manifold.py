@@ -14,17 +14,25 @@ class Manifold:
     Attributes:
         shape_a (Union[Circle, Polygon, None]): A reference to the first shape.
         shape_b (Union[Circle, Polygon, None]): A reference to the second shape.
-        seperation (Vector): The vector that would separate the two colliders.
+        penetration (float): The amount by which the colliders are intersecting.
+        normal (Vector): The direction that would most quickly separate the two colliders.
     """
 
-    def __init__(self, shape_a: Union[Hitbox, None], shape_b: Union[Hitbox, None], sep: Vector = Vector()):
+    def __init__(
+        self,
+        shape_a: Union[Hitbox, None],
+        shape_b: Union[Hitbox, None],
+        penetration: float = 0,
+        normal: Vector = Vector()
+    ):
         """
         Initializes a Collision Info manifold.
         This is used internally by :func:`Engine <rubato.classes.components.hitbox.Engine>`.
         """
         self.shape_a = shape_a
         self.shape_b = shape_b
-        self.sep = sep
+        self.penetration = penetration
+        self.normal = normal
 
     def flip(self) -> Manifold:
         """
@@ -33,8 +41,8 @@ class Manifold:
         Returns:
             Manifold: a reference to self.
         """
-        self.shape_a, self.shape_b = self.shape_b, self.shape_a
-        self.sep *= -1
+        self.shape_a, self.shape_b, self.penetration = self.shape_b, self.shape_a, self.penetration
+        self.normal *= -1
         return self
 
 
@@ -85,7 +93,8 @@ class Engine:
         dist_min = poly_range.x - circle_range.y
 
         shortest = abs(dist_min)
-        result.sep = axis * dist_min
+        result.normal = axis * Math.sign(dist_min)
+        result.penetration = abs(dist_min)
 
         for i in range(len(verts)):
             axis = Engine.perpendicular_axis(verts, i)
@@ -99,7 +108,8 @@ class Engine:
 
             if abs(dist_min) < shortest:
                 shortest = abs(dist_min)
-                result.sep = axis * dist_min
+                result.normal = axis * Math.sign(dist_min)
+                result.penetration = abs(dist_min)
 
         return result
 
@@ -114,7 +124,7 @@ class Engine:
         if test_b_a is None:
             return None
 
-        return test_a_b if test_a_b.sep.mag_sq < test_b_a.sep.mag_sq else test_b_a.flip()
+        return test_a_b if abs(test_a_b.penetration) < abs(test_b_a.penetration) else test_b_a.flip()
 
     @staticmethod
     def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[Manifold, None]:
@@ -137,11 +147,12 @@ class Engine:
             if a_range.x > b_range.y or b_range.x > a_range.y:
                 return None
 
-            min_dist = b_range.x - a_range.y
+            dist_min = b_range.x - a_range.y
 
-            if abs(min_dist) < shortest:
-                shortest = abs(min_dist)
-                result.sep = axis * min_dist
+            if abs(dist_min) < shortest:
+                shortest = abs(dist_min)
+                result.normal = axis * Math.sign(dist_min)
+                result.penetration = abs(dist_min)
 
         return result
 

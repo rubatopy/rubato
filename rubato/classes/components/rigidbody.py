@@ -159,18 +159,15 @@ class RigidBody(Component):
 
         inv_sys_mass = 1 / (inv_mass_a + inv_mass_b)
 
-        # Find collision separation normal
-        collision_norm = col.sep.unit()
-
         # Position correction
-        correction = max(col.sep.magnitude - 0.01, 0) * inv_sys_mass * collision_norm
+        correction = max(col.penetration - 0.01, 0) * inv_sys_mass * col.normal
 
         # Impulse Resolution
 
         # Relative velocity
         rv = (0 if rb_b_none else rb_b.velocity) - (0 if rb_a_none else rb_a.velocity)
 
-        if (vel_along_norm := rv.dot(collision_norm)) > 0:
+        if (vel_along_norm := rv.dot(col.normal)) > 0:
             return
 
         # Calculate restitution
@@ -180,7 +177,7 @@ class RigidBody(Component):
         j = -(1 + e) * vel_along_norm * inv_sys_mass
 
         # Apply the impulse
-        impulse = j * collision_norm
+        impulse = j * col.normal
 
         if not (rb_a_none or rb_a.static):
             rb_a.gameobj.pos -= inv_mass_a * correction * rb_a.pos_correction
@@ -205,7 +202,7 @@ class RigidBody(Component):
             return
 
         # Tangent vector
-        tangent = rv - rv.dot(collision_norm) * collision_norm
+        tangent = rv - rv.dot(col.normal) * col.normal
         tangent.magnitude = 1
 
         # Solve for magnitude to apply along the friction vector
