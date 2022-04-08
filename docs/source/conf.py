@@ -56,7 +56,7 @@ html_sidebars = {
             "sidebar/scroll-start.html",
             "brand.html",
             "sidebar/search.html",
-            "sidebar/navigation.html",
+            "navigation.html",
             "versioning.html",
             "sidebar/scroll-end.html",
         ],
@@ -66,6 +66,8 @@ html_sidebars = {
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
+
+master_doc = "contents"
 
 add_module_names = False
 
@@ -100,7 +102,7 @@ html_css_files = ["custom.css"]
 
 add_module_names = False
 
-html_logo = "_static/logo.png"
+html_logo = "_static/full.png"
 
 html_favicon = "_static/logo_filled.png"
 
