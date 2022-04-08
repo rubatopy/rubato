@@ -359,12 +359,8 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [
-            Vector(-self.width / 2, -self.height / 2),
-            Vector(self.width / 2, -self.height / 2),
-            Vector(self.width / 2, self.height / 2),
-            Vector(-self.width / 2, self.height / 2)
-        ]
+        x, y = self.width / 2, self.height / 2
+        return [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
 
     def transformed_verts(self) -> List[Vector]:
         """
@@ -382,29 +378,44 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [self.pos + v for v in self.vertices()]
+        return [self.pos + v for v in self.transformed_verts()]
 
     def draw(self):
-        x_1, y_1 = Game.camera.transform(self.top_right).tuple_int()
-        x_2, y_2 = Game.camera.transform(self.bottom_left).tuple_int()
+        list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]
+
+        x_coords, y_coords = zip(*list_of_points)
+
+        vx = (c_int16 * 4)(*x_coords)
+        vy = (c_int16 * 4)(*y_coords)
+
         if self.color is not None:
-            sdl2.sdlgfx.boxRGBA(
+            sdl2.sdlgfx.filledPolygonRGBA(
                 Display.renderer.sdlrenderer,
-                x_1,
-                y_1,
-                x_2,
-                y_2,
+                vx,
+                vy,
+                4,
                 self.color.r,
                 self.color.g,
                 self.color.b,
                 self.color.a,
             )
+            sdl2.sdlgfx.aapolygonRGBA(
+                Display.renderer.sdlrenderer,
+                vx,
+                vy,
+                4,
+                self.color.r,
+                self.color.g,
+                self.color.b,
+                self.color.a,
+            )
+
         if self.debug or Game.debug:
-            verts = [(x_1, y_1), (x_1, y_2), (x_2, y_2), (x_2, y_1)]
-            for i in range(len(verts)):
+            for i in range(4):
                 sdl2.sdlgfx.thickLineRGBA(
-                    Display.renderer.sdlrenderer, verts[i][0], verts[i][1], verts[(i + 1) % len(verts)][0],
-                    verts[(i + 1) % len(verts)][1], int(2 * Display.display_ratio.x), 0, 255, 0, 255
+                    Display.renderer.sdlrenderer, list_of_points[i][0],
+                    list_of_points[i][1], list_of_points[(i + 1) % 4][0], list_of_points[(i + 1) % 4][1],
+                    int(2 * Display.display_ratio.x), 0, 255, 0, 255
                 )
 
     def clone(self) -> Rectangle:
