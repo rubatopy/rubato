@@ -24,8 +24,8 @@ class Manifold:
         shape_b: Union[Hitbox, None],
         penetration: float = 0,
         normal: Vector = Vector(),
-        contacts: List[Vector] = [],
-        contact_count: int = 0
+        contact_a: Vector = Vector(),
+        contact_b: Vector = Vector(),
     ):
         """
         Initializes a Collision Info manifold.
@@ -35,8 +35,8 @@ class Manifold:
         self.shape_b = shape_b
         self.penetration = penetration
         self.normal = normal
-        self.contacts = contacts
-        self.contact_count = contact_count
+        self.contact_a = contact_a
+        self.contact_b = contact_b
 
     def flip(self) -> Manifold:
         """
@@ -45,7 +45,8 @@ class Manifold:
         Returns:
             Manifold: a reference to self.
         """
-        self.shape_a, self.shape_b, self.penetration = self.shape_b, self.shape_a, self.penetration
+        self.shape_a, self.shape_b = self.shape_b, self.shape_a
+        self.contact_a, self.contact_b = self.contact_b, self.contact_a
         self.normal *= -1
         return self
 
@@ -60,13 +61,17 @@ class Engine:
         """Checks for overlap between two circles"""
         t_rad = circle_a.radius + circle_b.radius
         d_x, d_y = circle_a.pos.x - circle_b.pos.x, circle_a.pos.y - circle_b.pos.y
-        dist = (d_x * d_x + d_y * d_y)**.5
+        dist = (d_x * d_x + d_y * d_y)
 
-        if dist > t_rad:
+        if dist > t_rad * t_rad:
             return None
 
-        pen, norm = t_rad - dist, Vector(d_x / dist, d_y / dist)
-        return Manifold(circle_a, circle_b, abs(pen), norm * Math.sign(pen))
+        dist = dist**.5
+
+        pen = t_rad - dist
+        norm = Vector(d_x / dist, d_y / dist) * Math.sign(pen)
+
+        return Manifold(circle_a, circle_b, abs(pen), norm, norm * circle_a.radius, -norm * circle_b.radius)
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[Manifold, None]:

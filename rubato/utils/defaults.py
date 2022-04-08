@@ -101,6 +101,11 @@ class Defaults:
         "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether the RB is static or not.
         "pos_correction": 0.25,  #. . . . . . . . . . . . . . . . . float
+        # The amount of the collision to handle every fixed update. Set to 1.0 for platformers.
+        "ang_vel": 0,  #. . . . . . . . . . . . . . . . . . . . . . bool
+        # The starting angular velocity of the RB.
+        "moment": 1,  #. . . . . . . . . . . . . . . . . float
+        # The moment of inertia of the RB.
     }
     # [/rigidbody]
     # [image]

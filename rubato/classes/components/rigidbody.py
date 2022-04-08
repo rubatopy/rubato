@@ -53,6 +53,7 @@ class RigidBody(Component):
         self.pos_correction: float = params["pos_correction"]
 
         self.velocity: Vector = params["velocity"]
+        self.ang_vel: float = params["ang_vel"]
 
         self.singular = True
 
@@ -62,6 +63,7 @@ class RigidBody(Component):
             self.inv_mass: float = 1 / params["mass"]
 
         self.bounciness: float = params["bounciness"]
+        self.moment: float = params["moment"]
 
     @property
     def mass(self) -> float:
@@ -78,6 +80,7 @@ class RigidBody(Component):
         self.velocity.clamp(-self.max_speed, self.max_speed)
 
         self.gameobj.pos += self.velocity * Time.milli_to_sec(Time.fixed_delta)
+        self.gameobj.rotation += self.ang_vel * Time.milli_to_sec(Time.fixed_delta)
 
     def add_force(self, force: Vector):
         """
@@ -165,7 +168,8 @@ class RigidBody(Component):
         # Impulse Resolution
 
         # Relative velocity
-        rv = (0 if b_none else rb_b.velocity) - (0 if a_none else rb_a.velocity)
+        rv = (0 if b_none else rb_b.velocity - col.contact_b.perpendicular(rb_b.ang_vel)
+             ) - (0 if a_none else rb_a.velocity - col.contact_a.perpendicular(rb_a.ang_vel))
 
         if (vel_along_norm := rv.dot(col.normal)) > 0:
             return
@@ -173,8 +177,12 @@ class RigidBody(Component):
         # Calculate restitution
         e = max(0 if a_none else rb_a.bounciness, 0 if b_none else rb_b.bounciness)
 
+        # Calculate inverse angular components
+        i_a = 0 if a_none else col.contact_a.cross(col.normal)**2 / rb_a.moment
+        i_b = 0 if a_none else col.contact_b.cross(col.normal)**2 / rb_b.moment
+
         # Calculate impulse scalar
-        j = -(1 + e) * vel_along_norm * inv_sys_mass
+        j = -(1 + e) * vel_along_norm / (inv_mass_a + inv_mass_b + i_a + i_b)
 
         # Apply the impulse
         impulse = j * col.normal
@@ -182,10 +190,12 @@ class RigidBody(Component):
         if not (a_none or rb_a.static):
             rb_a.gameobj.pos -= inv_mass_a * correction * rb_a.pos_correction
             rb_a.velocity -= inv_mass_a * impulse
+            rb_a.ang_vel -= col.contact_a.cross(impulse) / rb_a.moment
 
         if not (b_none or rb_b.static):
             rb_b.gameobj.pos += inv_mass_b * correction * rb_b.pos_correction
             rb_b.velocity += inv_mass_b * impulse
+            rb_b.ang_vel += col.contact_b.cross(impulse) / rb_b.moment
 
         # Friction
 
@@ -216,6 +226,8 @@ class RigidBody(Component):
 
         if not (a_none or rb_a.static):
             rb_a.velocity -= inv_mass_a * friction_impulse
+            rb_a.ang_vel -= col.contact_a.cross(friction_impulse) / rb_a.moment
 
         if not (b_none or rb_b.static):
             rb_b.velocity += inv_mass_b * friction_impulse
+            rb_b.ang_vel += col.contact_b.cross(friction_impulse) / rb_b.moment
