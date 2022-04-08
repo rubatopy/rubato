@@ -36,7 +36,6 @@ class Hitbox(Component):
         super().__init__()
         self.debug: bool = params["debug"]
         self.trigger: bool = params["trigger"]
-        self._pos = lambda: Vector(0, 0)
         self.scale: int = params["scale"]
         self.on_collide: Callable = params["on_collide"]
         self.color: Color = params["color"]
@@ -47,7 +46,7 @@ class Hitbox(Component):
     @property
     def pos(self) -> Vector:
         """The getter method for the position of the hitbox's center"""
-        return self._pos() + self.offset
+        return self.gameobj.pos + self.offset
 
     def update(self):
         self.draw()
@@ -127,11 +126,11 @@ class Polygon(Hitbox):
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
-        return [v.rotate(self.gameobj.rotation) * self.scale for v in self.verts]
+        return [(v + self.offset).rotate(self.gameobj.rotation) * self.scale for v in self.verts]
 
     def real_verts(self) -> List[Vector]:
         """Returns the a list of vertices in absolute coordinates"""
-        return [self.pos + v for v in self.transformed_verts()]
+        return [self.gameobj.pos + v for v in self.transformed_verts()]
 
     def __str__(self):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
@@ -364,7 +363,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [v.rotate(self.gameobj.rotation) * self.scale for v in self.vertices()]
+        return [(v + self.offset).rotate(self.gameobj.rotation) * self.scale for v in self.vertices()]
 
     def real_verts(self) -> List[Vector]:
         """
@@ -373,7 +372,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [self.pos + v for v in self.transformed_verts()]
+        return [self.gameobj.pos + v for v in self.transformed_verts()]
 
     def draw(self):
         list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]
