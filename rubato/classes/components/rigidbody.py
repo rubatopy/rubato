@@ -122,7 +122,6 @@ class RigidBody(Component):
                 "velocity": self.velocity,
                 "mass": self.mass,
                 "bounciness": self.bounciness,
-                "rotation": self.rotation,
             }
         )
 

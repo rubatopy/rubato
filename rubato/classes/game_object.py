@@ -21,6 +21,7 @@ class GameObject:
         z_index (int): The z_index of the game object.
         components (List[Component]): All the components attached to this
             game object.
+        rotation (float): The rotation of the game object in degrees.
     """
 
     def __init__(self, options: dict = {}):
@@ -36,6 +37,7 @@ class GameObject:
         self.debug: bool = param["debug"]
         self.z_index: int = param["z_index"]
         self._components: Dict[type, List[Component]] = {}
+        self.rotation: float = param["rotation"]
 
     @property
     def relative_pos(self) -> Vector:

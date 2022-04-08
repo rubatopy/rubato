@@ -109,7 +109,6 @@ class Polygon(Hitbox):
         super().__init__(options)
         params = Defaults.polygon_defaults | options
         self.verts: List[Vector] = params["verts"]
-        self.rotation: float = params["rotation"]
 
     def clone(self) -> Polygon:
         """Clones the Polygon"""
@@ -123,20 +122,19 @@ class Polygon(Hitbox):
                 "tag": self.tag,
                 "offset": self.offset,
                 "verts": self.verts,
-                "rotation": self.rotation,
             }
         )
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
-        return [v.rotate(self.rotation) * self.scale for v in self.verts]
+        return [v.rotate(self.gameobj.rotation) * self.scale for v in self.verts]
 
     def real_verts(self) -> List[Vector]:
         """Returns the a list of vertices in absolute coordinates"""
         return [self.pos + v for v in self.transformed_verts()]
 
     def __str__(self):
-        return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.rotation}"
+        return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def bounding_box_dimensions(self) -> Vector:
         """
@@ -224,7 +222,6 @@ class Rectangle(Hitbox):
     Attributes:
         width (int): The width of the rectangle
         height (int): The height of the rectangle
-        rotation (float): The rotation of the rectangle
     """
 
     def __init__(self, options: dict):
@@ -239,8 +236,6 @@ class Rectangle(Hitbox):
 
         self.width: int = int(params["width"])
         self.height: int = int(params["height"])
-
-        self.rotation: float = params["rotation"]
 
     @property
     def top_left(self):
@@ -369,7 +364,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [v.rotate(self.rotation) * self.scale for v in self.vertices()]
+        return [v.rotate(self.gameobj.rotation) * self.scale for v in self.vertices()]
 
     def real_verts(self) -> List[Vector]:
         """
@@ -423,7 +418,6 @@ class Rectangle(Hitbox):
             {
                 "width": self.width,
                 "height": self.height,
-                "rotation": self.rotation,
                 "debug": self.debug,
                 "trigger": self.trigger,
                 "scale": self.scale,

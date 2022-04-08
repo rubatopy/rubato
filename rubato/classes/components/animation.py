@@ -18,7 +18,6 @@ class Animation(Component):
     Animations are a series of images that update automatically in accordance with parameters.
 
     Attributes:
-        rotation (float): The rotation of the animation.
         default_state (Union[str, None]): The key of the default state. Defaults
             to None.
         current_state (str): The key of the current state. Defaults to "".
@@ -40,7 +39,6 @@ class Animation(Component):
         param = Defaults.animation_defaults | options
         super().__init__()
 
-        self.rotation = param["rotation"]
         self._fps: int = param["fps"]
         self.singular = False
 
@@ -51,8 +49,8 @@ class Animation(Component):
         self.current_state: str = ""
         self.animation_frames_left: int = 0
         self._current_frame: int = 0
-        self.loop = True
-        self.scale = param["scale"]
+        self.loop: bool = True
+        self.scale: Vector = param["scale"]
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
@@ -239,7 +237,8 @@ class Animation(Component):
             else:
                 self.set_current_state(self.default_state, True)
 
-        self.anim_frame.rotation = self.rotation
+        self.anim_frame.rotation = self.gameobj.rotation
+        self.anim_frame.scale = self.scale
 
     def delete(self):
         """Deletes the animation component"""
@@ -257,7 +256,6 @@ class Animation(Component):
                 "anti_aliasing": self.aa,
                 "flipx": self.flipx,
                 "flipy": self.flipy,
-                "rotation": self.rotation,
                 "offset": self.offset,
                 "visible": self.visible
             }

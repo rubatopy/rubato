@@ -8,6 +8,7 @@
 
 -   Some "to" and "from" methods for colors.
 -   Significantly changed internal Vector functionality to allow custom pointers.
+-   Moved the rotation parameters from Components to Game Objects.
 
 ### Removed
 

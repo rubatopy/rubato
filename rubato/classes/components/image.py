@@ -56,7 +56,6 @@ class Image(Component):
         self._original = Display.clone_surface(self._image)
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-        self._rotation: float = param["rotation"]
         self._scale: Vector = param["scale"]
         self._update_rotozoom()
 
@@ -76,11 +75,11 @@ class Image(Component):
     @property
     def rotation(self) -> float:
         """The rotation of the image."""
-        return self._rotation
+        return self.gameobj.rotation
 
     @rotation.setter
     def rotation(self, new_rotation: float):
-        self._rotation = new_rotation
+        self.gameobj.rotation = new_rotation
         self._update_rotozoom()
 
     @property
@@ -115,7 +114,7 @@ class Image(Component):
         """Updates the image surface. Called automatically when image scale or rotation are updated"""
         self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
-            self.rotation,
+            self.gameobj.rotation,
             -self.scale.x if self.flipx else self.scale.x,
             -self.scale.y if self.flipy else self.scale.y,
             int(self.aa),
@@ -216,7 +215,6 @@ class Image(Component):
         """
         new = Image(
             {
-                "rotation": self.rotation,
                 "scale": self.scale,
                 "anti_aliasing": self.aa,
                 "flipx": self.flipx,

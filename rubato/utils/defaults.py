@@ -48,6 +48,8 @@ class Defaults:
         # The z_index of the game object.
         "debug": False,  #. . . . . . . . . . . . . . . . . . . . . bool
         # Whether to draw a plus sign at the game object's position
+        "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
+        # The rotation of the game object in degrees.
     }
     # [/gameobj]
     # [ui]
@@ -96,8 +98,6 @@ class Defaults:
         # The starting velocity of the RB.
         "friction": 0,  # . . . . . . . . . . . . . . . . . . . . . float
         # The amount of friction experienced by the RB.
-        "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-        # The starting rotation of the RB.
         "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether the RB is static or not.
         "pos_correction": 0.25,  #. . . . . . . . . . . . . . . . . float
@@ -111,8 +111,6 @@ class Defaults:
         # The size of the image in pixels. (if a rel path is set this value will be ignored)
         "scale": Vector(1, 1),  # . . . . . . . . . . . . . . . . . Vector
         # The initial scale factor of the image.
-        "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-        # The initial rotation of the image.
         "anti_aliasing": False,  #. . . . . . . . . . . . . . . . . bool
         # Whether or not to enable anti aliasing.
         "flipx": False,  #. . . . . . . . . . . . . . . . . . . . . bool
@@ -129,8 +127,6 @@ class Defaults:
     animation_defaults = {
         "scale": Vector(1, 1),  # . . . . . . . . . . . . . . . . . Vector
         # The startin scale factor of the animation.
-        "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-        # The rotation of the animation.
         "fps": 24,  # . . . . . . . . . . . . . . . . . . . . . . . int
         # The FPS that the animation should run at. Greater than 0.
         "anti_aliasing": False,  #. . . . . . . . . . . . . . . . . bool
@@ -178,8 +174,6 @@ class Defaults:
     polygon_defaults = {
         "verts": [],  # . . . . . . . . . . . . . . . . . . . . . . List[Vector]
         # A list of vectors representing the vertices of the Polygon going CCW.
-        "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-        # The rotation of the polygon
     }
     # [/polygon]
     # [rectangle]
@@ -188,8 +182,6 @@ class Defaults:
         # The width of the rectangle.
         "height": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
         # The height of the rectangle.
-        "rotation": 0,  # . . . . . . . . . . . . . . . . . . . . . float
-        # The rotation of the rectangle
     }
     # [/rectangle]
     # [circle]
