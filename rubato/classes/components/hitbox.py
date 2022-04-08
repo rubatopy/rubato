@@ -129,7 +129,7 @@ class Polygon(Hitbox):
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
-        return [v.transform(self.scale, self.rotation) for v in self.verts]
+        return [v.rotate(self.rotation) * self.scale for v in self.verts]
 
     def real_verts(self) -> List[Vector]:
         """Returns the a list of vertices in absolute coordinates"""
@@ -373,7 +373,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [v.transform(self.scale, self.rotation) for v in self.vertices()]
+        return [v.rotate(self.rotation) * self.scale for v in self.vertices()]
 
     def real_verts(self) -> List[Vector]:
         """
@@ -634,7 +634,7 @@ class SAT:
         if test_b_a is None:
             return None
 
-        return test_a_b if test_a_b.sep.mag_squared < test_b_a.sep.mag_squared else test_b_a.flip()
+        return test_a_b if test_a_b.sep.mag_sq < test_b_a.sep.mag_sq else test_b_a.flip()
 
     @staticmethod
     def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:
