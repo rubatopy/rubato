@@ -1,7 +1,7 @@
 <a class="sidebar-brand{% if logo %} centered{% endif %}" href="https://www.rubato.app">
     {% block brand_content %} {%- if logo_url %}
     <div class="sidebar-logo-container">
-        <img class="sidebar-logo" src="{{ logo_url }}" alt="Logo" width="240" />
+        <img class="sidebar-logo" src="{{ logo_url }}" alt="Logo" width="240" draggable="false" style="user-select: none; -moz-user-select: none; -webkit-user-select: none; -webkit-user-drag: none" />
     </div>
     {%- endif %} {% if not theme_sidebar_hide_name %}
     <span class="sidebar-brand-text">{{ docstitle if docstitle else project }}</span>
