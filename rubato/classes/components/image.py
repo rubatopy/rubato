@@ -28,7 +28,7 @@ class Image(Component):
             options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
         """
         param = Defaults.image_defaults | options
-        super().__init__()
+        super().__init__(param)
 
         if param["rel_path"] == "":
             self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
@@ -50,10 +50,9 @@ class Image(Component):
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
-        self.offset: Vector = param["offset"]
         self.visible: bool = param["visible"]
         self._scale: Vector = param["scale"]
-        self._rot_offset: float = param["rot_offset"]
+        self._rot_offset: float = self.rotation_offset
 
         self._stored_rot: float = 0
 

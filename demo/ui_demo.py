@@ -5,31 +5,62 @@ sys.path.insert(0, os.path.abspath("../"))
 
 import rubato as rb
 
-rb.init({
-    "window_size": rb.Vector(512, 512),
-    "res": rb.Vector(1024, 1024),
-})
+rb.init()
 
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
-rb.Game.debug = True
 
 text = rb.Text({
     "font": rb.Font({
         "font": "Fredoka",
-        "size": 64
+        "size": 64,
+        "color": rb.Color.white,
     }),
     "text": "hello world",
 })
 
-ui = rb.UIElement({"pos": rb.Display.center}).add(text)
+rect = rb.Rectangle({"width": 400, "height": 70, "color": rb.Color.red})
+
+rotating = False
+
+
+def onclick():
+    global rotating
+    rotating = True
+
+
+def onrelease():
+    global rotating
+    rotating = False
+
+
+def onhover():
+    rect.color = rb.Color.green
+
+
+def onexit():
+    rect.color = rb.Color.red
+
+
+button = rb.Button(
+    {
+        "width": rect.width,
+        "height": rect.height,
+        "onclick": onclick,
+        "onrelease": onrelease,
+        "onhover": onhover,
+        "onexit": onexit,
+    }
+)
+
+ui = rb.UIElement({"pos": rb.Display.center}).add(rect).add(text).add(button)
 
 main.add(ui)
 
 
 def update():
-    ui.rotation += 1
-    text.rotation_offset -= 2
+    if rotating:
+        ui.rotation += 1
 
 
 main.update = update

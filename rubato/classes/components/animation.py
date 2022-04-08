@@ -37,7 +37,7 @@ class Animation(Component):
             options: A Animation config. Defaults to the :ref:`Animation defaults <animationdef>`.
         """
         param = Defaults.animation_defaults | options
-        super().__init__()
+        super().__init__(param)
 
         self._fps: int = param["fps"]
         self.singular = False
@@ -54,8 +54,6 @@ class Animation(Component):
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
-        self.offset: Vector = param["offset"]
-        self.rotation_offset: float = param["rot_offset"]
         self.visible: bool = param["visible"]
 
         self._time_step = 1000 / self._fps

@@ -4,19 +4,21 @@
 
 ### Added
 
--   Text can now rotate
+-   `Text` can now rotate.
+-   `Button`.
 
 ### Changed
 
--   Some "to" and "from" methods for colors.
--   Significantly changed internal Vector functionality to allow custom pointers.
--   Moved the rotation parameters from Components to Game Objects.
+-   Some "to" and "from" methods for `Color`.
+-   Significantly changed internal `Vector` functionality to allow custom pointers.
+-   Moved the rotation parameters from `Component` to `Game Object`.
+-   `Component` can now take in a dictionary of parameters.
 
 ### Removed
 
--   Vector's static method `is_vectorlike()`.
--   Vector instance method `translate()`. Use the `+` operator instead.
--   Vector instance method `transform()`. Use the `*` operator and `rotate()` instead.
+-   `Vector`'s static method `is_vectorlike()`.
+-   `Vector` instance method `translate()`. Use the `+` operator instead.
+-   `Vector` instance method `transform()`. Use the `*` operator and `rotate()` instead.
 
 ### Fixed
 

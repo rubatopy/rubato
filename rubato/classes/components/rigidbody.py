@@ -42,7 +42,7 @@ class RigidBody(Component):
         """
         params = Defaults.rigidbody_defaults | options
 
-        super().__init__()
+        super().__init__(params)
 
         self.static: bool = params["static"]
 

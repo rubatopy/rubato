@@ -15,19 +15,19 @@ class Text(Component):
 
     def __init__(self, options: dict = {}):
         """
-        Initializes a Label.
+        Initializes a Text.
 
         Args:
             options: A Text config. Defaults to the :ref:`Text defaults <textdef>`.
         """
-        param = Defaults.text_defaults | options
-        super().__init__()
-        self._text: str = param["text"]
-        self._font: Font = param["font"]
-        self._align: str = param["align"]
-        self._justify: str = param["justify"]
-        self._width: int = param["width"]
-        self._rot_offset: float = param["rot_offset"]
+        params = Defaults.text_defaults | options
+        super().__init__(params)
+        self._text: str = params["text"]
+        self._font: Font = params["font"]
+        self._align: str = params["align"]
+        self._justify: str = params["justify"]
+        self._width: int = params["width"]
+        self._rot_offset: float = self.rotation_offset
         self._stored_rot: int = 0
 
         self.generate_surface()

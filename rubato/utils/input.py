@@ -212,7 +212,7 @@ class Input:
         sdl2.mouse.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @classmethod
-    def mouse_in(cls, center: Vector, dims: Vector) -> bool:
+    def mouse_in(cls, center: Vector, dims: Vector = Vector(1, 1), angle: float = 0) -> bool:
         """
         Checks if the mouse is inside a rectangle defined by its center
         and dimensions
@@ -220,12 +220,31 @@ class Input:
         Args:
             center: The center of the rectangle.
             dims: The dimensions of the rectangle. Defaults to Vector(1, 1).
+            angle: The angle of the rectangle in degrees. Defaults to 0.
 
         Returns:
             bool: Whether or not the mouse is in the defined rectangle.
         """
-        top_left = (center - dims / 2).ceil()
-        bottom_right = (center + dims / 2).ceil()
 
-        return top_left.x <= cls.get_mouse_pos().x <= bottom_right.x and top_left.y <= cls.get_mouse_pos(
-        ).y <= bottom_right.y
+        mo = Input.get_mouse_pos()  # mouse
+
+        if angle == 0:
+            lt = (center - dims / 2).ceil()  # left top
+            rb = (center + dims / 2).ceil()  # right bottom
+            return lt.x <= mo.x <= rb.x and lt.y <= mo.y <= rb.y
+        else:
+            lt = (-dims / 2).rotate(angle) + center  # left top
+            rt = (Vector(dims.x, -dims.y) / 2).rotate(angle) + center  # right top
+            rb = (dims / 2).rotate(angle) + center  # right bottom
+            lb = (Vector(-dims.x, dims.y) / 2).rotate(angle) + center  # left bottom
+
+            return (
+                cls._is_left(lt, rt, mo) and cls._is_left(rt, rb, mo) and cls._is_left(rb, lb, mo) and
+                cls._is_left(lb, lt, mo)
+            )
+
+    @staticmethod
+    def _is_left(p0: Vector, p1: Vector, p2: Vector) -> bool:
+        # not sure what this does but I got it from:
+        # https://gamedev.stackexchange.com/a/110233
+        return ((p1.x - p0.x) * (p2.y - p0.y) - (p2.x - p0.x) * (p1.y - p0.y)) > 0

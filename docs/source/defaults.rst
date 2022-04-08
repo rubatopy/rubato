@@ -49,7 +49,7 @@ Game Object Defaults
 UI Element Defaults
 ***************************
 
-Can also include parameters from :ref:`Game Objects <gameobjdef>`
+Can also include parameters from :ref:`Game Objects <gameobjdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
@@ -57,11 +57,25 @@ Can also include parameters from :ref:`Game Objects <gameobjdef>`
     :end-before: [/ui]
     :dedent:
 
+.. _componentdef:
+
+***************************
+Component Defaults
+***************************
+
+.. literalinclude:: ../../rubato/utils/defaults.py
+    :language: python
+    :start-after: [component]
+    :end-before: [/component]
+    :dedent:
+
 .. _textdef:
 
 ***************************
 Text Defaults
 ***************************
+
+Can also include parameters from :ref:`Component <componentdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
@@ -81,11 +95,27 @@ Font Defaults
     :end-before: [/font]
     :dedent:
 
+.. _buttondef:
+
+***************************
+Button Defaults
+***************************
+
+Can also include parameters from :ref:`Component <componentdef>`.
+
+.. literalinclude:: ../../rubato/utils/defaults.py
+    :language: python
+    :start-after: [button]
+    :end-before: [/button]
+    :dedent:
+
 .. _rigidbodydef:
 
 ***************************
 RigidBody Defaults
 ***************************
+
+Can also include parameters from :ref:`Component <componentdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
@@ -99,6 +129,8 @@ RigidBody Defaults
 Image Defaults
 ***************************
 
+Can also include parameters from :ref:`Component <componentdef>`.
+
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
     :start-after: [image]
@@ -110,6 +142,8 @@ Image Defaults
 ***************************
 Animation Defaults
 ***************************
+
+Can also include parameters from :ref:`Component <componentdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
@@ -135,6 +169,8 @@ Spritesheet Defaults
 Hitbox Defaults
 ***************************
 
+Can also include parameters from :ref:`Component <componentdef>`.
+
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
     :start-after: [hitbox]
@@ -146,7 +182,7 @@ Hitbox Defaults
 Polygon Defaults
 ========================
 
-Can also include parameters from :ref:`Hitbox <hitboxdef>`
+Can also include parameters from :ref:`Hitbox <hitboxdef>` and :ref:`Component <componentdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
@@ -159,7 +195,7 @@ Can also include parameters from :ref:`Hitbox <hitboxdef>`
 Rectangle Defaults
 ========================
 
-Can also include parameters from :ref:`Hitbox <hitboxdef>`
+Can also include parameters from :ref:`Hitbox <hitboxdef>` and :ref:`Component <componentdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
@@ -172,7 +208,7 @@ Can also include parameters from :ref:`Hitbox <hitboxdef>`
 Circle Defaults
 ========================
 
-Can also include parameters from :ref:`Hitbox <hitboxdef>`
+Can also include parameters from :ref:`Hitbox <hitboxdef>` and :ref:`Component <componentdef>`.
 
 .. literalinclude:: ../../rubato/utils/defaults.py
     :language: python
