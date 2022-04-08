@@ -4,6 +4,8 @@
 
 ### Added
 
+-   Text can now rotate
+
 ### Changed
 
 -   Some "to" and "from" methods for colors.

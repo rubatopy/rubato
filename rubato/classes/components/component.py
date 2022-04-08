@@ -22,6 +22,7 @@ class Component:
         gameobj (GameObject): The game object this component is attached to.
         singular (bool): Whether multiple components of the same type are allowed on a game object.
         offset (Vector): The offset from the center of the game object that the hitbox should be placed.
+        rotation_offset (float): The rotational offset from the game object's rotation.
     """
 
     def __init__(self) -> None:
@@ -32,6 +33,7 @@ class Component:
         self.gameobj: Union[GameObject, None] = None
         self.singular: bool = False
         self.offset: Vector = Vector(0, 0)
+        self.rotation_offset: float = 0
 
     def draw(self) -> None:
         """The draw function template for a component subclass."""

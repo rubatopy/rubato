@@ -69,6 +69,8 @@ class Defaults:
         # The maximum width of the text. Will automatically wrap the text.
         "font": None,  #. . . . . . . . . . . . . . . . . . . . . . Font
         # The font object to use. Defaults to an object using the Fredoka font.
+        "rot_offset": 0,  # . . . . . . . . . . . . . . . . . . . . float
+        # The rotational offset. This is offset from the game object's rotation.
     }
     # [/text]
     # [font]
@@ -101,6 +103,7 @@ class Defaults:
         "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether the RB is static or not.
         "pos_correction": 0.25,  #. . . . . . . . . . . . . . . . . float
+        # The amount of position correction to apply (should be between 0 and 1).
     }
     # [/rigidbody]
     # [image]
@@ -121,6 +124,8 @@ class Defaults:
         # The offset from the center of the game object that the hitbox should be placed.
         "visible": True,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether or not the image is visible.
+        "rot_offset": 0,  # . . . . . . . . . . . . . . . . . . . . float
+        # The rotational offset. This is offset from the game object's rotation.
     }
     # [/image]
     # [animation]
@@ -139,6 +144,8 @@ class Defaults:
         # The offset from the center of the game object that the hitbox should be placed.
         "visible": True,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether or not the image is visible.
+        "rot_offset": 0,  # . . . . . . . . . . . . . . . . . . . . float
+        # The rotational offset. This is offset from the game object's rotation.
     }
     # [/animation]
     # [spritesheet]

@@ -12,6 +12,7 @@ rb.init({
 
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
+rb.Game.debug = True
 
 text = rb.Text({
     "font": rb.Font({
@@ -28,6 +29,8 @@ main.add(ui)
 
 def update():
     ui.rotation += 1
+    text.rotation_offset -= 2
+
 
 main.update = update
 
