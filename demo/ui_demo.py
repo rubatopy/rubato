@@ -21,5 +21,14 @@ text = rb.Text({
     "text": "hello world",
 })
 
-main.add(rb.UIElement({"pos": rb.Display.center}).add(text))
+ui = rb.UIElement({"pos": rb.Display.center}).add(text)
+
+main.add(ui)
+
+
+def update():
+    ui.rotation += 1
+
+main.update = update
+
 rb.begin()

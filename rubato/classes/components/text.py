@@ -1,9 +1,13 @@
 """A text component."""
 from __future__ import annotations
+from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
 from ... import Defaults, Display, Vector, Color
+
+if TYPE_CHECKING:
+    from ... import Font
 
 
 class Text(Component):
@@ -18,11 +22,12 @@ class Text(Component):
         """
         param = Defaults.text_defaults | options
         super().__init__()
-        self._text = param["text"]
-        self._font = param["font"]
-        self._align = param["align"]
-        self._justify = param["justify"]
-        self._width = param["width"]
+        self._text: str = param["text"]
+        self._font: Font = param["font"]
+        self._align: str = param["align"]
+        self._justify: str = param["justify"]
+        self._width: int = param["width"]
+        self._stored_rot: int = 0
 
         self.generate_surface()
 
@@ -112,10 +117,17 @@ class Text(Component):
     def generate_surface(self):
         """(Re)generates the surface of the text."""
         self._tx = sdl2.ext.Texture(
-            Display.renderer, self._font.generate_surface(self._text, self._justify, self._width)
+            Display.renderer,
+            self._font.generate_surface(
+                self._text, self._justify, self._width, self.gameobj.rotation if self.gameobj else 0
+            )
         )
 
     def draw(self):
+        if self.gameobj.rotation != self._stored_rot:
+            self._stored_rot = self.gameobj.rotation
+            self.generate_surface()
+
         Display.update(
             self._tx, self.gameobj.map_coord(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2)
         )

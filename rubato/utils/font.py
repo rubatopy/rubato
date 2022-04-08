@@ -1,6 +1,6 @@
 """The font module for text rendering"""
 import os
-import sdl2, sdl2.sdlttf, sdl2.ext
+import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlgfx
 
 from . import Defaults, Color
 
@@ -17,14 +17,14 @@ class Font:
         self._color = param["color"] if isinstance(param["color"], Color) else Color(*param["color"])
 
         if param["font"] in Defaults.text_fonts:
-            self._font = os.path.abspath(
+            self._font_path = os.path.abspath(
                 os.path.join(os.path.abspath(__file__), "../../" + Defaults.text_fonts[param["font"]])
             )
         else:
-            self._font = param["font"]
+            self._font_path = param["font"]
 
         try:
-            self._tx = sdl2.ext.FontTTF(self._font, self._size, self._color.to_tuple())
+            self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
         except ValueError as e:
             raise FileNotFoundError("Font " + param["font"] + " cannot be found.") from e
 
@@ -38,7 +38,7 @@ class Font:
     @size.setter
     def size(self, size: int):
         self._size = size
-        sdl2.sdlttf.TTF_SetFontSize(self._tx, size)
+        sdl2.sdlttf.TTF_SetFontSize(self._font, size)
 
     @property
     def color(self) -> Color:
@@ -48,13 +48,14 @@ class Font:
     @color.setter
     def color(self, color: Color):
         self._color = color
-        self._tx = sdl2.ext.FontTTF(self._font, self._size, self._color.to_tuple())
+        self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
     def generate_surface(
         self,
         text: str,
         align: str = Defaults.text_defaults["align"],
-        width: int = Defaults.text_defaults["width"]
+        width: int = Defaults.text_defaults["width"],
+        rot: int = 0
     ) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
@@ -63,6 +64,7 @@ class Font:
             text: The text to render.
             align: The alignment to use. Defaults to Vector(0, 0).
             width: The maximum width to use. Defaults to -1.
+            rot: The rotation of the text in degrees. Defaults to 0.
 
         Raises:
             ValueError: The width is too small for the text.
@@ -72,7 +74,10 @@ class Font:
             sdl2.SDL_Surface: The surface containing the text.
         """
         try:
-            return self._tx.render_text(text, width=None if width < 0 else width, align=align)
+
+            return sdl2.sdlgfx.rotozoomSurface(
+                self._font.render_text(text, width=None if width < 0 else width, align=align), rot, 1, 1
+            )
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e
         except OSError as e:
@@ -110,4 +115,4 @@ class Font:
         for style in self._styles:
             s |= Defaults.text_styles[style]
 
-        sdl2.sdlttf.TTF_SetFontStyle(self._tx.get_ttf_font(), s)
+        sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
