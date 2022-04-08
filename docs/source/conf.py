@@ -102,7 +102,7 @@ add_module_names = False
 
 html_logo = "_static/logo.png"
 
-html_favicon = "_static/logo.png"
+html_favicon = "_static/logo_filled.png"
 
 theme_color = "#ff9484"
 
