@@ -2,7 +2,6 @@
     :caption: Contents
     :hidden:
 
-    about
     intro
     tutorials
     api

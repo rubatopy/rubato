@@ -56,7 +56,7 @@ html_sidebars = {
             "sidebar/scroll-start.html",
             "brand.html",
             "sidebar/search.html",
-            "navigation.html",
+            "sidebar/navigation.html",
             "versioning.html",
             "sidebar/scroll-end.html",
         ],
@@ -66,8 +66,6 @@ html_sidebars = {
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
-master_doc = "contents"
 
 add_module_names = False
 
@@ -137,12 +135,12 @@ html_short_title = f"{project} docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
-html_baseurl = "https://rubatopy.github.io/rubato/"
+html_baseurl = "https://rubato.app"
 
 # Open Graph
-ogp_site_url = "https://rubatopy.github.io"
+ogp_site_url = "https://rubato.app"
 ogp_description_length = 300
-ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"
+ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/full.png"
 ogp_site_name = "rubato docs"
 ogp_custom_meta_tags = [
     '<meta property="og:title" content="rubato docs">',
