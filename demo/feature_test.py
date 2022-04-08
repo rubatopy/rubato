@@ -17,7 +17,7 @@ def update():
 
 def listener(info):
     if info["key"] == "space":
-        print(rb.Color.from_hex("aaffffff"))
+        rb.Game.state = rb.Game.STOPPED
 
 
 rb.Radio.listen("KEYDOWN", listener)

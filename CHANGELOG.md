@@ -5,7 +5,8 @@
 ### Added
 
 -   `Text` can now rotate.
--   `Button`.
+-   `Button`. A button class that can be used to create a clickable area.
+-   `Game.quit()`. Quits the game.
 
 ### Changed
 
