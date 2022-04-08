@@ -13,7 +13,7 @@ from ... import Display, Vector, Defaults, Color, Error, SideError, Game
 class Hitbox(Component):
     """
     A hitbox superclass. Do not use this to attach hitboxes to your game objects.
-    Instead, use Polygon, Rectangle, or Circle.
+    Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
 
     Attributes:
         debug (bool): Whether to draw a green outline around the Polygon or not.
@@ -23,7 +23,6 @@ class Hitbox(Component):
         color (Color) The color to fill this hitbox with.
         tag (str): The tag of the hitbox (can be used to identify hitboxes)
     """
-    hitboxes: List[Hitbox] = []
 
     def __init__(self, options: dict = {}):
         """
