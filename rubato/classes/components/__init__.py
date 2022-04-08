@@ -7,4 +7,5 @@ from .rigidbody import RigidBody
 from .image import Image
 from .animation import Animation
 from .spritesheet import Spritesheet
-from .hitbox import Hitbox, Polygon, Circle, Rectangle, ColInfo, SAT
+from .manifold import Manifold, Engine
+from .hitbox import Hitbox, Polygon, Circle, Rectangle

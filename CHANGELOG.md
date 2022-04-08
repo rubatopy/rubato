@@ -9,12 +9,14 @@
 -   Some "to" and "from" methods for colors.
 -   Significantly changed internal Vector functionality to allow custom pointers.
 -   Moved the rotation parameters from Components to Game Objects.
+-   Renamed `ColInfo` to `Manifold` and `SAT` to `Engine`
 
 ### Removed
 
 -   Vector's static method `is_vectorlike()`.
 -   Vector instance method `translate()`. Use the `+` operator instead.
 -   Vector instance method `transform()`. Use the `*` operator and `rotate()` instead.
+-   Engine static method `overlap()`. Use the built in Hitbox `overlap()` method instead.
 
 ### Fixed
 

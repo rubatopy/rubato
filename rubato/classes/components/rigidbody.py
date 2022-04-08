@@ -9,7 +9,7 @@ from . import Component
 from ... import Vector, Defaults, Time
 
 if TYPE_CHECKING:
-    from . import ColInfo
+    from . import Manifold
 
 
 class RigidBody(Component):
@@ -126,7 +126,7 @@ class RigidBody(Component):
         )
 
     @staticmethod
-    def handle_collision(col: ColInfo):
+    def handle_collision(col: Manifold):
         """
         Resolve the collision between two rigidbodies.
         Utilizes a simplistic impulse resolution method.
