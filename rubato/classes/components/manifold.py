@@ -76,52 +76,59 @@ class Engine:
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[Manifold, None]:
         """Checks for overlap between a circle and a polygon"""
+        verts = polygon.translated_verts()
+        center = (circle.pos - polygon.pos).rotate(-polygon.gameobj.rotation)
 
-        result = Manifold(circle, polygon)
-
-        shortest = Math.INF
-
-        verts = polygon.transformed_verts()
-        offset = polygon.pos - circle.pos
-
-        closest = Vector()
-        for v in verts:
-            dist = (circle.pos - polygon.pos - v).magnitude
-            if dist < shortest:
-                shortest = dist
-                closest = polygon.pos + v
-
-        axis = closest - circle.pos
-        axis.magnitude = 1
-
-        poly_range = Engine.project_verts(verts, axis) + axis.dot(offset)
-        circle_range = Vector(-circle.transformed_radius(), circle.transformed_radius())
-
-        if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
-            return None
-
-        dist_min = poly_range.x - circle_range.y
-
-        shortest = abs(dist_min)
-        result.normal = axis * Math.sign(dist_min)
-        result.penetration = abs(dist_min)
+        separation = -Math.INF
+        face_normal = 0
 
         for i in range(len(verts)):
-            axis = Engine.perpendicular_axis(verts, i)
+            s = Engine.get_normal(verts, i).dot(center - verts[i])
 
-            poly_range = Engine.project_verts(verts, axis) + axis.dot(offset)
-
-            if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
+            if s > circle.radius:
                 return None
 
-            dist_min = poly_range.x - circle_range.y
+            if s > separation:
+                separation = s
+                face_normal = i
 
-            if abs(dist_min) < shortest:
-                shortest = abs(dist_min)
-                result.normal = axis * Math.sign(dist_min)
-                result.penetration = abs(dist_min)
+        if separation <= 0:
+            norm = Engine.get_normal(verts, face_normal)
+            return Manifold(
+                circle, polygon, circle.radius, norm.rotate(polygon.gameobj.rotation), norm * circle.radius,
+                -norm * circle.radius
+            )
 
-        return result
+        v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
+
+        dot_1 = (center - v1).dot(v2 - v1)
+        dot_2 = (center - v2).dot(v1 - v2)
+        pen = circle.radius - separation
+
+        if dot_1 <= 0:
+            if (center - v1).mag_sq > circle.radius * circle.radius:
+                return None
+
+            return Manifold(
+                circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
+                v1.rotate(polygon.gameobj.rotation), -v1.rotate(polygon.gameobj.rotation)
+            )
+        elif dot_2 <= 0:
+            if (center - v2).mag_sq > circle.radius * circle.radius:
+                return None
+
+            return Manifold(
+                circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
+                v2.rotate(polygon.gameobj.rotation), -v2.rotate(polygon.gameobj.rotation)
+            )
+        else:
+            norm = Engine.get_normal(verts, face_normal)
+            if (center - v1).dot(norm) > circle.radius:
+                return None
+
+            return Manifold(
+                circle, polygon, pen, norm.rotate(polygon.gameobj.rotation), norm * circle.radius, -norm * circle.radius
+            )
 
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Union[Manifold, None]:
@@ -149,7 +156,7 @@ class Engine:
         offset = poly_a.pos - poly_b.pos
 
         for i in range(len(verts_a)):
-            axis = Engine.perpendicular_axis(verts_a, i)
+            axis = Engine.get_normal(verts_a, i)
 
             a_range = Engine.project_verts(verts_a, axis) + axis.dot(offset)
             b_range = Engine.project_verts(verts_b, axis)
@@ -167,13 +174,11 @@ class Engine:
         return result
 
     @staticmethod
-    def perpendicular_axis(verts: List[Vector], index: int) -> Vector:
+    def get_normal(verts: List[Vector], index: int) -> Vector:
         """Finds a vector perpendicular to a side"""
-
-        pt_1, pt_2 = verts[index], verts[(index + 1) % len(verts)]
-        axis = Vector(pt_1.y - pt_2.y, pt_2.x - pt_1.x)
-        axis.magnitude = 1
-        return axis
+        face = (verts[(index + 1) % len(verts)] - verts[index]).perpendicular()
+        face.magnitude = 1
+        return face
 
     @staticmethod
     def project_verts(verts: List[Vector], axis: Vector) -> Vector:
