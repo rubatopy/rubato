@@ -111,7 +111,7 @@ class Engine:
 
             return Manifold(
                 circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
-                v1.rotate(polygon.gameobj.rotation), -v1.rotate(polygon.gameobj.rotation)
+                -v1.rotate(polygon.gameobj.rotation), v1.rotate(polygon.gameobj.rotation)
             )
         elif dot_2 <= 0:
             if (center - v2).mag_sq > circle.radius * circle.radius:
@@ -119,7 +119,7 @@ class Engine:
 
             return Manifold(
                 circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
-                v2.rotate(polygon.gameobj.rotation), -v2.rotate(polygon.gameobj.rotation)
+                -v2.rotate(polygon.gameobj.rotation), v2.rotate(polygon.gameobj.rotation)
             )
         else:
             norm = Engine.get_normal(verts, face_normal)
@@ -133,45 +133,94 @@ class Engine:
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Union[Manifold, None]:
         """Checks for overlap between two polygons"""
-        test_a_b = Engine.poly_poly_helper(shape_a, shape_b)
-        if test_a_b is None:
-            return None
-
-        test_b_a = Engine.poly_poly_helper(shape_b, shape_a)
-        if test_b_a is None:
-            return None
-
-        return test_a_b if abs(test_a_b.penetration) < abs(test_b_a.penetration) else test_b_a.flip()
+        man = Manifold(shape_a, shape_b)
+        return man
 
     @staticmethod
-    def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[Manifold, None]:
-        """Checks for half overlap. Don't use this by itself unless you know what you are doing."""
-        result = Manifold(poly_a, poly_b)
+    def axis_least_penetration(face_index: List[int], shape_a: Polygon, shape_b: Polygon) -> float:
+        """Finds the axis of least penetration with a given index."""
+        a_verts = shape_a.translated_verts()
+        b_verts = shape_b.translated_verts()
 
-        shortest = Math.INF
+        best_dist = -Math.INF
+        best_ind = 0
 
-        verts_a = poly_a.transformed_verts()
-        verts_b = poly_b.transformed_verts()
+        for i in range(len(a_verts)):
+            nw = Engine.get_normal(a_verts, i).rotate(shape_a.gameobj.rotation)
+            trans = -shape_b.gameobj.rotation
+            n = nw.rotate(trans)
+            s = Engine.get_support(b_verts, -n)
+            v = a_verts[i].rotate(shape_a.gameobj.rotation).rotate(trans)
+            d = n.dot(s - v)
 
-        offset = poly_a.pos - poly_b.pos
+            if d > best_dist:
+                best_dist = d
+                best_ind = i
 
-        for i in range(len(verts_a)):
-            axis = Engine.get_normal(verts_a, i)
+        face_index[0] = best_ind
+        return best_dist
 
-            a_range = Engine.project_verts(verts_a, axis) + axis.dot(offset)
-            b_range = Engine.project_verts(verts_b, axis)
+    @staticmethod
+    def incident_face(ref_poly: Polygon, inc_poly: Polygon, ref_index: int) -> List[Vector]:
+        """Finds the incident face between two polygons."""
+        ref_verts = ref_poly.translated_verts()
+        inc_verts = inc_poly.translated_verts()
 
-            if a_range.x > b_range.y or b_range.x > a_range.y:
-                return None
+        ref_norm = Engine.get_normal(ref_verts,
+                                     ref_index).rotate(ref_poly.gameobj.rotation).rotate(-inc_poly.gameobj.rotation)
 
-            dist_min = b_range.x - a_range.y
+        inc_face, min_dot = 0, Math.INF
+        for i in range(len(inc_verts)):
+            dot = ref_norm.dot(Engine.get_normal(inc_verts, i))
 
-            if abs(dist_min) < shortest:
-                shortest = abs(dist_min)
-                result.normal = axis * Math.sign(dist_min)
-                result.penetration = abs(dist_min)
+            if dot < min_dot:
+                min_dot = dot
+                inc_face = i
 
-        return result
+        return [
+            inc_verts[inc_face].rotate(inc_poly.gameobj.rotation),
+            inc_verts[(inc_face + 1) % len(inc_verts)].rotate(inc_poly.gameobj.rotation)
+        ]
+
+    @staticmethod
+    def clip(n: Vector, c: float, face: List[Vector]) -> int:
+        sp = 0
+        out = [face[0].clone(), face[1].clone()]
+
+        d1 = n.dot(face[0]) - c
+        d2 = n.dot(face[1]) - c
+
+        if d1 <= 0:
+            out[sp] = face[0].clone()
+            sp += 1
+        if d2 <= 0:
+            out[sp] = face[1].clone()
+            sp += 1
+
+        if d1 * d2 < 0:
+            alpha = d1 / (d1 - d2)
+            out[sp] = (face[1] - face[0]) * alpha + face[0]
+            sp += 1
+
+        face[0] = out[0]
+        face[1] = out[1]
+
+        return sp
+
+    @staticmethod
+    def get_support(verts: List[Vector], direction: Vector) -> Vector:
+        """Gets the furthest support vertex in a given direction."""
+        best_proj = -Math.INF
+        best_vert = None
+
+        for v in verts:
+            projection = v.dot(direction)
+
+            if projection > best_proj:
+                best_vert = v
+                best_proj = projection
+
+        return best_vert
 
     @staticmethod
     def get_normal(verts: List[Vector], index: int) -> Vector:
@@ -179,18 +228,3 @@ class Engine:
         face = (verts[(index + 1) % len(verts)] - verts[index]).perpendicular()
         face.magnitude = 1
         return face
-
-    @staticmethod
-    def project_verts(verts: List[Vector], axis: Vector) -> Vector:
-        """
-        Projects the vertices onto a given axis.
-        Returns as a vector x is min, y is max
-        """
-
-        minval, maxval = Math.INF, -Math.INF
-
-        for v in verts:
-            temp = axis.dot(v)
-            minval, maxval = min(minval, temp), max(maxval, temp)
-
-        return Vector(minval, maxval)
