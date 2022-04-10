@@ -242,12 +242,12 @@ class Defaults:
     # [/grayscale]
 
     text_fonts = {
-        "Comfortaa": "static/fonts/Comfortaa-Regular.ttf",
-        "Fredoka": "static/fonts/Fredoka-Regular.ttf",
-        "Merriweather": "static/fonts/Merriweather-Regular.ttf",
-        "Roboto": "static/fonts/Roboto-Regular.ttf",
-        "SourceCodePro": "static/fonts/SourceCodePro-Regular.ttf",
-        "PressStart": "static/fonts/PressStart2P-Regular.ttf",
+        "Comfortaa": "Comfortaa-Regular.ttf",
+        "Fredoka": "Fredoka-Regular.ttf",
+        "Merriweather": "Merriweather-Regular.ttf",
+        "Roboto": "Roboto-Regular.ttf",
+        "SourceCodePro": "SourceCodePro-Regular.ttf",
+        "PressStart": "PressStart2P-Regular.ttf",
     }
 
     text_styles = {
