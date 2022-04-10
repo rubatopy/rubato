@@ -16,10 +16,7 @@ jobs:
             - name: Install dependencies
               run: |
                   python -m pip install --upgrade pip
-                  pip install --editable .[advanced,dev]
+                  pip install .[advanced,dev]
 
             - name: Analysing the code with pylint
               run: pylint $(git ls-files '*.py')
-
-            # - name: Run test file
-            #   run: python test.py
