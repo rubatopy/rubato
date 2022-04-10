@@ -1,8 +1,4 @@
-"""Text demo for rubato"""  # pylint: disable=all
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
+"""Text demo for rubato"""
 import rubato as rb
 
 rb.init()

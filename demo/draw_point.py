@@ -1,12 +1,9 @@
-"""Drawing to specific pixels"""  # pylint: disable=all
+"""Drawing to specific pixels"""
 import numpy, random, sdl2.ext.pixelaccess as pixel_access
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
-import rubato as rb
 import sdl2
 import sdl2.ext
+import rubato as rb
+
 
 rb.init({
     "name": "Point drawing",

@@ -1,8 +1,4 @@
 """A place to test new WIP features"""  # pylint: disable=all
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
 import rubato as rb
 
 rb.init({"res": rb.Vector(600, 600)})

@@ -1,9 +1,5 @@
-"""A Perlin Noise demo for Rubato"""  # pylint: disable=all
+"""A Perlin Noise demo for Rubato"""
 import opensimplex
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
 import rubato as rb
 
 rb.init({

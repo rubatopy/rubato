@@ -1,9 +1,5 @@
-"""A physics demo for Rubato"""  # pylint: disable=all
+"""A physics demo for Rubato"""
 from random import randint, choice
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
 import rubato as rb
 
 num_balls = 70

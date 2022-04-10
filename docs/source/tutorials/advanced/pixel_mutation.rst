@@ -6,11 +6,13 @@ Assumes you finished getting started.
 Pixel mutation is not currently implemented to surfaces in rubato as of ``2.0.0``.
 This will hopefully come in future.
 
+First make sure you have the advanced features installed.
+
 .. code-block:: console
 
-    $ pip install numpy
+    $ pip install rubato[advanced]
 
-In your code we need to import ``numpy`` and ``sdl2.ext.pixelaccess``:
+Then, import ``numpy`` and ``sdl2.ext.pixelaccess``:
 
 .. code-block:: python
 
@@ -18,7 +20,6 @@ In your code we need to import ``numpy`` and ``sdl2.ext.pixelaccess``:
 
 
 This demo will show how to change specific image pixels.
-
 
 .. code-block:: python
 
@@ -32,7 +33,7 @@ This demo will show how to change specific image pixels.
 
     image.image = draw_on(image.image)
 
-The `pixels2d()` function takes in an `SDL_Surface` and will return a numpy array
+The ``pixels2d()`` function takes in an ``SDL_Surface`` and will return a numpy array
 which will change the surfaces pixels by reference.
 
 .. note::

@@ -1,12 +1,4 @@
-"""The platformer example tutorial"""  # pylint: disable=all
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
-# TEST
-# Issue comes from venv/Lib/site-packages/sdl2/dll.py line 322
-# os.environ["PYSDL2_DLL_PATH"] = "system"
-
+"""The platformer example tutorial"""
 import rubato as rb
 
 # initialize a new game
