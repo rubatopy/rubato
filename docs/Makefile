@@ -3,23 +3,22 @@
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
-SPHINXBUILD   ?= sphinx-multiversion
+SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = .
 LIVEBUILDDIR  = ./build/_html
-
-.PHONY: save
+BUILDER		  = dirhtml
 
 save:
 	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)"
 
 test:
 	@make clear
-	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
+	@$(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
 
 live:
 	@make clear
-	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
+	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato
 
 clear:
 	@rm -rf build

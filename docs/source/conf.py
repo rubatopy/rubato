@@ -22,9 +22,6 @@ project = "rubato"
 copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disable=redefined-builtin
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
-# CHANGE WITH EVERY UPDATE
-smv_latest_version = "v2.0.0"
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -43,7 +40,6 @@ extensions = [
     "sphinx_autodoc_typehints",  # This need to be after napoleon
     "sphinx.ext.todo",
     "sphinx_sitemap",
-    "sphinx_multiversion",
     "sphinx_design",
 ]
 
@@ -160,7 +156,3 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_preprocess_types = True
 napoleon_attr_annotations = True
-
-# Version Control
-smv_branch_whitelist = r"^(main).*$"
-smv_released_pattern = r"^refs/tags/.*$"
