@@ -135,11 +135,11 @@ class Polygon(Hitbox):
 
     def translated_verts(self) -> List[Vector]:
         """Offsets each vertex with the Polygon's offset"""
-        return [v + self.offset for v in self.verts]
+        return [v * self.scale + self.offset for v in self.verts]
 
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
-        return [v.rotate(self.gameobj.rotation) * self.scale for v in self.translated_verts()]
+        return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
     def real_verts(self) -> List[Vector]:
         """Returns the a list of vertices in absolute coordinates"""
@@ -376,7 +376,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [v + self.offset for v in self.vertices()]
+        return [v * self.scale + self.offset for v in self.vertices()]
 
     def transformed_verts(self) -> List[Vector]:
         """
@@ -385,7 +385,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [v.rotate(self.gameobj.rotation) * self.scale for v in self.translated_verts()]
+        return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
     def real_verts(self) -> List[Vector]:
         """

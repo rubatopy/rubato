@@ -90,7 +90,7 @@ class Defaults:
         # The mass of the RB. (0 for infinite)
         "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
         # The percent bounciness of the RB. (as a decimal)
-        "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
+        "gravity": Vector(),  # . . . . . . . . . . . . . . . . . . Vector
         # The gravity applied to the RB.
         "max_speed": Vector(Math.INF, Math.INF),  # . . . . . . . . Vector
         # The maximum speed of the RB.
