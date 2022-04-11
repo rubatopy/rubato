@@ -12,7 +12,7 @@ rb.init(
 )
 
 # Change the global debug level
-rb.Game.debug = True
+rb.Game.debug = False
 
 # Tracks the grounded state of the player
 grounded = False
@@ -32,7 +32,6 @@ player = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(50, 0), "z_ind
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24), default_state="idle")
 p_animation.scale = rb.Vector(4, 4)
 p_animation.fps = 10
-p_animation.rotation_offset = 90
 player.add(p_animation)
 
 # define a collision handler
