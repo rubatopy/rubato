@@ -6,8 +6,10 @@ from typing import Iterator, Union
 import math
 
 from . import Math
-from . import removed
+from . import removed, deprecated
 
+def boo():
+    pass
 
 class Vector:
     """
@@ -315,11 +317,13 @@ class Vector:
         """
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
 
-    @removed
+    @removed(other_func=from_radial)
     @staticmethod
     def is_vectorlike(subscriptable: Union[Vector, list, tuple]) -> bool:
         """
         Checks whether a subscriptable object is vector_like ie. length 2, handles error message.
+        Warning:
+            This function is removed as of v2.1.0.
         Args:
             subscriptable: An object to check whether it is length 2 and subscriptable.
         Returns:
