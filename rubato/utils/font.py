@@ -17,7 +17,7 @@ class Font:
         self._color = param["color"] if isinstance(param["color"], Color) else Color(*param["color"])
 
         if param["font"] in Defaults.text_fonts:
-            self._font_path = files("...static.fonts").joinpath(Defaults.text_fonts[param["font"]])
+            self._font_path = str(files("rubato.static.fonts").joinpath(Defaults.text_fonts[param["font"]]))
         else:
             self._font_path = param["font"]
 

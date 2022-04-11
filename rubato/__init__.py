@@ -67,7 +67,7 @@ def init(options: dict = {}):
     if params["icon"] != "":
         Display.set_window_icon(params["icon"])
     else:
-        Display.set_window_icon(files(".static.png").joinpath("logo_tiny.png"))
+        Display.set_window_icon(files("rubato.static.png").joinpath("logo_tiny.png"))
 
     Game.debug_font = Font({"size": Display.res.y // 30, "font": "Comfortaa", "color": Color(0, 255, 0)})
 
