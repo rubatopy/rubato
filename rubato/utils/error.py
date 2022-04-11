@@ -52,15 +52,17 @@ def deprecated(other_func=None):
 
     def wrapper(func):
         @functools.wraps(func)
-        def new_func(*args, **kwargs):
+        def new_func(*_args, **_kwargs):
             warnings.simplefilter('always', DeprecationWarning)
-            warnings.warn(f"{func.__name__} has been deprecated. "
-              f"{'please use ' + other_func.__name__ + ' instead.' if other_func else 'There will be no replacement.'}",
+            warnings.warn(func.__name__ + " has been deprecated. " + "please use " +
+                          other_func.__name__ + " instead." if other_func else "There will be no replacement.",
                           category=DeprecationWarning,
                           stacklevel=2)
             warnings.simplefilter('default', DeprecationWarning)
-            return func(*args, **kwargs)
+            return func(*_args, **_kwargs)
+
         return new_func
+
     return wrapper
 
 
@@ -69,12 +71,14 @@ def removed(other_func=None):
         as removed, they will no longer work."""
 
     def wrapper(func):
-        def new_func(*args, **kwargs):
+        def new_func(*_args, **_kwargs):
             warnings.simplefilter('always', RemovalWarning)
-            warnings.warn(f"{func.__name__} has been removed. "
-                          f"{'use ' + other_func.__name__ + ' instead.' if other_func else 'There is no replacement.'}",
+            warnings.warn(func.__name__ + " has been removed. " + "please use " +
+                          other_func.__name__ + " instead." if other_func else "There is no replacement.",
                           category=RemovalWarning,
                           stacklevel=2)
             sys.exit()
+
         return new_func
+
     return wrapper

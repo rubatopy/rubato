@@ -6,10 +6,8 @@ from typing import Iterator, Union
 import math
 
 from . import Math
-from . import removed, deprecated
+from . import removed
 
-def boo():
-    pass
 
 class Vector:
     """
