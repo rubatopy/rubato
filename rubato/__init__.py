@@ -92,6 +92,20 @@ def begin():
 
 def end():
     """
-    Quit the game. You can also do this by setting ``Game.state`` to ``Game.STOPPED``.
+    Quit the game and close the python process. You can also do this by setting ``Game.state`` to ``Game.STOPPED``.
     """
     Game.state = Game.STOPPED
+
+
+def pause():
+    """
+    Pause the game. You can also do this by setting ``Game.state`` to ``Game.PAUSED``.
+    """
+    Game.state = Game.PAUSED
+
+
+def resume():
+    """
+    Resumes the game. You can also do this by setting ``Game.state`` to ``Game.RUNNING``.
+    """
+    Game.state = Game.RUNNING
