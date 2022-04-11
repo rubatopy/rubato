@@ -28,7 +28,7 @@ class Image(Component):
             options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
         """
         param = Defaults.image_defaults | options
-        super().__init__()
+        super().__init__(param)
 
         if param["rel_path"] == "":
             self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
@@ -50,13 +50,15 @@ class Image(Component):
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
-        self.offset: Vector = param["offset"]
         self.visible: bool = param["visible"]
+        self._scale: Vector = param["scale"]
+        self._rot_offset: float = self.rotation_offset
+
+        self._stored_rot: float = 0
 
         self._original = Display.clone_surface(self._image)
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-        self._scale: Vector = param["scale"]
         self._update_rotozoom()
 
         Radio.listen("ZOOM", self.cam_update)
@@ -73,13 +75,13 @@ class Image(Component):
         self._update_rotozoom()
 
     @property
-    def rotation(self) -> float:
-        """The rotation of the image."""
-        return self.gameobj.rotation
+    def rotation_offset(self) -> float:
+        """The rotation offset of the image in degrees."""
+        return self._rot_offset
 
-    @rotation.setter
-    def rotation(self, new_rotation: float):
-        self.gameobj.rotation = new_rotation
+    @rotation_offset.setter
+    def rotation_offset(self, new_rotation: float):
+        self._rot_offset = new_rotation
         self._update_rotozoom()
 
     @property
@@ -112,14 +114,15 @@ class Image(Component):
 
     def _update_rotozoom(self):
         """Updates the image surface. Called automatically when image scale or rotation are updated"""
-        self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
-            self._original,
-            self.gameobj.rotation if self.gameobj else 0,
-            -self.scale.x if self.flipx else self.scale.x,
-            -self.scale.y if self.flipy else self.scale.y,
-            int(self.aa),
-        ).contents
-        self._tx = sdl2.ext.Texture(Display.renderer, self.image)
+        if self.gameobj:
+            self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
+                self._original,
+                self.gameobj.rotation + self.rotation_offset,
+                -self.scale.x if self.flipx else self.scale.x,
+                -self.scale.y if self.flipy else self.scale.y,
+                int(self.aa),
+            ).contents
+            self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def resize(self, new_size: Vector):
         """
@@ -194,6 +197,10 @@ class Image(Component):
         self.resize(new_size)
 
     def draw(self):
+        if self._stored_rot != self.gameobj.rotation:
+            self._stored_rot = self.gameobj.rotation
+            self._update_rotozoom()
+
         if self.visible:
             Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
 

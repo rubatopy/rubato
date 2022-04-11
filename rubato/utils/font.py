@@ -1,6 +1,6 @@
 """The font module for text rendering"""
-import os
 import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlgfx
+from importlib.resources import files
 
 from . import Defaults, Color
 
@@ -17,9 +17,7 @@ class Font:
         self._color = param["color"] if isinstance(param["color"], Color) else Color(*param["color"])
 
         if param["font"] in Defaults.text_fonts:
-            self._font_path = os.path.abspath(
-                os.path.join(os.path.abspath(__file__), "../../" + Defaults.text_fonts[param["font"]])
-            )
+            self._font_path = files("...static.fonts").joinpath(Defaults.text_fonts[param["font"]])
         else:
             self._font_path = param["font"]
 

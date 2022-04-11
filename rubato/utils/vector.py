@@ -64,7 +64,11 @@ class Vector:
         if out is None:
             out = Vector()
 
-        inv_mag = (self.x * self.x + self.y * self.y)**-.5
+        if self.mag_sq != 0:
+            inv_mag = self.mag_sq**-.5
+        else:
+            inv_mag = 0
+
         out.x, out.y = self.x * inv_mag, self.y * inv_mag
 
         return out
@@ -178,7 +182,7 @@ class Vector:
 
     def to_int(self) -> Vector:
         """Returns a new vector with values that are ints."""
-        return Vector(int(self.x), int(self.y))
+        return Vector(round(self.x), round(self.y))
 
     def tuple_int(self) -> tuple:
         """Returns a tuple with rounded values."""
@@ -292,6 +296,9 @@ class Vector:
             A unit vector that is in the direction to the position passed in
         """
         return (other - self).unit()
+
+    def distance_between(self, other: Vector) -> float:
+        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
 
     @staticmethod
     def from_radial(magnitude: float, angle: float) -> Vector:

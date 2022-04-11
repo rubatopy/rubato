@@ -2,15 +2,15 @@ Using Perlin Noise
 ==================
 
 Perlin Noise is not a built in feature to rubato, however we do recommend using the
-`opensimplex` library.
+``opensimplex`` library.
 
-Install in your terminal
+First make sure you have the advanced features installed.
 
 .. code-block:: bash
 
-    pip install opensimplex
+    pip install rubato[advanced]
 
-Import to your python file
+Then import ``opensimplex`` to your python file
 
 .. code-block:: python
 

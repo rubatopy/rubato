@@ -32,7 +32,7 @@ class Hitbox(Component):
             options: A Hitbox config. Defaults to the :ref:`Hitbox defaults <hitboxdef>`.
         """
         params = Defaults.hitbox_defaults | options
-        super().__init__()
+        super().__init__(params)
         self.debug: bool = params["debug"]
         self.trigger: bool = params["trigger"]
         self.scale: int = params["scale"]
@@ -40,7 +40,6 @@ class Hitbox(Component):
         self.color: Color = params["color"]
         self.singular: bool = False
         self.tag: str = params["tag"]
-        self.offset: Vector = params["offset"]
 
     @property
     def pos(self) -> Vector:

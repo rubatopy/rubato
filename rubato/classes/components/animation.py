@@ -37,7 +37,7 @@ class Animation(Component):
             options: A Animation config. Defaults to the :ref:`Animation defaults <animationdef>`.
         """
         param = Defaults.animation_defaults | options
-        super().__init__()
+        super().__init__(param)
 
         self._fps: int = param["fps"]
         self.singular = False
@@ -54,7 +54,6 @@ class Animation(Component):
         self.aa: bool = param["anti_aliasing"]
         self.flipx: bool = param["flipx"]
         self.flipy: bool = param["flipy"]
-        self.offset: Vector = param["offset"]
         self.visible: bool = param["visible"]
 
         self._time_step = 1000 / self._fps
@@ -95,6 +94,7 @@ class Animation(Component):
         img.scale = self.scale
         img.offset = self.offset
         img.visible = self.visible
+        img.rotation_offset = self.rotation_offset
         return img
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
@@ -236,9 +236,6 @@ class Animation(Component):
                 self.reset()
             else:
                 self.set_current_state(self.default_state, True)
-
-        self.anim_frame.rotation = self.gameobj.rotation
-        self.anim_frame.scale = self.scale
 
     def delete(self):
         """Deletes the animation component"""

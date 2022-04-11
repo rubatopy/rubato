@@ -8,7 +8,7 @@ Attention:
 from __future__ import annotations
 from typing import Union, TYPE_CHECKING
 
-from ... import Vector
+from ... import Vector, Defaults
 
 if TYPE_CHECKING:
     from .. import GameObject
@@ -22,16 +22,22 @@ class Component:
         gameobj (GameObject): The game object this component is attached to.
         singular (bool): Whether multiple components of the same type are allowed on a game object.
         offset (Vector): The offset from the center of the game object that the hitbox should be placed.
+        rotation_offset (float): The rotational offset from the game object's rotation.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, options: dict = {}) -> None:
         """
-        Initializes a Component.
-        This is a superclass and as such does not take parameters.
+        Initializes a Component. Not that this is a template class and should not be used directly. Instead create
+        another class and extend from this one.
+
+        Args:
+            options: A Component config. Defaults to the :ref:`Component defaults <componentdef>`.
         """
+        p = Defaults.component_defaults | options
         self.gameobj: Union[GameObject, None] = None
         self.singular: bool = False
-        self.offset: Vector = Vector(0, 0)
+        self.offset: Vector = p["offset"]
+        self.rotation_offset: float = p["rot_offset"]
 
     def draw(self) -> None:
         """The draw function template for a component subclass."""

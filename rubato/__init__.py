@@ -13,9 +13,11 @@ from warnings import simplefilter
 
 simplefilter("ignore", UserWarning)
 
-import sdl2, sdl2.sdlttf, os
+import sdl2, sdl2.sdlttf
 
 simplefilter("default", UserWarning)
+
+from importlib.resources import files
 
 from .utils import *
 from .game import Game
@@ -65,7 +67,7 @@ def init(options: dict = {}):
     if params["icon"] != "":
         Display.set_window_icon(params["icon"])
     else:
-        Display.set_window_icon(os.path.join(os.path.dirname(__file__), "static/png/logo_tiny.png"))
+        Display.set_window_icon(files(".static.png").joinpath("logo_tiny.png"))
 
     Game.debug_font = Font({"size": Display.res.y // 30, "font": "Comfortaa", "color": Color(0, 255, 0)})
 

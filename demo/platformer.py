@@ -1,12 +1,4 @@
-"""The platformer example tutorial"""  # pylint: disable=all
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
-# TEST
-# Issue comes from venv/Lib/site-packages/sdl2/dll.py line 322
-# os.environ["PYSDL2_DLL_PATH"] = "system"
-
+"""The platformer example tutorial"""
 import rubato as rb
 
 # initialize a new game
@@ -40,6 +32,7 @@ player = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(50, 0), "z_ind
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24), default_state="idle")
 p_animation.scale = rb.Vector(4, 4)
 p_animation.fps = 10
+p_animation.rotation_offset = 90
 player.add(p_animation)
 
 # define a collision handler
@@ -49,7 +42,7 @@ retry_allowed = True
 
 def player_collide(col_info: rb.Manifold):
     global jumps, grounded, won, retry_allowed
-    if col_info.shape_b.tag == "ground" and not grounded:
+    if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
         grounded = True
         jumps = 2
         p_animation.set_current_state("idle", True)
@@ -76,7 +69,7 @@ player.add(
     rb.Rectangle(
         {
             "width": 10,
-            "height": 5,
+            "height": 2,
             "offset": rb.Vector(0, 32),
             "trigger": True,
             "on_collide": player_collide,

@@ -1,8 +1,4 @@
-"""A sound demo for Rubato"""  # pylint: disable=all
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
-
+"""A sound demo for Rubato"""
 import rubato as rb
 
 rb.init({

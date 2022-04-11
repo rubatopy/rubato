@@ -4,20 +4,23 @@
 
 ### Added
 
+-   `Text` can now rotate.
+-   `Button`. A button class that can be used to create a clickable area.
+-   `Game.quit()`. Quits the game.
 -   `penetration` and `normal` Manifold properties.
 
 ### Changed
 
--   Some "to" and "from" methods for colors.
--   Significantly changed internal Vector functionality to allow custom pointers.
--   Moved the rotation parameters from Components to Game Objects.
--   Renamed `ColInfo` to `Manifold` and `SAT` to `Engine`
+-   Some "to" and "from" methods for `Color`.
+-   Significantly changed internal `Vector` functionality to allow custom pointers.
+-   Moved the rotation parameters from `Component` to `Game Object`.
+-   `Component` can now take in a dictionary of parameters.
 
 ### Removed
 
--   Vector's static method `is_vectorlike()`.
--   Vector instance method `translate()`. Use the `+` operator instead.
--   Vector instance method `transform()`. Use the `*` operator and `rotate()` instead.
+-   `Vector`'s static method `is_vectorlike()`.
+-   `Vector` instance method `translate()`. Use the `+` operator instead.
+-   `Vector` instance method `transform()`. Use the `*` operator and `rotate()` instead.
 -   Engine static method `overlap()`. Use the built in Hitbox `overlap()` method instead.
 -   Removed `sep` property from Manifolds.
 

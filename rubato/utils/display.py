@@ -132,7 +132,7 @@ class Display(metaclass=DisplayProperties):
             pos: The position of the point.
             color: The color to use for the pixel. Defaults to black.
         """
-        pixelRGBA(cls.renderer.renderer, pos.x, pos.y, *color.to_tuple())
+        pixelRGBA(cls.renderer.renderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @classmethod
     def draw_line(cls, p1: Vector, p2: Vector, color: Color, width: int = 1):

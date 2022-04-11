@@ -55,6 +55,14 @@ class Defaults:
     # [ui]
     ui_defaults = {}
     # [/ui]
+    # [component]
+    component_defaults = {
+        "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
+        # The offset from the center of the game object that the hitbox should be placed.
+        "rot_offset": 0,  # . . . . . . . . . . . . . . . . . . . . float
+        # The rotational offset. This is offset from the game object's rotation.
+    }
+    # [/component]
     # [text]
     text_defaults = {
         "text": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
@@ -84,6 +92,23 @@ class Defaults:
         # The color of the text.
     }
     # [/font]
+    # [button]
+    button_defaults = {
+        "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
+        # The width of the clickable area.
+        "height": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
+        # The height of the clickable area.
+        "onclick": lambda: None,  #. . . . . . . . . . . . . . . . Callable
+        # The callback to call when the button is clicked.
+        "onrelease": lambda: None,  #. . . . . . . . . . . . . . . Callable
+        # The callback to call when the button is released.
+        "onhover": lambda: None,  #. . . . . . . . . . . . . . . . Callable
+        # The callback to call when the mouse is hovering over the button.
+        "onexit": lambda: None,  # . . . . . . . . . . . . . . . . Callable
+        # The callback to call when the mouse stops hovering over the button.
+
+    }
+    # [/button]
     # [rigidbody]
     rigidbody_defaults = {
         "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
@@ -122,8 +147,6 @@ class Defaults:
         # Whether or not to flip the image along the x axis
         "flipy": False,  #. . . . . . . . . . . . . . . . . . . . . bool
         # Whether or not to flip the image along the y axis
-        "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
-        # The offset from the center of the game object that the hitbox should be placed.
         "visible": True,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether or not the image is visible.
     }
@@ -140,8 +163,6 @@ class Defaults:
         # Whether or not to flip the animation along the x axis
         "flipy": False,  #. . . . . . . . . . . . . . . . . . . . . bool
         # Whether or not to flip the animation along the y axis
-        "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
-        # The offset from the center of the game object that the hitbox should be placed.
         "visible": True,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether or not the image is visible.
     }
@@ -171,8 +192,6 @@ class Defaults:
         # The color to fill this hitbox with.
         "tag": "",  # . . . . . . . . . . . . . . . . . . . . . . . str
         # The tag of the hitbox (can be used to identify hitboxes)
-        "offset": Vector(0, 0),  #. . . . . . . . . . . . . . . . . Vector
-        # The offset from the center of the game object that the hitbox should be placed.
     }
     # [/hitbox]
     # [polygon]
@@ -227,12 +246,12 @@ class Defaults:
     # [/grayscale]
 
     text_fonts = {
-        "Comfortaa": "static/fonts/Comfortaa-Regular.ttf",
-        "Fredoka": "static/fonts/Fredoka-Regular.ttf",
-        "Merriweather": "static/fonts/Merriweather-Regular.ttf",
-        "Roboto": "static/fonts/Roboto-Regular.ttf",
-        "SourceCodePro": "static/fonts/SourceCodePro-Regular.ttf",
-        "PressStart": "static/fonts/PressStart2P-Regular.ttf",
+        "Comfortaa": "Comfortaa-Regular.ttf",
+        "Fredoka": "Fredoka-Regular.ttf",
+        "Merriweather": "Merriweather-Regular.ttf",
+        "Roboto": "Roboto-Regular.ttf",
+        "SourceCodePro": "SourceCodePro-Regular.ttf",
+        "PressStart": "PressStart2P-Regular.ttf",
     }
 
     text_styles = {
