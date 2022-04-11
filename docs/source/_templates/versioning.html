@@ -1,20 +1,73 @@
-{% if versions %}
 <div class="sidebar-tree">
-    <p class="caption" role="heading"><span class="caption-text">{{ _('Versions') }}</span></p>
-    <ul>
-        {% if current_version.name == "main" %}
-        <strong>
-            {% endif %}
-            <li class="toctree-l1"><a class="reference internal" href="{{ vpathto('main') }}">Nightly</a></li>
-            {% if current_version.name == "main" %}
-        </strong>
-        {% endif %} {%- for item in versions.releases|reverse %} {% if item.name != "main" %} {% if current_version.name == item.name %}
-        <strong>
-            {% endif %}
-            <li class="toctree-l1"><a class="reference internal" href="{{ item.url }}">{{ item.name }}</a></li>
-            {% if current_version.name == item.name %}
-        </strong>
-        {% endif %} {% endif %} {%- endfor %}
-    </ul>
+    <p class="caption" role="heading"><span class="caption-text">Versions</span></p>
+    <ul id="versions"></ul>
+    <script>
+        // Add any branches to appear in the side pane here, tags will be added below
+        // Will only appear if docs are built and pushed in gh-pages
+        var versions = ["master", "main"];
+        var dirs = new Set();
+
+        function addVersion(name) {
+            if (dirs.has(name)) {
+                var li = document.createElement("li");
+                li.classList.add("toctree-l1");
+                var a = document.createElement("a");
+                a.classList.add("reference", "internal");
+
+                var ideal =
+                    "https://rubato.app/" +
+                    name +
+                    window.location.pathname
+                        .split("/")
+                        .slice(window.location.pathname.split("/").indexOf(name) + 1)
+                        .join("/");
+
+                reader = new XMLHttpRequest();
+                reader.open("get", ideal, false);
+
+                reader.onreadystatechange = () => {
+                    if (reader.readyState === 4) {
+                        //check to see whether request for the file failed or succeeded
+                        if (reader.status == 200 || reader.status == 0) {
+                            a.href = ideal;
+                            return;
+                        } else {
+                            a.href = "https://rubato.app/" + name + "/intro";
+                            return;
+                        }
+                    }
+                };
+
+                try {
+                    reader.send();
+                } catch (e) {}
+
+                a.innerText = name;
+                li.appendChild(a);
+                document.getElementById("versions").appendChild(li);
+            }
+        }
+        Promise.all([
+            // Find gh-pages directories and populate `dirs`
+            fetch("https://api.github.com/repos/rubatopy/rubato/contents?ref=gh-pages")
+                .then((response) => response.json())
+                .then((data) =>
+                    data.forEach(function (e) {
+                        if (e.type == "dir") dirs.add(e.name);
+                    }),
+                ),
+            // Add tags to `versions`
+            fetch("https://api.github.com/repos/rubatopy/rubato/tags")
+                .then((response) => response.json())
+                .then((data) =>
+                    data.forEach(function (e) {
+                        versions.push(e.name);
+                    }),
+                ),
+        ])
+            .then((_) => {
+                addVersion("dev");
+            })
+            .then((_) => versions.forEach(addVersion));
+    </script>
 </div>
-{% endif %}
