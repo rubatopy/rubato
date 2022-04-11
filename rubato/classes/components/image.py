@@ -101,6 +101,8 @@ class Image(Component):
         Returns:
             Vector: The size of the image
         """
+        if self.image.w == self._original.w and self.image.h == self._original.h:
+            return Vector(self.image.w, self.image.h) * self.scale
         return Vector(self.image.w, self.image.h)
 
     def get_size_original(self) -> Vector:
