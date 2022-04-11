@@ -7,6 +7,7 @@
 -   `Text` can now rotate.
 -   `Button`. A button class that can be used to create a clickable area.
 -   `Game.quit()`. Quits the game.
+-   `penetration` and `normal` Manifold properties.
 
 ### Changed
 
@@ -20,6 +21,8 @@
 -   `Vector`'s static method `is_vectorlike()`.
 -   `Vector` instance method `translate()`. Use the `+` operator instead.
 -   `Vector` instance method `transform()`. Use the `*` operator and `rotate()` instead.
+-   Engine static method `overlap()`. Use the built in Hitbox `overlap()` method instead.
+-   Removed `sep` property from Manifolds.
 
 ### Fixed
 

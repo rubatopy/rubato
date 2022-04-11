@@ -6,14 +6,14 @@ import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
 
-from . import Component, RigidBody
-from ... import Math, Display, Vector, Defaults, Color, Error, SideError, Game
+from . import Component, RigidBody, Manifold, Engine
+from ... import Display, Vector, Defaults, Color, Error, SideError, Game
 
 
 class Hitbox(Component):
     """
     A hitbox superclass. Do not use this to attach hitboxes to your game objects.
-    Instead, use Polygon, Rectangle, or Circle.
+    Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
 
     Attributes:
         debug (bool): Whether to draw a green outline around the Polygon or not.
@@ -23,7 +23,6 @@ class Hitbox(Component):
         color (Color) The color to fill this hitbox with.
         tag (str): The tag of the hitbox (can be used to identify hitboxes)
     """
-    hitboxes: List[Hitbox] = []
 
     def __init__(self, options: dict = {}):
         """
@@ -60,11 +59,21 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
-    def overlap(self, other: Hitbox) -> Union[ColInfo, None]:
-        """Wraps the SAT collide function. Returns a ColInfo manifold if a collision occurs but does not resolve."""
-        return SAT.overlap(self, other)
+    def overlap(self, other: Hitbox) -> Union[Manifold, None]:
+        """Wraps the Engine collide function. Returns a Manifold manifold if a collision occurs but does not resolve."""
+        if isinstance(self, Circle):
+            if isinstance(other, Circle):
+                return Engine.circle_circle_test(self, other)
 
-    def collide(self, other: Hitbox) -> Union[ColInfo, None]:
+            return Engine.circle_polygon_test(self, other)
+
+        if isinstance(other, Circle):
+            r = Engine.circle_polygon_test(other, self)
+            return None if r is None else r.flip()
+
+        return Engine.polygon_polygon_test(self, other)
+
+    def collide(self, other: Hitbox) -> Union[Manifold, None]:
         """
         Collides two hitboxes and resolves the collision using RigidBody impulse momentum if applicable.
 
@@ -74,10 +83,10 @@ class Hitbox(Component):
                 Defaults to None.
 
         Returns:
-            Union[ColInfo, None]: Returns a collision info object if a
+            Union[Manifold, None]: Returns a collision info object if a
             collision is detected or nothing if no collision is detected.
         """
-        if (col := SAT.overlap(self, other)) is None:
+        if (col := self.overlap(other)) is None:
             return
 
         if not (self.trigger or other.trigger):
@@ -123,9 +132,13 @@ class Polygon(Hitbox):
             }
         )
 
+    def translated_verts(self) -> List[Vector]:
+        """Offsets each vertex with the Polygon's offset"""
+        return [v * self.scale + self.offset for v in self.verts]
+
     def transformed_verts(self) -> List[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
-        return [(v + self.offset).rotate(self.gameobj.rotation) * self.scale for v in self.verts]
+        return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
     def real_verts(self) -> List[Vector]:
         """Returns the a list of vertices in absolute coordinates"""
@@ -142,8 +155,8 @@ class Polygon(Hitbox):
             Vector: The vector representation of the width and height.
         """
         real_verts = self.real_verts()
-        x_dir = SAT.project_verts(real_verts, Vector(1, 0))
-        y_dir = SAT.project_verts(real_verts, Vector(0, 1))
+        x_dir = Engine.project_verts(real_verts, Vector(1, 0))
+        y_dir = Engine.project_verts(real_verts, Vector(0, 1))
         return Vector(x_dir.y - x_dir.x, y_dir.y - y_dir.x)
 
     def draw(self):
@@ -355,6 +368,15 @@ class Rectangle(Hitbox):
         x, y = self.width / 2, self.height / 2
         return [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
 
+    def translated_verts(self) -> List[Vector]:
+        """
+        Offsets each vertex with the Polygon's offset.
+
+        Returns:
+            List[Vector]: The list of vertices
+        """
+        return [v * self.scale + self.offset for v in self.vertices()]
+
     def transformed_verts(self) -> List[Vector]:
         """
         Generates a list of the rectangle's vertices, scaled and rotated.
@@ -362,7 +384,7 @@ class Rectangle(Hitbox):
         Returns:
             List[Vector]: The list of vertices
         """
-        return [(v + self.offset).rotate(self.gameobj.rotation) * self.scale for v in self.vertices()]
+        return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
     def real_verts(self) -> List[Vector]:
         """
@@ -502,192 +524,3 @@ class Circle(Hitbox):
                 "radius": self.radius,
             }
         )
-
-
-class ColInfo:
-    """
-    A class that represents information returned in a successful collision
-
-    Attributes:
-        shape_a (Union[Circle, Polygon, None]): A reference to the first shape.
-        shape_b (Union[Circle, Polygon, None]): A reference to the second shape.
-        seperation (Vector): The vector that would separate the two colliders.
-    """
-
-    def __init__(self, shape_a: Union[Hitbox, None], shape_b: Union[Hitbox, None], sep: Vector = Vector()):
-        """
-        Initializes a Collision Info manifold.
-        This is used internally by :func:`SAT <rubato.classes.components.hitbox.SAT>`.
-        """
-        self.shape_a = shape_a
-        self.shape_b = shape_b
-        self.sep = sep
-
-    def flip(self) -> ColInfo:
-        """
-        Flips the reference shape in a collision manifold
-
-        Returns:
-            ColInfo: a reference to self.
-        """
-        self.shape_a, self.shape_b = self.shape_b, self.shape_a
-        self.sep *= -1
-        return self
-
-
-class SAT:
-    """
-    A general class that does the collision detection math between different hitboxes.
-    """
-
-    @staticmethod
-    def overlap(shape_a: Hitbox, shape_b: Hitbox) -> Union[ColInfo, None]:
-        """
-        Checks for overlap between any two shapes (Polygon or Circle)
-
-        Args:
-            shape_a: The first shape.
-            shape_b: The second shape.
-
-        Returns:
-            Union[ColInfo, None]: If a collision occurs, a ColInfo
-            is returned. Otherwise None is returned.
-        """
-
-        if isinstance(shape_a, Circle):
-            if isinstance(shape_b, Circle):
-                return SAT.circle_circle_test(shape_a, shape_b)
-
-            return SAT.circle_polygon_test(shape_a, shape_b)
-
-        if isinstance(shape_b, Circle):
-            r = SAT.circle_polygon_test(shape_b, shape_a)
-            return None if r is None else r.flip()
-
-        return SAT.polygon_polygon_test(shape_a, shape_b)
-
-    @staticmethod
-    def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Union[ColInfo, None]:
-        """Checks for overlap between two circles"""
-        t_rad = circle_a.radius + circle_b.radius
-        d_x, d_y = circle_a.pos.x - circle_b.pos.x, circle_a.pos.y - circle_b.pos.y
-        dist = (d_x * d_x + d_y * d_y)**.5
-
-        if dist > t_rad:
-            return None
-
-        return ColInfo(circle_a, circle_b, Vector((t_rad - dist) * d_x / dist, (t_rad - dist) * d_y / dist))
-
-    @staticmethod
-    def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[ColInfo, None]:
-        """Checks for overlap between a circle and a polygon"""
-
-        result = ColInfo(circle, polygon)
-
-        shortest = Math.INF
-
-        verts = polygon.transformed_verts()
-        offset = polygon.pos - circle.pos
-
-        closest = Vector()
-        for v in verts:
-            dist = (circle.pos - polygon.pos - v).magnitude
-            if dist < shortest:
-                shortest = dist
-                closest = polygon.pos + v
-
-        axis = closest - circle.pos
-        axis.magnitude = 1
-
-        poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
-        circle_range = Vector(-circle.transformed_radius(), circle.transformed_radius())
-
-        if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
-            return None
-
-        dist_min = poly_range.x - circle_range.y
-
-        shortest = abs(dist_min)
-        result.sep = axis * dist_min
-
-        for i in range(len(verts)):
-            axis = SAT.perpendicular_axis(verts, i)
-
-            poly_range = SAT.project_verts(verts, axis) + axis.dot(offset)
-
-            if poly_range.x > circle_range.y or circle_range.x > poly_range.y:
-                return None
-
-            dist_min = poly_range.x - circle_range.y
-
-            if abs(dist_min) < shortest:
-                shortest = abs(dist_min)
-                result.sep = axis * dist_min
-
-        return result
-
-    @staticmethod
-    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Union[ColInfo, None]:
-        """Checks for overlap between two polygons"""
-        test_a_b = SAT.poly_poly_helper(shape_a, shape_b)
-        if test_a_b is None:
-            return None
-
-        test_b_a = SAT.poly_poly_helper(shape_b, shape_a)
-        if test_b_a is None:
-            return None
-
-        return test_a_b if test_a_b.sep.mag_sq < test_b_a.sep.mag_sq else test_b_a.flip()
-
-    @staticmethod
-    def poly_poly_helper(poly_a: Polygon, poly_b: Polygon) -> Union[ColInfo, None]:
-        """Checks for half overlap. Don't use this by itself unless you know what you are doing."""
-        result = ColInfo(poly_a, poly_b)
-
-        shortest = Math.INF
-
-        verts_a = poly_a.transformed_verts()
-        verts_b = poly_b.transformed_verts()
-
-        offset = poly_a.pos - poly_b.pos
-
-        for i in range(len(verts_a)):
-            axis = SAT.perpendicular_axis(verts_a, i)
-
-            a_range = SAT.project_verts(verts_a, axis) + axis.dot(offset)
-            b_range = SAT.project_verts(verts_b, axis)
-
-            if a_range.x > b_range.y or b_range.x > a_range.y:
-                return None
-
-            min_dist = b_range.x - a_range.y
-
-            if abs(min_dist) < shortest:
-                shortest = abs(min_dist)
-                result.sep = axis * min_dist
-
-        return result
-
-    @staticmethod
-    def perpendicular_axis(verts: List[Vector], index: int) -> Vector:
-        """Finds a vector perpendicular to a side"""
-
-        pt_1, pt_2 = verts[index], verts[(index + 1) % len(verts)]
-        axis = Vector(pt_1.y - pt_2.y, pt_2.x - pt_1.x)
-        axis.magnitude = 1
-        return axis
-
-    @staticmethod
-    def project_verts(verts: List[Vector], axis: Vector) -> Vector:
-        """
-        Projects the vertices onto a given axis.
-        Returns as a vector x is min, y is max
-        """
-
-        minval, maxval = Math.INF, -Math.INF
-
-        for v in verts:
-            temp = axis.dot(v)
-            minval, maxval = min(minval, temp), max(maxval, temp)
-
-        return Vector(minval, maxval)

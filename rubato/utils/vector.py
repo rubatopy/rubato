@@ -103,7 +103,7 @@ class Vector:
         """
         return self.x * other.y - self.y * other.x
 
-    def perpendicular(self, scalar: Union[float, int], out: Vector = None) -> Vector:
+    def perpendicular(self, scalar: Union[float, int] = 1, out: Vector = None) -> Vector:
         """
         Computes a scaled 90 degree clockwise rotation on a given vector.
 

@@ -40,7 +40,7 @@ won = False
 retry_allowed = True
 
 
-def player_collide(col_info: rb.ColInfo):
+def player_collide(col_info: rb.Manifold):
     global jumps, grounded, won, retry_allowed
     if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
         grounded = True

@@ -115,7 +115,7 @@ class Defaults:
         # The mass of the RB. (0 for infinite)
         "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
         # The percent bounciness of the RB. (as a decimal)
-        "gravity": Vector(0, 100),  # . . . . . . . . . . . . . . . Vector
+        "gravity": Vector(),  # . . . . . . . . . . . . . . . . . . Vector
         # The gravity applied to the RB.
         "max_speed": Vector(Math.INF, Math.INF),  # . . . . . . . . Vector
         # The maximum speed of the RB.
@@ -126,7 +126,11 @@ class Defaults:
         "static": False,  # . . . . . . . . . . . . . . . . . . . . bool
         # Whether the RB is static or not.
         "pos_correction": 0.25,  #. . . . . . . . . . . . . . . . . float
-        # The amount of position correction to apply (should be between 0 and 1).
+        # The amount of the collision to handle every fixed update. Set to 1.0 for platformers.
+        "ang_vel": 0,  #. . . . . . . . . . . . . . . . . . . . . . bool
+        # The starting angular velocity of the RB.
+        "moment": 1,  #. . . . . . . . . . . . . . . . . float
+        # The moment of inertia of the RB.
     }
     # [/rigidbody]
     # [image]
@@ -181,9 +185,9 @@ class Defaults:
         # Whether this hitbox is just a trigger or not.
         "scale": 1,  #. . . . . . . . . . . . . . . . . . . . . . . int
         # The scale of the polygon
-        "on_collide": lambda colInfo: None,  #. . . . . . . . . . . Callable
+        "on_collide": lambda Manifold: None,  #. . . . . . . . . . . Callable
         # The on_collide function to call when a collision happens with this hitbox
-        # Must take a rb.ColInfo.
+        # Must take a rb.Manifold.
         "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
         # The color to fill this hitbox with.
         "tag": "",  # . . . . . . . . . . . . . . . . . . . . . . . str
