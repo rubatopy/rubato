@@ -53,12 +53,12 @@ def deprecated(other_func=None):
     def wrapper(func):
         @functools.wraps(func)
         def new_func(*_args, **_kwargs):
-            warnings.simplefilter('always', DeprecationWarning)
-            warnings.warn(func.__name__ + " has been deprecated. " + "please use " +
-                          other_func.__name__ + " instead." if other_func else "There will be no replacement.",
+            warnings.simplefilter("always", DeprecationWarning)
+            warnings.warn(f"{func.__name__} has been deprecated. " + ("please use " +
+                          other_func.__name__ + " instead.") if other_func else "There will be no replacement.",
                           category=DeprecationWarning,
                           stacklevel=2)
-            warnings.simplefilter('default', DeprecationWarning)
+            warnings.simplefilter("default", DeprecationWarning)
             return func(*_args, **_kwargs)
 
         return new_func
@@ -72,9 +72,9 @@ def removed(other_func=None):
 
     def wrapper(func):
         def new_func(*_args, **_kwargs):
-            warnings.simplefilter('always', RemovalWarning)
-            warnings.warn(func.__name__ + " has been removed. " + "please use " +
-                          other_func.__name__ + " instead." if other_func else "There is no replacement.",
+            warnings.simplefilter("always", RemovalWarning)
+            warnings.warn(f"{func.__name__} has been removed. " + ("please use " +
+                          other_func.__name__ + " instead.") if other_func else "There is no replacement.",
                           category=RemovalWarning,
                           stacklevel=2)
             sys.exit()
