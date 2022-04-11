@@ -49,16 +49,6 @@ class Hitbox(Component):
     def update(self):
         self.draw()
 
-    def bounding_box_dimensions(self) -> Vector:
-        """
-        Returns the dimensions of the bounding box surrounding the polygon.
-
-        Returns:
-            Vector: A vector with the x variable holding the width and the y
-            variable holding the height.
-        """
-        return Vector(0, 0)
-
 
 class Polygon(Hitbox):
     """
