@@ -63,7 +63,7 @@ def player_collide(col_info: rb.Manifold):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Circle({"radius": 32, "tag": "player"}))
+player.add(rb.Rectangle({"width": 64, "height": 64, "tag": "player"}))
 # add a ground detector
 player.add(
     rb.Rectangle(
