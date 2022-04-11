@@ -42,7 +42,6 @@ left = rb.GameObject({
     "color": rb.Color.gray,
 }))
 
-
 right = rb.GameObject({
     "pos": rb.Display.center_right + rb.Vector(30, 0)
 }).add(rb.Rectangle({
@@ -96,5 +95,7 @@ main.add(
         "moment": 100
     }))
 )
+
+rb.Vector.is_vectorlike([1])
 
 rb.begin()

@@ -3,5 +3,24 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [{ "name": "platformer.py", "type": "python", "request": "launch", "program": "demo/platformer.py", "console": "integratedTerminal", "justMyCode": true, }]
+    "configurations": [
+        {
+            "name": "Debug Demo File",
+            "type": "python",
+            "request": "launch",
+            "program": "${input:filename}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}${pathSeparator}demo"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "filename",
+            "type": "pickString",
+            "description": "Pick the demo file to debug",
+            "default": "platformer.py",
+            "options": ["platformer.py", "ball_pit.py", "feature_test.py", "ui_demo.py", "sound_demo.py"]
+        }
+    ]
 }

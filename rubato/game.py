@@ -112,7 +112,7 @@ class Game(metaclass=GameProperties):
                 Radio.broadcast("EXIT")
                 sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
-                sys.exit(1)
+                sys.exit()
             if event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     Radio.broadcast(
