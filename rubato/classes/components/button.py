@@ -1,5 +1,6 @@
 """A button component that can be used in UI or to detect mouse presses in an area."""
 from typing import Callable
+
 from . import Component
 from ... import Defaults, Input, Vector
 

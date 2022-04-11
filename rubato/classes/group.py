@@ -4,7 +4,7 @@ Groups contain game objects or other groups and allow separation between game ob
 from __future__ import annotations
 from typing import List, Union
 
-from . import GameObject, Hitbox, UIElement
+from . import GameObject, Hitbox, UIElement, Engine
 from .. import Error, Defaults, Game
 
 
@@ -110,7 +110,7 @@ class Group:
             if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
                 for ht in hts:
                     for hitbox in hitboxes:
-                        ht.collide(hitbox)
+                        Engine.collide(ht, hitbox)
                 hitboxes.extend(hts)
 
     def draw(self):

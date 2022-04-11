@@ -6,7 +6,7 @@ import sdl2
 import sdl2.sdlgfx
 from ctypes import c_int16
 
-from . import Component, RigidBody, Manifold, Engine
+from . import Component
 from ... import Display, Vector, Defaults, Color, Error, SideError, Game
 
 
@@ -59,42 +59,6 @@ class Hitbox(Component):
         """
         return Vector(0, 0)
 
-    def overlap(self, other: Hitbox) -> Union[Manifold, None]:
-        """Wraps the Engine collide function. Returns a Manifold manifold if a collision occurs but does not resolve."""
-        if isinstance(self, Circle):
-            if isinstance(other, Circle):
-                return Engine.circle_circle_test(self, other)
-
-            return Engine.circle_polygon_test(self, other)
-
-        if isinstance(other, Circle):
-            r = Engine.circle_polygon_test(other, self)
-            return None if r is None else r.flip()
-
-        return Engine.polygon_polygon_test(self, other)
-
-    def collide(self, other: Hitbox) -> Union[Manifold, None]:
-        """
-        Collides two hitboxes and resolves the collision using RigidBody impulse momentum if applicable.
-
-        Args:
-            other: The other rigidbody to collide with.
-            on_collide: The function to run when a collision is detected.
-                Defaults to None.
-
-        Returns:
-            Union[Manifold, None]: Returns a collision info object if a
-            collision is detected or nothing if no collision is detected.
-        """
-        if (col := self.overlap(other)) is None:
-            return
-
-        if not (self.trigger or other.trigger):
-            RigidBody.handle_collision(col)
-
-        self.on_collide(col)
-        other.on_collide(col.flip())
-
 
 class Polygon(Hitbox):
     """
@@ -146,18 +110,6 @@ class Polygon(Hitbox):
 
     def __str__(self):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
-
-    def bounding_box_dimensions(self) -> Vector:
-        """
-        Returns the width and height of the smallest x, y axis aligned bounding box that fits around the polygon.
-
-        Returns:
-            Vector: The vector representation of the width and height.
-        """
-        real_verts = self.real_verts()
-        x_dir = Engine.project_verts(real_verts, Vector(1, 0))
-        y_dir = Engine.project_verts(real_verts, Vector(0, 1))
-        return Vector(x_dir.y - x_dir.x, y_dir.y - y_dir.x)
 
     def draw(self):
         list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]

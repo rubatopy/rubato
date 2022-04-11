@@ -18,6 +18,7 @@
 -   Significantly changed internal `Vector` functionality to allow custom pointers.
 -   Moved the rotation parameters from `Component` to `Game Object`.
 -   `Component` can now take in a dictionary of parameters.
+-   Moved collision test code and impulse resolution to `Engine` class.
 
 ### Removed
 
@@ -26,6 +27,7 @@
 -   `Vector` instance method `transform()`. Use the `*` operator and `rotate()` instead.
 -   Engine static method `overlap()`. Use the built in Hitbox `overlap()` method instead.
 -   Removed `sep` property from Manifolds.
+-   `Polygon`'s instance method `bounding_box_dimensions()`. This will be replaced by `get_bounds()` in a future patch.
 
 ### Fixed
 

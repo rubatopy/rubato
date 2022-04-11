@@ -3,13 +3,9 @@ The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING
 
 from . import Component
 from ... import Vector, Defaults, Time
-
-if TYPE_CHECKING:
-    from . import Manifold
 
 
 class RigidBody(Component):
@@ -153,125 +149,3 @@ class RigidBody(Component):
                 "bounciness": self.bounciness,
             }
         )
-
-    @staticmethod
-    def handle_collision(col: Manifold):
-        """
-        Resolve the collision between two rigidbodies.
-        Utilizes a simplistic impulse resolution method.
-
-        Args:
-            col: The collision information.
-        """
-        # Get the rigidbody components
-        rb_a: RigidBody = col.shape_b.gameobj.get(RigidBody)
-        rb_b: RigidBody = col.shape_a.gameobj.get(RigidBody)
-
-        a_none = rb_a is None
-        b_none = rb_b is None
-
-        if a_none and b_none:
-            return
-
-        # Find inverse masses
-        inv_mass_a: float = 0 if a_none else rb_a.inv_mass
-        inv_mass_b: float = 0 if b_none else rb_b.inv_mass
-
-        # Handle infinite mass cases
-        if inv_mass_a == inv_mass_b == 0:
-            if a_none:
-                inv_mass_b = 1
-            elif b_none:
-                inv_mass_a = 1
-            else:
-                inv_mass_a, inv_mass_b = 1, 1
-
-        inv_sys_mass = 1 / (inv_mass_a + inv_mass_b)
-
-        des_a_v = Vector()
-        des_b_v = Vector()
-        des_a_a = 0
-        des_b_a = 0
-
-        for contact in col.contacts:
-            # Impulse Resolution
-            ra = None if a_none else contact - rb_a.gameobj.pos
-            rb = None if b_none else contact - rb_b.gameobj.pos
-
-            # Relative velocity
-            rv = (0 if b_none else rb_b.velocity + rb.unit().perpendicular(rb_b.ang_vel)
-                 ) - (0 if a_none else rb_a.velocity + ra.unit().perpendicular(rb_a.ang_vel))
-
-            if (vel_along_norm := rv.dot(col.normal)) > 0:
-                continue
-
-            # Calculate restitution
-            e = max(0 if a_none else rb_a.bounciness, 0 if b_none else rb_b.bounciness)
-
-            # Calculate inverse angular components
-            i_a = 0 if a_none else ra.cross(col.normal)**2 * rb_a.inv_moment
-            i_b = 0 if a_none else rb.cross(col.normal)**2 * rb_b.inv_moment
-
-            # Calculate impulse scalar
-            j = -(1 + e) * vel_along_norm / (inv_mass_a + inv_mass_b + i_a + i_b)
-            j /= len(col.contacts)
-
-            # Apply the impulse
-            impulse = j * col.normal
-
-            if not (a_none or rb_a.static):
-                des_a_v += inv_mass_a * impulse
-                des_a_a += ra.cross(impulse) * rb_a.inv_moment
-
-            if not (b_none or rb_b.static):
-                des_b_v += inv_mass_b * impulse
-                des_b_a += rb.cross(impulse) * rb_b.inv_moment
-
-            # Friction
-
-            # Calculate friction coefficient
-            if a_none:
-                mu = rb_b.friction * rb_b.friction
-            elif b_none:
-                mu = rb_a.friction * rb_a.friction
-            else:
-                mu = min(rb_a.friction * rb_a.friction, rb_b.friction * rb_b.friction)
-
-            # Stop redundant friction calculations
-            if mu == 0:
-                continue
-
-            # Tangent vector
-            tangent = rv - rv.dot(col.normal) * col.normal
-            tangent.magnitude = 1
-
-            # Solve for magnitude to apply along the friction vector
-            jt = -rv.dot(tangent) * inv_sys_mass
-            jt /= len(col.contacts)
-
-            # Calculate friction impulse
-            if abs(jt) < j * mu:
-                friction_impulse = jt * tangent  # "Static friction"
-            else:
-                friction_impulse = -j * tangent * mu  # "Dynamic friction"
-
-            if not (a_none or rb_a.static):
-                des_a_v += inv_mass_a * friction_impulse
-                des_a_a += ra.cross(friction_impulse) * rb_a.inv_moment
-
-            if not (b_none or rb_b.static):
-                des_b_v += inv_mass_b * friction_impulse
-                des_b_a += rb.cross(friction_impulse) * rb_b.inv_moment
-
-        # Position correction
-        correction = max(col.penetration - 0.01, 0) * inv_sys_mass * col.normal
-
-        if not (a_none or rb_a.static):
-            rb_a.gameobj.pos -= inv_mass_a * correction * rb_a.pos_correction
-            rb_a.velocity -= des_a_v
-            rb_a.ang_vel += des_a_a
-
-        if not (b_none or rb_b.static):
-            rb_b.gameobj.pos += inv_mass_b * correction * rb_b.pos_correction
-            rb_b.velocity += des_b_v
-            rb_b.ang_vel -= des_b_a
