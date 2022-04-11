@@ -23,7 +23,7 @@ copyright = "2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave"  # pylint: disab
 author = "Martin Chaperot, Tomer Sedan, Yamm Elnekave"
 
 # CHANGE WITH EVERY UPDATE
-html_context = {"latest": "v2.0.0"}
+smv_latest_version = "v2.0.0"
 
 # -- General configuration ---------------------------------------------------
 
@@ -163,4 +163,4 @@ napoleon_attr_annotations = True
 
 # Version Control
 smv_branch_whitelist = r"^(main).*$"
-smv_released_pattern = r"^tags/.*$"
+smv_released_pattern = r"^refs/tags/.*$"
