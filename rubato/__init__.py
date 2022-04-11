@@ -88,3 +88,10 @@ def begin():
         raise RuntimeError(
             "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"
         )
+
+
+def end():
+    """
+    Quit the game. You can also do this by setting ``Game.state`` to ``Game.STOPPED``.
+    """
+    Game.state = Game.STOPPED

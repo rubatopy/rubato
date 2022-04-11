@@ -87,13 +87,6 @@ class Game(metaclass=GameProperties):
     initialized = False
 
     @classmethod
-    def quit(cls):
-        """
-        Quit the game. You can also do this by setting ``Game.state`` to ``Game.STOPPED``.
-        """
-        cls.state = cls.STOPPED
-
-    @classmethod
     def constant_loop(cls):
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
