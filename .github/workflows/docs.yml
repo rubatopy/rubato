@@ -31,11 +31,13 @@ jobs:
                   cp -r docs/build/html nightly
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
+                  git add .
                   git stash push
                   git checkout gh-pages
                   git rm -rf nightly
                   git rm -f index.html
                   git rm -f 404.html
+                  git stash pop
 
             - name: Commit files
               run: |
