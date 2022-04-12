@@ -31,18 +31,14 @@ jobs:
                   cp -r docs/build/html nightly
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
-                  git add .
-                  git stash
-                  git checkout gh-pages
-                  git stash pop
-                  git read-tree stash 2> /dev/null
 
             - name: Commit files
               run: |
+                  git checkout gh-pages
                   git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
                   git config --local user.name "github-actions[bot]"
                   if [[ `git status --porcelain` ]]; then
-                    git add .
+                    git add ./nightly ./index.html ./404.html
                     git commit -m "Build Docs" -a
                   fi
 
