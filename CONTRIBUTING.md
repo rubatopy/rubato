@@ -25,5 +25,3 @@ https://github.com/rubatopy/rubato/issues
 (cd docs && pip install -r requirements.txt) # install requirements for docs
 (cd docs && make live) # start doc server
 ```
-
-Development reference for admins: https://tinmarr.notion.site/Rubato-Guides-a5c84d762d3e40ed98531cae8ffdaccb
