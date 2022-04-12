@@ -34,7 +34,7 @@ jobs:
                   git add .
                   git stash
                   git checkout gh-pages
-                  git stash pop stash@{0}
+                  git stash pop
                   git read-tree stash
 
             - name: Commit files
