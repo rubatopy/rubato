@@ -27,14 +27,22 @@ jobs:
               run: (cd docs && make save)
 
             - name: Prep Docs for Commit
-              run: cp -r docs/build/html nightly
+              run: |
+                  cp -r docs/build/html nightly
+                  cp docs/index.html index.html
+                  cp docs/404.html 404.html
+                  git add .
+                  git stash
+                  git checkout gh-pages
+                  git stash pop stash@{1}
+                  git read-tree stash
+                  git stash drop
 
             - name: Commit files
               run: |
                   git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
                   git config --local user.name "github-actions[bot]"
                   if [[ `git status --porcelain` ]]; then
-                    git add nightly
                     git commit -m "Build Docs" -a
                   fi
 
