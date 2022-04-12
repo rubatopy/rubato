@@ -6,6 +6,7 @@
         // Will only appear if docs are built and pushed in gh-pages
         var versions = ["nightly"];
         var dirs = new Set();
+        window.latest = "";
 
         function addVersion(name) {
             if (dirs.has(name)) {
@@ -13,8 +14,8 @@
                 li.classList.add("toctree-l1");
                 var a = document.createElement("a");
                 a.classList.add("reference", "internal");
-
-                if (name == window.location.pathname.split("/")[1]) {
+                window.current = window.location.pathname.split("/")[1];
+                if (name == current || (current == latest && name == latest)) {
                     a.classList.add("current");
                     li.classList.add("current", "current-page");
                 }
@@ -41,7 +42,13 @@
                     reader.send();
                 } catch (e) {}
 
-                a.innerText = name == "nightly" ? name.charAt(0).toUpperCase() + name.slice(1) : name;
+                if (name == "nightly") {
+                    a.innerText = name.charAt(0).toUpperCase() + name.slice(1);
+                } else if (name == latest) {
+                    a.innerText = `${name} (Latest)`;
+                } else {
+                    a.innerText = name;
+                }
                 li.appendChild(a);
                 document.getElementById("versions").appendChild(li);
             }
@@ -60,9 +67,15 @@
                 .then((response) => response.json())
                 .then((data) =>
                     data.forEach(function (e) {
+                        if (e.name > latest) {
+                            window.latest = e.name;
+                        }
                         versions.push(e.name);
                     }),
                 ),
-        ]).then((_) => versions.forEach(addVersion));
+        ]).then((_) => {
+            versions.forEach(addVersion);
+            genWarning();
+        });
     </script>
 </div>

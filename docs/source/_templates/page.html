@@ -1,14 +1,26 @@
-{% extends "!page.html" %} {% block content %} {% if current_version and latest_version and current_version.name != latest_version.name %}
+{% extends "!page.html" %} {% block content %}
+<div id="topWarning"></div>
 
-<div class="admonition warning">
-    <p class="admonition-title">Warning</p>
-    <p>
-        {% if current_version.name != "main" %}
-            You're reading an old version of this documentation. If you want up-to-date information,
-        {% else %}
-            You're reading the documentation for a development version. For the latest released version,
-        {% endif %}
-        please have a look at <a href="{{ vpathto(latest_version.name) }}">{{latest_version.name}}</a>.
-    </p>
-</div>
-{% endif %} {{ super() }} {% endblock %}
+<script>
+    function genWarning() {
+        if (window.current != window.latest && window.current != "latest") {
+            div = document.getElementById("topWarning");
+            div.classList.add("admonition", "warning");
+            let title = document.createElement("p");
+            title.classList.add("admonition-title");
+            title.innerText = "Warning";
+
+            let content = document.createElement("p");
+            if (current == "nightly") {
+                content.innerText = "You're reading the documentation for a development version. For the latest released version, ";
+            } else {
+                content.innerText = "You're reading an old version of this documentation. If you want up-to-date information, ";
+            }
+            content.innerHTML += `please have a look at <a href='/latest'>${window.latest}</a>.`;
+
+            div.appendChild(title);
+            div.appendChild(content);
+        }
+    }
+</script>
+{{ super() }} {% endblock %}
