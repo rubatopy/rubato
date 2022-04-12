@@ -96,8 +96,6 @@ html_css_files = ["custom.css"]
 
 add_module_names = False
 
-html_logo = "_static/full.png"
-
 html_favicon = "_static/logo_filled.png"
 
 theme_color = "#ff9484"
