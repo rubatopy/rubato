@@ -96,7 +96,7 @@ html_css_files = ["custom.css"]
 
 add_module_names = False
 
-html_favicon = "_static/logo_filled.png"
+html_favicon = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_filled.png"
 
 theme_color = "#ff9484"
 
