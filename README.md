@@ -15,6 +15,6 @@ Rubato has now completed the transition to SDL2. The final PyGame-based release 
 
 _Wondering about the name? Rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
 
-### Get started [here](https://rubatopy.github.io/).
+### Get started [here](https://rubato.app/).
 
 _Credit to [@ArksDigital](https://twitter.com/ArksDigital) for the dino animation used in the demos and in the tutorial. ([itch page](https://arks.itch.io/dino-characters))_
