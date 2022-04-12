@@ -4,8 +4,6 @@ on:
     push:
         branches:
             - "main"
-    release:
-        types: [published]
 
 jobs:
     docs:
@@ -29,14 +27,14 @@ jobs:
               run: (cd docs && make save)
 
             - name: Prep Docs for Commit
-              run:
+              run: cp -r docs/build/html nightly
 
             - name: Commit files
               run: |
                   git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
                   git config --local user.name "github-actions[bot]"
                   if [[ `git status --porcelain` ]]; then
-                    git add .
+                    git add nightly
                     git commit -m "Build Docs" -a
                   fi
 

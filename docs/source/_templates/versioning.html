@@ -4,7 +4,7 @@
     <script>
         // Add any branches to appear in the side pane here, tags will be added below
         // Will only appear if docs are built and pushed in gh-pages
-        var versions = ["dev", "Nightly"];
+        var versions = ["nightly"];
         var dirs = new Set();
 
         function addVersion(name) {
@@ -41,7 +41,7 @@
                     reader.send();
                 } catch (e) {}
 
-                a.innerText = name;
+                a.innerText = name == "nightly" ? name.charAt(0).toUpperCase() + name.slice(1) : name;
                 li.appendChild(a);
                 document.getElementById("versions").appendChild(li);
             }
