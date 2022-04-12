@@ -36,7 +36,6 @@ jobs:
                   git checkout gh-pages
                   git stash pop stash@{0}
                   git read-tree stash
-                  git stash drop
 
             - name: Commit files
               run: |
