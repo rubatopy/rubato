@@ -5,12 +5,13 @@
 # from the environment for the first two.
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
-BUILDDIR      = .
+BUILDDIR      = ./build/html
 LIVEBUILDDIR  = ./build/_html
-BUILDER		  = dirhtml
+BUILDER          = dirhtml
 
 save:
-	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)"
+	@make clear
+	@$(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
 
 test:
 	@make clear

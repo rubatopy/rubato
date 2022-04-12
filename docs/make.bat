@@ -1,10 +1,9 @@
-@REM Auto generated file
 @echo off
 
 SET SOURCEDIR=source
-SET BUILDDIR=.
+SET BUILDDIR=.\dev
 SET LIVEBUILDDIR=.\build\_html
-SET BUILDER		=dirhtml
+SET BUILDER=dirhtml
 
 IF /I "%1"=="save" GOTO save
 IF /I "%1"=="test" GOTO test
@@ -13,7 +12,8 @@ IF /I "%1"=="clear" GOTO clear
 GOTO error
 
 :save
-	@%SPHINXBUILD% "%SOURCEDIR%" "%BUILDDIR%"
+	@make clear
+	@%SPHINXBUILD% -b %BUILDER% "%SOURCEDIR%" "%BUILDDIR%"
 	GOTO :EOF
 
 :test

@@ -1,10 +1,10 @@
 <div class="sidebar-tree">
     <p class="caption" role="heading"><span class="caption-text">Versions</span></p>
-    <ul id="versions"></ul>
+    <ul id="versions" class="current"></ul>
     <script>
         // Add any branches to appear in the side pane here, tags will be added below
         // Will only appear if docs are built and pushed in gh-pages
-        var versions = ["master", "main"];
+        var versions = ["dev", "Nightly"];
         var dirs = new Set();
 
         function addVersion(name) {
@@ -14,13 +14,12 @@
                 var a = document.createElement("a");
                 a.classList.add("reference", "internal");
 
-                var ideal =
-                    "https://rubato.app/" +
-                    name +
-                    window.location.pathname
-                        .split("/")
-                        .slice(window.location.pathname.split("/").indexOf(name) + 1)
-                        .join("/");
+                if (name == window.location.pathname.split("/")[1]) {
+                    a.classList.add("current");
+                    li.classList.add("current", "current-page");
+                }
+
+                var ideal = `/${name}/${window.location.pathname.split("/").slice(2).join("/")}`;
 
                 reader = new XMLHttpRequest();
                 reader.open("get", ideal, false);
@@ -32,7 +31,7 @@
                             a.href = ideal;
                             return;
                         } else {
-                            a.href = "https://rubato.app/" + name + "/intro";
+                            a.href = `/${name}/intro`;
                             return;
                         }
                     }
@@ -64,10 +63,6 @@
                         versions.push(e.name);
                     }),
                 ),
-        ])
-            .then((_) => {
-                addVersion("dev");
-            })
-            .then((_) => versions.forEach(addVersion));
+        ]).then((_) => versions.forEach(addVersion));
     </script>
 </div>
