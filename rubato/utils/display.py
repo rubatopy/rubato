@@ -27,8 +27,8 @@ class DisplayProperties(type):
         The pixel size of the physical window.
 
         Warning:
-            Using this value to determine the placement of your game objects will
-            lead to unexpected results. Instead you should use
+            Using this value to determine the placement of your game objects may
+            lead to unexpected results. You should instead use
             :func:`Display.res <rubato.utils.display.Display.res>`
         """
         return Vector(*cls.window.size)
@@ -44,16 +44,16 @@ class DisplayProperties(type):
         pixels on the window.
 
         Example:
-            The window (:func:`Display.window_size <rubato.utils.display.Display.window_size>`)
-            could be rendered at 720p while the resolution is still at 1080p.
-            This means that you can place game objects
-            at 1000, 1000 and still have them draw despite the window not being
-            1000 pixels tall.
+            The window (:func:`Display.window_size <rubato.utils.display.DisplayProperties.window_size>`)
+            could be rendered at 500x500 while the resolution is at 1000x1000.
+            This would mean that you can place game objects at 900, 900 and still see them despite the window not being
+            900 pixels tall.
 
         Warning:
             While this value can be changed, it is recommended that you do not
-            change it as it will scale your entire project in ways you might
-            not expect.
+            alter it after initialization as it will scale your entire project in unexpected ways.
+            If you wish to achieve scaling across an entire scene, simply utilize the
+            :func:`camera zoom <rubato.classes.camera.Camera.zoom>` property in your scene's camera.
         """
         return Vector(*cls.renderer.logical_size)
 
