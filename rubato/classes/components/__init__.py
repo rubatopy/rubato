@@ -9,4 +9,4 @@ from .button import Button
 from .image import Image
 from .animation import Animation
 from .spritesheet import Spritesheet
-from .manifold import Manifold, Engine
+from .engine import Manifold, Engine

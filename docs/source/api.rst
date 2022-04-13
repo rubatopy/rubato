@@ -141,8 +141,36 @@ ___________
 .. _hitbox:
 
 Hitbox
----------
+-------
 .. automodule:: rubato.classes.components.hitbox
+    :members: Hitbox
+
+.. _rect:
+
+Rectangle
+__________
+.. autoclass:: rubato.classes.components.hitbox.Rectangle
+    :members:
+
+.. _poly:
+
+Polygon
+__________
+.. autoclass:: rubato.classes.components.hitbox.Polygon
+    :members:
+
+.. _circle:
+
+Circle
+__________
+.. autoclass:: rubato.classes.components.hitbox.Circle
+    :members:
+
+.. _engine:
+
+Engine and Manifold
+______________________
+.. automodule:: rubato.classes.components.engine
     :members:
 
 .. _rigidbody:

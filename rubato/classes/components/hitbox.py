@@ -12,16 +12,16 @@ from ... import Display, Vector, Defaults, Color, Error, SideError, Game
 
 class Hitbox(Component):
     """
-    A hitbox superclass. Do not use this to attach hitboxes to your game objects.
+    A hitbox superclass. Do not use this class to attach hitboxes to your game objects.
     Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
 
     Attributes:
-        debug (bool): Whether to draw a green outline around the Polygon or not.
+        debug (bool): Whether to draw a green outline around the hitbox or not.
         trigger (bool): Whether this hitbox is just a trigger or not.
-        scale (int): The scale of the polygon
+        scale (int): The scale of the hitbox
         on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
         color (Color) The color to fill this hitbox with.
-        tag (str): The tag of the hitbox (can be used to identify hitboxes)
+        tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
     """
 
     def __init__(self, options: dict = {}):
@@ -52,12 +52,20 @@ class Hitbox(Component):
 
 class Polygon(Hitbox):
     """
-    A polygon Hitbox subclass with an arbitrary number of vertices.
+    A polygon Hitbox implementation. Supports an arbitrary number of custom vertices, as long as the polygon is convex.
+
+    Danger:
+        If generating vertices by hand, make sure you generate them in a counter-clockwise direction.
+        Otherwise, polygons will neither behave nor draw properly.
+
+    Warning:
+        Rubato does not currently support concave polygons explicitly.
+        Creating concave polygons will result in undesired collision behavior.
+        However, you can still use concave polygons in your projects:
+        Simply break them up into multiple convex Polygon hitboxes and add them individually to a gameobject.
 
     Attributes:
-        verts (List[Vector]): A list of the vertices in the Polygon, in either
-            clockwise or anticlockwise direction.
-        scale (Union[float, int]): The scale of the polygon.
+        verts (List[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
     """
 
     def __init__(self, options: dict = {}):
@@ -142,12 +150,12 @@ class Polygon(Hitbox):
     @staticmethod
     def generate_polygon(num_sides: int, radius: Union[float, int] = 1) -> List[Vector]:
         """
-        Creates a normal polygon with a specified number of sides and
-        an optional radius.
+        Generates the vertices of a regular polygon with a specified number of sides and a radius.
+        You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
 
         Args:
-            num_sides: The number of sides of the polygon.
-            radius: The radius of the polygon. Defaults to 1.
+            num_sides (int): The number of sides of the polygon.
+            radius (Union[float, int]): The radius of the polygon. Defaults to 1.
 
         Raises:
             SideError: Raised when the number of sides is less than 3.
@@ -397,7 +405,6 @@ class Circle(Hitbox):
 
     Attributes:
         radius (int): The radius of the circle.
-        scale (int): The scale of the circle.
     """
 
     def __init__(self, options: dict = {}):
