@@ -13,8 +13,8 @@ class Math:
     """
     INF = float('inf')
 
-    @classmethod
-    def clamp(cls, a: Union[float, int], lower: Union[float, int], upper: Union[float, int]) -> float:
+    @staticmethod
+    def clamp(a: Union[float, int], lower: Union[float, int], upper: Union[float, int]) -> float:
         """
         Clamps a value.
 
@@ -28,8 +28,8 @@ class Math:
         """
         return min(max(a, lower), upper)
 
-    @classmethod
-    def sign(cls, n: Union[float, int]) -> int:
+    @staticmethod
+    def sign(n: Union[float, int]) -> int:
         """
         Checks the sign of n.
 
@@ -41,8 +41,8 @@ class Math:
         """
         return (n >= 0) - (n < 0)
 
-    @classmethod
-    def lerp(cls, a: Union[float, int], b: Union[float, int], t: float) -> float:
+    @staticmethod
+    def lerp(a: Union[float, int], b: Union[float, int], t: float) -> float:
         """
         Linearly interpolates between lower and upper bounds by t
 
@@ -55,3 +55,20 @@ class Math:
             float: The lerped value.
         """
         return a + t * (b - a)
+
+    @staticmethod
+    def floor(x: float) -> int:
+        """Quickly rounds down a number."""
+        xi = int(x)
+        return xi - 1 if x < xi else xi
+
+    @staticmethod
+    def ceil(x: float) -> int:
+        """Quickly rounds up a number."""
+        xi = int(x)
+        return xi + 1 if x > xi else xi
+
+    @staticmethod
+    def round(x: float) -> int:
+        """Quickly rounds a number."""
+        return int(x - .5) if x < 0 else int(x + .5)

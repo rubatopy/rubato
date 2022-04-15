@@ -1,5 +1,5 @@
 """A Perlin Noise demo for Rubato"""
-import opensimplex
+from random import randint
 import rubato as rb
 
 rb.init({
@@ -11,14 +11,16 @@ rb.init({
 main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")
 
-scale = 50
+scale = 100
 offset = rb.Vector(100, 100)
+
+rb.Noise.seed = randint(-100, 100)
 
 saved = []
 for x in range(rb.Display.res.x):
     saved.append([])
     for y in range(rb.Display.res.y):
-        noise = opensimplex.noise2((x + offset.x) / scale, (y + offset.y) / scale)
+        noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = [gray for i in range(3)]
         color = rb.Color(*color)
