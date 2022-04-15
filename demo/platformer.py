@@ -12,7 +12,7 @@ rb.init(
 )
 
 # Change the global debug level
-rb.Game.debug = False
+rb.Game.debug = True
 
 # Tracks the grounded state of the player
 grounded = False
