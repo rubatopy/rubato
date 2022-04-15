@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, List, Union
+from typing import Callable, List, Optional, Union
 import math
 import sdl2
 import sdl2.sdlgfx
@@ -20,8 +20,11 @@ class Hitbox(Component):
         trigger (bool): Whether this hitbox is just a trigger or not.
         scale (int): The scale of the hitbox
         on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
+        on_exit (Callable): The on_exit function to call when a collision ends with this hitbox.
         color (Color) The color to fill this hitbox with.
         tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
+        colliding (Optional[Hitbox]): The hitbox that this hitbox is currently colliding with or None if no collision
+            is happening.
     """
 
     def __init__(self, options: dict = {}):
@@ -37,9 +40,11 @@ class Hitbox(Component):
         self.trigger: bool = params["trigger"]
         self.scale: int = params["scale"]
         self.on_collide: Callable = params["on_collide"]
+        self.on_exit: Callable = params["on_exit"]
         self.color: Color = params["color"]
         self.singular: bool = False
         self.tag: str = params["tag"]
+        self.colliding: Optional[Hitbox] = None
 
     @property
     def pos(self) -> Vector:

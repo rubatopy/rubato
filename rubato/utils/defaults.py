@@ -188,6 +188,9 @@ class Defaults:
         "on_collide": lambda Manifold: None,  #. . . . . . . . . . . Callable
         # The on_collide function to call when a collision happens with this hitbox
         # Must take a rb.Manifold.
+        "on_exit": lambda Manifold: None,  # . . . . . . . . . . . . Callable
+        # The on_exit function to call when a collision ends with this hitbox.
+        # Must take a rb.Manifold.
         "color": None,  # . . . . . . . . . . . . . . . . . . . . . Color
         # The color to fill this hitbox with.
         "tag": "",  # . . . . . . . . . . . . . . . . . . . . . . . str

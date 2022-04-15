@@ -1,6 +1,6 @@
 """Handles collision manifold generation for complex geometries."""
 from __future__ import annotations
-from typing import List, Union, TYPE_CHECKING
+from typing import List, TYPE_CHECKING, Optional
 
 from . import RigidBody, Circle
 from ... import Math, Vector
@@ -16,18 +16,17 @@ class Engine:
     """
 
     @staticmethod
-    def overlap(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Union[Manifold, None]:
+    def overlap(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Optional[Manifold]:
         """
         Determines if there is overlap between two hitboxes.
         Returns a Manifold manifold if a collision occurs but does not resolve.
 
         Args:
-            hitbox_a (Hitbox): The first hitbox to collide with.
-            hitbox_b (Hitbox): The second hitbox to collide with.
+            hitbox_a: The first hitbox to collide with.
+            hitbox_b: The second hitbox to collide with.
 
         Returns:
-            Union[Manifold, None]: Returns a collision info object if
-            overlap is detected or None if no collision is detected.
+            Returns a collision info object if overlap is detected or None if no collision is detected.
         """
         if isinstance(hitbox_a, Circle):
             if isinstance(hitbox_b, Circle):
@@ -42,21 +41,27 @@ class Engine:
         return Engine.polygon_polygon_test(hitbox_a, hitbox_b)
 
     @staticmethod
-    def collide(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Union[Manifold, None]:
+    def collide(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Optional[Manifold]:
         """
         Collides two hitboxes (if they overlap), calling their callbacks if they exist.
         Resolves the collision using Rigidbody impulse resolution if applicable.
 
         Args:
-            hitbox_a (Hitbox): The first hitbox to collide with.
-            hitbox_b (Hitbox): The second hitbox to collide with.
+            hitbox_a: The first hitbox to collide with.
+            hitbox_b: The second hitbox to collide with.
 
         Returns:
-            Union[Manifold, None]: Returns a collision info object if a
-            collision is detected or None if no collision is detected.
+            Returns a collision info object if a collision is detected or None if no collision is detected.
         """
         if (col := Engine.overlap(hitbox_a, hitbox_b)) is None:
+            if hitbox_a.colliding == hitbox_b or hitbox_b.colliding == hitbox_a:
+                mani = Manifold(hitbox_a, hitbox_b)
+                hitbox_a.on_exit(mani)
+                hitbox_b.on_exit(mani.flip())
+                hitbox_a.colliding, hitbox_b.colliding = None, None
             return
+
+        hitbox_a.colliding, hitbox_b.colliding = hitbox_b, hitbox_a
 
         if not (hitbox_a.trigger or hitbox_b.trigger):
             Engine.handle_collision(col)
@@ -187,7 +192,7 @@ class Engine:
             rb_b.ang_vel -= des_b_a
 
     @staticmethod
-    def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Union[Manifold, None]:
+    def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
         """Checks for overlap between two circles"""
         t_rad = circle_a.radius + circle_b.radius
         d_x, d_y = circle_a.pos.x - circle_b.pos.x, circle_a.pos.y - circle_b.pos.y
@@ -210,7 +215,7 @@ class Engine:
         return Manifold(circle_a, circle_b, abs(pen), norm, contacts)
 
     @staticmethod
-    def circle_polygon_test(circle: Circle, polygon: Polygon) -> Union[Manifold, None]:
+    def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
         verts = polygon.translated_verts()
         center = (circle.pos - polygon.pos).rotate(-polygon.gameobj.rotation)
@@ -264,7 +269,7 @@ class Engine:
             )
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Union[Manifold, None]:
+    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
         pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b)
         if pen_a is None:
@@ -431,16 +436,16 @@ class Manifold:
     A class that represents information returned in a successful collision
 
     Attributes:
-        shape_a (Union[Hitbox, None]): A reference to the first shape.
-        shape_b (Union[Hitbox, None]): A reference to the second shape.
+        shape_a (Optional[Hitbox]): A reference to the first shape.
+        shape_b (Optional[Hitbox]): A reference to the second shape.
         penetration (float): The amount by which the colliders are intersecting.
         normal (Vector): The direction that would most quickly separate the two colliders.
     """
 
     def __init__(
         self,
-        shape_a: Union[Hitbox, None],
-        shape_b: Union[Hitbox, None],
+        shape_a: Optional[Hitbox],
+        shape_b: Optional[Hitbox],
         penetration: float = 0,
         normal: Vector = Vector(),
         contacts: List[Vector] = []
@@ -467,7 +472,7 @@ class Manifold:
         Flips the reference shape in a collision manifold
 
         Returns:
-            Manifold: a reference to self.
+            A reference to self.
         """
         self.shape_a, self.shape_b = self.shape_b, self.shape_a
         self.normal *= -1
