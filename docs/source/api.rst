@@ -241,6 +241,14 @@ Math
 .. automodule:: rubato.utils.math
     :members:
 
+.. _noise:
+
+Noise
+------
+.. automodule:: rubato.utils.noise
+    :members: Noise
+
+
 .. _time:
 
 Time

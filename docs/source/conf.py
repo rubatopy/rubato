@@ -66,10 +66,11 @@ exclude_patterns = []
 add_module_names = False
 
 # Auto Class Config
-autodoc_class_signature = "separated"
+autodoc_class_signature = "mixed"
 autodoc_member_order = "bysource"
-autodoc_mock_imports = ["pygame", "sdl2"]
+autodoc_mock_imports = ["sdl2"]
 autodoc_typehints_format = "short"
+autodoc_typehints = "both"
 autodoc_preserve_defaults = True
 
 autodoc_default_options = {
@@ -148,7 +149,7 @@ napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
 napoleon_use_admonition_for_examples = True
 napoleon_use_admonition_for_notes = True
-napoleon_use_admonition_for_references = False
+napoleon_use_admonition_for_references = True
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True

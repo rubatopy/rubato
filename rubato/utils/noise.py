@@ -5,24 +5,51 @@ from . import Math
 
 
 class Noise:
-    """The general noise class."""
+    """
+    The general noise class.
+
+    Attributes:
+        seed (int): The seed for the random noise.
+        type (str): The type of noise to generate. Can be "perlin", "simplex". Defaults to "simplex".
+    """
     seed: int = 0
+    type: str = "simplex"
 
     @classmethod
     def noise(cls, x: float) -> float:
-        return OpenSimplex2.noise(cls.seed, x)
+        """Generates a 1D noise value."""
+        if cls.type == "simplex":
+            return OpenSimplex2.noise(cls.seed, x)
+        elif cls.type == "perlin":
+            return 0.0
+        return 0.0
 
     @classmethod
     def noise2(cls, x: float, y: float) -> float:
-        return OpenSimplex2.noise2(cls.seed, x, y)
+        """Generates a 2D noise value."""
+        if cls.type == "simpex":
+            return OpenSimplex2.noise2(cls.seed, x, y)
+        elif cls.type == "perlin":
+            return 0.0
+        return 0.0
 
     @classmethod
     def noise3(cls, x: float, y: float, z: float) -> float:
-        return OpenSimplex2.noise3(cls.seed, x, y, z)
+        """Generates a 3D noise value."""
+        if cls.type == "simpex":
+            return OpenSimplex2.noise3(cls.seed, x, y, z)
+        elif cls.type == "perlin":
+            return 0.0
+        return 0.0
 
     @classmethod
     def noise4(cls, x: float, y: float, z: float, w: float) -> float:
-        return OpenSimplex2.noise4(cls.seed, x, y, z, w)
+        """Generates a 4D noise value."""
+        if cls.type == "simpex":
+            return OpenSimplex2.noise4(cls.seed, x, y, z, w)
+        elif cls.type == "perlin":
+            return 0.0
+        return 0.0
 
 
 class OpenSimplex2:
