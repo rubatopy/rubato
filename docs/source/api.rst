@@ -166,18 +166,32 @@ __________
 .. autoclass:: rubato.classes.components.hitbox.Circle
     :members:
 
-.. _engine:
-
-Engine and Manifold
-______________________
-.. automodule:: rubato.classes.components.engine
-    :members:
-
 .. _rigidbody:
 
 RigidBody
 ---------
 .. automodule:: rubato.classes.components.rigidbody
+    :members:
+
+*******
+Physics
+*******
+
+These two classes (Engine and Manifold) are the two classes that control most of the physics. You shouldn't actually need
+to every use these as they are automatically used in RigidBody. They are just here for reference.
+
+.. _engine:
+
+Engine
+=======
+.. autoclass:: rubato.classes.components.engine.Engine
+    :members:
+
+.. _manifold:
+
+Manifold
+==========
+.. autoclass:: rubato.classes.components.engine.Manifold
     :members:
 
 ********************
