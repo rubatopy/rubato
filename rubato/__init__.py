@@ -62,7 +62,7 @@ def init(options: dict = {}):
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=params["res"].to_tuple()
     )
 
-    if params["icon"] != "":
+    if params["icon"]:
         Display.set_window_icon(params["icon"])
     else:
         Display.set_window_icon(files("rubato.static.png").joinpath("logo_filled.png"))
