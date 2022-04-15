@@ -59,7 +59,7 @@ def init(options: dict = {}):
     Display.window = sdl2.ext.Window(params["name"], params["window_size"].to_tuple(), flags=flags)
 
     Display.renderer = sdl2.ext.Renderer(
-        Display.window, backend="software", flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=params["res"].to_tuple()
+        Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=params["res"].to_tuple()
     )
 
     if params["icon"] != "":
