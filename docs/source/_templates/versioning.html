@@ -15,7 +15,7 @@
                 var a = document.createElement("a");
                 a.classList.add("reference", "internal");
                 window.current = window.location.pathname.split("/")[1];
-                if (name == current || ((current == "latest" || current == "main") && name == latest)) {
+                if (name == current || (current == "latest" && name == latest)) {
                     a.classList.add("current");
                     li.classList.add("current", "current-page");
                 }
