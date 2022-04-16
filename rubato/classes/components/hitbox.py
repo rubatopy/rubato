@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, List, Optional, Union, TYPE_CHECKING, Set
+from typing import Callable, List, Union, TYPE_CHECKING, Set
 import math
 import sdl2
 import sdl2.sdlgfx
