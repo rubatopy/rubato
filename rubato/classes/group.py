@@ -94,7 +94,10 @@ class Group:
             game_obj.update()
 
     def fixed_update(self):
-        """Runs a physics iteration on the group. Called automatically by Rubato when added to a scene."""
+        """
+        Runs a physics iteration on the group.
+        Called automatically by Rubato as long as the group is added to a scene.
+        """
         for group in self.groups:
             group.fixed_update()
 
