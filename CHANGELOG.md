@@ -4,16 +4,19 @@
 
 ### Added
 
-- `Text` can now rotate.
-- `Button`. A button class that can be used to create a clickable area.
-- `end()`. Quits the game.
-- `pause()`. Pauses the game.
-- `resume()`. Resumes the game.
-- `penetration` and `normal` Manifold properties.
-- removed and deprecated functionality is supported.
+-   `Text` can now rotate.
+-   `Button`. A button class that can be used to create a clickable area.
+-   `end()`. Quits the game.
+-   `pause()`. Pauses the game.
+-   `resume()`. Resumes the game.
+-   `penetration` and `normal` Manifold properties.
+-   removed and deprecated functionality is supported.
+-   `colliding` set to Hitboxes that automatically updates with the hitboxes it is currently incident on.
+-   `on_exit()` user defineable callback for hitboxes.
 
 ### Changed
 
+-   Optimized draw cycle, effectively doubling framerates.
 -   Some "to" and "from" methods for `Color`.
 -   Significantly changed internal `Vector` functionality to allow custom pointers.
 -   Moved the rotation parameters from `Component` to `Game Object`.
