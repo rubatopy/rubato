@@ -6,12 +6,11 @@ num_balls = 70
 
 rb.init({
     "name": "Ball Pit",
-    "physics_fps": 30,
     "window_size": rb.Vector(600, 600),
     "res": rb.Vector(1200, 1200),
 })
 
-rb.Game.debug = True
+rb.Game.show_fps = True
 
 main_scene = rb.Scene()
 rb.Game.scenes.add(main_scene, "main")

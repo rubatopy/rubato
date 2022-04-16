@@ -79,6 +79,7 @@ class Game(metaclass=GameProperties):
     background_color: Color = Color(255, 255, 255)
 
     debug: bool = False
+    show_fps: bool = False
     debug_font: Font
 
     _state: int = STOPPED
@@ -171,7 +172,7 @@ class Game(metaclass=GameProperties):
         )
         cls.scenes.draw()
 
-        if cls.debug:
+        if cls.show_fps:
             fs = str(int(Time.smooth_fps))
             h = Display.res.y // 40
             p = h // 6
