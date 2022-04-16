@@ -180,7 +180,7 @@ class Input:
         Returns:
             Vector: A Vector representing position.
         """
-        x_window, y_window = c_long(0), c_long(0)
+        x_window, y_window = c_int(0), c_int(0)
         sdl2.SDL_GetMouseState(x_window, y_window)
         x_render, y_render = c_float(0), c_float(0)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.renderer, x_window, y_window, x_render, y_render)

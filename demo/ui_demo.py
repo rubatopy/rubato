@@ -55,6 +55,7 @@ main.add(ui)
 
 
 def update():
+    print(rb.Input.get_mouse_pos())
     if rotating:
         ui.rotation += 1
 
