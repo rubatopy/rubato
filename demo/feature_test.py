@@ -29,38 +29,32 @@ def handle(info: rb.Manifold):
         rb.Game.state = rb.Game.PAUSED
 
 
-main.add(
-    rb.GameObject({
-        "pos": rb.Display.res / 2 - rb.Vector(100, 0),
-        "rotation": 30
-    }).add(rb.Polygon({
-        "verts": rb.Polygon.generate_polygon(6, rb.Display.res.x / 20),
-        "color": rb.Color.red,
-    })).add(rb.RigidBody({
-        "bounciness": 1,
-        "velocity": rb.Vector(10, 0),
-        "moment": 100
-    }))
-)
+a = rb.GameObject({
+    "pos": rb.Display.res / 2 - rb.Vector(100, 0),
+    "rotation": 30
+}).add(rb.Polygon({
+    "verts": rb.Polygon.generate_polygon(6, rb.Display.res.x / 20),
+    "color": rb.Color.red,
+})).add(rb.RigidBody({
+    "bounciness": 1,
+    "velocity": rb.Vector(10, 0),
+    "moment": 100
+}))
 
-main.add(
-    rb.GameObject({
-        "pos": rb.Display.res / 2 + rb.Vector(100, 20)
-    }).add(
-        rb.Polygon(
-            {
-                "verts": rb.Polygon.generate_polygon(6, rb.Display.res.x / 30),
-                "color": rb.Color.blue,
-                "on_collide": handle
-            }
-        )
-    ).add(rb.RigidBody({
-        "bounciness": 1,
-        "velocity": rb.Vector(-20, 0),
-        "ang_vel": 120,
-        "moment": 100
-    }))
-)
+b = rb.GameObject({
+    "pos": rb.Display.res / 2 + rb.Vector(100, -50)
+}).add(rb.Circle({
+    "radius": rb.Display.res.x / 30,
+    "color": rb.Color.blue,
+    "on_collide": handle
+})).add(rb.RigidBody({
+    "bounciness": 1,
+    "velocity": rb.Vector(-20, 0),
+    "ang_vel": 120,
+    "moment": 100
+}))
+
+main.add(a, b)
 
 rb.Radio.listen("KEYDOWN", lambda e: print(rb.Input.get_mouse_pos()))
 

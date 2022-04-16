@@ -255,7 +255,7 @@ class Engine:
 
             return Manifold(
                 circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
-                [-v1.rotate(polygon.gameobj.rotation) + polygon.pos]
+                [v1.rotate(polygon.gameobj.rotation) + polygon.pos]
             )
         elif dot_2 <= 0:
             if (center - v2).mag_sq > circle.radius * circle.radius:
@@ -263,16 +263,15 @@ class Engine:
 
             return Manifold(
                 circle, polygon, pen, (center - v2).rotate(polygon.gameobj.rotation).unit(),
-                [-v2.rotate(polygon.gameobj.rotation) + polygon.pos]
+                [v2.rotate(polygon.gameobj.rotation) + polygon.pos]
             )
         else:
             norm = Engine.get_normal(verts, face_normal)
-            if (center - v1).dot(norm) > circle.radius:
+            if norm.dot(center - v1) > circle.radius:
                 return
+            norm = norm.rotate(polygon.gameobj.rotation)
 
-            return Manifold(
-                circle, polygon, pen, norm.rotate(polygon.gameobj.rotation), [-norm * circle.radius + circle.pos]
-            )
+            return Manifold(circle, polygon, pen, norm, [circle.pos - norm * circle.radius])
 
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
