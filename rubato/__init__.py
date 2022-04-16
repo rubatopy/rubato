@@ -13,9 +13,11 @@ from warnings import simplefilter
 from importlib.resources import files
 import os, sys
 
-# if not os.getenv("PYSDL2_DLL_PATH"):
 if sys.platform.startswith("darwin"):
-    os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.mac"))
+    if os.uname().machine == "arm64":
+        os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.mac.silicon"))
+    else:
+        os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.mac.intel"))
 if sys.platform.startswith("win32"):
     os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.windows"))
 
