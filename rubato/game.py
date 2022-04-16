@@ -159,7 +159,8 @@ class Game(metaclass=GameProperties):
             Time.physics_counter += Time.delta_time
 
             while Time.physics_counter >= Time.fixed_delta:
-                cls.scenes.fixed_update()
+                if cls.state != Game.PAUSED:
+                    cls.scenes.fixed_update()
                 Time.physics_counter -= Time.fixed_delta
             # normal update
             cls.scenes.update()

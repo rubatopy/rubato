@@ -240,8 +240,8 @@ class Engine:
                 face_normal = i
 
         if separation <= 0:
-            norm = -Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
-            return Manifold(circle, polygon, circle.radius, norm, [norm * circle.radius + circle.pos])
+            norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
+            return Manifold(circle, polygon, circle.radius, norm, [circle.pos - norm * circle.radius])
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
 
