@@ -24,6 +24,7 @@
 -   `Component` can now take in a dictionary of parameters.
 -   Moved collision test code and impulse resolution to `Engine` class.
 -   Changed default physics fps to 30.
+-   `Polygon.generate_polygon()` can now takes an optional `options` parameter. When set, it returns a `Polygon` instead of a list of vertices.
 
 ### Removed
 

@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, List, Union, TYPE_CHECKING, Set
+from typing import Callable, Dict, List, Optional, Union, TYPE_CHECKING, Set
 import math
 import sdl2
 import sdl2.sdlgfx
@@ -152,7 +152,9 @@ class Polygon(Hitbox):
                 )
 
     @staticmethod
-    def generate_polygon(num_sides: int, radius: Union[float, int] = 1) -> List[Vector]:
+    def generate_polygon(num_sides: int,
+                         radius: Union[float, int] = 1,
+                         options: Optional[Dict] = None) -> Union[List[Vector], Polygon]:
         """
         Generates the vertices of a regular polygon with a specified number of sides and a radius.
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
@@ -160,12 +162,14 @@ class Polygon(Hitbox):
         Args:
             num_sides (int): The number of sides of the polygon.
             radius (Union[float, int]): The radius of the polygon. Defaults to 1.
+            option: A Polygon config. If set, will return a Polygon object. Otherwise it will return
+                a list of vertices. Defaults to the None.
 
         Raises:
             SideError: Raised when the number of sides is less than 3.
 
         Returns:
-            List[Vector]: The vertices of the polygon.
+            The vertices of the polygon or the Polygon object (depending on whether options is set).
         """
         if num_sides < 3:
             raise SideError("Can't create a polygon with less than three sides")
@@ -177,7 +181,10 @@ class Polygon(Hitbox):
             angle = (i * rotangle) + (math.pi - rotangle) / 2
             verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
-        return verts
+        if isinstance(options, dict):
+            return Polygon(options | {"verts": verts})
+        else:
+            return verts
 
 
 class Rectangle(Hitbox):
