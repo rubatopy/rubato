@@ -174,18 +174,20 @@ class Game(metaclass=GameProperties):
         if cls.debug:
             fs = str(int(Time.smooth_fps))
             h = Display.res.y // 40
+            p = h // 6
+            p2 = p + p
             sdl2.sdlgfx.boxRGBA(
                 Display.renderer.sdlrenderer,
+                p,
+                p,
+                h * len(fs) + p2,
+                h + p2,
                 0,
                 0,
-                h * len(fs),
-                h,
                 0,
-                0,
-                0,
-                255,
+                180,
             )
-            Display.draw_text(fs, font=cls.debug_font, align=Vector(1, 1))
+            Display.draw_text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
 
         # update renderers
         Display.renderer.present()
