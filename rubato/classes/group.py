@@ -98,18 +98,27 @@ class Group:
         Runs a physics iteration on the group.
         Called automatically by Rubato as long as the group is added to a scene.
         """
-        for group in self.groups:
-            group.fixed_update()
-
-        hitboxes: List[Hitbox] = []
         for game_obj in self.game_objects:
             game_obj.fixed_update()
 
+        # collide all hitboxes with each other
+        hitboxes: List[Hitbox] = []
+        for game_obj in self.game_objects:
             if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
                 for ht in hts:
                     for hitbox in hitboxes:
                         Engine.collide(ht, hitbox)
                 hitboxes.extend(hts)
+
+        for group in self.groups:
+            group.fixed_update()
+
+            # collide children groups with parent hitboxes
+            for game_obj in group.game_objects:
+                if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
+                    for ht in hts:
+                        for hitbox in hitboxes:
+                            Engine.collide(ht, hitbox)
 
     def draw(self, camera: Camera):
         self.groups.sort(key=lambda i: i.z_index)
