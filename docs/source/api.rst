@@ -177,8 +177,11 @@ RigidBody
 Physics
 *******
 
-These two classes (Engine and Manifold) are the two classes that control most of the physics. You shouldn't actually need
-to every use these as they are automatically used in RigidBody. They are just here for reference.
+The Engine and Manifold classes comprise Rubato's collision engine. Collision and overlap tests inside groups are 
+automatically handled by Rubato, so these classes are here mainly for reference.
+
+In general, it is recommended that you define callback functions for Hitbox objects instead of calling Engine 
+functions yourself.
 
 .. _engine:
 
