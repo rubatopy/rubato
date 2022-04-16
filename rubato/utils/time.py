@@ -18,8 +18,8 @@ class TimeProperties(type):
 
     @property
     def smooth_fps(cls) -> float:
-        """The average fps over the past 5 frames. This is a get-only property."""
-        return sum(cls._past_fps) / len(cls._past_fps)
+        """The average fps over the past 30 frames. This is a get-only property."""
+        return sum(cls._past_fps) / 30
 
     @property
     def now(cls) -> int:
@@ -58,7 +58,7 @@ class Time(metaclass=TimeProperties):
 
     physics_counter = 0
 
-    _past_fps = [0]
+    _past_fps = [0] * 30
 
     target_fps = 0  # this means no cap
     capped = False
@@ -130,8 +130,7 @@ class Time(metaclass=TimeProperties):
         cls.frames += 1
         cls.fps = 1000 / cls.delta_time
 
-        if len(cls._past_fps) > 4:
-            cls._past_fps.pop(0)
+        del cls._past_fps[0]
         cls._past_fps.append(cls.fps)
 
         processing = True

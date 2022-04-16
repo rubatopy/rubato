@@ -77,8 +77,8 @@ def init(options: dict = {}):
 
     Game.debug_font = Font(
         {
-            "size": Display.res.y // 30 if Display.res.y > 0 else 1,
-            "font": "Comfortaa",
+            "size": Display.res.y // 40 if Display.res.y > 0 else 1,
+            "font": "PressStart",
             "color": Color(0, 255, 0)
         }
     )
