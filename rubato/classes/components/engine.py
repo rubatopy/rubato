@@ -54,14 +54,20 @@ class Engine:
             Returns a collision info object if a collision is detected or None if no collision is detected.
         """
         if (col := Engine.overlap(hitbox_a, hitbox_b)) is None:
-            if hitbox_a.colliding == hitbox_b or hitbox_b.colliding == hitbox_a:
+            if hitbox_b in hitbox_a.colliding:
                 mani = Manifold(hitbox_a, hitbox_b)
+                hitbox_a.colliding.remove(hitbox_b)
                 hitbox_a.on_exit(mani)
-                hitbox_b.on_exit(mani.flip())
-                hitbox_a.colliding, hitbox_b.colliding = None, None
+
+            if hitbox_a in hitbox_b.colliding:
+                mani = Manifold(hitbox_b, hitbox_a)
+                hitbox_b.colliding.remove(hitbox_a)
+                hitbox_b.on_exit(mani)
+
             return
 
-        hitbox_a.colliding, hitbox_b.colliding = hitbox_b, hitbox_a
+        hitbox_a.colliding.add(hitbox_b)
+        hitbox_b.colliding.add(hitbox_a)
 
         if not (hitbox_a.trigger or hitbox_b.trigger):
             Engine.handle_collision(col)
