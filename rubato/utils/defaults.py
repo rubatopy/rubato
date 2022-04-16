@@ -131,6 +131,8 @@ class Defaults:
         # The starting angular velocity of the RB.
         "moment": 1,  #. . . . . . . . . . . . . . . . . float
         # The moment of inertia of the RB.
+        "advanced": False,  # . . . . . . . . . . . . . . . . . . . bool
+        # The type of collision resolution algorithm. If True, rotational resolution will be enabled.
     }
     # [/rigidbody]
     # [image]

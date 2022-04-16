@@ -70,16 +70,15 @@ class Engine:
         hitbox_b.colliding.add(hitbox_a)
 
         if not (hitbox_a.trigger or hitbox_b.trigger):
-            Engine.handle_collision(col)
+            Engine.resolve(col)
 
         hitbox_a.on_collide(col)
         hitbox_b.on_collide(col.flip())
 
     @staticmethod
-    def handle_collision(col: Manifold):
+    def resolve(col: Manifold):
         """
         Resolve the collision between two rigidbodies.
-        Utilizes a simplistic impulse resolution method.
 
         Args:
             col: The collision information.

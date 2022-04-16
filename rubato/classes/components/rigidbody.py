@@ -27,6 +27,8 @@ class RigidBody(Component):
             mass is infinite).
         bounciness (float): How bouncy the rigidbody is (usually a value
             between 0 and 1).
+        advanced (bool): Whether to use rotational collision resolution
+            (not desired in basic platformers, for instance).
     """
 
     def __init__(self, options: dict = {}):
@@ -47,6 +49,7 @@ class RigidBody(Component):
         self.max_speed: Vector = params["max_speed"]
 
         self.pos_correction: float = params["pos_correction"]
+        self.advanced: bool = params["advanced"]
 
         self.velocity: Vector = params["velocity"]
         self.ang_vel: float = params["ang_vel"]

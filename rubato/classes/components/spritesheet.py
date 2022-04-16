@@ -123,12 +123,10 @@ class Spritesheet:
 
         for _, _, files in os.walk(path):
             # walk to directory path and ignore name and subdirectories
-            print(files)
             files.sort()
             for sprite_path in files:
                 path_to_spritesheet = os.path.join(path, sprite_path)
                 try:
-                    print(path_to_spritesheet, sprite_path.split(".")[0])
                     sprite_sheet = Spritesheet({
                         "rel_path": path_to_spritesheet,
                         "sprite_size": sprite_size,
