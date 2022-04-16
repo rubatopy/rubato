@@ -2,10 +2,13 @@
 Groups contain game objects or other groups and allow separation between game objects.
 """
 from __future__ import annotations
-from typing import List, Union
+from typing import List, Union, TYPE_CHECKING
 
-from . import GameObject, Hitbox, UIElement, Engine
+from . import GameObject, Hitbox, Engine
 from .. import Error, Defaults, Game
+
+if TYPE_CHECKING:
+    from . import Camera
 
 
 class Group:
@@ -39,9 +42,7 @@ class Group:
         for item in items:
             if Game.state == Game.RUNNING:
                 item.setup()
-            if isinstance(item, UIElement):
-                self.add_ui_element(item)
-            elif isinstance(item, GameObject):
+            if isinstance(item, GameObject):
                 self.add_game_obj(item)
             elif isinstance(item, Group):
                 self.add_group(item)
@@ -61,12 +62,6 @@ class Group:
         if g.name == "":
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
-
-    def add_ui_element(self, ui: UIElement):
-        """Add a ui element to the group."""
-        if ui.name == "":
-            ui.name = f"UI {len(self.game_objects)}"
-        self.game_objects.append(ui)
 
     def delete(self, item: Union[GameObject, Group]):
         """
@@ -113,16 +108,16 @@ class Group:
                         Engine.collide(ht, hitbox)
                 hitboxes.extend(hts)
 
-    def draw(self):
+    def draw(self, camera: Camera):
         self.groups.sort(key=lambda i: i.z_index)
         for group in self.groups:
-            if group.z_index <= Game.camera.z_index:
-                group.draw()
+            if group.z_index <= camera.z_index:
+                group.draw(camera)
 
         self.game_objects.sort(key=lambda i: i.z_index)
         for game_obj in self.game_objects:
-            if game_obj.z_index <= Game.camera.z_index:
-                game_obj.draw()
+            if game_obj.z_index <= camera.z_index:
+                game_obj.draw(camera)
 
     def count(self) -> int:
         """

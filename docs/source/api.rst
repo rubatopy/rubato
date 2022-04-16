@@ -86,13 +86,6 @@ Game Object
 .. automodule:: rubato.classes.game_object
     :members:
 
-.. _ui:
-
-UI Element
-============
-.. automodule:: rubato.classes.ui
-    :members:
-
 .. _components:
 
 Components
@@ -177,10 +170,10 @@ RigidBody
 Physics
 *******
 
-The Engine and Manifold classes comprise Rubato's collision engine. Collision and overlap tests inside groups are 
+The Engine and Manifold classes comprise Rubato's collision engine. Collision and overlap tests inside groups are
 automatically handled by Rubato, so these classes are here mainly for reference.
 
-In general, it is recommended that you define callback functions for Hitbox objects instead of calling Engine 
+In general, it is recommended that you define callback functions for Hitbox objects instead of calling Engine
 functions yourself.
 
 .. _engine:

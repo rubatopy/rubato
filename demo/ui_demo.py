@@ -49,9 +49,9 @@ button = rb.Button(
     }
 )
 
-ui = rb.UIElement({"pos": rb.Display.center}).add(rect).add(text).add(button)
+ui = rb.GameObject({"pos": rb.Display.center}).add(rect).add(text).add(button)
 
-main.add(ui)
+main.add_ui(ui)
 
 
 def update():

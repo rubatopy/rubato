@@ -8,6 +8,7 @@ from ... import Defaults, Display, Vector, Color
 
 if TYPE_CHECKING:
     from ... import Font
+    from .. import Camera
 
 
 class Text(Component):
@@ -137,14 +138,12 @@ class Text(Component):
             )
         )
 
-    def draw(self):
+    def draw(self, camera: Camera):
         if self.gameobj.rotation != self._stored_rot:
             self._stored_rot = self.gameobj.rotation
             self.generate_surface()
 
-        Display.update(
-            self._tx, self.gameobj.map_coord(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2)
-        )
+        Display.update(self._tx, camera.transform(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2))
 
     def delete(self):
         """Deletes the text component."""

@@ -4,13 +4,13 @@
 
 ### Added
 
-- `Text` can now rotate.
-- `Button`. A button class that can be used to create a clickable area.
-- `end()`. Quits the game.
-- `pause()`. Pauses the game.
-- `resume()`. Resumes the game.
-- `penetration` and `normal` Manifold properties.
-- removed and deprecated functionality is supported.
+-   `Text` can now rotate.
+-   `Button`. A button class that can be used to create a clickable area.
+-   `end()`. Quits the game.
+-   `pause()`. Pauses the game.
+-   `resume()`. Resumes the game.
+-   `penetration` and `normal` Manifold properties.
+-   removed and deprecated functionality is supported.
 
 ### Changed
 
@@ -28,6 +28,7 @@
 -   Engine static method `overlap()`. Use the built in Hitbox `overlap()` method instead.
 -   Removed `sep` property from Manifolds.
 -   `Polygon`'s instance method `bounding_box_dimensions()`. This will be replaced by `get_bounds()` in a future patch.
+-   `UIElement`. Instead use `Scene.add_ui()` with game objects.
 
 ### Fixed
 

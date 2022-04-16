@@ -1,12 +1,17 @@
 """
 The image component that renders an image from the filesystem.
 """
+from __future__ import annotations
+from typing import TYPE_CHECKING
 import sdl2
 import sdl2.ext
 import sdl2.sdlgfx
 
 from . import Component
 from ... import Vector, Defaults, Display, Radio, Color
+
+if TYPE_CHECKING:
+    from .. import Camera
 
 
 class Image(Component):
@@ -198,13 +203,13 @@ class Image(Component):
 
         self.resize(new_size)
 
-    def draw(self):
+    def draw(self, camera: Camera):
         if self._stored_rot != self.gameobj.rotation:
             self._stored_rot = self.gameobj.rotation
             self._update_rotozoom()
 
         if self.visible:
-            Display.update(self._tx, self.gameobj.map_coord(self.gameobj.pos - Vector(*self._tx.size) / 2))
+            Display.update(self._tx, camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2))
 
     def delete(self):
         """Deletes the image component"""

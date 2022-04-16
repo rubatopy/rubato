@@ -20,7 +20,9 @@ class Scene:
     def __init__(self):
         """Initializes a scene with an empty collection of game objects, a new camera, and a blank id."""
         self.root: Group = Group({"name": "root"})
+        self.ui: Group = Group({"name": "ui"})
         self.camera = Camera()
+        self._ui_cam = Camera()
         self.id: str = ""
 
     def add(self, *items: Union[GameObject, Group]):
@@ -28,9 +30,20 @@ class Scene:
         Adds an item to the root group.
 
         Args:
-            item: The item or list of items to add.
+            *items: The items to add to the scene.
         """
         self.root.add(*items)
+
+    def add_ui(self, *items: GameObject):
+        """
+        Adds Game Objects as UI to the scene. When a game object is added as a UI, they draw as they normally would, but
+        they don't collide with other game objects, they draw on top of everything else, and they are unaffected by the
+        camera.
+
+        Args:
+            *items: The items to add to the scene.
+        """
+        self.ui.add(*items)
 
     def delete(self, item: Union[GameObject, Group]):
         """
@@ -41,21 +54,34 @@ class Scene:
         """
         self.root.delete(item)
 
+    def delete_ui(self, item: GameObject):
+        """
+        Removes an item from the ui group.
+
+        Args:
+            item: The item to remove.
+        """
+        self.ui.delete(item)
+
     def private_draw(self):
         self.draw()
-        self.root.draw()
+        self.root.draw(self.camera)
+        self.ui.draw(self._ui_cam)
 
     def private_update(self):
         self.update()
         self.root.update()
+        self.ui.update()
 
     def private_fixed_update(self):
         self.fixed_update()
         self.root.fixed_update()
+        self.ui.fixed_update()
 
     def private_setup(self):
         self.setup()
         self.root.setup()
+        self.ui.setup()
 
     def setup(self):
         """

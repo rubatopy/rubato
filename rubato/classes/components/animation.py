@@ -11,6 +11,7 @@ from ... import Defaults, Vector, Time
 
 if TYPE_CHECKING:
     from . import Spritesheet
+    from .. import Camera
 
 
 class Animation(Component):
@@ -216,7 +217,7 @@ class Animation(Component):
             for image in images:
                 image.gameobj = self.gameobj
 
-    def draw(self):
+    def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
         self._time_count += Time.delta_time
 
@@ -224,7 +225,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        self.anim_frame.draw()
+        self.anim_frame.draw(camera)
 
     def anim_tick(self):
         """An animation processing tick."""

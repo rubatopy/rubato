@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, List, Union, Set
+from typing import Callable, List, Optional, Union, TYPE_CHECKING, Set
 import math
 import sdl2
 import sdl2.sdlgfx
@@ -8,6 +8,9 @@ from ctypes import c_int16
 
 from . import Component
 from ... import Display, Vector, Defaults, Color, Error, SideError, Game
+
+if TYPE_CHECKING:
+    from .. import Camera
 
 
 class Hitbox(Component):
@@ -110,8 +113,8 @@ class Polygon(Hitbox):
     def __str__(self):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
-    def draw(self):
-        list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]
+    def draw(self, camera: Camera):
+        list_of_points: List[tuple] = [camera.transform(v).tuple_int() for v in self.real_verts()]
 
         x_coords, y_coords = zip(*list_of_points)
 
@@ -346,8 +349,8 @@ class Rectangle(Hitbox):
         """
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
-    def draw(self):
-        list_of_points: List[tuple] = [Game.camera.transform(v).tuple_int() for v in self.real_verts()]
+    def draw(self, camera: Camera):
+        list_of_points: List[tuple] = [camera.transform(v).tuple_int() for v in self.real_verts()]
 
         x_coords, y_coords = zip(*list_of_points)
 
@@ -423,9 +426,9 @@ class Circle(Hitbox):
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 
-    def draw(self):
-        relative_pos = Game.camera.transform(self.pos)
-        scaled_rad = Game.camera.scale(self.radius)
+    def draw(self, camera: Camera):
+        relative_pos = camera.transform(self.pos)
+        scaled_rad = camera.scale(self.radius)
 
         if self.color is not None:
             sdl2.sdlgfx.filledCircleRGBA(

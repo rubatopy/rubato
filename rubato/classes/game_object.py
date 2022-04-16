@@ -2,13 +2,15 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
-from typing import List, Union, Dict
+from typing import List, Union, Dict, TYPE_CHECKING
 import sdl2
 import sdl2.sdlgfx
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
 from .. import Game, Vector, Defaults, Display, DuplicateComponentError
 
+if TYPE_CHECKING:
+    from . import Camera
 
 class GameObject:
     """
@@ -38,11 +40,6 @@ class GameObject:
         self.z_index: int = param["z_index"]
         self._components: Dict[type, List[Component]] = {}
         self.rotation: float = param["rotation"]
-
-    @property
-    def relative_pos(self) -> Vector:
-        """The relative position of the game object."""
-        return self.map_coord(self.pos)
 
     def add(self, component: Component) -> GameObject:
         """
@@ -160,19 +157,19 @@ class GameObject:
             for comp in comps:
                 comp.setup()
 
-    def draw(self):
+    def draw(self, camera: Camera):
         for comps in self._components.values():
             for comp in comps:
-                comp.draw()
+                comp.draw(camera)
 
         if self.debug or Game.debug:
-            rotated_x = Vector(int(self.scale_value(10)), 0).rotate(self.rotation)
-            rotated_y = Vector(0, int(self.scale_value(10))).rotate(self.rotation)
-            x_1, y_1 = (self.relative_pos + rotated_x).tuple_int()
-            x_2, y_2 = (self.relative_pos - rotated_x).tuple_int()
+            rotated_x = Vector(int(camera.scale(10)), 0).rotate(self.rotation)
+            rotated_y = Vector(0, int(camera.scale(10))).rotate(self.rotation)
+            x_1, y_1 = (camera.transform(self.pos) + rotated_x).tuple_int()
+            x_2, y_2 = (camera.transform(self.pos) - rotated_x).tuple_int()
 
-            x_3, y_3 = (self.relative_pos + rotated_y).tuple_int()
-            x_4, y_4 = (self.relative_pos - rotated_y).tuple_int()
+            x_3, y_3 = (camera.transform(self.pos) + rotated_y).tuple_int()
+            x_4, y_4 = (camera.transform(self.pos) - rotated_y).tuple_int()
 
             sdl2.sdlgfx.thickLineRGBA(
                 Display.renderer.sdlrenderer, x_1, y_1, x_2, y_2, int(2 * max(1, Display.display_ratio.y)), 0, 255, 0,
@@ -192,29 +189,3 @@ class GameObject:
         for comps in self._components.values():
             for comp in comps:
                 comp.fixed_update()
-
-    @staticmethod
-    def map_coord(coord: Vector) -> Vector:
-        """
-        Maps a coordinate to the camera's coordinate system.
-
-        Args:
-            coord: The coordinate to map.
-
-        Returns:
-            Vector: The mapped coordinate.
-        """
-        return Game.camera.transform(coord)
-
-    @staticmethod
-    def scale_value(value: Union[int, float]) -> Union[int, float]:
-        """
-        Scales a value to match the current camera's scale.
-
-        Args:
-            value: The value to scale.
-
-        Returns:
-            Union[int, float]: The scaled value.
-        """
-        return Game.camera.scale(value)

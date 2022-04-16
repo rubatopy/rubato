@@ -11,7 +11,7 @@ from typing import Union, TYPE_CHECKING
 from ... import Vector, Defaults
 
 if TYPE_CHECKING:
-    from .. import GameObject
+    from .. import GameObject, Camera
 
 
 class Component:
@@ -39,7 +39,7 @@ class Component:
         self.offset: Vector = p["offset"]
         self.rotation_offset: float = p["rot_offset"]
 
-    def draw(self) -> None:
+    def draw(self, camera: Camera) -> None:
         """The draw function template for a component subclass."""
         pass
 
