@@ -90,11 +90,19 @@
                 box-shadow: none;
             }
 
-            .no-select {
+            .no-select, br, img, a, footer {
                 user-select: none;
                 -moz-user-select: none;
                 -webkit-user-select: none;
                 -webkit-user-drag: none;
+            }
+
+            *::selection {
+                background: rgb(150, 99, 92, 0.8); /* WebKit/Blink Browsers */
+            }
+
+            *::-moz-selection {
+                background: rgb(150, 99, 92, 0.8); /* Gecko Browsers */
             }
         </style>
         <title>rubato</title>
@@ -102,7 +110,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark back-black">
             <a class="navbar-brand" href="#">
-                <img src="/full.png" height="30" alt="" loading="lazy" draggable="false" class="no-select" />
+                <img src="/full.png" height="30" alt="" loading="lazy" draggable="false" />
             </a>
             <button
                 class="navbar-toggler"
