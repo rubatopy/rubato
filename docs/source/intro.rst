@@ -1,8 +1,10 @@
+###############
 Getting Started
-===============
+###############
 
+************
 Installation
-------------
+************
 Installing Rubato is simple. Just run the following in a terminal:
 
 .. code-block:: console
@@ -20,8 +22,9 @@ On Linux **only**, you'll need to install them yourself:
 
     $ pip install pysdl-dll
 
+************
 Setting Up
-----------
+************
 Once you've installed Rubato, setting up a new project is easy.
 To create a new blank project, simply create a new python file and type the following:
 

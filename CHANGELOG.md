@@ -13,6 +13,7 @@
 -   Removed and deprecated functionality is supported.
 -   `colliding` set to Hitboxes that automatically updates with the hitboxes it is currently incident on.
 -   `on_exit()` user defineable callback for hitboxes.
+-   PyInstaller support.
 
 ### Changed
 

@@ -7,8 +7,16 @@
 .. toctree::
     :caption: Contents
     :hidden:
+    :includehidden:
 
     intro
-    tutorials
     api
     defaults
+
+.. toctree::
+    :caption: Tutorials
+    :includehidden:
+    :hidden:
+    :glob:
+
+    tutorials/advanced/*

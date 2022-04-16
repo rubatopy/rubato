@@ -1,11 +1,13 @@
+#########
 Key Names
-=========
+#########
 
 Here is the list of all of the available key names. These names are used by rubato to identify pressed keys and are passed to the key parameter for :doc:`key events <events>`.
 Note that names are case-sensitive.
 
+*******
 Numbers
-_______
+*******
 
 .. code-block:: python
     :linenos:
@@ -22,8 +24,9 @@ _______
     "8"
     "9"
 
+*******
 Letters
-_______
+*******
 
 .. code-block:: python
     :linenos:
@@ -56,8 +59,9 @@ _______
     "y"
     "z"
 
+**************
 Modifier Keys
-_____________
+**************
 
 .. code-block:: python
     :linenos:
@@ -85,8 +89,9 @@ _____________
     "altgr"
 
 
+**************
 Function Keys
-_____________
+**************
 
 .. code-block:: python
     :linenos:
@@ -119,8 +124,9 @@ _____________
 
 
 
+******************
 Special Characters
-__________________
+******************
 
 .. code-block:: python
     :linenos:
@@ -138,8 +144,9 @@ __________________
     ";"
     "/"
 
+******************
 Numerical Keypad
-________________
+******************
 
 .. code-block:: python
     :linenos:
@@ -206,8 +213,9 @@ ________________
     "keypad tab"
     "keypad xor"
 
+**************************
 Application Control Keypad
-__________________________
+**************************
 
 .. code-block:: python
     :linenos:
@@ -222,8 +230,9 @@ __________________________
     "ac search"
     "ac stop"
 
+**************************
 Other Common
-_____________
+**************************
 
 .. code-block:: python
     :linenos:
@@ -271,8 +280,9 @@ _____________
     "pause"  # the pause / break key
     "printscreen"
 
+**************************
 Other Uncommon
-______________
+**************************
 
 .. code-block:: python
     :linenos:

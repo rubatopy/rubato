@@ -17,11 +17,36 @@ https://github.com/rubatopy/rubato/issues
 2. Update the `CHANGELOG.md` with details of changes.
 3. The pull request will be merged by the maintainer.
 
-# Development help
+## Documentaion
 
-### To run the docs
+The docs are built and publish automatically
 
-``` bash
+### To run the docs locally
+
+```bash
 (cd docs && pip install -r requirements.txt) # install requirements for docs
 (cd docs && make live) # start doc server
+```
+
+### RST Header Conventions
+
+```rst
+##
+H1
+##
+
+**
+H2
+**
+
+H3
+==
+
+H4
+--
+
+H5
+__
+
+H6
 ```

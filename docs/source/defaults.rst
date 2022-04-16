@@ -42,21 +42,6 @@ Game Object Defaults
     :end-before: [/gameobj]
     :dedent:
 
-
-.. _uidef:
-
-***************************
-UI Element Defaults
-***************************
-
-Can also include parameters from :ref:`Game Objects <gameobjdef>`.
-
-.. literalinclude:: ../../rubato/utils/defaults.py
-    :language: python
-    :start-after: [ui]
-    :end-before: [/ui]
-    :dedent:
-
 .. _componentdef:
 
 ***************************
