@@ -58,17 +58,41 @@ class Math:
 
     @staticmethod
     def floor(x: float) -> int:
-        """Quickly rounds down a number."""
+        """
+        Quickly rounds down a number.
+
+        Args:
+            x (float): The number to round.
+
+        Returns:
+            int: The rounded number.
+        """
         xi = int(x)
         return xi - 1 if x < xi else xi
 
     @staticmethod
     def ceil(x: float) -> int:
-        """Quickly rounds up a number."""
+        """
+        Quickly rounds up a number.
+
+        Args:
+            x (float): The number to round.
+
+        Returns:
+            int: The rounded number.
+        """
         xi = int(x)
         return xi + 1 if x > xi else xi
 
     @staticmethod
     def round(x: float) -> int:
-        """Quickly rounds a number."""
+        """
+        Quickly rounds a number.
+
+        Args:
+            x (float): The number to round.
+
+        Returns:
+            int: The rounded number.
+        """
         return int(x - .5) if x < 0 else int(x + .5)
