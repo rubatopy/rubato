@@ -6,7 +6,7 @@ The Input module is the way you collect input from the user.
 import ctypes
 from typing import Tuple, List, Dict
 import sdl2
-from ctypes import c_char_p, c_float, c_long, c_int
+from ctypes import c_char_p, c_float, c_int
 
 from . import Vector, Display
 
@@ -163,7 +163,7 @@ class Input:
             Tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
-        info = sdl2.mouse.SDL_GetMouseState(c_long(0), c_long(0))
+        info = sdl2.mouse.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
         return (
             (info & sdl2.mouse.SDL_BUTTON_LMASK) != 0,
             (info & sdl2.mouse.SDL_BUTTON_MMASK) != 0,
@@ -181,7 +181,7 @@ class Input:
             Vector: A Vector representing position.
         """
         x_window, y_window = c_int(0), c_int(0)
-        sdl2.SDL_GetMouseState(x_window, y_window)
+        sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
         x_render, y_render = c_float(0), c_float(0)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.renderer, x_window, y_window, x_render, y_render)
         return Vector(x_render.value, y_render.value)
