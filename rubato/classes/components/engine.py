@@ -205,7 +205,7 @@ class Engine:
         dist = d_x * d_x + d_y * d_y
 
         if dist > t_rad * t_rad:
-            return None
+            return
 
         dist = dist**.5
 
@@ -215,10 +215,10 @@ class Engine:
             contacts = [circle_a.pos]
         else:
             pen = t_rad - dist
-            norm = Vector(d_x / dist, d_y / dist) * Math.sign(pen)
-            contacts = [norm * circle_a.radius + circle_a.pos]
+            norm = Vector(d_x / dist, d_y / dist)
+            contacts = [circle_a.pos - norm * circle_a.radius]
 
-        return Manifold(circle_a, circle_b, abs(pen), norm, contacts)
+        return Manifold(circle_a, circle_b, pen, norm, contacts)
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
@@ -233,15 +233,15 @@ class Engine:
             s = Engine.get_normal(verts, i).dot(center - verts[i])
 
             if s > circle.radius:
-                return None
+                return
 
             if s > separation:
                 separation = s
                 face_normal = i
 
         if separation <= 0:
-            norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
-            return Manifold(circle, polygon, circle.radius, norm, [-norm * circle.radius + circle.pos])
+            norm = -Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
+            return Manifold(circle, polygon, circle.radius, norm, [norm * circle.radius + circle.pos])
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
 
@@ -251,7 +251,7 @@ class Engine:
 
         if dot_1 <= 0:
             if (center - v1).mag_sq > circle.radius * circle.radius:
-                return None
+                return
 
             return Manifold(
                 circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
@@ -259,7 +259,7 @@ class Engine:
             )
         elif dot_2 <= 0:
             if (center - v2).mag_sq > circle.radius * circle.radius:
-                return None
+                return
 
             return Manifold(
                 circle, polygon, pen, (center - v2).rotate(polygon.gameobj.rotation).unit(),
@@ -268,7 +268,7 @@ class Engine:
         else:
             norm = Engine.get_normal(verts, face_normal)
             if (center - v1).dot(norm) > circle.radius:
-                return None
+                return
 
             return Manifold(
                 circle, polygon, pen, norm.rotate(polygon.gameobj.rotation), [-norm * circle.radius + circle.pos]
@@ -279,11 +279,11 @@ class Engine:
         """Checks for overlap between two polygons"""
         pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b)
         if pen_a is None:
-            return None
+            return
 
         pen_b, face_b = Engine.axis_least_penetration(shape_b, shape_a)
         if pen_b is None:
-            return None
+            return
 
         if pen_b < pen_a:
             flip = False
@@ -311,10 +311,10 @@ class Engine:
         pos_side = side_plane_normal.dot(v2)
 
         if Engine.clip(-side_plane_normal, neg_side, inc_face) < 2:
-            return None
+            return
 
         if Engine.clip(side_plane_normal, pos_side, inc_face) < 2:
-            return None
+            return
 
         man = Manifold(shape_a, shape_b)
 
@@ -326,9 +326,6 @@ class Engine:
         sep_1 = ref_face_normal.dot(inc_face[0]) - ref_c
         sep_2 = ref_face_normal.dot(inc_face[1]) - ref_c
 
-        man.penetration = abs(true_pen)
-        man.normal *= Math.sign(true_pen)
-
         if sep_1 <= 0:
             if sep_2 <= 0:
                 man.contacts = inc_face
@@ -337,7 +334,10 @@ class Engine:
         elif sep_2 <= 0:
             man.contacts = [inc_face[1]]
         else:
-            return None
+            return
+
+        man.penetration = abs(true_pen)
+        man.normal *= Math.sign(true_pen)
 
         if flip:
             man.normal *= -1

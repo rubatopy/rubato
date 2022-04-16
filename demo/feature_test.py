@@ -18,44 +18,10 @@ rb.Game.scenes.add(main, "main")
 
 rb.Game.debug = True
 
-top = rb.GameObject({
-    "pos": rb.Display.top_center + rb.Vector(0, -30)
-}).add(rb.Rectangle({
-    "width": rb.Display.res.x + 175,
-    "height": rb.Display.res.y / 10,
-    "color": rb.Color.gray,
-}))
-
-bottom = rb.GameObject({
-    "pos": rb.Display.bottom_center + rb.Vector(0, 30)
-}).add(rb.Rectangle({
-    "width": rb.Display.res.x + 175,
-    "height": rb.Display.res.y / 10,
-    "color": rb.Color.gray,
-}))
-
-left = rb.GameObject({
-    "pos": rb.Display.center_left + rb.Vector(-30, 0)
-}).add(rb.Rectangle({
-    "width": rb.Display.res.x / 10,
-    "height": rb.Display.res.y + 175,
-    "color": rb.Color.gray,
-}))
-
-right = rb.GameObject({
-    "pos": rb.Display.center_right + rb.Vector(30, 0)
-}).add(rb.Rectangle({
-    "width": rb.Display.res.x / 10,
-    "height": rb.Display.res.y + 175,
-    "color": rb.Color.gray,
-}))
-
-main.add(top, left, bottom, right)
-
-allow = 100
+allow = 1
 
 
-def handle(info):
+def handle(info: rb.Manifold):
     global allow
     print(info)
     allow -= 1
@@ -65,37 +31,37 @@ def handle(info):
 
 main.add(
     rb.GameObject({
-        "pos": rb.Display.res / 2 + rb.Vector(100, 0),
+        "pos": rb.Display.res / 2 - rb.Vector(100, 0),
         "rotation": 30
-    }).add(rb.Circle({
-        "radius": rb.Display.res.x / 20,
+    }).add(rb.Polygon({
+        "verts": rb.Polygon.generate_polygon(6, rb.Display.res.x / 20),
         "color": rb.Color.red,
     })).add(rb.RigidBody({
         "bounciness": 1,
-        "velocity": rb.Vector(-10, 0),
+        "velocity": rb.Vector(10, 0),
         "moment": 100
     }))
 )
 
 main.add(
     rb.GameObject({
-        "pos": rb.Display.res / 2 - rb.Vector(100, 0)
+        "pos": rb.Display.res / 2 + rb.Vector(100, 20)
     }).add(
         rb.Polygon(
             {
-                "verts": rb.Polygon.generate_polygon(7, rb.Display.res.x / 20),
-                "color": rb.Color.red,
+                "verts": rb.Polygon.generate_polygon(6, rb.Display.res.x / 30),
+                "color": rb.Color.blue,
                 "on_collide": handle
             }
         )
     ).add(rb.RigidBody({
         "bounciness": 1,
-        "velocity": rb.Vector(20, 0),
+        "velocity": rb.Vector(-20, 0),
         "ang_vel": 120,
         "moment": 100
     }))
 )
 
-rb.Vector.is_vectorlike([1])
+rb.Radio.listen("KEYDOWN", lambda e: print(rb.Input.get_mouse_pos()))
 
 rb.begin()
