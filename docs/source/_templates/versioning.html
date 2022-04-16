@@ -20,7 +20,8 @@
                     li.classList.add("current", "current-page");
                 }
 
-                var ideal = `/${name}/${window.location.pathname.split("/").slice(2).join("/")}`;
+                var split = window.location.pathname.replace("index.html", "intro").split("/")
+                var ideal = `/${name}/${split.slice(2).join("/")}`;
 
                 reader = new XMLHttpRequest();
                 reader.open("get", ideal, false);
