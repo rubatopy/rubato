@@ -1,4 +1,4 @@
-"""The hooks init for PyInstaller."""
+"""The hooks init for PyInstaller."""  # pylint: disable=invalid-name
 import os
 
 

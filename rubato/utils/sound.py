@@ -8,7 +8,7 @@ from typing import Dict
 import sdl2.sdlmixer as mixer
 from sdl2 import AUDIO_F32
 
-from . import IdError
+from . import IdError, get_path
 
 if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):
     raise Exception("Could not open audio device.")
@@ -143,11 +143,13 @@ class Sound():
             duplicate_names: if you wish to have duplicate names to your sounds,
             it will use the relative and the sound path for the sounds name
         """
-        for _, _, files in walk(rel_path):
+        p = get_path(rel_path)
+
+        for _, _, files in walk(p):
             # walk to directory path and ignore name and subdirectories
             for sound_path in files:
-                path_to_sound = path.join(rel_path, sound_path)
-                name = (rel_path + sound_path).split(".")[0] \
+                path_to_sound = path.join(p, sound_path)
+                name = (p + sound_path).split(".")[0] \
                 if duplicate_names else sound_path.split(".")[0]
                 cls(path_to_sound, name)
 

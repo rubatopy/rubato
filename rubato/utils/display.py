@@ -6,7 +6,7 @@ import sdl2, sdl2.sdlttf, sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineColor
 from typing import TYPE_CHECKING
 
-from . import Vector, Defaults
+from . import Vector, Defaults, get_path
 
 if TYPE_CHECKING:
     from . import Color, Font
@@ -111,7 +111,7 @@ class Display(metaclass=DisplayProperties):
             path: The path to the icon.
         """
 
-        image = sdl2.ext.image.load_img(path)
+        image = sdl2.ext.image.load_img(get_path(path))
 
         sdl2.SDL_SetWindowIcon(
             cls.window.window,

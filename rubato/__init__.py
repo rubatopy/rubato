@@ -12,14 +12,15 @@ poweruser. And all that finally with some legible documentation.
 from warnings import simplefilter
 from importlib.resources import files
 import os, sys
+from pathlib import Path
 
 if sys.platform.startswith("darwin"):
     if os.uname().machine == "arm64":
-        os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.mac.silicon"))
+        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/silicon")
     else:
-        os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.mac.intel"))
+        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/intel")
 if sys.platform.startswith("win32"):
-    os.environ["PYSDL2_DLL_PATH"] = str(files("rubato.static.dll.windows"))
+    os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/windows")
 
 simplefilter("ignore", UserWarning)
 

@@ -8,7 +8,7 @@ import sdl2.ext
 import sdl2.sdlgfx
 
 from . import Component
-from ... import Vector, Defaults, Display, Radio, Color
+from ... import Vector, Defaults, Display, Radio, Color, get_path
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -46,6 +46,8 @@ class Image(Component):
         else:
             try:
                 self._image: sdl2.SDL_Surface = sdl2.ext.load_img(param["rel_path"], False)
+            except OSError:
+                self._image = sdl2.ext.load_img(get_path(param["rel_path"]), False)
             except sdl2.ext.SDLError as e:
                 fname = param["rel_path"].replace("\\", "/").split("/")[-1]
                 raise TypeError(f"{fname} is not a valid image file") from e

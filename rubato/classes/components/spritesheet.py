@@ -4,10 +4,10 @@ A module to load, manage, and interact with spritesheets.
 import sdl2
 import sdl2.ext
 from typing import List
-from os import path, walk
+import os
 
 from . import Image, Animation
-from ... import Defaults, Vector
+from ... import Defaults, Vector, get_path
 
 
 class Spritesheet:
@@ -118,12 +118,17 @@ class Spritesheet:
             Animation: the animation loaded from the folder of spritesheets
         """
         anim = Animation()
-        for _, _, files in walk(rel_path):
+
+        path = get_path(rel_path)
+
+        for _, _, files in os.walk(path):
             # walk to directory path and ignore name and subdirectories
+            print(files)
             files.sort()
             for sprite_path in files:
-                path_to_spritesheet = path.join(rel_path, sprite_path)
+                path_to_spritesheet = os.path.join(path, sprite_path)
                 try:
+                    print(path_to_spritesheet, sprite_path.split(".")[0])
                     sprite_sheet = Spritesheet({
                         "rel_path": path_to_spritesheet,
                         "sprite_size": sprite_size,

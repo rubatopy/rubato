@@ -1,6 +1,7 @@
 """
 This module houses all the utils
 """
+from .path import *
 from .error import *
 from .math import Math
 from .noise import Noise

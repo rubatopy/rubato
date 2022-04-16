@@ -7,7 +7,7 @@ from os import path, walk
 import sdl2
 
 from . import Component, Image
-from ... import Defaults, Vector, Time
+from ... import Defaults, Vector, Time, get_path
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -159,12 +159,13 @@ class Animation(Component):
             rel_path: The relative path to the folder you wish to import
         """
         ret_list = []
-        for _, _, files in walk(rel_path):
+        p = get_path(rel_path)
+        for _, _, files in walk(p):
             # walk to directory path and ignore name and subdirectories
             files.sort()
             for image_path in files:
                 try:
-                    path_to_image = path.join(rel_path, image_path)
+                    path_to_image = path.join(p, image_path)
                     image = Image({
                         "rel_path": path_to_image,
                     })
