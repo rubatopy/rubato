@@ -50,9 +50,6 @@ class Hitbox(Component):
         """The getter method for the position of the hitbox's center"""
         return self.gameobj.pos + self.offset
 
-    def update(self):
-        self.draw()
-
 
 class Polygon(Hitbox):
     """
