@@ -20,7 +20,7 @@ class Defaults:
         # The pixel resolution of the game
         "target_fps": 0,  # . . . . . . . . . . . . . . . . . . . . int
         # The target FPS of the game
-        "physics_fps": 60,  # . . . . . . . . . . . . . . . . . . . int
+        "physics_fps": 30,  # . . . . . . . . . . . . . . . . . . . int
         # The target physics FPS of the game
         "border_color": (0, 0, 0),  # . . . . . . . . . . . . . . . tuple or Color
         # The color of the borders

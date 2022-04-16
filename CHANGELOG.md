@@ -22,6 +22,7 @@
 -   Moved the rotation parameters from `Component` to `Game Object`.
 -   `Component` can now take in a dictionary of parameters.
 -   Moved collision test code and impulse resolution to `Engine` class.
+-   Changed default physics fps to 30.
 
 ### Removed
 
