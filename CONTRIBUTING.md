@@ -24,7 +24,7 @@ The docs are built and publish automatically
 ### To run the docs locally
 
 ```bash
-(cd docs && pip install -r requirements.txt) # install requirements for docs
+pip install --editable .[docs] # install requirements for docs
 (cd docs && make live) # start doc server
 ```
 
