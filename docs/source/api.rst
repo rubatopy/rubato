@@ -223,6 +223,13 @@ Utilities
 *********
 These classes are utility classes that are used to make certain tasks easier.
 
+.. _draw:
+
+Draw
+====
+.. automodule:: rubato.utils.draw
+    :members:
+
 .. _vector:
 
 Vector

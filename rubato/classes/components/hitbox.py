@@ -2,12 +2,9 @@
 from __future__ import annotations
 from typing import Callable, Dict, List, Optional, Union, TYPE_CHECKING, Set
 import math
-import sdl2
-import sdl2.sdlgfx
-from ctypes import c_int16
 
 from . import Component
-from ... import Display, Vector, Defaults, Color, Error, SideError, Game
+from ... import Display, Vector, Defaults, Color, Error, SideError, Game, Draw
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -158,42 +155,13 @@ class Polygon(Hitbox):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def draw(self, camera: Camera):
-        list_of_points: List[tuple] = [camera.transform(v).tuple_int() for v in self.real_verts()]
+        list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
 
-        x_coords, y_coords = zip(*list_of_points)
-
-        vx = (c_int16 * len(x_coords))(*x_coords)
-        vy = (c_int16 * len(y_coords))(*y_coords)
-
-        if self.color is not None:
-            sdl2.sdlgfx.filledPolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(list_of_points),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
-            sdl2.sdlgfx.aapolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(list_of_points),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
+        if self.color:
+            Draw.poly(list_of_points, self.color, fill=self.color)
 
         if self.debug or Game.debug:
-            for i in range(len(list_of_points)):
-                sdl2.sdlgfx.thickLineRGBA(
-                    Display.renderer.sdlrenderer, list_of_points[i][0], list_of_points[i][1],
-                    list_of_points[(i + 1) % len(list_of_points)][0], list_of_points[(i + 1) % len(list_of_points)][1],
-                    int(2 * Display.display_ratio.x), 0, 255, 0, 255
-                )
+            Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     @classmethod
     def generate_polygon(cls,
@@ -414,42 +382,13 @@ class Rectangle(Hitbox):
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
     def draw(self, camera: Camera):
-        list_of_points: List[tuple] = [camera.transform(v).tuple_int() for v in self.real_verts()]
+        list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
 
-        x_coords, y_coords = zip(*list_of_points)
-
-        vx = (c_int16 * 4)(*x_coords)
-        vy = (c_int16 * 4)(*y_coords)
-
-        if self.color is not None:
-            sdl2.sdlgfx.filledPolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                4,
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
-            sdl2.sdlgfx.aapolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                4,
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
+        if self.color:
+            Draw.poly(list_of_points, self.color, fill=self.color)
 
         if self.debug or Game.debug:
-            for i in range(4):
-                sdl2.sdlgfx.thickLineRGBA(
-                    Display.renderer.sdlrenderer, list_of_points[i][0],
-                    list_of_points[i][1], list_of_points[(i + 1) % 4][0], list_of_points[(i + 1) % 4][1],
-                    int(2 * Display.display_ratio.x), 0, 255, 0, 255
-                )
+            Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Rectangle:
         return Rectangle(
@@ -509,38 +448,10 @@ class Circle(Hitbox):
         scaled_rad = camera.scale(self.radius)
 
         if self.color is not None:
-            sdl2.sdlgfx.filledCircleRGBA(
-                Display.renderer.sdlrenderer,
-                int(relative_pos.x),
-                int(relative_pos.y),
-                int(scaled_rad),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
-            sdl2.sdlgfx.aacircleRGBA(
-                Display.renderer.sdlrenderer,
-                int(relative_pos.x),
-                int(relative_pos.y),
-                int(scaled_rad),
-                self.color.r,
-                self.color.g,
-                self.color.b,
-                self.color.a,
-            )
+            Draw.circle(relative_pos, scaled_rad, self.color, fill=self.color)
 
         if self.debug or Game.debug:
-            sdl2.sdlgfx.aacircleRGBA(
-                Display.renderer.sdlrenderer,
-                int(relative_pos.x),
-                int(relative_pos.y),
-                int(scaled_rad),
-                0,
-                255,
-                0,
-                255,
-            )
+            Draw.circle(relative_pos, scaled_rad, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Circle:
         return Circle(

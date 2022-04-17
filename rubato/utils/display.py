@@ -3,10 +3,9 @@ Global display class that allows for easy screen and window management.
 """
 from __future__ import annotations
 import sdl2, sdl2.sdlttf, sdl2.ext
-from sdl2.sdlgfx import pixelRGBA, thickLineColor
 from typing import TYPE_CHECKING
 
-from . import Vector, Defaults, get_path
+from . import Vector, get_path
 
 if TYPE_CHECKING:
     from . import Color, Font
@@ -117,54 +116,6 @@ class Display(metaclass=DisplayProperties):
             cls.window.window,
             image,
         )
-
-    @classmethod
-    def draw_point(cls, pos: Vector, color: Color):
-        """
-        Draw a point onto the renderer.
-
-        Args:
-            pos: The position of the point.
-            color: The color to use for the pixel. Defaults to black.
-        """
-        pixelRGBA(cls.renderer.renderer, round(pos.x), round(pos.y), *color.to_tuple())
-
-    @classmethod
-    def draw_line(cls, p1: Vector, p2: Vector, color: Color, width: int = 1):
-        """
-        Draw a line onto the renderer.
-
-        Args:
-            p1: The first point of the line.
-            p2: The second point of the line.
-            color: The color to use for the line. Defaults to black.
-            width: The width of the line. Defaults to 1.
-        """
-        thickLineColor(cls.renderer, p1.x, p1.y, p2.x, p2.y, width, color.rgba32)
-
-    @classmethod
-    def draw_text(
-        cls,
-        text: str,
-        font: Font,
-        pos: Vector = Vector(),
-        justify: str = Defaults.text_defaults["justify"],
-        align: Vector = Defaults.text_defaults["align"],
-        width: int = Defaults.text_defaults["width"]
-    ):
-        """
-        Draws some text onto the renderer.
-
-        Args:
-            text: The text to draw.
-            font: The Font object to use.
-            pos: The position of the text. Defaults to Vector(0, 0).
-            justify: The justification of the text. (left, center, right). Defaults to "left".
-            align: The alignment of the text. Defaults to Vector(0, 0).
-            width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
-        """
-        tx = sdl2.ext.Texture(cls.renderer, font.generate_surface(text, justify, width))
-        cls.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
     def update(cls, tx: sdl2.ext.Texture, pos: Vector):

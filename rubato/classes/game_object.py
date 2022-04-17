@@ -3,14 +3,13 @@ A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
 from typing import List, Union, Dict, TYPE_CHECKING
-import sdl2
-import sdl2.sdlgfx
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from .. import Game, Vector, Defaults, Display, DuplicateComponentError
+from .. import Game, Vector, Defaults, Display, DuplicateComponentError, Draw, Color
 
 if TYPE_CHECKING:
     from . import Camera
+
 
 class GameObject:
     """
@@ -165,20 +164,14 @@ class GameObject:
         if self.debug or Game.debug:
             rotated_x = Vector(int(camera.scale(10)), 0).rotate(self.rotation)
             rotated_y = Vector(0, int(camera.scale(10))).rotate(self.rotation)
-            x_1, y_1 = (camera.transform(self.pos) + rotated_x).tuple_int()
-            x_2, y_2 = (camera.transform(self.pos) - rotated_x).tuple_int()
+            p1 = (camera.transform(self.pos) + rotated_x).to_int()
+            p2 = (camera.transform(self.pos) - rotated_x).to_int()
 
-            x_3, y_3 = (camera.transform(self.pos) + rotated_y).tuple_int()
-            x_4, y_4 = (camera.transform(self.pos) - rotated_y).tuple_int()
+            p3 = (camera.transform(self.pos) + rotated_y).to_int()
+            p4 = (camera.transform(self.pos) - rotated_y).to_int()
 
-            sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, x_1, y_1, x_2, y_2, int(2 * max(1, Display.display_ratio.y)), 0, 255, 0,
-                255
-            )
-            sdl2.sdlgfx.thickLineRGBA(
-                Display.renderer.sdlrenderer, x_3, y_3, x_4, y_4, int(2 * max(1, Display.display_ratio.x)), 0, 255, 0,
-                255
-            )
+            Draw.line(p1, p2, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
+            Draw.line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
 
     def update(self):
         for comps in self._components.values():

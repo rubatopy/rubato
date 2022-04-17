@@ -3,11 +3,11 @@ The main game module. It controls everything in the game.
 """
 from __future__ import annotations
 import sys
-import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.sdlttf
+import sdl2, sdl2.ext, sdl2.sdlttf
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Vector, Color, Input, Radio, Font
+from . import Time, Display, Vector, Color, Input, Radio, Font, Draw
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -176,20 +176,16 @@ class Game(metaclass=GameProperties):
         if cls.show_fps:
             fs = str(int(Time.smooth_fps))
             h = Display.res.y // 40
-            p = h // 6
+            p = h // 4
             p2 = p + p
-            sdl2.sdlgfx.boxRGBA(
-                Display.renderer.sdlrenderer,
-                p,
-                p,
+            Draw.rect(
+                Vector(p2 + (h * len(fs)) / 2, p2 + h / 2),
                 h * len(fs) + p2,
                 h + p2,
-                0,
-                0,
-                0,
-                180,
+                Color(a=180),
+                fill=Color(a=180),
             )
-            Display.draw_text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
+            Draw.text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
 
         # update renderers
         Display.renderer.present()
