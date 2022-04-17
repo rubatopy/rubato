@@ -100,8 +100,7 @@ class RigidBody(Component):
 
     def physics(self):
         """Applies general kinematic laws to the rigidbody."""
-        self.add_force(self.gravity * self.mass)
-
+        self.velocity += self.gravity * Time.milli_to_sec(Time.fixed_delta)
         self.velocity.clamp(-self.max_speed, self.max_speed)
 
         self.gameobj.pos += self.velocity * Time.milli_to_sec(Time.fixed_delta)
@@ -109,7 +108,7 @@ class RigidBody(Component):
 
     def add_force(self, force: Vector):
         """
-        Add a force to the Rigidbody.
+        Applies a force to the Rigidbody.
 
         Args:
             force (Vector): The force to add.
@@ -118,21 +117,46 @@ class RigidBody(Component):
 
         self.velocity += accel * Time.milli_to_sec(Time.fixed_delta)
 
-    def add_cont_force(self, impulse: Vector, time: int):
+    def add_impulse(self, impulse: Vector):
+        """
+        Applies an impulse to the rigidbody.
+
+        Args:
+            impulse (Vector): _description_
+        """
+        self.velocity += impulse * Time.milli_to_sec(Time.fixed_delta)
+
+    def add_cont_force(self, force: Vector, time: int):
         """
         Add a continuous force to the Rigidbody.
         A continuous force is a force that is continuously applied over a time period.
         (the force is added every frame for a specific duration).
 
         Args:
-            impulse (Vector): The force to add.
+            force (Vector): The force to add.
             time (int): The time in seconds that the force should be added.
         """
         if time <= 0:
             return
         else:
-            self.add_force(impulse)
-            Time.delayed_frames(1, lambda: self.add_impulse(impulse, time - Time.delta_time))
+            self.add_force(force)
+            Time.delayed_frames(1, lambda: self.add_cont_force(force, time - Time.delta_time))
+
+    def add_cont_impulse(self, impulse: Vector, time: int):
+        """
+        Add a continuous impulse to the Rigidbody.
+        A continuous impulse is a impulse that is continuously applied over a time period.
+        (the impulse is added every frame for a specific duration).
+
+        Args:
+            impulse (Vector): The impulse to add.
+            time (int): The time in seconds that the impulse should be added.
+        """
+        if time <= 0:
+            return
+        else:
+            self.add_impulse(impulse)
+            Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - Time.delta_time))
 
     def fixed_update(self):
         """The physics loop for the rigidbody component."""
