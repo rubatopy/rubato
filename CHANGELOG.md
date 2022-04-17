@@ -14,6 +14,7 @@
 -   `colliding` set to Hitboxes that automatically updates with the hitboxes it is currently incident on.
 -   `on_exit()` user defineable callback for hitboxes.
 -   PyInstaller support.
+-   All `Hitbox`s now have `get_aabb()` and `get_obb()` methods.
 
 ### Changed
 

@@ -53,6 +53,25 @@ class Hitbox(Component):
         """The getter method for the position of the hitbox's center"""
         return self.gameobj.pos + self.offset
 
+    def get_aabb(self) -> List[Vector]:
+        """
+        Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
+
+        Returns:
+            The top left and bottom right corners of the bounding box as Vectors. [top left, bottom right]
+        """
+        return [self.gameobj.pos, self.gameobj.pos]
+
+    def get_obb(self) -> List[Vector]:
+        """
+        Gets top left and bottom right corners of the oriented bounding box of the hitbox in world coordinates.
+        This bounding box takes into account hitbox rotation.
+
+        Returns:
+            The top left and bottom right corners of the bounding box as Vectors. [top left, bottom right]
+        """
+        return [self.gameobj.pos, self.gameobj.pos]
+
 
 class Polygon(Hitbox):
     """
@@ -98,6 +117,31 @@ class Polygon(Hitbox):
             }
         )
 
+    def get_aabb(self) -> List[Vector]:
+        trans_verts = self.translated_verts()
+        top = 0
+        bottom = 0
+        left = 0
+        right = 0
+        for vert in trans_verts:
+            if vert.y > bottom:
+                bottom = vert.y
+            elif vert.y < top:
+                top = vert.y
+            if vert.x > right:
+                right = vert.x
+            elif vert.x < left:
+                left = vert.x
+
+        return [Vector(left, top) + self.gameobj.pos, Vector(right, bottom) + self.gameobj.pos]
+
+    def get_obb(self) -> List[Vector]:
+        aabb = self.get_aabb()
+        return [
+            (aabb[0] - self.gameobj.pos).rotate(self.gameobj.rotation) + self.gameobj.pos,
+            (aabb[1] - self.gameobj.pos).rotate(self.gameobj.rotation) + self.gameobj.pos,
+        ]
+
     def translated_verts(self) -> List[Vector]:
         """Offsets each vertex with the Polygon's offset"""
         return [v * self.scale + self.offset for v in self.verts]
@@ -107,7 +151,7 @@ class Polygon(Hitbox):
         return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
     def real_verts(self) -> List[Vector]:
-        """Returns the a list of vertices in absolute coordinates"""
+        """Returns the a list of vertices in world coordinates"""
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
     def __str__(self):
@@ -151,8 +195,9 @@ class Polygon(Hitbox):
                     int(2 * Display.display_ratio.x), 0, 255, 0, 255
                 )
 
-    @staticmethod
-    def generate_polygon(num_sides: int,
+    @classmethod
+    def generate_polygon(cls,
+                         num_sides: int,
                          radius: Union[float, int] = 1,
                          options: Optional[Dict] = None) -> Union[List[Vector], Polygon]:
         """
@@ -160,8 +205,8 @@ class Polygon(Hitbox):
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
 
         Args:
-            num_sides (int): The number of sides of the polygon.
-            radius (Union[float, int]): The radius of the polygon. Defaults to 1.
+            num_sides: The number of sides of the polygon.
+            radius: The radius of the polygon. Defaults to 1.
             option: A Polygon config. If set, will return a Polygon object. Otherwise it will return
                 a list of vertices. Defaults to the None.
 
@@ -182,7 +227,7 @@ class Polygon(Hitbox):
             verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
 
         if isinstance(options, dict):
-            return Polygon(options | {"verts": verts})
+            return cls(options | {"verts": verts})
         else:
             return verts
 
@@ -285,7 +330,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos - Vector(self.width / -2, self.height / -2)
+            return self.pos + Vector(self.width / 2, self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -318,6 +363,18 @@ class Rectangle(Hitbox):
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
+
+    def get_aabb(self) -> List[Vector]:
+        return [
+            self.pos - Vector(self.width / 2, self.height / 2),
+            self.pos + Vector(self.width / 2, self.height / 2),
+        ]
+
+    def get_obb(self) -> List[Vector]:
+        return [
+            self.pos + Vector(self.width / -2, self.height / -2).rotate(self.gameobj.rotation),
+            self.pos + Vector(self.width / 2, self.height / 2).rotate(self.gameobj.rotation),
+        ]
 
     def vertices(self) -> List[Vector]:
         """
@@ -428,6 +485,20 @@ class Circle(Hitbox):
         super().__init__(options)
         params = Defaults.circle_defaults | options
         self.radius = params["radius"]
+
+    def get_aabb(self) -> List[Vector]:
+        offset = Vector(self.transformed_radius(), self.transformed_radius())
+        return [
+            self.gameobj.pos - offset,
+            self.gameobj.pos + offset,
+        ]
+
+    def get_obb(self) -> List[Vector]:
+        r = self.transformed_radius()
+        return [
+            self.gameobj.pos + Vector(-r, -r).rotate(self.gameobj.rotation),
+            self.gameobj.pos + Vector(r, r).rotate(self.gameobj.rotation),
+        ]
 
     def transformed_radius(self) -> int:
         """Gets the true radius of the circle"""
