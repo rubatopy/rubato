@@ -48,6 +48,12 @@ relative paths.
 This will create 3 things. A ``.spec`` file, a ``dist`` folder and a ``build`` folder. Inside of the ``dist`` folder you will find
 your app (either a ``.exe`` on Windows or a ``.app`` on Mac). You are now able to distribute this app to anyone you want!
 
+.. note::
+
+    In order to load all of your resources correctly, you must use relative paths. This means that if I wanted to access ``my_data.json``,
+    I would use ``resources/data/my_data.json``. This simple change will work with all Rubato functions. If you are using a different library or
+    built-in functions make sure to wrap your relative paths with the ``rb.get_path()`` function.
+
 Here are a all the options you can add to the pyinstaller command (and we have made sure work):
 
 ``-F``

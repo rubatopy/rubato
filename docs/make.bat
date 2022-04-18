@@ -1,7 +1,7 @@
 @echo off
 
 SET SOURCEDIR=source
-SET BUILDDIR=.\dev
+SET BUILDDIR=.\build\html
 SET LIVEBUILDDIR=.\build\_html
 SET BUILDER=dirhtml
 
