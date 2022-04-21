@@ -39,7 +39,7 @@ jobs:
                   git rm -f index.html
                   git rm -f 404.html
                   git stash pop
-                  cp robots.txt nightly/robots.txt
+                  cp ./robots.txt nightly/robots.txt
                   rm -rf robots.txt
 
             - name: Commit files
