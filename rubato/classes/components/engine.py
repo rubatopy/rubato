@@ -78,15 +78,16 @@ class Engine:
 
         col.normal *= -1
         if len(col.contacts) > 1:
-            print(col.contacts[0], col.contacts[1])
+            pass
+            #print(col.contacts[0], col.contacts[1])
 
         # RESOLUTION STEP
         for contact in col.contacts:
             ra = contact - sh_a.pos
             rb = contact - sh_b.pos
 
-            rv = (0 if b_none else rb_b.velocity +
-                  rb.perpendicular(rb_b.ang_vel)) - (0 if a_none else rb_a.velocity + ra.perpendicular(rb_a.ang_vel))
+            rv = (0 if b_none else rb_b.velocity + rb.unit().perpendicular(rb_b.ang_vel)
+                 ) - (0 if a_none else rb_a.velocity + ra.unit().perpendicular(rb_a.ang_vel))
 
             contact_vel = rv.dot(col.normal)
 
@@ -298,6 +299,8 @@ class Engine:
 
         v1 = ref_verts[ref_ind].rotate(ref_poly.gameobj.rotation) + ref_poly.pos
         v2 = ref_verts[(ref_ind + 1) % len(ref_verts)].rotate(ref_poly.gameobj.rotation) + ref_poly.pos
+
+        print(v1, v2, inc_face[0], inc_face[1])
 
         side_plane_normal = (v2 - v1).unit()
 

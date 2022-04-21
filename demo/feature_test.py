@@ -18,12 +18,18 @@ rb.Game.debug = True
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
+
+def handle(e):
+    print(e)
+
+
 player = rb.GameObject({
     "pos": rb.Display.center
 }).add(rb.Rectangle({
     "width": 64,
     "height": 64,
-    "color": rb.Color.blue
+    "color": rb.Color.blue,
+    "on_collide": handle
 })).add(rb.RigidBody({
     "gravity": rb.Vector(y=rb.Display.res.y / 2),
     "pos_correction": 1
