@@ -20,7 +20,8 @@ rb.Game.scenes.add(main, "main")
 
 
 def handle(e):
-    print(e)
+    pass
+    #print(e)
 
 
 player = rb.GameObject({
