@@ -31,7 +31,6 @@ jobs:
                   cp -r docs/build/html nightly
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
-                  cp docs/robots.txt robots.txt
                   git add .
                   git stash push
                   git checkout gh-pages
@@ -39,8 +38,6 @@ jobs:
                   git rm -f index.html
                   git rm -f 404.html
                   git stash pop
-                  cp ./robots.txt nightly/robots.txt
-                  rm -rf robots.txt
 
             - name: Commit files
               run: |
