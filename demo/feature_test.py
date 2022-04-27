@@ -13,11 +13,32 @@ rb.init({
     "res": rb.Vector(1200, 1200),
 })
 
+rb.Game.debug = True
+
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-with open("sprites/tes.txt", "r") as f:
-    tes = f.readlines()
-    print(tes)
+
+def handle(e):
+    pass
+    #print(e)
+
+
+player = rb.GameObject({
+    "pos": rb.Display.center
+}).add(rb.Rectangle({
+    "width": 64,
+    "height": 64,
+    "color": rb.Color.blue,
+    "on_collide": handle
+})).add(rb.RigidBody({
+    "gravity": rb.Vector(y=rb.Display.res.y / 2),
+    "pos_correction": 1
+}))
+
+ground = rb.GameObject().add(rb.Rectangle({"width": rb.Display.res.x, "height": 50, "color": rb.Color.green}))
+ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
+
+main.add(player, ground)
 
 rb.begin()

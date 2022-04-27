@@ -1,6 +1,6 @@
 """Handles collision manifold generation for complex geometries."""
 from __future__ import annotations
-from typing import List, TYPE_CHECKING, Optional
+from typing import List, TYPE_CHECKING, Optional, Tuple
 
 from . import RigidBody, Circle
 from ... import Math, Vector
@@ -78,15 +78,16 @@ class Engine:
 
         col.normal *= -1
         if len(col.contacts) > 1:
-            print(col.contacts[0], col.contacts[1])
+            pass
+            #print(col.contacts[0], col.contacts[1])
 
         # RESOLUTION STEP
         for contact in col.contacts:
             ra = contact - sh_a.pos
             rb = contact - sh_b.pos
 
-            rv = (0 if b_none else rb_b.velocity + rb.perpendicular(rb_b.ang_vel)
-                 ) - (0 if a_none is None else rb_a.velocity + ra.perpendicular(rb_a.ang_vel))
+            rv = (0 if b_none else rb_b.velocity +
+                  rb.perpendicular(rb_b.ang_vel)) - (0 if a_none else rb_a.velocity + ra.perpendicular(rb_a.ang_vel))
 
             contact_vel = rv.dot(col.normal)
 
@@ -304,16 +305,17 @@ class Engine:
         neg_side = -side_plane_normal.dot(v1)
         pos_side = side_plane_normal.dot(v2)
 
-        if Engine.clip(-side_plane_normal, neg_side, inc_face) < 2:
+        inc_face, num_clipped = Engine.clip(-side_plane_normal, neg_side, inc_face)
+        if num_clipped < 2:
             return
 
-        if Engine.clip(side_plane_normal, pos_side, inc_face) < 2:
+        inc_face, num_clipped = Engine.clip(side_plane_normal, pos_side, inc_face)
+        if num_clipped < 2:
             return
 
         man = Manifold(shape_a, shape_b)
 
         ref_face_normal = side_plane_normal.perpendicular()
-        man.normal = ref_face_normal
 
         ref_c = ref_face_normal.dot(v1)
 
@@ -331,7 +333,7 @@ class Engine:
             return
 
         man.penetration = abs(true_pen)
-        man.normal *= Math.sign(true_pen)
+        man.normal = ref_face_normal * Math.sign(true_pen)
 
         if flip:
             man.normal *= -1
@@ -384,7 +386,7 @@ class Engine:
         ]
 
     @staticmethod
-    def clip(n: Vector, c: float, face: List[Vector]) -> int:
+    def clip(n: Vector, c: float, face: List[Vector]) -> Tuple:
         sp = 0
         out = [face[0].clone(), face[1].clone()]
 
@@ -403,10 +405,7 @@ class Engine:
             out[sp] = ((face[1] - face[0]) * alpha) + face[0]
             sp += 1
 
-        face[0] = out[0]
-        face[1] = out[1]
-
-        return sp
+        return out, sp
 
     @staticmethod
     def get_support(verts: List[Vector], direction: Vector) -> Vector:
