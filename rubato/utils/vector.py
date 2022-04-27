@@ -25,7 +25,10 @@ class Vector:
             x: The x coordinate. Defaults to 0.
             y: The y coordinate. Defaults to 0.
         """
-        self.x, self.y = x, y
+        if type(x) in (float, int) and type(y) in (float, int):
+            self.x, self.y = x, y
+        else:
+            raise TypeError(f"Vector must be initialized with two numbers (float or int) not: {x, y}.")
 
     @property
     def magnitude(self) -> float:
