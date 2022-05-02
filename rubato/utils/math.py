@@ -96,3 +96,17 @@ class Math:
             int: The rounded number.
         """
         return int(x - .5) if x < 0 else int(x + .5)
+
+    @staticmethod
+    def is_int(x: float, error: float) -> bool:
+        """
+        Checks if a number is an integer.
+
+        Args:
+            x (float): The number to check.
+            error (float): The error margin.
+
+        Returns:
+            bool: True if the number is an integer within the error.
+        """
+        return abs(round(x) - x) < error

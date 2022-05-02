@@ -16,8 +16,8 @@ rb.init({
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-with open("sprites/tes.txt", "r") as f:
-    tes = f.readlines()
-    print(tes)
+v = rb.Vector(9, 9)
+v.normalize()
+print(v, v.unit())
 
 rb.begin()

@@ -53,6 +53,21 @@ class Vector:
         """The angle of the vector (readonly)."""
         return math.atan2(self.y, self.x)
 
+    @property
+    def rationalized_mag(self) -> str:
+        """
+        Returns a string representation of a rationalized vector magnitude as you would use in math class.
+        """
+        i = 1
+        error = 0.0000001
+        divisible_by: "Vector" = Vector()
+        while (possible := self.mag_sq / i**2) >= 1:
+            if Math.is_int(possible, error):
+                divisible_by = Vector(i, round(possible))
+            i += 1
+
+        return f"{divisible_by.x}√{divisible_by.y}"
+
     def unit(self, out: Vector = None) -> Vector:
         """
         Determines the unit vector of this vector.
@@ -75,6 +90,12 @@ class Vector:
         out.x, out.y = self.x * inv_mag, self.y * inv_mag
 
         return out
+
+    def normalize(self) -> None:
+        """
+        Normalizes the current vector.
+        """
+        self.unit(self)
 
     def to_tuple(self) -> tuple:
         """
@@ -431,3 +452,6 @@ class Vector:
 
     def __iter__(self) -> Iterator[int]:
         return iter([self.x, self.y])
+
+    def __repr__(self):
+        return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
