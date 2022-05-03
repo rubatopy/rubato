@@ -31,7 +31,7 @@ jobs:
                   cp -r docs/build/html nightly
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
-                  cp docs/blog blog
+                  cp -r docs/blog blog
                   git add .
                   git stash push
                   git checkout gh-pages
