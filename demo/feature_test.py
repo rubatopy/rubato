@@ -16,8 +16,8 @@ rb.init({
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-v = rb.Vector(9, 9)
-v.normalize()
+v = rb.Vector(93, 48)
+print(v.rationalized_unit)
 print(v, v.unit())
 
 rb.begin()

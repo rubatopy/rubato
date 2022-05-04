@@ -58,15 +58,60 @@ class Vector:
         """
         Returns a string representation of a rationalized vector magnitude as you would use in math class.
         """
-        i = 1
+        generator = Math.gen_primes()
         error = 0.0000001
         divisible_by: "Vector" = Vector()
-        while (possible := self.mag_sq / i**2) >= 1:
+        if Math.is_int(self.magnitude, error):
+            return str(round(self.magnitude))
+
+        while (possible := self.mag_sq / (val := next(generator))**2) >= 1:
             if Math.is_int(possible, error):
-                divisible_by = Vector(i, round(possible))
-            i += 1
+                divisible_by = Vector(val, round(possible))
+                print(possible)
 
         return f"{divisible_by.x}√{divisible_by.y}"
+
+    @property
+    def rationalized_mag_vector(self) -> Vector:
+        """
+        Returns a vector with the rationalized magnitude.
+        """
+        generator = Math.gen_primes()
+        error = 0.0000001
+        divisible_by: "Vector" = Vector()
+        if Math.is_int(self.magnitude, error):
+            return Vector(self.magnitude)
+
+        while (possible := self.mag_sq / (val := next(generator)) ** 2) >= 1:
+            if Math.is_int(possible, error):
+                divisible_by = Vector(val, round(possible))
+                print(possible)
+
+        return divisible_by
+
+    @property
+    def rationalized_unit(self) -> str:
+        """
+        Returns a string representation of a rationalized unit vector as you would use in math class.
+        """
+        out = self.clone()
+        mag: Vector = self.rationalized_mag_vector
+        if len(mag) == 1:
+            return f"{self.x}/√{mag.x}, {self.y}/√{mag.x}"
+        mag_scalar: Vector = Vector.one * mag.x
+        mag: int = mag.y
+
+        div = math.gcd(mag_scalar.x, self.x)
+        if Math.is_int(self.x / div, 0.000001):
+            out.x /= div
+            mag_scalar.x /= div
+        div = math.gcd(mag_scalar.y, self.y)
+        if Math.is_int(self.y / div, 0.000001):
+            out.y /= div
+            mag_scalar.y /= div
+        out.to_int()
+        mag_scalar.to_int()
+        return f"<{out.x:.0f}/{mag_scalar.x:.0f}√{mag}, {out.y:.0f}/{mag_scalar.y:.0f}√{mag}>"
 
     def unit(self, out: Vector = None) -> Vector:
         """
@@ -346,7 +391,7 @@ class Vector:
 
     @classmethod
     @property
-    def one(cls):
+    def one(cls) -> Vector:
         """A Vector with all ones"""
         return Vector(1, 1)
 
@@ -455,3 +500,9 @@ class Vector:
 
     def __repr__(self):
         return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
+
+    def __len__(self) -> int:
+        length = 0
+        for i in self:
+            length += i != 0
+        return length
