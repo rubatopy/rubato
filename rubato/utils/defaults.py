@@ -111,8 +111,9 @@ class Defaults:
     # [/button]
     # [rigidbody]
     rigidbody_defaults = {
-        "mass": 1,  # . . . . . . . . . . . . . . . . . . . . . . . float
-        # The mass of the RB. (0 for infinite)
+        "density": 1,  #. . . . . . . . . . . . . . . . . . . . . . float
+        # The density of the object. Will be used to automatically calculate mass and moment based on hitboxes.
+        # (0 for infinite)
         "bounciness": 0,  # . . . . . . . . . . . . . . . . . . . . float
         # The percent bounciness of the RB. (as a decimal)
         "gravity": Vector(),  # . . . . . . . . . . . . . . . . . . Vector
@@ -129,8 +130,12 @@ class Defaults:
         # The amount of the collision to handle every fixed update. Set to 1.0 for platformers.
         "ang_vel": 0,  #. . . . . . . . . . . . . . . . . . . . . . bool
         # The starting angular velocity of the RB.
-        "moment": 1,  #. . . . . . . . . . . . . . . . . float
-        # The moment of inertia of the RB.
+        "moment": -1,  #. . . . . . . . . . . . . . . . . . . . . . float
+        # The moment of inertia of the RB. WILL OVERRIDE DENSITY IF SET. (0 for infinite)
+        # If moment is set, mass must also be set.
+        "mass": -1,  #. . . . . . . . . . . . . . . . . . . . . . . float
+        # The mass of the RB. WILL OVERRIDE DENSITY IF SET. (0 for infinite)
+        # If mass is set, moment must also be set.
         "advanced": False,  # . . . . . . . . . . . . . . . . . . . bool
         # The type of collision resolution algorithm. If True, rotational resolution will be enabled.
     }

@@ -16,8 +16,24 @@ rb.init({
 main = rb.Scene()
 rb.Game.scenes.add(main, "main")
 
-v = rb.Vector(93, 48)
-print(v.rationalized_unit)
-print(v, v.unit())
+test = rb.GameObject({
+    "pos": rb.Vector(100, 100)
+}).add(rb.RigidBody()).add(rb.Circle({
+    "radius": 40,
+    "color": rb.Color.red
+}))
 
+test2 = rb.GameObject({
+    "pos": rb.Vector(200, 100)
+}).add(rb.RigidBody()).add(rb.Rectangle({
+    "width": 40,
+    "height": 40,
+    "color": rb.Color.red
+}))
+
+test3 = rb.GameObject({
+    "pos": rb.Vector(300, 100)
+}).add(rb.RigidBody()).add(rb.Polygon.generate_polygon(5, 40, {"color": rb.Color.red}))
+
+main.add(test, test2, test3)
 rb.begin()

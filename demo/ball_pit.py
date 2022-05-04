@@ -69,10 +69,12 @@ for _ in range(num_balls):
         ).add(
             rb.RigidBody(
                 {
+                    "density": 0.1,
                     "bounciness": 1,
                     "friction": 0.2,
                     "gravity": rb.Vector(0, 0),
-                    "velocity": rb.Vector(randint(-100, 100), randint(-100, 100))
+                    "velocity": rb.Vector(randint(-100, 100), randint(-100, 100)),
+                    "advanced": True,
                 }
             )
         )

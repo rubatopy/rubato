@@ -3,8 +3,9 @@ The Rigidbody component contains an implementation of rigidbody physics. They
 have hitboxes and can collide and interact with other rigidbodies.
 """
 from __future__ import annotations
+import math
 
-from . import Component
+from . import Component, Circle, Hitbox, Rectangle, Polygon
 from ... import Vector, Defaults, Time
 
 
@@ -56,21 +57,39 @@ class RigidBody(Component):
 
         self.singular = True
 
-        if params["mass"] == 0 or self.static:
-            self.inv_mass = 0
-        else:
-            self.inv_mass: float = 1 / params["mass"]
+        if params["mass"] != -1 and params["moment"] != -1:
+            if params["mass"] == 0 or self.static:
+                self._inv_mass = 0
+            else:
+                self._inv_mass: float = 1 / params["mass"]
 
-        if params["moment"] == 0 or self.static:
-            self.inv_moment = 0
+            if params["moment"] == 0 or self.static:
+                self._inv_moment = 0
+            else:
+                self._inv_moment: float = 1 / params["moment"]
+            self._density = -1
         else:
-            self.inv_moment: float = 1 / params["moment"]
+            self._density = params["density"]
+            self._inv_mass = 0
+            self._inv_moment = 0
 
+        self._last_density_calc = -1
         self.bounciness: float = params["bounciness"]
+
+    @property
+    def inv_mass(self) -> float:
+        """The inverse mass of the Rigidbody."""
+        self.calc_mass_and_moment()
+        return self._inv_mass
+
+    @inv_mass.setter
+    def inv_mass(self, new: float):
+        self._inv_mass = new
 
     @property
     def mass(self) -> float:
         """The mass of the Rigidbody."""
+        self.calc_mass_and_moment()
         if self.inv_mass == 0:
             return 0
         else:
@@ -84,8 +103,19 @@ class RigidBody(Component):
             self.inv_mass: float = 1 / new
 
     @property
+    def inv_moment(self) -> float:
+        """The inverse moment of the Rigidbody."""
+        self.calc_mass_and_moment()
+        return self._inv_moment
+
+    @inv_moment.setter
+    def inv_moment(self, new: float):
+        self._inv_moment = new
+
+    @property
     def moment(self) -> float:
         """The moment of inertia of the Rigidbody."""
+        self.calc_mass_and_moment()
         if self.inv_moment == 0:
             return 0
         else:
@@ -97,6 +127,57 @@ class RigidBody(Component):
             self.inv_moment = 0
         else:
             self.inv_moment: float = 1 / new
+
+    def calc_mass_and_moment(self):
+        """
+        Calculates the mass and the moment of interia from the density if it hasn't already been calculate this frame.
+        """
+        if self._density > -1 and self._last_density_calc < Time.frames:
+            self._last_density_calc = Time.frames
+            hitboxes = self.gameobj.get_all(Hitbox)
+            tots_mass = 0
+            tots_moment = 0
+            for hitbox in hitboxes:
+                if hitbox.trigger:
+                    continue
+                if isinstance(hitbox, Circle):
+                    mass = self._density * hitbox.radius**2 * math.pi
+                    moment = mass * hitbox.radius**2
+                elif isinstance(hitbox, Rectangle):
+                    mass = self._density * hitbox.width * hitbox.height
+                    moment = mass * (hitbox.width**2 + hitbox.height**2) / 12
+                elif isinstance(hitbox, Polygon):
+                    c = Vector(0, 0)  # centroid
+                    area = 0
+                    inert = 0
+                    k_inv3 = 1 / 3
+
+                    verts = hitbox.translated_verts()
+                    for i in range(len(verts)):
+                        p1 = verts[i]
+                        p2 = verts[(i + 1) % len(verts)]
+
+                        d = p1.cross(p2)
+                        tri_area = 0.5 * d
+
+                        area += tri_area
+
+                        # Use area to weight the centroid average, not just vertex position
+                        weight = tri_area * k_inv3
+                        c += (p1 + p2) * weight
+
+                        intx2 = p1.x**2 + p2.x * p1.x + p2.x**2
+                        inty2 = p1.y**2 + p2.y * p1.y + p2.y**2
+                        inert += (0.25 * k_inv3 * d) * (intx2 + inty2)
+
+                    mass = self._density * area
+                    moment = inert * self._density
+
+                tots_mass += mass
+                tots_moment += moment
+
+            self._inv_mass = 0 if tots_mass == 0 else 1 / tots_mass
+            self._inv_moment = 0 if tots_moment == 0 else 1 / tots_moment
 
     def physics(self):
         """Applies general kinematic laws to the rigidbody."""
@@ -157,6 +238,9 @@ class RigidBody(Component):
         else:
             self.add_impulse(impulse)
             Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - Time.delta_time))
+
+    def setup(self):
+        self.calc_mass_and_moment()
 
     def fixed_update(self):
         """The physics loop for the rigidbody component."""

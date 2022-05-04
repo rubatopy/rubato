@@ -77,14 +77,7 @@ player.add(
 )
 
 # define the player rigidbody
-player_body = rb.RigidBody(
-    {
-        "gravity": rb.Vector(y=rb.Display.res.y * 1.5),
-        "pos_correction": 1,
-        "moment": 100,
-        "friction": 0.8
-    }
-)
+player_body = rb.RigidBody({"gravity": rb.Vector(y=rb.Display.res.y * 1.5), "pos_correction": 1, "friction": 0.8})
 player.add(player_body)
 
 # Side boundary
@@ -187,6 +180,7 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 # define a custom update function
 def update():
     global grounded
+    print(player_body.mass, player_body.moment)
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300
