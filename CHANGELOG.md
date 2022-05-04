@@ -15,6 +15,7 @@
 -   `on_exit()` user defineable callback for hitboxes.
 -   PyInstaller support.
 -   All `Hitbox`s now have `get_aabb()` and `get_obb()` methods.
+-   Can create a `RigidBody` with density instead of mass and moment. Will usually result in nicer behavior.
 
 ### Changed
 
