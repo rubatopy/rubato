@@ -217,6 +217,9 @@ def update():
         player.get(rb.RigidBody).velocity = rb.Vector.zero
         grounded = False
 
+    if rb.Input.key_pressed("space"):
+        player_body.ang_vel += 10
+
 
 # define a custom fixed update function
 def fixed_update():

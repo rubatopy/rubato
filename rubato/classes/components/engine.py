@@ -77,16 +77,17 @@ class Engine:
         inv_contacts = 1 / len(col.contacts)
 
         col.normal *= -1
-        if len(col.contacts) > 1:
-            print(col.contacts[0], col.contacts[1])
 
         # RESOLUTION STEP
         for contact in col.contacts:
             ra = contact - sh_a.pos
             rb = contact - sh_b.pos
 
-            rv = (0 if b_none else rb_b.velocity + rb.perpendicular(rb_b.ang_vel)
-                 ) - (0 if a_none is None else rb_a.velocity + ra.perpendicular(rb_a.ang_vel))
+            ang_vel_a = 0 if a_none or not rb_a.advanced else rb_a.ang_vel
+            ang_vel_b = 0 if b_none or not rb_b.advanced else rb_b.ang_vel
+
+            rv = (0 if b_none else rb_b.velocity +
+                  rb.perpendicular(ang_vel_b)) - (0 if a_none is None else rb_a.velocity + ra.perpendicular(ang_vel_a))
 
             contact_vel = rv.dot(col.normal)
 
@@ -111,17 +112,19 @@ class Engine:
 
             if not (a_none or rb_a.static):
                 rb_a.velocity -= impulse * inv_mass_a
-                rb_a.ang_vel += inv_moment_a * ra.cross(impulse)
-
                 rb_a.velocity -= t_impulse * inv_mass_a
-                rb_a.ang_vel += inv_moment_a * ra.cross(t_impulse)
+
+                if rb_a.advanced:
+                    rb_a.ang_vel += inv_moment_a * ra.cross(impulse)
+                    rb_a.ang_vel += inv_moment_a * ra.cross(t_impulse)
 
             if not (b_none or rb_b.static):
                 rb_b.velocity += impulse * inv_mass_b
-                rb_b.ang_vel -= inv_moment_b * rb.cross(impulse)
-
                 rb_b.velocity += t_impulse * inv_mass_b
-                rb_b.ang_vel -= inv_moment_b * rb.cross(t_impulse)
+
+                if rb_b.advanced:
+                    rb_b.ang_vel -= inv_moment_b * rb.cross(impulse)
+                    rb_b.ang_vel -= inv_moment_b * rb.cross(t_impulse)
 
         # Position correction
         correction = max(col.penetration - 0.01, 0) * col.normal
