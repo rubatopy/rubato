@@ -34,7 +34,9 @@ jobs:
                   cp -r docs/blog blog
                   git add .
                   git stash push
+                  git fetch
                   git checkout gh-pages
+                  git pull
                   git rm -rf nightly
                   git rm -f index.html
                   git rm -f 404.html
@@ -55,4 +57,3 @@ jobs:
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   branch: gh-pages
-                  force: true
