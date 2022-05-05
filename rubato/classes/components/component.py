@@ -6,7 +6,7 @@ Attention:
     ``clone()`` method.
 """
 from __future__ import annotations
-from typing import Union, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from ... import Vector, Defaults
 
@@ -34,7 +34,7 @@ class Component:
             options: A Component config. Defaults to the :ref:`Component defaults <componentdef>`.
         """
         p = Defaults.component_defaults | options
-        self.gameobj: Union[GameObject, None] = None
+        self.gameobj: Optional[GameObject] = None
         self.singular: bool = False
         self.offset: Vector = p["offset"]
         self.rotation_offset: float = p["rot_offset"]

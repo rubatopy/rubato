@@ -24,8 +24,7 @@ class RigidBody(Component):
         max_speed (Vector): The maximum speed of the Rigidbody.
         min_speed (Vector): The minimum speed of the Rigidbody.
         velocity (Vector): The current velocity of the Rigidbody.
-        inv_mass (float): The inverse of the mass of the Rigidbody (0 if the
-            mass is infinite).
+        ang_vel (float): The current angular velocity of the Rigidbody.
         bounciness (float): How bouncy the rigidbody is (usually a value
             between 0 and 1).
         advanced (bool): Whether to use rotational collision resolution

@@ -19,7 +19,7 @@ class Animation(Component):
     Animations are a series of images that update automatically in accordance with parameters.
 
     Attributes:
-        default_state (Union[str, None]): The key of the default state. Defaults
+        default_state (Optional[str]): The key of the default state. Defaults
             to None.
         current_state (str): The key of the current state. Defaults to "".
         animation_frames_left (int): The number of animation frames left.

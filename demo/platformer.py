@@ -180,7 +180,6 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 # define a custom update function
 def update():
     global grounded
-    print(player_body.mass, player_body.moment)
     # check for user directional input
     if rb.Input.key_pressed("a"):
         player_body.velocity.x = -300

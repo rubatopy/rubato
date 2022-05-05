@@ -70,7 +70,7 @@ autodoc_class_signature = "mixed"
 autodoc_member_order = "bysource"
 autodoc_mock_imports = ["sdl2"]
 autodoc_typehints_format = "short"
-autodoc_typehints = "both"
+autodoc_typehints = "signature"
 autodoc_preserve_defaults = True
 
 autodoc_default_options = {

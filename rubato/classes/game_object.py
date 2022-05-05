@@ -2,7 +2,7 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
-from typing import List, Union, Dict, TYPE_CHECKING
+from typing import List, Dict, TYPE_CHECKING, Optional
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
 from .. import Game, Vector, Defaults, Display, DuplicateComponentError, Draw, Color
@@ -107,7 +107,7 @@ class GameObject:
                 f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
             )
 
-    def get(self, comp_type: type) -> Union[Component, None]:
+    def get(self, comp_type: type) -> Optional[Component]:
         """
         Gets a component from the game object.
 
@@ -115,7 +115,7 @@ class GameObject:
             comp_type (type): The type of the component to search for.
 
         Returns:
-            Union[Component, None]: The component if it was found or None if it wasn't.
+            Optional[Component]: The component if it was found or None if it wasn't.
         """
         if comp_type in (Rectangle, Polygon, Circle):
             comp_type = Hitbox

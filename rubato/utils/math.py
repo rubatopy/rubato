@@ -1,9 +1,6 @@
 """
 The math module includes some helper functions for commonly used equations.
 """
-from typing import Union
-
-
 class Math:
     """
     A more complete math class.
@@ -14,7 +11,7 @@ class Math:
     INF = float('inf')
 
     @staticmethod
-    def clamp(a: Union[float, int], lower: Union[float, int], upper: Union[float, int]) -> float:
+    def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
         """
         Clamps a value.
 
@@ -29,7 +26,7 @@ class Math:
         return min(max(a, lower), upper)
 
     @staticmethod
-    def sign(n: Union[float, int]) -> int:
+    def sign(n: float | int) -> int:
         """
         Checks the sign of n.
 
@@ -42,7 +39,7 @@ class Math:
         return (n >= 0) - (n < 0)
 
     @staticmethod
-    def lerp(a: Union[float, int], b: Union[float, int], t: float) -> float:
+    def lerp(a: float | int, b: float | int, t: float) -> float:
         """
         Linearly interpolates between lower and upper bounds by t
 

@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, Dict, List, Optional, Union, TYPE_CHECKING, Set
+from typing import Callable, Dict, List, Optional, TYPE_CHECKING, Set
 import math
 
 from . import Component
@@ -166,8 +166,8 @@ class Polygon(Hitbox):
     @classmethod
     def generate_polygon(cls,
                          num_sides: int,
-                         radius: Union[float, int] = 1,
-                         options: Optional[Dict] = None) -> Union[List[Vector], Polygon]:
+                         radius: float | int = 1,
+                         options: Optional[Dict] = None) -> List[Vector] | Polygon:
         """
         Generates the vertices of a regular polygon with a specified number of sides and a radius.
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.

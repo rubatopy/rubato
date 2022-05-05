@@ -2,7 +2,7 @@
 Groups contain game objects or other groups and allow separation between game objects.
 """
 from __future__ import annotations
-from typing import List, Union, TYPE_CHECKING
+from typing import List, TYPE_CHECKING
 
 from . import GameObject, Hitbox, Engine
 from .. import Error, Defaults, Game
@@ -27,7 +27,7 @@ class Group:
         self.game_objects: List[GameObject] = []
         self.z_index: int = param["z_index"]
 
-    def add(self, *items: Union[GameObject, Group]):
+    def add(self, *items: GameObject | Group):
         """
         Adds an item to the group.
 
@@ -63,7 +63,7 @@ class Group:
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
 
-    def delete(self, item: Union[GameObject, Group]):
+    def delete(self, item: GameObject | Group):
         """
         Removes an item from the group.
 

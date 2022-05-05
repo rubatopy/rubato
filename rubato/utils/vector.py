@@ -2,7 +2,7 @@
 A vector implementation.
 """
 from __future__ import annotations
-from typing import Iterator, Union
+from typing import Iterator
 import math
 
 from . import Math
@@ -13,11 +13,11 @@ class Vector:
     A Vector object that defines a 2D point in space
 
     Attributes:
-        x (Union[float, int]): The x coordinate.
-        y (Union[float, int]): The y coordinate.
+        x (float | int): The x coordinate.
+        y (float | int): The y coordinate.
     """
 
-    def __init__(self, x: Union[float, int] = 0, y: Union[float, int] = 0):
+    def __init__(self, x: float | int = 0, y: float | int = 0):
         """
         Initializes a vector.
 
@@ -36,7 +36,7 @@ class Vector:
         return (self.x * self.x + self.y * self.y)**.5
 
     @magnitude.setter
-    def magnitude(self, value: Union[float, int]):
+    def magnitude(self, value: float | int):
         if self.x == self.y == 0:
             return
         ratio = value * (self.x * self.x + self.y * self.y)**-.5
@@ -82,7 +82,7 @@ class Vector:
         if Math.is_int(self.magnitude, error):
             return Vector(self.magnitude)
 
-        while (possible := self.mag_sq / (val := next(generator)) ** 2) >= 1:
+        while (possible := self.mag_sq / (val := next(generator))**2) >= 1:
             if Math.is_int(possible, error):
                 divisible_by = Vector(val, round(possible))
                 print(possible)
@@ -148,41 +148,41 @@ class Vector:
         """
         return (*self,)
 
-    def dot(self, other: Vector) -> Union[float, int]:
+    def dot(self, other: Vector) -> float | int:
         """
         Takes the dot product of two vectors.
 
         Args:
-            other (Vector): The other vector.
+            other: The other vector.
 
         Returns:
-            Union[float, int]: The resulting dot product.
+            The resulting dot product.
         """
         return self.x * other.x + self.y * other.y
 
-    def cross(self, other: Vector) -> Union[float, int]:
+    def cross(self, other: Vector) -> float | int:
         """
         Takes the cross product of two vectors.
 
         Args:
-            other (Vector): The other vector.
+            other: The other vector.
 
         Returns:
-            Union[float, int]: The resultant scalar magnitude of the orthogonal vector along an imaginary z-axis.
+            The resultant scalar magnitude of the orthogonal vector along an imaginary z-axis.
         """
         return self.x * other.y - self.y * other.x
 
-    def perpendicular(self, scalar: Union[float, int] = 1, out: Vector = None) -> Vector:
+    def perpendicular(self, scalar: float | int = 1, out: Vector = None) -> Vector:
         """
         Computes a scaled 90 degree clockwise rotation on a given vector.
 
         Args:
-            scalar (Union[float, int]): The scalar value.
-            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+            scalar: The scalar value.
+            out: The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
-            Vector: The resultant vector when transformed.
+            The resultant vector when transformed.
         """
         if out is None:
             out = Vector()
@@ -192,23 +192,19 @@ class Vector:
         return out
 
     def clamp(
-        self,
-        lower: Union[Vector, int, float],
-        upper: Union[Vector, int, float],
-        absolute: bool = False,
-        out: Vector = None
+        self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
     ):
         """
         Clamps x and y between the two values given.
 
         Args:
-            lower (Union[Vector, int, float]): The lower bound.
+            lower: The lower bound.
                 If a vector is specified, its x coord is used to clamp the x coordinate and same for y.
-            upper (Union[Vector, int, float]): The upper bound.
+            upper: The upper bound.
                 If a vector is specified, its x coord is used to clamp the x coordinate and same for y.
-            absolute (bool): Whether to clamp the absolute value of the vector
+            absolute: Whether to clamp the absolute value of the vector
                 instead of the actual value. Defaults to False.
-            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+            out: The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
         """
         if out is None:
@@ -228,12 +224,12 @@ class Vector:
 
         return out
 
-    def rotate(self, angle: Union[float, int], out: Vector = None) -> Vector:
+    def rotate(self, angle: float | int, out: Vector = None) -> Vector:
         """
         Rotates the vector by a given number of degees.
 
         Args:
-            angle (Union[float, int]): The counterclockwise rotation amount in degrees.
+            angle (float | int): The counterclockwise rotation amount in degrees.
             out (Vector, optional): The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
 

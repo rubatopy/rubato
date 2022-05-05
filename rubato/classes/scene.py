@@ -2,8 +2,6 @@
 The Scene class which is a collection of groups. It also houses the current scene camera.
 Scenes are built with a root group that everything is added to.
 """
-from typing import Union
-
 from . import Camera, Group, GameObject
 
 
@@ -25,7 +23,7 @@ class Scene:
         self._ui_cam = Camera()
         self.id: str = ""
 
-    def add(self, *items: Union[GameObject, Group]):
+    def add(self, *items: GameObject | Group):
         """
         Adds an item to the root group.
 
@@ -45,7 +43,7 @@ class Scene:
         """
         self.ui.add(*items)
 
-    def delete(self, item: Union[GameObject, Group]):
+    def delete(self, item: GameObject | Group):
         """
         Removes an item from the root group.
 
