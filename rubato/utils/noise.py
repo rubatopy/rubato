@@ -177,9 +177,9 @@ class Noise:
 
     @classmethod
     def _noise3_base(cls, seed: int, xr: float, yr: float, zr: float) -> float:
-        xrb = Math.round(xr)
-        yrb = Math.round(yr)
-        zrb = Math.round(zr)
+        xrb = round(xr)
+        yrb = round(yr)
+        zrb = round(zr)
         xri = xr - xrb
         yri = yr - yrb
         zri = zr - zrb

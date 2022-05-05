@@ -30,7 +30,7 @@ for x in range(rb.Display.res.x):
 def draw():
     for i in range(rb.Display.res.x):
         for j in range(rb.Display.res.y):
-            rb.Display.draw_point(*saved[i][j])
+            rb.Draw.point(saved[i][j][0], color=saved[i][j][1])
 
 
 main_scene.draw = draw
