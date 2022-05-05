@@ -16,7 +16,11 @@ if TYPE_CHECKING:
 
 class Component:
     """
-    A component adds functionality to the game object it is attached to.
+    A component adds functionality to the game object it is attached to. Note that this is a template class and should
+    not be used directly. Instead create another class and extend from this one.
+
+    Args:
+        options: A Component config. Defaults to the :ref:`Component defaults <componentdef>`.
 
     Attributes:
         gameobj (GameObject): The game object this component is attached to.
@@ -26,13 +30,6 @@ class Component:
     """
 
     def __init__(self, options: dict = {}) -> None:
-        """
-        Initializes a Component. Not that this is a template class and should not be used directly. Instead create
-        another class and extend from this one.
-
-        Args:
-            options: A Component config. Defaults to the :ref:`Component defaults <componentdef>`.
-        """
         p = Defaults.component_defaults | options
         self.gameobj: Optional[GameObject] = None
         self.singular: bool = False

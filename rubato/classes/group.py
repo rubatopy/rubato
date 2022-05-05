@@ -12,15 +12,14 @@ if TYPE_CHECKING:
 
 
 class Group:
-    """The group class implementation."""
+    """
+    The group class implementation.
+
+    Args:
+        options: A group object config. Defaults to the :ref:`Group defaults <groupdef>`.
+    """
 
     def __init__(self, options: dict = {}) -> None:
-        """
-        Initializes a group object.
-
-        Args:
-            options: A group object config. Defaults to the :ref:`Group defaults <groupdef>`.
-        """
         param = Defaults.group_defaults | options
         self.name: str = param["name"]
         self.groups: List[Group] = []

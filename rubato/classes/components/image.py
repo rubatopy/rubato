@@ -18,6 +18,9 @@ class Image(Component):
     """
     A component that handles Images.
 
+    Args:
+        options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
+
     Attributes:
         aa (bool): Whether or not to enable anti aliasing.
         flipx (bool): Whether or not to flip the image along the x axis
@@ -26,12 +29,6 @@ class Image(Component):
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes an Image.
-
-        Args:
-            options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
-        """
         param = Defaults.image_defaults | options
         super().__init__(param)
 

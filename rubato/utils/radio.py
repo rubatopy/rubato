@@ -84,6 +84,10 @@ class Listener:
     """
     The actual listener object itself. A backend class for the Radio.
 
+    Args:
+        event: The event key to listen for.
+        callback: The function to run once the event is broadcast.
+
     Attributes:
         event (str): The event descriptor
         callback (Callable): The function called when the event occurs

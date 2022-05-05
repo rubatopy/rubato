@@ -13,18 +13,15 @@ from ... import Defaults, Vector, get_path
 class Spritesheet:
     """
     A spritesheet from the filesystem.
+
+    Args:
+        options: A Spritesheet config. Defaults to the :ref:`Spritesheet defaults <spritesheetdef>`.
+
+    Raises:
+        IndexError: If user does not load the entire sheet.
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes a Spritesheet.
-
-        Args:
-            options: A Spritesheet config. Defaults to the :ref:`Spritesheet defaults <spritesheetdef>`.
-
-        Raises:
-            IndexError: If user does not load the entire sheet.
-        """
         params = Defaults.spritesheet_defaults | options
 
         self._grid: Vector = params["grid_size"]

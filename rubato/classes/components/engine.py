@@ -436,7 +436,14 @@ class Engine:
 
 class Manifold:
     """
-    A class that represents information returned in a successful collision
+    A class that represents information returned in a successful collision.
+
+    Args:
+        shape_a: The first shape involved in the collision.
+        shape_b: The second shape involved in the collision.
+        penetration: The amount of penetration between the two shapes.
+        normal: The normal of the collision.
+        contacts: The points of contact between the two shapes.
 
     Attributes:
         shape_a (Optional[Hitbox]): A reference to the first shape.
@@ -453,10 +460,6 @@ class Manifold:
         normal: Vector = Vector(),
         contacts: List[Vector] = []
     ):
-        """
-        Initializes a Collision Info manifold.
-        This is used internally by :func:`Engine <rubato.classes.components.hitbox.Engine>`.
-        """
         self.shape_a = shape_a
         self.shape_b = shape_b
         self.penetration = penetration

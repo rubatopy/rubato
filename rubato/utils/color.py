@@ -13,6 +13,12 @@ class Color:
     """
     An RGBA color.
 
+    Args:
+        r: The red value. Defaults to 0.
+        g: The green value. Defaults to 0.
+        b: The blue value. Defaults to 0.
+        a: The alpha value. Defaults to 255.
+
     Attributes:
         r (int): The red value.
         g (int): The green value.
@@ -21,15 +27,6 @@ class Color:
     """
 
     def __init__(self, r: int = 0, g: int = 0, b: int = 0, a: int = 255):
-        """
-        Initializes an Color class.
-
-        Args:
-            r: The red value. Defaults to 0.
-            g: The green value. Defaults to 0.
-            b: The blue value. Defaults to 0.
-            a: The alpha value. Defaults to 255.
-        """
         self.r = int(Math.clamp(r, 0, 255))
         self.g = int(Math.clamp(g, 0, 255))
         self.b = int(Math.clamp(b, 0, 255))

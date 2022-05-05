@@ -15,6 +15,9 @@ class Hitbox(Component):
     A hitbox superclass. Do not use this class to attach hitboxes to your game objects.
     Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
 
+    Args:
+        options: A Hitbox config. Defaults to the :ref:`Hitbox defaults <hitboxdef>`.
+
     Attributes:
         debug (bool): Whether to draw a green outline around the hitbox or not.
         trigger (bool): Whether this hitbox is just a trigger or not.
@@ -27,12 +30,6 @@ class Hitbox(Component):
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes a Hitbox.
-
-        Args:
-            options: A Hitbox config. Defaults to the :ref:`Hitbox defaults <hitboxdef>`.
-        """
         params = Defaults.hitbox_defaults | options
         super().__init__(params)
         self.debug: bool = params["debug"]

@@ -12,13 +12,17 @@ class Camera:
     """
     The camera class.
 
+    Args:
+        pos: The position of the camera.
+        zoom: The zoom of the camera.
+        z_index: The z-index of the camera.
+
     Attributes:
         pos (Vector): The current position of the camera.
         z_index (int): The current z_index of the camera.
     """
 
     def __init__(self, pos: Vector = Vector(), zoom: float = 1, z_index: int = 100):
-        """Initializes a camera."""
         self.pos = pos
         self._zoom = zoom
         self.z_index = z_index

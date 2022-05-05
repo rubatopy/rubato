@@ -9,6 +9,9 @@ class Button(Component):
     """
     A Button component. Add this to game objects or UI elements to give them clickable areas.
 
+    Args:
+        options: A Button config. Defaults to the :ref:`Button defaults <buttondef>`.
+
     Attributes:
         pressed (bool): Whether the button is currently pressed.
         hover (bool): Whether the mouse is hovering over the button.
@@ -20,12 +23,6 @@ class Button(Component):
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes a Button.
-
-        Args:
-            options: A Button config. Defaults to the :ref:`Button defaults <buttondef>`.
-        """
         params = Defaults.button_defaults | options
         super().__init__(params)
         self.dims: Vector = Vector(params["width"], params["height"])

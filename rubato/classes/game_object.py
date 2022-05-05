@@ -15,6 +15,9 @@ class GameObject:
     """
     The base game object class.
 
+    Args:
+        options: A game object config. Defaults to the :ref:`Game Object defaults <gameobjdef>`.
+
     Attributes:
         name (str): The name of the game object. Will default to:
             "Game Object {number in group}"
@@ -26,12 +29,6 @@ class GameObject:
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes a game object.
-
-        Args:
-            options: A game object config. Defaults to the :ref:`Game Object defaults <gameobjdef>`.
-        """
         param = Defaults.gameobj_defaults | options
         self.name: str = param["name"]
         self.pos: Vector = param["pos"]

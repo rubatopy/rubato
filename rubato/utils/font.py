@@ -8,6 +8,9 @@ from . import Defaults, Color
 class Font:
     """
     This is the font object that is used to render text.
+
+    Args:
+        options: A Font config. Defaults to the :ref:`Font defaults <fontdef>`.
     """
 
     def __init__(self, options: dict = {}):

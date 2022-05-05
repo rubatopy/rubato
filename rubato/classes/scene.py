@@ -11,12 +11,13 @@ class Scene:
 
     Attributes:
         root (Group): The base group of game objects in the scene.
+        ui (Group): The ui elements of this scene. These are drawn on top of everything else and do not interact with
+            the other game objects.
         camera (Camera): The camera of this scene.
         id (str): The id of this scene.
     """
 
     def __init__(self):
-        """Initializes a scene with an empty collection of game objects, a new camera, and a blank id."""
         self.root: Group = Group({"name": "root"})
         self.ui: Group = Group({"name": "ui"})
         self.camera = Camera()

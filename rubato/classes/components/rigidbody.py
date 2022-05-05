@@ -14,6 +14,9 @@ class RigidBody(Component):
     A RigidBody implementation with built in physics and collisions.
     Rigidbodies require hitboxes.
 
+    Args:
+        options: A rigidbody config. Defaults to the :ref:`Rigidbody defaults <rigidbodydef>`.
+
     Attributes:
         static (bool): Whether or not the rigidbody is static (as in, it does
             not move).
@@ -32,12 +35,6 @@ class RigidBody(Component):
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes a Rigidbody.
-
-        Args:
-            options: A rigidbody config. Defaults to the :ref:`Rigidbody defaults <rigidbodydef>`.
-        """
         params = Defaults.rigidbody_defaults | options
 
         super().__init__()

@@ -12,15 +12,14 @@ if TYPE_CHECKING:
 
 
 class Text(Component):
-    """A text component subclass. Add this to game objects or UI elements to give them text."""
+    """
+    A text component subclass. Add this to game objects or UI elements to give them text.
+
+    Args:
+        options: A Text config. Defaults to the :ref:`Text defaults <textdef>`.
+    """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes a Text.
-
-        Args:
-            options: A Text config. Defaults to the :ref:`Text defaults <textdef>`.
-        """
         params = Defaults.text_defaults | options
         super().__init__(params)
         self._text: str = params["text"]

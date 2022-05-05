@@ -12,19 +12,16 @@ class Vector:
     """
     A Vector object that defines a 2D point in space
 
+    Args:
+        x: The x coordinate. Defaults to 0.
+        y: The y coordinate. Defaults to 0.
+
     Attributes:
         x (float | int): The x coordinate.
         y (float | int): The y coordinate.
     """
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
-        """
-        Initializes a vector.
-
-        Args:
-            x: The x coordinate. Defaults to 0.
-            y: The y coordinate. Defaults to 0.
-        """
         if type(x) in (float, int) and type(y) in (float, int):
             self.x, self.y = x, y
         else:

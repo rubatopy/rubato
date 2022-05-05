@@ -27,6 +27,10 @@ class Sound():
     """
     A sound class that is used to manage the sounds throughout the project.
 
+    Args:
+        rel_path: The relative path to the sound file you wish to import.
+        sound_name: The name of the sound. Defaults to the name of the file.
+
     Attributes:
         loaded_sounds (Dict[str, Sound]): A dictionary housing all the loaded
             sounds, stored by their name.
@@ -38,15 +42,7 @@ class Sound():
     loaded_sounds: Dict[str, Sound] = {}
     active_channels: Dict[int, Sound] = {}
 
-    def __init__(self, rel_path: str, sound_name: str = None) -> None:
-        """
-        Initializes a sound.
-
-        Args:
-            rel_path: The relative path to the sound file you wish to import.
-            sound_name (optional): The name of the sound. Defaults to the name
-                of the file.
-        """
+    def __init__(self, rel_path: str, sound_name: str = None):
         self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))
         self.channels = 0
         self._paused = False

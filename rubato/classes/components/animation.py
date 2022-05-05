@@ -18,6 +18,9 @@ class Animation(Component):
     """
     Animations are a series of images that update automatically in accordance with parameters.
 
+    Args:
+        options: A Animation config. Defaults to the :ref:`Animation defaults <animationdef>`.
+
     Attributes:
         default_state (Optional[str]): The key of the default state. Defaults
             to None.
@@ -31,12 +34,6 @@ class Animation(Component):
     """
 
     def __init__(self, options: dict = {}):
-        """
-        Initializes an Animation.
-
-        Args:
-            options: A Animation config. Defaults to the :ref:`Animation defaults <animationdef>`.
-        """
         param = Defaults.animation_defaults | options
         super().__init__(param)
 
