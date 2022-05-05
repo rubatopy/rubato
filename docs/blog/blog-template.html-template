@@ -38,6 +38,13 @@
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"
         ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+            integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
         <link rel="stylesheet" href="/bootstrap.min.css" />
         <style>
             @import url("https://fonts.googleapis.com/css2?family=Fredoka&display=swap");
@@ -131,10 +138,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="https://rubato.app/blog">blog</a>
+                        <a class="nav-link" href="/">home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://rubato.app/latest/api">api</a>
+                        <a class="nav-link" href="/blog">blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/latest/api">api</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://github.com/rubatopy/rubato">github</a>
@@ -142,12 +152,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://pypi.org/project/rubato/">pypi</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://discord.gg/dR9fS9EYuz"><i class="fa-brands fa-discord"></i></a>
+                    </li>
                 </ul>
             </div>
         </nav>
         <!-- CONTENT HERE -->
-        <footer class="text-muted">
-            <p class="m-4">Copyright © 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave</p>
+        <footer class="text-muted m-4 d-flex flex-row justify-content-between">
+            <div>Copyright © 2022, Martin Chaperot, Tomer Sedan, Yamm Elnekave</div>
+            <div>
+                <a class="text-reset mx-1" href="https://discord.gg/dR9fS9EYuz"><i class="fa-brands fa-discord"></i></a>
+                <a class="text-reset mx-1" href="https://github.com/rubatopy/rubato"><i class="fa-brands fa-github"></i></a>
+                <a class="text-reset mx-1" href="https://twitter.com/rubatopy"><i class="fa-brands fa-twitter"></i></a>
+                <a class="text-reset mx-1" href="mailto:info@rubato.app"><i class="fa-solid fa-envelope"></i></a>
+                <a class="text-reset mx-1" href="https://www.linkedin.com/company/rubatopy/"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
         </footer>
     </body>
 </html>
