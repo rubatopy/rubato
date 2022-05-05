@@ -55,6 +55,10 @@ class Vector:
         """
         Returns a string representation of a rationalized vector magnitude as you would use in math class.
 
+        Example:
+            >>> Vector(8, 8).rationalized_mag
+            4√8
+
         Warnings:
             Should only be used on vectors with integer components.
         """
@@ -66,6 +70,10 @@ class Vector:
     def rationalized_mag_vector(self) -> Vector:
         """
         Returns a vector with the rationalized magnitude.
+
+        Example:
+            >>> Vector(8, 8).rationalized_mag
+            <4, 8>
 
         Warnings:
             Should only be used on vectors with integer components.

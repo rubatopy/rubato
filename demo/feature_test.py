@@ -28,7 +28,8 @@ import math
 v = Vector.from_radial(32, math.radians(180+45))
 v2 = Vector.from_radial(342, math.pi).to_int()
 v3 = v + v2
-print(v3.rationalized_mag)
+print(Vector(8, 8).rationalized_mag_vector)
+# print(v3.rationalized_unit) This line should raise our error.
 # print(v3.rationalized_unit)
 
 

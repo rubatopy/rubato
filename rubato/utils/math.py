@@ -11,7 +11,7 @@ class Math:
     Attributes:
         INF (float): The max value of a float.
     """
-    INF = float('inf')
+    INF = float("inf")
 
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
@@ -85,18 +85,18 @@ class Math:
         return xi + 1 if x > xi else xi
 
     @staticmethod
-    def is_int(x: float, error: float) -> bool:
+    def is_int(x: float, error: float = 0) -> bool:
         """
         Checks if a number is an integer.
 
         Args:
-            x (float): The number to check.
-            error (float): The error margin.
+            x: The number to check.
+            error: The error margin from int that we accept, used for float inaccuracy.
 
         Returns:
-            bool: True if the number is an integer within the error.
+            True if the number is an integer within the error.
         """
-        return abs(round(x) - x) < error
+        return abs(round(x) - x) <= error
 
     @staticmethod
     def simplify_radical(square_rooted: int) -> tuple:
@@ -109,13 +109,13 @@ class Math:
             tuple: The simplified radical, (multiple, radical).
         """
         error = 0.0000001
-        if Math.is_int(square_rooted, error):
+        if Math.is_int(square_rooted ** (1/2), error):
             return 1, square_rooted
         generator = Math.gen_primes()
         divisible_by = ()
         keep = False
         val = 1
-        while (possible := square_rooted / (val := (val if keep else next(generator))) ** 2) >= 1:
+        while (possible := square_rooted / (val := (val * val if keep else next(generator))) ** 2) >= 1:
             if Math.is_int(possible, error):
                 keep = True
                 divisible_by = (val, round(possible))
@@ -134,7 +134,10 @@ class Math:
         Returns:
             tuple: The simplified fraction, (numerator, denominator).
         """
+        if not isinstance(a, int) or not isinstance(b, int):
+            raise TypeError("a and b must be integers.")
         div = math.gcd(a, b)
+
         return a // div, b // div
 
     @staticmethod
@@ -147,6 +150,10 @@ class Math:
             http://code.activestate.com/recipes/117119/
         Returns:
             generator: A generator of prime numbers.
+        Example:
+            >>> generator = Math.gen_primes()
+            >>> next(generator)
+            2
         """
         # Maps composites to primes witnessing their compositeness.
         # This is memory efficient, as the sieve is not "run forward"
