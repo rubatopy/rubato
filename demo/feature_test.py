@@ -23,6 +23,15 @@ test = rb.GameObject({
     "color": rb.Color.red
 }))
 
+from rubato import Vector
+import math
+v = Vector.from_radial(32, math.radians(180+45))
+v2 = Vector.from_radial(342, math.pi).to_int()
+v3 = v + v2
+print(v3.rationalized_mag)
+# print(v3.rationalized_unit)
+
+
 test2 = rb.GameObject({
     "pos": rb.Vector(200, 100)
 }).add(rb.RigidBody()).add(rb.Rectangle({

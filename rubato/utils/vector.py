@@ -47,68 +47,49 @@ class Vector:
 
     @property
     def angle(self) -> float:
-        """The angle of the vector (readonly)."""
+        """The angle of the vector in radians (readonly)."""
         return math.atan2(self.y, self.x)
 
     @property
     def rationalized_mag(self) -> str:
         """
         Returns a string representation of a rationalized vector magnitude as you would use in math class.
+
+        Warnings:
+            Should only be used on vectors with integer components.
         """
-        generator = Math.gen_primes()
-        error = 0.0000001
-        divisible_by: "Vector" = Vector()
-        if Math.is_int(self.magnitude, error):
-            return str(round(self.magnitude))
+        divisible_by = Math.simplify_radical(round(self.mag_sq))
 
-        while (possible := self.mag_sq / (val := next(generator))**2) >= 1:
-            if Math.is_int(possible, error):
-                divisible_by = Vector(val, round(possible))
-                print(possible)
-
-        return f"{divisible_by.x}√{divisible_by.y}"
+        return f"{divisible_by[0] if divisible_by[0] != 1 else ''}√{divisible_by[1]}"
 
     @property
     def rationalized_mag_vector(self) -> Vector:
         """
         Returns a vector with the rationalized magnitude.
+
+        Warnings:
+            Should only be used on vectors with integer components.
         """
-        generator = Math.gen_primes()
-        error = 0.0000001
-        divisible_by: "Vector" = Vector()
-        if Math.is_int(self.magnitude, error):
-            return Vector(self.magnitude)
-
-        while (possible := self.mag_sq / (val := next(generator))**2) >= 1:
-            if Math.is_int(possible, error):
-                divisible_by = Vector(val, round(possible))
-                print(possible)
-
-        return divisible_by
+        return Vector(*Math.simplify_radical(round(self.mag_sq)))
 
     @property
     def rationalized_unit(self) -> str:
         """
         Returns a string representation of a rationalized unit vector as you would use in math class.
-        """
-        out = self.clone()
-        mag: Vector = self.rationalized_mag_vector
-        if len(mag) == 1:
-            return f"{self.x}/√{mag.x}, {self.y}/√{mag.x}"
-        mag_scalar: Vector = Vector.one * mag.x
-        mag: int = mag.y
 
-        div = math.gcd(mag_scalar.x, self.x)
-        if Math.is_int(self.x / div, 0.000001):
-            out.x /= div
-            mag_scalar.x /= div
-        div = math.gcd(mag_scalar.y, self.y)
-        if Math.is_int(self.y / div, 0.000001):
-            out.y /= div
-            mag_scalar.y /= div
-        out.to_int()
-        mag_scalar.to_int()
-        return f"<{out.x:.0f}/{mag_scalar.x:.0f}√{mag}, {out.y:.0f}/{mag_scalar.y:.0f}√{mag}>"
+        Warnings:
+            Should only be used on vectors with integer components.
+        """
+        mag: Vector = self.rationalized_mag_vector
+        mag = mag.to_int()
+        no_root = len(mag) == 1
+
+        num_dem1: Vector = Vector(*Math.simplify(mag.x, self.x))
+        num_dem2: Vector = Vector(*Math.simplify(mag.x, self.y))
+
+        if no_root:
+            return f"<{num_dem1.x}/{num_dem1.y}, {num_dem2.x}/{num_dem2.y}>"
+        return f"<{num_dem1.x}/{num_dem1.y}√{mag.y}, {num_dem2.x}/{num_dem2.y}√{mag.y}>"
 
     def unit(self, out: Vector = None) -> Vector:
         """
@@ -375,6 +356,34 @@ class Vector:
             Vector: Vector from the given direction and distance
         """
         return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
+
+    @staticmethod
+    def from_x(x_length: float, angle: float) -> Vector:
+        """
+        Generates a Vector from the given angle and x length.
+
+        Args:
+            x_length: Length of x component of vector.
+            angle: Direction of vector in radians.
+
+        Returns:
+            Vector: Vector from the given direction and distance
+        """
+        return Vector(x_length, math.tan(angle) * x_length)
+
+    @staticmethod
+    def from_y(y_length: float, angle: float) -> Vector:
+        """
+        Generates a Vector from the given angle and y length.
+
+        Args:
+            y_length: Length of y component of vector.
+            angle: Direction of vector in radians.
+
+        Returns:
+            Vector: Vector from the given direction and distance
+        """
+        return Vector((1 / math.tan(angle)) * y_length, y_length)
 
     @classmethod
     @property

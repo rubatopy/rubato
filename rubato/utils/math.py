@@ -1,6 +1,9 @@
 """
 The math module includes some helper functions for commonly used equations.
 """
+import math
+
+
 class Math:
     """
     A more complete math class.
@@ -82,19 +85,6 @@ class Math:
         return xi + 1 if x > xi else xi
 
     @staticmethod
-    def round(x: float) -> int:
-        """
-        Quickly rounds a number.
-
-        Args:
-            x (float): The number to round.
-
-        Returns:
-            int: The rounded number.
-        """
-        return int(x - .5) if x < 0 else int(x + .5)
-
-    @staticmethod
     def is_int(x: float, error: float) -> bool:
         """
         Checks if a number is an integer.
@@ -109,9 +99,48 @@ class Math:
         return abs(round(x) - x) < error
 
     @staticmethod
+    def simplify_radical(square_rooted: int) -> tuple:
+        """
+        Simplifies a radical.
+        Args:
+            square_rooted (int): The radical to simplify (inside the sqrt).
+
+        Returns:
+            tuple: The simplified radical, (multiple, radical).
+        """
+        error = 0.0000001
+        if Math.is_int(square_rooted, error):
+            return 1, square_rooted
+        generator = Math.gen_primes()
+        divisible_by = ()
+        keep = False
+        val = 1
+        while (possible := square_rooted / (val := (val if keep else next(generator))) ** 2) >= 1:
+            if Math.is_int(possible, error):
+                keep = True
+                divisible_by = (val, round(possible))
+            else:
+                keep = False
+        return divisible_by
+
+    @staticmethod
+    def simplify(a: int, b: int) -> tuple:
+        """
+        Simplifies a fraction.
+        Args:
+            a: numerator.
+            b: denominator.
+
+        Returns:
+            tuple: The simplified fraction, (numerator, denominator).
+        """
+        div = math.gcd(a, b)
+        return a // div, b // div
+
+    @staticmethod
     def gen_primes():
         """
-        Generate an infinite sequence of prime numbers.
+        Generate an infinite sequence of prime numbers. A python generator ie. must use next().
         Notes:
             Sieve of Eratosthenes
             Code by David Eppstein, UC Irvine, 28 Feb 2002
