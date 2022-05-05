@@ -133,7 +133,7 @@ class Vector:
 
         return out
 
-    def normalize(self) -> None:
+    def normalize(self):
         """
         Normalizes the current vector.
         """

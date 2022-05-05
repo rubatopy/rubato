@@ -29,22 +29,22 @@ class Component:
         rotation_offset (float): The rotational offset from the game object's rotation.
     """
 
-    def __init__(self, options: dict = {}) -> None:
+    def __init__(self, options: dict = {}):
         p = Defaults.component_defaults | options
         self.gameobj: Optional[GameObject] = None
         self.singular: bool = False
         self.offset: Vector = p["offset"]
         self.rotation_offset: float = p["rot_offset"]
 
-    def draw(self, camera: Camera) -> None:
+    def draw(self, camera: Camera):
         """The draw function template for a component subclass."""
         pass
 
-    def update(self) -> None:
+    def update(self):
         """The update function template for a component subclass."""
         pass
 
-    def setup(self) -> None:
+    def setup(self):
         """The setup function template for a component subclass."""
         pass
 

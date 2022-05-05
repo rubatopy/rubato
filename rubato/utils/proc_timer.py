@@ -22,7 +22,7 @@ class ProcTimer(ContextDecorator):
     logger: Optional[Callable[[str], None]] = print
     _start_time: Optional[float] = field(default=None, init=False, repr=False)
 
-    def start(self) -> None:
+    def start(self):
         """Start a new timer"""
 
         self._start_time = time.perf_counter()
@@ -54,6 +54,6 @@ class ProcTimer(ContextDecorator):
         self.start()
         return self
 
-    def __exit__(self, *exc_info: Any) -> None:
+    def __exit__(self, *exc_info: Any):
         """Stop the context manager timer"""
         self.stop()

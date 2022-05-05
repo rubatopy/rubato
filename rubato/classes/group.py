@@ -19,7 +19,7 @@ class Group:
         options: A group object config. Defaults to the :ref:`Group defaults <groupdef>`.
     """
 
-    def __init__(self, options: dict = {}) -> None:
+    def __init__(self, options: dict = {}):
         param = Defaults.group_defaults | options
         self.name: str = param["name"]
         self.groups: List[Group] = []
