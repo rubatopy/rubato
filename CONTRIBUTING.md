@@ -36,7 +36,7 @@ Every function, property, and attribute should have type annotations for its arg
 are assumed and therefore not needed). However, only **public** functions, properties and attributes should be documented.
 In general, docstrings should start with a short summary of the function, property or attribute, followed by any notes or warnings.
 Then any arguments and return types should be documented (types do not need to be specified). For classes, any attributes (NOT property methods)
-should also be documented with types. Finally, any examples should be included at the end. Correction spelling, syntax, and punctuation is required.
+should also be documented with types. Finally, any examples should be included at the end. Correct spelling, syntax, and punctuation is required.
 This means capitalizing the first letter of sentences and always adding periods to the end of sentences.
 
 Docstrings that need extra formatting (e.g. code blocks, references to other functions, etc.) should be formatted using Sphinx RST.
