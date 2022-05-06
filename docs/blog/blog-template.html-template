@@ -20,7 +20,7 @@
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://rubato.app/blog" />
         <meta property="og:site_name" content="rubato" />
-        <meta property="og:description" content="Rubato is a modern tool for designing 2D games and physics simulations in Python." />
+        <meta property="og:description" content="rubato is a modern tool for designing 2D games and physics simulations in Python." />
         <meta property="og:image" content="https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png" />
         <meta property="og:image:alt" content="rubato" />
         <meta property="og:title" content="rubato blog" />

@@ -1,11 +1,13 @@
-"""A physics demo for Rubato"""
+"""A physics demo for rubato"""
 from random import randint, choice
 import rubato as rb
 
+# Controls the number of balls in the simulation
 num_balls = 70
 
+# Initializes the rubato
 rb.init({
-    "name": "Ball Pit",
+    "name": "rubato Physics Demo",
     "window_size": rb.Vector(600, 600),
     "res": rb.Vector(1200, 1200),
 })

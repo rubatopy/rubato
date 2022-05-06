@@ -1,13 +1,13 @@
 Creating a Player
 ===================
 
-Welcome to the second part of making a platformer in Rubato. In this step, we will be building a simple
+Welcome to the second part of making a platformer in rubato. In this step, we will be building a simple
 character with rudimentary physics.
 
 At this point, you should have a window drawing with a cyan background.
 
-First things first, we need to understand how Rubato is structured (we will explain it first, then walk you
-through it). Rubato has 4 different levels: Scenes, Groups, Game Objects, and Components.
+First things first, we need to understand how rubato is structured (we will explain it first, then walk you
+through it). rubato has 4 different levels: Scenes, Groups, Game Objects, and Components.
 
 :func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
 :func:`Camera <rubato.classes.camera.Camera>`. Scenes are used to compartmentalize code. For example,

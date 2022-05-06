@@ -1,4 +1,4 @@
-"""A Perlin Noise demo for Rubato"""
+"""A Perlin Noise demo for rubato"""
 from random import randint
 import rubato as rb
 

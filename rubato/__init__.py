@@ -1,10 +1,10 @@
 """
-Rubato is a modern 2D game engine for python. Accurate fixed-step physics
+rubato is a modern 2D game engine for python. Accurate fixed-step physics
 simulations, robust scene and game object management, event listener system and more
 all come prepackaged.
 
-Fundamentally, Rubato is built developer-focused. From intricate rigidbody
-simulations to 2D games, Rubato streamlines development for beginners and the
+Fundamentally, rubato is built developer-focused. From intricate rigidbody
+simulations to 2D games, rubato streamlines development for beginners and the
 poweruser. And all that finally with some legible documentation.
 """
 
@@ -92,7 +92,7 @@ def begin():
     Starts the main game loop.
 
     Raises:
-        RuntimeError: Rubato has not been initialized before calling.
+        RuntimeError: rubato has not been initialized before calling.
     """
     if Game.initialized:
         Game.scenes.setup()

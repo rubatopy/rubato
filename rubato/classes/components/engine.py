@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class Engine:
     """
-    Rubato's physics engine.
+    rubato's physics engine.
     Handles overlap tests for Hitboxes and resolves Rigidbody collisions.
     """
 

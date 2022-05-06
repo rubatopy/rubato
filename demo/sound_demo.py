@@ -1,4 +1,4 @@
-"""A sound demo for Rubato"""
+"""A sound demo for rubato"""
 import rubato as rb
 
 rb.init({

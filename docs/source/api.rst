@@ -1,9 +1,9 @@
 ######################
 Full API Documentation
 ######################
-Rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and game object management, event listener system and more all come prepackaged.
+rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and game object management, event listener system and more all come prepackaged.
 
-Fundamentally, Rubato is built developer-focused. From intricate rigidbody simulations to 2D games, Rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
+Fundamentally, rubato is built developer-focused. From intricate rigidbody simulations to 2D games, rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
 
 .. toctree::
     :hidden:
@@ -170,8 +170,8 @@ RigidBody
 Physics
 *******
 
-The Engine and Manifold classes comprise Rubato's collision engine. Collision and overlap tests inside groups are
-automatically handled by Rubato, so these classes are here mainly for reference.
+The Engine and Manifold classes comprise rubato's collision engine. Collision and overlap tests inside groups are
+automatically handled by rubato, so these classes are here mainly for reference.
 
 In general, it is recommended that you define callback functions for Hitbox objects instead of calling Engine
 functions yourself.

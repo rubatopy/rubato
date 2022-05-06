@@ -76,7 +76,7 @@ class Polygon(Hitbox):
         Otherwise, polygons will neither behave nor draw properly.
 
     Warning:
-        Rubato does not currently support concave polygons explicitly.
+        rubato does not currently support concave polygons explicitly.
         Creating concave polygons will result in undesired collision behavior.
         However, you can still use concave polygons in your projects:
         Simply break them up into multiple convex Polygon hitboxes and add them individually to a gameobject.

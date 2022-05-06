@@ -1,6 +1,6 @@
 # pylint: disable=all
 """
-An internal file for the Rubato project.
+An internal file for the rubato project.
 """
 import time
 from contextlib import ContextDecorator

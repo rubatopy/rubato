@@ -6,7 +6,7 @@ Events can be broadcast with :func:`rb.Radio.broadcast() <rubato.utils.radio.Rad
 
 >>> rb.Radio.broadcast("EVENT_NAME", {data})
 
-Rubato broadcasts some events already, but you can also define your own events using this function!
+rubato broadcasts some events already, but you can also define your own events using this function!
 
 These events can also be listened to with :func:`rb.Radio.listen() <rubato.utils.radio.Radio.listen>`. Here is an example
 of how you can listen for a key down event:
@@ -19,7 +19,7 @@ of how you can listen for a key down event:
 
     rb.Radio.listen("KEYDOWN", listener)
 
-Below is a list of all the events that are broadcast by Rubato:
+Below is a list of all the events that are broadcast by rubato:
 
 **********
 Key Events

@@ -1,10 +1,10 @@
 Basic Structure
 ===============
 
-Welcome to the first part of making a platformer in Rubato. In this first step, we will
+Welcome to the first part of making a platformer in rubato. In this first step, we will
 be setting up our project and laying down the foundation for the next steps.
 
-First, lets make sure you have Rubato installed. Make sure you have python 3.10.x
+First, lets make sure you have rubato installed. Make sure you have python 3.10.x
 installed and run
 
 .. code-block:: console
@@ -23,7 +23,7 @@ of this file, import rubato:
 
     from rubato import *
 
-This will allow to access the entire Rubato library by just typing the name
+This will allow to access the entire rubato library by just typing the name
 
 Next we need to initialize rubato:
 
