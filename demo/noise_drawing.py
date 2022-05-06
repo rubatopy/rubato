@@ -17,7 +17,6 @@ main = Scene()
 
 noise_size: Vector = Vector.one * 10
 num_points: int = 300
-Game.debug = True
 
 draw_offset: Vector = Display.center_left + Vector.right * Display.res.x * 0.5
 
@@ -38,6 +37,27 @@ def draw():
 
     Draw.poly(points, Color.black, fill=Color.red)
 
+
+width, height = 50, 50
+button = GameObject({
+    "pos": Vector(10, 10)
+})
+
+
+button.add(Button({
+    "width": width,
+    "height": height,
+    "onclick": lambda: print("clicked"),
+    "onrelease": lambda: None,
+    "onhover": lambda: None,
+    "onexit": lambda: None
+})).add(Rectangle({
+    "width": width,
+     "height": height,
+     "color": Color.red
+}))
+
+main.add(button)
 
 main.draw = draw
 

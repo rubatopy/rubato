@@ -12,6 +12,7 @@ main_scene = rb.Scene()
 
 scale = 100
 offset = rb.Vector(100, 100)
+true_random = True
 
 rb.Noise.seed = randint(-100, 100)
 
@@ -19,8 +20,10 @@ saved = []
 for x in range(rb.Display.res.x):
     saved.append([])
     for y in range(rb.Display.res.y):
-        noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
-        # noise = random.random() * 2 - 1
+        if true_random:
+            noise = random.random() * 2 - 1
+        else:
+            noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = [gray for i in range(3)]
         color = rb.Color(*color)
