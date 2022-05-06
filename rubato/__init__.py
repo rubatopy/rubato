@@ -84,7 +84,7 @@ def init(options: dict = {}):
         }
     )
 
-    Game.scenes = SceneManager()
+    Game.scenes = SceneManager
 
 
 def begin():

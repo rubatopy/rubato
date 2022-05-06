@@ -3,11 +3,15 @@ The Scene class which is a collection of groups. It also houses the current scen
 Scenes are built with a root group that everything is added to.
 """
 from . import Camera, Group, GameObject
+from .. import Game
 
 
 class Scene:
     """
     A scene is a collection of groups.
+
+    Args:
+        name: The name of the scene. This is used to reference the scene from the scene manager. Defaults to "default".
 
     Attributes:
         root (Group): The base group of game objects in the scene.
@@ -17,12 +21,14 @@ class Scene:
         id (str): The id of this scene.
     """
 
-    def __init__(self):
+    def __init__(self, name: str = "default"):
         self.root: Group = Group({"name": "root"})
         self.ui: Group = Group({"name": "ui"})
         self.camera = Camera()
         self._ui_cam = Camera()
-        self.id: str = ""
+        self.id: str = name
+
+        Game.scenes.add(self, name)
 
     def add(self, *items: GameObject | Group):
         """

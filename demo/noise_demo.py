@@ -1,6 +1,5 @@
 """A Perlin Noise demo for Rubato"""
 from random import randint
-import random
 import rubato as rb
 
 rb.init({
@@ -10,7 +9,6 @@ rb.init({
 })
 
 main_scene = rb.Scene()
-rb.Game.scenes.add(main_scene, "main")
 
 scale = 100
 offset = rb.Vector(100, 100)

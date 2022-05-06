@@ -59,6 +59,7 @@ class GameProperties(type):
         return cls.scenes.current.camera
 
 
+# THIS IS A STATIC CLASS
 class Game(metaclass=GameProperties):
     """
     The main game class.

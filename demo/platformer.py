@@ -23,7 +23,6 @@ level_size = rb.Display.res.x * 1.2
 
 # create the scene for level one
 main = rb.Scene()
-rb.Game.scenes.add(main, "main")
 
 # create the player
 player = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(50, 0), "z_index": 1})

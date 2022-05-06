@@ -8,6 +8,7 @@ from . import Scene
 from .. import IdError
 
 
+# THIS IS A STATIC CLASS
 class SceneManager:
     """
     The Scene Manager contains and handle multiple scenes.
@@ -17,30 +18,32 @@ class SceneManager:
             manager. Accessed by scene id.
     """
 
-    def __init__(self):
-        self.scenes: Dict[str, Scene] = {}
-        self._current: str = ""
+    scenes: Dict[str, Scene] = {}
+    _current: str = ""
 
+    @classmethod
     @property
-    def current(self) -> Scene:
+    def current(cls) -> Scene:
         """
         The current scene.
 
         Returns:
             The current scene.
         """
-        return self.scenes.get(self._current)
+        return cls.scenes.get(cls._current)
 
-    def is_empty(self) -> bool:
+    @classmethod
+    def is_empty(cls) -> bool:
         """
         Checks if the scene manager contains no scene.
 
         Returns:
             bool: True if the scene is empty. False otherwise.
         """
-        return not self.scenes
+        return not cls.scenes
 
-    def add(self, scene: Scene, scene_id: str):
+    @classmethod
+    def add(cls, scene: Scene, scene_id: str):
         """
         Add a scene to the current scene manager.
         If the manager is empty the current scene will be updated.
@@ -52,78 +55,56 @@ class SceneManager:
         Raises:
             IdError: The given scene id is already used.
         """
-        if scene_id in self.scenes:
+        if scene_id in cls.scenes:
             raise IdError(f"The scene id {scene_id} is not unique in this manager")
 
-        if self.is_empty():
-            self.set(scene_id)
+        if cls.is_empty():
+            cls.set(scene_id)
 
-        self.scenes[scene_id] = scene
+        cls.scenes[scene_id] = scene
         scene.id = scene_id
 
-    def add_new(self, scene_id: str = "") -> Scene:
-        """
-        Add a scene to the current scene manager.
-        If the manager is empty the current scene will be updated.
-
-        Args:
-            scene_id (str): The id of the scene.
-
-        Raises:
-            IdError: The given scene id is already used.
-
-        Returns:
-            Scene: The added scene.
-        """
-        scene = Scene()
-        if scene_id == "":
-            scene_id = len(self.scenes)
-        if scene_id in self.scenes:
-            raise IdError(f"The scene id {scene_id} is not unique in this manager")
-
-        if self.is_empty():
-            self.set(scene_id)
-
-        self.scenes[scene_id] = scene
-        scene.id = scene_id
-
-        return scene
-
-    def set(self, scene_id: str):
+    @classmethod
+    def set(cls, scene_id: str):
         """
         Changes the current scene.
 
         Args:
             scene_id (str): The id of the new scene.
         """
-        self._current = scene_id
+        cls._current = scene_id
 
-    def setup(self):
+    @classmethod
+    def setup(cls):
         """Calls the setup function of the current scene."""
-        if self.is_empty():
+        if cls.is_empty():
             return
-        self.current.private_setup()
+        cls.current.private_setup()
 
-    def draw(self):
+    @classmethod
+    def draw(cls):
         """Calls the draw function of the current scene."""
-        if self.is_empty():
+        if cls.is_empty():
             return
-        self.current.private_draw()
+        cls.current.private_draw()
 
-    def update(self):
+    @classmethod
+    def update(cls):
         """Calls the update function of the current scene."""
-        if self.is_empty():
+        if cls.is_empty():
             return
-        self.current.private_update()
+        cls.current.private_update()
 
-    def fixed_update(self):
+    @classmethod
+    def fixed_update(cls):
         """Calls the fixed update function of the current scene."""
-        if self.is_empty():
+        if cls.is_empty():
             return
-        self.current.private_fixed_update()
+        cls.current.private_fixed_update()
 
-    def paused_update(self):
+    @classmethod
+    def paused_update(cls):
         """Calls the paused update function of the current scene."""
-        if self.is_empty():
+        if cls.is_empty():
             return
-        self.current.paused_update()
+        cls.current.paused_update()
