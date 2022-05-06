@@ -30,7 +30,6 @@ def draw_on(surf):
 
 def draw():
     image.image = draw_on(image.image)
-    # draw_horizontal_stripes(image.image, 0, 40, 0, 40)  # Doesn't currently work
 
 
 main_scene.update = draw

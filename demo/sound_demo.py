@@ -1,4 +1,8 @@
-"""A sound demo for rubato"""
+"""
+A sound demo for rubato
+
+Requires rubato 2.1.0 or later.
+"""
 import rubato as rb
 
 rb.init({
@@ -8,17 +12,14 @@ rb.init({
 })
 
 main_scene = rb.Scene()
-rb.Game.scenes.add(main_scene, "main")
 
-rb.Sound.import_sound_folder("sounds")
-# rb.Sound.import_sound_folder("sounds/player1", True)
-# rb.Sound.import_sound_folder("sounds/player2", True)
+rb.Sound.import_sound_folder("sounds")  # Import the sound folder
 
-click = rb.Sound.get_sound("click")
+click = rb.Sound.get_sound("click")  # Get sound instance
 
 
 def update():
-    print(bin(click.channels))
+    print(bin(click.channels))  # Prints the active channels
     if rb.Input.key_pressed("space"):
         click.play(0)
 
