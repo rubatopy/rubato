@@ -99,14 +99,14 @@ class Math:
         return abs(round(x) - x) <= error
 
     @staticmethod
-    def simplify_radical(square_rooted: int) -> tuple:
+    def simplify_sqrt(square_rooted: int) -> tuple:
         """
-        Simplifies a radical.
+        Simplifies a square root.
         Args:
-            square_rooted (int): The radical to simplify (inside the sqrt).
+            square_rooted (int): The sqrt to simplify (inside the sqrt).
 
         Returns:
-            tuple: The simplified radical, (multiple, radical).
+            tuple: The simplified square root, (multiple, square rooted).
         """
         error = 0.0000001
         if Math.is_int(square_rooted ** (1/2), error):

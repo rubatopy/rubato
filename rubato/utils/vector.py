@@ -62,7 +62,7 @@ class Vector:
         Warnings:
             Should only be used on vectors with integer components.
         """
-        divisible_by = Math.simplify_radical(round(self.mag_sq))
+        divisible_by = Math.simplify_sqrt(round(self.mag_sq))
 
         return f"{divisible_by[0] if divisible_by[0] != 1 else ''}√{divisible_by[1]}"
 
@@ -78,7 +78,7 @@ class Vector:
         Warnings:
             Should only be used on vectors with integer components.
         """
-        return Vector(*Math.simplify_radical(round(self.mag_sq)))
+        return Vector(*Math.simplify_sqrt(round(self.mag_sq)))
 
     @property
     def rationalized_unit(self) -> str:
