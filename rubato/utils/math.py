@@ -110,7 +110,7 @@ class Math:
         """
         error = 0.0000001
         if Math.is_int(square_rooted ** (1/2), error):
-            return 1, square_rooted
+            return square_rooted ** (1/2), 1
         generator = Math.gen_primes()
         divisible_by = ()
         keep = False
