@@ -23,16 +23,24 @@ def draw_on(surf):
     pixels: numpy.ndarray = rb.sdl2.ext.pixelaccess.pixels2d(surf)
     for x in range(pixels.shape[0]):
         for y in range(pixels.shape[1]):
-            random.shuffle((new := list(rb.Defaults.color_defaults.values())))
-            pixels[x][y] = rb.Color(*(new[0])).rgba32
+            # random color from our default palette
+            choice = random.choice(list(rb.Defaults.color_defaults.values()))
+            pixels[x][y] = rb.Color(*choice).rgba32
     return surf
+
+
+def update():
+    ranx = random.random() * 2 - 1
+    rany = random.random() * 2 - 1
+    pixel_obj.pos = pixel_obj.pos.lerp(pixel_obj.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 0.05)
 
 
 def draw():
     image.image = draw_on(image.image)
 
 
-main_scene.update = draw
+main_scene.draw = draw
+main_scene.update = update
 
 main_scene.add(pixel_obj)
 
