@@ -102,6 +102,7 @@ class Math:
     def simplify_sqrt(square_rooted: int) -> tuple:
         """
         Simplifies a square root.
+
         Args:
             square_rooted (int): The sqrt to simplify (inside the sqrt).
 
@@ -109,13 +110,13 @@ class Math:
             tuple: The simplified square root, (multiple, square rooted).
         """
         error = 0.0000001
-        if Math.is_int(square_rooted ** (1/2), error):
-            return square_rooted ** (1/2), 1
+        if Math.is_int(square_rooted**(1 / 2), error):
+            return square_rooted**(1 / 2), 1
         generator = Math.gen_primes()
         divisible_by = ()
         keep = False
         val = 1
-        while (possible := square_rooted / (val := (val * val if keep else next(generator))) ** 2) >= 1:
+        while (possible := square_rooted / (val := (val * val if keep else next(generator)))**2) >= 1:
             if Math.is_int(possible, error):
                 keep = True
                 divisible_by = (val, round(possible))
@@ -127,6 +128,7 @@ class Math:
     def simplify(a: int, b: int) -> tuple:
         """
         Simplifies a fraction.
+
         Args:
             a: numerator.
             b: denominator.
@@ -144,12 +146,15 @@ class Math:
     def gen_primes():
         """
         Generate an infinite sequence of prime numbers. A python generator ie. must use next().
+
         Notes:
             Sieve of Eratosthenes
             Code by David Eppstein, UC Irvine, 28 Feb 2002
             http://code.activestate.com/recipes/117119/
+
         Returns:
             generator: A generator of prime numbers.
+
         Example:
             >>> generator = Math.gen_primes()
             >>> next(generator)
