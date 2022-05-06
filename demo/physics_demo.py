@@ -1,11 +1,15 @@
-"""A physics demo for rubato"""
+"""
+A physics demo for rubato
+
+This code simulates a ball pit with no gravity. This file only depends on rubato 2.1.0 or later.
+"""
 from random import randint, choice
 import rubato as rb
 
-# Controls the number of balls in the simulation
-num_balls = 70
+# Controls the number of objects in the simulation
+num_objs = 70
 
-# Initializes the rubato
+# Initializes rubato
 rb.init({
     "name": "rubato Physics Demo",
     "window_size": rb.Vector(600, 600),
@@ -14,9 +18,9 @@ rb.init({
 
 rb.Game.show_fps = True
 
-main_scene = rb.Scene()
-rb.Game.scenes.add(main_scene, "main")
+main_scene = rb.Scene()  # Create our scene
 
+# Create our four walls
 top = rb.GameObject({
     "pos": rb.Display.top_center + rb.Vector(0, -30)
 }).add(rb.Rectangle({
@@ -49,13 +53,15 @@ right = rb.GameObject({
     "color": rb.Color.gray,
 }))
 
+# Add the walls to the scene
 main_scene.add(top, bottom, left, right)
 
-for _ in range(num_balls):
+# Create and add all our objects
+for _ in range(num_objs):
     main_scene.add(
         rb.GameObject(
             {
-                "pos":
+                "pos": # Set a random position
                     rb.Vector(
                         randint(rb.Display.res.x / 20, 19 * rb.Display.res.x / 20),
                         randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
@@ -64,7 +70,7 @@ for _ in range(num_balls):
         ).add(
             rb.Circle(
                 {
-                    "radius": rb.Display.res.x / num_balls,
+                    "radius": rb.Display.res.x / num_objs,
                     "color": rb.Color(*choice(list(rb.Defaults.color_defaults.values())))
                 }
             )
@@ -74,7 +80,6 @@ for _ in range(num_balls):
                     "density": 0.1,
                     "bounciness": 1,
                     "friction": 0.2,
-                    "gravity": rb.Vector(0, 0),
                     "velocity": rb.Vector(randint(-100, 100), randint(-100, 100)),
                     "advanced": True,
                 }

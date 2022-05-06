@@ -4,7 +4,7 @@ Pixel Mutation
 
 Assumes you finished getting started.
 
-Pixel mutation is not currently implemented to surfaces in rubato as of ``2.0.0``.
+Pixel mutation is not currently implemented to surfaces in rubato as of ``2.1.0``.
 This will hopefully come in future.
 
 First make sure you have the numpy installed.
@@ -13,23 +13,23 @@ First make sure you have the numpy installed.
 
     $ pip install numpy
 
-Then, import ``numpy`` and ``sdl2.ext.pixelaccess``:
+Then, import ``numpy`` and ``rubato``:
 
 .. code-block:: python
 
-    import numpy, sdl2.ext.pixelaccess as pixel_access
+    import numpy, rubato as rb
 
 
 This demo will show how to change specific image pixels.
 
 .. code-block:: python
 
-    def draw_on(surf: sdl2.SDL_Surface):
-        pixels: numpy.ndarray = pixel_access.pixels2d(surf)
+    def draw_on(surf):
+        pixels: numpy.ndarray = rb.sdl2.ext.pixelaccess.pixels2d(surf)
         for x in range(pixels.shape[0]):
             for y in range(pixels.shape[1]):
-                random.shuffle((new := list(Defaults.color_defaults.values())))
-                pixels[x][y] = Color(*(new[0])).rgba32
+                random.shuffle((new := list(rb.Defaults.color_defaults.values())))
+                pixels[x][y] = rb.Color(*(new[0])).rgba32
         return surf
 
     image.image = draw_on(image.image)
@@ -39,7 +39,7 @@ which will change the surfaces pixels by reference.
 
 .. note::
 
-    If you just need to draw to the screen use :func:`Display.draw_point <rubato.utils.display.Display.draw_point>`
+    If you just need to draw to the screen use :func:`Draw.point <rubato.utils.draw.Draw.point>`
 
 The source code is available
-`here <https://github.com/rubatopy/rubato/tree/main/demo/draw_point.py>`__.
+`here <https://github.com/rubatopy/rubato/tree/main/demo/pixel_mutation.py>`__.
