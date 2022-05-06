@@ -116,6 +116,13 @@ Button
 .. automodule:: rubato.classes.components.button
     :members:
 
+.. _slider_:
+
+Slider
+---------
+.. automodule:: rubato.classes.components.slider
+    :members:
+
 .. _animation:
 
 Animation

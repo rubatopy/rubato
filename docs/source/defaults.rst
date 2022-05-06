@@ -94,6 +94,20 @@ Can also include parameters from :ref:`Component <componentdef>`.
     :end-before: [/button]
     :dedent:
 
+.. _sliderdef:
+
+***************************
+Slider Defaults
+***************************
+
+Can also include parameters from :ref:`Component <componentdef>`.
+
+.. literalinclude:: ../../rubato/utils/defaults.py
+    :language: python
+    :start-after: [slider]
+    :end-before: [/slider]
+    :dedent:
+
 .. _rigidbodydef:
 
 ***************************
