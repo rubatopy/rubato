@@ -1,3 +1,4 @@
+"""A noise drawing demo for Rubato"""
 from rubato import *
 import math
 
