@@ -61,6 +61,34 @@ class SceneManager:
         self.scenes[scene_id] = scene
         scene.id = scene_id
 
+    def add_new(self, scene_id: str = "") -> Scene:
+        """
+        Add a scene to the current scene manager.
+        If the manager is empty the current scene will be updated.
+
+        Args:
+            scene_id (str): The id of the scene.
+
+        Raises:
+            IdError: The given scene id is already used.
+
+        Returns:
+            Scene: The added scene.
+        """
+        scene = Scene()
+        if scene_id == "":
+            scene_id = len(self.scenes)
+        if scene_id in self.scenes:
+            raise IdError(f"The scene id {scene_id} is not unique in this manager")
+
+        if self.is_empty():
+            self.set(scene_id)
+
+        self.scenes[scene_id] = scene
+        scene.id = scene_id
+
+        return scene
+
     def set(self, scene_id: str):
         """
         Changes the current scene.

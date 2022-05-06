@@ -1,5 +1,6 @@
 """A Perlin Noise demo for Rubato"""
 from random import randint
+import random
 import rubato as rb
 
 rb.init({
@@ -21,6 +22,7 @@ for x in range(rb.Display.res.x):
     saved.append([])
     for y in range(rb.Display.res.y):
         noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
+        # noise = random.random() * 2 - 1
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = [gray for i in range(3)]
         color = rb.Color(*color)
