@@ -1,23 +1,33 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v2.1.0] - May 6, 2022
 
 ### Added
 
-- `Text` can now rotate.
-- `Button`. A button class that can be used to create a clickable area.
-- `end()`. Quits the game.
-- `pause()`. Pauses the game.
-- `resume()`. Resumes the game.
-- `penetration` and `normal` Manifold properties.
-- Removed and deprecated functionality is supported.
-- `colliding` set to Hitboxes that automatically updates with the hitboxes it is currently incident on.
-- `on_exit()` user defineable callback for hitboxes.
-- PyInstaller support.
-- All `Hitbox`s now have `get_aabb()` and `get_obb()` methods.
-- Can create a `RigidBody` with density instead of mass and moment. Will usually result in nicer behavior.
-- `Vector` now has a many quality of life methods. As well as rationalization.
-- `Math` fraction simplification, simplifying square roots, and prime number generation.
+-   `Text` can now rotate.
+-   `Button`. A button class that can be used to create a clickable area.
+-   `end()`. Quits the game.
+-   `pause()`. Pauses the game.
+-   `resume()`. Resumes the game.
+-   `penetration` and `normal` Manifold properties.
+-   Removed and deprecated functionality is supported.
+-   `colliding` set to Hitboxes that automatically updates with the hitboxes it is currently incident on.
+-   `on_exit()` user defineable callback for hitboxes.
+-   PyInstaller support.
+-   All `Hitbox`s now have `get_aabb()` and `get_obb()` methods.
+-   Can create a `RigidBody` with density instead of mass and moment. Will usually result in nicer behavior.
+-   `Vector` now has a many quality of life methods. As well as rationalization.
+-   `Math` fraction simplification, simplifying square roots, and prime number generation.
 
 ### Changed
 
