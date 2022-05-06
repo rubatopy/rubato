@@ -6,6 +6,7 @@ from .hitbox import Hitbox, Polygon, Circle, Rectangle
 from .rigidbody import RigidBody
 from .text import Text
 from .button import Button
+from .slider import Slider
 from .image import Image
 from .animation import Animation
 from .spritesheet import Spritesheet
