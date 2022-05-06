@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [v2.1.0] - May 6, 2022
 
 ### Added
 
@@ -42,8 +42,6 @@
 -   Removed `sep` property from Manifolds.
 -   `Polygon`'s instance method `bounding_box_dimensions()`. This will be replaced by `get_bounds()` in a future patch.
 -   `UIElement`. Instead use `Scene.add_ui()` with game objects.
-
-### Fixed
 
 ## [v2.0.0] - April 5, 2022
 
@@ -138,6 +136,7 @@
 -   Rigidbody implementation
 
 [unreleased]: https://github.com/rubatopy/rubato/tree/main
+[v2.1.0]: https://github.com/rubatopy/rubato/tree/v2.1.0
 [v2.0.0]: https://github.com/rubatopy/rubato/tree/v2.0.0
 [v1.2.0]: https://github.com/rubatopy/rubato/tree/v1.2.0
 [v1.1.0]: https://github.com/rubatopy/rubato/tree/v1.1.0
