@@ -66,6 +66,9 @@ def deprecated(other_func=None):
 
         return new_func
 
+    wrapper.__name__ = other_func.__name__
+    wrapper.__doc__ = other_func.__doc__
+    wrapper.__dict__.update(other_func.__dict__)
     return wrapper
 
 
@@ -87,4 +90,7 @@ def removed(other_func=None):
 
         return new_func
 
+    wrapper.__name__ = other_func.__name__
+    wrapper.__doc__ = other_func.__doc__
+    wrapper.__dict__.update(other_func.__dict__)
     return wrapper

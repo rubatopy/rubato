@@ -16,7 +16,7 @@ init(
 main = Scene()
 
 noise_size: Vector = Vector.one * 10
-num_points: int = 300
+degrees: int = 1
 Game.debug = True
 
 draw_offset: Vector = Display.center_left + Vector.right * Display.res.x * 0.5
@@ -34,7 +34,7 @@ def draw():
         y = radius * math.sin(angle)
         points.append((Vector(x, y) + draw_offset).to_int())
 
-        angle += math.pi / num_points * 2
+        angle += math.radians(degrees)
 
     Draw.poly(points, Color.black, fill=Color.red)
 

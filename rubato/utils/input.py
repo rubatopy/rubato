@@ -183,7 +183,7 @@ class Input:
         x_window, y_window = c_int(0), c_int(0)
         sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
         x_render, y_render = c_float(0), c_float(0)
-        sdl2.SDL_RenderWindowToLogical(Display.renderer.renderer, x_window, y_window, x_render, y_render)
+        sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
         return Vector(x_render.value, y_render.value)
 
     @staticmethod
