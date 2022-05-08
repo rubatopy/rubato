@@ -14,6 +14,7 @@ from importlib.resources import files
 import os, sys
 from pathlib import Path
 
+# Sets the sdl path to the proper rubato sdl directory, from now on all sdl imports will be relative to this directory.
 if sys.platform.startswith("darwin"):
     if os.uname().machine == "arm64":
         os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/silicon")

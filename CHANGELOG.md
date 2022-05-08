@@ -4,6 +4,8 @@
 
 ### Added
 
+-   `Display` can now print the screen contents.
+
 ### Changed
 
 -   `Text.align` renamed to `Text.anchor` and is now properly documented.

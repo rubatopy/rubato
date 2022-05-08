@@ -54,7 +54,7 @@ class Font:
     def generate_surface(
         self,
         text: str,
-        align: str = Defaults.text_defaults["align"],
+        align: str = Defaults.text_defaults["anchor"],
         width: int = Defaults.text_defaults["width"],
         rot: int = 0
     ) -> sdl2.SDL_Surface:
