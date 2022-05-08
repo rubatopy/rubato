@@ -3,9 +3,8 @@ The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING
-import sdl2
-import sdl2.ext
-import sdl2.sdlgfx
+# from typing import Tuple
+import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface
 
 from . import Component
 from ... import Vector, Defaults, Display, Radio, Color, get_path
@@ -189,6 +188,31 @@ class Image(Component):
             sdl2.ext.rgba_to_color(color.rgba32),
             (start.x, start.y, end.x, end.y),
             width,
+        )
+
+    def draw_rect(self, top_left: Vector, bottom_right: Vector, color: Color = Color.black, width: int = 1):
+        """
+        Draws a rectangle border on the image.
+        Args:
+            top_left: The top left corner of the rectangle.
+            bottom_right: The bottom right corner of the rectangle.
+            color: The color of the rectangle. Defaults to black.
+            width: Width of the rectangle border. Defaults to 1.
+        """
+        # TODO: maybe add a fill option? SDL_FillRect?
+        self.draw_line(top_left, Vector(bottom_right.x, top_left.y), color, width)
+        self.draw_line(Vector(bottom_right.x, top_left.y), bottom_right, color, width)
+        self.draw_line(bottom_right, Vector(top_left.x, bottom_right.y), color, width)
+        self.draw_line(Vector(top_left.x, bottom_right.y), top_left, color, width)
+
+    def set_colorkey(self, color: Color):
+        """
+        Sets the colorkey of the image.
+        Args:
+            color: Color to set as the colorkey.
+        """
+        sdl2.surface.SDL_SetColorKey(
+            self.image, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self.image.format, color.r, color.g, color.b)
         )
 
     def cam_update(self):
