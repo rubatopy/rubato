@@ -3,7 +3,7 @@ The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING
-# from typing import Tuple
+from typing import Tuple
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface
 
 from . import Component
@@ -204,6 +204,72 @@ class Image(Component):
         self.draw_line(Vector(bottom_right.x, top_left.y), bottom_right, color, width)
         self.draw_line(bottom_right, Vector(top_left.x, bottom_right.y), color, width)
         self.draw_line(Vector(top_left.x, bottom_right.y), top_left, color, width)
+
+    def get_pixel(self, pos: Vector) -> Color:
+        """
+        Gets the color of a pixel on the image.
+
+        Args:
+            pos: The position of the pixel.
+
+        Returns:
+            Color: The color of the pixel.
+        """
+        # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
+        # Same as
+        print(self.image.format.BytesPerPixel)
+        return Color(
+            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4 + 1],
+            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4 + 2],
+            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4 + 3],
+            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4]
+        )
+
+    def get_pixel_tuple(self, pos: Tuple[int | float, int | float]) \
+            -> Tuple[int | float, int | float, int | float, int | float]:
+        """
+        Gets the color of a pixel on the image.
+
+        Args:
+            pos: The position of the pixel.
+
+        Returns:
+            The color of the pixel.
+        """
+        # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
+        # Same as self.image.format.contents.BytesPerPixel
+        print(self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4])
+        # THIS IS NOT WORKING, but if we are able to access the pixels like in normal sdl2, it should be fine
+        return (
+            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4],
+            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4 + 1],
+            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4 + 2],
+            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4 + 3]
+        )
+
+    def set_pixel(self, pos: Vector, color: Color):
+        """
+        Sets the color of a pixel on the image.
+
+        Args:
+            pos: The position of the pixel.
+            color: The color of the pixel.
+        """
+
+    def switch_color(self, color: Color, new_color: Color):
+        """
+        Switches a color in the image.
+
+        Args:
+            color: The color to switch.
+            new_color: The new color to switch to.
+        """
+        for x in range(self.get_size().x):
+            for y in range(self.get_size().y):
+                if self.get_pixel(Vector(x, y)) == color:
+                    new_color.a = self.get_pixel_tuple((x, y))[0]  # Preserve the alpha value.
+                    self.set_pixel(Vector(x, y), new_color)
+                self.set_pixel(Vector(x, y), color)  # Set the color of the pixel.
 
     def set_colorkey(self, color: Color):
         """
