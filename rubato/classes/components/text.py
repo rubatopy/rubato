@@ -4,10 +4,9 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
-from ... import Defaults, Display, Vector, Color
+from ... import Defaults, Display, Vector, Color, Font
 
 if TYPE_CHECKING:
-    from ... import Font
     from .. import Camera
 
 
@@ -24,11 +23,13 @@ class Text(Component):
         super().__init__(params)
         self._text: str = params["text"]
         self._font: Font = params["font"]
-        self._align: str = params["align"]
+        self._anchor: str = params["anchor"]
         self._justify: str = params["justify"]
         self._width: int = params["width"]
-        self._rot_offset: float = self.rotation_offset
         self._stored_rot: int = 0
+
+        if not self._font:
+            self._font = Font()
 
         self.generate_surface()
 
@@ -39,18 +40,16 @@ class Text(Component):
 
     @text.setter
     def text(self, text: str):
-        """
-        Sets the text of the Text.
-
-        Args:
-            text: The text to set.
-        """
         self._text = text
         self.generate_surface()
 
     @property
     def justify(self) -> str:
-        """The justification of the text."""
+        """
+        The justification of the text.
+
+        Can be one of: ``"left"``, ``"center"``, ``"right"``.
+        """
         return self._justify
 
     @justify.setter
@@ -62,23 +61,41 @@ class Text(Component):
             raise ValueError(f"Justification {new} is not left, center or right.")
 
     @property
-    def align(self) -> str:
-        """The alignment vector of the text."""
-        return self._align
+    def anchor(self) -> Vector:
+        """
+        The anchor vector of the text.
 
-    @align.setter
-    def align(self, new: Vector):
-        self._align = new
+        This controls the position of the text relative to the game object. Is a vector where the x value
+        controls the x anchor and the y value controls the y anchor. The values for each can be either -1, 0 or 1. This
+        offset the text around the game object center.
+
+        Example:
+            An anchor of ``Vector(0, 0)`` will center the text on the game object. An anchor of ``Vector(1, 1)`` will
+            move the text so that it's top left corner is at the game object's center.
+
+        Warning:
+            Previously was called align.
+        """
+        return self._anchor
+
+    @anchor.setter
+    def anchor(self, new: Vector):
+        self._anchor = new
 
     @property
     def width(self) -> int:
-        """The maximum width of the text. Will automatically wrap the text."""
+        """The maximum width of the text. Will automatically wrap the text. Use -1 to disable wrapping."""
         return self._width
 
     @width.setter
     def width(self, width: int):
         self._width = width
         self.generate_surface()
+
+    @property
+    def font_object(self) -> Font:
+        """The font object of the text."""
+        return self._font
 
     @property
     def font_size(self) -> int:
@@ -105,16 +122,6 @@ class Text(Component):
         self._font.color = color
         self.generate_surface()
 
-    @property
-    def rotational_offset(self) -> float:
-        """The rotational offset of the text from the game object in degrees."""
-        return self._rot_offset
-
-    @rotational_offset.setter
-    def rotational_offset(self, new: float):
-        self._rot_offset = new
-        self.generate_surface()
-
     def add_style(self, style: str):
         """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
         self._font.add_style(style)
@@ -139,10 +146,13 @@ class Text(Component):
 
     def draw(self, camera: Camera):
         if self.gameobj.rotation != self._stored_rot:
-            self._stored_rot = self.gameobj.rotation
+            self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        Display.update(self._tx, camera.transform(self.gameobj.pos + (self._align - 1) * Vector(*self._tx.size) / 2))
+        Display.update(
+            self._tx,
+            camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
+        )
 
     def delete(self):
         """Deletes the text component."""
@@ -157,7 +167,7 @@ class Text(Component):
             {
                 "text": self._text,
                 "font": self._font,
-                "align": self._align,
+                "align": self._anchor,
                 "justify": self._justify,
                 "width": self._width,
             }

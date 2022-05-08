@@ -6,9 +6,13 @@
 
 ### Changed
 
+-   `Text.align` renamed to `Text.anchor` and is now properly documented.
+
 ### Removed
 
 ### Fixed
+
+-   `Text` font defaults was never actually being set if None. Now it is.
 
 ## [v2.1.0] - May 6, 2022
 
