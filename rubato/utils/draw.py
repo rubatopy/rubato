@@ -164,7 +164,7 @@ class Draw:
         font: Font,
         pos: Vector = Vector(),
         justify: str = Defaults.text_defaults["justify"],
-        align: Vector = Defaults.text_defaults["align"],
+        align: Vector = Defaults.text_defaults["anchor"],
         width: int = Defaults.text_defaults["width"]
     ):
         """
