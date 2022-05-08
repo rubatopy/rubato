@@ -15,7 +15,7 @@ pre-commit install -f
 pre-commit run --all-files
 ```
 
-You should be good to go. Your first commit will take a while, don't worry.
+You should be good to go. Commits take a bit of time to check (around 10-15 seconds) so be patient.
 
 ## Suggest Improvements
 
