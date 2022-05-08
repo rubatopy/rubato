@@ -3,8 +3,6 @@ Global display class that allows for easy screen and window management.
 """
 from __future__ import annotations
 
-import ctypes
-
 import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlimage
 import os
 from typing import TYPE_CHECKING
@@ -173,10 +171,10 @@ class Display(metaclass=DisplayProperties):
         ).contents
 
     @classmethod
-    def save_screenshot(cls, filename: str, path: str= "./", extension: str= "png", save_to_temp_path: bool=False,
-                        quality:int = 100) -> bool:
+    def save_screenshot(cls, filename: str, path: str = "./", extension: str = "png", save_to_temp_path: bool = False,
+                        quality: int = 100) -> bool:
         """
-        Save the current screen to a png file.
+        Save the current screen to a file.
 
         Args:
             filename: The name of the file to save to.
@@ -191,26 +189,22 @@ class Display(metaclass=DisplayProperties):
         if extension not in ["png", "jpg", "bmp"]:
             raise ValueError("Invalid extension. Only png, jpg, bmp are supported.")
 
-        wp, hp = ctypes.c_int(), ctypes.c_int()
-        if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
-            raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
-        w, h = wp.value, hp.value
-
-        print(cls.res, w, h, cls.window_size)
-        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, sdl2.SDL_PIXELFORMAT_ARGB8888)
+        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(0, cls.window_size.x, cls.window_size.y,
+                                                             32, sdl2.SDL_PIXELFORMAT_ARGB8888)
         if not render_surface:
             raise RuntimeError(f"Could not create surface: {sdl2.SDL_GetError()}")
         try:
-            if sdl2.SDL_RenderReadPixels(cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, w, h),
+            if sdl2.SDL_RenderReadPixels(cls.renderer.sdlrenderer,
+                                         sdl2.SDL_Rect(0, 0, cls.window_size.x, cls.window_size.y),
                                          sdl2.SDL_PIXELFORMAT_ARGB8888,
                                          render_surface.contents.pixels,
                                          render_surface.contents.pitch) != 0:
                 raise RuntimeError(f"Could not read screenshot: {sdl2.SDL_GetError()}")
 
             if save_to_temp_path:
-                path = bytes(get_path(os.path.join(path, filename)), "utf-8")
+                path = bytes(get_path(os.path.join(path, filename, filename + "." + extension)), "utf-8")
             else:
-                path = bytes(os.path.join(path, filename), "utf-8")
+                path = bytes(os.path.join(path, filename + "." + extension), "utf-8")
 
             if extension == "png":
                 return sdl2.sdlimage.IMG_SavePNG(render_surface, path) == 0

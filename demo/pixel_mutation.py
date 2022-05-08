@@ -35,6 +35,9 @@ def update():
     rany = random.random() * 2 - 1
     pixel_obj.pos = pixel_obj.pos.lerp(pixel_obj.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 0.05)
 
+    if rb.Input.key_pressed("k"):
+        rb.Display.save_screenshot("pixel_mutation")
+
 
 def draw():
     image.image = draw_on(image.image)
