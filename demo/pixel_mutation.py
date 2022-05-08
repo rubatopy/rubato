@@ -2,7 +2,7 @@
 Drawing to specific pixels
 
 Draws a bunch or random pixels to a surface. Requires rubato 2.1.0 or later and numpy.
-""" # pylint: disable=W0613
+"""  # pylint: disable=W0613
 import numpy, random
 import rubato as rb
 
