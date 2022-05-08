@@ -26,7 +26,7 @@ jobs:
             - name: Build Docs
               run: (cd docs && make save)
 
-            - name: Prep Docs for Commit
+            - name: Transfer Docs to gh-pages
               run: |
                   cp -r docs/build/html nightly
                   cp -r docs/blog blog
@@ -39,11 +39,14 @@ jobs:
                   git checkout gh-pages
                   git pull
                   git rm -rf nightly
+                  git rm -rf blog
                   git rm -f index.html
                   git rm -f 404.html
-                  git rm -rf blog
+                  git rm -f sitemap_gen.py
                   git stash pop
-                  python sitemap_gen.py
+
+            - name: Build Sitemap
+              run: python sitemap_gen.py
 
             - name: Commit files
               run: |
