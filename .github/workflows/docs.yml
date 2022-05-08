@@ -38,6 +38,7 @@ jobs:
                   git fetch
                   git checkout gh-pages
                   git pull
+                  rm -rf docs
                   git rm -rf nightly
                   git rm -rf blog
                   git rm -f index.html
