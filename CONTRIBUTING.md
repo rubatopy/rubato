@@ -11,7 +11,7 @@ You need to install our dev requirements and setup pre-commit in order to work o
 
 ```shell
 pip install --editable .[dev]
-pre-commit install
+pre-commit install -f
 ```
 
 You should be good to go.

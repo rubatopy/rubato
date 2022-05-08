@@ -1,5 +1,0 @@
-# https://github.com/google/yapf/blob/212c5b5ad8e172d2d914ae454c121c89cccbcb35/yapf/yapflib/style.py#L418
-[style]
-based_on_style = google
-COLUMN_LIMIT = 120
-DEDENT_CLOSING_BRACKETS = True
