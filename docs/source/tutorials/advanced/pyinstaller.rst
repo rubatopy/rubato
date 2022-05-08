@@ -89,4 +89,3 @@ For more information on bundling, see the following links:
 
 * `PyInstaller Homepage <http://www.pyinstaller.org/>`__
 * `PyInstaller Command Reference <https://pyinstaller.org/en/stable/usage.html>`__
-

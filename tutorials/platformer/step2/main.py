@@ -31,6 +31,7 @@ def update():
     if Input.key_pressed("p"):
         dino_anim.set_current_state("somer", True)
 
+
 # Add the player to the scene
 main.add(player)
 main.update = update

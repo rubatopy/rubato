@@ -1,0 +1,21 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+exclude: ^rubato/static/
+files: ^rubato/
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v2.3.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-added-large-files
+    - repo: https://github.com/pre-commit/mirrors-yapf
+      rev: v0.32.0
+      hooks:
+          - id: yapf
+            additional_dependencies:
+                - toml
+    - repo: https://github.com/PyCQA/pylint
+      rev: v2.13.8
+      hooks:
+          - id: pylint

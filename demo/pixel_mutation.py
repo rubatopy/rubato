@@ -6,12 +6,14 @@ Draws a bunch or random pixels to a surface. Requires rubato 2.1.0 or later and 
 import numpy, random
 import rubato as rb
 
-rb.init({
-    "name": "Point drawing",
-    "res": rb.Vector(300, 300),
-    "window_size": rb.Vector(600, 600),
-    "background_color": rb.Color.blue,
-})
+rb.init(
+    {
+        "name": "Point drawing",
+        "res": rb.Vector(300, 300),
+        "window_size": rb.Vector(600, 600),
+        "background_color": rb.Color.blue,
+    }
+)
 
 main_scene = rb.Scene()
 
