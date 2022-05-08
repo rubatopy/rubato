@@ -32,12 +32,12 @@ class DisplayProperties(type):
             lead to unexpected results. You should instead use
             :func:`Display.res <rubato.utils.display.Display.res>`
         """
-        """ Another way to do this.
-        wp, hp = ctypes.c_int(), ctypes.c_int()
-        if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
-            raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
-        w, h = wp.value, hp.value
-        """
+        # Another way to do this.
+        # wp, hp = ctypes.c_int(), ctypes.c_int()
+        # if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
+        #     raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
+        # w, h = wp.value, hp.value
+
         return Vector(*cls.window.size)
 
     @window_size.setter
@@ -171,8 +171,14 @@ class Display(metaclass=DisplayProperties):
         ).contents
 
     @classmethod
-    def save_screenshot(cls, filename: str, path: str = "./", extension: str = "png", save_to_temp_path: bool = False,
-                        quality: int = 100) -> bool:
+    def save_screenshot(
+        cls,
+        filename: str,
+        path: str = "./",
+        extension: str = "png",
+        save_to_temp_path: bool = False,
+        quality: int = 100
+    ) -> bool:
         """
         Save the current screen to a file.
 
@@ -189,16 +195,16 @@ class Display(metaclass=DisplayProperties):
         if extension not in ["png", "jpg", "bmp"]:
             raise ValueError("Invalid extension. Only png, jpg, bmp are supported.")
 
-        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(0, cls.window_size.x, cls.window_size.y,
-                                                             32, sdl2.SDL_PIXELFORMAT_ARGB8888)
+        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
+            0, cls.window_size.x, cls.window_size.y, 32, sdl2.SDL_PIXELFORMAT_ARGB8888
+        )
         if not render_surface:
             raise RuntimeError(f"Could not create surface: {sdl2.SDL_GetError()}")
         try:
-            if sdl2.SDL_RenderReadPixels(cls.renderer.sdlrenderer,
-                                         sdl2.SDL_Rect(0, 0, cls.window_size.x, cls.window_size.y),
-                                         sdl2.SDL_PIXELFORMAT_ARGB8888,
-                                         render_surface.contents.pixels,
-                                         render_surface.contents.pitch) != 0:
+            if sdl2.SDL_RenderReadPixels(
+                cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, cls.window_size.x, cls.window_size.y),
+                sdl2.SDL_PIXELFORMAT_ARGB8888, render_surface.contents.pixels, render_surface.contents.pitch
+            ) != 0:
                 raise RuntimeError(f"Could not read screenshot: {sdl2.SDL_GetError()}")
 
             if save_to_temp_path:
