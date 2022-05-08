@@ -14,7 +14,7 @@ pip install --editable .[dev]
 pre-commit install -f
 ```
 
-You should be good to go.
+You should be good to go. Your first commit will take a while, don't worry.
 
 ## Suggest Improvements
 
