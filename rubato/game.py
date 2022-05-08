@@ -81,6 +81,7 @@ class Game(metaclass=GameProperties):
 
     debug: bool = False
     show_fps: bool = False
+    save_screenshot: bool = True
     debug_font: Font
 
     _state: int = STOPPED
@@ -187,6 +188,9 @@ class Game(metaclass=GameProperties):
                 fill=Color(a=180),
             )
             Draw.text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
+
+        if cls.save_screenshot:
+            Display.save_screenshot("screenshot.bmp")
 
         # update renderers
         Display.renderer.present()

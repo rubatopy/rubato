@@ -2,7 +2,11 @@
 Global display class that allows for easy screen and window management.
 """
 from __future__ import annotations
-import sdl2, sdl2.sdlttf, sdl2.ext
+
+import ctypes
+
+import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlimage
+import os
 from typing import TYPE_CHECKING
 
 from . import Vector, get_path
@@ -29,6 +33,12 @@ class DisplayProperties(type):
             Using this value to determine the placement of your game objects may
             lead to unexpected results. You should instead use
             :func:`Display.res <rubato.utils.display.Display.res>`
+        """
+        """ Another way to do this.
+        wp, hp = ctypes.c_int(), ctypes.c_int()
+        if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
+            raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
+        w, h = wp.value, hp.value
         """
         return Vector(*cls.window.size)
 
@@ -161,6 +171,56 @@ class Display(metaclass=DisplayProperties):
             surface.pitch,
             surface.format.contents.format,
         ).contents
+
+    @classmethod
+    def save_screenshot(cls, filename: str, path: str= "./", extension: str= "png", save_to_temp_path: bool=False,
+                        quality:int = 100) -> bool:
+        """
+        Save the current screen to a png file.
+
+        Args:
+            filename: The name of the file to save to.
+            path: Path to output folder.
+            extension: The extension to save the file as. (png, jpg, bmp supported)
+            save_to_temp_path: Whether to save the file to a temporary path (i.e. MEIPASS used in exe).
+            quality: The quality of the jpg 0-100 (only used for jpgs).
+
+        Returns:
+            If save was successful.
+        """
+        if extension not in ["png", "jpg", "bmp"]:
+            raise ValueError("Invalid extension. Only png, jpg, bmp are supported.")
+
+        wp, hp = ctypes.c_int(), ctypes.c_int()
+        if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
+            raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
+        w, h = wp.value, hp.value
+
+        print(cls.res, w, h, cls.window_size)
+        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, sdl2.SDL_PIXELFORMAT_ARGB8888)
+        if not render_surface:
+            raise RuntimeError(f"Could not create surface: {sdl2.SDL_GetError()}")
+        try:
+            if sdl2.SDL_RenderReadPixels(cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, w, h),
+                                         sdl2.SDL_PIXELFORMAT_ARGB8888,
+                                         render_surface.contents.pixels,
+                                         render_surface.contents.pitch) != 0:
+                raise RuntimeError(f"Could not read screenshot: {sdl2.SDL_GetError()}")
+
+            if save_to_temp_path:
+                path = bytes(get_path(os.path.join(path, filename)), "utf-8")
+            else:
+                path = bytes(os.path.join(path, filename), "utf-8")
+
+            if extension == "png":
+                return sdl2.sdlimage.IMG_SavePNG(render_surface, path) == 0
+            elif extension == "jpg":
+                return sdl2.sdlimage.IMG_SaveJPG(render_surface, path, quality) == 0
+            elif extension == "bmp":
+                return sdl2.SDL_SaveBMP(render_surface, path) == 0
+
+        finally:
+            sdl2.SDL_FreeSurface(render_surface)
 
     @classmethod
     @property

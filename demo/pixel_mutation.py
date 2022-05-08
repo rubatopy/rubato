@@ -10,6 +10,7 @@ rb.init({
     "name": "Point drawing",
     "res": rb.Vector(300, 300),
     "window_size": rb.Vector(600, 600),
+    "background_color": rb.Color.blue,
 })
 
 main_scene = rb.Scene()
