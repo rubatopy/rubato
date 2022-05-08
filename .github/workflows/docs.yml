@@ -29,9 +29,10 @@ jobs:
             - name: Prep Docs for Commit
               run: |
                   cp -r docs/build/html nightly
+                  cp -r docs/blog blog
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
-                  cp -r docs/blog blog
+                  cp docs/sitemap_gen.py sitemap_gen.py
                   git add .
                   git stash push
                   git fetch
@@ -42,6 +43,7 @@ jobs:
                   git rm -f 404.html
                   git rm -rf blog
                   git stash pop
+                  python sitemap_gen.py
 
             - name: Commit files
               run: |
