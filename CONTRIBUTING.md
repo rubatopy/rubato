@@ -12,6 +12,7 @@ You need to install our dev requirements and setup pre-commit in order to work o
 ```shell
 pip install --editable .[dev]
 pre-commit install -f
+pre-commit run --all-files
 ```
 
 You should be good to go. Your first commit will take a while, don't worry.
