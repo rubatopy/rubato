@@ -104,14 +104,14 @@ class Color:
             ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2), (1 - t) * self.a + t * other.a
         )
 
-    def to_tuple(self) -> Tuple[int]:
+    def to_tuple(self) -> Tuple[int, int, int, int]:
         """
         Converts the Color to a tuple.
 
         Returns:
             tuple(int, int, int, int): The tuple representing the color.
         """
-        return (self.r, self.g, self.b, self.a)
+        return self.r, self.g, self.b, self.a
 
     def to_hex(self) -> str:
         """
@@ -120,9 +120,9 @@ class Color:
         Returns:
             str: The hexadecimal output in lowercase. (i.e. ffffffff)
         """
-        return (f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}").replace(" ", "")
+        return f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}".replace(" ", "")
 
-    def to_hsv(self) -> tuple[int]:
+    def to_hsv(self) -> Tuple[float | int, float | int, float]:
         """
         Converts the Color to a tuple containing its HSV values.
 
@@ -132,6 +132,7 @@ class Color:
         rp, gp, bp = self.r / 255, self.g / 255, self.b / 255
         c_max = max(rp, gp, bp)
         delta = c_max - min(rp, gp, bp)
+        h = None
 
         if delta == 0:
             h = 0
@@ -149,7 +150,11 @@ class Color:
 
         v = c_max
 
-        return (h, s, v)
+        # unsure if this is correct, if someone knows please fix it
+        if h is None:
+            raise ValueError("Invalid color")
+
+        return h, s, v
 
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:
