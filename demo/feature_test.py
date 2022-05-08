@@ -14,36 +14,20 @@ rb.init({
 })
 
 main = rb.Scene()
-rb.Game.scenes.add(main, "main")
 
 test = rb.GameObject({
     "pos": rb.Vector(100, 100)
-}).add(rb.RigidBody()).add(rb.Circle({
-    "radius": 40,
-    "color": rb.Color.red
+}).add(rb.Text({
+    "text": "test",
+    "align": rb.Vector(-1, -1),
+    "justify": "right",
+    "font": rb.Font({"size": 64})
+})).add(rb.Rectangle({
+    "color": rb.Color.red,
+    "width": 5,
+    "height": 5
 }))
 
-from rubato import Vector
-import math
-v = Vector.from_radial(32, math.radians(180+45))
-v2 = Vector.from_radial(342, math.pi).to_int()
-v3 = v + v2
-print(Vector(8, 8).rationalized_mag_vector)
-# print(v3.rationalized_unit) This line should raise our error.
-# print(v3.rationalized_unit)
+main.add(test)
 
-
-test2 = rb.GameObject({
-    "pos": rb.Vector(200, 100)
-}).add(rb.RigidBody()).add(rb.Rectangle({
-    "width": 40,
-    "height": 40,
-    "color": rb.Color.red
-}))
-
-test3 = rb.GameObject({
-    "pos": rb.Vector(300, 100)
-}).add(rb.RigidBody()).add(rb.Polygon.generate_polygon(5, 40, {"color": rb.Color.red}))
-
-main.add(test, test2, test3)
 rb.begin()
