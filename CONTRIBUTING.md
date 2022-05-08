@@ -5,6 +5,17 @@ email, or any other method with the owners of this repository before making a ch
 
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
+## Setting up dev environment
+
+You need to install our dev requirements and setup pre-commit in order to work on Rubato.
+
+```shell
+pip install --editable .[dev]
+pre-commit install
+```
+
+You should be good to go.
+
 ## Suggest Improvements
 
 Open up issues:
@@ -23,7 +34,7 @@ The docs are built and publish automatically
 
 ### To run the docs locally
 
-```bash
+```shell
 pip install --editable .[docs] # install requirements for docs
 (cd docs && make live) # start doc server
 ```

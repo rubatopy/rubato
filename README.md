@@ -18,3 +18,17 @@ _Wondering about the name? rubato is a music term that indicates a phrase that s
 ### Get started [here](https://rubato.app/).
 
 _Credit to [@ArksDigital](https://twitter.com/ArksDigital) for the dino animation used in the demos and in the tutorial. ([itch page](https://arks.itch.io/dino-characters))_
+
+### A big thank you to all of our [contributors](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTORS.md) who help make this project possible.
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/rubatopy/rubato/blob/main/CHANGELOG.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTING.md).
+
+## Code of Conduct
+
+See [CODE_OF_CONDUCT.md](https://github.com/rubatopy/rubato/blob/main/CODE_OF_CONDUCT.md).
