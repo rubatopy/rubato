@@ -6,6 +6,8 @@
 [![GitHub Release Date](https://img.shields.io/github/release-date/rubatopy/rubato?style=flat-square)](https://github.com/rubatopy/rubato/releases)
 [![GitHub Build Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Build?style=flat-square)](https://github.com/rubatopy/rubato/actions/workflows/build.yml)
 [![GitHub Docs Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Docs?label=docs&style=flat-square)](https://rubatopy.github.io/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square)](https://github.com/pre-commit/pre-commit)
+
 
 rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and game object management, event listener system and more all come prepackaged.
 
