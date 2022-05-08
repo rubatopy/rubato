@@ -10,6 +10,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 You need to install our dev requirements and setup pre-commit in order to work on Rubato.
 
 ```shell
+git submodule update --init --recursive
 pip install --editable .[dev]
 pre-commit install -f
 pre-commit run --all-files
