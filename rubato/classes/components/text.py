@@ -167,7 +167,7 @@ class Text(Component):
             {
                 "text": self._text,
                 "font": self._font,
-                "align": self._anchor,
+                "anchor": self._anchor,
                 "justify": self._justify,
                 "width": self._width,
             }
