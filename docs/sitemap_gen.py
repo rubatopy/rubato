@@ -8,6 +8,7 @@ url = "https://rubato.app/"
 root = ET.Element("urlset", {"xmlns": "http://www.sitemaps.org/schemas/sitemap/0.9"})
 
 ignored_dirs = []
+ignored_files = ["404.html"]
 
 for path, dirs, files in walk("."):
     if "robots.txt" in files:
@@ -18,7 +19,7 @@ for path, dirs, files in walk("."):
         continue
     loc = url + (p.as_posix() + "/" if p.as_posix() != "." else "")
     for file in files:
-        if file.endswith(".html"):
+        if file.endswith(".html") and file not in ignored_files:
             item = ET.SubElement(root, "url")
             if file != "index.html":
                 ET.SubElement(item, "loc").text = loc + file
