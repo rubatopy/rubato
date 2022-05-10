@@ -3,7 +3,7 @@ A vector implementation.
 """
 from __future__ import annotations
 from typing import Iterator
-import math
+import math, random
 
 from . import Math
 
@@ -392,6 +392,50 @@ class Vector:
             Vector: Vector from the given direction and distance
         """
         return Vector((1 / math.tan(angle)) * y_length, y_length)
+
+    @staticmethod
+    def clamp_magnitude(vector: Vector, max_magnitude: float, min_magnitude: float = 0) -> Vector:
+        """
+        Clamps the magnitude of the vector to the given range.
+
+        Args:
+            vector: The vector to clamp.
+            max_magnitude: The maximum magnitude of the vector.
+            min_magnitude: The minimum magnitude of the vector. Defaults to 0.
+
+        Returns:
+            A new vector with the magnitude clamped to the given range.
+        """
+        vector_c = vector.clone()
+        if (new := Math.clamp((magnitude := vector_c.magnitude), min_magnitude, max_magnitude)) != magnitude:
+            vector_c.magnitude = new
+
+        return vector_c
+
+    @classmethod
+    def angle_between(cls, a: Vector, b: Vector) -> float:
+        """
+        Returns the angle between two vectors (0 <= theta <= pi).
+
+        Args:
+            a: First vector.
+            b: Second vector.
+
+        Returns:
+            Angle in radians between the two vectors.
+        """
+        return math.acos((a.dot(b)) / (a.magnitude * b.magnitude))
+
+    @classmethod
+    @property
+    def random_inside_unit_circle(cls) -> Vector:
+        """
+        Returns a random vector inside the unit circle.
+
+        Returns:
+            Random vector inside the unit circle.
+        """
+        return cls.from_radial(random.random(), random.random() * 2 * math.pi)
 
     @classmethod
     @property
