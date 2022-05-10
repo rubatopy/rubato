@@ -173,7 +173,7 @@ class Input:
         )
 
     @classmethod
-    def any_button_pressed(cls) -> bool:
+    def any_mouse_button_pressed(cls) -> bool:
         """
         Checks if any mouse button is pressed.
 
