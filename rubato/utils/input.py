@@ -172,6 +172,16 @@ class Input:
             (info & sdl2.mouse.SDL_BUTTON_X2MASK) != 0,
         )
 
+    @classmethod
+    def any_button_pressed(cls) -> bool:
+        """
+        Checks if any mouse button is pressed.
+
+        Returns:
+            True if any button is pressed, false otherwise.
+        """
+        return any(cls.mouse_is_pressed())
+
     @staticmethod
     def get_mouse_pos() -> Vector:
         """
