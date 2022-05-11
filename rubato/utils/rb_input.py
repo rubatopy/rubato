@@ -197,6 +197,17 @@ class Input:
         return Vector(x_render.value, y_render.value)
 
     @staticmethod
+    def get_mouse_abs_pos() -> Vector:
+        """
+        The current absolute position of the mouse. ie. screen coordinates.
+        Returns:
+            A Vector representing position.
+        """
+        x_window, y_window = c_int(0), c_int(0)
+        sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
+        return Vector(x_window.value, y_window.value)
+
+    @staticmethod
     def set_mouse_pos(v: Vector):
         sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v.x), c_int(v.y))
 
