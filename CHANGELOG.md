@@ -6,6 +6,7 @@
 
 -   `Display` can now print the screen contents.
 -   `Raster` for pixel mutation and drawing. (Separated from image)
+-   `Display.border_size` returns the size of the black bands around the draw area.
 
 ### Changed
 
@@ -20,6 +21,7 @@
 ### Fixed
 
 -   `Text` font defaults was never actually being set if None. Now it is.
+-   DLLs now actually bundle.
 
 ## [v2.1.0] - May 6, 2022
 

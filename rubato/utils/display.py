@@ -94,6 +94,18 @@ class DisplayProperties(type):
         """
         return cls.res / cls.window_size
 
+    @property
+    def border_size(cls) -> int:
+        """The size of the black border on either side of the drawing area when the aspect ratios don't match."""
+        if cls.window_size.x < cls.window_size.y:
+            res_amount = cls.res.x
+            scale = cls.res.x / cls.window_size.x
+        else:
+            res_amount = cls.res.y
+            scale = cls.res.y / cls.window_size.y
+
+        return int((cls.window_size.x / 2) - (res_amount / scale / 2))
+
 
 class Display(metaclass=DisplayProperties):
     """
