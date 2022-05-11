@@ -22,15 +22,18 @@ class SpaceshipComp(Component):
     def setup(self):
         const = .1
         self.speed = 2 * const
-        self.steer = .02 * const
-        self.wander = 0.001 * const
+        self.steer = .2 * const
+        self.wander = 2 * const
 
         self.position = self.gameobj.pos
         self.velocity = Vector(1, 1)
-        self.desired_direction = Vector(1, 0)
+        self.desired_direction = Vector(0, 0)
         self.target = Display.bottom_right
 
     def update(self):
+        self.update_wander()
+
+    def update_target(self):
         self.desired_direction = (self.target - self.position).unit()
 
         desired_velocity = self.desired_direction * self.speed
@@ -40,10 +43,15 @@ class SpaceshipComp(Component):
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
         self.position += self.velocity * Time.delta_time
 
+        if (new := self.position.clamp(Display.bottom_left + 10, Display.top_right - 10)) != self.position:
+            print("ahhh")
+            self.position = new
+            self.velocity = -self.velocity
+
         self.gameobj.pos = self.position
         self.gameobj.rotation = -math.math.degrees(self.velocity.angle + math.math.pi / 2)
 
-    def update2(self):
+    def update_wander(self):
         self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle * self.wander).unit()
 
         desired_velocity = self.desired_direction * self.speed
@@ -51,12 +59,17 @@ class SpaceshipComp(Component):
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        self.position += self.velocity * Time.delta_time / 100
+        self.position += self.velocity * Time.delta_time
+        if (new := self.position.clamp(Display.top_left, Display.bottom_right)) != self.position:
+            self.position = new
+            print(self.velocity.dir_to(Display.center))
+            self.velocity = Vector.from_radial(self.speed, Vector.angle_between(self.velocity, Display.center))
+            print(self.velocity.dir_to(Display.center))
+            # input("")
+            self.position += self.velocity * Time.delta_time * 4
 
         self.gameobj.pos = self.position
         self.gameobj.rotation = -math.math.degrees(self.velocity.angle + math.math.pi / 2)
-
-        print(self.velocity.angle, acceleration, self.desired_direction)
 
 
 class Spaceship(GameObject):
