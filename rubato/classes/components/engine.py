@@ -325,8 +325,6 @@ class Engine:
         sep_1 = ref_face_normal.dot(inc_face[0]) - ref_c
         sep_2 = ref_face_normal.dot(inc_face[1]) - ref_c
 
-        print(ref_face_normal, ref_c, inc_face[0], inc_face[1])
-
         if sep_1 <= 0:
             if sep_2 <= 0:
                 man.contacts = inc_face
