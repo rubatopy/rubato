@@ -102,6 +102,13 @@ Image
 .. automodule:: rubato.classes.components.image
     :members:
 
+.. _raster:
+
+Raster
+---------
+.. automodule:: rubato.classes.components.raster
+    :members:
+
 .. _text:
 
 Text
@@ -208,7 +215,7 @@ Display
 
 Input
 =====
-.. automodule:: rubato.utils.input
+.. automodule:: rubato.utils.rb_input
     :members:
 
 .. _sound:
@@ -241,7 +248,7 @@ Vector
 
 Math
 ====
-.. automodule:: rubato.utils.math
+.. automodule:: rubato.utils.rb_math
     :members:
 
 .. _noise:
