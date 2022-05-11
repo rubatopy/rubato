@@ -5,12 +5,17 @@
 ### Added
 
 -   `Display` can now print the screen contents.
+-   `Raster` for pixel mutation and drawing. (Separated from image)
 
 ### Changed
 
 -   `Text.align` renamed to `Text.anchor` and is now properly documented.
+-   `input` module renamed to `rb_input` to not override the built-in function.
+-   `math` module renamed to `rb_math` to not override the built-in function.
 
 ### Removed
+
+-   `Image` no longer has drawing functions. Instead use a `Raster` object.
 
 ### Fixed
 

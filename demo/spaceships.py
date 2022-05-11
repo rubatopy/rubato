@@ -49,7 +49,7 @@ class SpaceshipComp(Component):
             self.velocity = -self.velocity
 
         self.gameobj.pos = self.position
-        self.gameobj.rotation = -math.math.degrees(self.velocity.angle + math.math.pi / 2)
+        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.math.pi / 2)
 
     def update_wander(self):
         self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle * self.wander).unit()
@@ -69,7 +69,7 @@ class SpaceshipComp(Component):
             self.position += self.velocity * Time.delta_time * 4
 
         self.gameobj.pos = self.position
-        self.gameobj.rotation = -math.math.degrees(self.velocity.angle + math.math.pi / 2)
+        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.math.pi / 2)
 
 
 class Spaceship(GameObject):

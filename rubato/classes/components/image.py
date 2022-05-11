@@ -2,12 +2,11 @@
 The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING
-from typing import Tuple
+from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface
 
 from . import Component
-from ... import Vector, Defaults, Display, Radio, Color, get_path
+from ... import Vector, Defaults, Display, Radio, get_path
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -21,9 +20,6 @@ class Image(Component):
         options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
 
     Attributes:
-        aa (bool): Whether or not to enable anti aliasing.
-        flipx (bool): Whether or not to flip the image along the x axis
-        flipy (bool): Whether or not to flip the image along the y axis
         visible (bool): Whether or not the image is visible.
     """
 
@@ -50,18 +46,17 @@ class Image(Component):
 
         self.singular = False
 
-        self.aa: bool = param["anti_aliasing"]
-        self.flipx: bool = param["flipx"]
-        self.flipy: bool = param["flipy"]
         self.visible: bool = param["visible"]
+        self._aa: bool = param["anti_aliasing"]
+        self._flipx: bool = param["flipx"]
+        self._flipy: bool = param["flipy"]
         self._scale: Vector = param["scale"]
-        self._rot_offset: float = self.rotation_offset
-
-        self._stored_rot: float = 0
+        self._rot = self.rotation_offset
 
         self._original = Display.clone_surface(self._image)
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
+        self._changed = False
         self._update_rotozoom()
 
         Radio.listen("ZOOM", self.cam_update)
@@ -78,24 +73,54 @@ class Image(Component):
         self._update_rotozoom()
 
     @property
-    def rotation_offset(self) -> float:
-        """The rotation offset of the image in degrees."""
-        return self._rot_offset
-
-    @rotation_offset.setter
-    def rotation_offset(self, new_rotation: float):
-        self._rot_offset = new_rotation
-        self._update_rotozoom()
-
-    @property
     def scale(self) -> Vector:
-        """The scale of the image in relation to it's original size."""
+        """The scale of the image."""
         return self._scale
 
     @scale.setter
-    def scale(self, new_scale: Vector):
-        self._scale = new_scale
-        self._update_rotozoom()
+    def scale(self, new: Vector):
+        self._scale = new
+        self._changed = True
+
+    @property
+    def rotation_offset(self) -> float:
+        """The rotation offset of the image."""
+        return self._rot
+
+    @rotation_offset.setter
+    def rotation_offset(self, new: float):
+        self._rot = new
+        self._changed = True
+
+    @property
+    def flipx(self) -> bool:
+        """Whether or not the image is flipped horizontally."""
+        return self._flipx
+
+    @flipx.setter
+    def flipx(self, new: bool):
+        self._flipx = new
+        self._changed = True
+
+    @property
+    def flipy(self) -> bool:
+        """Whether or not the image is flipped vertically."""
+        return self._flipy
+
+    @flipy.setter
+    def flipy(self, new: bool):
+        self._flipy = new
+        self._changed = True
+
+    @property
+    def aa(self) -> bool:
+        """Whether or not the image is anti-aliased."""
+        return self._aa
+
+    @aa.setter
+    def aa(self, new: bool):
+        self._aa = new
+        self._changed = True
 
     def get_size(self) -> Vector:
         """
@@ -159,142 +184,20 @@ class Image(Component):
         self._image = image_scaled
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-    def draw_point(self, pos: Vector, color: Color = Color.black):
-        """
-        Draws a point on the image.
-
-        Args:
-            pos: The position to draw the point.
-            color: The color of the point. Defaults to black.
-        """
-        sdl2.ext.fill(
-            self.image,
-            sdl2.ext.rgba_to_color(color.rgba32),
-            (pos.x, pos.y, 1, 1),
-        )
-
-    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, width: int = 1):
-        """
-        Draws a line on the image.
-
-        Args:
-            start: The start of the line.
-            end: The end of the line.
-            color: The color of the line. Defaults to black.
-            width: The width of the line. Defaults to 1.
-        """
-        sdl2.ext.line(
-            self.image,
-            sdl2.ext.rgba_to_color(color.rgba32),
-            (start.x, start.y, end.x, end.y),
-            width,
-        )
-
-    def draw_rect(self, top_left: Vector, bottom_right: Vector, color: Color = Color.black, width: int = 1):
-        """
-        Draws a rectangle border on the image.
-        Args:
-            top_left: The top left corner of the rectangle.
-            bottom_right: The bottom right corner of the rectangle.
-            color: The color of the rectangle. Defaults to black.
-            width: Width of the rectangle border. Defaults to 1.
-        """
-        # TODO: maybe add a fill option? SDL_FillRect?
-        self.draw_line(top_left, Vector(bottom_right.x, top_left.y), color, width)
-        self.draw_line(Vector(bottom_right.x, top_left.y), bottom_right, color, width)
-        self.draw_line(bottom_right, Vector(top_left.x, bottom_right.y), color, width)
-        self.draw_line(Vector(top_left.x, bottom_right.y), top_left, color, width)
-
-    def get_pixel(self, pos: Vector) -> Color:
-        """
-        Gets the color of a pixel on the image.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            Color: The color of the pixel.
-        """
-        # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
-        # Same as
-        print(self.image.format.BytesPerPixel)
-        return Color(
-            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4 + 1],
-            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4 + 2],
-            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4 + 3],
-            self.image.contents.pixels[pos.y * self.image.pitch + pos.x * 4]
-        )
-
-    def get_pixel_tuple(self, pos: Tuple[int | float, int | float]) \
-            -> Tuple[int | float, int | float, int | float, int | float]:
-        """
-        Gets the color of a pixel on the image.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            The color of the pixel.
-        """
-        # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
-        # Same as self.image.format.contents.BytesPerPixel
-        print(self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4])
-        # THIS IS NOT WORKING, but if we are able to access the pixels like in normal sdl2, it should be fine
-        return (
-            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4],
-            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4 + 1],
-            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4 + 2],
-            self.image.pixels[pos[1] * self.image.pitch + pos[0] * 4 + 3]
-        )
-
-    def set_pixel(self, pos: Vector, color: Color):
-        """
-        Sets the color of a pixel on the image.
-
-        Args:
-            pos: The position of the pixel.
-            color: The color of the pixel.
-        """
-
-    def switch_color(self, color: Color, new_color: Color):
-        """
-        Switches a color in the image.
-
-        Args:
-            color: The color to switch.
-            new_color: The new color to switch to.
-        """
-        for x in range(self.get_size().x):
-            for y in range(self.get_size().y):
-                if self.get_pixel(Vector(x, y)) == color:
-                    new_color.a = self.get_pixel_tuple((x, y))[0]  # Preserve the alpha value.
-                    self.set_pixel(Vector(x, y), new_color)
-                self.set_pixel(Vector(x, y), color)  # Set the color of the pixel.
-
-    def set_colorkey(self, color: Color):
-        """
-        Sets the colorkey of the image.
-        Args:
-            color: Color to set as the colorkey.
-        """
-        sdl2.surface.SDL_SetColorKey(
-            self.image, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self.image.format, color.r, color.g, color.b)
-        )
-
-    def cam_update(self):
+    def cam_update(self, info: Dict[str, Camera]):
         """Updates the image sizing when the camera zoom changes."""
         width, height = self.image.w, self.image.h
 
         new_size = Vector(
-            round(self.gameobj.scale_value(width)),
-            round(self.gameobj.scale_value(height)),
+            round(info["camera"].scale(width)),
+            round(info["camera"].scale(height)),
         )
 
         self.resize(new_size)
 
     def draw(self, camera: Camera):
-        if self._stored_rot != self.gameobj.rotation:
-            self._stored_rot = self.gameobj.rotation
+        if self._changed:
+            self._changed = False
             self._update_rotozoom()
 
         if self.visible:

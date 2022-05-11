@@ -122,6 +122,20 @@ Can also include parameters from :ref:`Component <componentdef>`.
     :end-before: [/image]
     :dedent:
 
+.. _rasterdef:
+
+***************************
+Raster Defaults
+***************************
+
+Can also include parameters from :ref:`Component <componentdef>`.
+
+.. literalinclude:: ../../rubato/utils/defaults.py
+    :language: python
+    :start-after: [raster]
+    :end-before: [/raster]
+    :dedent:
+
 .. _animationdef:
 
 ***************************

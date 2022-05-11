@@ -158,6 +158,18 @@ class Defaults:
         # Whether or not the image is visible.
     }
     # [/image]
+    # [raster]
+    raster_defaults = {
+        "width": 32,  # . . . . . . . . . . . . . . . . . . . . . . int
+        # The number of pixels wide the raster is.
+        "height": 32,  #. . . . . . . . . . . . . . . . . . . . . . int
+        # The number of pixels tall the raster is.
+        "scale": Vector(1, 1),  # . . . . . . . . . . . . . . . . . Vector
+        # The amount to scale the raster by.
+        "visible": True,  # . . . . . . . . . . . . . . . . . . . . bool
+        # Whether or not the raster is visible.
+    }
+    # [/raster]
     # [animation]
     animation_defaults = {
         "scale": Vector(1, 1),  # . . . . . . . . . . . . . . . . . Vector

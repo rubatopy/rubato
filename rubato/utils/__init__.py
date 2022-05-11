@@ -3,7 +3,7 @@ This module houses all the utils
 """
 from .path import *
 from .error import *
-from .math import Math
+from .rb_math import Math
 from .noise import Noise
 from .vector import Vector
 from .defaults import Defaults

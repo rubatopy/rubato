@@ -36,25 +36,27 @@ class WanderingImage(rb.Component):
     """
 
     def setup(self):
-        self.image: rb.Image = self.gameobj.get(rb.Image)
+        self.image: rb.Raster = self.gameobj.get(rb.Raster)
 
     def update(self):
         ranx = random.random() * 2 - 1
         rany = random.random() * 2 - 1
         self.gameobj.pos = self.gameobj.pos.lerp(self.gameobj.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 0.05)
+        self.image.rotation_offset += 1
+        self.image.scale += rb.Vector(ranx / 1000, rany / 1000)
 
         if rb.Input.key_pressed("k"):
             rb.Display.save_screenshot("pixel_mutation")
 
     def draw(self, camera):
-        self.image.image = draw_on(self.image.image)
+        self.image.raster = draw_on(self.image.raster)
         self.image.set_colorkey(rb.Color.red)
 
 
 go = rb.GameObject({
     "pos": rb.Vector(150, 150),
 })
-image = rb.Image({
+image = rb.Raster({
     "size": rb.Vector(90, 90),
 })
 go.add(image)
@@ -73,7 +75,7 @@ class WanderingPixelMutation(rb.GameObject):
         super().__init__({
             "pos": rb.Vector(150, 150),
         })
-        self.image = rb.Image({
+        self.image = rb.Raster({
             "size": rb.Vector(90, 90),
         })
         self.add(self.image)
@@ -86,11 +88,11 @@ class WanderingPixelMutation(rb.GameObject):
 
         if rb.Input.key_pressed("k"):
             rb.Display.save_screenshot("pixel_mutation")
-            go.get(rb.Image).get_pixel_tuple((0, 0))
+            go.get(rb.Raster).get_pixel_tuple((0, 0))
 
     def draw(self, camera):
         super().draw(camera)
-        self.image.image = draw_on(self.image.image)
+        self.image.raster = draw_on(self.image.raster)
 
 
 wgo = WanderingPixelMutation()

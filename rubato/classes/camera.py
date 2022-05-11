@@ -35,7 +35,7 @@ class Camera:
     @zoom.setter
     def zoom(self, new: float):
         self._zoom = Math.clamp(new, 0.01, Math.INF)
-        Radio.broadcast("ZOOM")
+        Radio.broadcast("ZOOM", {"camera": self})
 
     def transform(self, point: Vector) -> Vector:
         """
