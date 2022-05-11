@@ -1,14 +1,25 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+-   `Display.get_window_border_size()` returns the size of the black bands around the window.
+-   `Input.get_mouse_abs_pos()` returns the absolute position of the mouse.
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v2.1.1] - May 10, 2022
 
 ### Added
 
-- `Display` can now print the screen contents.
-- `Raster` for pixel mutation and drawing. (Separated from image)
-- `Display.border_size` returns the size of the black bands around the draw area.
-- `Display.get_window_border_size()` returns the size of the black bands around the window.
-- `Input.get_mouse_abs_pos()` returns the absolute position of the mouse.
+-   `Display` can now print the screen contents.
+-   `Raster` for pixel mutation and drawing. (Separated from image)
+-   `Display.border_size` returns the size of the black bands around the draw area.
 
 ### Changed
 
