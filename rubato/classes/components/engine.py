@@ -1,6 +1,6 @@
 """Handles collision manifold generation for complex geometries."""
 from __future__ import annotations
-from typing import List, TYPE_CHECKING, Optional
+from typing import List, TYPE_CHECKING, Optional, Tuple
 
 from . import RigidBody, Circle
 from ... import Math, Vector
@@ -307,10 +307,12 @@ class Engine:
         neg_side = -side_plane_normal.dot(v1)
         pos_side = side_plane_normal.dot(v2)
 
-        if Engine.clip(-side_plane_normal, neg_side, inc_face) < 2:
+        inc_face = Engine.clip(-side_plane_normal, neg_side, inc_face)
+        if len(inc_face) != 2:
             return
 
-        if Engine.clip(side_plane_normal, pos_side, inc_face) < 2:
+        inc_face = Engine.clip(side_plane_normal, pos_side, inc_face)
+        if len(inc_face) != 2:
             return
 
         man = Manifold(shape_a, shape_b)
@@ -322,6 +324,8 @@ class Engine:
 
         sep_1 = ref_face_normal.dot(inc_face[0]) - ref_c
         sep_2 = ref_face_normal.dot(inc_face[1]) - ref_c
+
+        print(ref_face_normal, ref_c, inc_face[0], inc_face[1])
 
         if sep_1 <= 0:
             if sep_2 <= 0:
@@ -387,29 +391,22 @@ class Engine:
         ]
 
     @staticmethod
-    def clip(n: Vector, c: float, face: List[Vector]) -> int:
-        sp = 0
-        out = [face[0].clone(), face[1].clone()]
+    def clip(n: Vector, c: float, face: List[Vector]) -> Tuple:
+        out = []
 
         d1 = n.dot(face[0]) - c
         d2 = n.dot(face[1]) - c
 
         if d1 <= 0:
-            out[sp] = face[0].clone()
-            sp += 1
+            out.append(face[0].clone())
         if d2 <= 0:
-            out[sp] = face[1].clone()
-            sp += 1
+            out.append(face[1].clone())
 
         if d1 * d2 < 0:
             alpha = d1 / (d1 - d2)
-            out[sp] = ((face[1] - face[0]) * alpha) + face[0]
-            sp += 1
+            out.append(((face[1] - face[0]) * alpha) + face[0])
 
-        face[0] = out[0]
-        face[1] = out[1]
-
-        return sp
+        return out
 
     @staticmethod
     def get_support(verts: List[Vector], direction: Vector) -> Vector:
