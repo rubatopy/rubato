@@ -3,7 +3,7 @@ The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
-import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface
+import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
 from . import Component
 from ... import Vector, Defaults, Display, Radio, get_path
@@ -233,3 +233,42 @@ class Image(Component):
         )
         new.image = Display.clone_surface(self.image)
         return new
+
+    @staticmethod
+    def from_surface(surface: sdl2.surface.SDL_Surface) -> "Image":
+        """
+        Creates an image from an SDL surface.
+
+        Args:
+            surface: the surface to create the image from.
+
+        Returns:
+            The created image.
+        """
+        # untested
+        image = Image()
+        image.image = surface
+        return image
+
+    @staticmethod
+    def from_buffer(buffer: bytes) -> "Image":
+        """
+        Creates an image from a buffer.
+
+        Args:
+            buffer: bytes containing the image data.
+
+        Returns:
+            The image created from the buffer.
+        """
+        # untested
+        rw = sdl2.SDL_RWFromMem(buffer, len(buffer))
+        surface_temp = sdl2.sdlimage.IMG_Load_RW(rw, 1)
+
+        if surface_temp is None:
+            raise Exception(sdl2.sdlimage.IMG_GetError())
+
+        surface = sdl2.SDL_ConvertSurfaceFormat(surface_temp, sdl2.SDL_PIXELFORMAT_RGBA8888, 0).contents
+        sdl2.SDL_FreeSurface(surface_temp)
+
+        return Image.from_SDL_Surface(surface)

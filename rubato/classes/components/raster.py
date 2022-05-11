@@ -149,7 +149,7 @@ class Raster(Component):
         """
         # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
         # Same as
-        print(self._raster.format.BytesPerPixel)
+        # print(self._raster.format.BytesPerPixel)
         return Color(
             self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4 + 1],
             self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4 + 2],
@@ -170,7 +170,7 @@ class Raster(Component):
         """
         # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
         # Same as self.raster.format.contents.BytesPerPixel
-        print(self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4])
+        # print(self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4])
         # THIS IS NOT WORKING, but if we are able to access the pixels like in normal sdl2, it should be fine
         return (
             self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4],
