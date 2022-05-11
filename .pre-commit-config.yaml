@@ -19,3 +19,4 @@ repos:
       rev: v2.13.8
       hooks:
           - id: pylint
+            exclude: ^(demo/)

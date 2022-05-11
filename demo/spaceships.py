@@ -4,7 +4,7 @@ A demo that shows how to extend the GameObject and Component classes.
 import math
 
 from rubato import *
-# pylint: disable=all
+
 init({
     "name": "Point drawing",
     "target_fps": 24,
