@@ -3,6 +3,8 @@ Global display class that allows for easy screen and window management.
 """
 from __future__ import annotations
 
+import ctypes
+
 import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlimage
 import os
 from typing import TYPE_CHECKING
@@ -181,6 +183,20 @@ class Display(metaclass=DisplayProperties):
             surface.pitch,
             surface.format.contents.format,
         ).contents
+
+    @classmethod
+    def get_window_border_size(cls):
+        """
+        Get the size of the window border. pixels on the top sides and bottom of the window.
+
+        Returns:
+            The size of the window border.
+        """
+        top, left, bottom, right = ctypes.c_int(), ctypes.c_int(), ctypes.c_int(), ctypes.c_int()
+        sdl2.SDL_GetWindowBordersSize(
+            cls.window.window, ctypes.pointer(top), ctypes.pointer(left), ctypes.pointer(bottom), ctypes.pointer(right)
+        )
+        return top.value, left.value, bottom.value, right.value
 
     @classmethod
     def save_screenshot(

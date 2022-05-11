@@ -44,6 +44,7 @@ class Raster(Component):
 
         self._changed = False
         self._update_rotozoom()
+        self._go_rotation = 0
 
     @property
     def raster(self) -> sdl2.SDL_Surface:
@@ -230,7 +231,8 @@ class Raster(Component):
             self._texture = sdl2.ext.Texture(Display.renderer, self._drawn)
 
     def draw(self, camera: Camera):
-        if self._changed:
+        if self._changed or self._go_rotation != self.gameobj.rotation:
+            self._go_rotation = self.gameobj.rotation
             self._changed = False
             self._update_rotozoom()
 

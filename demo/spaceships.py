@@ -27,11 +27,11 @@ class SpaceshipComp(Component):
 
         self.position = self.gameobj.pos
         self.velocity = Vector(1, 1)
-        self.desired_direction = Vector(0, 0)
+        self.desired_direction = Vector(-1, 0)
         self.target = Display.bottom_right
 
     def update(self):
-        self.update_wander()
+        self.update_target()
 
     def update_target(self):
         self.desired_direction = (self.target - self.position).unit()
@@ -43,13 +43,8 @@ class SpaceshipComp(Component):
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
         self.position += self.velocity * Time.delta_time
 
-        if (new := self.position.clamp(Display.bottom_left + 10, Display.top_right - 10)) != self.position:
-            print("ahhh")
-            self.position = new
-            self.velocity = -self.velocity
-
         self.gameobj.pos = self.position
-        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.math.pi / 2)
+        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
 
     def update_wander(self):
         self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle * self.wander).unit()
@@ -62,14 +57,12 @@ class SpaceshipComp(Component):
         self.position += self.velocity * Time.delta_time
         if (new := self.position.clamp(Display.top_left, Display.bottom_right)) != self.position:
             self.position = new
-            print(self.velocity.dir_to(Display.center))
-            self.velocity = Vector.from_radial(self.speed, Vector.angle_between(self.velocity, Display.center))
-            print(self.velocity.dir_to(Display.center))
-            # input("")
-            self.position += self.velocity * Time.delta_time * 4
+            self.velocity = Vector.from_radial(self.speed, self.position.dir_to(Display.center).angle)
+            self.desired_direction = self.velocity.unit()
+            self.position += self.velocity * Time.delta_time
 
         self.gameobj.pos = self.position
-        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.math.pi / 2)
+        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
 
 
 class Spaceship(GameObject):
@@ -95,6 +88,7 @@ main_scene.add(space_ship)
 def update():
     # if Input.any_mouse_button_pressed():
     space_ship.sc.target = Input.get_mouse_pos()
+    print(Input.get_mouse_abs_pos(), Input.get_mouse_pos(), Display.get_window_border_size())
 
 
 main_scene.update = update

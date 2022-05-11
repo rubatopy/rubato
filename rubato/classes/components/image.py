@@ -58,6 +58,7 @@ class Image(Component):
 
         self._changed = False
         self._update_rotozoom()
+        self._go_rotation = 0
 
         Radio.listen("ZOOM", self.cam_update)
 
@@ -196,7 +197,8 @@ class Image(Component):
         self.resize(new_size)
 
     def draw(self, camera: Camera):
-        if self._changed:
+        if self._changed or self._go_rotation != self.gameobj.rotation:
+            self._go_rotation = self.gameobj.rotation
             self._changed = False
             self._update_rotozoom()
 

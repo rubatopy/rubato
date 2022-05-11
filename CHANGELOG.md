@@ -4,9 +4,11 @@
 
 ### Added
 
--   `Display` can now print the screen contents.
--   `Raster` for pixel mutation and drawing. (Separated from image)
--   `Display.border_size` returns the size of the black bands around the draw area.
+- `Display` can now print the screen contents.
+- `Raster` for pixel mutation and drawing. (Separated from image)
+- `Display.border_size` returns the size of the black bands around the draw area.
+- `Display.get_window_border_size()` returns the size of the black bands around the window.
+- `Input.get_mouse_abs_pos()` returns the absolute position of the mouse.
 
 ### Changed
 
