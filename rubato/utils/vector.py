@@ -347,14 +347,6 @@ class Vector:
             A unit vector that is in the direction to the position passed in
         """
         base = (other - self).unit()
-        # if other.x < self.x:
-        #     if other.y < self.y:
-        #         base = Vector.from_radial(base.magnitude, math.pi + base.angle)
-        #     else:
-        #         base = Vector.from_radial(base.magnitude, math.pi - base.angle)
-        # else:
-        #     if other.y < self.y:
-        #         base = Vector.from_radial(base.magnitude, -base.angle)
         return base
 
     def distance_between(self, other: Vector) -> float:
