@@ -192,9 +192,16 @@ class Input:
         """
         x_window, y_window = c_int(0), c_int(0)
         sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
+
         x_render, y_render = c_float(0), c_float(0)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
-        return Vector(x_render.value, y_render.value)
+
+        # size = Display.border_size
+        # if Display.has_x_border:
+        #     x_window.value = min(max(x_window.value, size), Display.window_size.x + size) - size
+        # elif Display.has_y_border:
+        #     y_window.value = min(max(y_window.value, size), Display.window_size.y + size) - size
+        return Vector(x_render.value, y_render.value).clamp(Vector(0, 0), Display.size)
 
     @staticmethod
     def get_mouse_abs_pos() -> Vector:

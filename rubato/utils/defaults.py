@@ -15,9 +15,9 @@ class Defaults:
         "name": "Untitled Game",  # . . . . . . . . . . . . . . . . str
         # The title that appears at the top of the window
         "window_size": Vector(360, 360),  # . . . . . . . . . . . . Vector
-        # The actual size of the window
+        # The actual size of the window, cast to int Vector.
         "res": Vector(1080, 1080),  # . . . . . . . . . . . . . . . Vector
-        # The pixel resolution of the game
+        # The pixel resolution of the game, cast to int Vector.
         "target_fps": 0,  # . . . . . . . . . . . . . . . . . . . . int
         # The target FPS of the game
         "physics_fps": 30,  # . . . . . . . . . . . . . . . . . . . int

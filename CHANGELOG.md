@@ -6,6 +6,7 @@
 
 -   `Display.get_window_border_size()` returns the size of the black bands around the window.
 -   `Input.get_mouse_abs_pos()` returns the absolute position of the mouse.
+-   `Display.border_size` fixed and integrated into `Input.get_mouse_pos()`: you only get on-renderer positions.
 
 ### Changed
 

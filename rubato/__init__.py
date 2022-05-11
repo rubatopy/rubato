@@ -66,6 +66,9 @@ def init(options: dict = {}):
         sdl2.SDL_WINDOW_MOUSE_FOCUS | sdl2.SDL_WINDOW_INPUT_FOCUS
     )
 
+    params["window_size"] = params["window_size"].to_int()
+    params["res"] = params["res"].to_int()
+
     Display.window = sdl2.ext.Window(params["name"], params["window_size"].to_tuple(), flags=flags)
 
     Display.renderer = sdl2.ext.Renderer(

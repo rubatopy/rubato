@@ -99,14 +99,34 @@ class DisplayProperties(type):
     @property
     def border_size(cls) -> int:
         """The size of the black border on either side of the drawing area when the aspect ratios don't match."""
-        if cls.window_size.x < cls.window_size.y:
-            res_amount = cls.res.x
-            scale = cls.res.x / cls.window_size.x
-        else:
-            res_amount = cls.res.y
-            scale = cls.res.y / cls.window_size.y
+        # if a smart programmer can actually understand this, please check that its working correctly.
+        # Thank you.
+        render_rat = cls.res.y / cls.res.x
+        window_rat = cls.window_size.y / cls.window_size.x
 
-        return int((cls.window_size.x / 2) - (res_amount / scale / 2))
+        if render_rat > window_rat:  # side burns
+            rat = render_rat / window_rat  # how much fatter the window is than the render
+            return round((cls.window_size.x - cls.window_size.x / rat) / 2)
+        elif render_rat < window_rat:  # top burns
+            rat = window_rat / render_rat  # how thinner the window is than the render
+            return round((cls.window_size.y - cls.window_size.y / rat) / 2)
+        return 0
+
+    @property
+    def has_x_border(cls) -> bool:
+        """Whether or not the window has a black border on the left or right side."""
+        render_rat = cls.res.y / cls.res.x
+        window_rat = cls.window_size.y / cls.window_size.x
+
+        return render_rat > window_rat
+
+    @property
+    def has_y_border(cls) -> bool:
+        """Whether or not the window has a black border on the top or bottom."""
+        render_rat = cls.res.y / cls.res.x
+        window_rat = cls.window_size.y / cls.window_size.x
+
+        return render_rat < window_rat
 
 
 class Display(metaclass=DisplayProperties):
