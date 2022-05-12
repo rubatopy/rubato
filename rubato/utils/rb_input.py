@@ -201,7 +201,7 @@ class Input:
         #     x_window.value = min(max(x_window.value, size), Display.window_size.x + size) - size
         # elif Display.has_y_border:
         #     y_window.value = min(max(y_window.value, size), Display.window_size.y + size) - size
-        return Vector(x_render.value, y_render.value).clamp(Vector(0, 0), Display.size)
+        return Vector(x_render.value, y_render.value).clamp(Vector(0, 0), Display.window_size)
 
     @staticmethod
     def get_mouse_abs_pos() -> Vector:

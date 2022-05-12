@@ -88,7 +88,6 @@ main_scene.add(space_ship)
 def update():
     # if Input.any_mouse_button_pressed():
     space_ship.sc.target = Input.get_mouse_pos()
-    print(Input.get_mouse_abs_pos(), Input.get_mouse_pos(), Display.get_window_border_size())
 
 
 main_scene.update = update
