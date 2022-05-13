@@ -55,7 +55,7 @@ class Color:
         Returns:
             Color: The resultant color.
         """
-        return Color(self.r - amount, self.g - amount, self.b - amount, self.a)
+        return Color(max(self.r - amount, 0), max(self.g - amount, 0), max(self.b - amount, 0), self.a)
 
     def lighter(self, amount: int = 20):
         """
@@ -96,12 +96,14 @@ class Color:
             return Color(
                 ((1 - s) * (self.r**2.2) + s * (other.r**2.2))**(1 / 2.2),
                 ((1 - s) * (self.g**2.2) + s * (other.g**2.2))**(1 / 2.2),
-                ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2), a * 255
+                ((1 - s) * (self.b**2.2) + s * (other.b**2.2))**(1 / 2.2),
+                a * 255,
             )
         return Color(
             ((1 - t) * (self.r**2.2) + t * (other.r**2.2))**(1 / 2.2),
             ((1 - t) * (self.g**2.2) + t * (other.g**2.2))**(1 / 2.2),
-            ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2), (1 - t) * self.a + t * other.a
+            ((1 - t) * (self.b**2.2) + t * (other.b**2.2))**(1 / 2.2),
+            (1 - t) * self.a + t * other.a,
         )
 
     def to_tuple(self) -> Tuple[int, int, int, int]:
@@ -154,7 +156,7 @@ class Color:
         if h is None:
             raise ValueError("Invalid color")
 
-        return h, s, v
+        return round(h), s, v, self.a / 255
 
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:
@@ -198,7 +200,7 @@ class Color:
         return cls(h[0], h[1], h[2], h[3])
 
     @classmethod
-    def from_hsv(cls, h: float, s: float, v: float) -> Color:
+    def from_hsv(cls, h: float, s: float, v: float, a: float = 1) -> Color:
         """
         Creates a Color object from HSV values.
 
@@ -206,6 +208,7 @@ class Color:
             h: The hue degree (0 to 360).
             s: The saturation proportion (0 to 1).
             v: The value proportion (0 to 1).
+            a: The alpha proportion (0 to 1).
 
         Returns:
             Color: The Color object.
@@ -217,7 +220,7 @@ class Color:
         p = x * (1 - s)
         q = x * (1 - (s * ff))
         t = x * (1 - (s * (1 - ff)))
-        return cls(((x, t, p), (q, x, p), (p, x, t), (p, q, x), (t, p, x), (x, p, q), (x, p, q))[i])
+        return cls(*((x, t, p), (q, x, p), (p, x, t), (p, q, x), (t, p, x), (x, p, q), (x, p, q))[i], a * 255)
 
     @classmethod
     @property
