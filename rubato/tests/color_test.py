@@ -1,10 +1,10 @@
 """Test the Color Class"""
 import pytest
-from .. import Color
+from rubato.utils.color import Color
 # pylint: disable=redefined-outer-name
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def color():
     """Create a Color object"""
     return Color(0, 127, 255, 255)
@@ -12,7 +12,10 @@ def color():
 
 def test_init(color):
     """Test the Color class initialization"""
-    assert color.r == 0 and color.g == 127 and color.b == 255 and color.a == 255
+    assert color.r == 0
+    assert color.g == 127
+    assert color.b == 255
+    assert color.a == 255
 
 
 def test_str(color):
@@ -38,31 +41,46 @@ def test_rgba32(color):
 def test_darker(color):
     """Test the Color class darker method"""
     c = color.darker(20)
-    assert c.r == 0 and c.g == 107 and c.b == 235 and c.a == 255
+    assert c.r == 0
+    assert c.g == 107
+    assert c.b == 235
+    assert c.a == 255
 
 
 def test_lighter(color):
     """Test the Color class lighter method"""
     c = color.lighter(20)
-    assert c.r == 20 and c.g == 147 and c.b == 255 and c.a == 255
+    assert c.r == 20
+    assert c.g == 147
+    assert c.b == 255
+    assert c.a == 255
 
 
 def test_mix_linear(color):
     """Test the Color class mix method"""
     c = color.mix(Color(255, 255, 0, 0), 0.5, "linear")
-    assert c.r == 127 and c.g == 191 and c.b == 127 and c.a == 127
+    assert c.r == 127
+    assert c.g == 191
+    assert c.b == 127
+    assert c.a == 127
 
 
 def test_mix_mix(color):
     """Test the Color class mix method"""
     c = color.mix(Color(255, 255, 0, 0), 0.5, "mix")
-    assert c.r == 186 and c.g == 203 and c.b == 186 and c.a == 127
+    assert c.r == 186
+    assert c.g == 203
+    assert c.b == 186
+    assert c.a == 127
 
 
 def test_mix_blend(color):
     """Test the Color class mix method"""
     c = color.mix(Color(255, 255, 0, 0), 0.5, "blend")
-    assert c.r == 0 and c.g == 127 and c.b == 255 and c.a == 127
+    assert c.r == 0
+    assert c.g == 127
+    assert c.b == 255
+    assert c.a == 127
 
 
 def test_to_tuple(color):
