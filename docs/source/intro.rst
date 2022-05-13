@@ -20,7 +20,7 @@ On Linux **only**, you'll need to install them yourself:
 
 .. code-block:: console
 
-    $ pip install pysdl-dll
+    $ pip install pysdl2-dll
 
 ************
 Setting Up
