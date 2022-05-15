@@ -65,29 +65,17 @@ class SpaceshipComp(Component):
         self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
 
 
-class Spaceship(GameObject):
-    """
-    A spaceship.
-    """
+space_ship = GameObject({
+    "pos": Display.center
+}).add(Image({"rel_path": "sprites/spaceship/spaceship.png"})).add(SpaceshipComp())
 
-    def __init__(self):
-        super().__init__({
-            "pos": Display.center,
-        })
-        self.image = Image({"rel_path": "sprites/spaceship/spaceship.png"})
-        self.add(self.image)
-        self.sc = SpaceshipComp()
-        self.add(self.sc)
-
-
-space_ship = Spaceship()
-
+sc_comp = space_ship.get(SpaceshipComp)
 main_scene.add(space_ship)
 
 
 def update():
     # if Input.any_mouse_button_pressed():
-    space_ship.sc.target = Input.get_mouse_pos()
+    sc_comp.target = Input.get_mouse_pos()
 
 
 main_scene.update = update
