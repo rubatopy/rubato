@@ -25,7 +25,6 @@ class SpaceshipComp(Component):
         self.steer = .2 * const
         self.wander = 2 * const
 
-        self.position = self.gameobj.pos
         self.velocity = Vector(1, 1)
         self.desired_direction = Vector(-1, 0)
         self.target = Display.bottom_right
@@ -34,16 +33,15 @@ class SpaceshipComp(Component):
         self.update_target()
 
     def update_target(self):
-        self.desired_direction = (self.target - self.position).unit()
+        self.desired_direction = (self.target - self.gameobj.pos).unit()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        self.position += self.velocity * Time.delta_time
+        self.gameobj.pos += self.velocity * Time.delta_time
 
-        self.gameobj.pos = self.position
         self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
 
     def update_wander(self):
@@ -54,14 +52,13 @@ class SpaceshipComp(Component):
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        self.position += self.velocity * Time.delta_time
-        if (new := self.position.clamp(Display.top_left, Display.bottom_right)) != self.position:
-            self.position = new
-            self.velocity = Vector.from_radial(self.speed, self.position.dir_to(Display.center).angle)
+        self.gameobj.pos += self.velocity * Time.delta_time
+        if (new := self.gameobj.pos.clamp(Display.top_left, Display.bottom_right)) != self.gameobj.pos:
+            self.gameobj.pos = new
+            self.velocity = Vector.from_radial(self.speed, self.gameobj.pos.dir_to(Display.center).angle)
             self.desired_direction = self.velocity.unit()
-            self.position += self.velocity * Time.delta_time
+            self.gameobj.pos += self.velocity * Time.delta_time
 
-        self.gameobj.pos = self.position
         self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
 
 
