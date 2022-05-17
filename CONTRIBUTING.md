@@ -29,7 +29,9 @@ https://github.com/rubatopy/rubato/issues
 
 1. Make to remove any unnecessary print statements and remove all `TODO` comments.
 2. Update the `CHANGELOG.md` with details of changes.
-3. The pull request will be merged by the maintainer.
+3. Make sure that all changes have unit-tests.
+4. Make sure that all Github Actions pass.
+5. The pull request will then be review and merged by a maintainer.
 
 ## Documentaion
 
