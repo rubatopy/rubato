@@ -121,7 +121,7 @@ class Math:
             >>> Math.simplify_sqrt(20) # √20 = 2√5
         """
 
-        error = 0.0000001
+        error = 1e-10
         if Math.is_int(square_rooted**(1 / 2), error):
             return square_rooted**(1 / 2), 1
         generator = Math.gen_primes()

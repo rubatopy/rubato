@@ -73,7 +73,7 @@ class Vector:
 
         Example:
             >>> Vector(8, 8).rationalized_mag
-            <4, 8>
+            rubato.Vector(4, 8)
 
         Warnings:
             Should only be used on vectors with integer components.
@@ -90,10 +90,10 @@ class Vector:
         """
         mag: Vector = self.rationalized_mag_vector
         mag = mag.to_int()
-        no_root = len(mag) == 1
+        no_root = mag.y == 1  # No square root in the answer.
 
-        num_dem1: Vector = Vector(*Math.simplify(mag.x, self.x))
-        num_dem2: Vector = Vector(*Math.simplify(mag.x, self.y))
+        num_dem1: Vector = Vector(*Math.simplify(round(self.x), mag.x))
+        num_dem2: Vector = Vector(*Math.simplify(round(self.y), mag.x))
 
         if no_root:
             return f"<{num_dem1.x}/{num_dem1.y}, {num_dem2.x}/{num_dem2.y}>"
@@ -114,11 +114,11 @@ class Vector:
             out = Vector()
 
         if self.mag_sq != 0:
-            inv_mag = self.mag_sq**-.5
+            inv_mag = 1 / math.sqrt(self.mag_sq)
         else:
             inv_mag = 0
 
-        out.x, out.y = self.x * inv_mag, self.y * inv_mag
+        out.x, out.y = round(self.x * inv_mag, 10), round(self.y * inv_mag, 10)
 
         return out
 
@@ -197,16 +197,16 @@ class Vector:
             out = Vector()
 
         if not isinstance(lower, Vector):
-            lower = Vector(*lower)
+            lower = Vector(lower, lower)
         if not isinstance(upper, Vector):
-            upper = Vector(*upper)
+            upper = Vector(upper, upper)
+
+        out.x = Math.clamp(self.x, lower.x, upper.x)
+        out.y = Math.clamp(self.y, lower.y, upper.y)
 
         if absolute:
-            out.x = Math.abs_clamp(self.x, lower.x, upper.x)
-            out.y = Math.abs_clamp(self.y, lower.y, upper.y)
-        else:
-            out.x = Math.clamp(self.x, lower.x, upper.x)
-            out.y = Math.clamp(self.y, lower.y, upper.y)
+            out.x = abs(out.x)
+            out.y = abs(out.y)
 
         return out
 
@@ -225,9 +225,9 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = math.radians(angle)
+        radians = -math.radians(angle)
         c, s = math.cos(radians), math.sin(radians)
-        out.x, out.y = self.x * c - self.y * s, self.x * s + self.y * c
+        out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
         return out
 
@@ -250,11 +250,11 @@ class Vector:
         Args:
             target: The target Vector.
             t: The lerping amount (between 0 and 1).
-            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+            out: The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
-            Vector: The resulting vector.
+            The resulting vector.
         """
         if out is None:
             out = Vector()
@@ -344,7 +344,7 @@ class Vector:
             other: the position to which you are pointing
 
         Returns:
-            A unit vector that is in the direction to the position passed in
+            A unit vector that is in the pointing to the other position passed in
         """
         base = (other - self).unit()
         return base
@@ -406,7 +406,6 @@ class Vector:
         return round(math.degrees(math.acos((a.dot(b)) / (a.magnitude * b.magnitude))), 10)
 
     @classmethod
-    @property
     def random_inside_unit_circle(cls) -> Vector:
         """
         Returns a random unit vector inside the unit circle.
@@ -533,9 +532,3 @@ class Vector:
 
     def __repr__(self):
         return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
-
-    def __len__(self) -> int:
-        length = 0
-        for i in self:
-            length += i != 0
-        return length
