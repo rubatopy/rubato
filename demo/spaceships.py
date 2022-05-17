@@ -1,8 +1,6 @@
 """
 A demo that shows how to extend the GameObject and Component classes.
 """
-import math
-
 from rubato import *
 
 init({
@@ -42,7 +40,7 @@ class SpaceshipComp(Component):
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
         self.gameobj.pos += self.velocity * Time.delta_time
 
-        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
+        self.gameobj.rotation = self.velocity.angle
 
     def update_wander(self):
         self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle * self.wander).unit()
@@ -59,12 +57,15 @@ class SpaceshipComp(Component):
             self.desired_direction = self.velocity.unit()
             self.gameobj.pos += self.velocity * Time.delta_time
 
-        self.gameobj.rotation = -math.degrees(self.velocity.angle + math.pi / 2)
+        self.gameobj.rotation = self.velocity.angle
 
 
 space_ship = GameObject({
     "pos": Display.center
-}).add(Image({"rel_path": "sprites/spaceship/spaceship.png"})).add(SpaceshipComp())
+}).add(Image({
+    "rel_path": "sprites/spaceship/spaceship.png",
+    "rot_offset": 180
+})).add(SpaceshipComp())
 
 sc_comp = space_ship.get(SpaceshipComp)
 main_scene.add(space_ship)

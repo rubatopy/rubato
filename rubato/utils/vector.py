@@ -30,13 +30,13 @@ class Vector:
     @property
     def magnitude(self) -> float:
         """The magnitude of the vector. You can set to this value."""
-        return (self.x * self.x + self.y * self.y)**.5
+        return math.sqrt(self.x * self.x + self.y * self.y)
 
     @magnitude.setter
     def magnitude(self, value: float | int):
         if self.x == self.y == 0:
             return
-        ratio = value * (self.x * self.x + self.y * self.y)**-.5
+        ratio = value * math.sqrt((self.x * self.x + self.y * self.y)**-1)
         self.x *= ratio
         self.y *= ratio
 
@@ -48,7 +48,7 @@ class Vector:
     @property
     def angle(self) -> float:
         """The angle of the vector in radians (readonly)."""
-        return math.atan2(self.y, self.x)
+        return -math.degrees(math.atan2(self.y, self.x)) + 90
 
     @property
     def rationalized_mag(self) -> str:
@@ -215,18 +215,18 @@ class Vector:
         Rotates the vector by a given number of degees.
 
         Args:
-            angle (float | int): The counterclockwise rotation amount in degrees.
-            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+            angle: The counterclockwise rotation amount in degrees.
+            out: The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
 
         Returns:
-            Vector: The resultant Vector.
+            The resultant Vector.
         """
         if out is None:
             out = Vector()
 
-        degrees = -math.radians(angle)
-        c, s = math.cos(degrees), math.sin(degrees)
+        radians = math.radians(angle)
+        c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = self.x * c - self.y * s, self.x * s + self.y * c
 
         return out
@@ -359,40 +359,18 @@ class Vector:
 
         Args:
             magnitude: Length of vector.
-            angle: Direction of vector in radians.
+            angle: Direction of vector in degrees.
 
         Returns:
-            Vector: Vector from the given direction and distance
+            Vector from the given direction and distance
         """
-        return Vector(math.cos(angle) * magnitude, math.sin(angle) * magnitude)
+        radians = math.radians(angle)
 
-    @staticmethod
-    def from_x(x_length: float, angle: float) -> Vector:
-        """
-        Generates a Vector from the given angle and x length.
+        # This is needed because otherwise an angle multiple of 360 will set the x to -0.
+        if angle > 0 and angle % 360 == 0:
+            return Vector(0, magnitude)
 
-        Args:
-            x_length: Length of x component of vector.
-            angle: Direction of vector in radians.
-
-        Returns:
-            Vector: Vector from the given direction and distance
-        """
-        return Vector(x_length, math.tan(angle) * x_length)
-
-    @staticmethod
-    def from_y(y_length: float, angle: float) -> Vector:
-        """
-        Generates a Vector from the given angle and y length.
-
-        Args:
-            y_length: Length of y component of vector.
-            angle: Direction of vector in radians.
-
-        Returns:
-            Vector: Vector from the given direction and distance
-        """
-        return Vector((1 / math.tan(angle)) * y_length, y_length)
+        return Vector(round(math.sin(radians), 10) * magnitude, round(math.cos(radians), 10) * magnitude)
 
     @staticmethod
     def clamp_magnitude(vector: Vector, max_magnitude: float, min_magnitude: float = 0) -> Vector:
@@ -423,20 +401,20 @@ class Vector:
             b: Second vector.
 
         Returns:
-            Angle in radians between the two vectors.
+            Angle in degrees between the two vectors.
         """
-        return math.acos((a.dot(b)) / (a.magnitude * b.magnitude))
+        return round(math.degrees(math.acos((a.dot(b)) / (a.magnitude * b.magnitude))), 10)
 
     @classmethod
     @property
     def random_inside_unit_circle(cls) -> Vector:
         """
-        Returns a random vector inside the unit circle.
+        Returns a random unit vector inside the unit circle.
 
         Returns:
             Random vector inside the unit circle.
         """
-        return cls.from_radial(random.random(), random.random() * 2 * math.pi)
+        return cls.from_radial(1, random.random() * 360)
 
     @classmethod
     @property

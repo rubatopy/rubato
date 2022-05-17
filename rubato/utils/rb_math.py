@@ -37,8 +37,10 @@ class Math:
             n: A number to check.
 
         Returns:
-            int: The sign of the number. (1 for positive, -1 for negative)
+            The sign of the number. (1 for positive, 0 for 0, -1 for negative)
         """
+        if n == 0:
+            return 0
         return (n >= 0) - (n < 0)
 
     @staticmethod
@@ -87,7 +89,7 @@ class Math:
     @staticmethod
     def is_int(x: float, error: float = 0) -> bool:
         """
-        Checks if a number is an integer.
+        Checks if a float can be rounded to an integer without dropping decimal places (within a certain error).
 
         Args:
             x: The number to check.
@@ -104,22 +106,32 @@ class Math:
         Simplifies a square root.
 
         Args:
-            square_rooted (int): The sqrt to simplify (inside the sqrt).
+            square_rooted: The sqrt to simplify (inside the sqrt).
 
         Returns:
-            tuple: The simplified square root, (multiple, square rooted).
+            The simplified square root, (multiple, square rooted).
+
+        Example:
+            Will try to simplify radicals.
+
+            >>> Math.simplify_sqrt(16) # √16 = 4√1
+            (4, 1)
+            >>> Math.simplify_sqrt(26) # √26 = 1√26
+            (1, 26)
+            >>> Math.simplify_sqrt(20) # √20 = 2√5
         """
+
         error = 0.0000001
         if Math.is_int(square_rooted**(1 / 2), error):
             return square_rooted**(1 / 2), 1
         generator = Math.gen_primes()
-        divisible_by = ()
+        divisible_by = (1, square_rooted)
         keep = False
         val = 1
         while (possible := square_rooted / (val := (val * val if keep else next(generator)))**2) >= 1:
             if Math.is_int(possible, error):
                 keep = True
-                divisible_by = (val, round(possible))
+                divisible_by = (round(val), round(possible))
             else:
                 keep = False
         return divisible_by
@@ -134,7 +146,7 @@ class Math:
             b: denominator.
 
         Returns:
-            tuple: The simplified fraction, (numerator, denominator).
+            The simplified fraction, (numerator, denominator).
         """
         if not isinstance(a, int) or not isinstance(b, int):
             raise TypeError("a and b must be integers.")

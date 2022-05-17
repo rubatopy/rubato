@@ -100,7 +100,7 @@ class Input:
         Returns:
             str: The corresponding key.
         """
-        return sdl2.keyboard.SDL_GetKeyName(code).decode("utf-8").lower()
+        return sdl2.SDL_GetKeyName(code).decode("utf-8").lower()
 
     @classmethod
     def mods_from_code(cls, code: int) -> List[str]:
@@ -126,7 +126,7 @@ class Input:
         Returns:
             int: The corresponding keycode.
         """
-        return sdl2.keyboard.SDL_GetKeyFromName(c_char_p(bytes(char, "utf-8")))
+        return sdl2.SDL_GetKeyFromName(c_char_p(bytes(char, "utf-8")))
 
     @classmethod
     def scancode_from_name(cls, char: str) -> int:
@@ -139,7 +139,7 @@ class Input:
         Returns:
             int: The corresponding scancode.
         """
-        return sdl2.keyboard.SDL_GetScancodeFromName(c_char_p(bytes(char, "utf-8")))
+        return sdl2.SDL_GetScancodeFromName(c_char_p(bytes(char, "utf-8")))
 
     @classmethod
     def window_focused(cls) -> bool:
@@ -149,7 +149,7 @@ class Input:
         Returns:
             bool: True if the window is focused, false otherwise.
         """
-        return sdl2.keyboard.SDL_GetKeyboardFocus() == Display.window or sdl2.mouse.SDL_GetMouseFocus(
+        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus(
         ) == Display.window
 
     # MOUSE FUNCTIONS
@@ -163,13 +163,13 @@ class Input:
             Tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
-        info = sdl2.mouse.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
+        info = sdl2.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
         return (
-            (info & sdl2.mouse.SDL_BUTTON_LMASK) != 0,
-            (info & sdl2.mouse.SDL_BUTTON_MMASK) != 0,
-            (info & sdl2.mouse.SDL_BUTTON_RMASK) != 0,
-            (info & sdl2.mouse.SDL_BUTTON_X1MASK) != 0,
-            (info & sdl2.mouse.SDL_BUTTON_X2MASK) != 0,
+            (info & sdl2.SDL_BUTTON_LMASK) != 0,
+            (info & sdl2.SDL_BUTTON_MMASK) != 0,
+            (info & sdl2.SDL_BUTTON_RMASK) != 0,
+            (info & sdl2.SDL_BUTTON_X1MASK) != 0,
+            (info & sdl2.SDL_BUTTON_X2MASK) != 0,
         )
 
     @classmethod
@@ -226,7 +226,7 @@ class Input:
         Returns:
             bool: True for visible, false otherwise.
         """
-        return sdl2.mouse.SDL_ShowCursor(sdl2.SDL_QUERY) == sdl2.SDL_ENABLE
+        return sdl2.SDL_ShowCursor(sdl2.SDL_QUERY) == sdl2.SDL_ENABLE
 
     @classmethod
     def set_mouse_visibility(cls, toggle: bool):
@@ -237,7 +237,7 @@ class Input:
 
             toggle: True to show the mouse and false to hide the mouse.
         """
-        sdl2.mouse.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
+        sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @classmethod
     def mouse_in(cls, center: Vector, dims: Vector = Vector(1, 1), angle: float = 0) -> bool:

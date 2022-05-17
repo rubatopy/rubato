@@ -11,7 +11,7 @@ from .display import Display
 from .color import Color
 from .font import Font
 from .draw import Draw
-from .time import Time
+from .rb_time import Time
 from .radio import Radio
 from .rb_input import Input
 from .sound import Sound

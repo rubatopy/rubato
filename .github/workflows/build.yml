@@ -31,8 +31,7 @@ jobs:
                   pip install .[dev] pysdl2-dll
 
             - name: Run Unit Tests
-              run: |
-                  pytest rubato/tests
+              run: pytest --cov=rubato rubato/tests
 
     lint:
         runs-on: ubuntu-latest

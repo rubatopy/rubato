@@ -7,13 +7,8 @@ import ctypes
 
 import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlimage
 import os
-from typing import TYPE_CHECKING
 
 from . import Vector, get_path
-
-if TYPE_CHECKING:
-    from . import Color, Font
-
 
 class DisplayProperties(type):
     """

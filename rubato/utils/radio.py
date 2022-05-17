@@ -36,14 +36,8 @@ class Radio:
                 broadcast. It may take in a params dictionary argument.
         """
         listener = Listener(event, func)
-        listener.registered = True
 
-        if event in cls.listeners:
-            cls.listeners[event].append(listener)
-        else:
-            cls.listeners[event] = [listener]
-
-        return listener
+        return cls.register(listener)
 
     @classmethod
     def register(cls, listener: "Listener"):

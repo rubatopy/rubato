@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Breaking Changes
+
+-   `Vector.angle` now returns the angle in degrees, starting from the top and going clockwise.
+-   `Vector.from_radial` now matches the angle format described above and takes in an angle in degrees
+-   `Vector.angle_between` now returns the angle in degrees.
+
 ### Added
 
 -   `Display.get_window_border_size()` returns the size of the black bands around the window.
@@ -11,9 +17,14 @@
 
 ### Changed
 
+-   `Math.sign()` now returns 0 for 0.
+-   `time` module renamed to `rb_time` to not conflict with the Python time module.
+
 ### Removed
 
 ### Fixed
+
+-   `Vector.random_inside_unit_circle()` now actually returns a unit vector.
 
 ## [v2.1.1] - May 10, 2022
 

@@ -7,7 +7,12 @@ based_on_style = "google"
 COLUMN_LIMIT = 120
 DEDENT_CLOSING_BRACKETS = true
 
-
+[tool.coverage.run]
+omit=[
+    "rubato/tests/*",
+    "rubato/static/*",
+    "rubato/__pyinstaller/*",
+]
 
 # This Pylint rcfile contains a best-effort configuration to uphold the
 # best-practices and style described in the Google Python style guide:
@@ -42,7 +47,6 @@ unsafe-load-any-extension="no"
 disable = [
     "multiple-imports",
     "unused-wildcard-import",
-    "unused-private-member",
     "wildcard-import",
     "abstract-method",
     "apply-builtin",

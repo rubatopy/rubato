@@ -131,32 +131,41 @@ class Color:
         Returns:
             tuple[int]: The Color values as HSV in the form of a tuple.
         """
-        rp, gp, bp = self.r / 255, self.g / 255, self.b / 255
-        c_max = max(rp, gp, bp)
-        delta = c_max - min(rp, gp, bp)
-        h = None
+        # R, G, B values are divided by 255
 
-        if delta == 0:
+        # to change the range from 0..255 to 0..1:
+        r, g, b = self.r / 255.0, self.g / 255.0, self.b / 255.0
+
+        # h, s, v = hue, saturation, value
+        cmax = max(r, g, b)  # maximum of r, g, b
+        cmin = min(r, g, b)  # minimum of r, g, b
+        diff = cmax - cmin  # diff of cmax and cmin.
+
+        # if cmax and cmax are equal then h = 0
+        if cmax == cmin:
             h = 0
-        elif c_max == rp:
-            h = 60 * (((gp - bp) / delta) % 6)
-        elif c_max == gp:
-            h = 60 * (((bp - rp) / delta) + 2)
-        elif c_max == bp:
-            h = 60 * (((rp - gp) / delta) + 4)
 
-        if c_max == 0:
+        # if cmax equal r then compute h
+        elif cmax == r:
+            h = (60 * ((g - b) / diff) + 360) % 360
+
+        # if cmax equal g then compute h
+        elif cmax == g:
+            h = (60 * ((b - r) / diff) + 120) % 360
+
+        # if cmax equal b then compute h
+        elif cmax == b:
+            h = (60 * ((r - g) / diff) + 240) % 360
+
+        # if cmax equal zero
+        if cmax == 0:
             s = 0
         else:
-            s = delta / c_max
+            s = (diff / cmax)
 
-        v = c_max
-
-        # unsure if this is correct, if someone knows please fix it
-        if h is None:
-            raise ValueError("Invalid color")
-
-        return round(h), s, v, self.a / 255
+        # compute v
+        v = cmax
+        return h, s, v, self.a / 255
 
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:
