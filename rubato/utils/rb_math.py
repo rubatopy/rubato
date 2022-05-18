@@ -54,9 +54,29 @@ class Math:
             t: Distance between upper and lower (1 gives b, 0 gives a).
 
         Returns:
-            float: The lerped value.
+            float: The linearly interpolated value.
         """
         return a + t * (b - a)
+
+    @classmethod
+    def map(cls, variable, variable_lower, variable_upper, map_lower, map_upper):
+        """
+        Maps the variable from its range defined by lower and upper to a new range defined by map_lower and map_upper.
+
+        Args:
+            variable: The variable to map.
+            variable_lower: The lower bound of the variable.
+            variable_upper: The upper bound of the variable.
+            map_lower: The lower bound of the new range.
+            map_upper: The upper bound of the new range.
+
+        Returns:
+            float: The mapped value.
+        """
+        return cls.clamp(
+            ((variable - variable_lower) / (variable_upper - variable_lower)) * (map_upper - map_lower) + map_lower,
+            map_lower, map_upper
+        )
 
     @staticmethod
     def floor(x: float) -> int:
