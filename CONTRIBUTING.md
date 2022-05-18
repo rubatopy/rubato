@@ -19,6 +19,16 @@ pre-commit run --all-files
 Note: be sure to escape the '\[' and '\]' characters if you're using zsh or a similar shell.
 You should be good to go. Commits take a bit of time to check (around 10-15 seconds) so be patient.
 
+### To run tests
+
+From the repository root, run:
+
+```shell
+pytest --cov=rubato --cov-report term-missing rubato/tests
+```
+
+This will run all the tests and generate a coverage report with the untested lines.
+
 ## Suggest Improvements
 
 Open up issues:

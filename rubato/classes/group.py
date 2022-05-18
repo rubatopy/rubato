@@ -39,14 +39,14 @@ class Group:
             ValueError: The group can only hold game objects or other groups.
         """
         for item in items:
-            if Game.state == Game.RUNNING:
-                item.setup()
             if isinstance(item, GameObject):
                 self.add_game_obj(item)
             elif isinstance(item, Group):
                 self.add_group(item)
             else:
                 raise ValueError(f"The group {self.name} can only hold game objects/groups.")
+            if Game.state == Game.RUNNING:
+                item.setup()
 
     def add_group(self, g: Group):
         """Add a group to the group."""
@@ -68,6 +68,9 @@ class Group:
 
         Args:
             item: The item to remove from the group.
+
+        Note:
+            The actually game object is not deleted, just removed from the group.
 
         Raises:
             ValueError: The item is not in the group and cannot be deleted.

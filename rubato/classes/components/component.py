@@ -61,4 +61,6 @@ class Component:
         new = Component()
         new.gameobj = self.gameobj
         new.offset = self.offset
+        new.rotation_offset = self.rotation_offset
+        new.singular = self.singular
         return new

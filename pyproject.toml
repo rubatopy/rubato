@@ -14,6 +14,11 @@ omit=[
     "rubato/__pyinstaller/*",
 ]
 
+[tool.coverage.report]
+exclude_lines=[
+    "if TYPE_CHECKING:",
+]
+
 # This Pylint rcfile contains a best-effort configuration to uphold the
 # best-practices and style described in the Google Python style guide:
 #   https://google.github.io/styleguide/pyguide.html
