@@ -1,5 +1,6 @@
 # <img src="https://github.com/rubatopy/rubato/blob/main/docs/source/_static/full.png?raw=true" alt="rubato" width="160"/>
 
+[![Discord](https://img.shields.io/discord/971625808890306580)](https://discord.gg/rdce5GXRrC)
 [![GitHub](https://img.shields.io/github/license/rubatopy/rubato?style=flat-square)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![PyPI](https://img.shields.io/pypi/v/rubato?style=flat-square)](https://pypi.org/project/rubato/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rubato?style=flat-square)](https://pypi.org/project/rubato/)
