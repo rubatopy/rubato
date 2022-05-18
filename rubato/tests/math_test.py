@@ -27,6 +27,13 @@ def test_lerp():
     assert Math.lerp(0, 1, 1) == 1
 
 
+def test_map():
+    assert Math.map(11, 0, 10, 0, 100) == 100  # Test upper bound
+    assert Math.map(-1, 0, 10, 0, 100) == 0  # Test lower bound
+    assert Math.map(5, 0, 10, 0, 100) == 50  # Test middle
+    assert Math.map(6.4, 3, 9, 10, 100) == 61.00000000000001  # Test float
+
+
 def test_floor():
     assert Math.floor(1.5) == 1
     assert Math.floor(1) == 1
@@ -63,6 +70,7 @@ def test_simplify():
 
     with pytest.raises(TypeError):
         Math.simplify(1, "4")
+
 
 def test_gen_primes():
     gen = Math.gen_primes()
