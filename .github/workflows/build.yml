@@ -5,7 +5,7 @@ on: [push]
 jobs:
     test:
         name: ${{ matrix.os }} (Python ${{ matrix.python-version }})
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
 
         strategy:
             fail-fast: false
@@ -30,9 +30,12 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install .[dev]
 
-            - name: Install Linux Dependencies
+            - name: Install DLLs
               if: startsWith(matrix.os, 'ubuntu')
-              run: pip install pysdl2-dll
+              run: pip install pysdl2-
+            - name: Install DLLs
+              if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
+              run: git submodule update --init --recursive
 
             - name: Run Unit Tests
               run: pytest --cov=rubato rubato/tests
