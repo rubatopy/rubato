@@ -30,11 +30,11 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install .[dev]
 
-            - name: Install DLLs
-              if: startsWith(matrix.os, 'ubuntu')
-              run: pip install pysdl2-
-            - name: Install DLLs
-              if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
+            - if: startsWith(matrix.os, 'ubuntu')
+              name: Install SDL
+              run: pip install pysdl2-dll
+            - if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
+              name: Install SDL
               run: git submodule update --init --recursive
 
             - name: Run Unit Tests
