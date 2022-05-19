@@ -462,6 +462,9 @@ class Vector:
             return self.y == other.y and self.x == other.x
         return False
 
+    def __hash__(self):
+        return hash((self.x, self.y))
+
     def __gt__(self, other: Vector) -> bool:
         if isinstance(other, Vector):
             return self.x > other.x and self.y > other.y
