@@ -36,6 +36,8 @@ class Defaults:
         # The name of the game object. (Used in error messages)
         "z_index": 0,  #. . . . . . . . . . . . . . . . . . . . . . int
         # The z_index of the group.
+        "active": True,  #. . . . . . . . . . . . . . . . . . . . . bool
+        # Whether the group is drawn and updated.
     }
     # [/group]
     # [gameobj]

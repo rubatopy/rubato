@@ -14,6 +14,7 @@
 -   `Input.get_mouse_abs_pos()` returns the absolute position of the mouse.
 -   `Display.border_size` fixed and integrated into `Input.get_mouse_pos()`: you only get on-renderer positions.
 -   `Image.from_surface()` and `Image.from_buffer` functionality.
+-   `Group.active` property. Boolean that controls whether the group is drawn and updated.
 
 ### Changed
 

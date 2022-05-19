@@ -17,6 +17,13 @@ class Group:
 
     Args:
         options: A group object config. Defaults to the :ref:`Group defaults <groupdef>`.
+
+    Attributes:
+        name (str): The name of the group.
+        groups (List[Group]): A list of groups that are children of this group.
+        game_objects (List[GameObject]): A list of game objects that are children of this group.
+        z_index (int): The z-index of the group.
+        active (bool): Whether the group is active or not.
     """
 
     def __init__(self, options: dict = {}):
@@ -25,6 +32,7 @@ class Group:
         self.groups: List[Group] = []
         self.game_objects: List[GameObject] = []
         self.z_index: int = param["z_index"]
+        self.active: bool = param["active"]
 
     def add(self, *items: GameObject | Group):
         """
@@ -90,48 +98,51 @@ class Group:
             game_obj.setup()
 
     def update(self):
-        for group in self.groups:
-            group.update()
-        for game_obj in self.game_objects:
-            game_obj.update()
+        if self.active:
+            for group in self.groups:
+                group.update()
+            for game_obj in self.game_objects:
+                game_obj.update()
 
     def fixed_update(self):
         """
         Runs a physics iteration on the group.
         Called automatically by rubato as long as the group is added to a scene.
         """
-        for game_obj in self.game_objects:
-            game_obj.fixed_update()
+        if self.active:
+            for game_obj in self.game_objects:
+                game_obj.fixed_update()
 
-        # collide all hitboxes with each other
-        hitboxes: List[Hitbox] = []
-        for game_obj in self.game_objects:
-            if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                for ht in hts:
-                    for hitbox in hitboxes:
-                        Engine.collide(ht, hitbox)
-                hitboxes.extend(hts)
-
-        for group in self.groups:
-            group.fixed_update()
-
-            # collide children groups with parent hitboxes
-            for game_obj in group.game_objects:
+            # collide all hitboxes with each other
+            hitboxes: List[Hitbox] = []
+            for game_obj in self.game_objects:
                 if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
                     for ht in hts:
                         for hitbox in hitboxes:
                             Engine.collide(ht, hitbox)
+                    hitboxes.extend(hts)
+
+            for group in self.groups:
+                group.fixed_update()
+
+                # collide children groups with parent hitboxes
+                for game_obj in group.game_objects:
+                    if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
+                        for ht in hts:
+                            for hitbox in hitboxes:
+                                Engine.collide(ht, hitbox)
 
     def draw(self, camera: Camera):
-        self.groups.sort(key=lambda i: i.z_index)
-        for group in self.groups:
-            if group.z_index <= camera.z_index:
-                group.draw(camera)
+        if self.active:
+            self.groups.sort(key=lambda i: i.z_index)
+            for group in self.groups:
+                if group.z_index <= camera.z_index:
+                    group.draw(camera)
 
-        self.game_objects.sort(key=lambda i: i.z_index)
-        for game_obj in self.game_objects:
-            if game_obj.z_index <= camera.z_index:
-                game_obj.draw(camera)
+            self.game_objects.sort(key=lambda i: i.z_index)
+            for game_obj in self.game_objects:
+                if game_obj.z_index <= camera.z_index:
+                    game_obj.draw(camera)
 
     def count(self) -> int:
         """
