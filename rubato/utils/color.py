@@ -32,14 +32,6 @@ class Color:
         self.b = int(Math.clamp(b, 0, 255))
         self.a = int(Math.clamp(a, 0, 255))
 
-    def __str__(self):
-        return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
-
-    def __eq__(self, other: Color) -> bool:
-        if isinstance(other, Color):
-            return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a
-        return False
-
     @property
     def rgba32(self):
         """The RGBA32 representation of the color."""
@@ -394,3 +386,14 @@ class Color:
         The default lime color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
         return Color(*Defaults.color_defaults["lime"])
+
+    def __str__(self):
+        return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
+
+    def __eq__(self, other: Color) -> bool:
+        if isinstance(other, Color):
+            return self.r == other.r and self.b == other.b and self.g == other.g and self.a == other.a
+        return False
+
+    def __hash__(self):
+        return hash((self.r, self.g, self.b, self.a))
