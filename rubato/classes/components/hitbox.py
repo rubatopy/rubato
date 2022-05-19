@@ -4,7 +4,7 @@ from typing import Callable, Dict, List, Optional, TYPE_CHECKING, Set
 import math
 
 from . import Component
-from ... import Display, Vector, Defaults, Color, Error, SideError, Game, Draw
+from ... import Display, Vector, Defaults, Color, Error, SideError, Game, Draw, Math
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -52,17 +52,16 @@ class Hitbox(Component):
         Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
 
         Returns:
-            The top left and bottom right corners of the bounding box as Vectors. [top left, bottom right]
+            The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
         """
         return [self.gameobj.pos, self.gameobj.pos]
 
     def get_obb(self) -> List[Vector]:
         """
-        Gets top left and bottom right corners of the oriented bounding box of the hitbox in world coordinates.
-        This bounding box takes into account hitbox rotation.
+        Gets the top left and bottom right corners of the oriented bounding box in world coordinates.
 
         Returns:
-            The top left and bottom right corners of the bounding box as Vectors. [top left, bottom right]
+            The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
         """
         return [self.gameobj.pos, self.gameobj.pos]
 
@@ -112,12 +111,10 @@ class Polygon(Hitbox):
         )
 
     def get_aabb(self) -> List[Vector]:
-        trans_verts = self.translated_verts()
-        top = 0
-        bottom = 0
-        left = 0
-        right = 0
-        for vert in trans_verts:
+        verts = self.real_verts()
+        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+
+        for vert in verts:
             if vert.y > bottom:
                 bottom = vert.y
             elif vert.y < top:
@@ -127,13 +124,25 @@ class Polygon(Hitbox):
             elif vert.x < left:
                 left = vert.x
 
-        return [Vector(left, top) + self.gameobj.pos, Vector(right, bottom) + self.gameobj.pos]
+        return [Vector(left, top), Vector(right, bottom)]
 
     def get_obb(self) -> List[Vector]:
-        aabb = self.get_aabb()
+        verts = self.translated_verts()
+        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+
+        for vert in verts:
+            if vert.y > bottom:
+                bottom = vert.y
+            elif vert.y < top:
+                top = vert.y
+            if vert.x > right:
+                right = vert.x
+            elif vert.x < left:
+                left = vert.x
+
         return [
-            (aabb[0] - self.gameobj.pos).rotate(self.gameobj.rotation) + self.gameobj.pos,
-            (aabb[1] - self.gameobj.pos).rotate(self.gameobj.rotation) + self.gameobj.pos,
+            Vector(left, top).rotate(self.gameobj.rotation) + self.gameobj.pos,
+            Vector(right, bottom).rotate(self.gameobj.rotation) + self.gameobj.pos,
         ]
 
     def translated_verts(self) -> List[Vector]:
@@ -302,7 +311,7 @@ class Rectangle(Hitbox):
     @bottom_right.setter
     def bottom_right(self, new: Vector):
         if self.gameobj:
-            self.gameobj.pos = new + Vector(self.width / -2, self.height / -2)
+            self.gameobj.pos = new - Vector(self.width / 2, self.height / 2)
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -317,28 +326,39 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos.y - self.height / -2
+            return self.pos.y + self.height / 2
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
     @bottom.setter
     def bottom(self, new: float):
         if self.gameobj:
-            self.gameobj.pos.y += new + self.height / -2
+            self.gameobj.pos.y += new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
     def get_aabb(self) -> List[Vector]:
-        return [
-            self.pos - Vector(self.width / 2, self.height / 2),
-            self.pos + Vector(self.width / 2, self.height / 2),
-        ]
+        verts = self.real_verts()
+        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+
+        for vert in verts:
+            if vert.y > bottom:
+                bottom = vert.y
+            elif vert.y < top:
+                top = vert.y
+            if vert.x > right:
+                right = vert.x
+            elif vert.x < left:
+                left = vert.x
+
+        return [Vector(left, top), Vector(right, bottom)]
 
     def get_obb(self) -> List[Vector]:
+        dim = Vector(self.width / 2, self.height / 2)
         return [
-            self.pos + Vector(self.width / -2, self.height / -2).rotate(self.gameobj.rotation),
-            self.pos + Vector(self.width / 2, self.height / 2).rotate(self.gameobj.rotation),
+            (self.offset - dim).rotate(self.gameobj.rotation) + self.gameobj.pos,
+            (self.offset + dim).rotate(self.gameobj.rotation) + self.gameobj.pos,
         ]
 
     def vertices(self) -> List[Vector]:
@@ -423,17 +443,18 @@ class Circle(Hitbox):
         self.radius = params["radius"]
 
     def get_aabb(self) -> List[Vector]:
-        offset = Vector(self.transformed_radius(), self.transformed_radius())
+        offset = self.transformed_radius()
         return [
-            self.gameobj.pos - offset,
-            self.gameobj.pos + offset,
+            self.pos - offset,
+            self.pos + offset,
         ]
 
     def get_obb(self) -> List[Vector]:
         r = self.transformed_radius()
+        offset = Vector(r, r).rotate(self.gameobj.rotation)
         return [
-            self.gameobj.pos + Vector(-r, -r).rotate(self.gameobj.rotation),
-            self.gameobj.pos + Vector(r, r).rotate(self.gameobj.rotation),
+            self.gameobj.pos - offset,
+            self.gameobj.pos + offset,
         ]
 
     def transformed_radius(self) -> int:
