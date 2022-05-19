@@ -27,7 +27,8 @@ From the repository root, run:
 pytest --cov=rubato --cov-report term-missing rubato/tests
 ```
 
-This will run all the tests and generate a coverage report with the untested lines.
+This will run all the tests and generate a coverage report with the untested lines. To make life easier, the root Makefile
+runs the tests and linting automatically. This can be run using the `make` command (No arguments needed).
 
 ## Suggest Improvements
 

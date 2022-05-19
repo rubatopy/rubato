@@ -240,6 +240,9 @@ def test_math(v1, v2):
 
     assert -v1 == Vector(-1, -1)
 
+    assert hash(v1) == hash((1, 1))
+    assert hash(v2) == hash((3, 4))
+
 
 def test_iter(v1):
     assert list(v1) == [1, 1]

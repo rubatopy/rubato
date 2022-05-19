@@ -22,6 +22,10 @@ def test_str(color):
     assert str(color) == "Color(r=0, g=127, b=255, a=255)"
 
 
+def test_hash(color):
+    assert hash(color) == hash((0, 127, 255, 255))
+
+
 def test_eq(color):
     assert color == Color(0, 127, 255, 255)
 
