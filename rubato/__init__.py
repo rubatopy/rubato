@@ -62,9 +62,14 @@ def init(options: dict = {}):
     Time.fixed_delta = 1000 / params["physics_fps"]
 
     flags = (
-        sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_SHOWN |
-        sdl2.SDL_WINDOW_MOUSE_FOCUS | sdl2.SDL_WINDOW_INPUT_FOCUS
+        sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_MOUSE_FOCUS |
+        sdl2.SDL_WINDOW_INPUT_FOCUS
     )
+
+    if params["hidden"]:
+        flags |= sdl2.SDL_WINDOW_HIDDEN
+    else:
+        flags |= sdl2.SDL_WINDOW_SHOWN
 
     params["window_size"] = params["window_size"].to_int()
     params["res"] = params["res"].to_int()

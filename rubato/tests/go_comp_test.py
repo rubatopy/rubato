@@ -1,5 +1,5 @@
 """Test the Game Object class"""
-from unittest.mock import Mock
+from unittest.mock import Mock, call
 import pytest
 from rubato.classes.camera import Camera
 from rubato.classes.components.hitbox import Hitbox, Rectangle
@@ -7,6 +7,7 @@ from rubato.classes.game_object import GameObject
 from rubato.classes.components.component import Component
 from rubato.utils.error import DuplicateComponentError
 from rubato.utils.vector import Vector
+from rubato.utils.color import Color
 # pylint: disable=redefined-outer-name
 
 
@@ -118,14 +119,25 @@ def test_pass_on_funcs(go, comp):
     comp.fixed_update.assert_called_once()
 
 
-def test_draw(go, comp):
+def test_draw(monkeypatch, go, comp, rub):
+    # pylint: disable=unused-argument
     go.add(comp)
     c = Camera()
+    draw_line = Mock()
+    monkeypatch.setattr("rubato.utils.draw.Draw.line", draw_line)
+
+    go.debug = True
     go.draw(c)
 
-    comp.draw.assert_called_once_with(c)
+    comp.draw.assert_called()
 
-    # TODO test debug draw
+    p1 = Vector(110, 100)
+    p2 = Vector(90, 100)
+
+    p3 = Vector(100, 110)
+    p4 = Vector(100, 90)
+
+    draw_line.assert_has_calls([call(p1, p2, Color(0, 255), 6), call(p3, p4, Color(0, 255), 6)])
 
 
 def test_comp_funcs():

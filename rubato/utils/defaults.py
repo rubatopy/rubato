@@ -28,6 +28,8 @@ class Defaults:
         # The background color of the window
         "icon": "",  #. . . . . . . . . . . . . . . . . . . . . . . str
         # The path to an image to use as the window icon.
+        "hidden": False,  #. . . . . . . . . . . . . . . . . . . bool
+        # Whether the window is hidden. CANNOT BE CHANGED AFTER INIT CALL.
     }
     # [/game]
     # [group]
