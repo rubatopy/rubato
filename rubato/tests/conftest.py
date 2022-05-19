@@ -4,6 +4,8 @@ import rubato
 import sdl2
 import sdl2.ext
 
+from rubato.utils.vector import Vector
+
 
 @pytest.fixture(scope="module")
 def sdl():
@@ -18,7 +20,13 @@ def sdl():
 
 @pytest.fixture(scope="module")
 def rub():
-    rubato.init({"hidden": True})
+    """Initialize Rubato"""
+    # pylint: disable=unused-argument
+    rubato.init({
+        "window_size": Vector(200, 100),
+        "res": Vector(400, 200),
+        "hidden": True,
+    })
     yield
     sdl2.sdlttf.TTF_Quit()
     sdl2.SDL_Quit()

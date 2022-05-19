@@ -119,6 +119,8 @@ def test_pass_on_funcs(go, comp):
     comp.fixed_update.assert_called_once()
 
 
+@pytest.mark.rub
+@pytest.mark.sdl
 def test_draw(monkeypatch, go, comp, rub):
     # pylint: disable=unused-argument
     go.add(comp)
@@ -137,7 +139,7 @@ def test_draw(monkeypatch, go, comp, rub):
     p3 = Vector(100, 110)
     p4 = Vector(100, 90)
 
-    draw_line.assert_has_calls([call(p1, p2, Color(0, 255), 6), call(p3, p4, Color(0, 255), 6)])
+    draw_line.assert_has_calls([call(p1, p2, Color(0, 255), 4), call(p3, p4, Color(0, 255), 4)])
 
 
 def test_comp_funcs():

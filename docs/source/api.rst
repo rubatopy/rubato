@@ -263,7 +263,7 @@ Noise
 
 Time
 ====
-.. automodule:: rubato.utils.time
+.. automodule:: rubato.utils.rb_time
     :members:
 
 .. _color:

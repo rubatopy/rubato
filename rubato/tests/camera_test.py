@@ -1,7 +1,10 @@
 """Test the Camera class"""
 from unittest.mock import Mock
+
+import pytest
 from rubato.classes.camera import Camera
 from rubato.utils.radio import Radio
+from rubato.utils.vector import Vector
 
 
 def test_init():
@@ -24,9 +27,16 @@ def test_zoom_prop():
     callback.assert_called_once_with({"camera": c})
 
 
-def test_transform():
-    # TODO once we figure out how to test SDL things
-    assert True
+@pytest.mark.sdl
+@pytest.mark.rub
+def test_transform(rub):
+    # pylint: disable=unused-argument
+    c = Camera()
+    assert c.transform(Vector(0, 0)) == Vector(0, 0)
+    assert c.transform(Vector(100, 100)) == Vector(100, 100)
+    c.zoom = 2
+    assert c.transform(Vector(0, 0)) == Vector(-200, -100)
+    assert c.transform(Vector(100, 100)) == Vector(0, 100)
 
 
 def test_scale():

@@ -24,11 +24,19 @@ You should be good to go. Commits take a bit of time to check (around 10-15 seco
 From the repository root, run:
 
 ```shell
-pytest --cov=rubato --cov-report term-missing rubato/tests
+make test
 ```
 
-This will run all the tests and generate a coverage report with the untested lines. To make life easier, the root Makefile
-runs the tests and linting automatically. This can be run using the `make` command (No arguments needed).
+This will run all the tests. There are also more make targets for specific tests.
+
+```shell
+make all # Run all tests and linting
+make # same as make all
+make test # Run all tests
+make lint # Run linting
+make test-no-sdl # Run tests that don't need SDL
+make test-no-rub # Run tests that don't need Rubato initialized
+```
 
 ## Suggest Improvements
 
@@ -52,7 +60,7 @@ The docs are built and publish automatically
 
 ```shell
 pip install --editable .[docs] # install requirements for docs
-(cd docs && make live) # start doc server
+make docs-live # start doc server
 ```
 
 ### Docstring Guide

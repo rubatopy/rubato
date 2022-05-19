@@ -11,7 +11,7 @@ BUILDER          = dirhtml
 
 save:
 	@make clear
-	@$(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
+	@$(SPHINXBUILD) -b -W $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
 	@touch build/html/_modules/robots.txt
 
 test:
