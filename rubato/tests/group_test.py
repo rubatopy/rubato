@@ -30,6 +30,7 @@ def test_init(group):
     assert group.game_objects == []
     assert group.groups == []
     assert group.z_index == 0
+    assert group.active
 
 
 def test_add(monkeypatch, group, go):
