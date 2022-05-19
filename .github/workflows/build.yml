@@ -31,7 +31,7 @@ jobs:
                   pip install .[dev]
 
             - name: Install Linux Dependencies
-              if: startsWith(matrix.os, "ubuntu")
+              if: startsWith(matrix.os, 'ubuntu')
               run: pip install pysdl2-dll
 
             - name: Run Unit Tests
