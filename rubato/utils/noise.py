@@ -61,10 +61,10 @@ class Noise:
         s = cls._SKEW_2D * (x + y)
         xs = x + s
         ys = y + s
-        return cls._noise2_base(cls.seed, xs, ys, x, y)
+        return cls._noise2_base(cls.seed, xs, ys)
 
     @classmethod
-    def _noise2_base(cls, seed: int, xs: float, ys: float, x, y) -> float:
+    def _noise2_base(cls, seed: int, xs: float, ys: float) -> float:
         xsb = Math.floor(xs)
         ysb = Math.floor(ys)
         xi = xs - xsb
@@ -95,13 +95,11 @@ class Noise:
             a2 = cls._RSQUARED_2D - dx2 * dx2 - dy2 * dy2
             if a2 > 0:
                 value += (a2 * a2) * (a2 * a2) * cls._grad2(seed, xsbp, ysbp + cls._PRIME_Y, dx2, dy2)
-                # print("kachow 1", x, y)
         else:
             dx2 = dx0 - (cls._UNSKEW_2D + 1)
             dy2 = dy0 - cls._UNSKEW_2D
             a2 = cls._RSQUARED_2D - dx2 * dx2 - dy2 * dy2
             if a2 > 0:
-                # print("kachow 2", x, y)
                 value += (a2 * a2) * (a2 * a2) * cls._grad2(seed, xsbp + cls._PRIME_X, ysbp, dx2, dy2)
 
         return value
