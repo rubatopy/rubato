@@ -4,6 +4,7 @@ A Perlin Noise demo for rubato
 Draws a sample of Perlin noise to the screen. Requires rubato 2.1.0 or later.
 """
 from random import randint
+import random
 import rubato as rb
 
 rb.init({
@@ -23,7 +24,8 @@ saved = []
 for x in range(rb.Display.res.x):
     saved.append([])
     for y in range(rb.Display.res.y):
-        noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
+        noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)  # perlin noise
+        # noise = random.random() * 2 - 1  # random noise
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = rb.Color(gray, gray, gray)
         saved[x].append((rb.Vector(x, y), color))

@@ -23,7 +23,8 @@ def draw_on(surf):  # ----------------------------------------------------------
         for y in range(pixels.shape[1]):
             # random color from our default palette
             choice = random.choice(list(rb.Defaults.color_defaults.values()))
-            pixels[x][y] = rb.Color(*choice).rgba32
+            # pixels[x][y] = rb.Color(*choice).rgba32
+            pixels[x][y] = rb.Color.random_default().rgba32
     return surf
 
 

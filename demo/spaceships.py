@@ -21,14 +21,14 @@ class SpaceshipComp(Component):
         const = .1
         self.speed = 2 * const
         self.steer = .2 * const
-        self.wander = 2 * const
+        self.wander = 1 * const
 
         self.velocity = Vector(1, 1)
         self.desired_direction = Vector(-1, 0)
         self.target = Display.bottom_right
 
     def update(self):
-        self.update_target()
+        self.update_wander()
 
     def update_target(self):
         self.desired_direction = (self.target - self.gameobj.pos).unit()
@@ -43,7 +43,7 @@ class SpaceshipComp(Component):
         self.gameobj.rotation = self.velocity.angle
 
     def update_wander(self):
-        self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle * self.wander).unit()
+        self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle() * self.wander).unit()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
