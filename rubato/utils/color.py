@@ -2,7 +2,7 @@
 This color module contains the Color class, which is used to represent colors in the game.
 """
 from __future__ import annotations
-from random import randint
+from random import randint, choice
 from typing import Tuple
 import sdl2
 
@@ -158,6 +158,21 @@ class Color:
         # compute v
         v = cmax
         return h, s, v, self.a / 255
+
+    @staticmethod
+    def random_default(grayscale=False) -> Color:
+        """
+        Returns a random default Color.
+
+        Args:
+            grayscale (bool, optional): Whether to add grayscale colors. Defaults to False.
+
+        Returns:
+            Color: A random default Color.
+        """
+
+        return Color(*choice(list(Defaults.color_defaults.values()) +
+                             list(Defaults.grayscale_defaults.values() if grayscale else [])))
 
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:

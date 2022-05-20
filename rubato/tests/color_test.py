@@ -103,6 +103,22 @@ def test_to_hsv(c, expected):
     assert c.to_hsv() == expected
 
 
+def test_random_defaults(monkeypatch):
+    random = Random(1)
+    monkeypatch.setattr("rubato.utils.color.choice", random.choice)
+    c = Color.random_default()
+    assert c.r == 108
+    assert c.g == 92
+    assert c.b == 231
+    assert c.a == 255
+    for _ in range(10):
+        c = Color.random_default()
+        assert c.to_tuple()[:-1] in list(Defaults.color_defaults.values())
+    for _ in range(10):
+        c = Color.random_default(True)
+        assert c.to_tuple()[:-1] in list(Defaults.color_defaults.values()) + list(Defaults.grayscale_defaults.values())
+
+
 def test_from_rgba32(color):
     assert Color.from_rgba32(0x007FFFFF) == color
 
