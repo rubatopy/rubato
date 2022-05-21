@@ -48,7 +48,7 @@ class Vector:
     @property
     def angle(self) -> float:
         """The angle of the vector in radians (readonly)."""
-        return -math.degrees(math.atan2(self.y, self.x)) + 90
+        return -math.degrees(math.atan2(self.y, self.x) - Math.PI_HALF)
 
     @property
     def rationalized_mag(self) -> str:
@@ -212,10 +212,10 @@ class Vector:
 
     def rotate(self, angle: float | int, out: Vector = None) -> Vector:
         """
-        Rotates the vector by a given number of degees.
+        Rotates the vector by a given number of degrees.
 
         Args:
-            angle: The counterclockwise rotation amount in degrees.
+            angle: The rotation amount in north-degrees.
             out: The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
 
@@ -225,7 +225,7 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = -math.radians(angle)
+        radians = math.radians(-(angle - 90))
         c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
@@ -364,7 +364,7 @@ class Vector:
         Returns:
             Vector from the given direction and distance
         """
-        radians = math.radians(angle)
+        radians = math.radians(-(angle - 90))
 
         # This is needed because otherwise an angle multiple of 360 will set the x to -0.
         if angle > 0 and angle % 360 == 0:
@@ -535,3 +535,7 @@ class Vector:
 
     def __repr__(self):
         return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
+
+# Developer notes:
+# Angles are north degrees (clockwise from the +y-axis).
+# We do not use the built-in Math conversion functions, because they will just bloat our stack.

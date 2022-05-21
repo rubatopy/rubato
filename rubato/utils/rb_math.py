@@ -12,6 +12,8 @@ class Math:
         INF (float): The max value of a float.
     """
     INF = float("inf")
+    PI_HALF = math.pi / 2
+    PI_TWO = math.pi * 2
 
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
@@ -222,3 +224,29 @@ class Math:
                 del d[q]
 
             q += 1
+
+    @staticmethod
+    def north_deg_to_rad(deg: float) -> float:
+        """
+        Converts a north-degrees (naturally used in rubato) to east-radians.
+
+        Args:
+            deg: North-degrees.
+
+        Returns:
+            East-radians.
+        """
+        return math.radians(-(deg - 90))
+
+    @staticmethod
+    def rad_to_north_deg(rad: float) -> float:
+        """
+        Converts east-radians to north-degrees (naturally used in rubato).
+
+        Args:
+            rad: East-radians.
+
+        Returns:
+            North-degrees.
+        """
+        return -math.degrees(rad - Math.PI_HALF)

@@ -28,7 +28,7 @@ class SpaceshipComp(Component):
         self.target = Display.bottom_right
 
     def update(self):
-        self.update_wander()
+        self.update_target()
 
     def update_target(self):
         self.desired_direction = (self.target - self.gameobj.pos).unit()
@@ -38,7 +38,7 @@ class SpaceshipComp(Component):
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        self.gameobj.pos += self.velocity * Time.delta_time
+        # self.gameobj.pos += self.velocity * Time.delta_time
 
         self.gameobj.rotation = self.velocity.angle
 
