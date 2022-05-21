@@ -94,8 +94,16 @@ class Game(metaclass=GameProperties):
         The constant game loop. Should only be called by :meth:`rubato.begin`.
         """
         cls.state = cls.RUNNING
-        while True:
-            cls.update()
+        try:
+            while True:
+                cls.update()
+        except (Exception,) as e:  # add possible exceptions here if there are more needed
+            raise type(e)(str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
+                                   "https://github.com/rubatopy/rubato/issues").with_traceback(sys.exc_info()[2])
+            # Original code cleaner?
+            # raise Warning("Rubato Error-ed. Was it our fault? Issue tracker: "
+            #               "https://github.com/rubatopy/rubato/issues") from e
+            # print(e.__cause__, e.__context__, e.__traceback__)
 
     @classmethod
     def update(cls):
