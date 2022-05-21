@@ -19,23 +19,9 @@ rb.Game.debug = True
 
 main = rb.Scene()
 
-test = rb.GameObject({
-    "pos": rb.Vector(300, 300)
-}).add(rb.Rectangle({
-    "width": 50,
-    "height": 100,
-    "color": rb.Color.red
-}))
+test = rb.GameObject({"pos": rb.Vector(300, 300)}).add(rb.Rectangle({}))
 
-
-def update():
-    if rb.Input.key_pressed("a"):
-        test.rotation -= 1
-    elif rb.Input.key_pressed("d"):
-        test.rotation += 1
-
-
-main.update = update
+print(test.get(rb.Rectangle).radius)
 
 main.add(test)
 rb.begin()

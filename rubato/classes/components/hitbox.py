@@ -95,6 +95,16 @@ class Polygon(Hitbox):
         params = Defaults.polygon_defaults | options
         self.verts: List[Vector] = params["verts"]
 
+    @property
+    def radius(self) -> float:
+        """The radius of the Polygon"""
+        verts = self.transformed_verts()
+        max_dist = -Math.INF
+        for vert in verts:
+            if (dist := vert.distance_between(self.offset)) > max_dist:
+                max_dist = dist
+        return round(max_dist, 10)
+
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
@@ -337,6 +347,11 @@ class Rectangle(Hitbox):
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def radius(self) -> float:
+        """The radius of the rectangle."""
+        return round(math.sqrt(self.width**2 + self.height**2) / 2, 10)
 
     def get_aabb(self) -> List[Vector]:
         verts = self.real_verts()
