@@ -27,6 +27,8 @@ test = rb.GameObject({
     "color": rb.Color.red
 })).add(rb.Slider({
     "slider_origin_offset": rb.Vector(200, -50),
+    "slider_length": 100,
+    "slider_direction": rb.Vector(0, 1),
 }))
 
 print(test.get(rb.Rectangle).radius)

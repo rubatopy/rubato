@@ -127,6 +127,12 @@ class Defaults:
         # The callback to call when the mouse is hovering over the button.
         "onexit": lambda: None,  # . . . . . . . . . . . . . . . . Callable
         # The callback to call when the mouse stops hovering over the button.
+        "slider_origin_offset": Vector(0, 0),  # . . . . . . . .  .Vector
+        # The origin of the slider.
+        "slider_length": 10,  # . . . . . . . . . . . . . . . . . .int
+        # The length of the slider.
+        "slider_direction": Vector(0, -1),  # . . . . . . . . . . .Vector
+        # The direction of the slider.
 
     }
     # [/slider]
