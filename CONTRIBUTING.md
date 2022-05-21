@@ -36,6 +36,9 @@ make test # Run all tests
 make lint # Run linting
 make test-no-sdl # Run tests that don't need SDL
 make test-no-rub # Run tests that don't need Rubato initialized
+make test-rub # Run tests that need Rubato initialized
+make test-sdl # Run tests that need SDL
+make test-indiv # Run individual tests. Must specify test parameter. (e.g. make test-indiv test=test_foo)
 ```
 
 ## Suggest Improvements

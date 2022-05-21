@@ -120,7 +120,6 @@ def test_pass_on_funcs(go, comp):
 
 
 @pytest.mark.rub
-@pytest.mark.sdl
 def test_draw(monkeypatch, go, comp, rub):
     # pylint: disable=unused-argument
     go.add(comp)

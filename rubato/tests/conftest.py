@@ -1,9 +1,9 @@
 """Global Fixtures needed in multiple tests"""
 import pytest
-import rubato
 import sdl2
 import sdl2.ext
 
+import rubato
 from rubato.utils.vector import Vector
 
 
@@ -18,7 +18,7 @@ def sdl():
     sdl2.SDL_Quit()
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def rub():
     """Initialize Rubato"""
     # pylint: disable=unused-argument
@@ -30,3 +30,4 @@ def rub():
     yield
     sdl2.sdlttf.TTF_Quit()
     sdl2.SDL_Quit()
+    rubato.Game.initialized = False

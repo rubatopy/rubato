@@ -27,7 +27,6 @@ def test_zoom_prop():
     callback.assert_called_once_with({"camera": c})
 
 
-@pytest.mark.sdl
 @pytest.mark.rub
 def test_transform(rub):
     # pylint: disable=unused-argument
