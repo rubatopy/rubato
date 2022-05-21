@@ -1,7 +1,7 @@
 """A slider component that can be used in UI."""
 from typing import Callable
 
-from . import Component, Button
+from . import Component  # , Button
 from ... import Defaults, Input, Vector
 
 
