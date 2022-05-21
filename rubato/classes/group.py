@@ -150,7 +150,4 @@ class Group:
         Returns:
             int: The number of GameObjects in a group
         """
-        children = 0
-        for group in self.groups:
-            children += group.count()
-        return len(self.game_objects) + children
+        return len(self.game_objects) + sum([group.count() for group in self.groups])
