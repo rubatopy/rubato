@@ -215,7 +215,7 @@ class Vector:
         Rotates the vector by a given number of degrees.
 
         Args:
-            angle: The rotation amount in north-degrees.
+            angle: The rotation amount in north-degrees you want to rotate by (relative).
             out: The output vector to set to. Defaults to a new vector.
                 If you want the function to act on itself, set this value to the reference of the vector.
 
@@ -225,7 +225,7 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = math.radians(-(angle - 90))
+        radians = math.radians(-angle)
         c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
@@ -364,11 +364,7 @@ class Vector:
         Returns:
             Vector from the given direction and distance
         """
-        radians = math.radians(-(angle - 90))
-
-        # This is needed because otherwise an angle multiple of 360 will set the x to -0.
-        if angle > 0 and angle % 360 == 0:
-            return Vector(0, magnitude)
+        radians = math.radians(angle)
 
         return Vector(round(math.sin(radians), 10) * magnitude, round(math.cos(radians), 10) * magnitude)
 
