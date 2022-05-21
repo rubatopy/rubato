@@ -16,11 +16,13 @@
 -   `Image.from_surface()` and `Image.from_buffer` functionality.
 -   `Group.active` property. Boolean that controls whether the group is drawn and updated.
 -   `Color.random_default()` Allows to randomly choose from a set of default colors.
+-   `Debug` Added Debug module, that is called at the end of the game loop.
 
 ### Changed
 
 -   `Math.sign()` now returns 0 for 0.
 -   `time` module renamed to `rb_time` to not conflict with the Python time module.
+-   `Draw` now has a default color of green.
 
 ### Removed
 

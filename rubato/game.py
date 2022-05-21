@@ -7,7 +7,7 @@ import sdl2, sdl2.ext, sdl2.sdlttf
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Vector, Color, Input, Radio, Font, Draw
+from . import Time, Display, Vector, Color, Input, Radio, Font, Draw, Debug
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -173,6 +173,8 @@ class Game(metaclass=GameProperties):
             cls.background_color.to_tuple(),
         )
         cls.scenes.draw()
+
+        Debug.clear_queue()
 
         if cls.show_fps:
             fs = str(int(Time.smooth_fps))

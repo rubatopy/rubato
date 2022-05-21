@@ -11,26 +11,26 @@ class Draw:
     """Draws things to the renderer. Should not instantiate this class."""
 
     @staticmethod
-    def point(pos: Vector, color: Color):
+    def point(pos: Vector, color: Color = Color.green):
         """
         Draw a point onto the renderer.
 
         Args:
             pos: The position of the point.
-            color: The color to use for the pixel. Defaults to black.
+            color: The color to use for the pixel. Defaults to green.
         """
 
         pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @staticmethod
-    def line(p1: Vector, p2: Vector, color: Color, width: int = 1):
+    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
         """
         Draw a line onto the renderer.
 
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to black.
+            color: The color to use for the line. Defaults to green.
             width: The width of the line. Defaults to 1.
         """
 
@@ -44,7 +44,7 @@ class Draw:
         center: Vector,
         width: int,
         height: int,
-        border: Color,
+        border: Color = Color.green,
         border_thickness: int = 1,
         fill: Optional[Color] = None,
         angle: float = 0
@@ -56,7 +56,7 @@ class Draw:
             center: The center of the rectangle.
             width: The width of the rectangle.
             height: The height of the rectangle.
-            border: The border color.
+            border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
@@ -71,14 +71,15 @@ class Draw:
         Draw.poly(real, border, border_thickness, fill)
 
     @staticmethod
-    def circle(center: Vector, radius: int, border: Color, border_thickness: int = 1, fill: Optional[Color] = None):
+    def circle(center: Vector, radius: int, border: Color = Color.green, border_thickness: int = 1,
+               fill: Optional[Color] = None):
         """
         Draws a circle onto the renderer.
 
         Args:
             center: The center.
             radius: The radius.
-            border: The border color.
+            border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
@@ -107,13 +108,14 @@ class Draw:
             )
 
     @staticmethod
-    def poly(points: List[Vector], border: Color, border_thickness: int = 1, fill: Optional[Color] = None):
+    def poly(points: List[Vector], border: Color = Color.green, border_thickness: int = 1,
+             fill: Optional[Color] = None):
         """
         Draws a polygon onto the renderer.
 
         Args:
             points: The list of points to draw.
-            border: The border color.
+            border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
