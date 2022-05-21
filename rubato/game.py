@@ -40,7 +40,7 @@ class GameProperties(type):
         cls._state = new
 
         if cls._state == Game.STOPPED:
-            sdl2.events.SDL_PushEvent(sdl2.SDL_Event(sdl2.events.SDL_QUIT))
+            sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
     @property
     def camera(cls) -> Camera:
@@ -89,13 +89,20 @@ class Game(metaclass=GameProperties):
     initialized = False
 
     @classmethod
-    def constant_loop(cls):
+    def constant_loop(cls): # test: skip
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
         """
         cls.state = cls.RUNNING
-        while True:
-            cls.update()
+        try:
+            while True:
+                cls.update()
+        except (Exception,) as e:  # add possible exceptions here if there are more needed
+            raise type(e)(str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
+                                   "https://github.com/rubatopy/rubato/issues").with_traceback(sys.exc_info()[2])
+            # Original code cleaner?
+            # raise Warning("Rubato Error-ed. Was it our fault? Issue tracker: "
+            #               "https://github.com/rubatopy/rubato/issues") from e
 
     @classmethod
     def update(cls):
