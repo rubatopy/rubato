@@ -40,7 +40,7 @@ class GameProperties(type):
         cls._state = new
 
         if cls._state == Game.STOPPED:
-            sdl2.events.SDL_PushEvent(sdl2.SDL_Event(sdl2.events.SDL_QUIT))
+            sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
     @property
     def camera(cls) -> Camera:
@@ -89,7 +89,7 @@ class Game(metaclass=GameProperties):
     initialized = False
 
     @classmethod
-    def constant_loop(cls):
+    def constant_loop(cls): # test: skip
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
         """
