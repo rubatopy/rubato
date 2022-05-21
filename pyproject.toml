@@ -17,6 +17,7 @@ omit=[
 [tool.coverage.report]
 exclude_lines=[
     "if TYPE_CHECKING:",
+    "if sys.platform",
 ]
 
 [tool.pytest.ini_options]
