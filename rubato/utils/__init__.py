@@ -15,3 +15,4 @@ from .rb_time import Time
 from .radio import Radio
 from .rb_input import Input
 from .sound import Sound
+from .quickselect import quickselect
