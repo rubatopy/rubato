@@ -98,9 +98,9 @@ class Defaults:
     # [/font]
     # [button]
     button_defaults = {
-        "width": 10,  # . . . . . . . . . . . . . . . . . . . . . . int
+        "width": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
         # The width of the clickable area.
-        "height": 10,  #. . . . . . . . . . . . . . . . . . . . . . int
+        "height": 10,  # . . . . . . . . . . . . . . . . . . . . . int
         # The height of the clickable area.
         "onclick": lambda: None,  #. . . . . . . . . . . . . . . . Callable
         # The callback to call when the button is clicked.
@@ -113,6 +113,23 @@ class Defaults:
 
     }
     # [/button]
+    # [slider]
+    slider_defaults = {
+        "button_width": 10,  # . . . . . . . . . . . . . . . . . . int
+        # The width of the clickable area.
+        "button_height": 10,  #. . . . . . . . . . . . . . . . . . int
+        # The height of the clickable area.
+        "onclick": lambda: None,  #. . . . . . . . . . . . . . . . Callable
+        # The callback to call when the button is clicked.
+        "onrelease": lambda: None,  #. . . . . . . . . . . . . . . Callable
+        # The callback to call when the button is released.
+        "onhover": lambda: None,  #. . . . . . . . . . . . . . . . Callable
+        # The callback to call when the mouse is hovering over the button.
+        "onexit": lambda: None,  # . . . . . . . . . . . . . . . . Callable
+        # The callback to call when the mouse stops hovering over the button.
+
+    }
+    # [/slider]
     # [rigidbody]
     rigidbody_defaults = {
         "density": 1,  #. . . . . . . . . . . . . . . . . . . . . . float
