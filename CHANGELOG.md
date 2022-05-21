@@ -29,6 +29,8 @@
 ### Fixed
 
 -   `Vector.random_inside_unit_circle()` now actually returns a unit vector.
+-   Fixed all Vector functions that had an angle in them to use north-degrees properly.
+-   Added `Math.rad_to_north_deg()` and `Math.deg_to_north_rad()` to change accurately.
 
 ## [v2.1.1] - May 10, 2022
 
