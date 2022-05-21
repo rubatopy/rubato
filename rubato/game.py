@@ -103,7 +103,6 @@ class Game(metaclass=GameProperties):
             # Original code cleaner?
             # raise Warning("Rubato Error-ed. Was it our fault? Issue tracker: "
             #               "https://github.com/rubatopy/rubato/issues") from e
-            # print(e.__cause__, e.__context__, e.__traceback__)
 
     @classmethod
     def update(cls):
