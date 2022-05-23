@@ -4,15 +4,19 @@ init()
 
 main = Scene("main")
 
-Image = Image(
+image = Image(
     {
-        "rel_path": "sprites/dino/blue/crouch.png"
+        "rel_path": "sprites/dino/blue/crouch.png",
+        "scale": Vector(3, 3)
     }
-    # rel_path="sprites/dino/blue/crouch.png",
+    , scale=Vector(10, 10)
 )
+print(image.scale)
+# image.scale = Vector(10, 10)
+
 dino = GameObject({
     "pos": Display.center
-}).add(Image)
+}).add(image)
 
 main.add(dino)
 
