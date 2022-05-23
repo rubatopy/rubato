@@ -38,7 +38,7 @@ class SpaceshipComp(Component):
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
         self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        # self.gameobj.pos += self.velocity * Time.delta_time
+        self.gameobj.pos += self.velocity * Time.delta_time
 
         self.gameobj.rotation = self.velocity.angle
 

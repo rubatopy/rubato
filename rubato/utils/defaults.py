@@ -115,10 +115,13 @@ class Defaults:
     # [/button]
     # [slider]
     slider_defaults = {
+        # NOTE: The component rotation offset is the direction of the slider.
         "button_width": 10,  # . . . . . . . . . . . . . . . . . . int
         # The width of the clickable area.
-        "button_height": 10,  #. . . . . . . . . . . . . . . . . . int
+        "slider_height": 10,  #. . . . . . . . . . . . . . . . . . int
         # The height of the clickable area.
+        "slider_length": 10,  # . . . . . . . . . . . . . . . . . .int
+        # The length of the slider.
         "onclick": lambda: None,  #. . . . . . . . . . . . . . . . Callable
         # The callback to call when the button is clicked.
         "onrelease": lambda: None,  #. . . . . . . . . . . . . . . Callable
@@ -127,13 +130,6 @@ class Defaults:
         # The callback to call when the mouse is hovering over the button.
         "onexit": lambda: None,  # . . . . . . . . . . . . . . . . Callable
         # The callback to call when the mouse stops hovering over the button.
-        "slider_origin_offset": Vector(0, 0),  # . . . . . . . .  .Vector
-        # The origin of the slider.
-        "slider_length": 10,  # . . . . . . . . . . . . . . . . . .int
-        # The length of the slider.
-        "slider_direction": Vector(0, -1),  # . . . . . . . . . . .Vector
-        # The direction of the slider.
-
     }
     # [/slider]
     # [rigidbody]
