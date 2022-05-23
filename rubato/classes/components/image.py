@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
 from . import Component
-from ... import Vector, Defaults, Display, Radio, get_path
+from ... import Vector, Defaults, Display, Radio, get_path, check_locals
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -23,7 +23,12 @@ class Image(Component):
         visible (bool): Whether or not the image is visible.
     """
 
-    def __init__(self, options: dict = {}):
+    def __init__(self, options: dict = {}, rel_path="", size=Vector(32, 32), scale=Vector(1, 1),
+                 anti_aliasing=False, flipx=False, flipy=False, visible=True, **kwargs):
+        # pylint: disable= unused-argument
+
+        options = check_locals(locals())
+
         param = Defaults.image_defaults | options
         super().__init__(param)
 

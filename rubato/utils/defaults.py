@@ -310,3 +310,15 @@ class Defaults:
         "strikethrough": sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH,
         "normal": sdl2.sdlttf.TTF_STYLE_NORMAL,
     }
+
+
+def check_locals(locals_dict):
+    """
+    Checks wether we should use the options or the locals.
+    """
+    if bool(locals_dict["options"]):
+        return locals_dict["options"]
+    # use options
+    else:
+        locals_dict.pop("options")
+        return locals_dict

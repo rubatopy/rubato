@@ -6,7 +6,7 @@ from .error import *
 from .rb_math import Math
 from .noise import Noise
 from .vector import Vector
-from .defaults import Defaults
+from .defaults import Defaults, check_locals
 from .display import Display
 from .color import Color
 from .font import Font
