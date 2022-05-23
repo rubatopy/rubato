@@ -25,7 +25,7 @@ if sys.platform.startswith("win32"):
 
 simplefilter("ignore", UserWarning)
 
-import sdl2, sdl2.sdlttf
+import sdl2, sdl2.sdlttf, sdl2.ext
 
 simplefilter("default", UserWarning)
 
@@ -74,7 +74,10 @@ def init(options: dict = {}):
     params["window_size"] = params["window_size"].to_int()
     params["res"] = params["res"].to_int()
 
-    Display.window = sdl2.ext.Window(params["name"], params["window_size"].to_tuple(), flags=flags)
+    Display.window = sdl2.ext.Window(
+        params["name"], params["window_size"].to_tuple(),
+        params["window_pos"].to_tuple() if params["window_pos"] else None, flags
+    )
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=params["res"].to_tuple()

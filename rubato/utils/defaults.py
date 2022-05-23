@@ -14,6 +14,8 @@ class Defaults:
     game_defaults = {
         "name": "Untitled Game",  # . . . . . . . . . . . . . . . . str
         # The title that appears at the top of the window
+        "window_pos": None,  #. . . . . . . . . . . . . . . . . . . Vector or None
+        # The position of the window on the screen. None to let the computer decide.
         "window_size": Vector(360, 360),  # . . . . . . . . . . . . Vector
         # The actual size of the window, cast to int Vector.
         "res": Vector(1080, 1080),  # . . . . . . . . . . . . . . . Vector

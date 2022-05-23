@@ -1,4 +1,5 @@
 """A place to test new WIP features"""  # pylint: disable=all
+from typing import TypedDict
 import rubato as rb
 from random import randint, choice
 import random, ctypes, sdl2, sdl2.ext
@@ -25,11 +26,15 @@ test = rb.GameObject({
     "width": 50,
     "height": 100,
     "color": rb.Color.red
-})).add(rb.Slider({
-    "slider_origin_offset": rb.Vector(200, -50),
-    "slider_length": 100,
-    "slider_direction": rb.Vector(0, 1),
-}))
+})).add(
+    rb.Slider(
+        {
+            "slider_origin_offset": rb.Vector(200, -50),
+            "slider_length": 100,
+            "slider_direction": rb.Vector(0, 1),
+        }
+    )
+)
 
 print(test.get(rb.Rectangle).radius)
 
