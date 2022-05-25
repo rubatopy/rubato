@@ -3,38 +3,18 @@ A static time class to monitor time and to call functions in the future.
 
 """
 from dataclasses import dataclass, field
-from typing import Callable
+from typing import Callable, List
 import heapq
 import sdl2
-
-
-class TimeProperties(type):
-    """
-    Defines static property methods for Time.
-
-    Warning:
-        This is only a metaclass for the class below it, so you wont be able to access this class.
-        To use the property methods here, simply access them as you would any other Time property.
-    """
-
-    @property
-    def smooth_fps(cls) -> float:
-        """The average fps over the past 250 frames. This is a get-only property."""
-        return sum(cls._past_fps) / 250
-
-    @property
-    def now(cls) -> int:
-        """The time since the start of the game, in milliseconds. This is a get-only property."""
-        return sdl2.SDL_GetTicks64()
 
 
 @dataclass(order=True)
 class TimerTask:
     time: int
-    task: Callable=field(compare=False)
+    task: Callable = field(compare=False)
 
 
-class Time(metaclass=TimeProperties):
+class Time():
     """
     The time class
 
@@ -52,9 +32,9 @@ class Time(metaclass=TimeProperties):
     """
 
     frames = 0
-    sorted_frame_times = []
+    sorted_frame_times: List[TimerTask] = []
 
-    sorted_task_times = []
+    sorted_task_times: List[TimerTask] = []
 
     delta_time: int = 1
     fixed_delta: int = 0
@@ -69,6 +49,18 @@ class Time(metaclass=TimeProperties):
     capped = False
 
     physics_fps = 60
+
+    @classmethod
+    @property
+    def smooth_fps(cls) -> float:
+        """The average fps over the past 250 frames. This is a get-only property."""
+        return sum(cls._past_fps) / 250
+
+    @classmethod
+    @property
+    def now(cls) -> int:
+        """The time since the start of the game, in milliseconds. This is a get-only property."""
+        return sdl2.SDL_GetTicks64()
 
     @classmethod
     def delayed_call(cls, time_delta: int, func: Callable):
@@ -128,6 +120,7 @@ class Time(metaclass=TimeProperties):
         del cls._past_fps[0]
         cls._past_fps.append(cls.fps)
 
+        # pylint: disable=comparison-with-callable
         processing = True
         while processing and cls.sorted_frame_times:
             if cls.sorted_frame_times[0].time <= cls.now:
