@@ -57,7 +57,6 @@ class Slider(Component):
             self.onrelease()
 
         mouse_projection = (Input.get_mouse_pos().dot(self.slider_direction) / self.slider_direction.mag_sq)
-        print(mouse_projection)
         self._button_pos_offset = Math.clamp(mouse_projection, 0, self.slider_length)
         Debug.circle(self.gameobj.pos + self.offset, 5, Color.red, fill=Color.red)
         Debug.circle(self.gameobj.pos + self.offset + self.slider_direction * self.slider_length, 5, fill=Color.green)
