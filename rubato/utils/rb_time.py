@@ -2,6 +2,7 @@
 A static time class to monitor time and to call functions in the future.
 
 """
+from dataclasses import dataclass, field
 from typing import Callable
 import heapq
 import sdl2
@@ -27,6 +28,12 @@ class TimeProperties(type):
         return sdl2.SDL_GetTicks64()
 
 
+@dataclass(order=True)
+class TimerTask:
+    time: int
+    task: Callable=field(compare=False)
+
+
 class Time(metaclass=TimeProperties):
     """
     The time class
@@ -45,10 +52,8 @@ class Time(metaclass=TimeProperties):
     """
 
     frames = 0
-    frame_tasks = {}
     sorted_frame_times = []
 
-    tasks = {}
     sorted_task_times = []
 
     delta_time: int = 1
@@ -75,13 +80,8 @@ class Time(metaclass=TimeProperties):
                 to run the function at.
             func: The function to call.
         """
-        run_at = time_delta + cls.now
 
-        if cls.tasks.get(run_at):
-            cls.tasks[run_at].append(func)
-        else:
-            cls.tasks[run_at] = [func]
-            heapq.heappush(cls.sorted_task_times, run_at)
+        heapq.heappush(cls.sorted_task_times, TimerTask(time_delta + cls.now, func))
 
     @classmethod
     def delayed_frames(cls, frames_delta: int, func: Callable):
@@ -92,13 +92,8 @@ class Time(metaclass=TimeProperties):
             frames_delta: The number of frames to wait.
             func: The function to call
         """
-        frame_call = cls.frames + frames_delta
 
-        if cls.frame_tasks.get(frame_call):
-            cls.frame_tasks[frame_call].append(func)
-        else:
-            cls.frame_tasks[frame_call] = [func]
-            heapq.heappush(cls.sorted_frame_times, frame_call)
+        heapq.heappush(cls.sorted_frame_times, TimerTask(cls.frames + frames_delta, func))
 
     @classmethod
     def milli_to_sec(cls, milli: int) -> float:
@@ -135,20 +130,16 @@ class Time(metaclass=TimeProperties):
 
         processing = True
         while processing and cls.sorted_frame_times:
-            if cls.sorted_frame_times[0] <= cls.now:
-                task_time = heapq.heappop(cls.sorted_frame_times)
-                for func in cls.frame_tasks[task_time]:
-                    func()
-                del cls.frame_tasks[task_time]
+            if cls.sorted_frame_times[0].time <= cls.now:
+                timer_task = heapq.heappop(cls.sorted_frame_times)
+                timer_task.task()
             else:
                 processing = False
 
         processing = True
         while processing and cls.sorted_task_times:
-            if cls.sorted_task_times[0] <= cls.now:
-                task_time = heapq.heappop(cls.sorted_task_times)
-                for func in cls.tasks[task_time]:
-                    func()
-                del cls.tasks[task_time]
+            if cls.sorted_task_times[0].time <= cls.now:
+                timer_task = heapq.heappop(cls.sorted_task_times)
+                timer_task.task()
             else:
                 processing = False

@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.abspath("../"))
 rb.init({
     "name": "Physics Test",
     "physics_fps": 60,
+    "target_fps": 2,
     "window_size": rb.Vector(600, 600),
     "res": rb.Vector(1200, 1200),
 })
@@ -36,7 +37,12 @@ test = rb.GameObject({
     )
 )
 
-print(test.get(rb.Rectangle).radius)
+rb.Time.delayed_call(1000, lambda: print("1 sec"))
+rb.Time.delayed_call(1000, lambda: print("1 sec dup"))
+rb.Time.delayed_call(2000, lambda: print("2 sec"))
+rb.Time.delayed_frames(4, lambda : print("4 frames"))  # TODO: unsure if fps capping works properly, pls check
+rb.Time.delayed_call(3000, lambda: print("3 sec"))
+
 
 main.add(test)
 rb.begin()
