@@ -41,22 +41,23 @@ def draw():
 
 
 width, height = 50, 50
-button = GameObject({
-    "pos": Vector(10, 10)
-})
+button = GameObject(pos=Vector(10, 10))
 
-
-button.add(Button({
+button.add(
+    Button(
+        {
+            "width": width,
+            "height": height,
+            "onclick": lambda: print("clicked"),
+            "onrelease": lambda: None,
+            "onhover": lambda: None,
+            "onexit": lambda: None
+        }
+    )
+).add(Rectangle({
     "width": width,
     "height": height,
-    "onclick": lambda: print("clicked"),
-    "onrelease": lambda: None,
-    "onhover": lambda: None,
-    "onexit": lambda: None
-})).add(Rectangle({
-    "width": width,
-     "height": height,
-     "color": Color.red
+    "color": Color.red
 }))
 
 main.add(button)

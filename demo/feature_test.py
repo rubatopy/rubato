@@ -19,17 +19,7 @@ rb.Game.debug = True
 
 main = rb.Scene()
 
-test = rb.GameObject({
-    "pos": rb.Vector(300, 300)
-}).add(rb.Rectangle({
-    "width": 50,
-    "height": 100,
-    "color": rb.Color.red
-})).add(rb.Slider({
-    "slider_origin_offset": rb.Vector(200, -50),
-    "slider_length": 100,
-    "slider_direction": rb.Vector(0, 1),
-}))
+test = rb.GameObject(pos=rb.Vector(300, 300)).add(rb.Rectangle({"width": 50, "height": 100, "color": rb.Color.red}))
 
 print(test.get(rb.Rectangle).radius)
 

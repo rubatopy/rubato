@@ -1,8 +1,9 @@
 """The font module for text rendering"""
+from typing import List, Literal
 import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlgfx
 from importlib.resources import files
 
-from . import Defaults, Color
+from . import Color, Vector
 
 
 class Font:
@@ -10,24 +11,50 @@ class Font:
     This is the font object that is used to render text.
 
     Args:
-        options: A Font config. Defaults to the :ref:`Font defaults <fontdef>`.
+        font: The font to use. Can be one of the following: Comfortaa, Fredoka, Merriweather, Roboto, SourceCodePro,
+            PressStart. Can also be a path to a font file. Defaults to Roboto.
+        size: The size of the font. Defaults to 16.
+        styles: The styles to apply to the font. Defaults to ["normal"].
+        color: The color of the font. Defaults to Color(0, 0, 0).
     """
 
-    def __init__(self, options: dict = {}):
-        param = Defaults.font_defaults | options
-        self._size = param["size"]
-        self._styles = param["styles"]
-        self._color = param["color"] if isinstance(param["color"], Color) else Color(*param["color"])
+    text_fonts = {
+        "Comfortaa": "Comfortaa-Regular.ttf",
+        "Fredoka": "Fredoka-Regular.ttf",
+        "Merriweather": "Merriweather-Regular.ttf",
+        "Roboto": "Roboto-Regular.ttf",
+        "SourceCodePro": "SourceCodePro-Regular.ttf",
+        "PressStart": "PressStart2P-Regular.ttf",
+    }
 
-        if param["font"] in Defaults.text_fonts:
-            self._font_path = str(files("rubato.static.fonts").joinpath(Defaults.text_fonts[param["font"]]))
+    text_styles = {
+        "bold": sdl2.sdlttf.TTF_STYLE_BOLD,
+        "italic": sdl2.sdlttf.TTF_STYLE_ITALIC,
+        "underline": sdl2.sdlttf.TTF_STYLE_UNDERLINE,
+        "strikethrough": sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH,
+        "normal": sdl2.sdlttf.TTF_STYLE_NORMAL,
+    }
+
+    def __init__(
+        self,
+        font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "PressStart"] = "Roboto",
+        size: int = 16,
+        styles: List[Literal["normal", "bold", "italic", "underline", "strikethrough"]] = ["normal"],
+        color: Color = Color(0, 0, 0),
+    ):
+        self._size = size
+        self._styles = styles
+        self._color = color
+
+        if font in Font.text_fonts:
+            self._font_path = str(files("rubato.static.fonts").joinpath(Font.text_fonts[font]))
         else:
-            self._font_path = param["font"]
+            self._font_path = font
 
         try:
             self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
         except ValueError as e:
-            raise FileNotFoundError("Font " + param["font"] + " cannot be found.") from e
+            raise FileNotFoundError(f"Font {font} cannot be found.") from e
 
         self.apply_styles()
 
@@ -51,13 +78,7 @@ class Font:
         self._color = color
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
-    def generate_surface(
-        self,
-        text: str,
-        align: str = Defaults.text_defaults["anchor"],
-        width: int = Defaults.text_defaults["width"],
-        rot: int = 0
-    ) -> sdl2.SDL_Surface:
+    def generate_surface(self, text: str, align: str = Vector(0, 0), width: int = 0, rot: int = 0) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
 
@@ -91,7 +112,7 @@ class Font:
         Args:
             style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.
         """
-        if style in Defaults.text_styles and style not in self._styles:
+        if style in Font.text_styles and style not in self._styles:
             self._styles.append(style)
             self.apply_styles()
         else:
@@ -112,8 +133,8 @@ class Font:
 
     def apply_styles(self):
         """Applies the styles to the font."""
-        s = Defaults.text_styles["normal"]
+        s = Font.text_styles["normal"]
         for style in self._styles:
-            s |= Defaults.text_styles[style]
+            s |= Font.text_styles[style]
 
         sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)

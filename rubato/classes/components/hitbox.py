@@ -4,7 +4,7 @@ from typing import Callable, Dict, List, Optional, TYPE_CHECKING, Set
 import math
 
 from . import Component
-from ... import Display, Vector, Defaults, Color, Error, SideError, Game, Draw, Math
+from ... import Display, Vector, Color, Error, SideError, Game, Draw, Math
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -16,7 +16,15 @@ class Hitbox(Component):
     Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
 
     Args:
-        options: A Hitbox config. Defaults to the :ref:`Hitbox defaults <hitboxdef>`.
+        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        debug: Whether or not to draw the hitbox. Defaults to False.
+        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        scale: The scale of the hitbox. Defaults to 1.
+        on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
+        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
+        tag: A string to tag the hitbox. Defaults to "".
 
     Attributes:
         debug (bool): Whether to draw a green outline around the hitbox or not.
@@ -29,17 +37,27 @@ class Hitbox(Component):
         colliding (Set[Hitbox]): An unordered set of hitboxes that the Hitbox is currently colliding with.
     """
 
-    def __init__(self, options: dict = {}):
-        params = Defaults.hitbox_defaults | options
-        super().__init__(params)
-        self.debug: bool = params["debug"]
-        self.trigger: bool = params["trigger"]
-        self.scale: int = params["scale"]
-        self.on_collide: Callable = params["on_collide"]
-        self.on_exit: Callable = params["on_exit"]
-        self.color: Color = params["color"]
+    def __init__(
+        self,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
+        debug: bool = False,
+        trigger: bool = False,
+        scale: int = 1,
+        on_collide: Callable = lambda manifold: None,
+        on_exit: Callable = lambda manifold: None,
+        color: Color | None = None,
+        tag: str = "",
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset)
+        self.debug: bool = debug
+        self.trigger: bool = trigger
+        self.scale: int = scale
+        self.on_collide: Callable = on_collide
+        self.on_exit: Callable = on_exit
+        self.color: Color = color
         self.singular: bool = False
-        self.tag: str = params["tag"]
+        self.tag: str = tag
         self.colliding: Set[Hitbox] = set()
 
     @property
@@ -80,20 +98,44 @@ class Polygon(Hitbox):
         However, you can still use concave polygons in your projects:
         Simply break them up into multiple convex Polygon hitboxes and add them individually to a gameobject.
 
+    Args:
+        verts: The vertices of the polygon. Defaults to [].
+
     Attributes:
         verts (List[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
     """
 
-    def __init__(self, options: dict = {}):
+    def __init__(
+        self,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
+        debug: bool = False,
+        trigger: bool = False,
+        scale: int = 1,
+        on_collide: Callable = lambda manifold: None,
+        on_exit: Callable = lambda manifold: None,
+        color: Color | None = None,
+        tag: str = "",
+        verts: List[Vector] = [],
+    ):
         """
         Initializes a Polygon.
 
         Args:
             options: A Polygon config. Defaults to the :ref:`Polygon defaults <polygondef>`.
         """
-        super().__init__(options)
-        params = Defaults.polygon_defaults | options
-        self.verts: List[Vector] = params["verts"]
+        super().__init__(
+            offset=offset,
+            rot_offset=rot_offset,
+            debug=debug,
+            trigger=trigger,
+            scale=scale,
+            on_collide=on_collide,
+            on_exit=on_exit,
+            color=color,
+            tag=tag
+        )
+        self.verts: List[Vector] = verts
 
     @property
     def radius(self) -> float:
@@ -108,7 +150,7 @@ class Polygon(Hitbox):
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
-            {
+            **{
                 "debug": self.debug,
                 "trigger": self.trigger,
                 "scale": self.scale,
@@ -220,23 +262,49 @@ class Rectangle(Hitbox):
     """
     A rectangle implementation of the Hitbox subclass.
 
+    Args:
+        width: The width of the rectangle. Defaults to 10.
+        height: The height of the rectangle. Defaults to 10.
+
     Attributes:
         width (int): The width of the rectangle
         height (int): The height of the rectangle
     """
 
-    def __init__(self, options: dict):
+    def __init__(
+        self,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
+        debug: bool = False,
+        trigger: bool = False,
+        scale: int = 1,
+        on_collide: Callable = lambda manifold: None,
+        on_exit: Callable = lambda manifold: None,
+        color: Color | None = None,
+        tag: str = "",
+        width: int = 10,
+        height: int = 10
+    ):
         """
         Initializes a Rectangle.
 
         Args:
             options: A Rectangle config. Defaults to the :ref:`Rectangle defaults <rectangledef>`.
         """
-        super().__init__(options)
-        params = Defaults.rectangle_defaults | options
 
-        self.width: int = int(params["width"])
-        self.height: int = int(params["height"])
+        super().__init__(
+            offset=offset,
+            rot_offset=rot_offset,
+            debug=debug,
+            trigger=trigger,
+            scale=scale,
+            on_collide=on_collide,
+            on_exit=on_exit,
+            color=color,
+            tag=tag
+        )
+        self.width: int = int(width)
+        self.height: int = int(height)
 
     @property
     def top_left(self):
@@ -424,7 +492,7 @@ class Rectangle(Hitbox):
 
     def clone(self) -> Rectangle:
         return Rectangle(
-            {
+            **{
                 "width": self.width,
                 "height": self.height,
                 "debug": self.debug,
@@ -442,20 +510,44 @@ class Circle(Hitbox):
     """
     A circle Hitbox subclass defined by a position, radius, and scale.
 
+    Args:
+        radius: The radius of the circle. Defaults to 10.
+
     Attributes:
         radius (int): The radius of the circle.
     """
 
-    def __init__(self, options: dict = {}):
+    def __init__(
+        self,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
+        debug: bool = False,
+        trigger: bool = False,
+        scale: int = 1,
+        on_collide: Callable = lambda manifold: None,
+        on_exit: Callable = lambda manifold: None,
+        color: Color | None = None,
+        tag: str = "",
+        radius: int = 10,
+    ):
         """
         Initializes a Circle.
 
         Args:
             options: A Circle config. Defaults to the :ref:`Circle defaults <circledef>`.
         """
-        super().__init__(options)
-        params = Defaults.circle_defaults | options
-        self.radius = params["radius"]
+        super().__init__(
+            offset=offset,
+            rot_offset=rot_offset,
+            debug=debug,
+            trigger=trigger,
+            scale=scale,
+            on_collide=on_collide,
+            on_exit=on_exit,
+            color=color,
+            tag=tag
+        )
+        self.radius = radius
 
     def get_aabb(self) -> List[Vector]:
         offset = self.transformed_radius()
@@ -488,7 +580,7 @@ class Circle(Hitbox):
 
     def clone(self) -> Circle:
         return Circle(
-            {
+            **{
                 "debug": self.debug,
                 "trigger": self.trigger,
                 "scale": self.scale,

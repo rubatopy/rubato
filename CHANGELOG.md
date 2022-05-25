@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+-   Removed all of the defaults dictionaries. Instead we are switching to a pythonic way of doing things. The key names, types, and defaults are still the same so its just a matter of adding ** to the beginning of the dictionary.
 -   `Vector.angle` now returns the angle in degrees, starting from the top and going clockwise.
 -   `Vector.from_radial` now matches the angle format described above and takes in an angle in degrees
 -   `Vector.angle_between` now returns the angle in degrees.

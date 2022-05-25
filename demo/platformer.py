@@ -7,13 +7,10 @@ import rubato as rb
 
 # initialize a new game
 rb.init(
-    {
-        "name": "Platformer Demo",
-        "window_size": rb.Vector(960, 540),
-        "background_color": rb.Color.cyan.lighter(),
-        "res": rb.Vector(1920, 1080),
-
-    }
+    name="Platformer Demo",
+    window_size=rb.Vector(960, 540),
+    background_color=rb.Color.cyan.lighter(),
+    res=rb.Vector(1920, 1080),
 )
 
 # Change the global debug level
@@ -30,7 +27,7 @@ level_size = rb.Display.res.x * 1.2
 main = rb.Scene()
 
 # create the player
-player = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(50, 0), "z_index": 1})
+player = rb.GameObject(pos=rb.Display.center_left + rb.Vector(50, 0), z_index=1)
 
 # Create animation and initialize states
 p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24), default_state="idle")
@@ -66,11 +63,11 @@ def player_collide(col_info: rb.Manifold):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle({"width": 64, "height": 64, "tag": "player"}))
+player.add(rb.Rectangle(**{"width": 64, "height": 64, "tag": "player"}))
 # add a ground detector
 player.add(
     rb.Rectangle(
-        {
+        **{
             "width": 10,
             "height": 2,
             "offset": rb.Vector(0, 32),
@@ -81,71 +78,67 @@ player.add(
 )
 
 # define the player rigidbody
-player_body = rb.RigidBody({"gravity": rb.Vector(y=rb.Display.res.y * 1.5), "pos_correction": 1, "friction": 0.8})
+player_body = rb.RigidBody(**{"gravity": rb.Vector(y=rb.Display.res.y * 1.5), "pos_correction": 1, "friction": 0.8})
 player.add(player_body)
 
 # Side boundary
-left = rb.GameObject({"pos": rb.Display.center_left - rb.Vector(25, 0)})
-left.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
-right = rb.GameObject({"pos": rb.Display.center_left + rb.Vector(level_size + 25, 0)})
-right.add(rb.Rectangle({"width": 50, "height": rb.Display.res.y}))
+left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0))
+left.add(rb.Rectangle(**{"width": 50, "height": rb.Display.res.y}))
+right = rb.GameObject(pos=rb.Display.center_left + rb.Vector(level_size + 25, 0))
+right.add(rb.Rectangle(**{"width": 50, "height": rb.Display.res.y}))
 
 # create the ground
 ground = rb.GameObject()
-ground.add(rb.Rectangle({"width": level_size, "height": 50, "color": rb.Color.green, "tag": "ground"}))
+ground.add(rb.Rectangle(**{"width": level_size, "height": 50, "color": rb.Color.green, "tag": "ground"}))
 ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
 
 # create platforms
 platforms = [
-    rb.GameObject({
-        "pos": rb.Vector(200, rb.Display.bottom - 140)
-    }).add(rb.Rectangle({
-        "width": 90,
-        "height": 40,
-        "tag": "ground",
-        "color": rb.Color.blue
-    })),
-    rb.GameObject({
-        "pos": rb.Vector(400, rb.Display.bottom - 340)
-    }).add(rb.Rectangle({
-        "width": 150,
-        "height": 40,
-        "tag": "ground",
-        "color": rb.Color.blue
-    })),
+    rb.GameObject(pos=rb.Vector(200, rb.Display.bottom - 140)
+                 ).add(rb.Rectangle(**{
+                     "width": 90,
+                     "height": 40,
+                     "tag": "ground",
+                     "color": rb.Color.blue
+                 })),
+    rb.GameObject(pos=rb.Vector(400, rb.Display.bottom - 340)
+                 ).add(rb.Rectangle(**{
+                     "width": 150,
+                     "height": 40,
+                     "tag": "ground",
+                     "color": rb.Color.blue
+                 })),
 ]
 
 # create obstacles
 obstacles = [
-    rb.GameObject({
-        "pos": rb.Vector(700)
-    }).add(rb.Rectangle({
-        "width": 90,
-        "height": 500,
-        "tag": "ground",
-        "color": rb.Color.purple
-    })),
-    rb.GameObject({
-        "pos": rb.Vector(1200)
-    }).add(rb.Rectangle({
-        "width": 70,
-        "height": 450,
-        "tag": "ground",
-        "color": rb.Color.purple
-    })),
+    rb.GameObject(pos=rb.Vector(700)
+                 ).add(rb.Rectangle(**{
+                     "width": 90,
+                     "height": 500,
+                     "tag": "ground",
+                     "color": rb.Color.purple
+                 })),
+    rb.GameObject(pos=rb.Vector(1200)
+                 ).add(rb.Rectangle(**{
+                     "width": 70,
+                     "height": 450,
+                     "tag": "ground",
+                     "color": rb.Color.purple
+                 })),
 ]
 
 # create triggers
 
 triggers = [
-    rb.GameObject({
-        "pos": rb.Vector(950, rb.Display.bottom - 45),
-    }).add(rb.Rectangle({
-        "width": 400,
-        "height": 30,
-        "tag": "retry_collider",
-        "trigger": True
-    })),
+    rb.GameObject(pos=rb.Vector(950, rb.Display.bottom - 45),).add(
+        rb.Rectangle(**{
+            "width": 400,
+            "height": 30,
+            "tag": "retry_collider",
+            "trigger": True
+        })
+    ),
 ]
 
 for obstacle in obstacles:
@@ -153,22 +146,22 @@ for obstacle in obstacles:
 
 # Create animation for portal
 all_portal_images = rb.Spritesheet(
-    {
+    **{
         "rel_path": "sprites/portals/portal1_spritesheet.png",
         "sprite_size": rb.Vector(32, 32),
         "grid_size": rb.Vector(8, 1)
     }
 )
-portal_animation = rb.Animation({"scale": rb.Vector(4, 4), "fps": 2})
+portal_animation = rb.Animation(**{"scale": rb.Vector(4, 4), "fps": 2})
 portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_images.end)
 
 # create the end portal
-portal = rb.GameObject({"pos": rb.Display.bottom_left + rb.Vector(level_size - 50, -100)})
+portal = rb.GameObject(pos=rb.Display.bottom_left + rb.Vector(level_size - 50, -100))
 portal.add(portal_animation)
 
 portal.add(
     rb.Rectangle(
-        {
+        **{
             "trigger": True,
             "tag": "portal",
             "width": portal_animation.anim_frame.get_size().x,

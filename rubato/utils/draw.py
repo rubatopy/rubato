@@ -4,7 +4,7 @@ from typing import List, Optional
 import sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
 
-from . import Defaults, Vector, Color, Font, Display
+from . import Vector, Color, Font, Display
 
 
 class Draw:
@@ -71,8 +71,13 @@ class Draw:
         Draw.poly(real, border, border_thickness, fill)
 
     @staticmethod
-    def circle(center: Vector, radius: int, border: Color = Color.green, border_thickness: int = 1,
-               fill: Optional[Color] = None):
+    def circle(
+        center: Vector,
+        radius: int,
+        border: Color = Color.green,
+        border_thickness: int = 1,
+        fill: Optional[Color] = None
+    ):
         """
         Draws a circle onto the renderer.
 
@@ -108,8 +113,9 @@ class Draw:
             )
 
     @staticmethod
-    def poly(points: List[Vector], border: Color = Color.green, border_thickness: int = 1,
-             fill: Optional[Color] = None):
+    def poly(
+        points: List[Vector], border: Color = Color.green, border_thickness: int = 1, fill: Optional[Color] = None
+    ):
         """
         Draws a polygon onto the renderer.
 
@@ -165,9 +171,9 @@ class Draw:
         text: str,
         font: Font,
         pos: Vector = Vector(),
-        justify: str = Defaults.text_defaults["justify"],
-        align: Vector = Defaults.text_defaults["anchor"],
-        width: int = Defaults.text_defaults["width"]
+        justify: str = "left",
+        align: Vector = Vector(),
+        width: int = 0,
     ):
         """
         Draws some text onto the renderer.

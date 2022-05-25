@@ -1,10 +1,10 @@
 """A text component."""
 from __future__ import annotations
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
-from ... import Defaults, Display, Vector, Color, Font
+from ... import Display, Vector, Color, Font
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -15,17 +15,33 @@ class Text(Component):
     A text component subclass. Add this to game objects or UI elements to give them text.
 
     Args:
-        options: A Text config. Defaults to the :ref:`Text defaults <textdef>`.
+        offset: The offset of the text from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the text from the game object. Defaults to 0.
+        text: The text to display. Defaults to "".
+        justify: The justification of the text. Defaults to "left".
+        anchor: The anchor of the text. The zero vector means it is centered. x component is whether to shift left,
+            none, or right (-1, 0, 1). y component is whether to shift top, none, or bottom (-1, 0, 1).
+            Defaults to Vector(0, 0).
+        width: The width of the text. Defaults to 0.
+        font: The font to use. Defaults to Font().
     """
 
-    def __init__(self, options: dict = {}):
-        params = Defaults.text_defaults | options
-        super().__init__(params)
-        self._text: str = params["text"]
-        self._font: Font = params["font"]
-        self._anchor: str = params["anchor"]
-        self._justify: str = params["justify"]
-        self._width: int = params["width"]
+    def __init__(
+        self,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
+        text: str = "",
+        justify: Literal["left", "center", "right"] = "left",
+        anchor: Vector = Vector(0, 0),
+        width: int = 0,
+        font: Font = Font(),
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset)
+        self._text: str = text
+        self._font: Font = font
+        self._anchor: str = anchor
+        self._justify: str = justify
+        self._width: int = width
         self._stored_rot: int = 0
 
         if not self._font:

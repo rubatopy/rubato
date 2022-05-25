@@ -22,8 +22,8 @@ class Scene:
     """
 
     def __init__(self, name: str = "default"):
-        self.root: Group = Group({"name": "root"})
-        self.ui: Group = Group({"name": "ui"})
+        self.root: Group = Group(name="root")
+        self.ui: Group = Group(name="ui")
         self.camera = Camera()
         self._ui_cam = Camera()
         self.id: str = name

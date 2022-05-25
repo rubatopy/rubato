@@ -7,7 +7,7 @@ from os import path, walk
 import sdl2
 
 from . import Component, Image
-from ... import Defaults, Vector, Time, get_path
+from ... import Vector, Time, get_path
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -19,7 +19,14 @@ class Animation(Component):
     Animations are a series of images that update automatically in accordance with parameters.
 
     Args:
-        options: A Animation config. Defaults to the :ref:`Animation defaults <animationdef>`.
+        offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
+        scale: The scale of the animation. Defaults to Vector(1, 1).
+        fps: The frames per second of the animation. Defaults to 24.
+        anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
+        flipx: Whether to flip the animation horizontally. Defaults to False.
+        flipy: Whether to flip the animation vertically. Defaults to False.
+        visible: Whether the animation is visible. Defaults to True.
 
     Attributes:
         default_state (Optional[str]): The key of the default state. Defaults
@@ -33,11 +40,20 @@ class Animation(Component):
         visible (bool): Whether or not the animation is visible.
     """
 
-    def __init__(self, options: dict = {}):
-        param = Defaults.animation_defaults | options
-        super().__init__(param)
+    def __init__(
+        self,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
+        scale: Vector = Vector(1, 1),
+        fps: int = 24,
+        anti_aliasing: bool = False,
+        flipx: bool = False,
+        flipy: bool = False,
+        visible: bool = True
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset)
 
-        self._fps: int = param["fps"]
+        self._fps: int = fps
         self.singular = False
 
         self._states: Dict[str, List[Image]] = {}
@@ -48,11 +64,11 @@ class Animation(Component):
         self.animation_frames_left: int = 0
         self._current_frame: int = 0
         self.loop: bool = True
-        self.scale: Vector = param["scale"]
-        self.aa: bool = param["anti_aliasing"]
-        self.flipx: bool = param["flipx"]
-        self.flipy: bool = param["flipy"]
-        self.visible: bool = param["visible"]
+        self.scale: Vector = scale
+        self.aa: bool = anti_aliasing
+        self.flipx: bool = flipx
+        self.flipy: bool = flipy
+        self.visible: bool = visible
 
         self._time_step = 1000 / self._fps
         self._time_count = 0

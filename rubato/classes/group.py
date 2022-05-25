@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List, TYPE_CHECKING
 
 from . import GameObject, Hitbox, Engine
-from .. import Error, Defaults, Game
+from .. import Error, Game
 
 if TYPE_CHECKING:
     from . import Camera
@@ -16,7 +16,9 @@ class Group:
     The group class implementation.
 
     Args:
-        options: A group object config. Defaults to the :ref:`Group defaults <groupdef>`.
+        name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.
+        z_index: The z-index of the group. Defaults to 0.
+        active: Whether the group is active or not. Defaults to True.
 
     Attributes:
         name (str): The name of the group.
@@ -26,13 +28,12 @@ class Group:
         active (bool): Whether the group is active or not.
     """
 
-    def __init__(self, options: dict = {}):
-        param = Defaults.group_defaults | options
-        self.name: str = param["name"]
+    def __init__(self, name: str = "", z_index: int = 0, active: bool = True):
+        self.name: str = name
         self.groups: List[Group] = []
         self.game_objects: List[GameObject] = []
-        self.z_index: int = param["z_index"]
-        self.active: bool = param["active"]
+        self.z_index: int = z_index
+        self.active: bool = active
 
     def add(self, *items: GameObject | Group):
         """

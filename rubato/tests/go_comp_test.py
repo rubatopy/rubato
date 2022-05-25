@@ -13,12 +13,12 @@ from rubato.utils.color import Color
 
 @pytest.fixture()
 def go():
-    return GameObject({
-        "name": "Test",
-        "pos": Vector(100, 100),
-        "z_index": 1,
-        "rotation": 0,
-    })
+    return GameObject(
+        name="Test",
+        pos=Vector(100, 100),
+        z_index=1,
+        rotation=0,
+    )
 
 
 @pytest.fixture()
