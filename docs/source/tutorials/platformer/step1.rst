@@ -52,8 +52,6 @@ To customize your game window, you can pass in a few parameters. For now, lets:
     * Change its resolution
     * Set a more interesting background color
 
-The full list of parameters is available :doc:`here <../../defaults>`.
-
 Replace the previous :code:`rb.init()` call with this:
 
 .. code-block:: python

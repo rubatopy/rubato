@@ -11,14 +11,13 @@ class Font:
     This is the font object that is used to render text.
 
     Args:
-        font: The font to use. Can be one of the following: Comfortaa, Fredoka, Merriweather, Roboto, SourceCodePro,
-            PressStart. Can also be a path to a font file. Defaults to Roboto.
+        font: The font to use. Can also be a path to a font file. Defaults to Roboto.
         size: The size of the font. Defaults to 16.
         styles: The styles to apply to the font. Defaults to ["normal"].
         color: The color of the font. Defaults to Color(0, 0, 0).
     """
 
-    text_fonts = {
+    _text_fonts = {
         "Comfortaa": "Comfortaa-Regular.ttf",
         "Fredoka": "Fredoka-Regular.ttf",
         "Merriweather": "Merriweather-Regular.ttf",
@@ -27,27 +26,26 @@ class Font:
         "PressStart": "PressStart2P-Regular.ttf",
     }
 
-    text_styles = {
+    _text_styles = {
         "bold": sdl2.sdlttf.TTF_STYLE_BOLD,
         "italic": sdl2.sdlttf.TTF_STYLE_ITALIC,
         "underline": sdl2.sdlttf.TTF_STYLE_UNDERLINE,
         "strikethrough": sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH,
-        "normal": sdl2.sdlttf.TTF_STYLE_NORMAL,
     }
 
     def __init__(
         self,
         font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "PressStart"] = "Roboto",
         size: int = 16,
-        styles: List[Literal["normal", "bold", "italic", "underline", "strikethrough"]] = ["normal"],
+        styles: List[Literal["bold", "italic", "underline", "strikethrough"]] = [],
         color: Color = Color(0, 0, 0),
     ):
         self._size = size
         self._styles = styles
         self._color = color
 
-        if font in Font.text_fonts:
-            self._font_path = str(files("rubato.static.fonts").joinpath(Font.text_fonts[font]))
+        if font in Font._text_fonts:
+            self._font_path = str(files("rubato.static.fonts").joinpath(Font._text_fonts[font]))
         else:
             self._font_path = font
 
@@ -112,7 +110,7 @@ class Font:
         Args:
             style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.
         """
-        if style in Font.text_styles and style not in self._styles:
+        if style in Font._text_styles and style not in self._styles:
             self._styles.append(style)
             self.apply_styles()
         else:
@@ -133,8 +131,8 @@ class Font:
 
     def apply_styles(self):
         """Applies the styles to the font."""
-        s = Font.text_styles["normal"]
+        s = 0x00
         for style in self._styles:
-            s |= Font.text_styles[style]
+            s |= Font._text_styles[style]
 
         sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)

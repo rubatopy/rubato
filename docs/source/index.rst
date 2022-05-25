@@ -11,7 +11,6 @@
 
     intro
     api
-    defaults
 
 .. toctree::
     :caption: Tutorials
