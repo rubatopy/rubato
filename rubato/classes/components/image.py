@@ -74,7 +74,7 @@ class Image(Component):
         self._original = Display.clone_surface(self._image)
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-        self._changed = True  # TODO: if I didn't write this it didn't scale.
+        self._changed = True
         self._update_rotozoom()
         self._go_rotation = 0
 

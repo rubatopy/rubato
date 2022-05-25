@@ -40,17 +40,15 @@ def test_init(monkeypatch):
 
     assert rubato.Game.initialized is False
     rubato.init(
-        {
-            "name": "Untitled Game",
-            "window_size": rubato.Vector(360, 360),
-            "res": rubato.Vector(1080, 1080),
-            "target_fps": 60,
-            "physics_fps": 30,
-            "border_color": rubato.Color(0, 0, 0),
-            "background_color": rubato.Color(255, 255, 255),
-            "icon": "",
-            "hidden": False,
-        }
+        name="Untitled Game",
+        window_size=rubato.Vector(360, 360),
+        res=rubato.Vector(1080, 1080),
+        target_fps=60,
+        physics_fps=30,
+        border_color=rubato.Color(0, 0, 0),
+        background_color=rubato.Color(255, 255, 255),
+        icon="",
+        hidden=False,
     )
     assert rubato.Game.initialized is True
     assert rubato.Game.state == rubato.Game.STOPPED
@@ -66,16 +64,14 @@ def test_init(monkeypatch):
     set_icon.reset_mock()
     sdl2.SDL_Quit()
     rubato.init(
-        {
-            "name": "Untitled Game",
-            "window_size": rubato.Vector(360, 360),
-            "res": rubato.Vector(1080, 1080),
-            "target_fps": 60,
-            "physics_fps": 30,
-            "border_color": rubato.Color(0, 0, 0),
-            "background_color": rubato.Color(255, 255, 255),
-            "icon": files("rubato.static.png").joinpath("logo_filled.ico"),
-            "hidden": True,
-        }
+        name="Untitled Game",
+        window_size=rubato.Vector(360, 360),
+        res=rubato.Vector(1080, 1080),
+        target_fps=60,
+        physics_fps=30,
+        border_color=rubato.Color(0, 0, 0),
+        background_color=rubato.Color(255, 255, 255),
+        icon=files("rubato.static.png").joinpath("logo_filled.ico"),
+        hidden=True,
     )
     set_icon.assert_called_once_with(files("rubato.static.png").joinpath("logo_filled.ico"))

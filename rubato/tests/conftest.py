@@ -22,11 +22,11 @@ def sdl():
 def rub():
     """Initialize Rubato"""
     # pylint: disable=unused-argument
-    rubato.init({
-        "window_size": Vector(200, 100),
-        "res": Vector(400, 200),
-        "hidden": True,
-    })
+    rubato.init(
+        window_size=Vector(200, 100),
+        res=Vector(400, 200),
+        hidden=True,
+    )
     yield
     sdl2.sdlttf.TTF_Quit()
     sdl2.SDL_Quit()

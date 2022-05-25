@@ -27,7 +27,6 @@ class Scene:
         self.camera = Camera()
         self._ui_cam = Camera()
         self.id: str = name
-        # TODO: check ids are unique
 
         Game.scenes.add(self, name)
 

@@ -5,11 +5,11 @@ Requires rubato 2.1.0 or later.
 """
 import rubato as rb
 
-rb.init({
-    "name": "Sound Test",
-    "window_size": rb.Vector(300, 0),
-    "res": rb.Vector(0, 0),
-})
+rb.init(
+    name="Sound Test",
+    window_size=rb.Vector(300, 0),
+    res=rb.Vector(0, 0),
+)
 
 main_scene = rb.Scene()
 

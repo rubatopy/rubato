@@ -3,14 +3,12 @@ from rubato import *
 import math
 
 init(
-    {
-        "name": "drawings",
-        "window_size": Vector(500, 500),
-        "res": Vector(500, 500),
-        "target_fps": 24,
-        "background_color": (255, 255, 255),
-        "icon": "",
-    }
+    name="drawings",
+    window_size=Vector(500, 500),
+    res=Vector(500, 500),
+    target_fps=24,
+    background_color=(255, 255, 255),
+    icon="",
 )
 
 main = Scene()
@@ -54,11 +52,7 @@ button.add(
             "onexit": lambda: None
         }
     )
-).add(Rectangle({
-    "width": width,
-    "height": height,
-    "color": Color.red
-}))
+).add(Rectangle(width=width, height=height, color=Color.red))
 
 main.add(button)
 

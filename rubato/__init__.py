@@ -99,11 +99,7 @@ def init(
         Display.set_window_icon(files("rubato.static.png").joinpath("logo_filled.png"))
 
     Game.debug_font = Font(
-        **{
-            "size": Display.res.y // 40 if Display.res.y > 0 else 1,
-            "font": "PressStart",
-            "color": Color(0, 255, 0)
-        }
+        size=Display.res.y // 40 if Display.res.y > 0 else 1, font="PressStart", color=Color(0, 255, 0)
     )
 
     Game.scenes = SceneManager

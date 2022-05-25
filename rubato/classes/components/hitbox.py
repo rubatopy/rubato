@@ -150,16 +150,16 @@ class Polygon(Hitbox):
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
-            **{
-                "debug": self.debug,
-                "trigger": self.trigger,
-                "scale": self.scale,
-                "on_collide": self.on_collide,
-                "color": self.color,
-                "tag": self.tag,
-                "offset": self.offset,
-                "verts": self.verts,
-            }
+            self.offset,
+            self.rot_offset,
+            self.debug,
+            self.trigger,
+            self.scale,
+            self.on_collide,
+            self.on_exit,
+            self.color,
+            self.tag,
+            self.verts,
         )
 
     def get_aabb(self) -> List[Vector]:
@@ -492,17 +492,17 @@ class Rectangle(Hitbox):
 
     def clone(self) -> Rectangle:
         return Rectangle(
-            **{
-                "width": self.width,
-                "height": self.height,
-                "debug": self.debug,
-                "trigger": self.trigger,
-                "scale": self.scale,
-                "on_collide": self.on_collide,
-                "color": self.color,
-                "tag": self.tag,
-                "offset": self.offset,
-            }
+            self.offset,
+            self.rotation_offset,
+            self.debug,
+            self.trigger,
+            self.scale,
+            self.on_collide,
+            self.on_exit,
+            self.color,
+            self.tag,
+            self.width,
+            self.height,
         )
 
 
@@ -580,14 +580,14 @@ class Circle(Hitbox):
 
     def clone(self) -> Circle:
         return Circle(
-            **{
-                "debug": self.debug,
-                "trigger": self.trigger,
-                "scale": self.scale,
-                "on_collide": self.on_collide,
-                "color": self.color,
-                "tag": self.tag,
-                "offset": self.offset,
-                "radius": self.radius,
-            }
+            self.offset,
+            self.rotation_offset,
+            self.debug,
+            self.trigger,
+            self.scale,
+            self.on_collide,
+            self.on_exit,
+            self.color,
+            self.tag,
+            self.radius,
         )

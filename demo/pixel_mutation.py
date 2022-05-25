@@ -7,12 +7,10 @@ import numpy, random
 import rubato as rb
 
 rb.init(
-    **{
-        "name": "Point drawing",
-        "res": rb.Vector(300, 300),
-        "window_size": rb.Vector(600, 600),
-        "background_color": rb.Color.black,
-    }
+    name="Point drawing",
+    res=rb.Vector(300, 300),
+    window_size=rb.Vector(600, 600),
+    background_color=rb.Color.black,
 )
 main_scene = rb.Scene()
 
@@ -68,9 +66,7 @@ class WanderingPixelMutation(rb.GameObject):
     """
 
     def __init__(self):
-        super().__init__(**{
-            "pos": rb.Vector(150, 150),
-        })
+        super().__init__(pos=rb.Vector(150, 150))
         self.image = rb.Raster(width=90, height=90)
         self.add(self.image)
 

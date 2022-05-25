@@ -179,9 +179,7 @@ class Animation(Component):
             for image_path in files:
                 try:
                     path_to_image = path.join(p, image_path)
-                    image = Image({
-                        "rel_path": path_to_image,
-                    })
+                    image = Image(rel_path=path_to_image)
                     ret_list.append(image)
                 except TypeError:
                     continue
