@@ -11,27 +11,27 @@ def v1():
 
 
 @pytest.fixture()
-def v2():
+def v34():
     return Vector(3, 4)
 
 
-def test_init(v1, v2):
+def test_init(v1, v34):
     assert v1.x == 1
     assert v1.y == 1
-    assert v2.x == 3
-    assert v2.y == 4
+    assert v34.x == 3
+    assert v34.y == 4
 
     with pytest.raises(TypeError):
         Vector(1, "2")
 
 
-def test_mag(v1, v2):
-    assert v2.magnitude == 5
-    assert v2.mag_sq == 25
-    v2.magnitude = 10
-    assert v2.magnitude == 10
-    assert v2.x == 6
-    assert v2.y == 8
+def test_mag(v1, v34):
+    assert v34.magnitude == 5
+    assert v34.mag_sq == 25
+    v34.magnitude = 10
+    assert v34.magnitude == 10
+    assert v34.x == 6
+    assert v34.y == 8
 
     v = Vector()
     assert v.magnitude == 0
@@ -41,53 +41,53 @@ def test_mag(v1, v2):
     assert v1.mag_sq == 2
 
 
-def test_angle(v1, v2):
-    assert v1.angle == 45
-    assert v2.angle == 36.86989764584402
+def test_angle(v1, v34):
+    assert v1.angle == 135
+    assert v34.angle == 36.86989764584402
 
 
-def test_rationalized_mag(v1, v2):
+def test_rationalized_mag(v1, v34):
     assert v1.rationalized_mag == "√2"
     assert v1.rationalized_mag_vector == Vector(1, 2)
     assert v1.rationalized_unit == "<1/1√2, 1/1√2>"
-    assert v2.rationalized_unit == "<3/5, 4/5>"
+    assert v34.rationalized_unit == "<3/5, 4/5>"
 
 
-def test_unit(v2):
-    unit = v2.unit()
+def test_unit(v34):
+    unit = v34.unit()
     assert unit.x == 3 / 5
     assert unit.y == 4 / 5
     assert Vector().unit().x == 0
     assert Vector().unit().y == 0
 
-    v2.normalize()
-    assert unit == v2
+    v34.normalize()
+    assert unit == v34
 
 
-def test_tuple(v1, v2):
+def test_tuple(v1, v34):
     assert v1.to_tuple() == (1, 1)
-    assert v2.to_tuple() == (3, 4)
+    assert v34.to_tuple() == (3, 4)
 
 
-def test_dot(v1, v2):
-    assert v1.dot(v2) == 7
-    assert v2.dot(v1) == 7
+def test_dot(v1, v34):
+    assert v1.dot(v34) == 7
+    assert v34.dot(v1) == 7
 
 
-def test_cross(v1, v2):
-    assert v1.cross(v2) == 1
-    assert v2.cross(v1) == -1
+def test_cross(v1, v34):
+    assert v1.cross(v34) == 1
+    assert v34.cross(v1) == -1
 
 
-def test_perpendicular(v1, v2):
+def test_perpendicular(v1, v34):
     assert v1.perpendicular() == Vector(1, -1)
-    assert v2.perpendicular(2) == Vector(8, -6)
+    assert v34.perpendicular(2) == Vector(8, -6)
 
 
-def test_clamp(v1, v2):
+def test_clamp(v1, v34):
     assert v1.clamp(2, 2) == Vector(2, 2)
-    assert v2.clamp(1, 2) == Vector(2, 2)
-    assert v2.clamp(Vector(1, 4), Vector(2, 4), True) == Vector(2, 4)
+    assert v34.clamp(1, 2) == Vector(2, 2)
+    assert v34.clamp(Vector(1, 4), Vector(2, 4), True) == Vector(2, 4)
 
 
 def test_rotate(v1):
@@ -95,7 +95,7 @@ def test_rotate(v1):
     assert v1.rotate(45) == Vector(1.4142135624, 0)
 
 
-def test_to_int(v1, v2):
+def test_to_int(v1, v34):
     v1 += 0.1
     assert not isinstance(v1.x, int)
     assert not isinstance(v1.y, int)
@@ -104,25 +104,25 @@ def test_to_int(v1, v2):
     assert isinstance(v1.x, int)
     assert isinstance(v1.y, int)
 
-    v2 += 0.1
-    v2 = v2.tuple_int()
-    assert isinstance(v2[0], int)
-    assert isinstance(v2[1], int)
+    v34 += 0.1
+    v34 = v34.tuple_int()
+    assert isinstance(v34[0], int)
+    assert isinstance(v34[1], int)
 
 
-def test_clone(v1, v2):
+def test_clone(v1, v34):
     v3 = v1.clone()
     assert v3 == v1
     assert v3 is not v1
 
-    v3 = v2.clone()
-    assert v3 == v2
-    assert v3 is not v2
+    v3 = v34.clone()
+    assert v3 == v34
+    assert v3 is not v34
 
 
-def test_lerp(v1, v2):
-    assert v1.lerp(v2, 0.5) == Vector(2, 2.5)
-    assert v2.lerp(v1, 0.5) == Vector(2, 2.5)
+def test_lerp(v1, v34):
+    assert v1.lerp(v34, 0.5) == Vector(2, 2.5)
+    assert v34.lerp(v1, 0.5) == Vector(2, 2.5)
 
 
 def test_round(v1):
@@ -148,14 +148,14 @@ def test_abs():
     assert v.abs() == Vector(1, 1)
 
 
-def test_dir_to(v1, v2):
-    assert v1.dir_to(v2) == Vector(0.5547001962, 0.8320502943)
-    assert v2.dir_to(v1) == Vector(-0.5547001962, -0.8320502943)
+def test_dir_to(v1, v34):
+    assert v1.dir_to(v34) == Vector(0.5547001962, 0.8320502943)
+    assert v34.dir_to(v1) == Vector(-0.5547001962, -0.8320502943)
 
 
-def test_distance_between(v1, v2):
-    assert v1.distance_between(v2) == 3.605551275463989
-    assert v2.distance_between(v1) == 3.605551275463989
+def test_distance_between(v1, v34):
+    assert v1.distance_between(v34) == 3.605551275463989
+    assert v34.distance_between(v1) == 3.605551275463989
 
 
 def test_from_radial():
@@ -166,13 +166,13 @@ def test_from_radial():
     assert Vector.from_radial(1, 360) == Vector(0, 1)
 
 
-def test_clamp_mag(v2):
-    v = Vector.clamp_magnitude(v2, 2)
+def test_clamp_mag(v34):
+    v = Vector.clamp_magnitude(v34, 2)
     assert v.magnitude == 2
 
 
-def test_angle_between(v1, v2):
-    assert Vector.angle_between(v1, v2) == 8.1301023542
+def test_angle_between(v1, v34):
+    assert Vector.angle_between(v1, v34) == 8.1301023542
 
 
 def test_random(monkeypatch):
@@ -218,30 +218,30 @@ def test_str(v1):
     assert "rubato.Vector(1, 1) at" in repr(v1)
 
 
-def test_math(v1, v2):
-    assert v2**2 == Vector(9, 16)
-    assert v2**v2 == Vector(27, 256)
+def test_math(v1, v34):
+    assert v34**2 == Vector(9, 16)
+    assert v34**v34 == Vector(27, 256)
 
     assert v1 * 2 == Vector(2, 2)
     assert 2 * v1 == Vector(2, 2)
-    assert v2 * v1 == Vector(3, 4)
+    assert v34 * v1 == Vector(3, 4)
 
     assert v1 / 2 == Vector(0.5, 0.5)
     assert 2 / v1 == Vector(2, 2)
-    assert v1 / v2 == Vector(1 / 3, 1 / 4)
+    assert v1 / v34 == Vector(1 / 3, 1 / 4)
 
-    assert v1 + v2 == Vector(4, 5)
+    assert v1 + v34 == Vector(4, 5)
     assert v1 + 2 == Vector(3, 3)
     assert 2 + v1 == Vector(3, 3)
 
-    assert v1 - v2 == Vector(-2, -3)
+    assert v1 - v34 == Vector(-2, -3)
     assert 2 - v1 == Vector(1, 1)
     assert v1 - 2 == Vector(-1, -1)
 
     assert -v1 == Vector(-1, -1)
 
     assert hash(v1) == hash((1, 1))
-    assert hash(v2) == hash((3, 4))
+    assert hash(v34) == hash((3, 4))
 
 
 def test_iter(v1):
