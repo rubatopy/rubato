@@ -25,7 +25,7 @@ if sys.platform.startswith("win32"):
 
 simplefilter("ignore", UserWarning)
 
-import sdl2, sdl2.sdlttf
+import sdl2, sdl2.sdlttf, sdl2.ext
 
 simplefilter("default", UserWarning)
 
@@ -38,6 +38,7 @@ def init(
     name: str = "Untitled Game",
     window_size: Vector = Vector(360, 360),
     res: Vector = Vector(1080, 1080),
+    window_pos: Vector | None = None,
     target_fps: int = 0,
     physics_fps: int = 30,
     border_color: Color = Color(),
@@ -52,6 +53,8 @@ def init(
         name: The title that appears at the top of the window. Defaults to "Untitled Game".
         window_size: The size of the window, cast to int Vector. Defaults to Vector(360, 360).
         res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
+        window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
+            Defaults to None.
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 30.
         border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
@@ -85,9 +88,10 @@ def init(
         flags |= sdl2.SDL_WINDOW_SHOWN
 
     window_size = window_size.to_int()
+    window_pos = window_pos.to_int() if window_pos else None
     res = res.to_int()
 
-    Display.window = sdl2.ext.Window(name, window_size.to_tuple(), flags=flags)
+    Display.window = sdl2.ext.Window(name, window_size.to_tuple(), window_pos.to_tuple() if window_pos else None, flags)
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.to_tuple()
