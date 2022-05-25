@@ -8,7 +8,7 @@ Attention:
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
-from ... import Vector, Defaults
+from ... import Vector
 
 if TYPE_CHECKING:
     from .. import GameObject, Camera
@@ -20,7 +20,8 @@ class Component:
     not be used directly. Instead create another class and extend from this one.
 
     Args:
-        options: A Component config. Defaults to the :ref:`Component defaults <componentdef>`.
+        offset: The offset of the component from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the component from the game object. Defaults to 0.
 
     Attributes:
         gameobj (GameObject): The game object this component is attached to.
@@ -29,12 +30,11 @@ class Component:
         rotation_offset (float): The rotational offset from the game object's rotation.
     """
 
-    def __init__(self, options: dict = {}):
-        p = Defaults.component_defaults | options
+    def __init__(self, offset: Vector = Vector(), rot_offset: float = 0):
         self.gameobj: Optional[GameObject] = None
         self.singular: bool = False
-        self.offset: Vector = p["offset"]
-        self.rotation_offset: float = p["rot_offset"]
+        self.offset: Vector = offset
+        self.rotation_offset: float = rot_offset
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""

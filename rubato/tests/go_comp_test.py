@@ -13,17 +13,17 @@ from rubato.utils.color import Color
 
 @pytest.fixture()
 def go():
-    return GameObject({
-        "name": "Test",
-        "pos": Vector(100, 100),
-        "z_index": 1,
-        "rotation": 0,
-    })
+    return GameObject(
+        name="Test",
+        pos=Vector(100, 100),
+        z_index=1,
+        rotation=0,
+    )
 
 
 @pytest.fixture()
 def comp():
-    c = Component({"offset": Vector(1, 1), "rot_offset": 90})
+    c = Component(offset=Vector(1, 1), rot_offset=90)
     c.update = Mock()
     c.fixed_update = Mock()
     c.draw = Mock()
@@ -92,7 +92,7 @@ def test_get(go, comp):
     assert go.get(Component) == comp
     assert go.get(Hitbox) is None
 
-    hb = Rectangle({})
+    hb = Rectangle()
     go.add(hb)
     assert go.get(Rectangle) == hb
 

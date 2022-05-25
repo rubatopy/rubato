@@ -34,66 +34,76 @@ from .game import Game
 from .classes import *
 
 
-def init(options: dict = {}):
+def init(
+    name: str = "Untitled Game",
+    window_size: Vector = Vector(360, 360),
+    res: Vector = Vector(1080, 1080),
+    window_pos: Vector | None = None,
+    target_fps: int = 0,
+    physics_fps: int = 30,
+    border_color: Color = Color(),
+    background_color: Color = Color(255, 255, 255),
+    icon: str = "",
+    hidden: bool = False
+):
     """
     Initializes rubato.
 
     Args:
-        options: A game config.
-                Defaults to the :ref:`Game defaults <gamedef>`.
+        name: The title that appears at the top of the window. Defaults to "Untitled Game".
+        window_size: The size of the window, cast to int Vector. Defaults to Vector(360, 360).
+        res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
+        window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
+            Defaults to None.
+        target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
+        physics_fps: The physics simulation's frames per second. Defaults to 30.
+        border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
+        background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
+        icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
+        hidden: Whether or not the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     Game.initialized = True
 
-    params = Defaults.game_defaults | options
+    Game.border_color = border_color
 
-    Game.border_color = Color(*params["border_color"]
-                             ) if not isinstance(params["border_color"], Color) else params["border_color"]
+    Game.background_color = background_color
 
-    Game.background_color = Color(*params["background_color"]
-                                 ) if not isinstance(params["background_color"], Color) else params["background_color"]
-
-    Time.target_fps = params["target_fps"]
+    Time.target_fps = target_fps
     Time.capped = Time.target_fps != 0
     if Time.capped:
-        Time.normal_delta = 1000 / params["target_fps"]
-    Time.physics_fps = params["physics_fps"]
-    Time.fixed_delta = 1000 / params["physics_fps"]
+        Time.normal_delta = 1000 / target_fps
+    Time.physics_fps = physics_fps
+    Time.fixed_delta = 1000 / physics_fps
 
     flags = (
         sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_MOUSE_FOCUS |
         sdl2.SDL_WINDOW_INPUT_FOCUS
     )
 
-    if params["hidden"]:
+    if hidden:
         flags |= sdl2.SDL_WINDOW_HIDDEN
     else:
         flags |= sdl2.SDL_WINDOW_SHOWN
 
-    params["window_size"] = params["window_size"].to_int()
-    params["res"] = params["res"].to_int()
+    window_size = window_size.to_int()
+    window_pos = window_pos.to_int() if window_pos else None
+    res = res.to_int()
 
-    Display.window = sdl2.ext.Window(
-        params["name"], params["window_size"].to_tuple(),
-        params["window_pos"].to_tuple() if params["window_pos"] else None, flags
-    )
+    Display.window = sdl2.ext.Window(name, window_size.to_tuple(), window_pos.to_tuple() if window_pos else None, flags)
 
     Display.renderer = sdl2.ext.Renderer(
-        Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=params["res"].to_tuple()
+        Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.to_tuple()
     )
 
-    if params["icon"]:
-        Display.set_window_icon(params["icon"])
+    if icon:
+        Display.set_window_icon(icon)
     else:
         Display.set_window_icon(files("rubato.static.png").joinpath("logo_filled.png"))
 
     Game.debug_font = Font(
-        {
-            "size": Display.res.y // 40 if Display.res.y > 0 else 1,
-            "font": "PressStart",
-            "color": Color(0, 255, 0)
-        }
+        size=Display.res.y // 40 if Display.res.y > 0 else 1, font="PressStart", color=Color(0, 255, 0)
     )
 
     Game.scenes = SceneManager

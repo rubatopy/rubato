@@ -3,7 +3,7 @@ This Debug module provides a set of functions to help with debugging.
 """
 from typing import List, Optional
 
-from . import Draw, Vector, Color, Defaults, Font
+from . import Draw, Vector, Color, Font
 
 
 class Debug:
@@ -26,40 +26,42 @@ class Debug:
 
     @staticmethod
     def rect(
-            center: Vector,
-            width: int,
-            height: int,
-            border: Color = Color.green,
-            border_thickness: int = 1,
-            fill: Optional[Color] = None,
-            angle: float = 0
+        center: Vector,
+        width: int,
+        height: int,
+        border: Color = Color.green,
+        border_thickness: int = 1,
+        fill: Optional[Color] = None,
+        angle: float = 0
     ):
         Debug.rect.__doc__ = Debug.message_draw + Draw.rect.__doc__
         Debug._queue.append(lambda: Draw.rect(center, width, height, border, border_thickness, fill, angle))
 
     @staticmethod
-    def circle(center: Vector, radius: int, border: Color = Color.green, border_thickness: int = 1,
-               fill: Optional[Color] = None):
+    def circle(
+        center: Vector,
+        radius: int,
+        border: Color = Color.green,
+        border_thickness: int = 1,
+        fill: Optional[Color] = None
+    ):
         Debug.circle.__doc__ = Debug.message_draw + Draw.circle.__doc__
         Debug._queue.append(lambda: Draw.circle(center, radius, border, border_thickness, fill))
 
     @staticmethod
-    def poly(points: List[Vector], border: Color = Color.green, border_thickness: int = 1,
-             fill: Optional[Color] = None):
+    def poly(
+        points: List[Vector], border: Color = Color.green, border_thickness: int = 1, fill: Optional[Color] = None
+    ):
         Debug.poly.__doc__ = Debug.message_draw + Draw.poly.__doc__
         Debug._queue.append(lambda: Draw.poly(points, border, border_thickness, fill))
 
     @staticmethod
     def text(
-            text: str,
-            font: Font,
-            pos: Vector = Vector(),
-            justify: str = Defaults.text_defaults["justify"],
-            align: Vector = Defaults.text_defaults["anchor"],
-            width: int = Defaults.text_defaults["width"]
+        text: str, font: Font, pos: Vector = Vector(), justify: str = "left", align: Vector = Vector(), width: int = 0
     ):
         Debug.text.__doc__ = Debug.message_draw + Draw.text.__doc__
         Debug._queue.append(lambda: Draw.text(text, font, pos, justify, align, width))
+
     # -------------------------------------------------------------------------------------------------------------Draw\
 
     # ------------------------------------------------------------------------------------------------------------/Queue
@@ -71,4 +73,5 @@ class Debug:
         for command in Debug._queue:
             command()
         Debug._queue.clear()
+
     # ------------------------------------------------------------------------------------------------------------Queue\

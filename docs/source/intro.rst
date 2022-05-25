@@ -42,7 +42,6 @@ An optional dictionary argument passed into :func:`rb.init() <rubato.init>` can 
     Throughout our documentation, we assume that rubato is imported as ``rb``.
 
 rubato documentation describes exactly what custom parameters you can specify when creating rubato objects or calling specific functions such as ``init()``.
-You can see these parameters and their default values on the :doc:`defaults page <defaults>`.
 
 .. warning::
     You should `only` interact with rubato (adding scenes, game objects, etc.) **AFTER** calling ``init()``.

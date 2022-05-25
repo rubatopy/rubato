@@ -7,12 +7,10 @@ import numpy, random
 import rubato as rb
 
 rb.init(
-    {
-        "name": "Point drawing",
-        "res": rb.Vector(300, 300),
-        "window_size": rb.Vector(600, 600),
-        "background_color": rb.Color.black,
-    }
+    name="Point drawing",
+    res=rb.Vector(300, 300),
+    window_size=rb.Vector(600, 600),
+    background_color=rb.Color.black,
 )
 main_scene = rb.Scene()
 
@@ -22,7 +20,6 @@ def draw_on(surf):  # ----------------------------------------------------------
     for x in range(pixels.shape[0]):
         for y in range(pixels.shape[1]):
             # random color from our default palette
-            choice = random.choice(list(rb.Defaults.color_defaults.values()))
             # pixels[x][y] = rb.Color(*choice).rgba32
             pixels[x][y] = rb.Color.random_default().rgba32
     return surf
@@ -54,12 +51,8 @@ class WanderingImage(rb.Component):
         self.image.set_colorkey(rb.Color.red)
 
 
-go = rb.GameObject({
-    "pos": rb.Vector(150, 150),
-})
-image = rb.Raster({
-    "size": rb.Vector(90, 90),
-})
+go = rb.GameObject(pos=rb.Vector(150, 150),)
+image = rb.Raster(width=90, height=90)
 go.add(image)
 go.add(WanderingImage())
 
@@ -73,12 +66,8 @@ class WanderingPixelMutation(rb.GameObject):
     """
 
     def __init__(self):
-        super().__init__({
-            "pos": rb.Vector(150, 150),
-        })
-        self.image = rb.Raster({
-            "size": rb.Vector(90, 90),
-        })
+        super().__init__(pos=rb.Vector(150, 150))
+        self.image = rb.Raster(width=90, height=90)
         self.add(self.image)
 
     def update(self):

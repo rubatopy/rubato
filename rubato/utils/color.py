@@ -6,7 +6,7 @@ from random import randint, choice
 from typing import Tuple
 import sdl2
 
-from . import Math, Defaults, Display
+from . import Math, Display
 
 
 class Color:
@@ -25,6 +25,38 @@ class Color:
         b (int): The blue value.
         a (int): The alpha value.
     """
+
+    # [colordef]
+    _color_defaults = {
+        "yellow": (253, 203, 110),  # . . . . . . . . . . . . . . . tuple
+        "scarlet": (214, 48, 49),  #. . . . . . . . . . . . . . . . tuple
+        "violet": (108, 92, 231),  #. . . . . . . . . . . . . . . . tuple
+        "turquoize": (0, 206, 201),  #. . . . . . . . . . . . . . . tuple
+        "orange": (225, 112, 85),  #. . . . . . . . . . . . . . . . tuple
+        "magenta": (232, 67, 147),  # . . . . . . . . . . . . . . . tuple
+        "blue": (9, 132, 227),  # . . . . . . . . . . . . . . . . . tuple
+        "green": (0, 184, 148),  #. . . . . . . . . . . . . . . . . tuple
+        "red": (255, 118, 117),  #. . . . . . . . . . . . . . . . . tuple
+        "purple": (162, 155, 254),  # . . . . . . . . . . . . . . . tuple
+        "cyan": (116, 185, 255),  # . . . . . . . . . . . . . . . . tuple
+        "lime": (85, 239, 196),  #. . . . . . . . . . . . . . . . . tuple
+
+        # colorwheel used (rgb values are not identical):
+        # https://upload.wikimedia.org/wikipedia/commons/5/54/RGV_color_wheel_1908.png
+    }
+    # [/colordef]
+    # [grayscaledef]
+    _grayscale_defaults = {
+        "black": (0, 0, 0),  #. . . . . . . . . . . . . . . . . . . tuple
+        "white": (255, 255, 255),  #. . . . . . . . . . . . . . . . tuple
+        "night": (20, 20, 22),  # . . . . . . . . . . . . . . . . . tuple
+        "darkgray": (45, 52, 54),  #. . . . . . . . . . . . . . . . tuple
+        "gray": (99, 110, 114),  #. . . . . . . . . . . . . . . . . tuple
+        "lightgray": (178, 190, 195),  #. . . . . . . . . . . . . . tuple
+        "snow": (223, 230, 233),  # . . . . . . . . . . . . . . . . tuple
+    }
+
+    # [/grayscaledef]
 
     def __init__(self, r: int = 0, g: int = 0, b: int = 0, a: int = 255):
         self.r = int(Math.clamp(r, 0, 255))
@@ -171,8 +203,10 @@ class Color:
             Color: A random default Color.
         """
 
-        return Color(*choice(list(Defaults.color_defaults.values()) +
-                             list(Defaults.grayscale_defaults.values() if grayscale else [])))
+        return Color(
+            *
+            choice(list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values() if grayscale else []))
+        )
 
     @classmethod
     def from_rgba32(cls, rgba32: int) -> Color:
@@ -256,7 +290,7 @@ class Color:
         """
         The default black color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["black"])
+        return Color(*Color._grayscale_defaults["black"])
 
     @classmethod
     @property
@@ -264,7 +298,7 @@ class Color:
         """
         The default white color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["white"])
+        return Color(*Color._grayscale_defaults["white"])
 
     @classmethod
     @property
@@ -272,7 +306,7 @@ class Color:
         """
         The default night color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["night"])
+        return Color(*Color._grayscale_defaults["night"])
 
     @classmethod
     @property
@@ -280,7 +314,7 @@ class Color:
         """
         The default darkgray color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["darkgray"])
+        return Color(*Color._grayscale_defaults["darkgray"])
 
     @classmethod
     @property
@@ -288,7 +322,7 @@ class Color:
         """
         The default gray color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["gray"])
+        return Color(*Color._grayscale_defaults["gray"])
 
     @classmethod
     @property
@@ -296,7 +330,7 @@ class Color:
         """
         The default lightgray color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["lightgray"])
+        return Color(*Color._grayscale_defaults["lightgray"])
 
     @classmethod
     @property
@@ -304,7 +338,7 @@ class Color:
         """
         The default snow color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
         """
-        return Color(*Defaults.grayscale_defaults["snow"])
+        return Color(*Color._grayscale_defaults["snow"])
 
     @classmethod
     @property
@@ -312,7 +346,7 @@ class Color:
         """
         The default yellow color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["yellow"])
+        return Color(*Color._color_defaults["yellow"])
 
     @classmethod
     @property
@@ -320,7 +354,7 @@ class Color:
         """
         The default orange color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["orange"])
+        return Color(*Color._color_defaults["orange"])
 
     @classmethod
     @property
@@ -328,7 +362,7 @@ class Color:
         """
         The default red color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["red"])
+        return Color(*Color._color_defaults["red"])
 
     @classmethod
     @property
@@ -336,7 +370,7 @@ class Color:
         """
         The default scarlet color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["scarlet"])
+        return Color(*Color._color_defaults["scarlet"])
 
     @classmethod
     @property
@@ -344,7 +378,7 @@ class Color:
         """
         The default magenta color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["magenta"])
+        return Color(*Color._color_defaults["magenta"])
 
     @classmethod
     @property
@@ -352,7 +386,7 @@ class Color:
         """
         The default purple color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["purple"])
+        return Color(*Color._color_defaults["purple"])
 
     @classmethod
     @property
@@ -360,7 +394,7 @@ class Color:
         """
         The default violet color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["violet"])
+        return Color(*Color._color_defaults["violet"])
 
     @classmethod
     @property
@@ -368,7 +402,7 @@ class Color:
         """
         The default blue color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["blue"])
+        return Color(*Color._color_defaults["blue"])
 
     @classmethod
     @property
@@ -376,7 +410,7 @@ class Color:
         """
         The default cyan color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["cyan"])
+        return Color(*Color._color_defaults["cyan"])
 
     @classmethod
     @property
@@ -384,7 +418,7 @@ class Color:
         """
         The default turquoize color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["turquoize"])
+        return Color(*Color._color_defaults["turquoize"])
 
     @classmethod
     @property
@@ -392,7 +426,7 @@ class Color:
         """
         The default green color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["green"])
+        return Color(*Color._color_defaults["green"])
 
     @classmethod
     @property
@@ -400,7 +434,7 @@ class Color:
         """
         The default lime color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
         """
-        return Color(*Defaults.color_defaults["lime"])
+        return Color(*Color._color_defaults["lime"])
 
     def __str__(self):
         return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")

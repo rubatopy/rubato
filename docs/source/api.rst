@@ -277,9 +277,30 @@ Time
 
 Color
 =====
+
 .. automodule:: rubato.utils.color
     :members:
     :undoc-members:
+
+.. _colordef:
+
+Default Colors
+--------------
+.. literalinclude:: ../../rubato/utils/color.py
+    :language: python
+    :start-after: [colordef]
+    :end-before: [/colordef]
+    :dedent:
+
+.. _grayscaledef:
+
+Default Grayscale Colors
+------------------------
+.. literalinclude:: ../../rubato/utils/color.py
+    :language: python
+    :start-after: [grayscaledef]
+    :end-before: [/grayscaledef]
+    :dedent:
 
 .. _font:
 

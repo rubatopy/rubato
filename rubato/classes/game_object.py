@@ -2,13 +2,15 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
-from typing import List, Dict, TYPE_CHECKING, Optional
+from typing import List, Dict, TYPE_CHECKING, Optional, Type, TypeVar
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from .. import Game, Vector, Defaults, Display, DuplicateComponentError, Draw, Color
+from .. import Game, Vector, Display, DuplicateComponentError, Draw, Color
 
 if TYPE_CHECKING:
     from . import Camera
+
+T = TypeVar("T")
 
 
 class GameObject:
@@ -16,7 +18,11 @@ class GameObject:
     The base game object class.
 
     Args:
-        options: A game object config. Defaults to the :ref:`Game Object defaults <gameobjdef>`.
+        name: The name of the game object. Defaults to "".
+        pos: The position of the game object. Defaults to Vector(0, 0).
+        rotation: The rotation of the game object. Defaults to 0.
+        z_index: The z-index of the game object. Defaults to 0.
+        debug: Whether or not to draw the hitbox of the game object. Defaults to False.
 
     Attributes:
         name (str): The name of the game object. Will default to:
@@ -28,14 +34,15 @@ class GameObject:
         rotation (float): The rotation of the game object in degrees.
     """
 
-    def __init__(self, options: dict = {}):
-        param = Defaults.gameobj_defaults | options
-        self.name: str = param["name"]
-        self.pos: Vector = param["pos"]
-        self.debug: bool = param["debug"]
-        self.z_index: int = param["z_index"]
+    def __init__(
+        self, name: str = "", pos: Vector = Vector(), rotation: float = 0, z_index: int = 0, debug: bool = False
+    ):
+        self.name: str = name
+        self.pos: Vector = pos
+        self.debug: bool = debug
+        self.z_index: int = z_index
         self._components: Dict[type, List[Component]] = {}
-        self.rotation: float = param["rotation"]
+        self.rotation: float = rotation
 
     def add(self, component: Component) -> GameObject:
         """
@@ -68,12 +75,12 @@ class GameObject:
 
         return self
 
-    def remove(self, comp_type: type):
+    def remove(self, comp_type: Type[T]):
         """
         Removes a component from the game object.
 
         Args:
-            comp_type (type): The type of the component to remove.
+            comp_type: The type of the component to remove.
 
         Raises:
             Warning: The component was not in the game object and nothing was removed.
@@ -87,12 +94,12 @@ class GameObject:
                 f"The component of type {comp_type} is not in the game object {self.name} and was not removed."
             )
 
-    def remove_all(self, comp_type: type):
+    def remove_all(self, comp_type: Type[T]):
         """
         Removes all components of a type from the game object.
 
         Args:
-            comp_type (type): The type of the component to remove.
+            comp_type: The type of the component to remove.
 
         Raises:
             Warning: The components were not in the game object and nothing was removed.
@@ -104,15 +111,15 @@ class GameObject:
                 f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
             )
 
-    def get(self, comp_type: type) -> Optional[Component]:
+    def get(self, comp_type: Type[T]) -> Optional[T]:
         """
         Gets a component from the game object.
 
         Args:
-            comp_type (type): The type of the component to search for.
+            comp_type: The type of the component to search for.
 
         Returns:
-            Optional[Component]: The component if it was found or None if it wasn't.
+            The component if it was found or None if it wasn't.
         """
         if comp_type in (Rectangle, Polygon, Circle):
             comp_type = Hitbox
@@ -120,15 +127,15 @@ class GameObject:
             return self._components[comp_type][0]
         return None
 
-    def get_all(self, comp_type: type) -> List[Component]:
+    def get_all(self, comp_type: Type[T]) -> List[T]:
         """
         Gets all the components of a type from the game object.
 
         Args:
-            comp_type (type): The type of component to search for.
+            comp_type: The type of component to search for.
 
         Returns:
-            List[Component]: A list containing all the components of that type. If no components were found, the
+            A list containing all the components of that type. If no components were found, the
                 list is empty.
         """
         if comp_type in (Rectangle, Polygon, Circle):

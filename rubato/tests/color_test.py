@@ -1,9 +1,8 @@
 """Test the Color Class"""
 import pytest
 from rubato.utils.color import Color
-from rubato.utils.defaults import Defaults
 from random import Random
-# pylint: disable=redefined-outer-name
+# pylint: disable=redefined-outer-name, protected-access
 
 
 @pytest.fixture()
@@ -113,10 +112,10 @@ def test_random_defaults(monkeypatch):
     assert c.a == 255
     for _ in range(10):
         c = Color.random_default()
-        assert c.to_tuple()[:-1] in list(Defaults.color_defaults.values())
+        assert c.to_tuple()[:-1] in list(Color._color_defaults.values())
     for _ in range(10):
         c = Color.random_default(True)
-        assert c.to_tuple()[:-1] in list(Defaults.color_defaults.values()) + list(Defaults.grayscale_defaults.values())
+        assert c.to_tuple()[:-1] in list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values())
 
 
 def test_from_rgba32(color):
@@ -148,25 +147,25 @@ def test_from_hsv(color):
 @pytest.mark.parametrize(
     "test_color, expected",
     [
-        (Color.black, Defaults.grayscale_defaults["black"]),
-        (Color.white, Defaults.grayscale_defaults["white"]),
-        (Color.night, Defaults.grayscale_defaults["night"]),
-        (Color.darkgray, Defaults.grayscale_defaults["darkgray"]),
-        (Color.gray, Defaults.grayscale_defaults["gray"]),
-        (Color.lightgray, Defaults.grayscale_defaults["lightgray"]),
-        (Color.snow, Defaults.grayscale_defaults["snow"]),
-        (Color.yellow, Defaults.color_defaults["yellow"]),
-        (Color.orange, Defaults.color_defaults["orange"]),
-        (Color.red, Defaults.color_defaults["red"]),
-        (Color.scarlet, Defaults.color_defaults["scarlet"]),
-        (Color.magenta, Defaults.color_defaults["magenta"]),
-        (Color.purple, Defaults.color_defaults["purple"]),
-        (Color.violet, Defaults.color_defaults["violet"]),
-        (Color.blue, Defaults.color_defaults["blue"]),
-        (Color.cyan, Defaults.color_defaults["cyan"]),
-        (Color.turquoize, Defaults.color_defaults["turquoize"]),
-        (Color.green, Defaults.color_defaults["green"]),
-        (Color.lime, Defaults.color_defaults["lime"]),
+        (Color.black, Color._grayscale_defaults["black"]),
+        (Color.white, Color._grayscale_defaults["white"]),
+        (Color.night, Color._grayscale_defaults["night"]),
+        (Color.darkgray, Color._grayscale_defaults["darkgray"]),
+        (Color.gray, Color._grayscale_defaults["gray"]),
+        (Color.lightgray, Color._grayscale_defaults["lightgray"]),
+        (Color.snow, Color._grayscale_defaults["snow"]),
+        (Color.yellow, Color._color_defaults["yellow"]),
+        (Color.orange, Color._color_defaults["orange"]),
+        (Color.red, Color._color_defaults["red"]),
+        (Color.scarlet, Color._color_defaults["scarlet"]),
+        (Color.magenta, Color._color_defaults["magenta"]),
+        (Color.purple, Color._color_defaults["purple"]),
+        (Color.violet, Color._color_defaults["violet"]),
+        (Color.blue, Color._color_defaults["blue"]),
+        (Color.cyan, Color._color_defaults["cyan"]),
+        (Color.turquoize, Color._color_defaults["turquoize"]),
+        (Color.green, Color._color_defaults["green"]),
+        (Color.lime, Color._color_defaults["lime"]),
     ],
 )
 def test_colors(test_color, expected):

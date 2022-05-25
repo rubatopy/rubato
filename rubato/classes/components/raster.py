@@ -3,7 +3,7 @@ from typing import Dict, Tuple
 import sdl2, sdl2.ext, sdl2.sdlgfx
 from . import Component
 from .. import Camera
-from ... import Defaults, Display, Vector, Color, Radio
+from ... import Display, Vector, Color, Radio
 
 
 class Raster(Component):
@@ -12,22 +12,34 @@ class Raster(Component):
     set, it cannot be changed. You can however change the scale and rotation of the raster.
 
     Args:
-        options: A Raster config. Defaults to the :ref:`Raster defaults <rasterdef>`.
+        offset: The offset of the raster from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the raster from the gameobject. Defaults to 0.
+        width: The width of the raster. Defaults to 32.
+        height: The height of the raster. Defaults to 32.
+        scale: The scale of the raster. Defaults to Vector(1, 1).
+        visible: Whether the raster is visible. Defaults to True.
 
     Attributes:
         visible (bool): Whether the raster is visible.
     """
 
-    def __init__(self, options: dict = {}):
-        params = Defaults.raster_defaults | options
-        super().__init__(params)
+    def __init__(
+        self,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
+        width: int = 32,
+        height: int = 32,
+        scale: Vector = Vector(1, 1),
+        visible: bool = True
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset)
 
         self.singular = False
 
         self._raster: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
             0,
-            params["width"],
-            params["height"],
+            width,
+            height,
             32,
             sdl2.SDL_PIXELFORMAT_RGBA8888,
         ).contents
@@ -35,8 +47,8 @@ class Raster(Component):
         self._drawn = Display.clone_surface(self._raster)  # The raster with rotation and scale
         self._texture = sdl2.ext.Texture(Display.renderer, self._raster)
 
-        self.visible = params["visible"]
-        self._scale = params["scale"]
+        self.visible = visible
+        self._scale = scale
         self._rot = self.rotation_offset
 
         self._cam_zoom = 1

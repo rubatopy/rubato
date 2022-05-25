@@ -7,7 +7,7 @@ from typing import List
 import os
 
 from . import Image, Animation
-from ... import Defaults, Vector, get_path
+from ... import Vector, get_path
 
 
 class Spritesheet:
@@ -15,18 +15,19 @@ class Spritesheet:
     A spritesheet from the filesystem.
 
     Args:
-        options: A Spritesheet config. Defaults to the :ref:`Spritesheet defaults <spritesheetdef>`.
+        rel_path: The relative path to the spritesheet.
+        sprite_size: The size of each sprite in the spritesheet. Defaults to Vector(32, 32).
+        grid_size: The size of the grid of sprites in the spritesheet. Set to None to automatically determine the
+            grid size. Defaults to None.
 
     Raises:
         IndexError: If user does not load the entire sheet.
     """
 
-    def __init__(self, options: dict = {}):
-        params = Defaults.spritesheet_defaults | options
-
-        self._grid: Vector = params["grid_size"]
-        self._sprite_size: Vector = params["sprite_size"]
-        self._sheet = Image({"rel_path": params["rel_path"]})
+    def __init__(self, rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None):
+        self._grid: Vector = grid_size
+        self._sprite_size: Vector = sprite_size
+        self._sheet = Image(rel_path=rel_path)
         self._sprites: List[List[Image]] = []
         if not self._grid:
             self._grid = self._sheet.get_size() / self._sprite_size
@@ -124,10 +125,10 @@ class Spritesheet:
             for sprite_path in files:
                 path_to_spritesheet = os.path.join(path, sprite_path)
                 try:
-                    sprite_sheet = Spritesheet({
-                        "rel_path": path_to_spritesheet,
-                        "sprite_size": sprite_size,
-                    })
+                    sprite_sheet = Spritesheet(
+                        rel_path=path_to_spritesheet,
+                        sprite_size=sprite_size,
+                    )
                     anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
                 except TypeError:
                     continue

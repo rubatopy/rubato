@@ -6,7 +6,7 @@ from __future__ import annotations
 import math
 
 from . import Component, Circle, Hitbox, Rectangle, Polygon
-from ... import Vector, Defaults, Time
+from ... import Vector, Time, Math
 
 
 class RigidBody(Component):
@@ -15,7 +15,20 @@ class RigidBody(Component):
     Rigidbodies require hitboxes.
 
     Args:
-        options: A rigidbody config. Defaults to the :ref:`Rigidbody defaults <rigidbodydef>`.
+        offset: The offset of the rigidbody from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The offset of the rigidbody's rotation from the gameobject. Defaults to 0.
+        density: The density of the rigidbody. Defaults to 1.
+        bounciness: The bounciness of the rigidbody. Defaults to 0.
+        gravity: The gravity of the rigidbody. Defaults to Vector(0, 0).
+        max_speed: The maximum speed of the rigidbody. Defaults to Vector(INF, INF).
+        velocity: The velocity of the rigidbody. Defaults to Vector(0, 0).
+        ang_vel: The angular velocity of the rigidbody. Defaults to 0.
+        friction: The friction of the rigidbody. Defaults to 0.
+        static: Whether the rigidbody is static. Defaults to False.
+        pos_correction: The positional correction of the rigidbody. Defaults to 0.25.
+        moment: The moment of inertia of the rigidbody. Defaults to -1.
+        mass: The mass of the rigidbody. Defaults to -1.
+        advanced: Whether the rigidbody uses advanced physics. Defaults to False.
 
     Attributes:
         static (bool): Whether or not the rigidbody is static (as in, it does
@@ -34,43 +47,57 @@ class RigidBody(Component):
             (not desired in basic platformers, for instance).
     """
 
-    def __init__(self, options: dict = {}):
-        params = Defaults.rigidbody_defaults | options
+    def __init__(
+        self,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
+        density: float = 1,
+        bounciness: float = 0,
+        gravity: Vector = Vector(),
+        max_speed: Vector = Vector(Math.INF, Math.INF),
+        velocity: Vector = Vector(),
+        ang_vel: float = 0,
+        friction: float = 0,
+        static: bool = False,
+        pos_correction: float = 0.25,
+        moment: float = -1,
+        mass: float = -1,
+        advanced: bool = False,
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset)
 
-        super().__init__()
+        self.static: bool = static
 
-        self.static: bool = params["static"]
+        self.gravity: Vector = gravity
+        self.friction: float = friction
+        self.max_speed: Vector = max_speed
 
-        self.gravity: Vector = params["gravity"]
-        self.friction: float = params["friction"]
-        self.max_speed: Vector = params["max_speed"]
+        self.pos_correction: float = pos_correction
+        self.advanced: bool = advanced
 
-        self.pos_correction: float = params["pos_correction"]
-        self.advanced: bool = params["advanced"]
-
-        self.velocity: Vector = params["velocity"]
-        self.ang_vel: float = params["ang_vel"]
+        self.velocity: Vector = velocity
+        self.ang_vel: float = ang_vel
 
         self.singular = True
 
-        if params["mass"] != -1 and params["moment"] != -1:
-            if params["mass"] == 0 or self.static:
+        if mass != -1 and moment != -1:
+            if mass == 0 or self.static:
                 self._inv_mass = 0
             else:
-                self._inv_mass: float = 1 / params["mass"]
+                self._inv_mass: float = 1 / mass
 
-            if params["moment"] == 0 or self.static:
+            if moment == 0 or self.static:
                 self._inv_moment = 0
             else:
-                self._inv_moment: float = 1 / params["moment"]
+                self._inv_moment: float = 1 / moment
             self._density = -1
         else:
-            self._density = params["density"]
+            self._density = density
             self._inv_mass = 0
             self._inv_moment = 0
 
         self._last_density_calc = -1
-        self.bounciness: float = params["bounciness"]
+        self.bounciness: float = bounciness
 
     @property
     def inv_mass(self) -> float:

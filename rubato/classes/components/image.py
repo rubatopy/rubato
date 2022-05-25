@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
 from . import Component
-from ... import Vector, Defaults, Display, Radio, get_path
+from ... import Vector, Display, Radio, get_path
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -17,46 +17,64 @@ class Image(Component):
     A component that handles Images.
 
     Args:
-        options: A Image config. Defaults to the :ref:`Image defaults <imagedef>`.
+        offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the image. Defaults to 0.
+        rel_path: The relative path to the image. Defaults to "".
+        size: The size of the image. Defaults to Vector(32, 32).
+        scale: The scale of the image. Defaults to Vector(1, 1).
+        anti_aliasing: Whether or not to use anti-aliasing. Defaults to False.
+        flipx: Whether or not to flip the image horizontally. Defaults to False.
+        flipy: Whether or not to flip the image vertically. Defaults to False.
+        visible: Whether or not the image is visible. Defaults to True.
 
     Attributes:
         visible (bool): Whether or not the image is visible.
     """
 
-    def __init__(self, options: dict = {}):
-        param = Defaults.image_defaults | options
-        super().__init__(param)
+    def __init__(
+        self,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
+        rel_path: str = "",
+        size: Vector = Vector(32, 32),
+        scale: Vector = Vector(1, 1),
+        anti_aliasing: bool = False,
+        flipx: bool = False,
+        flipy: bool = False,
+        visible: bool = True,
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset)
 
-        if param["rel_path"] == "":
+        if rel_path == "":
             self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
                 0,
-                param["size"].x,
-                param["size"].y,
+                size.x,
+                size.y,
                 32,
                 sdl2.SDL_PIXELFORMAT_RGBA8888,
             ).contents
         else:
             try:
-                self._image: sdl2.SDL_Surface = sdl2.ext.load_img(param["rel_path"], False)
+                self._image: sdl2.SDL_Surface = sdl2.ext.load_img(rel_path, False)
             except OSError:
-                self._image = sdl2.ext.load_img(get_path(param["rel_path"]), False)
+                self._image = sdl2.ext.load_img(get_path(rel_path), False)
             except sdl2.ext.SDLError as e:
-                fname = param["rel_path"].replace("\\", "/").split("/")[-1]
+                fname = rel_path.replace("\\", "/").split("/")[-1]
                 raise TypeError(f"{fname} is not a valid image file") from e
 
         self.singular = False
 
-        self.visible: bool = param["visible"]
-        self._aa: bool = param["anti_aliasing"]
-        self._flipx: bool = param["flipx"]
-        self._flipy: bool = param["flipy"]
-        self._scale: Vector = param["scale"]
+        self.visible: bool = visible
+        self._aa: bool = anti_aliasing
+        self._flipx: bool = flipx
+        self._flipy: bool = flipy
+        self._scale: Vector = scale
         self._rot = self.rotation_offset
 
         self._original = Display.clone_surface(self._image)
         self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
-        self._changed = False
+        self._changed = True
         self._update_rotozoom()
         self._go_rotation = 0
 
