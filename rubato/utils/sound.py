@@ -25,7 +25,16 @@ mixer.Mix_ChannelFinished(channel_finish_callback)
 
 class Sound():
     """
-    A sound class that is used to manage the sounds throughout the project.
+    A sound class that is used to manage the sounds throughout the project. We support the following audio formats:
+        * MP3
+        * WAV
+        * OGG
+        * FLAC
+        * MOD
+        * MIDI (not always available on linux)
+        * OPUS
+        * AIFF
+        * VOC
 
     Args:
         rel_path: The relative path to the sound file you wish to import.
