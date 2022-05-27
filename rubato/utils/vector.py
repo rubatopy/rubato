@@ -48,7 +48,7 @@ class Vector:
     @property
     def angle(self) -> float:
         """The angle of the vector in radians (readonly)."""
-        return -math.degrees(math.atan2(self.y, self.x) - Math.PI_HALF)
+        return -math.degrees(math.atan2(-self.y, self.x) - Math.PI_HALF)
 
     @property
     def rationalized_mag(self) -> str:
@@ -359,14 +359,14 @@ class Vector:
 
         Args:
             magnitude: Length of vector.
-            angle: Direction of vector in degrees.
+            angle: Direction of vector in North degrees.
 
         Returns:
             Vector from the given direction and distance
         """
-        radians = math.radians(angle)
+        radians = math.radians(-(angle - 90))
 
-        return Vector(round(math.sin(radians), 10) * magnitude, round(math.cos(radians), 10) * magnitude)
+        return Vector(round(math.cos(radians), 10) * magnitude, -round(math.sin(radians), 10) * magnitude)
 
     @staticmethod
     def clamp_magnitude(vector: Vector, max_magnitude: float, min_magnitude: float = 0) -> Vector:

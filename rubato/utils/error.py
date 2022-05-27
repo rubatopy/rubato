@@ -45,7 +45,7 @@ class RemovalWarning(DeprecationWarning):
     pass
 
 
-def deprecated(other_func=None):
+def deprecated(other_func):
     """This is a decorator which can be used to mark functions
         as deprecated. It will result in a warning being emitted
         when the function is used."""
@@ -56,8 +56,7 @@ def deprecated(other_func=None):
         def new_func(*args, **kwargs):
             warnings.simplefilter("always", DeprecationWarning)
             warnings.warn(
-                f"{func.__name__} has been deprecated. " +
-                (f"Please use {other_func.__name__} instead." if other_func else "There will be no replacement."),
+                f"{func.__name__} has been deprecated. " + f"Please use {other_func.__name__} instead.",
                 category=DeprecationWarning,
                 stacklevel=2
             )
@@ -67,9 +66,31 @@ def deprecated(other_func=None):
         return new_func
 
     wrapper.__name__ = other_func.__name__
-    wrapper.__doc__ = other_func.__doc__
+    wrapper.__doc__ = """Warning:\n\tDeprecated.\n""" + other_func.__doc__
     wrapper.__dict__.update(other_func.__dict__)
     return wrapper
+
+
+def deprecated_no_replacement(func):
+    """This is a decorator which can be used to mark functions
+        as deprecated. It will result in a warning being emitted
+        when the function is used."""
+
+    @functools.wraps(func)
+    def new_func(*args, **kwargs):
+        warnings.simplefilter("always", DeprecationWarning)
+        warnings.warn(
+            f"{func.__name__} has been deprecated. No replacement.",
+            category=DeprecationWarning,
+            stacklevel=2
+        )
+        warnings.simplefilter("default", DeprecationWarning)
+        return func(*args, **kwargs)
+
+    new_func.__name__ = func.__name__
+    new_func.__doc__ = """Warning:\n\tDeprecated.\n""" + func.__doc__
+    new_func.__dict__.update(func.__dict__)
+    return new_func
 
 
 def removed(other_func=None):
