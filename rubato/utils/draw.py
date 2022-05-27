@@ -73,7 +73,7 @@ class Draw:
     @staticmethod
     def circle(
         center: Vector,
-        radius: int,
+        radius: int = 4,
         border: Color = Color.green,
         border_thickness: int = 1,
         fill: Optional[Color] = None
@@ -83,7 +83,7 @@ class Draw:
 
         Args:
             center: The center.
-            radius: The radius.
+            radius: The radius. Defaults to 4.
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.

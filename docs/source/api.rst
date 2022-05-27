@@ -302,6 +302,17 @@ Default Grayscale Colors
     :end-before: [/grayscaledef]
     :dedent:
 
+.. _debug:
+
+Debug
+=====
+
+.. automodule:: rubato.utils.debug
+    :members:
+    :undoc-members:
+
+.. _debugdef:
+
 .. _font:
 
 Font

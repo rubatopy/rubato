@@ -98,7 +98,7 @@ def init(
     )
 
     if change_pos:
-        Display.window_pos += Vector.down * Display.get_window_border_size()[0]
+        Display.window_pos += Vector(0, Display.get_window_border_size()[0])
 
     if icon:
         Display.set_window_icon(icon)

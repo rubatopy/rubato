@@ -19,7 +19,7 @@ rb.init(
 )
 
 rb.Game.debug = True
-
+# rb.Debug.rect()
 main = rb.Scene()
 
 def update():
