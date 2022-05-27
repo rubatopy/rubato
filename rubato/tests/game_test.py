@@ -7,11 +7,6 @@ from rubato.classes.scene import Scene
 # pylint: disable=redefined-outer-name
 
 
-@pytest.fixture
-def scene():
-    return Scene()
-
-
 def test_state(monkeypatch):
     assert Game.state == Game.STOPPED
     Game.state = Game.RUNNING
@@ -25,7 +20,10 @@ def test_state(monkeypatch):
     push_event.assert_called_once()
 
 
-def test_camera(scene):
-    # pylint: disable=unused-argument
-    Game.scenes.add(scene, "main")
+def test_camera():
+    Scene()
     assert Game.camera == Game.scenes.current.camera
+    Game.scenes.remove("default")
+
+    with pytest.raises(AttributeError):
+        assert not Game.camera

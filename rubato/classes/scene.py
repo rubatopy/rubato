@@ -8,7 +8,7 @@ from .. import Game
 
 class Scene:
     """
-    A scene is a collection of groups.
+    A scene is a collection of groups. When you create a scene, it will be automatically added to the SceneManager.
 
     Args:
         name: The name of the scene. This is used to reference the scene from the scene manager. Defaults to "default".
@@ -28,7 +28,7 @@ class Scene:
         self._ui_cam = Camera()
         self.id: str = name
 
-        Game.scenes.add(self, name)
+        Game.scenes.add(self, self.id)
 
     def add(self, *items: GameObject | Group):
         """

@@ -23,12 +23,12 @@ class SceneManager:
 
     @classmethod
     @property
-    def current(cls) -> Scene:
+    def current(cls) -> Scene | None:
         """
         The current scene.
 
         Returns:
-            The current scene.
+            The current scene or none if there are no scenes in the manager.
         """
         return cls.scenes.get(cls._current)
 
@@ -63,6 +63,28 @@ class SceneManager:
 
         cls.scenes[scene_id] = scene
         scene.id = scene_id
+
+    @classmethod
+    def remove(cls, scene: str | Scene):
+        """
+        Removes a Scene from the SceneManager.
+
+        Args:
+            scene: The id of the scene or the reference of the scene to remove.
+
+        Raises:
+            IdError: The given scene id is not in the manager.
+        """
+        if isinstance(scene, Scene):
+            scene_id = scene.id
+        else:
+            scene_id = scene
+
+        if scene_id in cls.scenes:
+            del cls.scenes[scene_id]
+            cls._current = ""
+        else:
+            raise IdError(f"The scene id {scene_id} is not in this manager")
 
     @classmethod
     def set(cls, scene_id: str):
