@@ -7,7 +7,7 @@ import rubato as rb
 
 # initialize a new game
 rb.init(
-    name="Platformer Desmo",
+    name="Platformer Demo",
     window_size=rb.Vector(960, 540),
     background_color=rb.Color.cyan.lighter(),
     res=rb.Vector(1920, 1080),
