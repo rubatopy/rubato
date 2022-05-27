@@ -13,10 +13,19 @@ rb.init(
 
 main_scene = rb.Scene()
 
-rb.Sound.import_sound_folder("sounds")  # Import the sound folder
+rb.Sound.import_sound_folder("sounds", recursive=False)  # Import the sound folder shallowly
 
 click = rb.Sound.get_sound("click")  # Get sound instance
 music = rb.Sound.get_sound("music")
+
+sound = rb.Sound("sounds/bark.wav", "barkyboi")
+
+# player 1 and 2 have duplicate file names so we must use the absolute path as a key
+rb.Sound.import_sound_folder("sounds/player1", True)
+rb.Sound.import_sound_folder("sounds/player2", True)
+
+player1_intro = rb.Sound.get_sound("sounds/player1/intro")
+player1_intro.play()
 
 
 def update():

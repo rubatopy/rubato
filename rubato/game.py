@@ -102,9 +102,6 @@ class Game(metaclass=GameProperties):
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
                 "https://github.com/rubatopy/rubato/issues"
             ).with_traceback(sys.exc_info()[2])
-            # Original code cleaner?
-            # raise Warning("Rubato Error-ed. Was it our fault? Issue tracker: "
-            #               "https://github.com/rubatopy/rubato/issues") from e
 
     @classmethod
     def update(cls):  # test: skip

@@ -163,18 +163,19 @@ class Animation(Component):
             self.current_state = state_name
             self.reset()
 
-    def add_folder(self, state_name: str, rel_path: str):
+    def add_folder(self, state_name: str, rel_path: str, recursive: bool = True):
         """
         Adds a state from a folder of images. Directory must be solely comprised of images.
 
         Args:
             state_name: The key used to reference this state.
             rel_path: The relative path to the folder you wish to import
+            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
         """
         ret_list = []
         p = get_path(rel_path)
-        for _, _, files in walk(p):
-            # walk to directory path and ignore name and subdirectories
+        if not recursive:
+            _, _, files = next(walk(p))
             files.sort()
             for image_path in files:
                 try:
@@ -183,6 +184,17 @@ class Animation(Component):
                     ret_list.append(image)
                 except TypeError:
                     continue
+        else:
+            for _, _, files in walk(p):
+                # walk to directory path and ignore name and subdirectories
+                files.sort()
+                for image_path in files:
+                    try:
+                        path_to_image = path.join(p, image_path)
+                        image = Image(rel_path=path_to_image)
+                        ret_list.append(image)
+                    except TypeError:
+                        continue
 
         self.add(state_name, ret_list)
 
