@@ -66,7 +66,7 @@ def deprecated(other_func):
         return new_func
 
     wrapper.__name__ = other_func.__name__
-    wrapper.__doc__ = other_func.__doc__
+    wrapper.__doc__ = """Warning:\n\tDeprecated.\n""" + other_func.__doc__
     wrapper.__dict__.update(other_func.__dict__)
     return wrapper
 
@@ -88,7 +88,7 @@ def deprecated_no_replacement(func):
         return func(*args, **kwargs)
 
     new_func.__name__ = func.__name__
-    new_func.__doc__ = func.__doc__
+    new_func.__doc__ = """Warning:\n\tDeprecated.\n""" + func.__doc__
     new_func.__dict__.update(func.__dict__)
     return new_func
 

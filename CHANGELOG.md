@@ -18,6 +18,7 @@
 -   `Group.active` property. Boolean that controls whether the group is drawn and updated.
 -   `Color.random_default()` Allows to randomly choose from a set of default colors.
 -   `Debug` Added Debug module, that is called at the end of the game loop.
+-   `Debug` Now shows docstring in documentation.
 
 ### Changed
 
