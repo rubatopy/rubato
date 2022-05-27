@@ -25,7 +25,16 @@ mixer.Mix_ChannelFinished(channel_finish_callback)
 
 class Sound():
     """
-    A sound class that is used to manage the sounds throughout the project.
+    A sound class that is used to manage the sounds throughout the project. We support the following audio formats:
+        * MP3
+        * WAV
+        * OGG
+        * FLAC
+        * MOD
+        * MIDI (not always available on linux)
+        * OPUS
+        * AIFF
+        * VOC
 
     Args:
         rel_path: The relative path to the sound file you wish to import.
@@ -129,7 +138,7 @@ class Sound():
         self._paused = False
 
     @classmethod
-    def import_sound_folder(cls, rel_path: str, duplicate_names=False):
+    def import_sound_folder(cls, rel_path: str, duplicate_names=False, recursive: bool = True):
         """
         Imports a folder of sounds, saving each one in the loaded_sounds
         dictionary by filename.
@@ -138,16 +147,32 @@ class Sound():
             rel_path: The relative path to the folder you wish to import.
             duplicate_names: if you wish to have duplicate names to your sounds,
             it will use the relative and the sound path for the sounds name
+            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
         """
         p = get_path(rel_path)
 
-        for _, _, files in walk(p):
+        if not recursive:
+            _, _, files = next(walk(p))
             # walk to directory path and ignore name and subdirectories
             for sound_path in files:
                 path_to_sound = path.join(p, sound_path)
-                name = (p + sound_path).split(".")[0] \
-                if duplicate_names else sound_path.split(".")[0]
-                cls(path_to_sound, name)
+                name = (p + sound_path).split(".")[0] if duplicate_names else sound_path.split(".")[0]
+                try:
+                    cls(path_to_sound, name)
+                except IdError as err:
+                    raise Warning("If you have files with duplicate names you must set duplicate_names"
+                                  "to True") from err
+        else:
+            for _, _, files in walk(p):
+                # walk to directory path and ignore name and subdirectories
+                for sound_path in files:
+                    path_to_sound = path.join(p, sound_path)
+                    name = (rel_path + "/" + sound_path).split(".")[0] if duplicate_names else sound_path.split(".")[0]
+                    try:
+                        cls(path_to_sound, name)
+                    except IdError as err:
+                        raise Warning("If you have files with duplicate names you must set duplicate_names"
+                                      "to True") from err
 
     @classmethod
     def get_sound(cls, sound_name: str) -> Sound:

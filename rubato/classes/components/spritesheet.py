@@ -101,7 +101,7 @@ class Spritesheet:
         return self.sprites[y][x].clone()
 
     @staticmethod
-    def from_folder(rel_path: str, sprite_size: Vector, default_state=None) -> Animation:
+    def from_folder(rel_path: str, sprite_size: Vector, default_state=None, recursive: bool = True) -> Animation:
         """
         Creates an Animation from a folder of spritesheets.
         Directory must be comprised solely of spritesheets.
@@ -111,6 +111,7 @@ class Spritesheet:
             rel_path: The relative path to the folder you wish to import
             sprite_size: The size of a single sprite in your spritesheet, should be the same in all imported sheets.
             default_state: Sets the default state of the animation.
+            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
 
         Returns:
             Animation: the animation loaded from the folder of spritesheets
@@ -119,7 +120,8 @@ class Spritesheet:
 
         path = get_path(rel_path)
 
-        for _, _, files in os.walk(path):
+        if not recursive:
+            _, _, files = next(os.walk(path))
             # walk to directory path and ignore name and subdirectories
             files.sort()
             for sprite_path in files:
@@ -132,6 +134,21 @@ class Spritesheet:
                     anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
                 except TypeError:
                     continue
+        else:
+            for _, _, files in os.walk(path):
+                # walk to directory path and ignore name and subdirectories
+                files.sort()
+                for sprite_path in files:
+                    path_to_spritesheet = os.path.join(path, sprite_path)
+                    try:
+                        sprite_sheet = Spritesheet(
+                            rel_path=path_to_spritesheet,
+                            sprite_size=sprite_size,
+                        )
+                        anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
+                    except TypeError:
+                        continue
+
         if default_state:
             anim.default_state = default_state
             anim.current_state = default_state
