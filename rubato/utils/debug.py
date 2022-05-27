@@ -40,7 +40,7 @@ class Debug:
     @staticmethod
     def circle(
         center: Vector,
-        radius: int,
+        radius: int = 4,
         border: Color = Color.green,
         border_thickness: int = 1,
         fill: Optional[Color] = None
