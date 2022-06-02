@@ -156,6 +156,7 @@ class Vector:
         Returns:
             The resultant scalar magnitude of the orthogonal vector along an imaginary z-axis.
         """
+        # note using matrix determinant
         return self.x * other.y - self.y * other.x
 
     def perpendicular(self, scalar: float | int = 1, out: Vector = None) -> Vector:
