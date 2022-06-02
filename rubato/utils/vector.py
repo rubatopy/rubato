@@ -490,17 +490,26 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x**other.x, self.y**other.y)
 
+    def __ipow__(self, other: any) -> Vector:
+        return self.__pow__(other)
+
     def __mul__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
 
+    def __imul__(self, other: any) -> Vector:
+        return self.__mul__(other)
+
     def __add__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         if isinstance(other, Vector):
             return Vector(self.x + other.x, self.y + other.y)
+
+    def __iadd__(self, other: any) -> Vector:
+        return self.__add__(other)
 
     __rmul__ = __mul__
     __radd__ = __add__
@@ -514,6 +523,9 @@ class Vector:
     def __rsub__(self, other: any) -> Vector:
         return Vector(other - self.x, other - self.y)
 
+    def __isub__(self, other: any) -> Vector:
+        return self.__sub__(other)
+
     def __truediv__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
@@ -522,6 +534,21 @@ class Vector:
 
     def __rtruediv__(self, other: any) -> Vector:
         return Vector(other / self.x, other / self.y)
+
+    def __itruediv__(self, other: any) -> Vector:
+        return self.__truediv__(other)
+
+    def __floordiv__(self, other) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x // other, self.y // other)
+        if isinstance(other, Vector):
+            return Vector(self.x // other.x, self.y // other.y)
+
+    def __rfloordiv__(self, other: any) -> Vector:
+        return Vector(other // self.x, other // self.y)
+
+    def __ifloordiv__(self, other: any) -> Vector:
+        return self.__floordiv__(other)
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)

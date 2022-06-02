@@ -219,21 +219,43 @@ def test_str(v1):
 
 
 def test_math(v1, v34):
+    vc = v34.clone()
+    vc **= 3
+    assert vc == Vector(27, 64)
     assert v34**2 == Vector(9, 16)
     assert v34**v34 == Vector(27, 256)
 
+    vc = v34.clone()
+    vc *= 4
+    assert vc == Vector(12, 16)
     assert v1 * 2 == Vector(2, 2)
     assert 2 * v1 == Vector(2, 2)
     assert v34 * v1 == Vector(3, 4)
 
+    vc = v34.clone()
+    vc /= 2
+    assert vc == Vector(1.5, 2)
     assert v1 / 2 == Vector(0.5, 0.5)
     assert 2 / v1 == Vector(2, 2)
     assert v1 / v34 == Vector(1 / 3, 1 / 4)
 
+    vc = v34.clone()
+    vc //= 2
+    assert vc == Vector(1, 2)
+    assert v1 // 2 == Vector(0, 0)
+    assert 2 // v1 == Vector(2, 2)
+    assert v1 // v34 == Vector(0, 0)
+
+    vc = v34.clone()
+    vc += v1
+    assert vc == Vector(4, 5)
     assert v1 + v34 == Vector(4, 5)
     assert v1 + 2 == Vector(3, 3)
     assert 2 + v1 == Vector(3, 3)
 
+    vc = v34.clone()
+    vc -= v1
+    assert vc == Vector(2, 3)
     assert v1 - v34 == Vector(-2, -3)
     assert 2 - v1 == Vector(1, 1)
     assert v1 - 2 == Vector(-1, -1)
