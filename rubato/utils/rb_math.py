@@ -10,10 +10,12 @@ class Math:
 
     Attributes:
         INF (float): The max value of a float.
+        PI_HALF (float): The value of pi / 2.
+        PI_TWO (float): The value of pi * 2.
     """
     INF = float("inf")
     PI_HALF = math.pi / 2
-    PI_TWO = math.pi * 2
+    PI_TWO = math.tau
 
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:
