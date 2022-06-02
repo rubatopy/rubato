@@ -179,7 +179,7 @@ class Vector:
         return out
 
     def clamp(
-        self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
+            self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
     ):
         """
         Clamps x and y between the two values given.
@@ -491,8 +491,7 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x**other.x, self.y**other.y)
 
-    def __ipow__(self, other: any) -> Vector:
-        return self.__pow__(other)
+    __ipow__ = __pow__
 
     def __mul__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
@@ -500,17 +499,14 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
 
-    def __imul__(self, other: any) -> Vector:
-        return self.__mul__(other)
-
     def __add__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         if isinstance(other, Vector):
             return Vector(self.x + other.x, self.y + other.y)
 
-    def __iadd__(self, other: any) -> Vector:
-        return self.__add__(other)
+    __iadd__ = __add__
+    __imul__ = __mul__
 
     __rmul__ = __mul__
     __radd__ = __add__
@@ -524,8 +520,7 @@ class Vector:
     def __rsub__(self, other: any) -> Vector:
         return Vector(other - self.x, other - self.y)
 
-    def __isub__(self, other: any) -> Vector:
-        return self.__sub__(other)
+    __isub__ = __sub__
 
     def __truediv__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
@@ -536,10 +531,9 @@ class Vector:
     def __rtruediv__(self, other: any) -> Vector:
         return Vector(other / self.x, other / self.y)
 
-    def __itruediv__(self, other: any) -> Vector:
-        return self.__truediv__(other)
+    __itruediv__ = __truediv__
 
-    def __floordiv__(self, other) -> Vector:
+    def __floordiv__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x // other, self.y // other)
         if isinstance(other, Vector):
@@ -548,8 +542,18 @@ class Vector:
     def __rfloordiv__(self, other: any) -> Vector:
         return Vector(other // self.x, other // self.y)
 
-    def __ifloordiv__(self, other: any) -> Vector:
-        return self.__floordiv__(other)
+    __ifloordiv__ = __floordiv__
+
+    def __mod__(self, other: any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x % other, self.y % other)
+        if isinstance(other, Vector):
+            return Vector(self.x % other.x, self.y % other.y)
+
+    def __rmod__(self, other: any) -> Vector:
+        return Vector(other % self.x, other % self.y)
+
+    __imod__ = __mod__
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)
