@@ -156,6 +156,7 @@ class Vector:
         Returns:
             The resultant scalar magnitude of the orthogonal vector along an imaginary z-axis.
         """
+        # note using matrix determinant
         return self.x * other.y - self.y * other.x
 
     def perpendicular(self, scalar: float | int = 1, out: Vector = None) -> Vector:
@@ -178,7 +179,7 @@ class Vector:
         return out
 
     def clamp(
-        self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
+            self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
     ):
         """
         Clamps x and y between the two values given.
@@ -490,6 +491,8 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x**other.x, self.y**other.y)
 
+    __ipow__ = __pow__
+
     def __mul__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
@@ -501,6 +504,9 @@ class Vector:
             return Vector(self.x + other, self.y + other)
         if isinstance(other, Vector):
             return Vector(self.x + other.x, self.y + other.y)
+
+    __iadd__ = __add__
+    __imul__ = __mul__
 
     __rmul__ = __mul__
     __radd__ = __add__
@@ -514,6 +520,8 @@ class Vector:
     def __rsub__(self, other: any) -> Vector:
         return Vector(other - self.x, other - self.y)
 
+    __isub__ = __sub__
+
     def __truediv__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
@@ -522,6 +530,30 @@ class Vector:
 
     def __rtruediv__(self, other: any) -> Vector:
         return Vector(other / self.x, other / self.y)
+
+    __itruediv__ = __truediv__
+
+    def __floordiv__(self, other: any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x // other, self.y // other)
+        if isinstance(other, Vector):
+            return Vector(self.x // other.x, self.y // other.y)
+
+    def __rfloordiv__(self, other: any) -> Vector:
+        return Vector(other // self.x, other // self.y)
+
+    __ifloordiv__ = __floordiv__
+
+    def __mod__(self, other: any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x % other, self.y % other)
+        if isinstance(other, Vector):
+            return Vector(self.x % other.x, self.y % other.y)
+
+    def __rmod__(self, other: any) -> Vector:
+        return Vector(other % self.x, other % self.y)
+
+    __imod__ = __mod__
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)
