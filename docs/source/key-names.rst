@@ -6,6 +6,20 @@ Here is the list of all of the available key names. These names are used by ruba
 Note that names are case-sensitive.
 
 *******
+Mouse Buttons
+*******
+
+.. code-block:: python
+    :linenos:
+    :lineno-start: 1
+
+    "MOUSE1"  # left mouse button
+    "MOUSE2"  # middle mouse button
+    "MOUSE3"  # right mouse button
+    "MOUSE4"  # x1 mouse button
+    "MOUSE5"  # x2 mouse button
+
+*******
 Numbers
 *******
 
