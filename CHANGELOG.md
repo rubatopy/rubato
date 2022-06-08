@@ -18,12 +18,15 @@
 -   `Group.active` property. Boolean that controls whether the group is drawn and updated.
 -   `Color.random_default()` Allows to randomly choose from a set of default colors.
 -   `Debug` Added Debug module, that is called at the end of the game loop.
+-   `Debug` Now shows docstring in documentation.
 
 ### Changed
 
 -   `Math.sign()` now returns 0 for 0.
 -   `time` module renamed to `rb_time` to not conflict with the Python time module.
 -   `Draw` now has a default color of green.
+-   `os.walk` Each function with os.walk has a recursive option now. To allow you to choose between recursive and shallow.
+-   `window_pos` setting window_pos in init() now takes into account the border, so you set the topleft of the border.
 
 ### Removed
 
@@ -32,6 +35,7 @@
 -   `Vector.random_inside_unit_circle()` now actually returns a unit vector.
 -   Fixed all Vector functions that had an angle in them to use north-degrees properly.
 -   Added `Math.rad_to_north_deg()` and `Math.deg_to_north_rad()` to change accurately.
+-   Fixed `error.deprecated()` to require a replacement or else it didn't work.
 
 ## [v2.1.1] - May 10, 2022
 

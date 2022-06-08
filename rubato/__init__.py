@@ -88,7 +88,7 @@ def init(
         flags |= sdl2.SDL_WINDOW_SHOWN
 
     window_size = window_size.to_int()
-    window_pos = window_pos.to_int() if window_pos else None
+    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
     res = res.to_int()
 
     Display.window = sdl2.ext.Window(name, window_size.to_tuple(), window_pos.to_tuple() if window_pos else None, flags)
@@ -96,6 +96,9 @@ def init(
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.to_tuple()
     )
+
+    if change_pos:
+        Display.window_pos += Vector(0, Display.get_window_border_size()[0])
 
     if icon:
         Display.set_window_icon(icon)

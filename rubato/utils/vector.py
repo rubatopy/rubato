@@ -48,7 +48,7 @@ class Vector:
     @property
     def angle(self) -> float:
         """The angle of the vector in radians (readonly)."""
-        return -math.degrees(math.atan2(self.y, self.x) - Math.PI_HALF)
+        return -math.degrees(math.atan2(-self.y, self.x) - Math.PI_HALF)
 
     @property
     def rationalized_mag(self) -> str:
@@ -156,6 +156,7 @@ class Vector:
         Returns:
             The resultant scalar magnitude of the orthogonal vector along an imaginary z-axis.
         """
+        # note using matrix determinant
         return self.x * other.y - self.y * other.x
 
     def perpendicular(self, scalar: float | int = 1, out: Vector = None) -> Vector:
@@ -178,7 +179,7 @@ class Vector:
         return out
 
     def clamp(
-        self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
+            self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
     ):
         """
         Clamps x and y between the two values given.
@@ -359,14 +360,14 @@ class Vector:
 
         Args:
             magnitude: Length of vector.
-            angle: Direction of vector in degrees.
+            angle: Direction of vector in North degrees.
 
         Returns:
             Vector from the given direction and distance
         """
-        radians = math.radians(angle)
+        radians = math.radians(-(angle - 90))
 
-        return Vector(round(math.sin(radians), 10) * magnitude, round(math.cos(radians), 10) * magnitude)
+        return Vector(round(math.cos(radians), 10) * magnitude, -round(math.sin(radians), 10) * magnitude)
 
     @staticmethod
     def clamp_magnitude(vector: Vector, max_magnitude: float, min_magnitude: float = 0) -> Vector:
@@ -490,6 +491,8 @@ class Vector:
         if isinstance(other, Vector):
             return Vector(self.x**other.x, self.y**other.y)
 
+    __ipow__ = __pow__
+
     def __mul__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
@@ -501,6 +504,9 @@ class Vector:
             return Vector(self.x + other, self.y + other)
         if isinstance(other, Vector):
             return Vector(self.x + other.x, self.y + other.y)
+
+    __iadd__ = __add__
+    __imul__ = __mul__
 
     __rmul__ = __mul__
     __radd__ = __add__
@@ -514,6 +520,8 @@ class Vector:
     def __rsub__(self, other: any) -> Vector:
         return Vector(other - self.x, other - self.y)
 
+    __isub__ = __sub__
+
     def __truediv__(self, other: any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
@@ -522,6 +530,30 @@ class Vector:
 
     def __rtruediv__(self, other: any) -> Vector:
         return Vector(other / self.x, other / self.y)
+
+    __itruediv__ = __truediv__
+
+    def __floordiv__(self, other: any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x // other, self.y // other)
+        if isinstance(other, Vector):
+            return Vector(self.x // other.x, self.y // other.y)
+
+    def __rfloordiv__(self, other: any) -> Vector:
+        return Vector(other // self.x, other // self.y)
+
+    __ifloordiv__ = __floordiv__
+
+    def __mod__(self, other: any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x % other, self.y % other)
+        if isinstance(other, Vector):
+            return Vector(self.x % other.x, self.y % other.y)
+
+    def __rmod__(self, other: any) -> Vector:
+        return Vector(other % self.x, other % self.y)
+
+    __imod__ = __mod__
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)
