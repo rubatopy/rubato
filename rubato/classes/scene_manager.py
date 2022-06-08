@@ -82,7 +82,8 @@ class SceneManager:
 
         if scene_id in cls.scenes:
             del cls.scenes[scene_id]
-            cls._current = ""
+            if len(cls.scenes) == 0:
+                cls._current = ""
         else:
             raise IdError(f"The scene id {scene_id} is not in this manager")
 
