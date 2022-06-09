@@ -13,10 +13,7 @@ def test_properties(rub):
     # pylint: disable=unused-argument, comparison-with-callable
     assert Display.window_size == Vector(int(os.getenv("WINDOW_X")), int(os.getenv("WINDOW_Y")))
     assert Display.res == Vector(int(os.getenv("RES_X")), int(os.getenv("RES_Y")))
-    assert Display.window_pos == Vector(
-        int(os.getenv("WINDOW_POS_X")),
-        int(os.getenv("WINDOW_POS_Y")) + Display.get_window_border_size()[0]
-    )
+
     assert Display.window_name == os.getenv("WINDOW_NAME")
 
     assert Display.display_ratio == Vector(int(os.getenv("RES_X")), int(os.getenv("RES_Y"))) / \

@@ -30,7 +30,6 @@ def rub():
         window_size=Vector(int(os.getenv("WINDOW_X")), int(os.getenv("WINDOW_Y"))),
         res=Vector(int(os.getenv("RES_X")), int(os.getenv("RES_Y"))),
         hidden=True,
-        window_pos=Vector(int(os.getenv("WINDOW_POS_X")), int(os.getenv("WINDOW_POS_Y"))),
     )
     yield
     sdl2.sdlttf.TTF_Quit()
