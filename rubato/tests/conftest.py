@@ -1,4 +1,6 @@
 """Global Fixtures needed in multiple tests"""
+import os
+from dotenv import load_dotenv
 import pytest
 import sdl2
 import sdl2.ext
@@ -11,9 +13,9 @@ from rubato.utils.vector import Vector
 def sdl():
     """Initialize SDL2"""
     sdl2.SDL_ClearError()
-    ret = sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO | sdl2.SDL_INIT_TIMER)
+    res = sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO | sdl2.SDL_INIT_TIMER)
     assert sdl2.SDL_GetError() == b""
-    assert ret == 0
+    assert res == 0
     yield
     sdl2.SDL_Quit()
 
@@ -21,12 +23,14 @@ def sdl():
 @pytest.fixture()
 def rub():
     """Initialize Rubato"""
-    # pylint: disable=unused-argument
+    load_dotenv()
+
     rubato.init(
-        window_size=Vector(200, 100),
-        res=Vector(400, 200),
+        name=os.getenv("WINDOW_NAME"),
+        window_size=Vector(int(os.getenv("WINDOW_X")), int(os.getenv("WINDOW_Y"))),
+        res=Vector(int(os.getenv("RES_X")), int(os.getenv("RES_Y"))),
         hidden=True,
-        window_pos=Vector(0, 0),
+        window_pos=Vector(int(os.getenv("WINDOW_POS_X")), int(os.getenv("WINDOW_POS_Y"))),
     )
     yield
     sdl2.sdlttf.TTF_Quit()

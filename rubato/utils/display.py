@@ -10,6 +10,7 @@ import os
 
 from . import Vector, get_path
 
+
 class DisplayProperties(type):
     """
     Defines static property methods for Display.
@@ -82,6 +83,22 @@ class DisplayProperties(type):
     def window_name(cls, new: str):
         cls.window.title = new
 
+
+class Display(metaclass=DisplayProperties):
+    """
+    A static class that houses all of the display information
+
+    Attributes:
+        window (sdl2.Window): The pysdl2 window element.
+        renderer (sdl2.Renderer): The pysdl2 renderer element.
+        format (sdl2.PixelFormat): The pysdl2 pixel format element.
+    """
+
+    window: sdl2.ext.Window = None
+    renderer: sdl2.ext.Renderer = None
+    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
+
+    @classmethod
     @property
     def display_ratio(cls) -> Vector:
         """The ratio of the renderer resolution to the window size. This is a read-only property.
@@ -91,6 +108,7 @@ class DisplayProperties(type):
         """
         return cls.res / cls.window_size
 
+    @classmethod
     @property
     def border_size(cls) -> int:
         """The size of the black border on either side of the drawing area when the aspect ratios don't match."""
@@ -107,6 +125,7 @@ class DisplayProperties(type):
             return round((cls.window_size.y - cls.window_size.y / rat) / 2)
         return 0
 
+    @classmethod
     @property
     def has_x_border(cls) -> bool:
         """Whether or not the window has a black border on the left or right side."""
@@ -115,6 +134,7 @@ class DisplayProperties(type):
 
         return render_rat > window_rat
 
+    @classmethod
     @property
     def has_y_border(cls) -> bool:
         """Whether or not the window has a black border on the top or bottom."""
@@ -122,21 +142,6 @@ class DisplayProperties(type):
         window_rat = cls.window_size.y / cls.window_size.x
 
         return render_rat < window_rat
-
-
-class Display(metaclass=DisplayProperties):
-    """
-    A static class that houses all of the display information
-
-    Attributes:
-        window (sdl2.Window): The pysdl2 window element.
-        renderer (sdl2.Renderer): The pysdl2 renderer element.
-        format (sdl2.PixelFormat): The pysdl2 pixel format element.
-    """
-
-    window: sdl2.ext.Window = None
-    renderer: sdl2.ext.Renderer = None
-    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
 
     @classmethod
     def set_window_icon(cls, path: str):

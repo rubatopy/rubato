@@ -88,7 +88,7 @@ def init(
         flags |= sdl2.SDL_WINDOW_SHOWN
 
     window_size = window_size.to_int()
-    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
+    window_pos, change_pos = (window_pos.to_int(), True) if window_pos else (None, False)
     res = res.to_int()
 
     Display.window = sdl2.ext.Window(name, window_size.to_tuple(), window_pos.to_tuple() if window_pos else None, flags)
