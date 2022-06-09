@@ -125,9 +125,14 @@ def test_clone(monkeypatch):
 
 
 @pytest.mark.rub
-def test_border_size(rub):
+def test_border_size(rub, monkeypatch):
     # pylint: disable=unused-argument
-    assert Display.get_window_border_size() == (31, 8, 8, 8)
+    sdl_mock = Mock()
+    monkeypatch.setattr("rubato.utils.display.sdl2", sdl_mock)
+    sizes = Display.get_window_border_size()
+    assert isinstance(sizes, tuple)
+    assert len(sizes) == 4
+    sdl_mock.SDL_GetWindowBordersSize.assert_called_once()
 
 
 def test_save_screenshot(monkeypatch):
