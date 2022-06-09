@@ -23,7 +23,7 @@ def sdl():
 @pytest.fixture()
 def rub():
     """Initialize Rubato"""
-    load_dotenv()
+    load_dotenv("rubato/tests/tests.env")
 
     rubato.init(
         name=os.getenv("WINDOW_NAME"),
