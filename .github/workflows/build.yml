@@ -76,6 +76,7 @@ jobs:
                   files: ./coverage.xml
                   fail_ci_if_error: true
                   verbose: true
+                  name: ${{ github.event.head_commit.message }}
 
     lint:
         name: Lint
