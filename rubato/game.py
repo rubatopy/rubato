@@ -117,11 +117,11 @@ class Game(metaclass=GameProperties):
         for event in sdl2.ext.get_events():
             sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
-                Radio.broadcast(Events.ZOOM)
+                Radio.broadcast(Events.EXIT)
                 sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
                 sys.exit()
-            if event.type == sdl2.SDL_WINDOWEVENT:
+            elif event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     Radio.broadcast(
                         Events.RESIZE, {
@@ -135,7 +135,7 @@ class Game(metaclass=GameProperties):
                         event.window.data1,
                         event.window.data2,
                     )
-            if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
+            elif event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
                 key_info, unicode = event.key.keysym, ""
                 with suppress(ValueError):
                     unicode = chr(key_info.sym)
@@ -154,8 +154,7 @@ class Game(metaclass=GameProperties):
                         "mods": key_info.mod,
                     },
                 )
-
-            if event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
+            elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
                 mouse_button = None
                 if event.button.state == sdl2.SDL_BUTTON_LEFT:
                     mouse_button = "mouse 1"

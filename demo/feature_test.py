@@ -22,9 +22,20 @@ rb.Game.debug = True
 # rb.Debug.rect()
 main = rb.Scene()
 
+def mouse_update(params):
+    pass
+    # print(params)
+    if params["mouse_button"] == "BUTTON_LEFT":
+        print("left")
+
+rb.Radio.listen(rb.Events.MOUSEDOWN, mouse_update)
 def update():
-    if rb.Input.mouse_is_pressed():
+    if rb.Input.mouse_pressed():
+        print("hi")
         rb.Debug.circle(rb.Input.get_mouse_pos())
+        rect = rb.GameObject(pos=rb.Input.get_mouse_pos())
+        rect.add(rb.Component())
+        main.add(rect)
 def draw():
     rb.Debug.rect(rb.Display.top_left, 20, 20, fill=rb.Color.black)
 main.update = update
