@@ -40,13 +40,13 @@ class Input:
     @classmethod
     def key_pressed(cls, *keys: str) -> bool:
         """
-        Checks if keys are pressed.
+        Checks if keys are pressed. Case insensitive.
 
         Args:
             *keys: The names of the keys to check.
 
         Returns:
-            bool: Whether or not the keys are pressed.
+            bool: Whether the keys are pressed.
 
         Example:
             .. code-block:: python
