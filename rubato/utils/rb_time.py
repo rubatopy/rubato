@@ -36,9 +36,9 @@ class Time():
 
     sorted_task_times: List[TimerTask] = []
 
-    delta_time: int = 0.01
-    fixed_delta: int = 0
-    normal_delta: int = 0
+    delta_time: float = 0.001
+    fixed_delta: float = 0
+    normal_delta: float = 0
     fps = 60
 
     physics_counter = 0

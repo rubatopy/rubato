@@ -205,7 +205,7 @@ def update():
 def fixed_update():
     # have the camera follow the player
     camera_ideal = max(0, min(player.pos.x - rb.Display.res.x / 4, level_size - rb.Display.res.x))
-    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.sec_to_milli(rb.Time.fixed_delta / 400))
+    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
 
 
 # set the scene's update function
