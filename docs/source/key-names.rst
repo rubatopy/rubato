@@ -102,6 +102,25 @@ Modifier Keys
 
     "altgr"
 
+**************************
+Common
+**************************
+
+.. code-block:: python
+    :linenos:
+    :lineno-start: 156
+
+    "up"  # the up arrow key
+    "down" # the down arrow key
+    "left"  # the left arrow key
+    "right"  # the right arrow key
+
+    "backspace"
+    "delete"
+    "escape"
+    "return"
+    "space"
+    "tab"
 
 **************
 Function Keys
@@ -135,8 +154,6 @@ Function Keys
     "f22"
     "f23"
     "f24"
-
-
 
 ******************
 Special Characters
@@ -245,24 +262,12 @@ Application Control Keypad
     "ac stop"
 
 **************************
-Other Common
+Uncommon
 **************************
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 156
-
-    "up"  # the up arrow key
-    "down" # the down arrow key
-    "left"  # the left arrow key
-    "right"  # the right arrow key
-
-    "backspace"
-    "delete"
-    "escape"
-    "return"
-    "space"
-    "tab"
+    :lineno-start: 197
 
     "audiomute"
     "audionext"
@@ -293,15 +298,6 @@ Other Common
 
     "pause"  # the pause / break key
     "printscreen"
-
-**************************
-Other Uncommon
-**************************
-
-.. code-block:: python
-    :linenos:
-    :lineno-start: 197
-
 
     "again"
     "alterase" # erase-eaze
