@@ -1,10 +1,14 @@
 """A static draw class for drawing things directly to the renderer."""
+from __future__ import annotations
+from typing import List, Optional#, TYPE_CHECKING
+
 from ctypes import c_int16
-from typing import List, Optional
 import sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
-
 from . import Vector, Color, Font, Display
+
+# if TYPE_CHECKING:
+#     from .. import GameObject, Rectangle
 
 
 class Draw:
@@ -69,6 +73,17 @@ class Draw:
         real = [(center + v).to_int() for v in trans]
 
         Draw.poly(real, border, border_thickness, fill)
+
+    # @staticmethod
+    # def rect_from_collider(
+    #     go_with_rect: GameObject,
+    #     border: Color = Color.green,
+    #     border_thickness: int = 1,
+    #     fill: Optional[Color] = None):  #TODO: Get Rectangle Component w/out circular import
+    #
+    #     rect = go_with_rect.get(Rectangle)
+    #     Draw.rect(go_with_rect.pos + rect.offset, rect.width, rect.height, border, border_thickness, fill,
+    #               rect.rotation_offset)
 
     @staticmethod
     def circle(
