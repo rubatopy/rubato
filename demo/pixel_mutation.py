@@ -39,7 +39,9 @@ class WanderingImage(rb.Component):
     def update(self):
         ranx = random.random() * 2 - 1
         rany = random.random() * 2 - 1
-        self.gameobj.pos = self.gameobj.pos.lerp(self.gameobj.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 0.05)
+        self.gameobj.pos = self.gameobj.pos.lerp(
+            self.gameobj.pos + rb.Vector(ranx, rany), rb.Time.sec_to_milli(rb.Time.delta_time * 0.05)
+        )
         self.image.rotation_offset += 1
         self.image.scale += rb.Vector(ranx / 1000, rany / 1000)
 
@@ -74,7 +76,7 @@ class WanderingPixelMutation(rb.GameObject):
         super().update()
         ranx = random.random() * 2 - 1
         rany = random.random() * 2 - 1
-        self.pos = self.pos.lerp(self.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 0.05)
+        self.pos = self.pos.lerp(self.pos + rb.Vector(ranx, rany), rb.Time.sec_to_milli(rb.Time.delta_time * 0.05))
 
         if rb.Input.key_pressed("k"):
             rb.Display.save_screenshot("pixel_mutation")

@@ -232,7 +232,7 @@ class Game(metaclass=GameProperties):
 
         # use delay to cap the fps if need be
         if Time.capped:
-            delay = Time.normal_delta - Time.delta_time
+            delay = Time.normal_delta - Time.sec_to_milli(Time.delta_time)
             if delay > 0:
                 sdl2.SDL_Delay(int(delay))
 
@@ -242,4 +242,4 @@ class Game(metaclass=GameProperties):
             sdl2.SDL_Delay(1)
 
         # clock the time the update call took
-        Time.delta_time = sdl2.SDL_GetTicks64() - frame_start
+        Time.delta_time = Time.milli_to_sec(sdl2.SDL_GetTicks64() - frame_start)

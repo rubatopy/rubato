@@ -204,11 +204,11 @@ class RigidBody(Component):
 
     def physics(self):
         """Applies general kinematic laws to the rigidbody."""
-        self.velocity += self.gravity * Time.milli_to_sec(Time.fixed_delta)
+        self.velocity += self.gravity * Time.fixed_delta
         self.velocity.clamp(-self.max_speed, self.max_speed)
 
-        self.gameobj.pos += self.velocity * Time.milli_to_sec(Time.fixed_delta)
-        self.gameobj.rotation += self.ang_vel * Time.milli_to_sec(Time.fixed_delta)
+        self.gameobj.pos += self.velocity * Time.fixed_delta
+        self.gameobj.rotation += self.ang_vel * Time.fixed_delta
 
     def add_force(self, force: Vector):
         """
@@ -219,7 +219,7 @@ class RigidBody(Component):
         """
         accel = force * self.inv_mass
 
-        self.velocity += accel * Time.milli_to_sec(Time.fixed_delta)
+        self.velocity += accel * Time.fixed_delta
 
     def add_impulse(self, impulse: Vector):
         """
@@ -228,7 +228,7 @@ class RigidBody(Component):
         Args:
             impulse (Vector): _description_
         """
-        self.velocity += impulse * Time.milli_to_sec(Time.fixed_delta)
+        self.velocity += impulse * Time.fixed_delta
 
     def add_cont_force(self, force: Vector, time: int):
         """
@@ -244,7 +244,7 @@ class RigidBody(Component):
             return
         else:
             self.add_force(force)
-            Time.delayed_frames(1, lambda: self.add_cont_force(force, time - Time.delta_time))
+            Time.delayed_frames(1, lambda: self.add_cont_force(force, time - Time.sec_to_milli(Time.delta_time)))
 
     def add_cont_impulse(self, impulse: Vector, time: int):
         """
@@ -260,7 +260,7 @@ class RigidBody(Component):
             return
         else:
             self.add_impulse(impulse)
-            Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - Time.delta_time))
+            Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - Time.sec_to_milli(Time.delta_time)))
 
     def setup(self):
         self.calc_mass_and_moment()
