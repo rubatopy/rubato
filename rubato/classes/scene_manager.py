@@ -8,7 +8,6 @@ from . import Scene
 from .. import IdError
 
 
-# THIS IS A STATIC CLASS
 class SceneManager:
     """
     The Scene Manager contains and handle multiple scenes.
@@ -73,13 +72,6 @@ class SceneManager:
             scene_id (str): The id of the new scene.
         """
         cls._current = scene_id
-
-    @classmethod
-    def setup(cls):
-        """Calls the setup function of the current scene."""
-        if cls.is_empty():
-            return
-        cls.current.private_setup()
 
     @classmethod
     def draw(cls):
