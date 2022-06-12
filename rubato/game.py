@@ -117,7 +117,7 @@ class Game(metaclass=GameProperties):
         for event in sdl2.ext.get_events():
             sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
-                Radio.broadcast(Events.ZOOM)
+                Radio.broadcast(Events.EXIT)
                 sdl2.sdlttf.TTF_Quit()
                 sdl2.SDL_Quit()
                 sys.exit()

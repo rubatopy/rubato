@@ -13,11 +13,11 @@ Mouse Buttons
     :linenos:
     :lineno-start: 1
 
-    "MOUSE1"  # left mouse button
-    "MOUSE2"  # middle mouse button
-    "MOUSE3"  # right mouse button
-    "MOUSE4"  # x1 mouse button
-    "MOUSE5"  # x2 mouse button
+    "mouse 1"  # left mouse button
+    "mouse 2"  # middle mouse button
+    "mouse 3"  # right mouse button
+    "mouse 4"  # x1 mouse button
+    "mouse 5"  # x2 mouse button
 
 *******
 Numbers
