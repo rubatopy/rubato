@@ -5,7 +5,7 @@ import rubato as rb
 from rubato import Vector
 
 size = Vector(400, 300)
-rb.init(res=size, window_size=size / 2)
+rb.init(res=size, window_size=size * 2)
 
 main_scene = rb.Scene()
 
@@ -17,10 +17,13 @@ class Player(rb.Component):
         """
         Here you set up all the variables of the component.
         """
+        # you must call super().__init__()
         super().__init__()
+
+        # assign args to attributes
         self.color = color
 
-        # setting all your attributes to None is not required, but does make the code explicit.
+        # setting all your attributes to None is not required, but does make the code explicit. Goes in setup.
         self.circle = None
         self.name = None
 
@@ -40,6 +43,14 @@ class Player(rb.Component):
         if rb.Input.mouse_pressed():
             self.circle.color = rb.Color.random()
             self.gameobj.pos = rb.Input.get_mouse_pos()
+
+    def draw(self, camera):
+        """
+        You can create a draw function that will be called once per frame. You will most likely not use the camera.
+        """
+        rb.Debug.circle(Vector(10, 10), 10, self.color)
+        rb.Debug.circle(Vector(50, 10), 10, self.color)
+        rb.Debug.line(Vector(10, 40), Vector(50, 40), self.color)
 
 
 player_data = Player(rb.Color.red)
