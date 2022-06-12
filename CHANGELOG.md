@@ -9,6 +9,7 @@
 -   `Vector.from_radial` now matches the angle format described above and takes in an angle in degrees
 -   `Vector.angle_between` now returns the angle in degrees.
 -   `Color.random` now a function and not property. -> `Color.random()`
+-   `Time.delta_time` and `Time.fixed_delta` are now in seconds instead of milliseconds
 
 ### Added
 
