@@ -244,7 +244,7 @@ class RigidBody(Component):
             return
         else:
             self.add_force(force)
-            Time.delayed_frames(1, lambda: self.add_cont_force(force, time - Time.sec_to_milli(Time.delta_time)))
+            Time.delayed_frames(1, lambda: self.add_cont_force(force, time - (1000 * Time.delta_time)))
 
     def add_cont_impulse(self, impulse: Vector, time: int):
         """
@@ -260,7 +260,7 @@ class RigidBody(Component):
             return
         else:
             self.add_impulse(impulse)
-            Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - Time.sec_to_milli(Time.delta_time)))
+            Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - (1000 * Time.delta_time)))
 
     def setup(self):
         self.calc_mass_and_moment()

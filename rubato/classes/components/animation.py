@@ -243,7 +243,7 @@ class Animation(Component):
 
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
-        self._time_count += Time.sec_to_milli(Time.delta_time)
+        self._time_count += 1000 * Time.delta_time
 
         while self._time_count > self._time_step:
             self.anim_tick()
