@@ -27,6 +27,7 @@ class Scene:
         self.camera = Camera()
         self._ui_cam = Camera()
         self.id: str = name
+        self.started = False
 
         Game.scenes.add(self, name)
 
@@ -74,6 +75,9 @@ class Scene:
         self.ui.draw(self._ui_cam)
 
     def private_update(self):
+        if not self.started:
+            self.private_setup()
+
         self.update()
         self.root.update()
         self.ui.update()
@@ -84,9 +88,8 @@ class Scene:
         self.ui.fixed_update()
 
     def private_setup(self):
+        self.started = True
         self.setup()
-        self.root.setup()
-        self.ui.setup()
 
     def setup(self):
         """

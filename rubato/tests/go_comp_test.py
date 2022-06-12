@@ -109,12 +109,10 @@ def test_get(go, comp):
 def test_pass_on_funcs(go, comp):
     go.add(comp)
     go.delete()
-    go.setup()
     go.update()
     go.fixed_update()
 
     comp.delete.assert_called_once()
-    comp.setup.assert_called_once()
     comp.update.assert_called_once()
     comp.fixed_update.assert_called_once()
 
