@@ -5,9 +5,9 @@ Key Names
 Here is the list of all of the available key names. These names are used by rubato to identify pressed keys and are passed to the key parameter for :doc:`key events <events>`.
 Note that names are case-sensitive.
 
-*******
+*************
 Mouse Buttons
-*******
+*************
 
 .. code-block:: python
     :linenos:
