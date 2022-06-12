@@ -186,7 +186,7 @@ def test_clear():
 def test_random(monkeypatch):
     random = Random(1)
     monkeypatch.setattr("rubato.utils.color.randint", random.randint)
-    c = Color.random
+    c = Color.random()
     assert c.r == 68
     assert c.g == 32
     assert c.b == 130

@@ -2,8 +2,10 @@
 Custom Component demo.
 """  # pylint: disable=all
 import rubato as rb
+from rubato import Vector
 
-rb.init()
+size = Vector(400, 300)
+rb.init(res=size, window_size=size / 2)
 
 main_scene = rb.Scene()
 
@@ -35,7 +37,7 @@ class Player(rb.Component):
         """
         You can create an update that will be called once per frame
         """
-        if rb.Input.mouse_is_pressed()[0]:
+        if rb.Input.mouse_pressed():
             self.circle.color = rb.Color.random()
             self.gameobj.pos = rb.Input.get_mouse_pos()
 
