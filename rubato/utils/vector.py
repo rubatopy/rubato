@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Iterator
 import math, random
 
-from . import Math
+from . import Math, deprecated
 
 
 class Vector:
@@ -99,7 +99,7 @@ class Vector:
             return f"<{num_dem1.x}/{num_dem1.y}, {num_dem2.x}/{num_dem2.y}>"
         return f"<{num_dem1.x}/{num_dem1.y}√{mag.y}, {num_dem2.x}/{num_dem2.y}√{mag.y}>"
 
-    def unit(self, out: Vector = None) -> Vector:
+    def normalized(self, out: Vector = None) -> Vector:
         """
         Determines the unit vector of this vector.
 
@@ -121,6 +121,20 @@ class Vector:
         out.x, out.y = round(self.x * inv_mag, 10), round(self.y * inv_mag, 10)
 
         return out
+
+    @deprecated(normalized)
+    def unit(self, out: Vector = None) -> Vector:
+        """
+        Determines the unit vector of this vector.
+
+        Args:
+            out (Vector, optional): The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
+        Returns:
+            Vector: The vector output of the operation.
+        """
+        return self.normalized(out)
 
     def normalize(self):
         """

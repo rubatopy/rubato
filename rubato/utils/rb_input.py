@@ -8,7 +8,7 @@ from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display, deprecated
+from . import Vector, Display, deprecated, Math
 
 
 class Input:
@@ -224,14 +224,14 @@ class Input:
         sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
 
         x_render, y_render = c_float(0), c_float(0)
+        size = Display.border_size
+        if Display.has_x_border:
+            x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
+        elif Display.has_y_border:
+            y_window.value = Math.clamp(y_window.value, size, Display.window_size.y - size)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
-        # size = Display.border_size
-        # if Display.has_x_border:
-        #     x_window.value = min(max(x_window.value, size), Display.window_size.x + size) - size
-        # elif Display.has_y_border:
-        #     y_window.value = min(max(y_window.value, size), Display.window_size.y + size) - size
-        return Vector(x_render.value, y_render.value).clamp(Vector(0, 0), Display.window_size)
+        return Vector(x_render.value, y_render.value)
 
     @staticmethod
     def get_mouse_abs_pos() -> Vector:

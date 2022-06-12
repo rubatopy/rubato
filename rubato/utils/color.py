@@ -273,7 +273,6 @@ class Color:
         return cls(*((x, t, p), (q, x, p), (p, x, t), (p, q, x), (t, p, x), (x, p, q), (x, p, q))[i], a * 255)
 
     @classmethod
-    @property
     def random(cls) -> Color:
         """A random color."""
         return Color(randint(0, 255), randint(0, 255), randint(0, 255))

@@ -38,6 +38,13 @@ class ComponentNotAllowed(Exception):
     pass
 
 
+class ImplementationError(Exception):
+    """
+    An error that is raised when you incorrectly implement something in rubato.
+    """
+    pass
+
+
 class RemovalWarning(DeprecationWarning):
     """
     A warning that is raised when you try to use a removed function.
