@@ -83,10 +83,10 @@ class Slider(Component):
             self.button.hover = False
             self.button.onexit()
 
-        if (not self.button.pressed) and Input.mouse_is_pressed()[0] and self.button.hover:
+        if (not self.button.pressed) and Input.mouse_state()[0] and self.button.hover:
             self.button.pressed = True
             self.button.onclick()
-        elif self.button.pressed and not Input.mouse_is_pressed()[0]:
+        elif self.button.pressed and not Input.mouse_state()[0]:
             self.button.pressed = False
             self.button.onrelease()
         # end custom button update

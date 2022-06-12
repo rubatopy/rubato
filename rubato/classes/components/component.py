@@ -35,14 +35,25 @@ class Component:
         self.singular: bool = False
         self.offset: Vector = offset
         self.rotation_offset: float = rot_offset
+        self.started = False
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""
         pass
 
+    def private_update(self):
+        if not self.started:
+            self.private_setup()
+
+        self.update()
+
     def update(self):
         """The update function template for a component subclass."""
         pass
+
+    def private_setup(self):
+        self.started = True
+        self.setup()
 
     def setup(self):
         """The setup function template for a component subclass."""

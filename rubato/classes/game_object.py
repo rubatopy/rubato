@@ -159,11 +159,6 @@ class GameObject:
             for comp in comps:
                 comp.delete()
 
-    def setup(self):
-        for comps in self._components.values():
-            for comp in comps:
-                comp.setup()
-
     def draw(self, camera: Camera):
         for comps in self._components.values():
             for comp in comps:
@@ -184,7 +179,7 @@ class GameObject:
     def update(self):
         for comps in self._components.values():
             for comp in comps:
-                comp.update()
+                comp.private_update()
 
     def fixed_update(self):
         for comps in self._components.values():

@@ -34,7 +34,7 @@ def test_init(group):
 
 
 def test_add(monkeypatch, group, go):
-    monkeypatch.setattr("rubato.classes.group.Game._state", 1)
+    monkeypatch.setattr("rubato.game.Game._state", 1)
     group.add(go)
     assert go in group.game_objects
 
@@ -68,12 +68,10 @@ def test_pass_on_funcs(group, go):
     g = Group()
     group.add(g)
 
-    group.setup()
     group.update()
     c = Camera()
     group.draw(c)
 
-    go.setup.assert_called_once()
     go.update.assert_called_once()
     go.draw.assert_called_once_with(c)
 
