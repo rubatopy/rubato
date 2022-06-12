@@ -11,7 +11,6 @@ Mouse Buttons
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 1
 
     "mouse 1"  # left mouse button
     "mouse 2"  # middle mouse button
@@ -19,13 +18,59 @@ Mouse Buttons
     "mouse 4"  # x1 mouse button
     "mouse 5"  # x2 mouse button
 
+**************************
+Common
+**************************
+
+.. code-block:: python
+    :linenos:
+
+    "up"  # the up arrow key
+    "down" # the down arrow key
+    "left"  # the left arrow key
+    "right"  # the right arrow key
+
+    "backspace"
+    "delete"
+    "escape"
+    "return"
+    "space"
+    "tab"
+
+**************
+Modifier Keys
+**************
+
+.. code-block:: python
+    :linenos:
+
+    "shift" # any shift is down
+    "left shift"
+    "right shift"
+
+    "alt" # any alt is down
+    "left alt"
+    "right alt"
+
+    "ctrl" # any ctrl is down
+    "left ctrl"
+    "right ctrl"
+
+    "gui" # any gui is down
+    "left gui" # windows, command apple, meta
+    "right gui" # windows, command apple, meta
+
+    "numlock"
+    "caps lock"
+
+    "altgr"
+
 *******
 Numbers
 *******
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 1
 
     "0"
     "1"
@@ -44,8 +89,8 @@ Letters
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 11
 
+    # Test case sensitive
     "a"
     "b"
     "c"
@@ -74,61 +119,11 @@ Letters
     "z"
 
 **************
-Modifier Keys
-**************
-
-.. code-block:: python
-    :linenos:
-    :lineno-start: 37
-
-    "shift" # any shift is down
-    "left shift"
-    "right shift"
-
-    "alt" # any alt is down
-    "left alt"
-    "right alt"
-
-    "ctrl" # any ctrl is down
-    "left ctrl"
-    "right ctrl"
-
-    "gui" # any gui is down
-    "left gui" # windows, command apple, meta
-    "right gui" # windows, command apple, meta
-
-    "numlock"
-    "caps lock"
-
-    "altgr"
-
-**************************
-Common
-**************************
-
-.. code-block:: python
-    :linenos:
-    :lineno-start: 156
-
-    "up"  # the up arrow key
-    "down" # the down arrow key
-    "left"  # the left arrow key
-    "right"  # the right arrow key
-
-    "backspace"
-    "delete"
-    "escape"
-    "return"
-    "space"
-    "tab"
-
-**************
 Function Keys
 **************
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 56
 
     "f1"
     "f2"
@@ -161,7 +156,6 @@ Special Characters
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 80
 
     "'"
     "\"
@@ -181,7 +175,6 @@ Numerical Keypad
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 90
 
     "keypad -"
     "keypad ,"
@@ -250,8 +243,6 @@ Application Control Keypad
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 149
-
 
     "ac back"
     "ac bookmarks"
@@ -267,7 +258,6 @@ Uncommon
 
 .. code-block:: python
     :linenos:
-    :lineno-start: 197
 
     "audiomute"
     "audionext"
