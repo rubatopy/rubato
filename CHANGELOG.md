@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+
+### Breaking Changes
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v2.2.0] - June 12, 2022
 
 ### Breaking Changes
