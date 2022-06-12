@@ -1,6 +1,6 @@
 """
 Custom Component demo.
-"""  # pylint: disable=all
+"""
 import rubato as rb
 from rubato import Vector
 
@@ -13,6 +13,7 @@ player = rb.GameObject("red dot", rb.Display.center)
 
 
 class Player(rb.Component):
+    """Custom Player Component"""
     def __init__(self, color):
         """
         Here you set up all the variables of the component.
@@ -30,7 +31,7 @@ class Player(rb.Component):
     def setup(self):
         """
         Here you have access to the GameObject of the component.
-        Run the first time it updates.
+        Run before the first update.
         """
         self.circle = self.gameobj.get(rb.Circle)
         self.circle.color = self.color
@@ -38,7 +39,7 @@ class Player(rb.Component):
 
     def update(self):
         """
-        You can create an update that will be called once per frame
+        Called once per frame. Before the draw function.
         """
         if rb.Input.mouse_pressed():
             self.circle.color = rb.Color.random()
@@ -46,7 +47,7 @@ class Player(rb.Component):
 
     def draw(self, camera):
         """
-        You can create a draw function that will be called once per frame. You will most likely not use the camera.
+        Called once per frame. You will most likely not use the camera.
         """
         rb.Debug.circle(Vector(10, 10), 10, self.color)
         rb.Debug.circle(Vector(50, 10), 10, self.color)
