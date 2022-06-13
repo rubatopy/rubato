@@ -27,8 +27,8 @@ class Time():
             Defaults to 0.
         physics_fps (float): The fps that the physics should run at. Defaults to 60.
 
-        delta_time (int): The number of milliseconds since the last frame.
-        fixed_delta (int): The number of milliseconds since the last fixed update.
+        delta_time (int): The number of seconds since the last frame.
+        fixed_delta (int): The number of seconds since the last fixed update.
     """
 
     frames = 0
@@ -36,9 +36,9 @@ class Time():
 
     sorted_task_times: List[TimerTask] = []
 
-    delta_time: int = 1
-    fixed_delta: int = 0
-    normal_delta: int = 0
+    delta_time: float = 0.001
+    fixed_delta: float = 0
+    normal_delta: float = 0
     fps = 60
 
     physics_counter = 0
@@ -115,7 +115,7 @@ class Time():
     def process_calls(cls):
         """Processes the delayed function call as needed"""
         cls.frames += 1
-        cls.fps = 1000 / cls.delta_time
+        cls.fps = 1 / cls.delta_time
 
         del cls._past_fps[0]
         cls._past_fps.append(cls.fps)
