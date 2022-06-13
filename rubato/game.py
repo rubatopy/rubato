@@ -98,7 +98,10 @@ class Game(metaclass=GameProperties):
             while True:
                 cls.update()
         except KeyboardInterrupt:
-            sys.exit(0)
+            Radio.broadcast(Events.EXIT)
+            sdl2.sdlttf.TTF_Quit()
+            sdl2.SDL_Quit()
+            sys.exit()
         except (Exception,) as e:  # add possible exceptions here if there are more needed
             raise type(e)(
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
