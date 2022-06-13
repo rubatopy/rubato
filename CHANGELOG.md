@@ -4,11 +4,24 @@
 
 ### Breaking Changes
 
--   Removed all of the defaults dictionaries. Instead we are switching to a pythonic way of doing things. The key names, types, and defaults are still the same so its just a matter of adding ** to the beginning of the dictionary.
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+## [v2.2.0] - June 12, 2022
+
+### Breaking Changes
+
+-   Removed all of the defaults dictionaries. Instead we are switching to a pythonic way of doing things. The key names, types, and defaults are still the same so its just a matter of adding \*\* to the beginning of the dictionary.
 -   `Vector.angle` now returns the angle in degrees, starting from the top and going clockwise.
 -   `Vector.from_radial` now matches the angle format described above and takes in an angle in degrees
 -   `Vector.angle_between` now returns the angle in degrees.
 -   `Color.random` now a function and not property. -> `Color.random()`
+-   `Time.delta_time` and `Time.fixed_delta` are now in seconds instead of milliseconds
 
 ### Added
 
@@ -28,8 +41,6 @@
 -   `Draw` now has a default color of green.
 -   `os.walk` Each function with os.walk has a recursive option now. To allow you to choose between recursive and shallow.
 -   `window_pos` setting window_pos in init() now takes into account the border, so you set the topleft of the border.
-
-### Removed
 
 ### Fixed
 
@@ -197,6 +208,7 @@
 -   Rigidbody implementation
 
 [unreleased]: https://github.com/rubatopy/rubato/tree/main
+[v2.2.0]: https://github.com/rubatopy/rubato/tree/v2.2.0
 [v2.1.1]: https://github.com/rubatopy/rubato/tree/v2.1.1
 [v2.1.0]: https://github.com/rubatopy/rubato/tree/v2.1.0
 [v2.0.0]: https://github.com/rubatopy/rubato/tree/v2.0.0
