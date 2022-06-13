@@ -163,7 +163,7 @@ class Input:
             Tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
-        info = sdl2.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
+        info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
         return (
             (info & sdl2.SDL_BUTTON_LMASK) != 0,
             (info & sdl2.SDL_BUTTON_MMASK) != 0,
@@ -192,7 +192,7 @@ class Input:
             Tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
-        info = sdl2.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
+        info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
         return (
             (info & sdl2.SDL_BUTTON_LMASK) != 0,
             (info & sdl2.SDL_BUTTON_MMASK) != 0,
@@ -221,7 +221,7 @@ class Input:
             Vector: A Vector representing position.
         """
         x_window, y_window = c_int(0), c_int(0)
-        sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
+        sdl2.SDL_GetMouseState(ctypes.byref(x_window), ctypes.byref(y_window))
 
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
@@ -241,7 +241,7 @@ class Input:
             A Vector representing position.
         """
         x_window, y_window = c_int(0), c_int(0)
-        sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
+        sdl2.SDL_GetMouseState(ctypes.byref(x_window), ctypes.byref(y_window))
         return Vector(x_window.value, y_window.value)
 
     @staticmethod
