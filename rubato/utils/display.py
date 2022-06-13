@@ -209,7 +209,7 @@ class Display(metaclass=DisplayProperties):
         """
         top, left, bottom, right = ctypes.c_int(), ctypes.c_int(), ctypes.c_int(), ctypes.c_int()
         sdl2.SDL_GetWindowBordersSize(
-            cls.window.window, ctypes.pointer(top), ctypes.pointer(left), ctypes.pointer(bottom), ctypes.pointer(right)
+            cls.window.window, ctypes.byref(top), ctypes.byref(left), ctypes.byref(bottom), ctypes.byref(right)
         )
         return top.value, left.value, bottom.value, right.value
 
