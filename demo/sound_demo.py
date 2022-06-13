@@ -29,7 +29,7 @@ player1_intro.play()
 
 
 def update():
-    print(f"click: {bin(click.channels)}   music: {bin(music.channels)}")  # Prints the active channels
+    # print(f"click: {bin(click.channels)}   music: {bin(music.channels)}")  # Prints the active channels
     if rb.Input.key_pressed("space"):
         click.play(0)
 
@@ -51,6 +51,12 @@ def input_listener(keyinfo):
             music.pause()
         elif music.state == rb.Sound.PAUSED:
             music.resume()
+    if keyinfo["key"] == "up":
+        click.set_volume(click.get_volume() + 10)
+        print(f"Volume UP: {click.get_volume()}")
+    if keyinfo["key"] == "down":
+        click.set_volume(click.get_volume() - 10)
+        print(f"Volume DOWN: {click.get_volume()}")
 
 
 rb.Radio.listen("KEYDOWN", input_listener)

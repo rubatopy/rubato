@@ -2,19 +2,21 @@
 A fully functional, multi-channel sound system.
 """
 from __future__ import annotations
-import ctypes
 from os import path, walk
 from typing import Dict
+from ctypes import c_int, CFUNCTYPE
+
 import sdl2.sdlmixer as mixer
 from sdl2 import AUDIO_F32
 
-from . import IdError, get_path
+from . import IdError, get_path, Math
+
 
 if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):
     raise Exception("Could not open audio device.")
 
 
-@ctypes.CFUNCTYPE(None, ctypes.c_int)
+@CFUNCTYPE(None, c_int)
 def channel_finish_callback(channel_num: int):
     sound = Sound.active_channels.pop(channel_num)
     sound.channels &= ~(2**channel_num)
@@ -43,6 +45,7 @@ class Sound():
     Attributes:
         loaded_sounds (Dict[str, Sound]): A dictionary housing all the loaded
             sounds, stored by their name.
+        active_channels (Dict[int, Sound]): A dictionary housing all the active sounds, stored by their name.
     """
     STOPPED = 0
     PLAYING = 1
@@ -55,6 +58,7 @@ class Sound():
         self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))
         self.channels = 0
         self._paused = False
+        self._volume = int(mixer.MIX_MAX_VOLUME / 2)
 
         if not sound_name:
             self.name = rel_path.split("/")[-1].split(".")[0]
@@ -88,14 +92,15 @@ class Sound():
         else:
             return self.PLAYING
 
-    def play(self, loops: int = 0):
+    def play(self, loops: int = 0, init_volume: int = None):
         """
         Plays a sound.
 
         Args:
-            sound_name: The name of the sound to play.
             loops: The number of times to loop a sound after the first play
-                through. Use -1 to loop forever. Defaults to 0.
+                through. Use -1 to loop forever. Defaults to 0.'
+            init_volume: The initail volume of the sound. Defaults to the volume of the sound.
+                range(0, MIX_MAX_VOLUME=>128)
         """
         channel: int = mixer.Mix_PlayChannel(-1, self.chunk, loops)
 
@@ -108,6 +113,10 @@ class Sound():
 
         Sound.active_channels[channel] = self
         self.channels |= 2**channel
+
+        if init_volume:
+            self._volume = init_volume
+        self.set_volume(self._volume)
 
     def stop(self):
         """
@@ -136,6 +145,25 @@ class Sound():
             if self.channels & (1 << i):
                 mixer.Mix_Resume(i)
         self._paused = False
+
+    def set_volume(self, volume: int):
+        """
+        Sets the volume of the sound.
+
+        Args:
+            volume: The volume of the sound. range(0, MIX_MAX_VOLUME=>128)
+        """
+        self._volume = int(Math.clamp(volume, 0, mixer.MIX_MAX_VOLUME))
+        mixer.Mix_VolumeChunk(self.chunk, c_int(self._volume))
+
+    def get_volume(self) -> int:
+        """
+        Gets the volume of the sound.
+
+        Returns:
+            The volume of the sound. range(0, MIX_MAX_VOLUME=>128)
+        """
+        return self._volume
 
     @classmethod
     def import_sound_folder(cls, rel_path: str, duplicate_names=False, recursive: bool = True):
