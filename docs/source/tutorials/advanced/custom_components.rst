@@ -93,7 +93,7 @@ Custom components are created by inheriting from the Component class.
 In the initalizer for your component, you must first call the ``super().__init__()`` function. This will setup the structure
 for the component and allow it to work with the rest of the rubato. This also give you access to the attributes in Components
 such as offset. The ``__init__()`` function is where you should set up all the attributes you need for your component. Keep in mind
-however, that at this point the ``gameobj`` attribute is not yet set. In our example, we initalize a hitbox attribute to None and we
+however, that at this point the ``gameobj`` attribute is not yet set. In our example, we initialize a hitbox attribute to None and we
 will get it from the GameObject later.
 
 |
