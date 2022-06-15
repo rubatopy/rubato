@@ -32,7 +32,7 @@ class SpaceshipComp(Component):
         self.update_target()
 
     def update_target(self):
-        self.desired_direction = (self.target - self.gameobj.pos).unit()
+        self.desired_direction = (self.target - self.gameobj.pos).normalized()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
@@ -43,7 +43,8 @@ class SpaceshipComp(Component):
         )
         self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
 
-        self.gameobj.rotation = self.velocity.angle
+        # self.gameobj.rotation = self.velocity.angle
+        self.gameobj.rotation = 90
 
     def update_wander(self):
         self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle() * self.wander).unit()
@@ -65,8 +66,7 @@ class SpaceshipComp(Component):
         self.gameobj.rotation = self.velocity.angle
 
 
-space_ship = GameObject(pos=Display.center).add(Image(rel_path="sprites/spaceship/spaceship.png",
-                                                      rot_offset=180)).add(SpaceshipComp())
+space_ship = GameObject(pos=Display.center).add(Image(rel_path="sprites/spaceship/spaceship.png")).add(SpaceshipComp())
 
 sc_comp = space_ship.get(SpaceshipComp)
 main_scene.add(space_ship)
