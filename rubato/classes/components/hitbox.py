@@ -385,6 +385,50 @@ class Rectangle(Hitbox):
             raise Error("Tried to set rect property before game object assignment.")
 
     @property
+    def top(self):
+        """
+        The top side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.y - self.height / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @top.setter
+    def top(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def left(self):
+        """
+        The bottom side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.x - self.width / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @left.setter
+    def left(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.x += new - self.width / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
     def bottom(self):
         """
         The bottom side of the rectangle.
@@ -402,6 +446,28 @@ class Rectangle(Hitbox):
     def bottom(self, new: float):
         if self.gameobj:
             self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def right(self):
+        """
+        The right side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.x - self.height / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @right.setter
+    def right(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.x += new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -473,7 +539,6 @@ class Rectangle(Hitbox):
 
     def draw(self, camera: Camera):
         """Will draw the rectangle to the screen. Won't draw if color = None."""
-
         # list_of_points purposefully is defined in each if, to not create a new list every time unless needed.
         if self.color:
             list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
@@ -538,6 +603,17 @@ class Circle(Hitbox):
             tag=tag
         )
         self.radius = radius
+
+    @property
+    def center(self) -> Vector:
+        """The center of the circle. Equivalent to pos"""
+        # this is required to make the center property setter work and not have two behaviours in different classes.
+        return self.pos
+
+    @center.setter
+    def center(self, new: Vector):
+        """Sets the center of the circle."""
+        self.gameobj.pos = new
 
     def get_aabb(self) -> List[Vector]:
         offset = self.transformed_radius()
