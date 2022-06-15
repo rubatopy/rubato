@@ -167,7 +167,9 @@ class Image(Component):
             print(self.gameobj.rotation + self.rotation_offset)
             self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._original,
-                self.gameobj.rotation + self.rotation_offset,# 90,
+                -self.gameobj.rotation - self.rotation_offset,
+                # It seems that rotation is counterclockwise, even though we assume clockwise until now.
+                # Requires further investigation but is a fix for now.
                 -self.scale.x if self.flipx else self.scale.x,
                 -self.scale.y if self.flipy else self.scale.y,
                 int(self.aa),
