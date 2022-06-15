@@ -4,7 +4,7 @@ Custom Component demo.
 import rubato as rb
 from rubato import Vector
 
-size = Vector(400, 300)
+size = Vector(300, 200)
 rb.init(res=size, window_size=size * 2)
 
 main_scene = rb.Scene()
@@ -22,7 +22,7 @@ class PlayerController(rb.Component):
         # Assign arguments to attributes
         self.name = name
 
-        # Change any attributes inhertied from Component.
+        # Change any attributes inherited from Component.
         self.singular = True
         self.offset = rb.Vector(0, 10)
 
@@ -54,8 +54,8 @@ class PlayerController(rb.Component):
         print(f"Hello! My name is {self.name}.")
 
 
-player = rb.GameObject("Player")
-player.add(rb.Rectangle(width=20, height=20, color=rb.Color.red))
+player = rb.GameObject("Player", pos=rb.Display.center)
+player.add(rb.Circle(radius=10, color=rb.Color.red))
 player.add(PlayerController("Bob"))
 
 main_scene.add(player)
