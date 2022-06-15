@@ -76,7 +76,7 @@ class Image(Component):
 
         self._changed = True
         self._update_rotozoom()
-        self._go_rotation = 0
+        self._go_rotation = 0  # Martin, why do we know go_rotation? Haven't actually checked it yet.
 
         Radio.listen("ZOOM", self.cam_update)
 
@@ -164,13 +164,14 @@ class Image(Component):
     def _update_rotozoom(self):
         """Updates the image surface. Called automatically when image scale or rotation are updated"""
         if self.gameobj:
+            print(self.gameobj.rotation + self.rotation_offset)
             self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._original,
-                self.gameobj.rotation + self.rotation_offset,
+                self.gameobj.rotation + self.rotation_offset,# 90,
                 -self.scale.x if self.flipx else self.scale.x,
                 -self.scale.y if self.flipy else self.scale.y,
                 int(self.aa),
-            ).contents
+                ).contents
             self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def resize(self, new_size: Vector):
@@ -221,7 +222,7 @@ class Image(Component):
             self._update_rotozoom()
 
         if self.visible:
-            Display.update(self._tx, camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2))
+            Display.update(self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
 
     def delete(self):
         """Deletes the image component"""
@@ -240,16 +241,16 @@ class Image(Component):
             Image: The cloned image.
         """
         new = Image(
-            {
-                "scale": self.scale,
-                "anti_aliasing": self.aa,
-                "flipx": self.flipx,
-                "flipy": self.flipy,
-                "offset": self.offset,
-                "visible": self.visible,
-            }
+            scale=self.scale,
+            anti_aliasing=self.aa,
+            flipx=self.flipx,
+            flipy=self.flipy,
+            offset=self.offset,
+            visible=self.visible,
         )
         new.image = Display.clone_surface(self.image)
+        new.rotation_offset = self.rotation_offset
+        new.offset = self.offset
         return new
 
     @staticmethod
