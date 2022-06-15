@@ -149,8 +149,7 @@ class Input:
         Returns:
             bool: True if the window is focused, false otherwise.
         """
-        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus(
-        ) == Display.window
+        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus() == Display.window
 
     # MOUSE FUNCTIONS
 
@@ -225,6 +224,7 @@ class Input:
 
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
+        # pylint: disable=using-constant-test
         if Display.has_x_border:
             x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
         elif Display.has_y_border:
