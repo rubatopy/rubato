@@ -38,8 +38,10 @@ class SpaceshipComp(Component):
         steering_force = (desired_velocity - self.velocity) * self.steer
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
-        self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        self.gameobj.pos += self.velocity * Time.delta_time
+        self.velocity = Vector.clamp_magnitude(
+            self.velocity + acceleration * Time.sec_to_milli(Time.delta_time), self.speed
+        )
+        self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
 
         self.gameobj.rotation = self.velocity.angle
 
@@ -50,13 +52,15 @@ class SpaceshipComp(Component):
         steering_force = (desired_velocity - self.velocity) * self.steer
         acceleration = Vector.clamp_magnitude(steering_force, self.steer)  # / self.mass
 
-        self.velocity = Vector.clamp_magnitude(self.velocity + acceleration * Time.delta_time, self.speed)
-        self.gameobj.pos += self.velocity * Time.delta_time
+        self.velocity = Vector.clamp_magnitude(
+            self.velocity + acceleration * Time.sec_to_milli(Time.delta_time), self.speed
+        )
+        self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
         if (new := self.gameobj.pos.clamp(Display.top_left, Display.bottom_right)) != self.gameobj.pos:
             self.gameobj.pos = new
             self.velocity = Vector.from_radial(self.speed, self.gameobj.pos.dir_to(Display.center).angle)
             self.desired_direction = self.velocity.unit()
-            self.gameobj.pos += self.velocity * Time.delta_time
+            self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
 
         self.gameobj.rotation = self.velocity.angle
 

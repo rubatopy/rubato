@@ -75,7 +75,7 @@ def init(
     if Time.capped:
         Time.normal_delta = 1000 / target_fps
     Time.physics_fps = physics_fps
-    Time.fixed_delta = 1000 / physics_fps
+    Time.fixed_delta = 1 / physics_fps
 
     flags = (
         sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_MOUSE_FOCUS |
@@ -120,7 +120,6 @@ def begin():
         RuntimeError: rubato has not been initialized before calling.
     """
     if Game.initialized:
-        Game.scenes.setup()
         Game.constant_loop()
     else:
         raise RuntimeError(

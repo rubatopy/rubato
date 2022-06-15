@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List, Dict, TYPE_CHECKING, Optional, Type, TypeVar
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from .. import Game, Vector, Display, DuplicateComponentError, Draw, Color
+from .. import Game, Vector, Display, DuplicateComponentError, Draw, Color, ImplementationError
 
 if TYPE_CHECKING:
     from . import Camera
@@ -59,10 +59,14 @@ class GameObject:
         """
         comp_type = type(component)
 
-        if component.singular and comp_type in self._components:
-            raise DuplicateComponentError(
-                f"There is already a component of type {comp_type} on the game object {self.name}"
-            )
+        try:
+            if component.singular and comp_type in self._components:
+                raise DuplicateComponentError(
+                    f"There is already a component of type {comp_type} on the game object {self.name}"
+                )
+        except AttributeError as err:
+            raise ImplementationError("The component does not have a singular attribute. You most likely overrode the"
+                                      "__init__ method of the component without calling super().__init__().") from err
 
         if isinstance(component, Hitbox):
             component._pos = lambda: self.pos  # pylint: disable=protected-access
@@ -155,11 +159,6 @@ class GameObject:
             for comp in comps:
                 comp.delete()
 
-    def setup(self):
-        for comps in self._components.values():
-            for comp in comps:
-                comp.setup()
-
     def draw(self, camera: Camera):
         for comps in self._components.values():
             for comp in comps:
@@ -180,7 +179,7 @@ class GameObject:
     def update(self):
         for comps in self._components.values():
             for comp in comps:
-                comp.update()
+                comp.private_update()
 
     def fixed_update(self):
         for comps in self._components.values():

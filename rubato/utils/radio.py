@@ -12,6 +12,17 @@ broadcast that event key using :meth:`Radio.broadcast`.
 from typing import Callable, List
 
 
+class Events:
+    KEYUP = "KEYUP"
+    KEYDOWN = "KEYDOWN"
+    KEYHOLD = "KEYHOLD"
+    MOUSEUP = "MOUSEUP"
+    MOUSEDOWN = "MOUSEDOWN"
+    ZOOM = "ZOOM"
+    EXIT = "EXIT"
+    RESIZE = "RESIZE"
+
+
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.

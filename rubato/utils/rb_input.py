@@ -8,7 +8,7 @@ from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display
+from . import Vector, Display, deprecated, Math
 
 
 class Input:
@@ -40,13 +40,13 @@ class Input:
     @classmethod
     def key_pressed(cls, *keys: str) -> bool:
         """
-        Checks if keys are pressed.
+        Checks if keys are pressed. Case insensitive.
 
         Args:
             *keys: The names of the keys to check.
 
         Returns:
-            bool: Whether or not the keys are pressed.
+            bool: Whether the keys are pressed.
 
         Example:
             .. code-block:: python
@@ -155,7 +155,7 @@ class Input:
     # MOUSE FUNCTIONS
 
     @classmethod
-    def mouse_is_pressed(cls) -> Tuple[bool]:
+    def mouse_state(cls) -> Tuple[bool]:
         """
         Checks which mouse buttons are pressed.
 
@@ -163,7 +163,7 @@ class Input:
             Tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
-        info = sdl2.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
+        info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
         return (
             (info & sdl2.SDL_BUTTON_LMASK) != 0,
             (info & sdl2.SDL_BUTTON_MMASK) != 0,
@@ -173,6 +173,36 @@ class Input:
         )
 
     @classmethod
+    def mouse_pressed(cls) -> bool:
+        """
+        Checks if any mouse button is pressed.
+
+        Returns:
+            True if any button is pressed, false otherwise.
+        """
+        return any(cls.mouse_state())
+
+    @classmethod
+    @deprecated(mouse_state)
+    def mouse_is_pressed(cls) -> Tuple[bool]:
+        """
+        Checks which mouse buttons are pressed.
+
+        Returns:
+            Tuple[bool]: A tuple with 5 booleans representing the state of each
+            mouse button. (button1, button2, button3, button4, button5)
+        """
+        info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
+        return (
+            (info & sdl2.SDL_BUTTON_LMASK) != 0,
+            (info & sdl2.SDL_BUTTON_MMASK) != 0,
+            (info & sdl2.SDL_BUTTON_RMASK) != 0,
+            (info & sdl2.SDL_BUTTON_X1MASK) != 0,
+            (info & sdl2.SDL_BUTTON_X2MASK) != 0,
+        )
+
+    @classmethod
+    @deprecated(mouse_pressed)
     def any_mouse_button_pressed(cls) -> bool:
         """
         Checks if any mouse button is pressed.
@@ -191,17 +221,17 @@ class Input:
             Vector: A Vector representing position.
         """
         x_window, y_window = c_int(0), c_int(0)
-        sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
+        sdl2.SDL_GetMouseState(ctypes.byref(x_window), ctypes.byref(y_window))
 
         x_render, y_render = c_float(0), c_float(0)
+        size = Display.border_size
+        if Display.has_x_border:
+            x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
+        elif Display.has_y_border:
+            y_window.value = Math.clamp(y_window.value, size, Display.window_size.y - size)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
-        # size = Display.border_size
-        # if Display.has_x_border:
-        #     x_window.value = min(max(x_window.value, size), Display.window_size.x + size) - size
-        # elif Display.has_y_border:
-        #     y_window.value = min(max(y_window.value, size), Display.window_size.y + size) - size
-        return Vector(x_render.value, y_render.value).clamp(Vector(0, 0), Display.window_size)
+        return Vector(x_render.value, y_render.value)
 
     @staticmethod
     def get_mouse_abs_pos() -> Vector:
@@ -211,7 +241,7 @@ class Input:
             A Vector representing position.
         """
         x_window, y_window = c_int(0), c_int(0)
-        sdl2.SDL_GetMouseState(ctypes.pointer(x_window), ctypes.pointer(y_window))
+        sdl2.SDL_GetMouseState(ctypes.byref(x_window), ctypes.byref(y_window))
         return Vector(x_window.value, y_window.value)
 
     @staticmethod

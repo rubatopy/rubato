@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List, TYPE_CHECKING
 
 from . import GameObject, Hitbox, Engine
-from .. import Error, Game
+from .. import Error
 
 if TYPE_CHECKING:
     from . import Camera
@@ -54,8 +54,6 @@ class Group:
                 self.add_group(item)
             else:
                 raise ValueError(f"The group {self.name} can only hold game objects/groups.")
-            if Game.state == Game.RUNNING:
-                item.setup()
 
     def add_group(self, g: Group):
         """Add a group to the group."""
@@ -91,12 +89,6 @@ class Group:
                 self.groups.remove(item)
         except ValueError as e:
             raise ValueError(f"The item {item.name} is not in the group {self.name}") from e
-
-    def setup(self):
-        for group in self.groups:
-            group.setup()
-        for game_obj in self.game_objects:
-            game_obj.setup()
 
     def update(self):
         if self.active:

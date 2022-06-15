@@ -61,9 +61,9 @@ class Button(Component):
             self.hover = False
             self.onexit()
 
-        if (not self.pressed) and Input.mouse_is_pressed()[0] and self.hover:
+        if (not self.pressed) and Input.mouse_state()[0] and self.hover:
             self.pressed = True
             self.onclick()
-        elif self.pressed and (not Input.mouse_is_pressed()[0] or not self.hover):
+        elif self.pressed and (not Input.mouse_state()[0] or not self.hover):
             self.pressed = False
             self.onrelease()
