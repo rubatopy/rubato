@@ -49,9 +49,9 @@ class PlayerController(rb.Component):
         """
         Called once per frame. You will most likely not use the camera.
         """
-        rb.Debug.circle(Vector(10, 10), 10, self.color)
-        rb.Debug.circle(Vector(50, 10), 10, self.color)
-        rb.Debug.line(Vector(10, 40), Vector(50, 40), self.color)
+        rb.Draw.circle(Vector(10, 10), 10, self.color)  # Drawing player face
+        rb.Draw.circle(Vector(50, 10), 10, self.color)
+        rb.Draw.line(Vector(10, 40), Vector(50, 40), self.color)
 
 
 player_data = PlayerController(rb.Color.red)

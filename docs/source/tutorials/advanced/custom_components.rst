@@ -98,7 +98,7 @@ while accessing the GameObject.
         self.name = "bob"
 
 Finally there are the update and draw methods. Called in that order each frame. In our custom component, we
-are using the draw method as a Debugging tool, and not doing anything meaningful.
+are using the draw method to draw a players face, and not doing anything meaningful.
 
 .. code-block:: python
 
@@ -114,9 +114,9 @@ are using the draw method as a Debugging tool, and not doing anything meaningful
         """
         Called once per frame. You will most likely not use the camera.
         """
-        rb.Debug.circle(Vector(10, 10), 10, self.color)
-        rb.Debug.circle(Vector(50, 10), 10, self.color)
-        rb.Debug.line(Vector(10, 40), Vector(50, 40), self.color)
+        rb.Draw.circle(Vector(10, 10), 10, self.color)  # Drawing player face
+        rb.Draw.circle(Vector(50, 10), 10, self.color)
+        rb.Draw.line(Vector(10, 40), Vector(50, 40), self.color)
 
 
 
