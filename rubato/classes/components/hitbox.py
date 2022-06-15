@@ -395,6 +395,50 @@ class Rectangle(Hitbox):
             raise Error("Tried to set rect property before game object assignment.")
 
     @property
+    def top(self):
+        """
+        The top side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.y - self.height / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @top.setter
+    def top(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def left(self):
+        """
+        The bottom side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.x - self.width / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @left.setter
+    def left(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.x += new - self.width / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
     def bottom(self):
         """
         The bottom side of the rectangle.
@@ -412,6 +456,28 @@ class Rectangle(Hitbox):
     def bottom(self, new: float):
         if self.gameobj:
             self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def right(self):
+        """
+        The right side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.x - self.height / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @right.setter
+    def right(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.x += new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -482,7 +548,7 @@ class Rectangle(Hitbox):
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
     def draw(self, camera: Camera):
-        list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
+        list_of_points: List[Vector] = [camera.transform(v).to_int() for v in self.real_verts()]  # CHECK THIS CHANGE
 
         if self.color:
             Draw.poly(list_of_points, self.color, fill=self.color)
