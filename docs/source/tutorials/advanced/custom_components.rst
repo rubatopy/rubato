@@ -69,6 +69,7 @@ Next we will break down each section of the PlayerController component.
 Custom components are created by inheriting from the Component class.
 
 |
+
 .. code-block:: python
 
     def __init__(self, name):
@@ -96,6 +97,7 @@ however, that at this point the ``gameobj`` attribute is not yet set. In our exa
 will get it from the GameObject later.
 
 |
+
 .. code-block:: python
 
     def setup(self):
@@ -111,6 +113,7 @@ attributes that require knowledge of the GameObject. In our example, we set our 
 GameObject.
 
 |
+
 .. code-block:: python
 
     def update(self):
@@ -127,6 +130,7 @@ you've set (including the GameObject). In our example, we are overriding the upd
 hitbox and move the player whenever the mouse is pressed.
 
 |
+
 .. code-block:: python
 
     def speak(self):
@@ -141,6 +145,7 @@ can also be called anywhere else in the engine. This is a great way to add behav
 
 |
 |
+
 In this tutorial, we went over the creation process of custom components and explained how to use them.
 
 The source code for an example is available
