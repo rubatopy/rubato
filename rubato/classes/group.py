@@ -17,7 +17,6 @@ class Group:
 
     Args:
         name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.
-        z_index: The z-index of the group. Defaults to 0.
         active: Whether the group is active or not. Defaults to True.
 
     Attributes:
