@@ -47,7 +47,7 @@ class Vector:
 
     @property
     def angle(self) -> float:
-        """The angle of the vector in radians (readonly)."""
+        """The angle of the vector degrees (readonly)."""
         return -math.degrees(math.atan2(-self.y, self.x) - Math.PI_HALF)
 
     @property
