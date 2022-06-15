@@ -51,9 +51,10 @@ class Slider(Component):
         onclick: Callable = lambda: None,
         onrelease: Callable = lambda: None,
         onhover: Callable = lambda: None,
-        onexit: Callable = lambda: None
+        onexit: Callable = lambda: None,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.dims: Vector = Vector(button_width, button_height)
         self.pressed: bool = False
         self.hover: bool = False
@@ -65,19 +66,22 @@ class Slider(Component):
         self.slider_direction: Vector = slider_direction
 
         # button handled by slider and not by game object
-        self.button = Button(width=button_width, height=button_height, onclick=onclick, onrelease=onrelease,
-                             onexit=onexit)
+        self.button = Button(
+            width=button_width, height=button_height, onclick=onclick, onrelease=onrelease, onexit=onexit
+        )
 
     def update(self):
         """The update function for buttons."""
         # custom button update
-        if not self.button.hover and Input.mouse_in(self.gameobj.pos + self.offset + self.button.offset,
-                                                    self.button.dims, self.gameobj.rotation + self.rotation_offset):
+        if not self.button.hover and Input.mouse_in(
+            self.gameobj.pos + self.offset + self.button.offset, self.button.dims,
+            self.gameobj.rotation + self.rotation_offset
+        ):
             self.button.hover = True
             self.button.onhover()
         elif self.button.hover and not Input.mouse_in(
-                self.gameobj.pos + self.offset + self.button.offset, self.button.dims,
-                self.gameobj.rotation + self.rotation_offset
+            self.gameobj.pos + self.offset + self.button.offset, self.button.dims,
+            self.gameobj.rotation + self.rotation_offset
         ):
 
             self.button.hover = False
@@ -92,17 +96,24 @@ class Slider(Component):
         # end custom button update
 
         slider_direction: Vector = Vector.from_radial(1, self.gameobj.rotation + self.rotation_offset)
-        mouse_projection = Math.clamp((Input.get_mouse_pos() - self.gameobj.pos - self.offset).
-                                      dot(slider_direction) / slider_direction.mag_sq,
-                                      0, self.slider_length)
+        mouse_projection = Math.clamp(
+            (Input.get_mouse_pos() - self.gameobj.pos - self.offset).dot(slider_direction) / slider_direction.mag_sq, 0,
+            self.slider_length
+        )
         self.button.offset = Math.clamp(mouse_projection, 0, self.slider_length)
         Debug.circle(self.gameobj.pos + self.offset, 5, Color.red, fill=Color.red)
         Debug.circle(self.gameobj.pos + self.offset + slider_direction * self.slider_length, 5, fill=Color.green)
-        Debug.line(self.gameobj.pos + self.offset,
-                   self.gameobj.pos + self.offset + slider_direction * self.slider_length, width=3)
+        Debug.line(
+            self.gameobj.pos + self.offset,
+            self.gameobj.pos + self.offset + slider_direction * self.slider_length,
+            width=3
+        )
 
-        Debug.circle(self.gameobj.pos + self.offset + slider_direction * mouse_projection, 5,
-                     fill=Color.purple if self.button.pressed else Color.blue)
+        Debug.circle(
+            self.gameobj.pos + self.offset + slider_direction * mouse_projection,
+            5,
+            fill=Color.purple if self.button.pressed else Color.blue
+        )
 
     def draw(self, camera: Camera):
         """The draw function for buttons."""

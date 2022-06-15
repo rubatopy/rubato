@@ -22,18 +22,16 @@ class Group:
 
     Attributes:
         name (str): The name of the group.
+        active (bool): Whether the group is active or not.
         groups (List[Group]): A list of groups that are children of this group.
         game_objects (List[GameObject]): A list of game objects that are children of this group.
-        z_index (int): The z-index of the group.
-        active (bool): Whether the group is active or not.
     """
 
-    def __init__(self, name: str = "", z_index: int = 0, active: bool = True):
+    def __init__(self, name: str = "", active: bool = True):
         self.name: str = name
+        self.active: bool = active
         self.groups: List[Group] = []
         self.game_objects: List[GameObject] = []
-        self.z_index: int = z_index
-        self.active: bool = active
 
     def add(self, *items: GameObject | Group):
         """
@@ -127,12 +125,9 @@ class Group:
 
     def draw(self, camera: Camera):
         if self.active:
-            self.groups.sort(key=lambda i: i.z_index)
             for group in self.groups:
-                if group.z_index <= camera.z_index:
-                    group.draw(camera)
+                group.draw(camera)
 
-            self.game_objects.sort(key=lambda i: i.z_index)
             for game_obj in self.game_objects:
                 if game_obj.z_index <= camera.z_index:
                     game_obj.draw(camera)

@@ -48,8 +48,9 @@ class Hitbox(Component):
         on_exit: Callable = lambda manifold: None,
         color: Color | None = None,
         tag: str = "",
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.debug: bool = debug
         self.trigger: bool = trigger
         self.scale: int = scale
@@ -117,6 +118,7 @@ class Polygon(Hitbox):
         color: Color | None = None,
         tag: str = "",
         verts: List[Vector] = [],
+        z_index: int = 0
     ):
         """
         Initializes a Polygon.
@@ -133,7 +135,8 @@ class Polygon(Hitbox):
             on_collide=on_collide,
             on_exit=on_exit,
             color=color,
-            tag=tag
+            tag=tag,
+            z_index=z_index
         )
         self.verts: List[Vector] = verts
 
@@ -150,16 +153,8 @@ class Polygon(Hitbox):
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
-            self.offset,
-            self.rot_offset,
-            self.debug,
-            self.trigger,
-            self.scale,
-            self.on_collide,
-            self.on_exit,
-            self.color,
-            self.tag,
-            self.verts,
+            self.offset, self.rot_offset, self.debug, self.trigger, self.scale, self.on_collide, self.on_exit,
+            self.color, self.tag, self.verts, self.z_index
         )
 
     def get_aabb(self) -> List[Vector]:
@@ -216,7 +211,7 @@ class Polygon(Hitbox):
         list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
 
         if self.color:
-            Draw.poly(list_of_points, self.color, fill=self.color)
+            Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
@@ -283,7 +278,8 @@ class Rectangle(Hitbox):
         color: Color | None = None,
         tag: str = "",
         width: int = 10,
-        height: int = 10
+        height: int = 10,
+        z_index: int = 0
     ):
         """
         Initializes a Rectangle.
@@ -301,7 +297,8 @@ class Rectangle(Hitbox):
             on_collide=on_collide,
             on_exit=on_exit,
             color=color,
-            tag=tag
+            tag=tag,
+            z_index=z_index
         )
         self.width: int = int(width)
         self.height: int = int(height)
@@ -485,24 +482,15 @@ class Rectangle(Hitbox):
         list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
 
         if self.color:
-            Draw.poly(list_of_points, self.color, fill=self.color)
+            Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Rectangle:
         return Rectangle(
-            self.offset,
-            self.rotation_offset,
-            self.debug,
-            self.trigger,
-            self.scale,
-            self.on_collide,
-            self.on_exit,
-            self.color,
-            self.tag,
-            self.width,
-            self.height,
+            self.offset, self.rotation_offset, self.debug, self.trigger, self.scale, self.on_collide, self.on_exit,
+            self.color, self.tag, self.width, self.height, self.z_index
         )
 
 
@@ -529,6 +517,7 @@ class Circle(Hitbox):
         color: Color | None = None,
         tag: str = "",
         radius: int = 10,
+        z_index: int = 0
     ):
         """
         Initializes a Circle.
@@ -545,7 +534,8 @@ class Circle(Hitbox):
             on_collide=on_collide,
             on_exit=on_exit,
             color=color,
-            tag=tag
+            tag=tag,
+            z_index=z_index
         )
         self.radius = radius
 
@@ -573,21 +563,13 @@ class Circle(Hitbox):
         scaled_rad = camera.scale(self.radius)
 
         if self.color is not None:
-            Draw.circle(relative_pos, scaled_rad, self.color, fill=self.color)
+            Draw.circle(relative_pos, scaled_rad, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             Draw.circle(relative_pos, scaled_rad, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Circle:
         return Circle(
-            self.offset,
-            self.rotation_offset,
-            self.debug,
-            self.trigger,
-            self.scale,
-            self.on_collide,
-            self.on_exit,
-            self.color,
-            self.tag,
-            self.radius,
+            self.offset, self.rotation_offset, self.debug, self.trigger, self.scale, self.on_collide, self.on_exit,
+            self.color, self.tag, self.radius, self.z_index
         )

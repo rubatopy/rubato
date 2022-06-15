@@ -49,9 +49,10 @@ class Animation(Component):
         anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        visible: bool = True
+        visible: bool = True,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
         self._fps: int = fps
         self.singular = False

@@ -1,29 +1,51 @@
 """A static draw class for drawing things directly to the renderer."""
 from ctypes import c_int16
-from typing import List, Optional
+from typing import List, Optional, Callable
+from dataclasses import dataclass, field
+import heapq
+
 import sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
 
-from . import Vector, Color, Font, Display
+from . import Vector, Color, Font, Display, Math
+
+
+@dataclass(order=True)
+class DrawTask:
+    priority: int
+    func: Callable = field(compare=False)
 
 
 class Draw:
-    """Draws things to the renderer. Should not instantiate this class."""
+    """Draws things to the renderer. Dont instantiate, instead use it as a static class."""
+    _queue: List[DrawTask] = []
 
-    @staticmethod
-    def point(pos: Vector, color: Color = Color.green):
+    @classmethod
+    def dump(cls):
+        """Draws all queued items. Is called automatically at the end of every frame."""
+
+        while cls._queue:
+            task = heapq.heappop(cls._queue)
+            task.func()
+
+    @classmethod
+    def point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
         """
         Draw a point onto the renderer.
 
         Args:
-            pos: The position of the point.
-            color: The color to use for the pixel. Defaults to green.
+            pos (Vector): The position of the point.
+            color (Color, optional): The color to use for the pixel. Defaults to Color.green.
+            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
         """
-
-        pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_point(pos, color)))
 
     @staticmethod
-    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
+    def immediate_point(pos: Vector, color: Color = Color.green):
+        pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
+
+    @classmethod
+    def line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
         """
         Draw a line onto the renderer.
 
@@ -33,21 +55,26 @@ class Draw:
             color: The color to use for the line. Defaults to green.
             width: The width of the line. Defaults to 1.
         """
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_line(p1, p2, color, width)))
 
+    @staticmethod
+    def immediate_line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
         thickLineRGBA(
             Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width), color.r,
             color.g, color.b, color.a
         )
 
-    @staticmethod
+    @classmethod
     def rect(
+        cls,
         center: Vector,
         width: int,
         height: int,
         border: Color = Color.green,
         border_thickness: int = 1,
         fill: Optional[Color] = None,
-        angle: float = 0
+        angle: float = 0,
+        z_index: int = Math.INF
     ):
         """
         Draws a rectangle onto the renderer.
@@ -61,6 +88,21 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
         """
+        heapq.heappush(
+            cls._queue,
+            DrawTask(z_index, lambda: cls.immediate_rect(center, width, height, border, border_thickness, fill, angle))
+        )
+
+    @staticmethod
+    def immediate_rect(
+        center: Vector,
+        width: int,
+        height: int,
+        border: Color = Color.green,
+        border_thickness: int = 1,
+        fill: Optional[Color] = None,
+        angle: float = 0
+    ):
         x, y = width // 2, height // 2
         verts = [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
 
@@ -68,15 +110,17 @@ class Draw:
 
         real = [(center + v).to_int() for v in trans]
 
-        Draw.poly(real, border, border_thickness, fill)
+        Draw.immediate_poly(real, border, border_thickness, fill)
 
-    @staticmethod
+    @classmethod
     def circle(
+        cls,
         center: Vector,
         radius: int = 4,
         border: Color = Color.green,
         border_thickness: int = 1,
-        fill: Optional[Color] = None
+        fill: Optional[Color] = None,
+        z_index: int = Math.INF
     ):
         """
         Draws a circle onto the renderer.
@@ -88,6 +132,18 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
+        heapq.heappush(
+            cls._queue, DrawTask(z_index, lambda: cls.immediate_circle(center, radius, border, border_thickness, fill))
+        )
+
+    @staticmethod
+    def immediate_circle(
+        center: Vector,
+        radius: int = 4,
+        border: Color = Color.green,
+        border_thickness: int = 1,
+        fill: Optional[Color] = None
+    ):
         if fill:
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
@@ -112,9 +168,14 @@ class Draw:
                 border.a,
             )
 
-    @staticmethod
+    @classmethod
     def poly(
-        points: List[Vector], border: Color = Color.green, border_thickness: int = 1, fill: Optional[Color] = None
+        cls,
+        points: List[Vector],
+        border: Color = Color.green,
+        border_thickness: int = 1,
+        fill: Optional[Color] = None,
+        z_index: int = Math.INF
     ):
         """
         Draws a polygon onto the renderer.
@@ -125,6 +186,14 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
+        heapq.heappush(
+            cls._queue, DrawTask(z_index, lambda: cls.immediate_poly(points, border, border_thickness, fill))
+        )
+
+    @staticmethod
+    def immediate_poly(
+        points: List[Vector], border: Color = Color.green, border_thickness: int = 1, fill: Optional[Color] = None
+    ):
         x_coords, y_coords = zip(*points)
 
         vx = (c_int16 * len(x_coords))(*x_coords)
@@ -153,7 +222,7 @@ class Draw:
             )
         else:
             for i in range(len(points)):
-                Draw.line(
+                Draw.immediate_line(
                     Vector(
                         points[i].x,
                         points[i].y,
@@ -166,14 +235,16 @@ class Draw:
                     border_thickness,
                 )
 
-    @staticmethod
+    @classmethod
     def text(
+        cls,
         text: str,
         font: Font,
         pos: Vector = Vector(),
         justify: str = "left",
         align: Vector = Vector(),
         width: int = 0,
+        z_index: int = Math.INF
     ):
         """
         Draws some text onto the renderer.
@@ -186,5 +257,13 @@ class Draw:
             align: The alignment of the text. Defaults to Vector(0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
         """
+        heapq.heappush(
+            cls._queue, DrawTask(z_index, lambda: cls.immediate_text(text, font, pos, justify, align, width))
+        )
+
+    @staticmethod
+    def immediate_text(
+        text: str, font: Font, pos: Vector = Vector(), justify: str = "left", align: Vector = Vector(), width: int = 0
+    ):
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)

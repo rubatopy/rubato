@@ -216,6 +216,7 @@ class Game(metaclass=GameProperties):
         )
         cls.scenes.draw()
 
+        Draw.dump()
         Debug.clear_queue()
 
         if cls.show_fps:
@@ -223,14 +224,14 @@ class Game(metaclass=GameProperties):
             h = Display.res.y // 40
             p = h // 4
             p2 = p + p
-            Draw.rect(
+            Draw.immediate_rect(
                 Vector(p2 + (h * len(fs)) / 2, p2 + h / 2),
                 h * len(fs) + p2,
                 h + p2,
                 Color(a=180),
                 fill=Color(a=180),
             )
-            Draw.text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
+            Draw.immediate_text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
 
         # update renderers
         Display.renderer.present()

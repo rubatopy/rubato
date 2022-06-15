@@ -63,8 +63,9 @@ class RigidBody(Component):
         moment: float = -1,
         mass: float = -1,
         advanced: bool = False,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
         self.static: bool = static
 

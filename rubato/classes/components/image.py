@@ -4,9 +4,10 @@ The image component that renders an image from the filesystem.
 from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
+import heapq
 
 from . import Component
-from ... import Vector, Display, Radio, get_path
+from ... import Vector, Display, Draw, Radio, get_path, DrawTask
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -42,8 +43,9 @@ class Image(Component):
         flipx: bool = False,
         flipy: bool = False,
         visible: bool = True,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
         if rel_path == "":
             self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
@@ -221,7 +223,13 @@ class Image(Component):
             self._update_rotozoom()
 
         if self.visible:
-            Display.update(self._tx, camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2))
+            # FIXME we need a dedicated image draw function in Draw
+            heapq.heappush(
+                Draw._queue, DrawTask( # pylint: disable=protected-access
+                    self.true_z,
+                    lambda: Display.update(self._tx, camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2))
+                )
+            )
 
     def delete(self):
         """Deletes the image component"""

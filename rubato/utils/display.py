@@ -10,6 +10,7 @@ import os
 
 from . import Vector, get_path
 
+
 class DisplayProperties(type):
     """
     Defines static property methods for Display.
