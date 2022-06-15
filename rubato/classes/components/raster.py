@@ -249,4 +249,5 @@ class Raster(Component):
             self._update_rotozoom()
 
         if self.visible:
-            Display.update(self._texture, camera.transform(self.gameobj.pos - Vector(*self._texture.size) / 2))
+            Display.update(self._texture, camera.transform(self.gameobj.pos + self.offset
+                                                           - Vector(*self._texture.size) / 2))
