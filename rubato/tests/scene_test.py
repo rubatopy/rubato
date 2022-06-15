@@ -46,12 +46,10 @@ def test_loops(monkeypatch, scene: Scene):
     draw = Mock()
     update = Mock()
     fixed = Mock()
-    setup = Mock()
 
     monkeypatch.setattr("rubato.classes.group.Group.draw", draw)
     monkeypatch.setattr("rubato.classes.group.Group.update", update)
     monkeypatch.setattr("rubato.classes.group.Group.fixed_update", fixed)
-    monkeypatch.setattr("rubato.classes.group.Group.setup", setup)
 
     scene.private_draw()
     scene.private_update()
@@ -61,7 +59,6 @@ def test_loops(monkeypatch, scene: Scene):
     assert draw.call_count == 2
     assert update.call_count == 2
     assert fixed.call_count == 2
-    assert setup.call_count == 2
 
 
 def test_paused_update(scene: Scene):

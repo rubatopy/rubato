@@ -41,7 +41,6 @@ def test_loops(monkeypatch):
     monkeypatch.setattr("rubato.classes.scene.Scene.setup", updates)
     monkeypatch.setattr("rubato.classes.scene.Scene.paused_update", updates)
 
-    SceneManager.setup()
     SceneManager.update()
     SceneManager.fixed_update()
     SceneManager.draw()
@@ -50,7 +49,6 @@ def test_loops(monkeypatch):
     assert updates.call_count == 0
 
     Scene()
-    SceneManager.setup()
     SceneManager.update()
     SceneManager.fixed_update()
     SceneManager.draw()
