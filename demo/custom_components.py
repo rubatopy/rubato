@@ -12,7 +12,7 @@ main_scene = rb.Scene()
 player = rb.GameObject("red dot", rb.Display.center)
 
 
-class Player(rb.Component):
+class PlayerController(rb.Component):
     """Custom Player Component"""
     def __init__(self, color):
         """
@@ -54,7 +54,7 @@ class Player(rb.Component):
         rb.Debug.line(Vector(10, 40), Vector(50, 40), self.color)
 
 
-player_data = Player(rb.Color.red)
+player_data = PlayerController(rb.Color.red)
 player.add(player_data).add(rb.Circle(radius=10))
 
 main_scene.add(player)
