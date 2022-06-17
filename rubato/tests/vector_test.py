@@ -53,15 +53,15 @@ def test_rationalized_mag(v1, v34):
     assert v34.rationalized_unit == "<3/5, 4/5>"
 
 
-def test_unit(v34):
-    unit = v34.unit()
-    assert unit.x == 3 / 5
-    assert unit.y == 4 / 5
-    assert Vector().unit().x == 0
-    assert Vector().unit().y == 0
+def test_normalized(v34):
+    normalized = v34.normalized()
+    assert normalized.x == 3 / 5
+    assert normalized.y == 4 / 5
+    assert Vector().normalized().x == 0
+    assert Vector().normalized().y == 0
 
     v34.normalize()
-    assert unit == v34
+    assert normalized == v34
 
 
 def test_tuple(v1, v34):
