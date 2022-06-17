@@ -5,8 +5,6 @@ Requires rubato 2.1.0 or later.
 """
 import rubato as rb
 
-rb.Debug.error_my_print()
-
 # initialize a new game
 rb.init(
     name="Platformer Demo",
@@ -66,10 +64,7 @@ def player_collide(col_info: rb.Manifold):
 
 # add a hitbox to the player with the collider
 
-# player.add(rb.Rectangle(width=64, height=64, tag="player"))
-rect = p_animation.anim_frame.get_rect()
-rect.tag = "player"
-player.add(rect)
+player.add(rb.Rectangle(width=64, height=64, tag="player"))
 # add a ground detector
 player.add(rb.Rectangle(
     width=10,

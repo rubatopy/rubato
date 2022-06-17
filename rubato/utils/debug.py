@@ -74,6 +74,10 @@ class Debug:
     def find_my_print():
         """
         Will print the stack when it finds a print statement.
+
+        Examples:
+            Place this next to your rubato import.
+            >>> Debug.find_my_print()
         """
         import sys
         import traceback
@@ -94,6 +98,10 @@ class Debug:
     def error_my_print():
         """
         Will break the program if it finds a print statement.
+
+        Examples:
+            Place this next to your rubato import.
+            >>> Debug.error_my_print()
         """
         import sys
 
