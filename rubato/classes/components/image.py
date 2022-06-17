@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
-from . import Component
+from . import Component, Rectangle
 from ... import Vector, Display, Radio, get_path
 
 if TYPE_CHECKING:
@@ -140,6 +140,12 @@ class Image(Component):
     def aa(self, new: bool):
         self._aa = new
         self._changed = True
+
+    def get_rect(self) -> Rectangle:
+        """
+        Gets the rectangle of the image. So you can make a hitbox out of it.
+        """
+        return Rectangle(offset=self.offset, width=self.get_size().x, height=self.get_size().y)
 
     def get_size(self) -> Vector:
         """
