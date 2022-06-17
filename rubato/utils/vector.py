@@ -361,7 +361,7 @@ class Vector:
         Returns:
             A unit vector that is in the pointing to the other position passed in
         """
-        base = (other - self).normalized()
+        base = (other - self).unit()
         return base
 
     def distance_between(self, other: Vector) -> float:

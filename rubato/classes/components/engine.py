@@ -252,7 +252,7 @@ class Engine:
                 return
 
             return Manifold(
-                circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).normalized(),
+                circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).unit(),
                 [v1.rotate(polygon.gameobj.rotation) + polygon.pos]
             )
         elif dot_2 <= 0:
@@ -260,7 +260,7 @@ class Engine:
                 return
 
             return Manifold(
-                circle, polygon, pen, (center - v2).rotate(polygon.gameobj.rotation).normalized(),
+                circle, polygon, pen, (center - v2).rotate(polygon.gameobj.rotation).unit(),
                 [v2.rotate(polygon.gameobj.rotation) + polygon.pos]
             )
         else:
@@ -302,7 +302,7 @@ class Engine:
         v1 = ref_verts[ref_ind].rotate(ref_poly.gameobj.rotation) + ref_poly.pos
         v2 = ref_verts[(ref_ind + 1) % len(ref_verts)].rotate(ref_poly.gameobj.rotation) + ref_poly.pos
 
-        side_plane_normal = (v2 - v1).normalized()
+        side_plane_normal = (v2 - v1).unit()
 
         neg_side = -side_plane_normal.dot(v1)
         pos_side = side_plane_normal.dot(v2)
