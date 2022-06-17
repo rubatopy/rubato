@@ -101,7 +101,7 @@ class Engine:
             impulse = col.normal * j
 
             t = rv - col.normal * rv.dot(col.normal)
-            t.unit(t)
+            t.normalized(t)
 
             jt = -rv.dot(t) * inv_inert * inv_contacts
 
