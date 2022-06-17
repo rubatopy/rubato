@@ -100,9 +100,11 @@ class Polygon(Hitbox):
 
     Args:
         verts: The vertices of the polygon. Defaults to [].
+        aligned (bool): If true, the game object will align to the hitbox ie. move the hitbox move the game object.
 
     Attributes:
         verts (List[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
+        aligned (bool): Whether or not the game object will align to the hitbox.
     """
 
     def __init__(
@@ -117,6 +119,7 @@ class Polygon(Hitbox):
         color: Color | None = None,
         tag: str = "",
         verts: List[Vector] = [],
+        aligned: bool = False,
     ):
         super().__init__(
             offset=offset,
@@ -130,6 +133,7 @@ class Polygon(Hitbox):
             tag=tag
         )
         self.verts: List[Vector] = verts
+        self.aligned: bool = aligned
 
     @property
     def radius(self) -> float:
@@ -154,6 +158,7 @@ class Polygon(Hitbox):
             self.color,
             self.tag,
             self.verts,
+            self.aligned
         )
 
     def get_aabb(self) -> List[Vector]:
@@ -207,12 +212,12 @@ class Polygon(Hitbox):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def draw(self, camera: Camera):
-        list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
-
         if self.color:
+            list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, self.color, fill=self.color)
 
         if self.debug or Game.debug:
+            list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     @classmethod
@@ -250,6 +255,22 @@ class Polygon(Hitbox):
             return cls(options | {"verts": verts})
         else:
             return verts
+
+    def update(self):
+        if self.aligned:
+            self.align_game_object()
+
+    def align_game_object(self, rotation=True) -> None:
+        """
+        Aligns the game object to the hitbox.
+
+        Args:
+            rotation (bool): If true, will align the game object's rotation to the hitbox. Defaults to True.
+        """
+        if self.gameobj:
+            self.gameobj.pos = self.pos
+            if rotation:
+                self.gameobj.rotation = self.gameobj.rotation + self.rotation_offset
 
 
 class Rectangle(Hitbox):
@@ -498,18 +519,6 @@ class Rectangle(Hitbox):
             self.height,
         )
 
-    def allign_game_object(self, rotation=False) -> None:
-        """
-        Aligns the game object to the rectangle.
-
-        Args:
-            rotation (bool): If true, will align the game object's rotation to the rectangle.
-        """
-        if self.gameobj:
-            self.gameobj.pos = self.pos
-            if rotation:
-                self.gameobj.rotation = self.gameobj.rotation + self.rotation_offset
-
 
 class Circle(Hitbox):
     """
@@ -596,10 +605,3 @@ class Circle(Hitbox):
             self.tag,
             self.radius,
         )
-
-    def allign_game_object(self) -> None:
-        """
-        Aligns the game object to the rectangle.
-        """
-        if self.gameobj:
-            self.gameobj.pos = self.pos
