@@ -7,7 +7,7 @@ import sdl2, sdl2.ext, sdl2.sdlttf
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Vector, Color, Input, Radio, Events, Font, Draw, Debug
+from . import Time, Display, Vector, Color, Input, Radio, Events, Font, Draw, Debug, PrintError
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -97,6 +97,8 @@ class Game(metaclass=GameProperties):
         try:
             while True:
                 cls.update()
+        except PrintError as e:
+            raise e
         except KeyboardInterrupt:
             Radio.broadcast(Events.EXIT)
             sdl2.sdlttf.TTF_Quit()

@@ -5,6 +5,8 @@ Requires rubato 2.1.0 or later.
 """
 import rubato as rb
 
+rb.Debug.error_my_print()
+
 # initialize a new game
 rb.init(
     name="Platformer Demo",

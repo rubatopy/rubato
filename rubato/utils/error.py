@@ -45,6 +45,13 @@ class ImplementationError(Exception):
     pass
 
 
+class PrintError(Exception):
+    """
+    An error that is raised when you try to print something, and are checking for it with Debug.
+    """
+    pass
+
+
 class RemovalWarning(DeprecationWarning):
     """
     A warning that is raised when you try to use a removed function.

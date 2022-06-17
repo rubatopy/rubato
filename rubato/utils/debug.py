@@ -1,14 +1,15 @@
 """
 This Debug module provides a set of functions to help with debugging.
-"""
+"""  # pylint: disable=import-outside-toplevel, unused-argument
 from typing import List, Optional
 
-from . import Draw, Vector, Color, Font
+from . import Draw, Vector, Color, Font, PrintError
 
 
 class Debug:
     """
     This class is a Draw copy that will queue all commands to the end of the current frame.
+    It comes with other useful functions to help with debugging.
     """
     _queue = []
 
@@ -68,6 +69,45 @@ class Debug:
         Debug._queue.clear()
 
     # ------------------------------------------------------------------------------------------------------------Queue\
+
+    @staticmethod
+    def find_my_print():
+        """
+        Will print the stack when it finds a print statement.
+        """
+        import sys
+        import traceback
+
+        class TracePrints(object):
+            def __init__(self):
+                self.stdout = sys.stdout
+
+            def write(self, s):
+                traceback.print_stack(file=self.stdout)
+
+            def flush(self):
+                self.stdout.flush()
+
+        sys.stdout = TracePrints()
+
+    @staticmethod
+    def error_my_print():
+        """
+        Will break the program if it finds a print statement.
+        """
+        import sys
+
+        class TracePrints(object):
+            def __init__(self):
+                self.stdout = sys.stdout
+
+            def write(self, s):
+                raise PrintError("Print statement found!")
+
+            def flush(self):
+                self.stdout.flush()
+
+        sys.stdout = TracePrints()
 
 
 _message_draw = "This function queues the draw to be executed last in the draw loop.\n"
