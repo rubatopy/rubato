@@ -25,7 +25,6 @@ class Hitbox(Component):
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
-        aligned (bool): If true, the game object will align to the hitbox ie. move the hitbox move the game object.
 
     Attributes:
         debug (bool): Whether to draw a green outline around the hitbox or not.
@@ -36,7 +35,6 @@ class Hitbox(Component):
         color (Color) The color to fill this hitbox with.
         tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
         colliding (Set[Hitbox]): An unordered set of hitboxes that the Hitbox is currently colliding with.
-        aligned (bool): Whether or not the game object will align to the hitbox.
     """
 
     def __init__(
@@ -50,7 +48,6 @@ class Hitbox(Component):
         on_exit: Callable = lambda manifold: None,
         color: Color | None = None,
         tag: str = "",
-        aligned: bool = False,
     ):
         super().__init__(offset=offset, rot_offset=rot_offset)
         self.debug: bool = debug
@@ -62,7 +59,6 @@ class Hitbox(Component):
         self.singular: bool = False
         self.tag: str = tag
         self.colliding: Set[Hitbox] = set()
-        self.aligned: bool = aligned
 
     @property
     def pos(self) -> Vector:
@@ -87,22 +83,6 @@ class Hitbox(Component):
         """
         return [self.gameobj.pos, self.gameobj.pos]
 
-    def update(self):
-        if self.aligned:
-            self.align_game_object()
-
-    def align_game_object(self, rotation=True) -> None:
-        """
-        Aligns the game object to the hitbox.
-
-        Args:
-            rotation (bool): If true, will align the game object's rotation to the hitbox. Defaults to True.
-        """
-        if self.gameobj:
-            self.gameobj.pos = self.pos
-            if rotation:
-                self.gameobj.rotation = self.gameobj.rotation + self.rotation_offset
-
 
 class Polygon(Hitbox):
     """
@@ -120,9 +100,11 @@ class Polygon(Hitbox):
 
     Args:
         verts: The vertices of the polygon. Defaults to [].
+        aligned (bool): If true, the game object will align to the hitbox ie. move the hitbox move the game object.
 
     Attributes:
         verts (List[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
+        aligned (bool): Whether or not the game object will align to the hitbox.
     """
 
     def __init__(
@@ -148,10 +130,10 @@ class Polygon(Hitbox):
             on_collide=on_collide,
             on_exit=on_exit,
             color=color,
-            tag=tag,
-            aligned=aligned
+            tag=tag
         )
         self.verts: List[Vector] = verts
+        self.aligned: bool = aligned
 
     @property
     def radius(self) -> float:
@@ -274,6 +256,22 @@ class Polygon(Hitbox):
         else:
             return verts
 
+    def update(self):
+        if self.aligned:
+            self.align_game_object()
+
+    def align_game_object(self, rotation=True) -> None:
+        """
+        Aligns the game object to the hitbox.
+
+        Args:
+            rotation (bool): If true, will align the game object's rotation to the hitbox. Defaults to True.
+        """
+        if self.gameobj:
+            self.gameobj.pos = self.pos
+            if rotation:
+                self.gameobj.rotation = self.gameobj.rotation + self.rotation_offset
+
 
 class Rectangle(Hitbox):
     """
@@ -302,7 +300,6 @@ class Rectangle(Hitbox):
         on_exit: Callable = lambda manifold: None,
         color: Color | None = None,
         tag: str = "",
-        aligned: bool = False,
         width: int = 10,
         height: int = 10
     ):
@@ -315,8 +312,7 @@ class Rectangle(Hitbox):
             on_collide=on_collide,
             on_exit=on_exit,
             color=color,
-            tag=tag,
-            aligned=aligned
+            tag=tag
         )
         self.width: int = int(width)
         self.height: int = int(height)
