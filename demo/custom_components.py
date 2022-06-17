@@ -4,58 +4,59 @@ Custom Component demo.
 import rubato as rb
 from rubato import Vector
 
-size = Vector(400, 300)
+size = Vector(300, 200)
 rb.init(res=size, window_size=size * 2)
 
 main_scene = rb.Scene()
 
-player = rb.GameObject("red dot", rb.Display.center)
 
+class PlayerController(rb.Component):
+    """A custom component that adds player behavior to a GameObject."""
 
-class Player(rb.Component):
-    """Custom Player Component"""
-    def __init__(self, color):
+    def __init__(self, name):
         """
-        Here you set up all the variables of the component.
-        """
-        # you must call super().__init__()
-        super().__init__()
+            Here you set up all the variables of the component.
+            """
+        super().__init__()  # you must call super().__init__()
 
-        # assign args to attributes
-        self.color = color
+        # Assign arguments to attributes
+        self.name = name
 
-        # setting all your attributes to None is not required, but does make the code explicit. Goes in setup.
-        self.circle = None
-        self.name = None
+        # Change any attributes inherited from Component.
+        self.singular = True
+        self.offset = rb.Vector(0, 10)
+
+        # Initialize any attributes that you want to use in your component.
+        self.health = 100
+        self.speed = 10
+        self.hitbox = None  # We are going to get this later.
 
     def setup(self):
         """
-        Here you have access to the GameObject of the component.
-        Run before the first update.
+        Here you have access to the GameObject of the component and is where you should set any variables that depend
+        on the GameObject.
+        Automatically run once before the first update call.
         """
-        self.circle = self.gameobj.get(rb.Circle)
-        self.circle.color = self.color
-        self.name = "bob"
+        self.hitbox = self.gameobj.get(rb.Hitbox)
 
     def update(self):
         """
         Called once per frame. Before the draw function.
         """
         if rb.Input.mouse_pressed():
-            self.circle.color = rb.Color.random()
+            self.hitbox.color = rb.Color.random()
             self.gameobj.pos = rb.Input.get_mouse_pos()
 
-    def draw(self, camera):
+    def speak(self):
         """
-        Called once per frame. You will most likely not use the camera.
+        A custom function that can add even move behavior to your component.
         """
-        rb.Debug.circle(Vector(10, 10), 10, self.color)
-        rb.Debug.circle(Vector(50, 10), 10, self.color)
-        rb.Debug.line(Vector(10, 40), Vector(50, 40), self.color)
+        print(f"Hello! My name is {self.name}.")
 
 
-player_data = Player(rb.Color.red)
-player.add(player_data).add(rb.Circle(radius=10))
+player = rb.GameObject("Player", pos=rb.Display.center)
+player.add(rb.Circle(radius=10, color=rb.Color.red))
+player.add(PlayerController("Bob"))
 
 main_scene.add(player)
 rb.begin()
