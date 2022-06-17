@@ -498,6 +498,18 @@ class Rectangle(Hitbox):
             self.height,
         )
 
+    def allign_game_object(self, rotation=False) -> None:
+        """
+        Aligns the game object to the rectangle.
+
+        Args:
+            rotation (bool): If true, will align the game object's rotation to the rectangle.
+        """
+        if self.gameobj:
+            self.gameobj.pos = self.pos
+            if rotation:
+                self.gameobj.rotation = self.gameobj.rotation + self.rotation_offset
+
 
 class Circle(Hitbox):
     """
@@ -584,3 +596,10 @@ class Circle(Hitbox):
             self.tag,
             self.radius,
         )
+
+    def allign_game_object(self) -> None:
+        """
+        Aligns the game object to the rectangle.
+        """
+        if self.gameobj:
+            self.gameobj.pos = self.pos
