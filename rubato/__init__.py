@@ -32,7 +32,7 @@ simplefilter("default", UserWarning)
 from .utils import *
 from .game import Game
 from .classes import *
-
+from .misc import *
 
 def init(
     name: str = "Untitled Game",
