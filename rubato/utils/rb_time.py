@@ -14,7 +14,14 @@ class TimerTask:
     task: Callable = field(compare=False)
 
 
-class Time():
+@dataclass(order=True)
+class ScheduledTask:
+    time: int
+    interval: int = field(compare=False)
+    task: Callable = field(compare=False)
+
+
+class Time:
     """
     The time class
 
@@ -32,9 +39,11 @@ class Time():
     """
 
     frames = 0
-    sorted_frame_times: List[TimerTask] = []
+    _sorted_frame_times: List[TimerTask] = []
 
-    sorted_task_times: List[TimerTask] = []
+    _sorted_task_times: List[TimerTask] = []
+
+    _sorted_scheduled_times: List[ScheduledTask] = []
 
     delta_time: float = 0.001
     fixed_delta: float = 0
@@ -73,7 +82,7 @@ class Time():
             func: The function to call.
         """
 
-        heapq.heappush(cls.sorted_task_times, TimerTask(time_delta + cls.now, func))
+        heapq.heappush(cls._sorted_task_times, TimerTask(time_delta + cls.now, func))
 
     @classmethod
     def delayed_frames(cls, frames_delta: int, func: Callable):
@@ -85,7 +94,19 @@ class Time():
             func: The function to call
         """
 
-        heapq.heappush(cls.sorted_frame_times, TimerTask(cls.frames + frames_delta, func))
+        heapq.heappush(cls._sorted_frame_times, TimerTask(cls.frames + frames_delta, func))
+
+    @classmethod
+    def scheduled_call(cls, interval: int, func: Callable):
+        """
+        Calls the function func at a scheduled interval.
+
+        Args:
+            interval: The interval (in milliseconds) to run the function at.
+            func: The function to call.
+        """
+
+        heapq.heappush(cls._sorted_scheduled_times, ScheduledTask(interval + cls.now, interval, func))
 
     @classmethod
     def milli_to_sec(cls, milli: int) -> float:
@@ -122,17 +143,27 @@ class Time():
 
         # pylint: disable=comparison-with-callable
         processing = True
-        while processing and cls.sorted_frame_times:
-            if cls.sorted_frame_times[0].time <= cls.now:
-                timer_task = heapq.heappop(cls.sorted_frame_times)
+        while processing and cls._sorted_frame_times:
+            if cls._sorted_frame_times[0].time <= cls.now:
+                timer_task = heapq.heappop(cls._sorted_frame_times)
                 timer_task.task()
             else:
                 processing = False
 
         processing = True
-        while processing and cls.sorted_task_times:
-            if cls.sorted_task_times[0].time <= cls.now:
-                timer_task = heapq.heappop(cls.sorted_task_times)
+        while processing and cls._sorted_task_times:
+            if cls._sorted_task_times[0].time <= cls.now:
+                timer_task = heapq.heappop(cls._sorted_task_times)
                 timer_task.task()
+            else:
+                processing = False
+
+        processing = True
+        while processing and cls._sorted_scheduled_times:
+            if dt := (cls._sorted_scheduled_times[0].time - cls.now) <= 0:
+                scheduled_task = heapq.heappop(cls._sorted_scheduled_times)
+                scheduled_task.task()
+                scheduled_task.time += scheduled_task.interval - dt
+                heapq.heappush(cls._sorted_scheduled_times, scheduled_task)
             else:
                 processing = False
