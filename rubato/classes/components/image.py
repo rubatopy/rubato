@@ -4,10 +4,9 @@ The image component that renders an image from the filesystem.
 from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
-import heapq
 
 from . import Component, Rectangle
-from ... import Vector, Display, Draw, Radio, get_path, DrawTask
+from ... import Vector, Display, Draw, Radio, get_path
 
 
 if TYPE_CHECKING:
@@ -235,13 +234,10 @@ class Image(Component):
             self._update_rotozoom()
 
         if self.visible:
-            # FIXME we need a dedicated image draw function in Draw
-            heapq.heappush(
-                Draw._queue, DrawTask(  # pylint: disable=protected-access
-                    self.true_z,
-                    lambda: Display.update(
-                        self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
-                )
+            Draw.push(
+                self.true_z,
+                lambda: Display.update(
+                    self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
             )
 
     def delete(self):

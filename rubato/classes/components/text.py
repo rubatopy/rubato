@@ -2,10 +2,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
-import heapq
 
 from . import Component
-from ... import Display, Vector, Color, Font, Draw, DrawTask
+from ... import Display, Vector, Color, Font, Draw
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -41,7 +40,7 @@ class Text(Component):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
         self._font: Font = font
-        self._anchor: str = anchor
+        self._anchor: Vector = anchor
         self._justify: str = justify
         self._width: int = width
         self._stored_rot: int = 0
@@ -167,16 +166,11 @@ class Text(Component):
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        # FIXME i dont even want to try to fix this
-        heapq.heappush(
-            Draw._queue, DrawTask( # pylint: disable=protected-access
-                self.true_z,
-                lambda: Display.update(
-                    self._tx,
-                    camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
-                    )
-            )
-        )
+        Draw.push(self.true_z,
+                  lambda: Display.update(
+                      self._tx,
+                      camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
+                  ))
 
     def delete(self):
         """Deletes the text component."""

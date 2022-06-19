@@ -16,7 +16,7 @@ rb.init(
     res=rb.Vector(1200, 1200),
 )
 
-rb.Game.show_fps = True
+# rb.Game.show_fps = True
 
 main_scene = rb.Scene()  # Create our scene
 
