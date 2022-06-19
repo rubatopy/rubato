@@ -22,20 +22,29 @@ class Component:
     Args:
         offset: The offset of the component from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the component from the game object. Defaults to 0.
+        z_index: The vertical offset of where to draw the component. Defaults to 0.
 
     Attributes:
         gameobj (GameObject): The game object this component is attached to.
         singular (bool): Whether multiple components of the same type are allowed on a game object.
         offset (Vector): The offset from the center of the game object that the hitbox should be placed.
         rotation_offset (float): The rotational offset from the game object's rotation.
+        z_index (int): Where to draw the component in the z direction.
+        started (bool): Whether the component has run its setup method.
     """
 
-    def __init__(self, offset: Vector = Vector(), rot_offset: float = 0):
+    def __init__(self, offset: Vector = Vector(), rot_offset: float = 0, z_index: int = 0):
         self.gameobj: Optional[GameObject] = None
         self.singular: bool = False
         self.offset: Vector = offset
         self.rotation_offset: float = rot_offset
+        self.z_index: int = z_index
         self.started = False
+
+    @property
+    def true_z(self):
+        """The z_index of the component offset by its parent gameobject z_index."""
+        return self.z_index + self.gameobj.z_index
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""

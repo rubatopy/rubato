@@ -21,7 +21,6 @@ def go():
     g.fixed_update = Mock()
     g.draw = Mock()
     g.delete = Mock()
-    g.setup = Mock()
     return g
 
 
@@ -29,7 +28,6 @@ def test_init(group):
     assert group.name == ""
     assert group.game_objects == []
     assert group.groups == []
-    assert group.z_index == 0
     assert group.active
 
 

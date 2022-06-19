@@ -87,7 +87,7 @@ class Engine:
             ang_vel_b = 0 if b_none or not rb_b.advanced else rb_b.ang_vel
 
             rv = (0 if b_none else rb_b.velocity +
-                  rb.perpendicular(ang_vel_b)) - (0 if a_none is None else rb_a.velocity + ra.perpendicular(ang_vel_a))
+                  rb.perpendicular(ang_vel_b)) - (0 if a_none else rb_a.velocity + ra.perpendicular(ang_vel_a))
 
             contact_vel = rv.dot(col.normal)
 

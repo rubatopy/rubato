@@ -39,8 +39,9 @@ class Button(Component):
         onrelease: Callable = lambda: None,
         onhover: Callable = lambda: None,
         onexit: Callable = lambda: None,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.dims: Vector = Vector(width, height)
         self.pressed: bool = False
         self.hover: bool = False
@@ -51,8 +52,9 @@ class Button(Component):
 
     def update(self):
         """The update function for buttons."""
-        if not self.hover and Input.mouse_in(self.gameobj.pos + self.offset, self.dims,
-                                             self.gameobj.rotation + self.rotation_offset):
+        if not self.hover and Input.mouse_in(
+            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rotation_offset
+        ):
             self.hover = True
             self.onhover()
         elif self.hover and not Input.mouse_in(
