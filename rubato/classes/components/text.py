@@ -2,10 +2,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
-import heapq
 
 from . import Component
-from ... import Display, Vector, Color, Font, Draw, DrawTask
+from ... import Display, Vector, Color, Font, Draw
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -28,15 +27,15 @@ class Text(Component):
     """
 
     def __init__(
-        self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
-        text: str = "",
-        justify: Literal["left", "center", "right"] = "left",
-        anchor: Vector = Vector(0, 0),
-        width: int = 0,
-        font: Font = Font(),
-        z_index: int = 0
+            self,
+            offset: Vector = Vector(),
+            rot_offset: float = 0,
+            text: str = "",
+            justify: Literal["left", "center", "right"] = "left",
+            anchor: Vector = Vector(0, 0),
+            width: int = 0,
+            font: Font = Font(),
+            z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
@@ -167,16 +166,11 @@ class Text(Component):
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        # FIXME i dont even want to try to fix this
-        heapq.heappush(
-            Draw._queue, DrawTask( # pylint: disable=protected-access
-                self.true_z,
-                lambda: Display.update(
-                    self._tx,
-                    camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
-                    )
-            )
-        )
+        Draw.push(self.true_z,
+                  lambda: Display.update(
+                      self._tx,
+                      camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
+                  ))
 
     def delete(self):
         """Deletes the text component."""
