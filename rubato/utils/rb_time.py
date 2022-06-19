@@ -49,6 +49,7 @@ class Time:
     fixed_delta: float = 0
     normal_delta: float = 0
     fps = 60
+    _start_of_frame: int = 0
 
     physics_counter = 0
 
@@ -70,6 +71,13 @@ class Time:
     def now(cls) -> int:
         """The time since the start of the game, in milliseconds. This is a get-only property."""
         return sdl2.SDL_GetTicks64()
+
+    @classmethod
+    @property
+    def start_of_frame(cls) -> int:
+        """The time since the start of the game, in milliseconds, taken at the start of the frame.
+        This is a get-only property."""
+        return cls._start_of_frame
 
     @classmethod
     def delayed_call(cls, time_delta: int, func: Callable):
@@ -160,10 +168,10 @@ class Time:
 
         processing = True
         while processing and cls._sorted_scheduled_times:
-            if dt := (cls._sorted_scheduled_times[0].time - cls.now) <= 0:
+            if (dt := (cls._sorted_scheduled_times[0].time - cls.now)) <= 0:
                 scheduled_task = heapq.heappop(cls._sorted_scheduled_times)
                 scheduled_task.task()
-                scheduled_task.time += scheduled_task.interval - dt
+                scheduled_task.time = cls.now + scheduled_task.interval + dt
                 heapq.heappush(cls._sorted_scheduled_times, scheduled_task)
             else:
                 processing = False
