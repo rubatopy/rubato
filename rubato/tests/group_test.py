@@ -21,7 +21,6 @@ def go():
     g.fixed_update = Mock()
     g.draw = Mock()
     g.delete = Mock()
-    g.setup = Mock()
     return g
 
 
