@@ -27,15 +27,15 @@ class Text(Component):
     """
 
     def __init__(
-            self,
-            offset: Vector = Vector(),
-            rot_offset: float = 0,
-            text: str = "",
-            justify: Literal["left", "center", "right"] = "left",
-            anchor: Vector = Vector(0, 0),
-            width: int = 0,
-            font: Font = Font(),
-            z_index: int = 0
+        self,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
+        text: str = "",
+        justify: Literal["left", "center", "right"] = "left",
+        anchor: Vector = Vector(0, 0),
+        width: int = 0,
+        font: Font = Font(),
+        z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
