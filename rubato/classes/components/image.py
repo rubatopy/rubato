@@ -256,7 +256,6 @@ class Image(Component):
             anti_aliasing=self.aa,
             flipx=self.flipx,
             flipy=self.flipy,
-            offset=self.offset,
             visible=self.visible,
         )
         new.image = Display.clone_surface(self.image)
