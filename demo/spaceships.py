@@ -77,7 +77,6 @@ def update():
 
     sc_comp.target = Input.get_mouse_pos()
 
-
 main_scene.update = update
 
 begin()
