@@ -237,7 +237,7 @@ class Image(Component):
         if self.visible:
             # FIXME we need a dedicated image draw function in Draw
             heapq.heappush(
-                Draw._queue, DrawTask( # pylint: disable=protected-access
+                Draw._queue, DrawTask(  # pylint: disable=protected-access
                     self.true_z,
                     lambda: Display.update(
                         self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
