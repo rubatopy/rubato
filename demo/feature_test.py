@@ -1,11 +1,6 @@
 """A place to test new WIP features"""  # pylint: disable=all
-from typing import TypedDict
 import rubato as rb
-from random import randint, choice
-import random, ctypes, sdl2, sdl2.ext
 import sys, os
-
-import numpy
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -24,9 +19,9 @@ main = rb.Scene()
 
 def update():
     if rb.Input.mouse_is_pressed():
-        rb.Debug.circle(rb.Input.get_mouse_pos())
+        rb.Draw.circle(rb.Input.get_mouse_pos())
 def draw():
-    rb.Debug.rect(rb.Display.top_left, 20, 20, fill=rb.Color.black)
+    rb.Draw.rect(rb.Display.top_left, 20, 20, fill=rb.Color.black)
 main.update = update
 main.draw = draw
 
