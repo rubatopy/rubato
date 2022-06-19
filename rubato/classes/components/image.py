@@ -76,7 +76,7 @@ class Image(Component):
 
         self._changed = True
         self._update_rotozoom()
-        self._go_rotation = 0  # Martin, why do we know go_rotation? Haven't actually checked it yet.
+        self._go_rotation = 0
 
         Radio.listen("ZOOM", self.cam_update)
 
@@ -143,7 +143,10 @@ class Image(Component):
 
     def get_rect(self) -> Rectangle:
         """
-        Gets the rectangle of the image. So you can make a hitbox out of it.
+        Generates the rectangular bounding box of the image.
+
+        Returns:
+            The Rectangle hitbox that bounds the image.
         """
         return Rectangle(offset=self.offset, width=self.get_size().x, height=self.get_size().y)
 
@@ -152,7 +155,7 @@ class Image(Component):
         Gets the current size of the image.
 
         Returns:
-            Vector: The size of the image
+            The size of the image
         """
         if self.image.w == self._original.w and self.image.h == self._original.h:
             return Vector(self.image.w, self.image.h) * self.scale
@@ -170,7 +173,6 @@ class Image(Component):
     def _update_rotozoom(self):
         """Updates the image surface. Called automatically when image scale or rotation are updated"""
         if self.gameobj:
-            print(self.gameobj.rotation + self.rotation_offset)
             self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._original,
                 -self.gameobj.rotation - self.rotation_offset,
@@ -179,7 +181,7 @@ class Image(Component):
                 -self.scale.x if self.flipx else self.scale.x,
                 -self.scale.y if self.flipy else self.scale.y,
                 int(self.aa),
-                ).contents
+            ).contents
             self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def resize(self, new_size: Vector):
@@ -249,6 +251,7 @@ class Image(Component):
             Image: The cloned image.
         """
         new = Image(
+            offset=self.offset,
             scale=self.scale,
             anti_aliasing=self.aa,
             flipx=self.flipx,
@@ -258,7 +261,6 @@ class Image(Component):
         )
         new.image = Display.clone_surface(self.image)
         new.rotation_offset = self.rotation_offset
-        new.offset = self.offset
         return new
 
     @staticmethod

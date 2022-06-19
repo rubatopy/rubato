@@ -1,6 +1,8 @@
 """
 This Debug module provides a set of functions to help with debugging.
-"""  # pylint: disable=import-outside-toplevel, unused-argument
+"""
+import sys
+import traceback
 from typing import List, Optional
 
 from . import Draw, Vector, Color, Font, PrintError
@@ -79,14 +81,13 @@ class Debug:
             Place this next to your rubato import.
             >>> Debug.find_my_print()
         """
-        import sys
-        import traceback
 
         class TracePrints(object):
+
             def __init__(self):
                 self.stdout = sys.stdout
 
-            def write(self, s):
+            def write(self, _):
                 traceback.print_stack(file=self.stdout)
 
             def flush(self):
@@ -103,9 +104,9 @@ class Debug:
             Place this next to your rubato import.
             >>> Debug.error_my_print()
         """
-        import sys
 
         class TracePrints(object):
+
             def __init__(self):
                 self.stdout = sys.stdout
 
