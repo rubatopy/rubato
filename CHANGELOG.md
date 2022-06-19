@@ -22,6 +22,7 @@
 -   `Vector.angle_between` now returns the angle in degrees.
 -   `Color.random` now a function and not property. -> `Color.random()`
 -   `Time.delta_time` and `Time.fixed_delta` are now in seconds instead of milliseconds
+-   `Debug.*` all draw functions are moved to the Draw class. Default to Debug functionality.
 
 ### Added
 
