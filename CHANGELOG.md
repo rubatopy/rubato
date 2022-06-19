@@ -4,11 +4,16 @@
 
 ### Breaking Changes
 
+
 ### Added
+
+-   Component now has a z_index
 
 ### Changed
 
 ### Removed
+
+-   z_index from Group
 
 ### Fixed
 
