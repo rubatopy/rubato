@@ -18,4 +18,7 @@ for root, dirs, files in walk("."):
                 proc.wait(timeout=5)
             except TimeoutExpired:
                 pass
+            if proc.returncode != None:
+                print(f"{file} failed")
+                exit(1)
     break
