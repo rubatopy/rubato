@@ -200,6 +200,9 @@ class Game(metaclass=GameProperties):
             # process user set pause update
             cls.scenes.paused_update()
         else:
+            # normal update
+            cls.scenes.update()
+
             # fixed update
             Time.physics_counter += Time.delta_time
 
@@ -207,8 +210,6 @@ class Game(metaclass=GameProperties):
                 if cls.state != Game.PAUSED:
                     cls.scenes.fixed_update()
                 Time.physics_counter -= Time.fixed_delta
-            # normal update
-            cls.scenes.update()
 
         # Draw Loop
         Display.renderer.clear(cls.border_color.to_tuple())
