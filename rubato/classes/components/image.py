@@ -6,8 +6,9 @@ from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 import heapq
 
-from . import Component
+from . import Component, Rectangle
 from ... import Vector, Display, Draw, Radio, get_path, DrawTask
+
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -143,12 +144,21 @@ class Image(Component):
         self._aa = new
         self._changed = True
 
+    def get_rect(self) -> Rectangle:
+        """
+        Generates the rectangular bounding box of the image.
+
+        Returns:
+            The Rectangle hitbox that bounds the image.
+        """
+        return Rectangle(offset=self.offset, width=self.get_size().x, height=self.get_size().y)
+
     def get_size(self) -> Vector:
         """
         Gets the current size of the image.
 
         Returns:
-            Vector: The size of the image
+            The size of the image
         """
         if self.image.w == self._original.w and self.image.h == self._original.h:
             return Vector(self.image.w, self.image.h) * self.scale
@@ -168,7 +178,9 @@ class Image(Component):
         if self.gameobj:
             self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._original,
-                self.gameobj.rotation + self.rotation_offset,
+                -self.gameobj.rotation - self.rotation_offset,
+                # It seems that rotation is counterclockwise, even though we assume clockwise until now.
+                # Requires further investigation but is a fix for now.
                 -self.scale.x if self.flipx else self.scale.x,
                 -self.scale.y if self.flipy else self.scale.y,
                 int(self.aa),
@@ -227,7 +239,7 @@ class Image(Component):
             heapq.heappush(
                 Draw._queue, DrawTask( # pylint: disable=protected-access
                     self.true_z,
-                    lambda: Display.update(self._tx, camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2))
+                    lambda: Display.update(self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
                 )
             )
 
@@ -248,16 +260,15 @@ class Image(Component):
             Image: The cloned image.
         """
         new = Image(
-            {
-                "scale": self.scale,
-                "anti_aliasing": self.aa,
-                "flipx": self.flipx,
-                "flipy": self.flipy,
-                "offset": self.offset,
-                "visible": self.visible,
-            }
+            offset=self.offset,
+            scale=self.scale,
+            anti_aliasing=self.aa,
+            flipx=self.flipx,
+            flipy=self.flipy,
+            visible=self.visible,
         )
         new.image = Display.clone_surface(self.image)
+        new.rotation_offset = self.rotation_offset
         return new
 
     @staticmethod

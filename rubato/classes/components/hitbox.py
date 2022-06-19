@@ -120,12 +120,6 @@ class Polygon(Hitbox):
         verts: List[Vector] = [],
         z_index: int = 0
     ):
-        """
-        Initializes a Polygon.
-
-        Args:
-            options: A Polygon config. Defaults to the :ref:`Polygon defaults <polygondef>`.
-        """
         super().__init__(
             offset=offset,
             rot_offset=rot_offset,
@@ -264,6 +258,9 @@ class Rectangle(Hitbox):
     Attributes:
         width (int): The width of the rectangle
         height (int): The height of the rectangle
+
+    Note:
+        If color is unassigned, the rectangle will not be drawn. And will act like a rectangular hitbox.
     """
 
     def __init__(
@@ -281,13 +278,6 @@ class Rectangle(Hitbox):
         height: int = 10,
         z_index: int = 0
     ):
-        """
-        Initializes a Rectangle.
-
-        Args:
-            options: A Rectangle config. Defaults to the :ref:`Rectangle defaults <rectangledef>`.
-        """
-
         super().__init__(
             offset=offset,
             rot_offset=rot_offset,
@@ -392,6 +382,50 @@ class Rectangle(Hitbox):
             raise Error("Tried to set rect property before game object assignment.")
 
     @property
+    def top(self):
+        """
+        The top side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.y - self.height / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @top.setter
+    def top(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def left(self):
+        """
+        The bottom side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.x - self.width / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @left.setter
+    def left(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.x += new - self.width / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
     def bottom(self):
         """
         The bottom side of the rectangle.
@@ -409,6 +443,28 @@ class Rectangle(Hitbox):
     def bottom(self, new: float):
         if self.gameobj:
             self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos = self.gameobj.pos.to_int()
+        else:
+            raise Error("Tried to set rect property before game object assignment.")
+
+    @property
+    def right(self):
+        """
+        The right side of the rectangle.
+
+        Note:
+            This can only be accessed and set after the Rectangle has been
+            added to a Game Object.
+        """
+        if self.gameobj:
+            return self.pos.x - self.height / 2
+        else:
+            raise Error("Tried to get rect property before game object assignment.")
+
+    @right.setter
+    def right(self, new: float):
+        if self.gameobj:
+            self.gameobj.pos.x += new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -446,17 +502,17 @@ class Rectangle(Hitbox):
         Generates a list of the rectangle's vertices with no transformations applied.
 
         Returns:
-            List[Vector]: The list of vertices
+            List[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
         """
         x, y = self.width / 2, self.height / 2
         return [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
 
     def translated_verts(self) -> List[Vector]:
         """
-        Offsets each vertex with the Polygon's offset.
+        Offsets each vertex with the Polygon's offset. Top left, top right, bottom right, bottom left.
 
         Returns:
-            List[Vector]: The list of vertices
+            List[Vector]: The list of vertices.
         """
         return [v * self.scale + self.offset for v in self.vertices()]
 
@@ -465,7 +521,7 @@ class Rectangle(Hitbox):
         Generates a list of the rectangle's vertices, scaled and rotated.
 
         Returns:
-            List[Vector]: The list of vertices
+            List[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
         """
         return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
@@ -474,17 +530,19 @@ class Rectangle(Hitbox):
         Generates a list of the rectangle's vertices, relative to its position.
 
         Returns:
-            List[Vector]: The list of vertices
+            List[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
         """
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
     def draw(self, camera: Camera):
-        list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
-
+        """Will draw the rectangle to the screen. Won't draw if color = None."""
+        # list_of_points purposefully is defined in each if, to not create a new list every time unless needed.
         if self.color:
+            list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
+            list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Rectangle:
@@ -503,6 +561,9 @@ class Circle(Hitbox):
 
     Attributes:
         radius (int): The radius of the circle.
+
+    Note:
+        If color is unassigned, the circle will not be drawn. And will act like a circular hitbox.
     """
 
     def __init__(
@@ -519,12 +580,6 @@ class Circle(Hitbox):
         radius: int = 10,
         z_index: int = 0
     ):
-        """
-        Initializes a Circle.
-
-        Args:
-            options: A Circle config. Defaults to the :ref:`Circle defaults <circledef>`.
-        """
         super().__init__(
             offset=offset,
             rot_offset=rot_offset,
@@ -538,6 +593,17 @@ class Circle(Hitbox):
             z_index=z_index
         )
         self.radius = radius
+
+    @property
+    def center(self) -> Vector:
+        """The center of the circle. Equivalent to pos"""
+        # this is required to make the center property setter work and not have two behaviours in different classes.
+        return self.pos
+
+    @center.setter
+    def center(self, new: Vector):
+        """Sets the center of the circle."""
+        self.gameobj.pos = new
 
     def get_aabb(self) -> List[Vector]:
         offset = self.transformed_radius()
@@ -559,13 +625,16 @@ class Circle(Hitbox):
         return self.radius * self.scale
 
     def draw(self, camera: Camera):
-        relative_pos = camera.transform(self.pos)
-        scaled_rad = camera.scale(self.radius)
+        """Will draw the circle to the screen. Won't draw if color = None."""
 
         if self.color is not None:
+            relative_pos = camera.transform(self.pos)
+            scaled_rad = camera.scale(self.radius)
             Draw.circle(relative_pos, scaled_rad, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
+            relative_pos = camera.transform(self.pos)
+            scaled_rad = camera.scale(self.radius)
             Draw.circle(relative_pos, scaled_rad, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Circle:

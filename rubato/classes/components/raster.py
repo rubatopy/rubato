@@ -238,7 +238,7 @@ class Raster(Component):
         if self.gameobj:
             self._drawn = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._raster,
-                self.gameobj.rotation + self.rotation_offset,
+                -self.gameobj.rotation - self.rotation_offset,
                 self.scale.x * self._cam_zoom,
                 self.scale.y * self._cam_zoom,
                 0,
@@ -257,8 +257,6 @@ class Raster(Component):
                 Draw._queue, DrawTask( # pylint: disable=protected-access
                     self.true_z,
                     lambda: Display.update(
-                        self._texture,
-                        camera.transform(self.gameobj.pos - Vector(*self._texture.size) / 2)
-                        )
+                      self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
                 )
             )
