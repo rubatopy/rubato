@@ -17,7 +17,7 @@ class DrawTask:
 
 
 class Draw:
-    """Draws things to the renderer. Dont instantiate, instead use it as a static class."""
+    """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
     _queue: List[DrawTask] = []
 
     @classmethod
