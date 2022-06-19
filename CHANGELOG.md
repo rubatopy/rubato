@@ -4,16 +4,20 @@
 
 ### Breaking Changes
 
+-   z_indexes completely reworked.
+-   Some setup, draw, and update methods deprecated in some classes.
 
 ### Added
 
 -   Component now has a z_index
+-   true_z property for components which gets the z_index of the component offset by its parent gameobject
 
 ### Changed
 
 ### Removed
 
 -   z_index from Group
+-   Misc. unused draw, setup, and update methods for some classes.
 
 ### Fixed
 
