@@ -41,7 +41,7 @@ class Text(Component):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
         self._font: Font = font
-        self._anchor: str = anchor
+        self._anchor: Vector = anchor
         self._justify: str = justify
         self._width: int = width
         self._stored_rot: int = 0
