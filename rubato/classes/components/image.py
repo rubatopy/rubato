@@ -239,7 +239,8 @@ class Image(Component):
             heapq.heappush(
                 Draw._queue, DrawTask( # pylint: disable=protected-access
                     self.true_z,
-                    lambda: Display.update(self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
+                    lambda: Display.update(
+                        self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
                 )
             )
 
