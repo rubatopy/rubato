@@ -9,17 +9,19 @@
 
 ### Added
 
--   Component now has a z_index
--   true_z property for components which gets the z_index of the component offset by its parent gameobject
+-   `Component` now has a z_index
+-   true_z property for components which gets the z_index of the `Component` offset by its parent `GameObject`
 
 ### Changed
 
 ### Removed
 
--   z_index from Group
+-   z_index from `Group`
 -   Misc. unused draw, setup, and update methods for some classes.
 
 ### Fixed
+
+-   Resizing an `Image` now works.
 
 ## [v2.2.0] - June 12, 2022
 

@@ -9,24 +9,38 @@ rb.init(
     physics_fps=60,
     window_size=rb.Vector(600, 600),
     res=rb.Vector(1200, 1200),
-    window_pos=rb.Vector(0, 0)
     # target_fps=2,
 )
 
-rb.Game.debug = True
-# rb.Debug.rect()
+rb.Game.show_fps = True
 main = rb.Scene()
 
-def update():
-    if rb.Input.mouse_is_pressed():
-        rb.Draw.circle(rb.Input.get_mouse_pos())
-def draw():
-    rb.Draw.rect(rb.Display.top_left, 20, 20, fill=rb.Color.black)
-main.update = update
-main.draw = draw
+test = rb.GameObject(pos=rb.Vector(300, 300))
+img = rb.Image(rel_path="sprites/spaceship/spaceship.png")
 
-test = rb.GameObject(pos=rb.Vector(300, 300)).add(rb.Rectangle(width=50, height=100, color=rb.Color.red))
-test.add(rb.Slider(offset=rb.Vector(200, -50),slider_length= 100,rot_offset= 45))
+img.resize(rb.Vector(29 * 2, 26 * 2))
+test.add(img)
+
+w = img.get_size().x
+h = img.get_size().y
+
+
+def update():
+    global w, h
+    if rb.Input.key_pressed("w"):
+        w += 1
+        h += 1
+        img.resize(rb.Vector(w, h))
+    if rb.Input.key_pressed("s"):
+        w -= 1
+        h -= 1
+        img.resize(rb.Vector(w, h))
+    if rb.Input.key_pressed("a"):
+        img.rotation_offset -= 1
+    if rb.Input.key_pressed("d"):
+        img.rotation_offset += 1
+
 
 main.add(test)
+main.update = update
 rb.begin()
