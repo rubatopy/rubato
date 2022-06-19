@@ -254,9 +254,12 @@ class Raster(Component):
         if self.visible:
             # FIXME we need a dedicated image draw function in Draw
             heapq.heappush(
-                Draw._queue, DrawTask( # pylint: disable=protected-access
+                Draw._queue, # pylint: disable=protected-access
+                DrawTask(
                     self.true_z,
                     lambda: Display.update(
-                      self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
+                        self._texture, camera.
+                        transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
+                    ),
                 )
             )
