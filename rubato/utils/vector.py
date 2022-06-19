@@ -140,7 +140,7 @@ class Vector:
         """
         Normalizes the current vector.
         """
-        self.unit(self)
+        self.normalized(self)
 
     def to_tuple(self) -> tuple:
         """

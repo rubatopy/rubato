@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from . import Component, Button
-from ... import Input, Vector, Math, Debug
+from ... import Input, Vector, Math, Draw
 from ... import Color  # testing
 
 from typing import TYPE_CHECKING, Callable
@@ -101,15 +101,15 @@ class Slider(Component):
             self.slider_length
         )
         self.button.offset = Math.clamp(mouse_projection, 0, self.slider_length)
-        Debug.circle(self.gameobj.pos + self.offset, 5, Color.red, fill=Color.red)
-        Debug.circle(self.gameobj.pos + self.offset + slider_direction * self.slider_length, 5, fill=Color.green)
-        Debug.line(
+        Draw.circle(self.gameobj.pos + self.offset, 5, Color.red, fill=Color.red)
+        Draw.circle(self.gameobj.pos + self.offset + slider_direction * self.slider_length, 5, fill=Color.green)
+        Draw.line(
             self.gameobj.pos + self.offset,
             self.gameobj.pos + self.offset + slider_direction * self.slider_length,
             width=3
         )
 
-        Debug.circle(
+        Draw.circle(
             self.gameobj.pos + self.offset + slider_direction * mouse_projection,
             5,
             fill=Color.purple if self.button.pressed else Color.blue
@@ -122,5 +122,5 @@ class Slider(Component):
 
 
 # TODO: force direction to unit vector
-# TODO: figure out slider projectoin.
+# TODO: figure out slider projection.
 # TODO: Ask Martin abt rotation offset.

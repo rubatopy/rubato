@@ -4,16 +4,20 @@
 
 ### Breaking Changes
 
+-   z_indexes completely reworked.
+-   Some setup, draw, and update methods deprecated in some classes.
 
 ### Added
 
 -   Component now has a z_index
+-   true_z property for components which gets the z_index of the component offset by its parent gameobject
 
 ### Changed
 
 ### Removed
 
 -   z_index from Group
+-   Misc. unused draw, setup, and update methods for some classes.
 
 ### Fixed
 
@@ -27,6 +31,7 @@
 -   `Vector.angle_between` now returns the angle in degrees.
 -   `Color.random` now a function and not property. -> `Color.random()`
 -   `Time.delta_time` and `Time.fixed_delta` are now in seconds instead of milliseconds
+-   `Debug.*` all draw functions are moved to the Draw class. Default to Debug functionality.
 
 ### Added
 

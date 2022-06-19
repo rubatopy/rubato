@@ -1,11 +1,10 @@
 """A Raster is a grid of pixels that you can draw shapes onto or edit individual pixels."""
 from typing import Dict, Tuple
 import sdl2, sdl2.ext, sdl2.sdlgfx
-import heapq
 
 from . import Component
 from .. import Camera
-from ... import Display, Vector, Color, Radio, Draw, DrawTask
+from ... import Display, Vector, Color, Radio, Draw
 
 
 class Raster(Component):
@@ -252,14 +251,10 @@ class Raster(Component):
             self._update_rotozoom()
 
         if self.visible:
-            # FIXME we need a dedicated image draw function in Draw
-            heapq.heappush(
-                Draw._queue, # pylint: disable=protected-access
-                DrawTask(
-                    self.true_z,
-                    lambda: Display.update(
-                        self._texture, camera.
-                        transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
-                    ),
-                )
+            Draw.push(
+                self.true_z,
+                lambda: Display.update(
+                    self._texture, camera.
+                    transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
+                ),
             )

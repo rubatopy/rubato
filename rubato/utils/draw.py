@@ -17,8 +17,19 @@ class DrawTask:
 
 
 class Draw:
-    """Draws things to the renderer. Dont instantiate, instead use it as a static class."""
+    """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
     _queue: List[DrawTask] = []
+
+    @classmethod
+    def push(cls, z_index: int, callback: Callable):
+        """
+        Add a custom draw function to the frame queue.
+
+        Args:
+            z_index (int): The z_index to call at (lower z_indexes get called first).
+            callback (Callable): The function to call.
+        """
+        heapq.heappush(cls._queue, DrawTask(z_index, callback))
 
     @classmethod
     def dump(cls):
