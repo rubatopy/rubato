@@ -43,6 +43,7 @@ class Component:
 
     @property
     def true_z(self):
+        """The z_index of the component offset by its parent gameobject z_index."""
         return self.z_index + self.gameobj.z_index
 
     def draw(self, camera: Camera):
