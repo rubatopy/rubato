@@ -53,7 +53,8 @@ class Time:
 
     physics_counter = 0
 
-    _past_fps = [0] * 250
+    _fps_history = 250
+    _past_fps = [0] * _fps_history
 
     target_fps = 0  # this means no cap
     capped = False
@@ -64,12 +65,11 @@ class Time:
     @property
     def smooth_fps(cls) -> float:
         """The average fps over the past 250 frames. This is a get-only property."""
-        return sum(cls._past_fps) / 250
+        return sum(cls._past_fps) / cls._fps_history
 
     @classmethod
-    @property
     def now(cls) -> int:
-        """The time since the start of the game, in milliseconds. This is a get-only property."""
+        """The time since the start of the game, in milliseconds."""
         return sdl2.SDL_GetTicks64()
 
     @classmethod
@@ -90,7 +90,7 @@ class Time:
             func: The function to call.
         """
 
-        heapq.heappush(cls._sorted_task_times, TimerTask(time_delta + cls.now, func))
+        heapq.heappush(cls._sorted_task_times, TimerTask(time_delta + cls.now(), func))
 
     @classmethod
     def delayed_frames(cls, frames_delta: int, func: Callable):
@@ -114,7 +114,7 @@ class Time:
             func: The function to call.
         """
 
-        heapq.heappush(cls._sorted_scheduled_times, ScheduledTask(interval + cls.now, interval, func))
+        heapq.heappush(cls._sorted_scheduled_times, ScheduledTask(interval + cls.now(), interval, func))
 
     @classmethod
     def milli_to_sec(cls, milli: int) -> float:
@@ -158,14 +158,14 @@ class Time:
                 break
 
         while cls._sorted_task_times:
-            if cls._sorted_task_times[0].time <= cls.now:
+            if cls._sorted_task_times[0].time <= cls.now():
                 timer_task = heapq.heappop(cls._sorted_task_times)
                 timer_task.task()
             else:
                 break
 
         while cls._sorted_scheduled_times:
-            if cls._sorted_scheduled_times[0].time <= cls.now:
+            if cls._sorted_scheduled_times[0].time <= cls.now():
                 scheduled_task = heapq.heappop(cls._sorted_scheduled_times)
                 scheduled_task.task()
                 scheduled_task.time += scheduled_task.interval
