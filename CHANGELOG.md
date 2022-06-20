@@ -11,12 +11,8 @@
 
 -   `Component` now has a z_index
 -   true_z property for components which gets the z_index of the `Component` offset by its parent `GameObject`
--   `Time.scheduled_call()` for a self-correcting recurring method call on a timed interval.
 
 ### Changed
-
--   Made `Time.now()` a function instead of a property.
--   Renamed several internal `Time` attributes to better describe what they are.
 
 ### Removed
 
