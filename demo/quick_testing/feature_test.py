@@ -16,7 +16,7 @@ rb.Game.show_fps = True
 main = rb.Scene()
 
 test = rb.GameObject(pos=rb.Vector(300, 300))
-img = rb.Image(rel_path="sprites/spaceship/spaceship.png")
+img = rb.Image(rel_path="../sprites/spaceship/spaceship.png")
 
 img.resize(rb.Vector(29 * 2, 26 * 2))
 test.add(img)
