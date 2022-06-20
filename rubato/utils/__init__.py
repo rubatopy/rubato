@@ -16,4 +16,3 @@ from .radio import Radio, Events
 from .sound import Sound
 from .quickselect import quickselect
 from .debug import Debug
-from .radio import Radio, Events
