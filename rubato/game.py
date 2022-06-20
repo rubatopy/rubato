@@ -117,7 +117,7 @@ class Game(metaclass=GameProperties):
         Will always process timed calls.
         """
         # start timing the update loop
-        Time._frame_start = Time.now()  # pylint: disable= protected-access
+        frame_start = sdl2.SDL_GetTicks64()
 
         # Event handling
         Radio.pump()
@@ -160,9 +160,8 @@ class Game(metaclass=GameProperties):
 
         # dont allow updates to occur more than once in a millisecond
         # this will likely never occur but is a failsafe
-        while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
+        while sdl2.SDL_GetTicks64() == frame_start:
             sdl2.SDL_Delay(1)
 
         # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.frame_start) / 1000  \
-            # pylint: disable= comparison-with-callable
+        Time.delta_time = (sdl2.SDL_GetTicks64() - frame_start) / 1000
