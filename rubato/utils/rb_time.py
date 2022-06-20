@@ -150,28 +150,25 @@ class Time:
         cls._past_fps.append(cls.fps)
 
         # pylint: disable=comparison-with-callable
-        processing = True
-        while processing and cls._sorted_frame_times:
+        while cls._sorted_frame_times:
             if cls._sorted_frame_times[0].time <= cls.now:
                 timer_task = heapq.heappop(cls._sorted_frame_times)
                 timer_task.task()
             else:
-                processing = False
+                break
 
-        processing = True
-        while processing and cls._sorted_task_times:
+        while cls._sorted_task_times:
             if cls._sorted_task_times[0].time <= cls.now:
                 timer_task = heapq.heappop(cls._sorted_task_times)
                 timer_task.task()
             else:
-                processing = False
+                break
 
-        processing = True
-        while processing and cls._sorted_scheduled_times:
+        while cls._sorted_scheduled_times:
             if cls._sorted_scheduled_times[0].time <= cls.now:
                 scheduled_task = heapq.heappop(cls._sorted_scheduled_times)
                 scheduled_task.task()
                 scheduled_task.time += scheduled_task.interval
                 heapq.heappush(cls._sorted_scheduled_times, scheduled_task)
             else:
-                processing = False
+                break
