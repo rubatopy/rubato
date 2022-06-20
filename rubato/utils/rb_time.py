@@ -151,7 +151,7 @@ class Time:
 
         # pylint: disable=comparison-with-callable
         while cls._sorted_frame_times:
-            if cls._sorted_frame_times[0].time <= cls.now:
+            if cls._sorted_frame_times[0].time <= cls.frames:
                 timer_task = heapq.heappop(cls._sorted_frame_times)
                 timer_task.task()
             else:
