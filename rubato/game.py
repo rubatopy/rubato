@@ -118,7 +118,7 @@ class Game(metaclass=GameProperties):
         Will always process timed calls.
         """
         # start timing the update loop
-        Time._start_of_frame = Time.now()  # pylint: disable= protected-access
+        Time._frame_start = Time.now()  # pylint: disable= protected-access
 
         # Event handling
         for event in sdl2.ext.get_events():
@@ -246,9 +246,9 @@ class Game(metaclass=GameProperties):
 
         # dont allow updates to occur more than once in a millisecond
         # this will likely never occur but is a failsafe
-        while Time.now() == Time.start_of_frame:  # pylint: disable= comparison-with-callable
+        while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
             sdl2.SDL_Delay(1)
 
         # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.start_of_frame) / 1000  \
+        Time.delta_time = (Time.now() - Time.frame_start) / 1000  \
             # pylint: disable= comparison-with-callable

@@ -67,7 +67,7 @@ class Time:
     fixed_delta: float = 0
     normal_delta: float = 0
     fps = 60
-    _start_of_frame: int = 0
+    _frame_start: int = 0
 
     physics_counter = 0
 
@@ -92,10 +92,10 @@ class Time:
 
     @classmethod
     @property
-    def start_of_frame(cls) -> int:
+    def frame_start(cls) -> int:
         """The time since the start of the game, in milliseconds, taken at the start of the frame.
         This is a get-only property."""
-        return cls._start_of_frame
+        return cls._frame_start
 
     @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):
@@ -118,29 +118,28 @@ class Time:
             raise TypeError("Task argument must of of type DelayedTask, FramesTask or ScheduledTask.")
 
     @classmethod
-    def delayed_call(cls, time_delta: int, func: Callable):
+    def delayed_call(cls, delay: int, func: Callable):
         """
         Calls the function func at a later time.
 
         Args:
-            time_delta: The time from now (in milliseconds)
-                to run the function at.
+            delay: The time from now (in milliseconds) to run the function at.
             func: The function to call.
         """
 
-        heapq.heappush(cls._task_queue, DelayedTask(time_delta + cls.now(), func))
+        heapq.heappush(cls._task_queue, DelayedTask(delay + cls.now(), func))
 
     @classmethod
-    def delayed_frames(cls, frames_delta: int, func: Callable):
+    def delayed_frames(cls, delay: int, func: Callable):
         """
         Calls the function func at a later frame.
 
         Args:
-            frames_delta: The number of frames to wait.
+            delay: The number of frames to wait.
             func: The function to call
         """
 
-        heapq.heappush(cls._frame_queue, FramesTask(cls.frames + frames_delta, func))
+        heapq.heappush(cls._frame_queue, FramesTask(cls.frames + delay, func))
 
     @classmethod
     def scheduled_call(cls, interval: int, func: Callable):
