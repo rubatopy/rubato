@@ -140,12 +140,8 @@ class Game(metaclass=GameProperties):
                     cls.scenes.fixed_update()
                 Time.physics_counter -= Time.fixed_delta
 
-        # Draw Loop
-        Display.renderer.clear(cls.border_color.to_tuple())
-        Display.renderer.fill(
-            (0, 0, *Display.renderer.logical_size),
-            cls.background_color.to_tuple(),
-        )
+        Draw.clear(cls.border_color, cls.background_color)
+
         cls.scenes.draw()
 
         Draw.dump()
