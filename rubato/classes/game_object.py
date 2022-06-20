@@ -177,8 +177,7 @@ class GameObject:
             Draw.line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
 
     def update(self):
-        all_comps = list(self._components.values())
-        for comps in all_comps:
+        for comps in self._components.values():
             for comp in comps:
                 comp.private_update()
 

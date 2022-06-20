@@ -2,7 +2,7 @@
 Drawing to specific pixels
 
 Draws a bunch or random pixels to a surface. Requires rubato 2.1.0 or later and numpy.
-"""
+"""  # pylint: disable=W0613
 import numpy, random
 import rubato as rb
 
@@ -25,25 +25,22 @@ def draw_on(surf):  # ----------------------------------------------------------
     return surf
 
 
+# Implementation 1:
+# Extend the Component class and be added to a GameObject.
+# Note, must use setup method instead of __init__. **Preferable**
 class WanderingImage(rb.Component):
     """
     A component that draws randomly to its gameobjects image.
     """
 
-    def __init__(self):
-        super().__init__()
-        self.image = None
-
     def setup(self):
-        self.image: rb.Raster = rb.Raster(width=90, height=90)
-        self.gameobj.add(self.image)
-        self.singular = False
+        self.image: rb.Raster = self.gameobj.get(rb.Raster)
 
     def update(self):
         ranx = random.random() * 2 - 1
         rany = random.random() * 2 - 1
-        self.image.offset = self.image.offset.lerp(self.image.offset + rb.Vector(ranx, rany), rb.Time.delta_time * 50)
-        self.image.rotation_offset += random.random() * rb.Time.delta_time * 50
+        self.gameobj.pos = self.gameobj.pos.lerp(self.gameobj.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 50)
+        self.image.rotation_offset += 1
         self.image.scale += rb.Vector(ranx / 1000, rany / 1000)
 
         if rb.Input.key_pressed("k"):
@@ -55,9 +52,41 @@ class WanderingImage(rb.Component):
 
 
 go = rb.GameObject(pos=rb.Vector(150, 150),)
-go.add(WanderingImage())
+image = rb.Raster(width=90, height=90)
+go.add(image)
 go.add(WanderingImage())
 
-main_scene.add(go)
+
+# Implementation 2:
+# Extend the GameObject class and be added to a Scene directly.
+# Note, must call all super() methods that you override.
+class WanderingPixelMutation(rb.GameObject):
+    """
+    A gameobject that draws randomly to its image.
+    """
+
+    def __init__(self):
+        super().__init__(pos=rb.Vector(150, 150))
+        self.image = rb.Raster(width=90, height=90)
+        self.add(self.image)
+
+    def update(self):
+        super().update()
+        ranx = random.random() * 2 - 1
+        rany = random.random() * 2 - 1
+        self.pos = self.pos.lerp(self.pos + rb.Vector(ranx, rany), rb.Time.delta_time * 50)
+
+        if rb.Input.key_pressed("k"):
+            rb.Display.save_screenshot("pixel_mutation")
+            go.get(rb.Raster).get_pixel_tuple((0, 0))
+
+    def draw(self, camera):
+        super().draw(camera)
+        self.image.raster = draw_on(self.image.raster)
+
+
+wgo = WanderingPixelMutation()
+
+main_scene.add(wgo, go)
 
 rb.begin()

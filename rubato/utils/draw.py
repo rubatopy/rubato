@@ -21,21 +21,6 @@ class Draw:
     _queue: List[DrawTask] = []
 
     @classmethod
-    def clear(cls, border_color: Color, background_color: Color):
-        """Clears the renderer and draws the background of the frame.
-
-        Args:
-            border_color (Color): The border color.
-                Shown when the aspect ratio of the game does not match the aspect ratio of the window.
-            background_color (Color): The background color.
-        """
-        Display.renderer.clear(border_color.to_tuple())
-        Display.renderer.fill(
-            (0, 0, *Display.renderer.logical_size),
-            background_color.to_tuple(),
-        )
-
-    @classmethod
     def push(cls, z_index: int, callback: Callable):
         """
         Add a custom draw function to the frame queue.

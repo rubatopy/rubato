@@ -28,6 +28,9 @@ class SpaceshipComp(Component):
         self.desired_direction = Vector(-1, 0)
         self.target = Display.bottom_right
 
+    def update(self):
+        self.update_target()
+
     def update_target(self):
         self.desired_direction = (self.target - self.gameobj.pos).normalized()
 
@@ -41,10 +44,10 @@ class SpaceshipComp(Component):
         self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
 
         self.gameobj.rotation = self.velocity.angle
+        # self.gameobj.rotation = 90
 
     def update_wander(self):
-        self.desired_direction = (self.desired_direction +
-                                  Vector.random_inside_unit_circle() * self.wander).normalized()
+        self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle() * self.wander).unit()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
@@ -57,7 +60,7 @@ class SpaceshipComp(Component):
         if (new := self.gameobj.pos.clamp(Display.top_left, Display.bottom_right)) != self.gameobj.pos:
             self.gameobj.pos = new
             self.velocity = Vector.from_radial(self.speed, self.gameobj.pos.dir_to(Display.center).angle)
-            self.desired_direction = self.velocity.normalized()
+            self.desired_direction = self.velocity.unit()
             self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
 
         self.gameobj.rotation = self.velocity.angle
@@ -70,12 +73,9 @@ main_scene.add(space_ship)
 
 
 def update():
-    if Input.key_pressed("w"):
-        sc_comp.update = sc_comp.update_wander
-    if Input.key_pressed("t"):
-        sc_comp.update = sc_comp.update_target
-
+    # if Input.any_mouse_button_pressed():
     sc_comp.target = Input.get_mouse_pos()
+
 
 main_scene.update = update
 
