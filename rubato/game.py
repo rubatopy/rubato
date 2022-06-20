@@ -4,10 +4,9 @@ The main game module. It controls everything in the game.
 from __future__ import annotations
 import sys
 import sdl2, sdl2.ext, sdl2.sdlttf
-from contextlib import suppress
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Vector, Color, Input, Radio, Events, Font, Draw, PrintError
+from . import Time, Display, Debug, Color, Radio, Events, Font, Draw, PrintError
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -121,77 +120,7 @@ class Game(metaclass=GameProperties):
         Time._frame_start = Time.now()  # pylint: disable= protected-access
 
         # Event handling
-        for event in sdl2.ext.get_events():
-            sdl2.SDL_PumpEvents()
-            if event.type == sdl2.SDL_QUIT:
-                Radio.broadcast(Events.EXIT)
-                sdl2.sdlttf.TTF_Quit()
-                sdl2.SDL_Quit()
-                sys.exit()
-            if event.type == sdl2.SDL_WINDOWEVENT:
-                if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                    Radio.broadcast(
-                        Events.RESIZE, {
-                            "width": event.window.data1,
-                            "height": event.window.data2,
-                            "old_width": Display.window_size.x,
-                            "old_height": Display.window_size.y
-                        }
-                    )
-                    Display.window_size = Vector(
-                        event.window.data1,
-                        event.window.data2,
-                    )
-            if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
-                key_info, unicode = event.key.keysym, ""
-                with suppress(ValueError):
-                    unicode = chr(key_info.sym)
-
-                if event.type == sdl2.SDL_KEYUP:
-                    event_name = Events.KEYUP
-                else:
-                    event_name = (Events.KEYDOWN, Events.KEYHOLD)[event.key.repeat]
-
-                Radio.broadcast(
-                    event_name,
-                    {
-                        "key": Input.get_name(key_info.sym),
-                        "unicode": unicode,
-                        "code": int(key_info.sym),
-                        "mods": key_info.mod,
-                    },
-                )
-
-            if event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
-                mouse_button = None
-                if event.button.state == sdl2.SDL_BUTTON_LEFT:
-                    mouse_button = "mouse 1"
-                elif event.button.state == sdl2.SDL_BUTTON_MIDDLE:
-                    mouse_button = "mouse 2"
-                elif event.button.state == sdl2.SDL_BUTTON_RIGHT:
-                    mouse_button = "mouse 3"
-                elif event.button.state == sdl2.SDL_BUTTON_X1:
-                    mouse_button = "mouse 4"
-                elif event.button.state == sdl2.SDL_BUTTON_X2:
-                    mouse_button = "mouse 5"
-
-                if event.type == sdl2.SDL_MOUSEBUTTONUP:
-                    event_name = Events.MOUSEUP
-                else:
-                    event_name = Events.MOUSEDOWN
-                #
-                Radio.broadcast(
-                    event_name,
-                    {
-                        "mouse_button": mouse_button,
-                        "x": event.button.x,
-                        "y": event.button.y,
-                        "clicks": event.button.clicks,
-                        "which": event.button.which,
-                        "windowID": event.button.windowID,
-                        "timestamp": event.button.timestamp,
-                    },
-                )
+        Radio.pump()
 
         # process delayed calls
         Time.process_calls()
@@ -211,29 +140,14 @@ class Game(metaclass=GameProperties):
                     cls.scenes.fixed_update()
                 Time.physics_counter -= Time.fixed_delta
 
-        # Draw Loop
-        Display.renderer.clear(cls.border_color.to_tuple())
-        Display.renderer.fill(
-            (0, 0, *Display.renderer.logical_size),
-            cls.background_color.to_tuple(),
-        )
+        Draw.clear(cls.border_color, cls.background_color)
+
         cls.scenes.draw()
 
         Draw.dump()
 
         if cls.show_fps:
-            fs = str(int(Time.smooth_fps))
-            h = Display.res.y // 40
-            p = h // 4
-            p2 = p + p
-            Draw.immediate_rect(
-                Vector(p2 + (h * len(fs)) / 2, p2 + h / 2),
-                h * len(fs) + p2,
-                h + p2,
-                Color(a=180),
-                fill=Color(a=180),
-            )
-            Draw.immediate_text(fs, font=cls.debug_font, pos=Vector(p2, p2), align=Vector(1, 1))
+            Debug.draw_fps(cls.debug_font)
 
         # update renderers
         Display.renderer.present()
