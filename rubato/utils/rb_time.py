@@ -168,10 +168,10 @@ class Time:
 
         processing = True
         while processing and cls._sorted_scheduled_times:
-            if (dt := (cls._sorted_scheduled_times[0].time - cls.now)) <= 0:
+            if cls._sorted_scheduled_times[0].time <= cls.now:
                 scheduled_task = heapq.heappop(cls._sorted_scheduled_times)
                 scheduled_task.task()
-                scheduled_task.time = cls.now + scheduled_task.interval + dt
+                scheduled_task.time += scheduled_task.interval
                 heapq.heappush(cls._sorted_scheduled_times, scheduled_task)
             else:
                 processing = False
