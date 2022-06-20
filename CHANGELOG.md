@@ -16,6 +16,7 @@
 ### Changed
 
 -   Made `Time.now()` a function instead of a property.
+-   Renamed several internal `Time` attributes to better describe what they are.
 
 ### Removed
 

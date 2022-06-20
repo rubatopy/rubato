@@ -14,6 +14,8 @@ interval = 1000
 def task():
     go.pos += Vector(50, 0)
     print(f"Scheduled: {time.time() - st}")
+    if time.time() - st > 6:
+        sched_task.stop()
 
 
 def d_task():
@@ -22,7 +24,10 @@ def d_task():
     Time.delayed_call(interval, d_task)
 
 st = time.time()
-Time.scheduled_call(interval, task)
+
+sched_task = ScheduledTask(interval, task)
+Time.schedule(sched_task)
+
 Time.delayed_call(interval, d_task)
 
 begin()

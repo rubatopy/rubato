@@ -56,7 +56,7 @@ def player_collide(col_info: rb.Manifold):
                 global retry_allowed
                 retry_allowed = True
 
-            rb.Time.delayed_call(rb.Time.sec_to_milli(2), re_allow)
+            rb.Time.delayed_call(2000, re_allow)
     if col_info.shape_b.tag == "portal":
         if not won:
             print("WIN!")
