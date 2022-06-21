@@ -6,6 +6,10 @@ jobs:
     demo:
         name: Test Demo Files
         runs-on: ubuntu-latest
+        env:
+            SDL_VIDEODRIVER: dummy
+            SDL_AUDIODRIVER: dummy
+            SDL_RENDER_DRIVER: software
         steps:
             - uses: actions/checkout@v2
               with:
