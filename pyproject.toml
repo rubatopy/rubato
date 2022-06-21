@@ -19,6 +19,7 @@ exclude_lines=[
     "if TYPE_CHECKING:",
     "if sys.platform",
     "# test: skip",
+    "@deprecated",
 ]
 
 [tool.pytest.ini_options]

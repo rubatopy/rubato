@@ -94,9 +94,7 @@ def deprecated_no_replacement(func):
     def new_func(*args, **kwargs):
         warnings.simplefilter("always", DeprecationWarning)
         warnings.warn(
-            f"{func.__name__} has been deprecated. No replacement.",
-            category=DeprecationWarning,
-            stacklevel=2
+            f"{func.__name__} has been deprecated. No replacement.", category=DeprecationWarning, stacklevel=2
         )
         warnings.simplefilter("default", DeprecationWarning)
         return func(*args, **kwargs)

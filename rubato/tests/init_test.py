@@ -49,6 +49,7 @@ def test_init(monkeypatch):
         background_color=rubato.Color(255, 255, 255),
         icon="",
         hidden=False,
+        window_pos=rubato.Vector(0, 0),
     )
     assert rubato.Game.initialized is True
     assert rubato.Game.state == rubato.Game.STOPPED

@@ -268,3 +268,10 @@ def test_math(v1, v34):
 
 def test_iter(v1):
     assert list(v1) == [1, 1]
+
+
+def test_mod(v1, v34):
+    assert v1 % 2 == Vector(1, 1)
+    assert v1 % v34 == Vector(1, 1)
+
+    assert 2 % v1 == Vector(0, 0)

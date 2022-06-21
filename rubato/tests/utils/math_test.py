@@ -1,4 +1,5 @@
 """Test the Math class"""
+import math
 import pytest
 from rubato.utils.rb_math import Math
 
@@ -79,3 +80,17 @@ def test_gen_primes():
     assert next(gen) == 5
     assert next(gen) == 7
     assert next(gen) == 11
+
+
+def test_get_conversion():
+    assert Math.north_deg_to_rad(0) == math.pi / 2
+    assert Math.north_deg_to_rad(-45) == (3 * math.pi) / 4
+    assert Math.north_deg_to_rad(45) == math.pi / 4
+    assert Math.north_deg_to_rad(90) == 0
+    assert Math.north_deg_to_rad(180) == (-math.pi) / 2
+
+    assert Math.rad_to_north_deg(math.pi / 2) == 0
+    assert Math.rad_to_north_deg((3 * math.pi) / 4) == -45
+    assert Math.rad_to_north_deg(math.pi / 4) == 45
+    assert Math.rad_to_north_deg(0) == 90
+    assert Math.rad_to_north_deg(-math.pi / 2) == 180

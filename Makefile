@@ -20,7 +20,7 @@ test-no-sdl:
 	@pytest -m "not sdl and not rub" --cov=rubato --cov-report term-missing rubato/tests -s
 
 test-indiv:
-	@pytest rubato/tests -k "$(test)"
+	@pytest rubato/tests --cov="rubato.$(test)" --cov-report term-missing -k "$(test)_test.py"
 
 lint:
 	@echo "Linting Code"

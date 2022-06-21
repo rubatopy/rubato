@@ -5,6 +5,7 @@ from rubato.classes.camera import Camera
 from rubato.classes.components.hitbox import Hitbox, Rectangle
 from rubato.classes.game_object import GameObject
 from rubato.classes.components.component import Component
+from rubato.misc import wrap
 from rubato.utils.error import DuplicateComponentError
 from rubato.utils.vector import Vector
 from rubato.utils.color import Color
@@ -23,7 +24,7 @@ def go():
 
 @pytest.fixture()
 def comp():
-    c = Component(offset=Vector(1, 1), rot_offset=90)
+    c = Component(offset=Vector(1, 1), rot_offset=90, z_index=2)
     c.update = Mock()
     c.fixed_update = Mock()
     c.draw = Mock()
@@ -154,3 +155,19 @@ def test_comp_funcs():
     assert new.singular == comp.singular
     assert new.gameobj == comp.gameobj
     assert new is not comp
+
+
+def test_true_z(go, comp):
+    go.add(comp)
+    assert comp.true_z == 3
+
+
+def test_wrap(comp):
+    new_go = wrap(comp, name="Test", pos=Vector(100, 100), rotation=0, z_index=1)
+    assert new_go.name == "Test"
+    assert new_go.pos.x == 100
+    assert new_go.pos.y == 100
+    assert new_go.z_index == 1
+    assert new_go.rotation == 0
+    assert not new_go.debug
+    assert new_go.get(type(comp)) == comp
