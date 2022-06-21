@@ -4,12 +4,11 @@
 
 files=`ls ./*.py`
 
-PYCOMMAND=python
 
 for file in $files
 do
     echo "Running $file"
-    timeout --preserve-status 5s $PYCOMMAND $file
+    timeout --preserve-status 5s bash -c "python $file || python3 $file"
     retVal=$?
     if [ "$retVal" != "143"  ] && [ "$retVal" != "124" ] && [ "$retVal" != "0" ]
     then
