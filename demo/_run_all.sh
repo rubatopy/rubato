@@ -10,9 +10,9 @@ do
     echo "Running $file"
     if command -v python &> /dev/null
     then
-        timeout --preserve-status 5s python $files
+        timeout --preserve-status 5s python $file
     else
-        timeout --preserve-status 5s python3 $files
+        timeout --preserve-status 5s python3 $file
     fi
 
     retVal=$?
