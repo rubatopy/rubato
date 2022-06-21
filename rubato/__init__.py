@@ -40,7 +40,7 @@ def init(
     res: Vector = Vector(1080, 1080),
     window_pos: Vector | None = None,
     target_fps: int = 0,
-    physics_fps: int = 60,
+    physics_fps: int = 30,
     border_color: Color = Color(),
     background_color: Color = Color(255, 255, 255),
     icon: str = "",
