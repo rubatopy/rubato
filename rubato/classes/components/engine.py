@@ -34,9 +34,6 @@ class Engine:
         if a_none and b_none:
             return
 
-        sh_a: Hitbox = col.shape_a
-        sh_b: Hitbox = col.shape_b
-
         # calculate restitution
         e = max(0 if a_none else rb_a.bounciness, 0 if b_none else rb_b.bounciness)
 
@@ -61,70 +58,37 @@ class Engine:
             else:
                 inv_mass_a, inv_mass_b = 1, 1
 
-        # find inverse moments
-        inv_moment_a: float = 0 if a_none else rb_a.inv_moment
-        inv_moment_b: float = 0 if b_none else rb_b.inv_moment
-
-        # handle infinite moment cases
-        if inv_moment_a == inv_moment_b == 0:
-            if a_none:
-                inv_moment_b = 1
-            elif b_none:
-                inv_moment_a = 1
-            else:
-                inv_moment_a, inv_moment_b = 1, 1
-
-        inv_contacts = 1 / len(col.contacts)
-
         col.normal *= -1
 
         # RESOLUTION STEP
-        for contact in col.contacts:
-            ra = contact - sh_a.pos
-            rb = contact - sh_b.pos
+        rv = (0 if b_none else rb_b.velocity) - (0 if a_none else rb_a.velocity)
 
-            ang_vel_a = 0 if a_none or not rb_a.advanced else rb_a.ang_vel
-            ang_vel_b = 0 if b_none or not rb_b.advanced else rb_b.ang_vel
+        contact_vel = rv.dot(col.normal)
 
-            rv = (0 if b_none else rb_b.velocity +
-                  rb.perpendicular(ang_vel_b)) - (0 if a_none else rb_a.velocity + ra.perpendicular(ang_vel_a))
+        inv_inert = 1 / (inv_mass_a + inv_mass_b)
 
-            contact_vel = rv.dot(col.normal)
+        j = -(1 + e) * contact_vel * inv_inert
 
-            ra_cn = ra.cross(col.normal)
-            rb_cn = rb.cross(col.normal)
+        impulse = col.normal * j
 
-            inv_inert = 1 / (inv_mass_a + inv_mass_b + (ra_cn * ra_cn) * inv_moment_a + (rb_cn * rb_cn) * inv_moment_b)
+        t = rv - col.normal * rv.dot(col.normal)
+        t.normalized(t)
 
-            j = -(1 + e) * contact_vel * inv_inert * inv_contacts
+        jt = -rv.dot(t) * inv_inert
 
-            impulse = col.normal * j
+        if abs(jt) < j * mu:
+            t_impulse = t * jt
+        else:
+            t_impulse = -mu * t * j
 
-            t = rv - col.normal * rv.dot(col.normal)
-            t.normalized(t)
+        # Velocity correction
+        if not (a_none or rb_a.static):
+            rb_a.velocity -= impulse * inv_mass_a
+            rb_a.velocity -= t_impulse * inv_mass_a
 
-            jt = -rv.dot(t) * inv_inert * inv_contacts
-
-            if abs(jt) < j * mu:
-                t_impulse = t * jt
-            else:
-                t_impulse = -mu * t * j
-
-            if not (a_none or rb_a.static):
-                rb_a.velocity -= impulse * inv_mass_a
-                rb_a.velocity -= t_impulse * inv_mass_a
-
-                if rb_a.advanced:
-                    rb_a.ang_vel += inv_moment_a * ra.cross(impulse)
-                    rb_a.ang_vel += inv_moment_a * ra.cross(t_impulse)
-
-            if not (b_none or rb_b.static):
-                rb_b.velocity += impulse * inv_mass_b
-                rb_b.velocity += t_impulse * inv_mass_b
-
-                if rb_b.advanced:
-                    rb_b.ang_vel -= inv_moment_b * rb.cross(impulse)
-                    rb_b.ang_vel -= inv_moment_b * rb.cross(t_impulse)
+        if not (b_none or rb_b.static):
+            rb_b.velocity += impulse * inv_mass_b
+            rb_b.velocity += t_impulse * inv_mass_b
 
         # Position correction
         correction = max(col.penetration - 0.01, 0) * col.normal
