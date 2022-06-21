@@ -12,6 +12,7 @@
 -   `Component` now has a z_index
 -   true_z property for components which gets the z_index of the `Component` offset by its parent `GameObject`
 -   `Time.scheduled_call()` for a self-correcting recurring method call on a timed interval.
+-   clone functions for `Group`, `GameObject`, and `Scene`.
 
 ### Changed
 
@@ -26,6 +27,7 @@
 ### Fixed
 
 -   Resizing an `Image` now works.
+-   Updated all clone functions to work with new stuff.
 
 ## [v2.2.0] - June 12, 2022
 
