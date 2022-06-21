@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Key Features
+
+-   Optimized collision detection with Quadtrees, speeding up high-demand simulations significantly.
+
 ### Breaking Changes
 
 -   z_indexes completely reworked.
@@ -18,6 +22,8 @@
 
 -   Made `Time.now()` a function instead of a property.
 -   Renamed several internal `Time` attributes to better describe what they are.
+-   Default physics FPS to 60 from 30.
+-   Refactored collision detection code to not report contact points, since we don't need them anymore.
 
 ### Removed
 

@@ -13,10 +13,10 @@ num_objs = 70
 rb.init(
     name="rubato Physics Demo",
     window_size=rb.Vector(600, 600),
-    res=rb.Vector(1200, 1200),
+    res=rb.Vector(1200, 1200)
 )
 
-# rb.Game.show_fps = True
+rb.Game.show_fps = True
 
 main_scene = rb.Scene()  # Create our scene
 

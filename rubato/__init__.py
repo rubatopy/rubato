@@ -40,7 +40,7 @@ def init(
     res: Vector = Vector(1080, 1080),
     window_pos: Vector | None = None,
     target_fps: int = 0,
-    physics_fps: int = 30,
+    physics_fps: int = 60,
     border_color: Color = Color(),
     background_color: Color = Color(255, 255, 255),
     icon: str = "",
@@ -56,7 +56,7 @@ def init(
         window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
-        physics_fps: The physics simulation's frames per second. Defaults to 30.
+        physics_fps: The physics simulation's frames per second. Defaults to 60.
         border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
         background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
         icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
