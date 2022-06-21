@@ -9,7 +9,7 @@ NC='\033[0m' # No Color
 
 for file in $files
 do
-    echo "${BLUE}Running $file${NC}"
+    printf "${BLUE}Running $file${NC}\n"
     if command -v python &> /dev/null
     then
         timeout --preserve-status 3s python $file
