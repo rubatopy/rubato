@@ -24,7 +24,7 @@ class Debug:
             Color(a=180),
             fill=Color(a=180),
         )
-        Draw.immediate_text(fs, font=font, pos=Vector(p2, p2), align=Vector(1, 1))
+        Draw.immediate_text(fs, font=font, pos=Vector(p2+2, p2+2), align=Vector(1, 1))
 
     @staticmethod
     def find_my_print():

@@ -71,7 +71,7 @@ class Time:
 
     physics_counter = 0
 
-    _fps_history = 250
+    _fps_history = 120
     _past_fps = [0] * _fps_history
 
     target_fps = 0  # this means no cap
@@ -82,7 +82,7 @@ class Time:
     @classmethod
     @property
     def smooth_fps(cls) -> float:
-        """The average fps over the past 250 frames. This is a get-only property."""
+        """The average fps over the past 120 frames. This is a get-only property."""
         return sum(cls._past_fps) / cls._fps_history
 
     @classmethod

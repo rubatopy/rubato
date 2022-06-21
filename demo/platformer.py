@@ -11,10 +11,11 @@ rb.init(
     window_size=rb.Vector(960, 540),
     background_color=rb.Color.cyan.lighter(),
     res=rb.Vector(1920, 1080),
+    physics_fps=60
 )
 
 # Change the global debug level
-rb.Game.debug = True
+# rb.Game.debug = True
 # rb.Game.show_fps = True
 
 # Tracks the grounded state of the player
