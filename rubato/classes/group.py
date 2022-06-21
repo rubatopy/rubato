@@ -4,8 +4,8 @@ Groups contain game objects or other groups and allow separation between game ob
 from __future__ import annotations
 from typing import List, TYPE_CHECKING
 
-from . import GameObject, Hitbox, Engine
-from .. import Error
+from . import GameObject, Hitbox, QTree
+from .. import Error, Display
 
 if TYPE_CHECKING:
     from . import Camera
@@ -103,14 +103,13 @@ class Group:
             for game_obj in self.game_objects:
                 game_obj.fixed_update()
 
+            qtree = QTree(Display.top_left, Display.bottom_right)
+
             # collide all hitboxes with each other
-            hitboxes: List[Hitbox] = []
             for game_obj in self.game_objects:
                 if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                    for ht in hts:
-                        for hitbox in hitboxes:
-                            Engine.collide(ht, hitbox)
-                    hitboxes.extend(hts)
+                    if hts != []:
+                        qtree.insert(hts)
 
             for group in self.groups:
                 group.fixed_update()
@@ -118,9 +117,8 @@ class Group:
                 # collide children groups with parent hitboxes
                 for game_obj in group.game_objects:
                     if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                        for ht in hts:
-                            for hitbox in hitboxes:
-                                Engine.collide(ht, hitbox)
+                        if hts != []:
+                            qtree.collide(hts, qtree.calc_bb(hts))
 
     def draw(self, camera: Camera):
         if self.active:
