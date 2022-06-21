@@ -124,3 +124,4 @@ class Slider(Component):
 # TODO: force direction to unit vector
 # TODO: figure out slider projection.
 # TODO: Ask Martin abt rotation offset.
+# TODO: add a clone function.

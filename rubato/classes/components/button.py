@@ -1,4 +1,5 @@
 """A button component that can be used in UI or to detect mouse presses in an area."""
+from __future__ import annotations
 from typing import Callable
 
 from . import Component
@@ -69,3 +70,16 @@ class Button(Component):
         elif self.pressed and (not Input.mouse_state()[0] or not self.hover):
             self.pressed = False
             self.onrelease()
+
+    def clone(self) -> Button:
+        return Button(
+            self.offset,
+            self.rotation_offset,
+            self.dims.x,
+            self.dims.y,
+            self.onclick,
+            self.onrelease,
+            self.onhover,
+            self.onexit,
+            self.z_index,
+        )

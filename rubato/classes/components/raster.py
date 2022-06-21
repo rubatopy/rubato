@@ -254,7 +254,8 @@ class Raster(Component):
             Draw.push(
                 self.true_z,
                 lambda: Display.update(
-                    self._texture, camera.
-                    transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
+                    self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
                 ),
             )
+
+    # TODO when we make raster actually work make sure to add a clone function
