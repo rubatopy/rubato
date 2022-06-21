@@ -8,7 +8,13 @@ files=`ls ./*.py`
 for file in $files
 do
     echo "Running $file"
-    timeout --preserve-status 5s bash -c "python $file || python3 $file"
+    if command -v python &> /dev/null
+    then
+        timeout --preserve-status 5s python $files
+    else
+        timeout --preserve-status 5s python3 $files
+    fi
+
     retVal=$?
     if [ "$retVal" != "143"  ] && [ "$retVal" != "124" ] && [ "$retVal" != "0" ]
     then
