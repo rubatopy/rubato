@@ -28,11 +28,8 @@ class SpaceshipComp(Component):
         self.desired_direction = Vector(-1, 0)
         self.target = Display.bottom_right
 
-    def update(self):
-        self.update_target()
-
     def update_target(self):
-        self.desired_direction = (self.target - self.gameobj.pos).unit()
+        self.desired_direction = (self.target - self.gameobj.pos).normalized()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
@@ -46,7 +43,8 @@ class SpaceshipComp(Component):
         self.gameobj.rotation = self.velocity.angle
 
     def update_wander(self):
-        self.desired_direction = (self.desired_direction + Vector.random_inside_unit_circle() * self.wander).unit()
+        self.desired_direction = (self.desired_direction +
+                                  Vector.random_inside_unit_circle() * self.wander).normalized()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
@@ -59,23 +57,25 @@ class SpaceshipComp(Component):
         if (new := self.gameobj.pos.clamp(Display.top_left, Display.bottom_right)) != self.gameobj.pos:
             self.gameobj.pos = new
             self.velocity = Vector.from_radial(self.speed, self.gameobj.pos.dir_to(Display.center).angle)
-            self.desired_direction = self.velocity.unit()
+            self.desired_direction = self.velocity.normalized()
             self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
 
         self.gameobj.rotation = self.velocity.angle
 
 
-space_ship = GameObject(pos=Display.center).add(Image(rel_path="sprites/spaceship/spaceship.png",
-                                                      rot_offset=180)).add(SpaceshipComp())
+space_ship = GameObject(pos=Display.center).add(Image(rel_path="sprites/spaceship/spaceship.png")).add(SpaceshipComp())
 
 sc_comp = space_ship.get(SpaceshipComp)
 main_scene.add(space_ship)
 
 
 def update():
-    # if Input.any_mouse_button_pressed():
-    sc_comp.target = Input.get_mouse_pos()
+    if Input.key_pressed("w"):
+        sc_comp.update = sc_comp.update_wander
+    if Input.key_pressed("t"):
+        sc_comp.update = sc_comp.update_target
 
+    sc_comp.target = Input.get_mouse_pos()
 
 main_scene.update = update
 

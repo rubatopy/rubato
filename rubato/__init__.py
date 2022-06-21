@@ -32,7 +32,7 @@ simplefilter("default", UserWarning)
 from .utils import *
 from .game import Game
 from .classes import *
-
+from .misc import *
 
 def init(
     name: str = "Untitled Game",
@@ -56,7 +56,7 @@ def init(
         window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
-        physics_fps: The physics simulation's frames per second. Defaults to 30.
+        physics_fps: The physics simulation's frames per second. Defaults to 60.
         border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
         background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
         icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).

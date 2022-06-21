@@ -13,7 +13,7 @@ num_objs = 70
 rb.init(
     name="rubato Physics Demo",
     window_size=rb.Vector(600, 600),
-    res=rb.Vector(1200, 1200),
+    res=rb.Vector(1200, 1200)
 )
 
 rb.Game.show_fps = True
@@ -60,29 +60,16 @@ main_scene.add(top, bottom, left, right)
 for _ in range(num_objs):
     main_scene.add(
         rb.GameObject(
-            {
-                "pos": # Set a random position
-                    rb.Vector(
-                        randint(rb.Display.res.x / 20, 19 * rb.Display.res.x / 20),
-                        randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
-                    )
-            }
-        ).add(
-            rb.Circle(
-                {
-                    "radius": rb.Display.res.x / num_objs,
-                    "color": rb.Color.random_default()
-                }
+            pos=rb.Vector(
+                randint(rb.Display.res.x / 20, 19 * rb.Display.res.x /
+                        20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
             )
-        ).add(
+        ).add(rb.Circle(radius=rb.Display.res.x / num_objs, color=rb.Color.random_default())).add(
             rb.RigidBody(
-                {
-                    "density": 0.1,
-                    "bounciness": 1,
-                    "friction": 0.2,
-                    "velocity": rb.Vector(randint(-100, 100), randint(-100, 100)),
-                    "advanced": True,
-                }
+                mass=0.1,
+                bounciness=1,
+                friction=0.2,
+                velocity=rb.Vector(randint(-100, 100), randint(-100, 100)),
             )
         )
     )

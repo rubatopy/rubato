@@ -7,7 +7,7 @@ init(
     window_size=Vector(500, 500),
     res=Vector(500, 500),
     target_fps=24,
-    background_color=(255, 255, 255),
+    background_color=Color(255, 255, 255),
     icon="",
 )
 
@@ -43,14 +43,12 @@ button = GameObject(pos=Vector(10, 10))
 
 button.add(
     Button(
-        {
-            "width": width,
-            "height": height,
-            "onclick": lambda: print("clicked"),
-            "onrelease": lambda: None,
-            "onhover": lambda: None,
-            "onexit": lambda: None
-        }
+        width=width,
+        height=height,
+        onclick=lambda: print("clicked"),
+        onrelease=lambda: None,
+        onhover=lambda: None,
+        onexit=lambda: None
     )
 ).add(Rectangle(width=width, height=height, color=Color.red))
 

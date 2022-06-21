@@ -140,7 +140,7 @@ class Vector:
         """
         Normalizes the current vector.
         """
-        self.unit(self)
+        self.normalized(self)
 
     def to_tuple(self) -> tuple:
         """
@@ -193,7 +193,7 @@ class Vector:
         return out
 
     def clamp(
-            self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
+        self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
     ):
         """
         Clamps x and y between the two values given.
@@ -361,7 +361,7 @@ class Vector:
         Returns:
             A unit vector that is in the pointing to the other position passed in
         """
-        base = (other - self).unit()
+        base = (other - self).normalized()
         return base
 
     def distance_between(self, other: Vector) -> float:
@@ -577,6 +577,7 @@ class Vector:
 
     def __repr__(self):
         return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
+
 
 # Developer notes:
 # Angles are north degrees (clockwise from the +y-axis).

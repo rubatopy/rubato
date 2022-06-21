@@ -21,7 +21,6 @@ def go():
     g.fixed_update = Mock()
     g.draw = Mock()
     g.delete = Mock()
-    g.setup = Mock()
     return g
 
 
@@ -29,7 +28,6 @@ def test_init(group):
     assert group.name == ""
     assert group.game_objects == []
     assert group.groups == []
-    assert group.z_index == 0
     assert group.active
 
 
@@ -85,14 +83,21 @@ def test_fixed_update(monkeypatch, group, go):
     group.add(go, g)
 
     collide = Mock()
-    monkeypatch.setattr("rubato.classes.group.Engine.collide", collide)
+    insert = Mock()
+    calc_bb = Mock()
+    monkeypatch.setattr("rubato.classes.qtree.QTree.collide", collide)
+    monkeypatch.setattr("rubato.classes.qtree.QTree.insert", insert)
+    monkeypatch.setattr("rubato.classes.qtree.QTree.calc_bb", calc_bb)
+
 
     group.fixed_update()
 
     go.fixed_update.assert_called()
     assert go.fixed_update.call_count == 2
-    go.fixed_update.assert_called()
-    assert collide.call_count == 3
+
+    assert collide.call_count == 2
+    assert insert.call_count == 3
+    assert calc_bb.call_count == 2
 
 
 def test_count(group, go):

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 from . import Component
-from ... import Display, Vector, Color, Font
+from ... import Display, Vector, Color, Font, Draw
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -35,11 +35,12 @@ class Text(Component):
         anchor: Vector = Vector(0, 0),
         width: int = 0,
         font: Font = Font(),
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
         self._font: Font = font
-        self._anchor: str = anchor
+        self._anchor: Vector = anchor
         self._justify: str = justify
         self._width: int = width
         self._stored_rot: int = 0
@@ -165,9 +166,11 @@ class Text(Component):
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        Display.update(
-            self._tx,
-            camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
+        Draw.push(
+            self.true_z, lambda: Display.update(
+                self._tx,
+                camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
+            )
         )
 
     def delete(self):
@@ -180,11 +183,12 @@ class Text(Component):
     def clone(self) -> Text:
         """Clones the text component."""
         return Text(
-            {
-                "text": self._text,
-                "font": self._font,
-                "anchor": self._anchor,
-                "justify": self._justify,
-                "width": self._width,
-            }
+            text=self._text,
+            font=self._font,
+            anchor=self._anchor,
+            justify=self._justify,
+            width=self._width,
+            offset=self.offset,
+            rot_offset=self.rotation_offset,
+            z_index=self.z_index,
         )

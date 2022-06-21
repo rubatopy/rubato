@@ -2,15 +2,39 @@
 
 ## [Unreleased]
 
+### Key Features
+
+-   Optimized collision detection with Quadtrees, speeding up high-demand simulations significantly.
+
 ### Breaking Changes
+
+-   z_indexes completely reworked.
+-   Some setup, draw, and update methods deprecated in some classes.
 
 ### Added
 
+-   `Component` now has a z_index
+-   true_z property for components which gets the z_index of the `Component` offset by its parent `GameObject`
+-   `Time.scheduled_call()` for a self-correcting recurring method call on a timed interval.
+-   clone functions for `Group`, `GameObject`, and `Scene`.
+
 ### Changed
+
+-   Made `Time.now()` a function instead of a property.
+-   Renamed several internal `Time` attributes to better describe what they are.
+-   Default physics FPS to 60 from 30.
+-   Refactored collision detection code to not report contact points, since we don't need them anymore.
 
 ### Removed
 
+-   z_index from `Group`
+-   Misc. unused draw, setup, and update methods for some classes.
+-   Advanced rotational physics. Will be added in a later patch once Hitbox is refactored.
+
 ### Fixed
+
+-   Resizing an `Image` now works.
+-   Updated all clone functions to work with new stuff.
 
 ## [v2.2.0] - June 12, 2022
 
@@ -22,6 +46,7 @@
 -   `Vector.angle_between` now returns the angle in degrees.
 -   `Color.random` now a function and not property. -> `Color.random()`
 -   `Time.delta_time` and `Time.fixed_delta` are now in seconds instead of milliseconds
+-   `Debug.*` all draw functions are moved to the Draw class. Default to Debug functionality.
 
 ### Added
 

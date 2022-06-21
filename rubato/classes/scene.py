@@ -2,6 +2,7 @@
 The Scene class which is a collection of groups. It also houses the current scene camera.
 Scenes are built with a root group that everything is added to.
 """
+from __future__ import annotations
 from . import Camera, Group, GameObject
 from .. import Game
 
@@ -68,6 +69,17 @@ class Scene:
             item: The item to remove.
         """
         self.ui.delete(item)
+
+    def clone(self) -> Scene:
+        """
+        Clones this scene.
+
+        Warning:
+            This is a relatively expensive operation as it clones every group in the scene.
+        """
+        new_scene = Scene(f"{self.id} (clone)")
+        new_scene.root = self.root.clone()
+        new_scene.ui = self.ui.clone()
 
     def private_draw(self):
         self.draw()

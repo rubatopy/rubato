@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
-from . import Component
-from ... import Vector, Display, Radio, get_path
+from . import Component, Rectangle
+from ... import Vector, Display, Draw, Radio, get_path
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -42,8 +42,9 @@ class Image(Component):
         flipx: bool = False,
         flipy: bool = False,
         visible: bool = True,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
         if rel_path == "":
             self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
@@ -69,6 +70,7 @@ class Image(Component):
         self._flipx: bool = flipx
         self._flipy: bool = flipy
         self._scale: Vector = scale
+        self._resize_scale: Vector = Vector(1, 1)  # This scale factor is changed when the image is resized.
         self._rot = self.rotation_offset
 
         self._original = Display.clone_surface(self._image)
@@ -141,12 +143,21 @@ class Image(Component):
         self._aa = new
         self._changed = True
 
+    def get_rect(self) -> Rectangle:
+        """
+        Generates the rectangular bounding box of the image.
+
+        Returns:
+            The Rectangle hitbox that bounds the image.
+        """
+        return Rectangle(offset=self.offset, width=self.get_size().x, height=self.get_size().y)
+
     def get_size(self) -> Vector:
         """
         Gets the current size of the image.
 
         Returns:
-            Vector: The size of the image
+            The size of the image
         """
         if self.image.w == self._original.w and self.image.h == self._original.h:
             return Vector(self.image.w, self.image.h) * self.scale
@@ -166,9 +177,11 @@ class Image(Component):
         if self.gameobj:
             self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._original,
-                self.gameobj.rotation + self.rotation_offset,
-                -self.scale.x if self.flipx else self.scale.x,
-                -self.scale.y if self.flipy else self.scale.y,
+                -self.gameobj.rotation - self.rotation_offset,
+                # It seems that rotation is counterclockwise, even though we assume clockwise until now.
+                # Requires further investigation but is a fix for now.
+                (-self.scale.x if self.flipx else self.scale.x) * self._resize_scale.x,
+                (-self.scale.y if self.flipy else self.scale.y) * self._resize_scale.y,
                 int(self.aa),
             ).contents
             self._tx = sdl2.ext.Texture(Display.renderer, self.image)
@@ -185,23 +198,8 @@ class Image(Component):
         if -1 < new_size.y < 1:
             new_size.y = 1
 
-        image_scaled = sdl2.surface.SDL_CreateRGBSurfaceWithFormat(
-            0,
-            new_size.x,
-            new_size.y,
-            32,
-            sdl2.SDL_PIXELFORMAT_RGBA8888,
-        ).contents
-
-        sdl2.surface.SDL_BlitScaled(
-            self._original,
-            None,
-            image_scaled,
-            sdl2.SDL_Rect(0, 0, new_size.x, new_size.y),
-        )
-
-        self._image = image_scaled
-        self._tx = sdl2.ext.Texture(Display.renderer, self.image)
+        self._resize_scale = Vector(new_size.x / self.get_size_original().x, new_size.y / self.get_size_original().y)
+        self._changed = True
 
     def cam_update(self, info: Dict[str, Camera]):
         """Updates the image sizing when the camera zoom changes."""
@@ -221,7 +219,11 @@ class Image(Component):
             self._update_rotozoom()
 
         if self.visible:
-            Display.update(self._tx, camera.transform(self.gameobj.pos - Vector(*self._tx.size) / 2))
+            Draw.push(
+                self.true_z,
+                lambda: Display.update(
+                    self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
+            )
 
     def delete(self):
         """Deletes the image component"""
@@ -232,7 +234,7 @@ class Image(Component):
         self._tx = None
         self._original = None
 
-    def clone(self) -> "Image":
+    def clone(self) -> Image:
         """
         Clones the current image.
 
@@ -240,16 +242,17 @@ class Image(Component):
             Image: The cloned image.
         """
         new = Image(
-            {
-                "scale": self.scale,
-                "anti_aliasing": self.aa,
-                "flipx": self.flipx,
-                "flipy": self.flipy,
-                "offset": self.offset,
-                "visible": self.visible,
-            }
+            offset=self.offset,
+            scale=self.scale,
+            anti_aliasing=self.aa,
+            flipx=self.flipx,
+            flipy=self.flipy,
+            visible=self.visible,
+            rot_offset=self.rotation_offset,
+            z_index=self.z_index,
         )
         new.image = Display.clone_surface(self.image)
+        new.rotation_offset = self.rotation_offset
         return new
 
     @staticmethod
