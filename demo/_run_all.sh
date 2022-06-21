@@ -11,11 +11,8 @@ do
     echo "Running $file"
     timeout --preserve-status 5s $PYCOMMAND $file
     retVal=$?
+    echo $retVal
     if [ "$retVal" != "143"  ] && [ "$retVal" != "124" ] && [ "$retVal" != "0" ]
-    then
-        echo "Error: $retVal"
-        exit $retVal
-    fi
     then
         exit 1
     fi
