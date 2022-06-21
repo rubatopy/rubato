@@ -1,6 +1,7 @@
 """Handles collision manifold generation for complex geometries."""
 from __future__ import annotations
-from typing import List, TYPE_CHECKING, Optional, Tuple
+from typing import List, TYPE_CHECKING, Optional
+import math
 
 from . import RigidBody, Circle
 from ... import Math, Vector
@@ -169,18 +170,16 @@ class Engine:
         if dist > t_rad * t_rad:
             return
 
-        dist = dist**.5
+        dist = math.sqrt(dist)
 
         if dist == 0:
             pen = circle_a.radius
             norm = Vector(1, 0)
-            contacts = [circle_a.pos]
         else:
             pen = t_rad - dist
             norm = Vector(d_x / dist, d_y / dist)
-            contacts = [circle_a.pos - norm * circle_a.radius]
 
-        return Manifold(circle_a, circle_b, pen, norm, contacts)
+        return Manifold(circle_a, circle_b, pen, norm)
 
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
@@ -203,7 +202,7 @@ class Engine:
 
         if separation <= 0:
             norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
-            return Manifold(circle, polygon, circle.radius, norm, [circle.pos - norm * circle.radius])
+            return Manifold(circle, polygon, circle.radius, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
 
@@ -212,28 +211,23 @@ class Engine:
         pen = circle.radius - separation
 
         if dot_1 <= 0:
-            if (center - v1).mag_sq > circle.radius * circle.radius:
+            offs = center - v1
+            if offs.mag_sq > circle.radius * circle.radius:
                 return
 
-            return Manifold(
-                circle, polygon, pen, (center - v1).rotate(polygon.gameobj.rotation).normalized(),
-                [v1.rotate(polygon.gameobj.rotation) + polygon.pos]
-            )
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         elif dot_2 <= 0:
-            if (center - v2).mag_sq > circle.radius * circle.radius:
+            offs = center - v2
+            if offs.mag_sq > circle.radius * circle.radius:
                 return
 
-            return Manifold(
-                circle, polygon, pen, (center - v2).rotate(polygon.gameobj.rotation).normalized(),
-                [v2.rotate(polygon.gameobj.rotation) + polygon.pos]
-            )
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         else:
             norm = Engine.get_normal(verts, face_normal)
             if norm.dot(center - v1) > circle.radius:
                 return
-            norm = norm.rotate(polygon.gameobj.rotation)
 
-            return Manifold(circle, polygon, pen, norm, [circle.pos - norm * circle.radius])
+            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
 
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
@@ -247,63 +241,25 @@ class Engine:
             return
 
         if pen_b < pen_a:
-            flip = False
-            ref_ind = face_a
-            ref_poly = shape_a
-            inc_poly = shape_b
-            true_pen = pen_a
+            man = Manifold(shape_a, shape_b, abs(pen_a))
+
+            ref_verts = shape_a.translated_verts()
+
+            v1 = ref_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.pos
+            v2 = ref_verts[(face_a + 1) % len(ref_verts)].rotate(shape_a.gameobj.rotation) + shape_a.pos
+
+            side_plane_normal = (v2 - v1).normalized()
+            man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
-            flip = True
-            ref_ind = face_b
-            ref_poly = shape_b
-            inc_poly = shape_a
-            true_pen = pen_b
+            man = Manifold(shape_a, shape_b, abs(pen_b))
 
-        inc_face = Engine.incident_face(ref_poly, inc_poly, ref_ind)
+            ref_verts = shape_b.translated_verts()
 
-        ref_verts = ref_poly.translated_verts()
+            v1 = ref_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.pos
+            v2 = ref_verts[(face_b + 1) % len(ref_verts)].rotate(shape_b.gameobj.rotation) + shape_b.pos
 
-        v1 = ref_verts[ref_ind].rotate(ref_poly.gameobj.rotation) + ref_poly.pos
-        v2 = ref_verts[(ref_ind + 1) % len(ref_verts)].rotate(ref_poly.gameobj.rotation) + ref_poly.pos
-
-        side_plane_normal = (v2 - v1).normalized()
-
-        neg_side = -side_plane_normal.dot(v1)
-        pos_side = side_plane_normal.dot(v2)
-
-        inc_face = Engine.clip(-side_plane_normal, neg_side, inc_face)
-        if len(inc_face) != 2:
-            return
-
-        inc_face = Engine.clip(side_plane_normal, pos_side, inc_face)
-        if len(inc_face) != 2:
-            return
-
-        man = Manifold(shape_a, shape_b)
-
-        ref_face_normal = side_plane_normal.perpendicular()
-        man.normal = ref_face_normal
-
-        ref_c = ref_face_normal.dot(v1)
-
-        sep_1 = ref_face_normal.dot(inc_face[0]) - ref_c
-        sep_2 = ref_face_normal.dot(inc_face[1]) - ref_c
-
-        if sep_1 <= 0:
-            if sep_2 <= 0:
-                man.contacts = inc_face
-            else:
-                man.contacts = [inc_face[0]]
-        elif sep_2 <= 0:
-            man.contacts = [inc_face[1]]
-        else:
-            return
-
-        man.penetration = abs(true_pen)
-        man.normal *= Math.sign(true_pen)
-
-        if flip:
-            man.normal *= -1
+            side_plane_normal = (v2 - v1).normalized()
+            man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
 
         return man
 
@@ -329,46 +285,6 @@ class Engine:
                     return None, None
 
         return best_dist, best_ind
-
-    @staticmethod
-    def incident_face(ref_poly: Polygon, inc_poly: Polygon, ref_index: int) -> List[Vector]:
-        """Finds the incident face of the incident polygon that clips into the reference polygon."""
-        ref_verts = ref_poly.translated_verts()
-        inc_verts = inc_poly.translated_verts()
-
-        ref_norm = Engine.get_normal(ref_verts,
-                                     ref_index).rotate(ref_poly.gameobj.rotation).rotate(-inc_poly.gameobj.rotation)
-
-        inc_face, min_dot = 0, Math.INF
-        for i in range(len(inc_verts)):
-            dot = ref_norm.dot(Engine.get_normal(inc_verts, i))
-
-            if dot < min_dot:
-                min_dot = dot
-                inc_face = i
-
-        return [
-            inc_verts[inc_face].rotate(inc_poly.gameobj.rotation) + inc_poly.pos,
-            inc_verts[(inc_face + 1) % len(inc_verts)].rotate(inc_poly.gameobj.rotation) + inc_poly.pos
-        ]
-
-    @staticmethod
-    def clip(n: Vector, c: float, face: List[Vector]) -> Tuple:
-        out = []
-
-        d1 = n.dot(face[0]) - c
-        d2 = n.dot(face[1]) - c
-
-        if d1 <= 0:
-            out.append(face[0].clone())
-        if d2 <= 0:
-            out.append(face[1].clone())
-
-        if d1 * d2 < 0:
-            alpha = d1 / (d1 - d2)
-            out.append(((face[1] - face[0]) * alpha) + face[0])
-
-        return out
 
     @staticmethod
     def get_support(verts: List[Vector], direction: Vector) -> Vector:
@@ -402,7 +318,6 @@ class Manifold:
         shape_b: The second shape involved in the collision.
         penetration: The amount of penetration between the two shapes.
         normal: The normal of the collision.
-        contacts: The points of contact between the two shapes.
 
     Attributes:
         shape_a (Optional[Hitbox]): A reference to the first shape.
@@ -417,20 +332,14 @@ class Manifold:
         shape_b: Optional[Hitbox],
         penetration: float = 0,
         normal: Vector = Vector(),
-        contacts: List[Vector] = []
     ):
         self.shape_a = shape_a
         self.shape_b = shape_b
         self.penetration = penetration
         self.normal = normal
-        self.contacts = contacts
 
     def __str__(self) -> str:
-        stringed = "[ "
-        for c in self.contacts:
-            stringed += str(c) + " "
-        stringed += "]"
-        return f"{self.penetration}, {self.normal}, {stringed}"
+        return f"Manifold <{self.penetration}, {self.normal}>"
 
     def flip(self) -> Manifold:
         """
