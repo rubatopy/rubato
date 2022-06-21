@@ -248,6 +248,8 @@ class Image(Component):
             flipx=self.flipx,
             flipy=self.flipy,
             visible=self.visible,
+            rot_offset=self.rotation_offset,
+            z_index=self.z_index,
         )
         new.image = Display.clone_surface(self.image)
         new.rotation_offset = self.rotation_offset

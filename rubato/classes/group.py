@@ -138,3 +138,20 @@ class Group:
             int: The number of GameObjects in a group
         """
         return len(self.game_objects) + sum([group.count() for group in self.groups])
+
+    def clone(self) -> Group:
+        """
+        Clones the group and all of its children.
+
+        Warning:
+            This is a relatively expensive operation as it clones every game object and component in the group.
+        """
+        new_group = Group(f"{self.name} (clone)", self.active)
+
+        for group in self.groups:
+            new_group.add(group.clone())
+
+        for game_obj in self.game_objects:
+            new_group.add(game_obj.clone())
+
+        return new_group

@@ -147,8 +147,17 @@ class Polygon(Hitbox):
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
-            self.offset, self.rot_offset, self.debug, self.trigger, self.scale, self.on_collide, self.on_exit,
-            self.color, self.tag, self.verts, self.z_index
+            self.offset,
+            self.rot_offset,
+            self.debug,
+            self.trigger,
+            self.scale,
+            self.on_collide,
+            self.on_exit,
+            self.color,
+            self.tag,
+            self.verts,
+            self.z_index,
         )
 
     def get_aabb(self) -> List[Vector]:
@@ -547,8 +556,18 @@ class Rectangle(Hitbox):
 
     def clone(self) -> Rectangle:
         return Rectangle(
-            self.offset, self.rotation_offset, self.debug, self.trigger, self.scale, self.on_collide, self.on_exit,
-            self.color, self.tag, self.width, self.height, self.z_index
+            self.offset,
+            self.rotation_offset,
+            self.debug,
+            self.trigger,
+            self.scale,
+            self.on_collide,
+            self.on_exit,
+            self.color,
+            self.tag,
+            self.width,
+            self.height,
+            self.z_index,
         )
 
 
@@ -639,6 +658,15 @@ class Circle(Hitbox):
 
     def clone(self) -> Circle:
         return Circle(
-            self.offset, self.rotation_offset, self.debug, self.trigger, self.scale, self.on_collide, self.on_exit,
-            self.color, self.tag, self.radius, self.z_index
+            self.offset,
+            self.rotation_offset,
+            self.debug,
+            self.trigger,
+            self.scale,
+            self.on_collide,
+            self.on_exit,
+            self.color,
+            self.tag,
+            self.radius,
+            self.z_index,
         )

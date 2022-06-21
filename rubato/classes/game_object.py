@@ -22,16 +22,15 @@ class GameObject:
         pos: The position of the game object. Defaults to Vector(0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
-        debug: Whether or not to draw the hitbox of the game object. Defaults to False.
+        debug: Whether or not to draw the center of the game object. Defaults to False.
 
     Attributes:
         name (str): The name of the game object. Will default to:
             "Game Object {number in group}"
         pos (Vector): The current position of the game object.
         z_index (int): The z_index of the game object.
-        components (List[Component]): All the components attached to this
-            game object.
         rotation (float): The rotation of the game object in degrees.
+        debug (bool): Whether or not to draw a debug crosshair for the game object.
     """
 
     def __init__(
@@ -65,8 +64,10 @@ class GameObject:
                     f"There is already a component of type {comp_type} on the game object {self.name}"
                 )
         except AttributeError as err:
-            raise ImplementationError("The component does not have a singular attribute. You most likely overrode the"
-                                      "__init__ method of the component without calling super().__init__().") from err
+            raise ImplementationError(
+                "The component does not have a singular attribute. You most likely overrode the"
+                "__init__ method of the component without calling super().__init__()."
+            ) from err
 
         if isinstance(component, Hitbox):
             component._pos = lambda: self.pos  # pylint: disable=protected-access
@@ -186,3 +187,14 @@ class GameObject:
         for comps in self._components.values():
             for comp in comps:
                 comp.fixed_update()
+
+    def clone(self) -> GameObject:
+        """
+        Clones the game object.
+        """
+        new_obj = GameObject(f"{self.name} (clone)", self.pos, self.rotation, self.z_index, self.debug)
+        for component in self._components.values():
+            for comp in component:
+                new_obj.add(comp.clone())
+
+        return new_obj

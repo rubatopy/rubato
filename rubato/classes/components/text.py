@@ -166,11 +166,12 @@ class Text(Component):
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        Draw.push(self.true_z,
-                  lambda: Display.update(
-                      self._tx,
-                      camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
-                  ))
+        Draw.push(
+            self.true_z, lambda: Display.update(
+                self._tx,
+                camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
+            )
+        )
 
     def delete(self):
         """Deletes the text component."""
@@ -182,11 +183,12 @@ class Text(Component):
     def clone(self) -> Text:
         """Clones the text component."""
         return Text(
-            {
-                "text": self._text,
-                "font": self._font,
-                "anchor": self._anchor,
-                "justify": self._justify,
-                "width": self._width,
-            }
+            text=self._text,
+            font=self._font,
+            anchor=self._anchor,
+            justify=self._justify,
+            width=self._width,
+            offset=self.offset,
+            rot_offset=self.rotation_offset,
+            z_index=self.z_index,
         )
