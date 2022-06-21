@@ -4,15 +4,17 @@
 
 files=`ls ./*.py`
 
+BLUE='\033[1;34m'
+NC='\033[0m' # No Color
 
 for file in $files
 do
-    echo "Running $file"
+    echo "${BLUE}Running $file${NC}"
     if command -v python &> /dev/null
     then
-        timeout --preserve-status 5s python $file
+        timeout --preserve-status 3s python $file
     else
-        timeout --preserve-status 5s python3 $file
+        timeout --preserve-status 3s python3 $file
     fi
 
     retVal=$?
