@@ -22,6 +22,7 @@
 
 -   z_index from `Group`
 -   Misc. unused draw, setup, and update methods for some classes.
+-   Advanced rotational physics. Will be added in a later patch once Hitbox is refactored.
 
 ### Fixed
 

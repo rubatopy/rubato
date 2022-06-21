@@ -66,11 +66,10 @@ for _ in range(num_objs):
             )
         ).add(rb.Circle(radius=rb.Display.res.x / num_objs, color=rb.Color.random_default())).add(
             rb.RigidBody(
-                density=0.1,
+                mass=0.1,
                 bounciness=1,
                 friction=0.2,
                 velocity=rb.Vector(randint(-100, 100), randint(-100, 100)),
-                advanced=True,
             )
         )
     )
