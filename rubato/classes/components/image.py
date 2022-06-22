@@ -78,7 +78,7 @@ class Image(Component):
 
         self._changed = True
         self._update_rotozoom()
-        self._go_rotation = 0
+        self._go_rotation = 0  # Martin, why do we know go_rotation? Haven't actually checked it yet.
 
         Radio.listen("ZOOM", self.cam_update)
 
@@ -175,6 +175,7 @@ class Image(Component):
     def _update_rotozoom(self):
         """Updates the image surface. Called automatically when image scale or rotation are updated"""
         if self.gameobj:
+            print(self.gameobj.rotation + self.rotation_offset)
             self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._original,
                 -self.gameobj.rotation - self.rotation_offset,
@@ -183,7 +184,7 @@ class Image(Component):
                 (-self.scale.x if self.flipx else self.scale.x) * self._resize_scale.x,
                 (-self.scale.y if self.flipy else self.scale.y) * self._resize_scale.y,
                 int(self.aa),
-            ).contents
+                ).contents
             self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def resize(self, new_size: Vector):
