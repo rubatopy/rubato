@@ -1,5 +1,6 @@
-Basic Structure
-===============
+##########################
+Step 1 - Basic Structure
+##########################
 
 Welcome to the first part of making a platformer in rubato. In this first step, we will
 be setting up our project and laying down the foundation for the next steps.
@@ -11,34 +12,32 @@ installed and run
 
     $ pip install rubato
 
-It should then successfully install. Now we are ready to start programming. Note that
-if you run into any issues. The source code for this step is available
-`here <https://github.com/rubatopy/rubato/tree/main/tutorials/platformer/step1>`__.
-Let's get started.
+It should then successfully install. Now we are ready to start programming.
 
-In a folder of your choice, create a file and name it :code:`main.py`. At the top
-of this file, import rubato:
+Make sure you have downloaded and extracted these
+`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_files/platformer_files.zip>`_ and create
+a ``main.py`` file next to the ``platformer_files`` directory. Add this to the top of your file:
 
 .. code-block:: python
 
-    from rubato import *
+    import rubato as rb
 
-This will allow to access the entire rubato library by just typing the name
+This will allow us to access all of rubato using :code:`rb`.
 
 Next we need to initialize rubato:
 
 .. code-block:: python
 
     # initialize a new game
-    init()
+    rb.init()
 
     # begin the game
-    begin()
+    rb.begin()
 
 At this point, if you run the code, you should see a white window appear.
 
-.. image:: /_static/tutorial_ss/step1/1.png
-    :width: 245
+.. image:: /_static/tutorials_static/platformer/step1/1.png
+    :width: 25%
     :align: center
 
 :code:`rb.init()` is the initializer function for the library.
@@ -57,59 +56,52 @@ Replace the previous :code:`rb.init()` call with this:
 .. code-block:: python
 
     # initialize a new game
-    init(
-        {
-            "name": "Platformer Demo",  # Set a name
-            "window_size": Vector(960, 540),  # Set the window size
-            "background_color": Color.cyan.lighter(),  # Set the background color
-            "res": Vector(1920, 1080),  # Increase the window resolution
-        }
+    rb.init(
+        name="Platformer Demo",  # Set a name
+        window_size=rb.Vector(960, 540),  # Set the window size
+        background_color=rb.Color.cyan.lighter(),  # Set the background color
+        res=rb.Vector(1920, 1080),  # Increase the window resolution
     )
 
 
 Here we're introducing 2 new classes: :func:`rb.Vector <rubato.utils.vector.Vector>`
 and :func:`rb.Color <rubato.utils.color.Color>`.
 
-A vector is a class that contains an x variable and a y variable.
+:func:`Vector <rubato.utils.vector.Vector>` is a class that contains an x variable and a y variable.
 It can represent a point, dimensions, a vector, or anything else that has an x and y
 parameter. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
-many useful linear algebra functions and can have nearly every builtin python math function
+many useful linear algebra functions and can have nearly every builtin Python math function
 applied to them.
 
 The :func:`Color <rubato.utils.color.Color>` class helps you manage colors. Colors
-are stored in the RGBA format and can be loaded from HSV and tuples. It comes
+are stored in the RGBA format and can be loaded from HSV and HEX. It comes
 preloaded with a lot of :func:`default colors <rubato.utils.color.Color.random>` and
 has a few functions to manipulate color. In the code above, we use :func:`lighter() <rubato.utils.color.Color.lighter>`
 to increase the shade of the color.
 
 At this point, running the game should look like this:
 
-.. image:: /_static/tutorial_ss/step1/2.png
-    :width: 540
+.. image:: /_static/tutorials_static/platformer/step1/2.png
+    :width: 75%
     :align: center
 
 Here is what you main.py should look like:
 
 .. code-block:: python
 
-    from rubato import *
+    import rubato as rb
 
     # initialize a new game
-    init(
-        {
-            "name": "Platformer Demo",  # Set a name
-            "window_size": Vector(960, 540),  # Set the window size
-            "background_color": Color.cyan.lighter(),  # Set the background color
-            "res": Vector(1920, 1080),  # Increase the window resolution
-        }
+    rb.init(
+        name="Platformer Demo",  # Set a name
+        window_size=rb.Vector(960, 540),  # Set the window size
+        background_color=rb.Color.cyan.lighter(),  # Set the background color
+        res=rb.Vector(1920, 1080),  # Increase the window resolution
     )
 
     # begin the game
-    begin()
+    rb.begin()
 
 
 There we go! Now your game is set up. In the next step, we will create a player
 and add him to the game.
-
-The source code for this step is available
-`here <https://github.com/rubatopy/rubato/tree/main/tutorials/platformer/step1>`__.
