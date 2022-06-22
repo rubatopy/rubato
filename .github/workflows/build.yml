@@ -3,7 +3,36 @@ name: Build
 on: [push]
 
 jobs:
+    demo:
+        name: Test Demo Files
+        runs-on: ubuntu-latest
+        env:
+            SDL_VIDEODRIVER: dummy
+            SDL_AUDIODRIVER: dummy
+            SDL_RENDER_DRIVER: software
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+            - uses: actions/setup-python@v2
+              with:
+                  python-version: "3.10"
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install pysdl2-dll
+                  pip install .[dev]
+
+            - name: Run Demos
+              run: |
+                  cd demo
+                  ./_run_all.sh
+
     docs:
+        name: Test Docs
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -60,6 +89,7 @@ jobs:
               run: pytest --cov=rubato rubato/tests
 
     lint:
+        name: Lint Code
         runs-on: ubuntu-latest
 
         steps:

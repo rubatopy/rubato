@@ -10,7 +10,11 @@ broadcast that event key using :meth:`Radio.broadcast`.
 """
 
 from typing import Callable, List
+import sys
+import sdl2, sdl2.ext, sdl2.sdlttf
+from contextlib import suppress
 
+from . import Input, Display, Vector
 
 class Events:
     KEYUP = "KEYUP"
@@ -35,6 +39,81 @@ class Radio:
     """
 
     listeners: dict[str, List] = {}
+
+    @classmethod
+    def pump(cls):
+        """Pump events from SDL and broadcast them as necessary. Called automatically every frame."""
+        for event in sdl2.ext.get_events():
+            sdl2.SDL_PumpEvents()
+            if event.type == sdl2.SDL_QUIT:
+                cls.broadcast(Events.EXIT)
+                sdl2.sdlttf.TTF_Quit()
+                sdl2.SDL_Quit()
+                sys.exit()
+            if event.type == sdl2.SDL_WINDOWEVENT:
+                if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
+                    cls.broadcast(
+                        Events.RESIZE, {
+                            "width": event.window.data1,
+                            "height": event.window.data2,
+                            "old_width": Display.window_size.x,
+                            "old_height": Display.window_size.y
+                        }
+                    )
+                    Display.window_size = Vector(
+                        event.window.data1,
+                        event.window.data2,
+                    )
+            if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
+                key_info, unicode = event.key.keysym, ""
+                with suppress(ValueError):
+                    unicode = chr(key_info.sym)
+
+                if event.type == sdl2.SDL_KEYUP:
+                    event_name = Events.KEYUP
+                else:
+                    event_name = (Events.KEYDOWN, Events.KEYHOLD)[event.key.repeat]
+
+                cls.broadcast(
+                    event_name,
+                    {
+                        "key": Input.get_name(key_info.sym),
+                        "unicode": unicode,
+                        "code": int(key_info.sym),
+                        "mods": key_info.mod,
+                    },
+                )
+
+            if event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
+                mouse_button = None
+                if event.button.state == sdl2.SDL_BUTTON_LEFT:
+                    mouse_button = "mouse 1"
+                elif event.button.state == sdl2.SDL_BUTTON_MIDDLE:
+                    mouse_button = "mouse 2"
+                elif event.button.state == sdl2.SDL_BUTTON_RIGHT:
+                    mouse_button = "mouse 3"
+                elif event.button.state == sdl2.SDL_BUTTON_X1:
+                    mouse_button = "mouse 4"
+                elif event.button.state == sdl2.SDL_BUTTON_X2:
+                    mouse_button = "mouse 5"
+
+                if event.type == sdl2.SDL_MOUSEBUTTONUP:
+                    event_name = Events.MOUSEUP
+                else:
+                    event_name = Events.MOUSEDOWN
+                #
+                cls.broadcast(
+                    event_name,
+                    {
+                        "mouse_button": mouse_button,
+                        "x": event.button.x,
+                        "y": event.button.y,
+                        "clicks": event.button.clicks,
+                        "which": event.button.which,
+                        "windowID": event.button.windowID,
+                        "timestamp": event.button.timestamp,
+                    },
+                )
 
     @classmethod
     def listen(cls, event: str, func: Callable):

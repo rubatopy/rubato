@@ -96,7 +96,7 @@ class Font:
         try:
 
             return sdl2.sdlgfx.rotozoomSurface(
-                self._font.render_text(text, width=None if width < 0 else width, align=align), rot, 1, 1
+                self._font.render_text(text, width=None if width <= 0 else width, align=align), rot, 1, 1
             )
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e

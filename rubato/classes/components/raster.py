@@ -1,9 +1,10 @@
 """A Raster is a grid of pixels that you can draw shapes onto or edit individual pixels."""
 from typing import Dict, Tuple
 import sdl2, sdl2.ext, sdl2.sdlgfx
+
 from . import Component
 from .. import Camera
-from ... import Display, Vector, Color, Radio
+from ... import Display, Vector, Color, Radio, Draw
 
 
 class Raster(Component):
@@ -30,9 +31,10 @@ class Raster(Component):
         width: int = 32,
         height: int = 32,
         scale: Vector = Vector(1, 1),
-        visible: bool = True
+        visible: bool = True,
+        z_index: int = 0
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
         self.singular = False
 
@@ -235,7 +237,7 @@ class Raster(Component):
         if self.gameobj:
             self._drawn = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._raster,
-                self.gameobj.rotation + self.rotation_offset,
+                -self.gameobj.rotation - self.rotation_offset,
                 self.scale.x * self._cam_zoom,
                 self.scale.y * self._cam_zoom,
                 0,
@@ -249,5 +251,11 @@ class Raster(Component):
             self._update_rotozoom()
 
         if self.visible:
-            Display.update(self._texture, camera.transform(self.gameobj.pos + self.offset
-                                                           - Vector(*self._texture.size) / 2))
+            Draw.push(
+                self.true_z,
+                lambda: Display.update(
+                    self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
+                ),
+            )
+
+    # TODO when we make raster actually work make sure to add a clone function

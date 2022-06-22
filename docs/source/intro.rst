@@ -16,11 +16,12 @@ Installing rubato is simple. Just run the following in a terminal:
     | We recommend installing python direct from python.org if you do not already have it.
 
 On Windows and Mac, the dll files that SDL needs come pre-bundled with rubato, so you should be ready to go.
-On Linux **only**, you'll need to install them yourself:
 
-.. code-block:: console
+.. dropdown:: On Linux **only**, you'll need to install them yourself:
 
-    $ pip install pysdl2-dll
+    .. code-block:: console
+
+        $ pip install pysdl2-dll
 
 ************
 Setting Up

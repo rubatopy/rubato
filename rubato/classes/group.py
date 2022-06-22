@@ -4,8 +4,8 @@ Groups contain game objects or other groups and allow separation between game ob
 from __future__ import annotations
 from typing import List, TYPE_CHECKING
 
-from . import GameObject, Hitbox, Engine
-from .. import Error
+from . import GameObject, Hitbox, QTree
+from .. import Error, Display
 
 if TYPE_CHECKING:
     from . import Camera
@@ -17,23 +17,20 @@ class Group:
 
     Args:
         name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.
-        z_index: The z-index of the group. Defaults to 0.
         active: Whether the group is active or not. Defaults to True.
 
     Attributes:
         name (str): The name of the group.
+        active (bool): Whether the group is active or not.
         groups (List[Group]): A list of groups that are children of this group.
         game_objects (List[GameObject]): A list of game objects that are children of this group.
-        z_index (int): The z-index of the group.
-        active (bool): Whether the group is active or not.
     """
 
-    def __init__(self, name: str = "", z_index: int = 0, active: bool = True):
+    def __init__(self, name: str = "", active: bool = True):
         self.name: str = name
+        self.active: bool = active
         self.groups: List[Group] = []
         self.game_objects: List[GameObject] = []
-        self.z_index: int = z_index
-        self.active: bool = active
 
     def add(self, *items: GameObject | Group):
         """
@@ -106,14 +103,13 @@ class Group:
             for game_obj in self.game_objects:
                 game_obj.fixed_update()
 
+            qtree = QTree(Display.top_left, Display.bottom_right)
+
             # collide all hitboxes with each other
-            hitboxes: List[Hitbox] = []
             for game_obj in self.game_objects:
                 if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                    for ht in hts:
-                        for hitbox in hitboxes:
-                            Engine.collide(ht, hitbox)
-                    hitboxes.extend(hts)
+                    if hts != []:
+                        qtree.insert(hts)
 
             for group in self.groups:
                 group.fixed_update()
@@ -121,18 +117,14 @@ class Group:
                 # collide children groups with parent hitboxes
                 for game_obj in group.game_objects:
                     if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                        for ht in hts:
-                            for hitbox in hitboxes:
-                                Engine.collide(ht, hitbox)
+                        if hts != []:
+                            qtree.collide(hts, qtree.calc_bb(hts))
 
     def draw(self, camera: Camera):
         if self.active:
-            self.groups.sort(key=lambda i: i.z_index)
             for group in self.groups:
-                if group.z_index <= camera.z_index:
-                    group.draw(camera)
+                group.draw(camera)
 
-            self.game_objects.sort(key=lambda i: i.z_index)
             for game_obj in self.game_objects:
                 if game_obj.z_index <= camera.z_index:
                     game_obj.draw(camera)
@@ -144,3 +136,20 @@ class Group:
             int: The number of GameObjects in a group
         """
         return len(self.game_objects) + sum([group.count() for group in self.groups])
+
+    def clone(self) -> Group:
+        """
+        Clones the group and all of its children.
+
+        Warning:
+            This is a relatively expensive operation as it clones every game object and component in the group.
+        """
+        new_group = Group(f"{self.name} (clone)", self.active)
+
+        for group in self.groups:
+            new_group.add(group.clone())
+
+        for game_obj in self.game_objects:
+            new_group.add(game_obj.clone())
+
+        return new_group

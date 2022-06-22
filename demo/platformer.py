@@ -10,11 +10,12 @@ rb.init(
     name="Platformer Demo",
     window_size=rb.Vector(960, 540),
     background_color=rb.Color.cyan.lighter(),
-    res=rb.Vector(1920, 1080),
+    res=rb.Vector(1920, 1080)
 )
 
 # Change the global debug level
-rb.Game.debug = True
+# rb.Game.debug = True
+# rb.Game.show_fps = True
 
 # Tracks the grounded state of the player
 grounded = False
@@ -55,7 +56,7 @@ def player_collide(col_info: rb.Manifold):
                 global retry_allowed
                 retry_allowed = True
 
-            rb.Time.delayed_call(rb.Time.sec_to_milli(2), re_allow)
+            rb.Time.delayed_call(2000, re_allow)
     if col_info.shape_b.tag == "portal":
         if not won:
             print("WIN!")
@@ -63,6 +64,7 @@ def player_collide(col_info: rb.Manifold):
 
 
 # add a hitbox to the player with the collider
+
 player.add(rb.Rectangle(width=64, height=64, tag="player"))
 # add a ground detector
 player.add(rb.Rectangle(
