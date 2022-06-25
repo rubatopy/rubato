@@ -3,16 +3,16 @@ Step 1 - Basic Structure
 ##########################
 
 Welcome to the first part of making a platformer in rubato. In this first step, we will
-be setting up our project and laying down the foundation for the next steps.
+be setting up our project and laying the foundation for the next steps.
 
-First, lets make sure you have rubato installed. Make sure you have python 3.10.x
+First, let's make sure you have rubato installed. Make sure you have python 3.10.x
 installed and run
 
 .. code-block:: console
 
     $ pip install rubato
 
-It should then successfully install. Now we are ready to start programming.
+It should install successfully. Now we are ready to start programming.
 
 Make sure you have downloaded and extracted these
 `files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_files/platformer_files.zip>`_ and create
@@ -24,7 +24,7 @@ a ``main.py`` file next to the ``platformer_files`` directory. Add this to the t
 
 This will allow us to access all of rubato using :code:`rb`.
 
-Next we need to initialize rubato:
+Next, we need to initialize rubato:
 
 .. code-block:: python
 
@@ -41,15 +41,15 @@ At this point, if you run the code, you should see a white window appear.
     :align: center
 
 :code:`rb.init()` is the initializer function for the library.
-It will make sure that the computer hardware can communicate with Python and it will
+It will ensure that the computer hardware can communicate with Python and
 set up a window for you. :code:`rb.begin()` actually runs the game loop. The loop will
 handle all of the rendering, player logic, etc. Without calling it, nothing happens.
 
-To customize your game window, you can pass in a few parameters. For now, lets:
+To customize your game window, you can pass in a few parameters. For now, let's:
     * Give our window a name
     * Increase its size a little
     * Change its resolution
-    * Set a more interesting background color
+    * Set a more exciting background-color
 
 Replace the previous :code:`rb.init()` call with this:
 
@@ -70,7 +70,7 @@ and :func:`rb.Color <rubato.utils.color.Color>`.
 :func:`Vector <rubato.utils.vector.Vector>` is a class that contains an x variable and a y variable.
 It can represent a point, dimensions, a vector, or anything else that has an x and y
 parameter. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
-many useful linear algebra functions and can have nearly every builtin Python math function
+many useful linear algebra functions and can have nearly every built-in Python math function
 applied to them.
 
 The :func:`Color <rubato.utils.color.Color>` class helps you manage colors. Colors
@@ -85,7 +85,7 @@ At this point, running the game should look like this:
     :width: 75%
     :align: center
 
-Here is what you main.py should look like:
+Here is what your main.py should look like:
 
 .. code-block:: python
 

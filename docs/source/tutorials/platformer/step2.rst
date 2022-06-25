@@ -3,22 +3,22 @@ Step 2 - Creating a Player
 ##########################
 
 Welcome to the second part of making a platformer in rubato. In this step, we will be building a simple
-character with rudimentary physics.
+animated character.
 
 At this point, you should have a window drawing with a cyan background.
 
-First things first, we need to understand how rubato is structured (we will explain it first, then walk you
-through it). rubato has 4 different levels: Scenes, Groups, Game Objects, and Components.
+First, we need to understand how rubato is structured (we will explain it first, then walk you
+through it). rubato has 4 levels: Scenes, Groups, Game Objects, and Components.
 
 :func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
-:func:`Camera <rubato.classes.camera.Camera>`. Scenes are used to compartmentalize code. For example,
-you could have each level of your game on a different scene. Then to switch levels you would switch scenes.
+:func:`Camera <rubato.classes.camera.Camera>`. We use Scenes to separate code. For example,
+you could have each game level on a different scene. Then to switch levels, you would switch scenes.
 Every game has a :func:`Scene Manager <rubato.classes.scene_manager.SceneManager>` which helps you switch between scenes
 easily.
 
-:func:`Groups <rubato.classes.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose is to
-further compartmentalize items. For example, items in 2 different groups won't collide with each other. In this tutorial,
-we won't be using Groups as we don't need this functionality here.
+:func:`Groups <rubato.classes.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose
+is to separate items further. For example, items in 2 different groups won't collide with each other. We won't use Groups
+in this tutorial as we don't need this functionality here.
 
 :func:`Game Objects <rubato.classes.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
@@ -50,20 +50,20 @@ Next, we need to create a player and add it to the scene.
 
 
 :func:`rb.Display.center_left <rubato.utils.display.Display.center_left>` is the Vector position for the center of the
-left side of the screen. Currently we won't see anything because Game Objects don't draw anything. Let's change that
-by adding a simple animation to player.
+left side of the screen. We won't see anything because Game Objects don't draw anything. Let's change that
+by adding a simple Animation to the player.
 
-If you take a look inside the ``platformer_files/dino`` directory, you will see a few image files. Each of these image
+You will see a few image files inside the ``platformer_files/dino`` directory. Each of these image
 files is a spritesheet for a single animation. Instead of loading each frame and image ourselves, we can use
 :func:`rb.Spritesheet.from_folder() <rubato.classes.components.spritesheet.Spritesheet.from_folder>` to load them
 all at once. This function takes the path to a folder and returns an
 :func:`Animation <rubato.classes.components.animation.Animation>` component that can then be added to a GameObject.
 
-Our spritesheets have a couple frames and each frame is 24 pixels by 24 pixels. Be sure to specify the sprite size
+Our spritesheets have a couple of frames. Each frame is 24 pixels by 24 pixels. Be sure to specify the sprite size
 when you load them. This will let rubato correctly subdivide the spritesheet into frames.
 
-Animations are made up of different states. Each state is can be triggered at any time. When loading from a folder, the
-state names are the names of the files. Some states we have are idle, jump, crouch, and run.
+Animations are made up of different states. We can trigger each state at any time. When loading from a folder, the
+state names are the names of the files. Some states we have in our example are idle, jump, crouch, and run.
 
 We also should specify the default state. This is the state that the animation will start at and the one that it will
 return to when other states finish. In our case, this will be the idle state.
