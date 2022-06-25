@@ -26,7 +26,6 @@ class Animation(Component):
         anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
-        visible: Whether the animation is visible. Defaults to True.
 
     Attributes:
         default_state (Optional[str]): The key of the default state. Defaults
@@ -37,7 +36,6 @@ class Animation(Component):
         aa (bool): Whether or not to enable anti aliasing.
         flipx (bool): Whether or not to flip the animation along the x axis.
         flipy (bool): Whether or not to flip the animation along the y axis.
-        visible (bool): Whether or not the animation is visible.
     """
 
     def __init__(
@@ -49,7 +47,6 @@ class Animation(Component):
         anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        visible: bool = True,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -69,7 +66,6 @@ class Animation(Component):
         self.aa: bool = anti_aliasing
         self.flipx: bool = flipx
         self.flipy: bool = flipy
-        self.visible: bool = visible
 
         self._time_step = 1000 / self._fps
         self._time_count = 0
@@ -108,7 +104,6 @@ class Animation(Component):
         img.flipy = self.flipy
         img.scale = self.scale
         img.offset = self.offset
-        img.visible = self.visible
         img.rotation_offset = self.rotation_offset
         return img
 
@@ -281,7 +276,6 @@ class Animation(Component):
             flipx=self.flipx,
             flipy=self.flipy,
             offset=self.offset,
-            visible=self.visible,
             rot_offset=self.rotation_offset,
             z_index=self.z_index,
         )
