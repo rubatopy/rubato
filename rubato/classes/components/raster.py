@@ -18,10 +18,6 @@ class Raster(Component):
         width: The width of the raster. Defaults to 32.
         height: The height of the raster. Defaults to 32.
         scale: The scale of the raster. Defaults to Vector(1, 1).
-        visible: Whether the raster is visible. Defaults to True.
-
-    Attributes:
-        visible (bool): Whether the raster is visible.
     """
 
     def __init__(
@@ -31,7 +27,6 @@ class Raster(Component):
         width: int = 32,
         height: int = 32,
         scale: Vector = Vector(1, 1),
-        visible: bool = True,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -49,7 +44,6 @@ class Raster(Component):
         self._drawn = Display.clone_surface(self._raster)  # The raster with rotation and scale
         self._texture = sdl2.ext.Texture(Display.renderer, self._raster)
 
-        self.visible = visible
         self._scale = scale
         self._rot = self.rotation_offset
 
@@ -245,17 +239,18 @@ class Raster(Component):
             self._texture = sdl2.ext.Texture(Display.renderer, self._drawn)
 
     def draw(self, camera: Camera):
+        if self.hidden: return
+
         if self._changed or self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
             self._changed = False
             self._update_rotozoom()
 
-        if self.visible:
-            Draw.push(
-                self.true_z,
-                lambda: Display.update(
-                    self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
-                ),
-            )
+        Draw.push(
+            self.true_z,
+            lambda: Display.update(
+                self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
+            ),
+        )
 
     # TODO when we make raster actually work make sure to add a clone function

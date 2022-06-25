@@ -31,6 +31,7 @@ class Component:
         rotation_offset (float): The rotational offset from the game object's rotation.
         z_index (int): Where to draw the component in the z direction.
         started (bool): Whether the component has run its setup method.
+        hidden (bool): Whether the component should not draw.
     """
 
     def __init__(self, offset: Vector = Vector(), rot_offset: float = 0, z_index: int = 0):
@@ -40,6 +41,7 @@ class Component:
         self.rotation_offset: float = rot_offset
         self.z_index: int = z_index
         self.started = False
+        self.hidden = False
 
     @property
     def true_z(self):

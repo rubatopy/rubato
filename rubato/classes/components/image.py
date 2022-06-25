@@ -25,10 +25,6 @@ class Image(Component):
         anti_aliasing: Whether or not to use anti-aliasing. Defaults to False.
         flipx: Whether or not to flip the image horizontally. Defaults to False.
         flipy: Whether or not to flip the image vertically. Defaults to False.
-        visible: Whether or not the image is visible. Defaults to True.
-
-    Attributes:
-        visible (bool): Whether or not the image is visible.
     """
 
     def __init__(
@@ -41,7 +37,6 @@ class Image(Component):
         anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        visible: bool = True,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -65,7 +60,6 @@ class Image(Component):
 
         self.singular = False
 
-        self.visible: bool = visible
         self._aa: bool = anti_aliasing
         self._flipx: bool = flipx
         self._flipy: bool = flipy
@@ -213,17 +207,18 @@ class Image(Component):
         self.resize(new_size)
 
     def draw(self, camera: Camera):
+        if self.hidden: return
+
         if self._changed or self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
             self._changed = False
             self._update_rotozoom()
 
-        if self.visible:
-            Draw.push(
-                self.true_z,
-                lambda: Display.update(
-                    self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
-            )
+        Draw.push(
+            self.true_z,
+            lambda: Display.update(
+                self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
+        )
 
     def delete(self):
         """Deletes the image component"""
@@ -247,7 +242,6 @@ class Image(Component):
             anti_aliasing=self.aa,
             flipx=self.flipx,
             flipy=self.flipy,
-            visible=self.visible,
             rot_offset=self.rotation_offset,
             z_index=self.z_index,
         )
