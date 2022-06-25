@@ -207,18 +207,15 @@ class Image(Component):
         self.resize(new_size)
 
     def draw(self, camera: Camera):
-        if self.hidden: return
+        if self.hidden:
+            return
 
         if self._changed or self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
             self._changed = False
             self._update_rotozoom()
 
-        Draw.push(
-            self.true_z,
-            lambda: Display.update(
-                self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2))
-        )
+        Draw.image(self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2), self.true_z)
 
     def delete(self):
         """Deletes the image component"""

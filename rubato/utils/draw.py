@@ -4,7 +4,7 @@ from typing import List, Optional, Callable
 from dataclasses import dataclass, field
 import heapq
 
-import sdl2.ext
+import sdl2, sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
 
 from . import Vector, Color, Font, Display, Math
@@ -62,7 +62,7 @@ class Draw:
         Args:
             pos (Vector): The position of the point.
             color (Color, optional): The color to use for the pixel. Defaults to Color.green.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_point(pos, color)))
 
@@ -87,7 +87,7 @@ class Draw:
             p2: The second point of the line.
             color: The color to use for the line. Defaults to green.
             width: The width of the line. Defaults to 1.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_line(p1, p2, color, width)))
 
@@ -130,7 +130,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue,
@@ -187,7 +187,7 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue, DrawTask(z_index, lambda: cls.immediate_circle(center, radius, border, border_thickness, fill))
@@ -252,7 +252,7 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue, DrawTask(z_index, lambda: cls.immediate_poly(points, border, border_thickness, fill))
@@ -333,7 +333,7 @@ class Draw:
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to Vector(0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue, DrawTask(z_index, lambda: cls.immediate_text(text, font, pos, justify, align, width))
@@ -356,3 +356,31 @@ class Draw:
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
+
+    @classmethod
+    def image(cls, image: sdl2.SDL_Surface | sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+        """
+        Draws an image onto the renderer at the end of the frame.
+
+        Args:
+            image: The image to draw.
+            pos: The position of the image. Defaults to Vector(0, 0).
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+        """
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_image(image, pos)))
+
+    @staticmethod
+    def immediate_image(image: sdl2.SDL_Surface | sdl2.ext.Texture, pos: Vector = Vector()):
+        """
+        Draws an SDL Surface onto the renderer immediately.
+
+        Args:
+            image: The surface to draw.
+            pos: The position to draw the surface at. Defaults to Vector().
+        """
+        if isinstance(image, sdl2.SDL_Surface):
+            tx = sdl2.ext.Texture.from_surface(Display.renderer, image)
+        else:
+            tx = image
+
+        Display.update(tx, pos)
