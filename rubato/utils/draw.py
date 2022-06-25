@@ -1,4 +1,5 @@
 """A static draw class for drawing things directly to the renderer."""
+from __future__ import annotations
 from ctypes import c_int16
 from typing import List, Optional, Callable
 from dataclasses import dataclass, field
