@@ -24,6 +24,7 @@
 -   Renamed several internal `Time` attributes to better describe what they are.
 -   Default physics FPS to 60 from 30.
 -   Refactored collision detection code to not report contact points, since we don't need them anymore.
+-   Added `hidden` attribute to all components and removed `visible` attribute from `Animation`, `Image`, and `Raster`
 
 ### Removed
 
