@@ -95,7 +95,7 @@ def test_fixed_update(monkeypatch, group, go):
     go.fixed_update.assert_called()
     assert go.fixed_update.call_count == 2
 
-    assert collide.call_count == 2
+    assert collide.call_count == 5
     assert insert.call_count == 3
     assert calc_bb.call_count == 2
 
