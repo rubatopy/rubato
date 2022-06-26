@@ -359,7 +359,7 @@ class Draw:
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
-    def image(cls, image: sdl2.SDL_Surface | sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+    def texture(cls, image: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
         """
         Draws an image onto the renderer at the end of the frame.
 
@@ -368,20 +368,15 @@ class Draw:
             pos: The position of the image. Defaults to Vector(0, 0).
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_image(image, pos)))
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_texture(image, pos)))
 
     @staticmethod
-    def immediate_image(image: sdl2.SDL_Surface | sdl2.ext.Texture, pos: Vector = Vector()):
+    def immediate_texture(image: sdl2.ext.Texture, pos: Vector = Vector()):
         """
-        Draws an SDL Surface onto the renderer immediately.
+        Draws an SDL Texture onto the renderer immediately.
 
         Args:
-            image: The surface to draw.
-            pos: The position to draw the surface at. Defaults to Vector().
+            image: The texture to draw.
+            pos: The position to draw the texture at. Defaults to Vector().
         """
-        if isinstance(image, sdl2.SDL_Surface):
-            tx = sdl2.ext.Texture.from_surface(Display.renderer, image)
-        else:
-            tx = image
-
-        Display.update(tx, pos)
+        Display.update(image, pos)

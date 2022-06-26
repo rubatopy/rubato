@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
 from . import Component, Rectangle
-from ... import Vector, Display, Draw, Radio, get_path
+from ... import Vector, Display, Draw, Radio, Sprite
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -29,10 +29,10 @@ class Image(Component):
 
     def __init__(
         self,
+        rel_path: str,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
-        rel_path: str = "",
-        size: Vector = Vector(32, 32),
+        # size: Vector = Vector(32, 32),
         scale: Vector = Vector(1, 1),
         anti_aliasing: bool = False,
         flipx: bool = False,
@@ -41,22 +41,7 @@ class Image(Component):
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
-        if rel_path == "":
-            self._image: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
-                0,
-                size.x,
-                size.y,
-                32,
-                sdl2.SDL_PIXELFORMAT_RGBA8888,
-            ).contents
-        else:
-            try:
-                self._image: sdl2.SDL_Surface = sdl2.ext.load_img(rel_path, False)
-            except OSError:
-                self._image = sdl2.ext.load_img(get_path(rel_path), False)
-            except sdl2.ext.SDLError as e:
-                fname = rel_path.replace("\\", "/").split("/")[-1]
-                raise TypeError(f"{fname} is not a valid image file") from e
+        self._sprite = Sprite(rel_path)
 
         self.singular = False
 
@@ -67,11 +52,9 @@ class Image(Component):
         self._resize_scale: Vector = Vector(1, 1)  # This scale factor is changed when the image is resized.
         self._rot = self.rotation_offset
 
-        self._original = Display.clone_surface(self._image)
-        self._tx = sdl2.ext.Texture(Display.renderer, self.image)
+        self._original = Display.clone_surface(self._sprite.image)
 
         self._changed = True
-        self._update_rotozoom()
         self._go_rotation = 0
 
         Radio.listen("ZOOM", self.cam_update)
@@ -180,6 +163,10 @@ class Image(Component):
             ).contents
             self._tx = sdl2.ext.Texture(Display.renderer, self.image)
 
+    def _update_sprite(self):
+        if self.gameobj:
+            pass
+
     def resize(self, new_size: Vector):
         """
         Resize the image to a given size in pixels.
@@ -215,7 +202,9 @@ class Image(Component):
             self._changed = False
             self._update_rotozoom()
 
-        Draw.image(self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2), self.true_z)
+        Draw.texture(
+            self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2), self.true_z
+        )
 
     def delete(self):
         """Deletes the image component"""
@@ -234,6 +223,7 @@ class Image(Component):
             Image: The cloned image.
         """
         new = Image(
+            "",
             offset=self.offset,
             scale=self.scale,
             anti_aliasing=self.aa,
@@ -258,7 +248,7 @@ class Image(Component):
             The created image.
         """
         # untested
-        image = Image()
+        image = Image("")
         image.image = surface
         return image
 

@@ -8,12 +8,12 @@ rb.init()
 
 main = rb.Scene()
 
-test = rb.Rectangle(width=20)
+s = rb.Sprite("../sprites/spaceship/spaceship.png", rb.Vector(10, 10), scale=rb.Vector(5, 5), aa=False)
 
-main.add(rb.GameObject(pos=rb.Vector(300, 300)).add(test))
 
 def update():
-    print(test.get_aabb())
+    s.render()
+
 
 main.update = update
 
