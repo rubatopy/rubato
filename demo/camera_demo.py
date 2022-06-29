@@ -8,7 +8,7 @@ main_scene = Scene(name="main")
 player = GameObject(pos=Display.center)
 player.add(Rectangle(width=50, height=50, color=Color.red))
 
-Radio.listen("")
+# Radio.listen("")
 def update():
     if Input.mouse_pressed():
         pos = main_scene.camera.transform(Input.get_mouse_pos())
