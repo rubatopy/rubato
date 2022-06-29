@@ -1,3 +1,6 @@
+"""
+Testing the features of the engine
+"""
 from rubato import *
 
 init(name="testING", res=Vector(500, 500), window_size=Vector(500, 500), target_fps=30)

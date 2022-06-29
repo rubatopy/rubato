@@ -20,6 +20,20 @@ Mouse Buttons
     "MOUSE5"  # x2 mouse button
 
 *******
+Mouse Buttons
+*******
+
+.. code-block:: python
+    :linenos:
+    :lineno-start: 1
+
+    "MOUSE1"  # left mouse button
+    "MOUSE2"  # middle mouse button
+    "MOUSE3"  # right mouse button
+    "MOUSE4"  # x1 mouse button
+    "MOUSE5"  # x2 mouse button
+
+*******
 Numbers
 *******
 

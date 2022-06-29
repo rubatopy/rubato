@@ -1,14 +1,12 @@
 """
 The Input module is the way you collect input from the user.
-
-
 """
 import ctypes
 from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display, deprecated
+from . import Vector, Display
 
 
 class Input:
@@ -181,36 +179,6 @@ class Input:
             True if any button is pressed, false otherwise.
         """
         return any(cls.mouse_state())
-
-    @classmethod
-    @deprecated(mouse_state)
-    def mouse_is_pressed(cls) -> Tuple[bool]:
-        """
-        Checks which mouse buttons are pressed.
-
-        Returns:
-            Tuple[bool]: A tuple with 5 booleans representing the state of each
-            mouse button. (button1, button2, button3, button4, button5)
-        """
-        info = sdl2.SDL_GetMouseState(ctypes.pointer(c_int(0)), ctypes.pointer(c_int(0)))
-        return (
-            (info & sdl2.SDL_BUTTON_LMASK) != 0,
-            (info & sdl2.SDL_BUTTON_MMASK) != 0,
-            (info & sdl2.SDL_BUTTON_RMASK) != 0,
-            (info & sdl2.SDL_BUTTON_X1MASK) != 0,
-            (info & sdl2.SDL_BUTTON_X2MASK) != 0,
-        )
-
-    @classmethod
-    @deprecated(mouse_pressed)
-    def any_mouse_button_pressed(cls) -> bool:
-        """
-        Checks if any mouse button is pressed.
-
-        Returns:
-            True if any button is pressed, false otherwise.
-        """
-        return any(cls.mouse_is_pressed())
 
     @staticmethod
     def get_mouse_pos() -> Vector:
