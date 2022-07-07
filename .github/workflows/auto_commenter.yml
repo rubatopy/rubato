@@ -1,17 +1,24 @@
-name: Auto Comment
+name: PR Helper
 
-on: [pull_request]
+on:
+    pull_request:
+        types: [synchronize, ready_for_review, edited]
+        branches:
+            - "main"
 
 jobs:
-    run:
+    checklist-adder:
+        name: Add Checklist
+        if: github.event.action == 'ready_for_review'
         runs-on: ubuntu-latest
         steps:
-            - uses: wow-actions/auto-comment@v1
+            - name: Update description
+              uses: AsasInnab/pr-body-action@v1
               with:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-                  pullRequestedReadyForReview: |
-                      Hello reviewers! Before approving this PR, please ensure the following:
+                  body: |
+                      ${{ github.event.pull_request.body }}
+                      ## Hello reviewers!
+                      Before approving this PR, please ensure the following:
 
                         - [ ] Documentation is up to date
                         - [ ] Relevent tutorials are up to date
@@ -21,3 +28,14 @@ jobs:
                         - [ ] That the new code actually works
 
                       Once all this is done, you can be sure that the PR is ready to be merged. 🎉
+
+                      *This message has been commented automatically because this PR was marked as ready for review.*
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    task-check:
+        name: Check Checklist
+        if: (github.event.action == 'edited') || (github.event.action == 'synchronize')
+        runs-on: ubuntu-latest
+        steps:
+            - uses: kentaro-m/task-completed-checker-action@v0.1.0
+              with:
+                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
