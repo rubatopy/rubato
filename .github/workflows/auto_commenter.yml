@@ -20,7 +20,8 @@ on:
             - "main"
 
 jobs:
-    auto-comment:
+    checklist-adder:
+        name: Add Checklist
         runs-on: ubuntu-latest
         steps:
             - name: Update description
@@ -42,4 +43,4 @@ jobs:
 
                       *This message has been commented automatically because this PR was marked as ready for review.*
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  destination_branch: main
+                  destination_branch: ${{ github.event.pull_request.base.ref }}
