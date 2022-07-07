@@ -28,7 +28,8 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
                   pullRequestReadyForReview: |
-                      Hello reviewers! Before approving this PR, please ensure the following:
+                      ## Hello reviewers!
+                      Before approving this PR, please ensure the following:
 
                         - [ ] Documentation is up to date
                         - [ ] Relevent tutorials are up to date
@@ -40,10 +41,3 @@ jobs:
                       Once all this is done, you can be sure that the PR is ready to be merged. 🎉
 
                       *This message has been commented automatically because this PR was marked as ready for review.*
-    task-list-checker:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check for incomplete task list items
-              uses: Shopify/task-list-checker@main
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
