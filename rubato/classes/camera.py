@@ -18,7 +18,6 @@ class Camera:
         z_index: The z-index of the camera.
 
     Attributes:
-        pos (Vector): The current position of the camera.
         z_index (int): The current z_index of the camera.
     """
 
