@@ -162,6 +162,8 @@ class Text(Component):
         )
 
     def draw(self, camera: Camera):
+        if self.hidden: return
+
         if self.gameobj.rotation != self._stored_rot:
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()

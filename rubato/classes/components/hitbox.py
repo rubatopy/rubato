@@ -211,12 +211,17 @@ class Polygon(Hitbox):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def draw(self, camera: Camera):
-        list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
+        if self.hidden: return
+
+        list_of_points: List[tuple] = []
 
         if self.color:
+            list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
+            if not list_of_points:
+                list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     @classmethod
@@ -545,13 +550,17 @@ class Rectangle(Hitbox):
 
     def draw(self, camera: Camera):
         """Will draw the rectangle to the screen. Won't draw if color = None."""
-        # list_of_points purposefully is defined in each if, to not create a new list every time unless needed.
+        if self.hidden: return
+
+        list_of_points: List[tuple] = []
+
         if self.color:
-            list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
+            list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
-            list_of_points: List[tuple] = [camera.transform(v).to_int() for v in self.real_verts()]
+            if not list_of_points:
+                list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
             Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Rectangle:
@@ -645,15 +654,20 @@ class Circle(Hitbox):
 
     def draw(self, camera: Camera):
         """Will draw the circle to the screen. Won't draw if color = None."""
+        if self.hidden: return
 
-        if self.color is not None:
+        relative_pos: Vector = None
+        scaled_rad: float = None
+
+        if self.color:
             relative_pos = camera.transform(self.pos)
             scaled_rad = camera.scale(self.radius)
             Draw.circle(relative_pos, scaled_rad, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
-            relative_pos = camera.transform(self.pos)
-            scaled_rad = camera.scale(self.radius)
+            if not relative_pos:
+                relative_pos = camera.transform(self.pos)
+                scaled_rad = camera.scale(self.radius)
             Draw.circle(relative_pos, scaled_rad, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Circle:
