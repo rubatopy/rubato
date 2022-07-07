@@ -195,7 +195,7 @@ class Image(Component):
 
         Draw.sprite(
             self._sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
-            self.z_index
+            self.true_z
         )
 
     def delete(self):

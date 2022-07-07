@@ -7,7 +7,7 @@ from .rigidbody import RigidBody
 from .text import Text
 from .button import Button
 from .raster import Raster
-from .slider import Slider
+# from .slider import Slider # not implemented yet
 from .image import Image
 from .animation import Animation
 from .spritesheet import Spritesheet

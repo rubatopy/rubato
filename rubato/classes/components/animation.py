@@ -256,7 +256,7 @@ class Animation(Component):
 
         Draw.sprite(
             self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
-            self.z_index
+            self.true_z
         )
 
     def anim_tick(self):
