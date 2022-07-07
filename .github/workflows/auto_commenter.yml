@@ -31,11 +31,3 @@ jobs:
 
                       *This message has been commented automatically because this PR was marked as ready for review.*
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    task-check:
-        name: Check Checklist
-        if: (github.event.action == 'edited') || (github.event.action == 'synchronize')
-        runs-on: ubuntu-latest
-        steps:
-            - uses: kentaro-m/task-completed-checker-action@v0.1.0
-              with:
-                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
