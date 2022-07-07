@@ -2,30 +2,17 @@ name: PR Helper
 
 on:
     pull_request:
-        types:
-            - assigned
-            - unassigned
-            - labeled
-            - unlabeled
-            - opened
-            - edited
-            - reopened
-            - synchronize
-            - converted_to_draft
-            - ready_for_review
-            - unlocked
-            - review_requested
-            - auto_merge_enabled
         branches:
             - "main"
 
 jobs:
     checklist-adder:
         name: Add Checklist
+        if: github.event.action == 'opened'
         runs-on: ubuntu-latest
         steps:
             - name: Update description
-              uses: AsasInnab/pr-body-action@v1
+              uses: AsasInnab/pr-body-action@v1\
               with:
                   body: |
                       ${{ github.event.pull_request.body }}
@@ -43,3 +30,10 @@ jobs:
 
                       *This message has been commented automatically because this PR was marked as ready for review.*
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    task-check:
+        name: Check Checklist
+        runs-on: ubuntu-latest
+        steps:
+            - uses: kentaro-m/task-completed-checker-action@v0.1.0
+              with:
+                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
