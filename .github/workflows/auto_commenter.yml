@@ -33,6 +33,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     task-check:
         name: Check Checklist
+        needs: checklist-adder
         runs-on: ubuntu-latest
         steps:
             - uses: kentaro-m/task-completed-checker-action@v0.1.0
