@@ -9,8 +9,8 @@ import rubato as rb
 rb.init(name="Platformer Demo", window_size=rb.Vector(960, 540), res=rb.Vector(1920, 1080))
 
 # Change the global debug level
-rb.Game.debug = True
-rb.Game.show_fps = True
+# rb.Game.debug = True
+# rb.Game.show_fps = True
 
 # Tracks the grounded state of the player
 grounded = False
