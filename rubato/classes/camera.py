@@ -23,9 +23,22 @@ class Camera:
     """
 
     def __init__(self, pos: Vector = Vector(), zoom: float = 1, z_index: int = 100):
-        self.pos = pos
+        self._pos = pos
         self._zoom = zoom
         self.z_index = z_index
+
+    @property
+    def pos(self):
+        """
+        The current position of the camera. Center based ie. where the camera is looking at.
+        Notes:
+            Cannot access pos.x or pos.y directly.
+        """
+        return self._pos + Display.center
+
+    @pos.setter
+    def pos(self, pos: Vector):
+        self._pos = pos - Display.center
 
     @property
     def zoom(self) -> float:
@@ -43,7 +56,7 @@ class Camera:
         Args:
             offset: The offset to translate the camera by.
         """
-        self.pos += offset
+        self._pos += offset
 
     def set(self, pos: Vector) -> None:
         """
@@ -51,7 +64,7 @@ class Camera:
         Args:
             pos: The new position of the camera.
         """
-        self.pos = pos
+        self._pos = pos
 
     def transform(self, point: Vector) -> Vector:
         """
@@ -64,7 +77,7 @@ class Camera:
             Vector: The translated coordinates.
         """
         center = Vector(*Display.renderer.logical_size) / 2
-        return (point - self.pos - center) * self.zoom + center
+        return (point - self._pos - center) * self.zoom + center
 
     def scale(self, dimension):
         """

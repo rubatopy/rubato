@@ -206,8 +206,10 @@ def update():
 # define a custom fixed update function
 def fixed_update():
     # have the camera follow the player
-    camera_ideal = max(0, min(player.pos.x - rb.Display.res.x / 4, level_size - rb.Display.res.x))
-    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
+    camera_ideal = rb.Math.clamp(player.pos.x + rb.Display.res.x / 4, rb.Display.center.x,
+                                 level_size - rb.Display.res.x / 2)
+    rb.Game.camera.pos = rb.Vector(rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4),
+                                   rb.Game.camera.pos.y)
 
 
 # set the scene's update function

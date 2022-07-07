@@ -9,8 +9,8 @@ from rubato.utils.vector import Vector
 
 def test_init():
     c = Camera()
-    assert c.pos.x == 0
-    assert c.pos.y == 0
+    assert c._pos.x == 0  # pylint: disable=protected-access
+    assert c._pos.y == 0  # pylint: disable=protected-access
     assert c._zoom == 1  # pylint: disable=protected-access
     assert c.z_index == 100
 

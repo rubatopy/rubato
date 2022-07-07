@@ -34,8 +34,8 @@ def comp():
 
 def test_init(go, comp):
     assert go.name == "Test"
-    assert go.pos.x == 100
-    assert go.pos.y == 100
+    assert go._pos.x == 100  # pylint: disable=protected-access
+    assert go._pos.y == 100  # pylint: disable=protected-access
     assert go.z_index == 1
     assert go.rotation == 0
     assert not go.debug
