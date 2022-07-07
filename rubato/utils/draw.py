@@ -1,13 +1,17 @@
 """A static draw class for drawing things directly to the renderer."""
+from __future__ import annotations
 from ctypes import c_int16
-from typing import List, Optional, Callable
+from typing import TYPE_CHECKING, List, Optional, Callable
 from dataclasses import dataclass, field
 import heapq
 
-import sdl2.ext
+import sdl2, sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
 
 from . import Vector, Color, Font, Display, Math
+
+if TYPE_CHECKING:
+    from . import Sprite
 
 
 @dataclass(order=True)
@@ -62,7 +66,7 @@ class Draw:
         Args:
             pos (Vector): The position of the point.
             color (Color, optional): The color to use for the pixel. Defaults to Color.green.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_point(pos, color)))
 
@@ -87,7 +91,7 @@ class Draw:
             p2: The second point of the line.
             color: The color to use for the line. Defaults to green.
             width: The width of the line. Defaults to 1.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_line(p1, p2, color, width)))
 
@@ -130,7 +134,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue,
@@ -187,7 +191,7 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue, DrawTask(z_index, lambda: cls.immediate_circle(center, radius, border, border_thickness, fill))
@@ -252,7 +256,7 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue, DrawTask(z_index, lambda: cls.immediate_poly(points, border, border_thickness, fill))
@@ -333,7 +337,7 @@ class Draw:
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to Vector(0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
-            z_index (int, optional): Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
             cls._queue, DrawTask(z_index, lambda: cls.immediate_text(text, font, pos, justify, align, width))
@@ -356,3 +360,49 @@ class Draw:
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
+
+    @classmethod
+    def texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+        """
+        Draws an texture onto the renderer at the end of the frame.
+
+        Args:
+            texture: The texture to draw.
+            pos: The position of the texture. Defaults to Vector(0, 0).
+            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+        """
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_texture(texture, pos)))
+
+    @staticmethod
+    def immediate_texture(texture: sdl2.ext.Texture, pos: Vector = Vector()):
+        """
+        Draws an SDL Texture onto the renderer immediately.
+
+        Args:
+            texture: The texture to draw.
+            pos: The position to draw the texture at. Defaults to Vector().
+        """
+        Display.update(texture, pos)
+
+    @classmethod
+    def sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
+        """
+        Draws an sprite onto the renderer at the end of the frame.
+
+        Args:
+            sprite: The sprite to draw.
+            pos: The position to draw the sprite at. Defaults to Vector(0, 0).
+            z_index: The z-index of the sprite. Defaults to 0.
+        """
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_sprite(sprite, pos)))
+
+    @staticmethod
+    def immediate_sprite(sprite: Sprite, pos: Vector = Vector()):
+        """
+        Draws an sprite onto the renderer immediately.
+
+        Args:
+            sprite: The sprite to draw.
+            pos: The position to draw the sprite at. Defaults to Vector().
+        """
+        sprite.render(pos)

@@ -10,6 +10,7 @@ from .display import Display
 from .color import Color
 from .font import Font
 from .draw import Draw, DrawTask
+from .sprite import Sprite
 from .rb_time import *
 from .rb_input import Input
 from .sound import Sound
