@@ -6,12 +6,7 @@ Requires rubato 2.1.0 or later.
 import rubato as rb
 
 # initialize a new game
-rb.init(
-    name="Platformer Demo",
-    window_size=rb.Vector(960, 540),
-    background_color=rb.Color.cyan.lighter(),
-    res=rb.Vector(1920, 1080)
-)
+rb.init(name="Platformer Demo", window_size=rb.Vector(960, 540), res=rb.Vector(1920, 1080))
 
 # Change the global debug level
 # rb.Game.debug = True
@@ -25,7 +20,7 @@ jumps = 0
 level_size = rb.Display.res.x * 1.2
 
 # create the scene for level one
-main = rb.Scene()
+main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
 # Create the player and set its starting position
 player = rb.GameObject(

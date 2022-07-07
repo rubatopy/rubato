@@ -6,7 +6,7 @@ import sys
 import sdl2, sdl2.ext, sdl2.sdlttf
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Debug, Color, Radio, Events, Font, Draw, PrintError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -66,8 +66,6 @@ class Game(metaclass=GameProperties):
     Attributes:
         name (str): The title of the game window.
         scenes (SceneManager): The global scene manager.
-        background_color (Color): The background color of the window.
-        border_color (Color): The color of the borders of the window.
         debug (bool): Turn on debug rendering for everything in the game.
     """
     RUNNING = 1
@@ -75,8 +73,6 @@ class Game(metaclass=GameProperties):
     PAUSED = 3
 
     name: str = ""
-    border_color: Color = Color(0, 0, 0)
-    background_color: Color = Color(255, 255, 255)
 
     debug: bool = False
     show_fps: bool = False
@@ -140,11 +136,7 @@ class Game(metaclass=GameProperties):
                     cls.scenes.fixed_update()
                 Time.physics_counter -= Time.fixed_delta
 
-        Draw.clear(cls.border_color, cls.background_color)
-
         cls.scenes.draw()
-
-        Draw.dump()
 
         if cls.show_fps:
             Debug.draw_fps(cls.debug_font)

@@ -4,7 +4,7 @@ Scenes are built with a root group that everything is added to.
 """
 from __future__ import annotations
 from . import Camera, Group, GameObject
-from .. import Game
+from .. import Game, Color, Draw
 
 
 class Scene:
@@ -13,6 +13,8 @@ class Scene:
 
     Args:
         name: The name of the scene. This is used to reference the scene from the scene manager. Defaults to "default".
+        border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
+        background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
 
     Attributes:
         root (Group): The base group of game objects in the scene.
@@ -20,15 +22,24 @@ class Scene:
             the other game objects.
         camera (Camera): The camera of this scene.
         id (str): The id of this scene.
+        border_color: The color of the border of the window.
+        background_color: The color of the background of the window.
     """
 
-    def __init__(self, name: str = "default"):
+    def __init__(
+        self,
+        name: str = "default",
+        border_color: Color = Color(),
+        background_color: Color = Color(255, 255, 255)
+    ):
         self.root: Group = Group(name="root")
         self.ui: Group = Group(name="ui")
         self.camera = Camera()
         self._ui_cam = Camera()
         self.id: str = name
         self.started = False
+        self.border_color = border_color
+        self.background_color = background_color
 
         Game.scenes.add(self, name)
 
@@ -82,9 +93,11 @@ class Scene:
         new_scene.ui = self.ui.clone()
 
     def private_draw(self):
+        Draw.clear(self.border_color, self.background_color)
         self.draw()
         self.root.draw(self.camera)
         self.ui.draw(self._ui_cam)
+        Draw.dump()
 
     def private_update(self):
         if not self.started:

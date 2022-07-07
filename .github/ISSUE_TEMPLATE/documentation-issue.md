@@ -1,15 +1,15 @@
 ---
 name: Documentation issue
 about: Report an issue to the documentation
-title: ''
+title: 'DOCUMENTATION:'
 labels: documentation
-assignees: tinmarr
+assignees: ''
 
 ---
 
-**Describe the issue**
-Clearly explain what is missing or needs to be changed.
+## Describe the issue
+*Clearly explain what is missing or needs to be changed.*
 
-**Documentation link**
+## Documentation link
 If applicable, add a link to where the issue can currently be observed
 (https://tinmarr.github.io/rubato/stable/___)

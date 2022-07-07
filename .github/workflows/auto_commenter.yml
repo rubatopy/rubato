@@ -1,0 +1,32 @@
+name: PR Helper
+
+on:
+    pull_request:
+        types: [opened]
+        branches:
+            - "main"
+
+jobs:
+    checklist-adder:
+        name: Add Checklist
+        runs-on: ubuntu-latest
+        steps:
+            - name: Update description
+              uses: AsasInnab/pr-body-action@v1
+              with:
+                  body: |
+                      ${{ github.event.pull_request.body }}
+                      ## Hello reviewers!
+                      Before approving this PR, please ensure the following:
+
+                        - [ ] Documentation is up to date
+                        - [ ] Relevent tutorials are up to date
+                        - [ ] Changelog is up to date
+                        - [ ] Test coverage is at 100%
+                        - [ ] All checks are passing
+                        - [ ] That the new code actually works
+
+                      Once all this is done, you can be sure that the PR is ready to be merged. 🎉
+
+                      *This message has been commented automatically because this PR was marked as ready for review.*
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

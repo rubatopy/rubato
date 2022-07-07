@@ -6,8 +6,8 @@ from typing import List, Dict, TYPE_CHECKING
 from os import path, walk
 import sdl2
 
-from . import Component, Image
-from ... import Vector, Time, get_path
+from . import Component
+from ... import Vector, Time, get_path, Sprite, Draw
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -26,7 +26,6 @@ class Animation(Component):
         anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
-        visible: Whether the animation is visible. Defaults to True.
 
     Attributes:
         default_state (Optional[str]): The key of the default state. Defaults
@@ -37,7 +36,6 @@ class Animation(Component):
         aa (bool): Whether or not to enable anti aliasing.
         flipx (bool): Whether or not to flip the animation along the x axis.
         flipy (bool): Whether or not to flip the animation along the y axis.
-        visible (bool): Whether or not the animation is visible.
     """
 
     def __init__(
@@ -49,7 +47,6 @@ class Animation(Component):
         anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        visible: bool = True,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -57,7 +54,7 @@ class Animation(Component):
         self._fps: int = fps
         self.singular = False
 
-        self._states: Dict[str, List[Image]] = {}
+        self._states: Dict[str, List[Sprite]] = {}
         self._freeze: int = -1
 
         self.default_state: str = None
@@ -69,7 +66,6 @@ class Animation(Component):
         self.aa: bool = anti_aliasing
         self.flipx: bool = flipx
         self.flipy: bool = flipy
-        self.visible: bool = visible
 
         self._time_step = 1000 / self._fps
         self._time_count = 0
@@ -100,17 +96,22 @@ class Animation(Component):
         return self._states[self.current_state][self.current_frame].image
 
     @property
-    def anim_frame(self) -> Image:
+    def anim_frame(self) -> Sprite:
         """The current animation frame."""
-        img = self._states[self.current_state][self.current_frame]
-        img.aa = self.aa
-        img.flipx = self.flipx
-        img.flipy = self.flipy
-        img.scale = self.scale
-        img.offset = self.offset
-        img.visible = self.visible
-        img.rotation_offset = self.rotation_offset
-        return img
+        sprite = self._states[self.current_state][self.current_frame]
+        sprite.aa = self.aa
+        sprite.rotation = self.gameobj.rotation + self.rotation_offset
+
+        calculated_scale = self.scale.clone()
+        if self.flipx:
+            calculated_scale.x *= -1
+        if self.flipy:
+            calculated_scale.y *= -1
+
+        sprite.scale = calculated_scale
+        # pylint: disable=protected-access
+        sprite._update_rotozoom()
+        return sprite
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
@@ -149,7 +150,7 @@ class Animation(Component):
         """Reset the animation state back to the first frame."""
         self.current_frame = 0
 
-    def add(self, state_name: str, images: List[Image]):
+    def add(self, state_name: str, images: List[Sprite]):
         """
         Adds a state to the animation.
 
@@ -181,7 +182,7 @@ class Animation(Component):
             for image_path in files:
                 try:
                     path_to_image = path.join(p, image_path)
-                    image = Image(rel_path=path_to_image)
+                    image = Sprite(rel_path=path_to_image)
                     ret_list.append(image)
                 except TypeError:
                     continue
@@ -192,7 +193,7 @@ class Animation(Component):
                 for image_path in files:
                     try:
                         path_to_image = path.join(p, image_path)
-                        image = Image(rel_path=path_to_image)
+                        image = Sprite(rel_path=path_to_image)
                         ret_list.append(image)
                     except TypeError:
                         continue
@@ -244,13 +245,19 @@ class Animation(Component):
 
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
+        if self.hidden:
+            return
+
         self._time_count += 1000 * Time.delta_time
 
         while self._time_count > self._time_step:
             self.anim_tick()
             self._time_count -= self._time_step
 
-        self.anim_frame.draw(camera)
+        Draw.sprite(
+            self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
+            self.true_z
+        )
 
     def anim_tick(self):
         """An animation processing tick."""
@@ -279,7 +286,6 @@ class Animation(Component):
             flipx=self.flipx,
             flipy=self.flipy,
             offset=self.offset,
-            visible=self.visible,
             rot_offset=self.rotation_offset,
             z_index=self.z_index,
         )

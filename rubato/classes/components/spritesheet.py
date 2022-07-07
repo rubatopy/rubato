@@ -6,8 +6,8 @@ import sdl2.ext
 from typing import List
 import os
 
-from . import Image, Animation
-from ... import Vector, get_path
+from . import Animation
+from ... import Vector, get_path, Sprite
 
 
 class Spritesheet:
@@ -27,8 +27,9 @@ class Spritesheet:
     def __init__(self, rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None):
         self._grid: Vector = grid_size
         self._sprite_size: Vector = sprite_size
-        self._sheet = Image(rel_path=rel_path)
-        self._sprites: List[List[Image]] = []
+        self._sheet = Sprite(rel_path=rel_path)
+        self._sprites: List[List[Sprite]] = []
+
         if not self._grid:
             self._grid = self._sheet.get_size() / self._sprite_size
             self._grid = self._grid.to_int()
@@ -48,8 +49,12 @@ class Spritesheet:
                     sdl2.SDL_Rect(0, 0, self._sprite_size.x, self._sprite_size.y),
                 )
 
-                sprite = Image()
+                sprite = Sprite("")
                 sprite.image = sub.contents
+                # pylint: disable=protected-access
+                sprite._original = sub.contents
+                sprite._changed = True
+
                 self._sprites[y // self._sprite_size.y].append(sprite)
 
     @property
@@ -63,13 +68,13 @@ class Spritesheet:
         return self._sprite_size
 
     @property
-    def sheet(self) -> Image:
-        """The actual spritesheet image (readonly)."""
+    def sheet(self) -> Sprite:
+        """The actual spritesheet sprite (readonly)."""
         return self._sheet
 
     @property
-    def sprites(self) -> List[List[Image]]:
-        """The list of all the sprites as images (readonly)."""
+    def sprites(self) -> List[List[Sprite]]:
+        """The list of all the sprites as sprites (readonly)."""
         return self._sprites
 
     @property
@@ -78,13 +83,13 @@ class Spritesheet:
         The end indexes of the Spritesheet as a vector.
 
         Example:
-            You can use :code:`spritesheet.get(*spritesheet.end)` to get the final image
+            You can use :code:`spritesheet.get(*spritesheet.end)` to get the final Sprite
         """
         return self.grid_size - Vector.one
 
-    def get(self, x: int, y: int) -> Image:
+    def get(self, x: int, y: int) -> Sprite:
         """
-        Gets the Image at the coorsponding grid coordinate of the spritesheet.
+        Gets the Sprite at the corresponding grid coordinate of the spritesheet.
 
         Args:
             x: The x grid coordinate.
@@ -94,7 +99,7 @@ class Spritesheet:
             IndexError: One or both of the coordinates are out of range of the spritesheet's size.
 
         Returns:
-            Image: The image of the cooresponding sprite.
+            The Sprite at the corresponding coordinate.
         """
         if x >= self.grid_size.x or y >= self.grid_size.y:
             raise IndexError(f"The coordinates ({x}, {y}) are out of range of the spritesheet.")
