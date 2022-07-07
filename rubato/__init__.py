@@ -41,8 +41,6 @@ def init(
     window_pos: Vector | None = None,
     target_fps: int = 0,
     physics_fps: int = 30,
-    border_color: Color = Color(),
-    background_color: Color = Color(255, 255, 255),
     icon: str = "",
     hidden: bool = False
 ):
@@ -57,18 +55,12 @@ def init(
             Defaults to None.
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 60.
-        border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
-        background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
         icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
         hidden: Whether or not the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     Game.initialized = True
-
-    Game.border_color = border_color
-
-    Game.background_color = background_color
 
     Time.target_fps = target_fps
     Time.capped = Time.target_fps != 0
