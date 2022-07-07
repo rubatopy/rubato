@@ -2,13 +2,14 @@ name: PR Helper
 
 on:
     pull_request:
+        types: [synchronize, ready_for_review]
         branches:
             - "main"
 
 jobs:
     checklist-adder:
         name: Add Checklist
-        if: github.event.action == 'opened'
+        if: github.event.action == 'ready_for_review'
         runs-on: ubuntu-latest
         steps:
             - name: Update description
