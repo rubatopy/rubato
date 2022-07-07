@@ -20,6 +20,7 @@
 -   `Draw.texture` and `Draw.immediate_texture` to draw textures to the renderer
 -   `Draw.sprite` and `Draw.immediate_sprite` to draw sprites to the renderer
 -   `Sprite` class to draw images that are not linked to Game Objects
+-   `wrap()` function can create and populate a GameObject with component(s) automatically.
 
 ### Changed
 
