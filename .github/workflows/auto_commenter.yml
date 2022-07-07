@@ -40,9 +40,10 @@ jobs:
                       Once all this is done, you can be sure that the PR is ready to be merged. 🎉
 
                       *This message has been commented automatically because this PR was marked as ready for review.*
-    task-check:
+    task-list-checker:
         runs-on: ubuntu-latest
         steps:
-            - uses: kentaro-m/task-completed-checker-action@v0.1.0
+            - name: Check for incomplete task list items
+              uses: Shopify/task-list-checker@main
               with:
-                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
