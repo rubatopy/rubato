@@ -194,7 +194,7 @@ class Image(Component):
             self._update_sprite()
 
         Draw.sprite(
-            self.sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
+            self._sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
             self.z_index
         )
 
