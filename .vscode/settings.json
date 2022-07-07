@@ -44,5 +44,6 @@
     "python.analysis.diagnosticMode": "workspace",
     "python.formatting.provider": "yapf",
     "python.linting.pylintCategorySeverity.refactor": "Information",
-    "githubPullRequests.ignoredPrBranches": ["main"]
+    "githubPullRequests.ignoredPrBranches": ["main"],
+    "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py", "demo/**/*", "docs/**/*"]
 }

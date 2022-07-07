@@ -10,7 +10,7 @@ from . import Hitbox, Engine
 class QTree:
     """The Quadtree itself."""
     def __init__(self, top_left: Vector, bottom_right: Vector):
-        self.items = []
+        self.stack = []
 
         center = (top_left + bottom_right) / 2
 
@@ -19,16 +19,24 @@ class QTree:
         self.southeast = STree(center, bottom_right)
         self.southwest = STree(Vector(top_left.x, center.y), Vector(center.x, bottom_right.y))
 
-    def insert(self, hbs: List[Hitbox]):
-        bb = self.calc_bb(hbs)
-
-        self.collide(hbs, bb)
-
+    def insert(self, hbs: List[Hitbox], bb: tuple[Vector]):
         if not self.northeast.insert(hbs, bb) and not self.northwest.insert(hbs, bb) \
             and not self.southeast.insert(hbs, bb) and not self.southwest.insert(hbs, bb):
-            self.items.append(hbs)
+            self.stack.append(hbs)
 
-    def calc_bb(self, hbs: List[Hitbox]):
+    def collide(self, hbs: List[Hitbox], bb: tuple[Vector]):
+        for hb in hbs:
+            for current in self.stack:
+                for item in current:
+                    Engine.collide(hb, item)
+
+        self.northeast.collide(hbs, bb)
+        self.northwest.collide(hbs, bb)
+        self.southeast.collide(hbs, bb)
+        self.southwest.collide(hbs, bb)
+
+    @staticmethod
+    def calc_bb(hbs: List[Hitbox]):
         tl, br = Vector.infinity, -1 * Vector.infinity
         for hb in hbs:
             aabb = hb.get_aabb()
@@ -39,26 +47,14 @@ class QTree:
 
         return (tl, br)
 
-    def collide(self, hbs: List[Hitbox], bb: tuple[Vector]):
-        for hb in hbs:
-            for current in self.items:
-                for item in current:
-                    Engine.collide(hb, item)
-
-        self.northeast.collide(hbs, bb)
-        self.northwest.collide(hbs, bb)
-        self.southeast.collide(hbs, bb)
-        self.southwest.collide(hbs, bb)
-
-        return True
-
 class STree:
     """A Subtree."""
     def __init__(self, top_left: Vector, bottom_right: Vector):
         self.top_left = top_left
         self.bottom_right = bottom_right
 
-        self.items = []
+        self.stack = []
+
         self.northeast: STree = None
         self.northwest: STree = None
         self.southeast: STree = None
@@ -69,20 +65,20 @@ class STree:
             or (bb[1].x > self.bottom_right.x) or (bb[1].y > self.bottom_right.y):
             return False
 
+        if not self.stack:
+            self.stack.append(hbs)
+            return True
+
         if self.northeast is None:
             center = (self.top_left + self.bottom_right) / 2
-            self.northeast = STree(
-                Vector(center.x, self.top_left.y), Vector(self.bottom_right.x, center.y)
-            )
+            self.northeast = STree(Vector(center.x, self.top_left.y), Vector(self.bottom_right.x, center.y))
             self.northwest = STree(self.top_left, center)
             self.southeast = STree(center, self.bottom_right)
-            self.southwest = STree(
-                Vector(self.top_left.x, center.y), Vector(center.x, self.bottom_right.y)
-            )
+            self.southwest = STree(Vector(self.top_left.x, center.y), Vector(center.x, self.bottom_right.y))
 
         if not self.northeast.insert(hbs, bb) and not self.northwest.insert(hbs, bb) \
             and not self.southeast.insert(hbs, bb) and not self.southwest.insert(hbs, bb):
-            self.items.append(hbs)
+            self.stack.append(hbs)
 
         return True
 
@@ -92,7 +88,7 @@ class STree:
             return
 
         for hb in hbs:
-            for current in self.items:
+            for current in self.stack:
                 for item in current:
                     Engine.collide(hb, item)
 

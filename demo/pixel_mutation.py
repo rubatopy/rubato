@@ -9,10 +9,9 @@ import rubato as rb
 rb.init(
     name="Point drawing",
     res=rb.Vector(300, 300),
-    window_size=rb.Vector(600, 600),
-    background_color=rb.Color.black,
+    window_size=rb.Vector(600, 600)
 )
-main_scene = rb.Scene()
+main_scene = rb.Scene(background_color=rb.Color.black)
 
 
 def draw_on(surf):  # --------------------------------------------------------------- The important pixel mutation part

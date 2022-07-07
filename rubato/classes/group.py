@@ -108,8 +108,9 @@ class Group:
             # collide all hitboxes with each other
             for game_obj in self.game_objects:
                 if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                    if hts != []:
-                        qtree.insert(hts)
+                    bb = QTree.calc_bb(hts)
+                    qtree.collide(hts, bb)
+                    qtree.insert(hts, bb)
 
             for group in self.groups:
                 group.fixed_update()
@@ -117,8 +118,7 @@ class Group:
                 # collide children groups with parent hitboxes
                 for game_obj in group.game_objects:
                     if hts := game_obj._components.get(Hitbox, []):  # pylint: disable=protected-access
-                        if hts != []:
-                            qtree.collide(hts, qtree.calc_bb(hts))
+                        qtree.collide(hts, QTree.calc_bb(hts))
 
     def draw(self, camera: Camera):
         if self.active:

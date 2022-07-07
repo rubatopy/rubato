@@ -26,6 +26,7 @@
 -   Default physics FPS to 60 from 30.
 -   Refactored collision detection code to not report contact points, since we don't need them anymore.
 -   Added `hidden` attribute to all components and removed `visible` attribute from `Animation`, `Image`, and `Raster`
+-   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the whole game.
 
 ### Removed
 

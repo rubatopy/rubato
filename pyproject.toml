@@ -36,17 +36,11 @@ markers = [
 #   https://google.github.io/styleguide/pylintrc
 [tool.pylint.master]
 # Files or directories to be skipped. They should be base names, not paths.
-ignore="third_party"
-
-# Pickle collected data for later comparisons.
-persistent="no"
+ignore="demo/**/*"
 
 # Use multiple processes to speed up Pylint.
-jobs=4
+jobs=10
 
-# Allow loading of arbitrary C extensions. Extensions are imported into the
-# active Python interpreter and may run arbitrary code.
-unsafe-load-any-extension="no"
 
 [tool.pylint.MESSAGES_CONTROL]
 # Disable the message, report, category or checker with the given id(s). You
@@ -193,7 +187,7 @@ evaluation="10.0 - ((float(5 * error + warning + refactor + convention) / statem
 good-names="main,_"
 
 # Include a hint for the correct naming format with invalid-name
-include-naming-hint="no"
+include-naming-hint="yes"
 
 # List of decorators that produce properties, such as abc.abstractproperty. Add
 # to this list to register other decorators that produce valid properties.
