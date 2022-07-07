@@ -1,18 +1,15 @@
 """A place to test new WIP features"""  # pylint: disable=all
 import rubato as rb
-import sys, os
-
-sys.path.insert(0, os.path.abspath("../"))
 
 rb.init()
 
 main = rb.Scene()
 
-s = rb.Sprite("../sprites/spaceship/spaceship.png", rb.Vector(10, 10), scale=rb.Vector(5, 5), aa=False)
+s = rb.Sprite("../sprites/spaceship/spaceship.png", scale=rb.Vector(5, 5), aa=False)
 
 
 def update():
-    s.render()
+    rb.Draw.sprite(s, rb.Vector(150, 150), 0)
 
 
 main.update = update

@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
 from . import Component, Rectangle
-from ... import Vector, Display, Draw, Radio, Sprite
+from ... import Vector, Display, Radio, Sprite, Draw
 
 if TYPE_CHECKING:
     from .. import Camera
@@ -32,7 +32,6 @@ class Image(Component):
         rel_path: str,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
-        # size: Vector = Vector(32, 32),
         scale: Vector = Vector(1, 1),
         anti_aliasing: bool = False,
         flipx: bool = False,
@@ -40,6 +39,9 @@ class Image(Component):
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
+
+        if rel_path == "":
+            raise ValueError("Image rel_path cannot be an empty string.")
 
         self._sprite = Sprite(rel_path)
 
@@ -54,21 +56,21 @@ class Image(Component):
 
         self._original = Display.clone_surface(self._sprite.image)
 
-        self._changed = True
         self._go_rotation = 0
+        self._changed = True
 
         Radio.listen("ZOOM", self.cam_update)
 
     @property
     def image(self) -> sdl2.SDL_Surface:
         """The SDL Surface of the image."""
-        return self._image
+        return self._sprite.image
 
     @image.setter
     def image(self, new: sdl2.SDL_Surface):
-        self._image = sdl2.SDL_ConvertSurfaceFormat(new, sdl2.SDL_PIXELFORMAT_RGBA8888, 0).contents
-        self._original = Display.clone_surface(self._image)
-        self._update_rotozoom()
+        self._sprite.image = new
+        self._original = Display.clone_surface(new)
+        self._changed = True
 
     @property
     def scale(self) -> Vector:
@@ -136,9 +138,7 @@ class Image(Component):
         Returns:
             The size of the image
         """
-        if self.image.w == self._original.w and self.image.h == self._original.h:
-            return Vector(self.image.w, self.image.h) * self.scale
-        return Vector(self.image.w, self.image.h)
+        return self._sprite.get_size()
 
     def get_size_original(self) -> Vector:
         """
@@ -147,25 +147,16 @@ class Image(Component):
         Returns:
             Vector: The original size of the image.
         """
-        return Vector(self._original.w, self._original.h)
-
-    def _update_rotozoom(self):
-        """Updates the image surface. Called automatically when image scale or rotation are updated"""
-        if self.gameobj:
-            self._image = sdl2.sdlgfx.rotozoomSurfaceXY(
-                self._original,
-                -self.gameobj.rotation - self.rotation_offset,
-                # It seems that rotation is counterclockwise, even though we assume clockwise until now.
-                # Requires further investigation but is a fix for now.
-                (-self.scale.x if self.flipx else self.scale.x) * self._resize_scale.x,
-                (-self.scale.y if self.flipy else self.scale.y) * self._resize_scale.y,
-                int(self.aa),
-            ).contents
-            self._tx = sdl2.ext.Texture(Display.renderer, self.image)
+        return self._sprite.get_size_original()
 
     def _update_sprite(self):
         if self.gameobj:
-            pass
+            self._sprite.rotation = -self.gameobj.rotation - self.rotation_offset
+            self._sprite.aa = self.aa
+            self._sprite.scale = Vector(
+                (-self.scale.x if self.flipx else self.scale.x) * self._resize_scale.x,
+                (-self.scale.y if self.flipy else self.scale.y) * self._resize_scale.y
+            )
 
     def resize(self, new_size: Vector):
         """
@@ -200,20 +191,16 @@ class Image(Component):
         if self._changed or self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
             self._changed = False
-            self._update_rotozoom()
+            self._update_sprite()
 
-        Draw.texture(
-            self._tx, camera.transform(self.gameobj.pos + self.offset - Vector(*self._tx.size) / 2), self.true_z
+        Draw.sprite(
+            self.sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
+            self.z_index
         )
 
     def delete(self):
         """Deletes the image component"""
-        self._tx.destroy()
-        sdl2.SDL_FreeSurface(self._image)
-        sdl2.SDL_FreeSurface(self._original)
-        self._image = None
-        self._tx = None
-        self._original = None
+        self._sprite.delete()
 
     def clone(self) -> Image:
         """
@@ -235,42 +222,3 @@ class Image(Component):
         new.image = Display.clone_surface(self.image)
         new.rotation_offset = self.rotation_offset
         return new
-
-    @staticmethod
-    def from_surface(surface: sdl2.surface.SDL_Surface) -> "Image":
-        """
-        Creates an image from an SDL surface.
-
-        Args:
-            surface: the surface to create the image from.
-
-        Returns:
-            The created image.
-        """
-        # untested
-        image = Image("")
-        image.image = surface
-        return image
-
-    @staticmethod
-    def from_buffer(buffer: bytes) -> "Image":
-        """
-        Creates an image from a buffer.
-
-        Args:
-            buffer: bytes containing the image data.
-
-        Returns:
-            The image created from the buffer.
-        """
-        # untested
-        rw = sdl2.SDL_RWFromMem(buffer, len(buffer))
-        surface_temp = sdl2.sdlimage.IMG_Load_RW(rw, 1)
-
-        if surface_temp is None:
-            raise Exception(sdl2.sdlimage.IMG_GetError())
-
-        surface = sdl2.SDL_ConvertSurfaceFormat(surface_temp, sdl2.SDL_PIXELFORMAT_RGBA8888, 0).contents
-        sdl2.SDL_FreeSurface(surface_temp)
-
-        return Image.from_SDL_Surface(surface)

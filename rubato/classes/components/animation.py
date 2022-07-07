@@ -6,8 +6,8 @@ from typing import List, Dict, TYPE_CHECKING
 from os import path, walk
 import sdl2
 
-from . import Component, Image
-from ... import Vector, Time, get_path
+from . import Component
+from ... import Vector, Time, get_path, Sprite, Draw
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -54,7 +54,7 @@ class Animation(Component):
         self._fps: int = fps
         self.singular = False
 
-        self._states: Dict[str, List[Image]] = {}
+        self._states: Dict[str, List[Sprite]] = {}
         self._freeze: int = -1
 
         self.default_state: str = None
@@ -96,16 +96,22 @@ class Animation(Component):
         return self._states[self.current_state][self.current_frame].image
 
     @property
-    def anim_frame(self) -> Image:
+    def anim_frame(self) -> Sprite:
         """The current animation frame."""
-        img = self._states[self.current_state][self.current_frame]
-        img.aa = self.aa
-        img.flipx = self.flipx
-        img.flipy = self.flipy
-        img.scale = self.scale
-        img.offset = self.offset
-        img.rotation_offset = self.rotation_offset
-        return img
+        sprite = self._states[self.current_state][self.current_frame]
+        sprite.aa = self.aa
+        sprite.rotation = self.gameobj.rotation + self.rotation_offset
+
+        calculated_scale = self.scale.clone()
+        if self.flipx:
+            calculated_scale.x *= -1
+        if self.flipy:
+            calculated_scale.y *= -1
+
+        sprite.scale = calculated_scale
+        # pylint: disable=protected-access
+        sprite._update_rotozoom()
+        return sprite
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
@@ -144,7 +150,7 @@ class Animation(Component):
         """Reset the animation state back to the first frame."""
         self.current_frame = 0
 
-    def add(self, state_name: str, images: List[Image]):
+    def add(self, state_name: str, images: List[Sprite]):
         """
         Adds a state to the animation.
 
@@ -176,7 +182,7 @@ class Animation(Component):
             for image_path in files:
                 try:
                     path_to_image = path.join(p, image_path)
-                    image = Image(rel_path=path_to_image)
+                    image = Sprite(rel_path=path_to_image)
                     ret_list.append(image)
                 except TypeError:
                     continue
@@ -187,7 +193,7 @@ class Animation(Component):
                 for image_path in files:
                     try:
                         path_to_image = path.join(p, image_path)
-                        image = Image(rel_path=path_to_image)
+                        image = Sprite(rel_path=path_to_image)
                         ret_list.append(image)
                     except TypeError:
                         continue
@@ -239,7 +245,8 @@ class Animation(Component):
 
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
-        if self.hidden: return
+        if self.hidden:
+            return
 
         self._time_count += 1000 * Time.delta_time
 
@@ -247,7 +254,10 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        self.anim_frame.draw(camera)
+        Draw.sprite(
+            self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
+            self.z_index
+        )
 
     def anim_tick(self):
         """An animation processing tick."""
