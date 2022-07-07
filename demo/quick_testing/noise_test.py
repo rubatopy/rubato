@@ -7,11 +7,10 @@ init(
     window_size=Vector(500, 500),
     res=Vector(500, 500),
     target_fps=24,
-    background_color=Color(255, 255, 255),
     icon="",
 )
 
-main = Scene()
+main = Scene(background_color=Color(255, 255, 255))
 
 noise_size: Vector = Vector.one * 10
 degrees: int = 1

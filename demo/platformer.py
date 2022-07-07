@@ -9,7 +9,6 @@ import rubato as rb
 rb.init(
     name="Platformer Demo",
     window_size=rb.Vector(960, 540),
-    background_color=rb.Color.cyan.lighter(),
     res=rb.Vector(1920, 1080)
 )
 
@@ -25,7 +24,7 @@ jumps = 0
 level_size = rb.Display.res.x * 1.2
 
 # create the scene for level one
-main = rb.Scene()
+main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
 # create the player
 player = rb.GameObject(pos=rb.Display.center_left + rb.Vector(50, 0), z_index=1)
