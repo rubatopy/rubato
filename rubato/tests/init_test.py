@@ -45,15 +45,11 @@ def test_init(monkeypatch):
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,
-        border_color=rubato.Color(0, 0, 0),
-        background_color=rubato.Color(255, 255, 255),
         icon="",
         hidden=False,
     )
     assert rubato.Game.initialized is True
     assert rubato.Game.state == rubato.Game.STOPPED
-    assert rubato.Game.border_color == rubato.Color(0, 0, 0)
-    assert rubato.Game.background_color == rubato.Color(255, 255, 255)
 
     assert rubato.Time.target_fps == 60
     assert rubato.Time.capped
@@ -69,8 +65,6 @@ def test_init(monkeypatch):
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,
-        border_color=rubato.Color(0, 0, 0),
-        background_color=rubato.Color(255, 255, 255),
         icon=files("rubato.static.png").joinpath("logo_filled.ico"),
         hidden=True,
     )
