@@ -12,7 +12,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Update description
-              uses: AsasInnab/pr-body-action@v1\
+              uses: AsasInnab/pr-body-action@v1
               with:
                   body: |
                       ${{ github.event.pull_request.body }}
