@@ -3,6 +3,7 @@
 all:
 	@make test
 	@make lint
+	@make demos
 
 test:
 	@pytest --cov=rubato --cov-report term-missing rubato/tests -s
@@ -25,6 +26,9 @@ test-indiv:
 lint:
 	@echo "Linting Code"
 	@pylint rubato
+
+demos:
+	@cd demo && ./_run_all.sh
 
 SPHINXBUILD   ?= sphinx
 SOURCEDIR     = source
