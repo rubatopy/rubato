@@ -14,7 +14,6 @@ from .sprite import Sprite
 from .rb_time import *
 from .rb_input import Input
 from .sound import Sound
-from .quickselect import quickselect
 from .debug import Debug
 from .radio import Radio, Events
 from .camera import Camera
