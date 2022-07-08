@@ -28,5 +28,5 @@ jobs:
 
                       Once all this is done, you can be sure that the PR is ready to be merged. 🎉
 
-                      *This message has been commented automatically because this PR was marked as ready for review.*
+                      *This message has been added automatically. Please don't delete it.*
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
