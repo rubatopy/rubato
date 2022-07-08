@@ -50,7 +50,7 @@ class GameProperties(type):
         Note:
             Returns a pointer to the current camera object.
             This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.scenes.current.camera <rubato.classes.scene.Scene.camera>` to access the camera directly.
+            use :func:`Game.scenes.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
 
         Returns:
             Camera: The current scene's camera

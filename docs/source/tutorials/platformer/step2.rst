@@ -9,20 +9,20 @@ At this point, you should have a window drawing with a cyan background.
 First things first, we need to understand how rubato is structured (we will explain it first, then walk you
 through it). rubato has 4 different levels: Scenes, Groups, Game Objects, and Components.
 
-:func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
-:func:`Camera <rubato.classes.camera.Camera>`. Scenes are used to compartmentalize code. For example,
+:func:`Scenes <rubato.struct.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
+:func:`Camera <rubato.utils.camera.Camera>`. Scenes are used to compartmentalize code. For example,
 you could have each level of your game on a different scene. Then to switch levels you would switch scenes.
-Every game has a :func:`Scene Manager <rubato.classes.scene_manager.SceneManager>` which helps you switch between scenes
+Every game has a :func:`Scene Manager <rubato.struct.scene_manager.SceneManager>` which helps you switch between scenes
 easily.
 
-:func:`Groups <rubato.classes.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose is to
+:func:`Groups <rubato.struct.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose is to
 further compartmentalize items. For example, items in 2 different groups won't collide with each other. In this tutorial,
 we won't be using Groups as we don't need this functionality here.
 
-:func:`Game Objects <rubato.classes.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
+:func:`Game Objects <rubato.struct.gameobject.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
 
-:func:`Components <rubato.classes.component.Component>` are how Game Objects get their functionality. Each component adds or
+:func:`Components <rubato.struct.component.Component>` are how Game Objects get their functionality. Each component adds or
 changes something about the Game Object. For example, an Image component draws an image from your filesystem to the game at the
 Game Object's position.
 

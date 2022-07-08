@@ -9,7 +9,7 @@ from .... import Input, Vector, Math, Draw, Color, Camera
 
 class Slider(Component):
     """
-    A Slider component. Still needs to be added to a :func:`GameObject <rubato.classes.game_object.GameObject>`.
+    A Slider component. Still needs to be added to a :func:`GameObject <rubato.struct.game_object.GameObject>`.
 
     Args:
         offset: The offset of the component from the game object. Defaults to Vector(0, 0).
@@ -113,7 +113,8 @@ class Slider(Component):
 
     def draw(self, camera: Camera):
         """The draw function for buttons."""
-        if self.hidden: return
+        if self.hidden:
+            return
 
         super().draw(camera)
         self.button.draw(camera)
