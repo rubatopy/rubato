@@ -59,25 +59,17 @@ Replace the previous :code:`rb.init()` call with this:
     rb.init(
         name="Platformer Demo",  # Set a name
         window_size=rb.Vector(960, 540),  # Set the window size
-        background_color=rb.Color.cyan.lighter(),  # Set the background color
         res=rb.Vector(1920, 1080),  # Increase the window resolution
     )
 
 
-Here we're introducing 2 new classes: :func:`rb.Vector <rubato.utils.vector.Vector>`
-and :func:`rb.Color <rubato.utils.color.Color>`.
+Here we're introducing a new classe: :func:`rb.Vector <rubato.utils.vector.Vector>`.
 
 :func:`Vector <rubato.utils.vector.Vector>` is a class that contains an x variable and a y variable.
 It can represent a point, dimensions, a vector, or anything else that has an x and y
 parameter. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
 many useful linear algebra functions and can have nearly every built-in Python math function
 applied to them.
-
-The :func:`Color <rubato.utils.color.Color>` class helps you manage colors. Colors
-are stored in the RGBA format and can be loaded from HSV and HEX. It comes
-preloaded with a lot of :func:`default colors <rubato.utils.color.Color.random>` and
-has a few functions to manipulate color. In the code above, we use :func:`lighter() <rubato.utils.color.Color.lighter>`
-to increase the shade of the color.
 
 At this point, running the game should look like this:
 
@@ -95,7 +87,6 @@ Here is what your main.py should look like:
     rb.init(
         name="Platformer Demo",  # Set a name
         window_size=rb.Vector(960, 540),  # Set the window size
-        background_color=rb.Color.cyan.lighter(),  # Set the background color
         res=rb.Vector(1920, 1080),  # Increase the window resolution
     )
 

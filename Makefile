@@ -26,5 +26,24 @@ lint:
 	@echo "Linting Code"
 	@pylint rubato
 
+SPHINXBUILD   ?= sphinx
+SOURCEDIR     = source
+BUILDDIR      = ./build/html
+LIVEBUILDDIR  = ./build/_html
+BUILDER          = dirhtml
+
+docs-save:
+	@make docs-clear
+	@cd docs && python -m $(SPHINXBUILD) -W --keep-going -T -q -b $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
+	@cd docs && touch build/html/_modules/robots.txt
+
+docs-test:
+	@make docs-clear
+	@cd docs && python -m $(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
+
 docs-live:
-	@(cd docs && make live)
+	@make docs-clear
+	@cd docs && sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato
+
+docs-clear:
+	@cd docs && rm -rf build

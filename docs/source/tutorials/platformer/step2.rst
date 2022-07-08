@@ -10,7 +10,7 @@ At this point, you should have a window drawing with a cyan background.
 First, we need to understand how rubato is structured (we will explain it first, then walk you
 through it). rubato has 4 levels: Scenes, Groups, Game Objects, and Components.
 
-:func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
+:func:`Scenes <rubato.classes.scene.Scene>` hold 2 Groups. One for UI and one for all the other Game Objects. It also manages a
 :func:`Camera <rubato.classes.camera.Camera>`. We use Scenes to separate code. For example,
 you could have each game level on a different scene. Then to switch levels, you would switch scenes.
 Every game has a :func:`Scene Manager <rubato.classes.scene_manager.SceneManager>` which helps you switch between scenes
@@ -33,7 +33,13 @@ Ok now let's see this in action. Let's create a scene and add it to our game rig
 .. code-block:: python
 
     # Create a scene
-    main = rb.Scene()
+    main = rb.Scene(background_color=rb.Color.cyan.lighter())
+
+Here we introduce the :func:`Color <rubato.utils.color.Color>` class. It helps you manage colors. Colors
+are stored in the RGBA format and can be loaded from HSV and HEX. It comes
+preloaded with a lot of :func:`default colors <rubato.utils.color.Color.random>` and
+has a few functions to manipulate color. In the code above, we use :func:`lighter() <rubato.utils.color.Color.lighter>`
+to increase the shade of the color.
 
 Next, we need to create a player and add it to the scene.
 
@@ -101,7 +107,7 @@ So cute! Here is what you should have so far if you've been following along:
     )
 
     # Create a scene
-    main = rb.Scene()
+    main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
     # Create the player and set its starting position
     player = rb.GameObject(

@@ -66,7 +66,6 @@ def player_collide(col_info: rb.Manifold):
 
 
 # add a hitbox to the player with the collider
-
 player.add(rb.Rectangle(width=64, height=64, tag="player"))
 # add a ground detector
 player.add(rb.Rectangle(
@@ -169,6 +168,7 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 
 
 # define a custom update function
+# this function is run every frame
 def update():
     global grounded
     # check for user directional input
