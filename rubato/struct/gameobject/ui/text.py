@@ -1,13 +1,10 @@
 """A text component."""
 from __future__ import annotations
-from typing import TYPE_CHECKING, Literal
+from typing import Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
 
-from . import Component
-from ... import Display, Vector, Color, Font, Draw
-
-if TYPE_CHECKING:
-    from .. import Camera
+from .. import Component
+from .... import Display, Vector, Color, Font, Draw, Camera
 
 
 class Text(Component):

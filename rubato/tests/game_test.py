@@ -3,7 +3,7 @@ from unittest.mock import Mock
 import pytest
 
 from rubato.game import Game
-from rubato.classes.scene import Scene
+from rubato.struct.scene import Scene
 # pylint: disable=redefined-outer-name
 
 

@@ -2,13 +2,10 @@
 Groups contain game objects or other groups and allow separation between game objects.
 """
 from __future__ import annotations
-from typing import List, TYPE_CHECKING
+from typing import List
 
 from . import GameObject, Hitbox, QTree
-from .. import Error, Display
-
-if TYPE_CHECKING:
-    from . import Camera
+from .. import Error, Display, Camera
 
 
 class Group:

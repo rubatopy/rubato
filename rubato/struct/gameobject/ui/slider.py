@@ -1,14 +1,10 @@
 """A slider component that can be used in UI."""
 from __future__ import annotations
+from typing import Callable
 
-from . import Component, Button
-from ... import Input, Vector, Math, Draw
-from ... import Color  # testing
-
-from typing import TYPE_CHECKING, Callable
-
-if TYPE_CHECKING:
-    from .. import Camera
+from . import Button
+from .. import Component
+from .... import Input, Vector, Math, Draw, Color, Camera
 
 
 class Slider(Component):

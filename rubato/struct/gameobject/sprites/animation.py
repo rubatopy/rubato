@@ -6,12 +6,11 @@ from typing import List, Dict, TYPE_CHECKING
 from os import path, walk
 import sdl2
 
-from . import Component
-from ... import Vector, Time, get_path, Sprite, Draw
+from .. import Component
+from .... import Vector, Time, get_path, Sprite, Draw, Camera
 
 if TYPE_CHECKING:
     from . import Spritesheet
-    from .. import Camera
 
 
 class Animation(Component):

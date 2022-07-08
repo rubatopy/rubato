@@ -4,8 +4,8 @@ Do not use this in your own projects as it is tailored only to this use case.
 """
 from typing import List
 
-from .. import Vector
 from . import Hitbox, Engine
+from .... import Vector
 
 class QTree:
     """The Quadtree itself."""
