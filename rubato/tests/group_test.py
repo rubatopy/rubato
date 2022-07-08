@@ -85,9 +85,9 @@ def test_fixed_update(monkeypatch, group, go):
     collide = Mock()
     insert = Mock()
     calc_bb = Mock()
-    monkeypatch.setattr("rubato.classes.qtree.QTree.collide", collide)
-    monkeypatch.setattr("rubato.classes.qtree.QTree.insert", insert)
-    monkeypatch.setattr("rubato.classes.qtree.QTree.calc_bb", calc_bb)
+    monkeypatch.setattr("rubato.struct.qtree.QTree.collide", collide)
+    monkeypatch.setattr("rubato.struct.qtree.QTree.insert", insert)
+    monkeypatch.setattr("rubato.struct.qtree.QTree.calc_bb", calc_bb)
 
 
     group.fixed_update()
