@@ -9,6 +9,7 @@ poweruser. And all that finally with some legible documentation.
 """
 
 # pylint: disable=wrong-import-position
+from typing import Literal
 from warnings import simplefilter
 from importlib.resources import files
 import os, sys
@@ -34,6 +35,7 @@ from .game import Game
 from .classes import *
 from .misc import *
 
+
 def init(
     name: str = "Untitled Game",
     window_size: Vector = Vector(360, 360),
@@ -42,7 +44,8 @@ def init(
     target_fps: int = 0,
     physics_fps: int = 30,
     icon: str = "",
-    hidden: bool = False
+    hidden: bool = False,
+    fullscreen: Literal["off", "desktop", "exclusive"] = "off",
 ):
     """
     Initializes rubato.
@@ -96,6 +99,9 @@ def init(
         Display.set_window_icon(icon)
     else:
         Display.set_window_icon(files("rubato.static.png").joinpath("logo_filled.png"))
+
+    if fullscreen != "off":
+        Display.set_fullscreen(True, fullscreen)
 
     Game.debug_font = Font(
         size=Display.res.y // 40 if Display.res.y > 0 else 1, font="PressStart", color=Color(0, 255, 0)
