@@ -1,7 +1,5 @@
 """A place to test new WIP features"""  # pylint: disable=all
-from ast import In
 import rubato as rb
-from rubato.utils.rb_input import Input
 
 rb.init(fullscreen="desktop")
 
