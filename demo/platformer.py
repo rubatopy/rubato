@@ -159,7 +159,6 @@ portal.add(
 
 # add them all to the scene
 main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
-# main.add(ground, left, right,  *platforms, *obstacles, *triggers)
 
 
 # define a custom update function
@@ -201,7 +200,6 @@ def update():
 
 # define a custom fixed update function
 def fixed_update():
-    pass
     # have the camera follow the player
     camera_ideal = rb.Math.clamp(player.pos.x + rb.Display.res.x / 4, rb.Display.center.x,
                                  level_size - rb.Display.res.x / 2)
@@ -231,12 +229,6 @@ def handle_keydown(event):
     if event["key"] == "3":
         rb.Game.camera.zoom = .5
 
-# point = rb.GameObject(pos=rb.Display.center)
-# point.add(rb.Rectangle(width=10, height=10, color=rb.Color.red))
-# main.add(point)
-def draw():
-    rb.Draw.circle(rb.Display.center, 10, rb.Color.red)
-main.draw = draw
 
 rb.Radio.listen("KEYDOWN", handle_keydown)
 
