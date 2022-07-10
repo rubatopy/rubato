@@ -6,7 +6,6 @@ Items only render if their z-index is not more than that of the camera's.
 The current scene's camera can be accessed through :code:`Game.camera`.
 """
 from .. import Vector, Display, Math, Radio, Events
-import sys
 
 
 class Camera:
@@ -23,7 +22,7 @@ class Camera:
         pos (Vector): The current position of the camera. Center based i.e. where the camera is looking at.
     """
 
-    def __init__(self, pos: Vector = None, zoom: float = 1, z_index: int = sys.maxsize):
+    def __init__(self, pos: Vector = None, zoom: float = 1, z_index: int = Math.INF):
         self.pos = pos if pos else Display.center
         self._zoom = zoom
         self.z_index = z_index
