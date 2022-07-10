@@ -15,7 +15,7 @@ def update():
         # print(pos)
         dot = GameObject(pos=pos).add(Circle(radius=5, color=Color.blue))
         main_scene.add(dot)
-        main_scene.camera.set(pos)
+        main_scene.camera = pos
         # main_scene.camera
 
 
