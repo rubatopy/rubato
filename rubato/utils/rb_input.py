@@ -215,7 +215,7 @@ class Input:
     @staticmethod
     def get_mouse_pos() -> Vector:
         """
-        The current position of the mouse.
+        The current position of the mouse, in screen-coordinates.
 
         Returns:
             Vector: A Vector representing position.

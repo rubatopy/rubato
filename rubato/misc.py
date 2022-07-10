@@ -1,8 +1,16 @@
 """Miscellaneous helper functions for rubato developers."""
 from typing import List
 
-from . import Vector, GameObject, Component
+from . import Vector, GameObject, Component, Game, Input
 
+def world_mouse() -> Vector:
+    """
+    Returns the mouse position in world-coordinates.
+
+    Returns:
+        Vector: The mouse position in world coordinates.
+    """
+    return Game.camera.i_transform(Input.get_mouse_pos())
 
 def wrap(
     comp: Component | List[Component],

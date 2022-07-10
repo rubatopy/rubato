@@ -22,6 +22,7 @@
 -   `Draw.sprite` and `Draw.immediate_sprite` to draw sprites to the renderer
 -   `Sprite` class to draw images that are not linked to Game Objects
 -   `wrap()` function can create and populate a GameObject with component(s) automatically.
+-   `world_mouse()` function to easily get the mouse position translated into world-coordinates
 
 ### Changed
 
