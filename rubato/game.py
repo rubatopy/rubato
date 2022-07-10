@@ -120,6 +120,9 @@ class Game(metaclass=GameProperties):
         # start timing the update loop
         Time._frame_start = Time.now()  # pylint: disable= protected-access
 
+        # update camera from previous loop
+        cls.camera._update()  # pylint: disable= protected-access
+
         # Event handling
         Radio.pump()
 
@@ -163,5 +166,4 @@ class Game(metaclass=GameProperties):
             sdl2.SDL_Delay(1)
 
         # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.frame_start) / 1000  \
-            # pylint: disable= comparison-with-callable
+        Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
