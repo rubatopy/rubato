@@ -25,13 +25,8 @@ class Camera:
 
     def __init__(self, pos: Vector = None, zoom: float = 1, z_index: int = sys.maxsize):
         self.pos = pos if pos else Display.center
-        self._pos = self.pos - Display.center
         self._zoom = zoom
         self.z_index = z_index
-
-    def _update(self):
-        """Called every frame, this updates the internal camera position"""
-        self._pos = self.pos - Display.center
 
     @property
     def zoom(self) -> float:
@@ -49,7 +44,7 @@ class Camera:
         Args:
             offset: The offset to translate the camera by.
         """
-        self._pos += offset
+        self.pos += offset
 
     def set(self, pos: Vector) -> None:
         """
@@ -57,7 +52,7 @@ class Camera:
         Args:
             pos: The new position of the camera.
         """
-        self._pos = pos
+        self.pos = pos
 
     def transform(self, point: Vector) -> Vector:
         """
@@ -69,8 +64,7 @@ class Camera:
         Returns:
             Vector: The translated coordinates.
         """
-        center = Vector(*Display.renderer.logical_size) / 2
-        return (point - self._pos - center) * self.zoom + center
+        return (point - self.pos + Display.center) * self.zoom
 
     def scale(self, dimension):
         """

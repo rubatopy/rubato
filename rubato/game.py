@@ -120,9 +120,6 @@ class Game(metaclass=GameProperties):
         # start timing the update loop
         Time._frame_start = Time.now()  # pylint: disable= protected-access
 
-        # update camera from previous loop
-        cls.camera._update()  # pylint: disable= protected-access
-
         # Event handling
         Radio.pump()
 
