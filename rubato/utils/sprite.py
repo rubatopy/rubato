@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import sdl2, sdl2.ext
 
-from . import get_path, Display, Vector, Draw
+from . import get_path, Display, Vector, Draw, Color
 
 
 class Sprite:
@@ -31,6 +31,7 @@ class Sprite:
         rotation: float = 0,
         scale: Vector = Vector(1, 1),
         aa: bool = True,
+        color_key: Color = None,
     ):
         self.image: sdl2.SDL_Surface | str = ""
         self._original: sdl2.SDL_Surface | str = ""
@@ -52,7 +53,18 @@ class Sprite:
         self._rotation = rotation
         self._scale = scale
         self._aa = aa
+        self._color_key = color_key
 
+        self._changed = True
+
+    @property
+    def color_key(self):
+        """The color key of the sprite"""
+        return self._color_key
+
+    @color_key.setter
+    def color_key(self, color_key: Color):
+        self._color_key = color_key
         self._changed = True
 
     @property
@@ -95,6 +107,13 @@ class Sprite:
             self.scale.y,
             int(self.aa),
         ).contents
+        if self._color_key is not None:
+            print(self.image.flags, sdl2.SDL_HasColorKey(self.image))
+            if sdl2.SDL_SetColorKey(self.image, sdl2.SDL_TRUE, self._color_key.rgba32) < 0:
+                raise sdl2.SDL_GetError()
+            print(self.image.flags, sdl2.SDL_HasColorKey(self.image))
+        else:
+            sdl2.SDL_SetColorKey(self.image, sdl2.SDL_FALSE, 0)
         self.tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def get_size(self) -> Vector:
