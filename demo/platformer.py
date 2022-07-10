@@ -158,8 +158,8 @@ portal.add(
 )
 
 # add them all to the scene
-# main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
-main.add( ground, left, right,  *platforms, *obstacles, *triggers)
+main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
+# main.add(ground, left, right,  *platforms, *obstacles, *triggers)
 
 
 # define a custom update function
