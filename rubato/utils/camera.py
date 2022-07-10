@@ -13,17 +13,17 @@ class Camera:
     The camera class.
 
     Args:
-        pos: The position of the camera.
+        pos: The position of the camera. Defaults to center of Display.
         zoom: The zoom of the camera.
         z_index: The z-index of the camera.
 
     Attributes:
-        pos (Vector): The current position of the camera.
         z_index (int): The current z_index of the camera.
+        pos (Vector): The current position of the camera. Center based i.e. where the camera is looking at.
     """
 
-    def __init__(self, pos: Vector = Vector(), zoom: float = 1, z_index: int = 100):
-        self.pos = pos
+    def __init__(self, pos: Vector = None, zoom: float = 1, z_index: int = Math.INF):
+        self.pos = pos if pos else Display.center
         self._zoom = zoom
         self.z_index = z_index
 
@@ -39,16 +39,27 @@ class Camera:
 
     def transform(self, point: Vector) -> Vector:
         """
-        Transforms resolution space coordinates according to camera attributes.
+        World space coordinates to Screen space coordinates.
 
         Args:
-            point (Vector): The point to transform.
+            point (Vector): The point to transform (world space).
 
         Returns:
             Vector: The translated coordinates.
         """
-        center = Vector(*Display.renderer.logical_size) / 2
-        return (point - self.pos - center) * self.zoom + center
+        return (point - self.pos) * self.zoom + Display.center
+
+    def i_transform(self, point: Vector) -> Vector:
+        """
+        Inverts the transform process, screen space coordinates to world space coordinates.
+
+        Args:
+            point (Vector): The point to transform (screen space).
+
+        Returns:
+            Vector: The translated coordinates.
+        """
+        return (self.pos - Display.center) / self.zoom + point
 
     def scale(self, dimension):
         """

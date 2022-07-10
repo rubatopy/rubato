@@ -402,14 +402,14 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos.y - self.height / 2
+            return math.floor(self.pos.y + self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
     @top.setter
     def top(self, new: float):
         if self.gameobj:
-            self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos.y = new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -424,14 +424,14 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos.x - self.width / 2
+            return math.floor(self.pos.x - self.width / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
     @left.setter
     def left(self, new: float):
         if self.gameobj:
-            self.gameobj.pos.x += new - self.width / 2
+            self.gameobj.pos.x = new + self.width / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -446,14 +446,14 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos.y + self.height / 2
+            return math.ceil(self.pos.y + self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
     @bottom.setter
     def bottom(self, new: float):
         if self.gameobj:
-            self.gameobj.pos.y += new - self.height / 2
+            self.gameobj.pos.y = new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
@@ -468,14 +468,14 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos.x - self.height / 2
+            return math.ceil(self.pos.x + self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
     @right.setter
     def right(self, new: float):
         if self.gameobj:
-            self.gameobj.pos.x += new - self.height / 2
+            self.gameobj.pos.x = new - self.height / 2
             self.gameobj.pos = self.gameobj.pos.to_int()
         else:
             raise Error("Tried to set rect property before game object assignment.")
