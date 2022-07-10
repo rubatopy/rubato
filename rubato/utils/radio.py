@@ -17,14 +17,14 @@ from contextlib import suppress
 from . import Input, Display, Vector
 
 class Events:
-    KEYUP = "KEYUP"
-    KEYDOWN = "KEYDOWN"
-    KEYHOLD = "KEYHOLD"
-    MOUSEUP = "MOUSEUP"
-    MOUSEDOWN = "MOUSEDOWN"
-    ZOOM = "ZOOM"
-    EXIT = "EXIT"
-    RESIZE = "RESIZE"
+    KEYUP = "KEYUP"  # Fired when a key is released
+    KEYDOWN = "KEYDOWN"  # Fired when a key is pressed
+    KEYHOLD = "KEYHOLD"  # Fired when a key is held down (After the initial keydown)
+    MOUSEUP = "MOUSEUP"  # Fired when a mouse button is released
+    MOUSEDOWN = "MOUSEDOWN"  # Fired when a mouse button is pressed
+    ZOOM = "ZOOM"  # Fired when the camera is zoomed
+    EXIT = "EXIT"  # Fired when the game is exiting
+    RESIZE = "RESIZE"  # Fired when the window is resized
 
 
 class Radio:
@@ -102,6 +102,16 @@ class Radio:
                 else:
                     event_name = Events.MOUSEDOWN
                 #
+                for val in {  # TODO: Get rid of this b4 push
+                        "mouse_button": mouse_button,
+                        "x": event.button.x,
+                        "y": event.button.y,
+                        "clicks": event.button.clicks,
+                        "which": event.button.which,
+                        "windowID": event.button.windowID,
+                        "timestamp": event.button.timestamp,
+                    }.values():
+                    print(val, type(val), hex(event.button.state))
                 cls.broadcast(
                     event_name,
                     {

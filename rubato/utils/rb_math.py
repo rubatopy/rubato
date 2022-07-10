@@ -2,7 +2,7 @@
 The math module includes some helper functions for commonly used equations.
 """
 import math
-
+import sys
 
 class Math:
     """
@@ -13,7 +13,7 @@ class Math:
         PI_HALF (float): The value of pi / 2.
         PI_TWO (float): The value of pi * 2.
     """
-    INF = float("inf")
+    INF = sys.maxsize
     PI_HALF = math.pi / 2
     PI_TWO = math.tau
 

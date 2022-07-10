@@ -93,17 +93,22 @@ class Game(metaclass=GameProperties):
             while True:
                 cls.update()
         except PrintError as e:
+            sys.stdout.flush()
             raise e
         except KeyboardInterrupt:
+            sys.stdout.flush()
             Radio.broadcast(Events.EXIT)
             sdl2.sdlttf.TTF_Quit()
             sdl2.SDL_Quit()
             sys.exit()
         except (Exception,) as e:  # add possible exceptions here if there are more needed
+            sys.stdout.flush()
             raise type(e)(
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
                 "https://github.com/rubatopy/rubato/issues"
             ).with_traceback(sys.exc_info()[2])
+        finally:
+            sys.stdout.flush()
 
     @classmethod
     def update(cls):  # test: skip
@@ -156,5 +161,4 @@ class Game(metaclass=GameProperties):
             sdl2.SDL_Delay(1)
 
         # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.frame_start) / 1000  \
-            # pylint: disable= comparison-with-callable
+        Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
