@@ -40,15 +40,27 @@ class Camera:
 
     def transform(self, point: Vector) -> Vector:
         """
-        Transforms resolution space coordinates according to camera attributes.
+        World space coordinates to Screen space coordinates.
 
         Args:
-            point (Vector): The point to transform.
+            point (Vector): The point to transform (world space).
 
         Returns:
             Vector: The translated coordinates.
         """
         return (point - self.pos) * self.zoom + Display.center
+
+    def i_transform(self, point: Vector) -> Vector:
+        """
+        Inverts the transform process, screen space coordinates to world space coordinates.
+
+        Args:
+            point (Vector): The point to transform (screen space).
+
+        Returns:
+            Vector: The translated coordinates.
+        """
+        return (self.pos - Display.center) / self.zoom + point
 
     def scale(self, dimension):
         """

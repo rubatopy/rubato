@@ -8,18 +8,15 @@ main_scene = Scene(name="main")
 player = GameObject(pos=Display.center)
 player.add(Rectangle(width=50, height=50, color=Color.red))
 
-# Radio.listen("")
-def update():
-    if Input.mouse_pressed():
-        pos = main_scene.camera.transform(Input.get_mouse_pos())
-        # print(pos)
-        dot = GameObject(pos=pos).add(Circle(radius=5, color=Color.blue))
-        main_scene.add(dot)
-        main_scene.camera = pos
-        # main_scene.camera
+
+def mouse_down(_):
+    pos = Game.camera.i_transform(Input.get_mouse_pos())
+    dot = GameObject(pos=pos).add(Circle(radius=5, color=Color.blue))
+    main_scene.add(dot)
+    main_scene.camera.pos = pos
+Radio.listen(Events.MOUSEDOWN, mouse_down)
 
 
 main_scene.add(player)
-main_scene.update = update
 
 begin()
