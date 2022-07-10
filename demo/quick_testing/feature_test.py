@@ -1,19 +1,20 @@
 """A place to test new WIP features"""  # pylint: disable=all
 import rubato as rb
-import sys, os
 
-sys.path.insert(0, os.path.abspath("../"))
-
-rb.init()
+rb.init(fullscreen="desktop")
 
 main = rb.Scene()
 
-test = rb.Rectangle(width=20)
-
-main.add(rb.GameObject(pos=rb.Vector(300, 300)).add(test))
 
 def update():
-    print(test.get_aabb())
+    rb.Draw.circle(rb.Display.center, 100, rb.Color.red, 0, rb.Color.green)
+    if rb.Input.key_pressed("1"):
+        rb.Display.set_fullscreen(True, "desktop")
+    elif rb.Input.key_pressed("2"):
+        rb.Display.set_fullscreen(True, "exclusive")
+    elif rb.Input.key_pressed("3"):
+        rb.Display.set_fullscreen(False)
+
 
 main.update = update
 

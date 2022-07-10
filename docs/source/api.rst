@@ -334,3 +334,9 @@ Errors
 ======
 .. automodule:: rubato.utils.error
     :members:
+
+*************
+Miscellaneous
+*************
+.. automodule:: rubato.misc
+    :members:

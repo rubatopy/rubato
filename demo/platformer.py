@@ -6,11 +6,7 @@ Requires rubato 2.1.0 or later.
 import rubato as rb
 
 # initialize a new game
-rb.init(
-    name="Platformer Demo",
-    window_size=rb.Vector(960, 540),
-    res=rb.Vector(1920, 1080)
-)
+rb.init(name="Platformer Demo", window_size=rb.Vector(960, 540), res=rb.Vector(1920, 1080))
 
 # Change the global debug level
 # rb.Game.debug = True

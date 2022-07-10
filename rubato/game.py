@@ -6,7 +6,7 @@ import sys
 import sdl2, sdl2.ext, sdl2.sdlttf
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Debug, Radio, Events, Font, Draw, PrintError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError
 
 if TYPE_CHECKING:
     from . import SceneManager, Camera
@@ -142,8 +142,6 @@ class Game(metaclass=GameProperties):
                 Time.physics_counter -= Time.fixed_delta
 
         cls.scenes.draw()
-
-        Draw.dump()
 
         if cls.show_fps:
             Debug.draw_fps(cls.debug_font)

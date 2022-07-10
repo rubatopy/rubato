@@ -162,17 +162,17 @@ class Text(Component):
         )
 
     def draw(self, camera: Camera):
-        if self.hidden: return
+        if self.hidden:
+            return
 
         if self.gameobj.rotation != self._stored_rot:
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        Draw.push(
-            self.true_z, lambda: Display.update(
-                self._tx,
-                camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset
-            )
+        Draw.texture(
+            self._tx,
+            camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
+            self.true_z
         )
 
     def delete(self):

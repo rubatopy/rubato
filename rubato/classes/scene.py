@@ -94,11 +94,10 @@ class Scene:
 
     def private_draw(self):
         Draw.clear(self.border_color, self.background_color)
-
         self.draw()
         self.root.draw(self.camera)
         self.ui.draw(self._ui_cam)
-
+        Draw.dump()
 
     def private_update(self):
         if not self.started:
