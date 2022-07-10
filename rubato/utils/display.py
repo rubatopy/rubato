@@ -59,7 +59,7 @@ class DisplayProperties(type):
             While this value can be changed, it is recommended that you do not
             alter it after initialization as it will scale your entire project in unexpected ways.
             If you wish to achieve scaling across an entire scene, simply utilize the
-            :func:`camera zoom <rubato.classes.camera.Camera.zoom>` property in your scene's camera.
+            :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
         """
         return Vector(*cls.renderer.logical_size)
 

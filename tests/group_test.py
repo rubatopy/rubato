@@ -1,10 +1,10 @@
 """Test the Group class."""
 from unittest.mock import Mock
 import pytest
-from rubato.classes.camera import Camera
-from rubato.classes.components.hitbox import Hitbox
-from rubato.classes.game_object import GameObject
-from rubato.classes.group import Group
+from rubato.utils.camera import Camera
+from rubato.struct.gameobject.physics.hitbox import Hitbox
+from rubato.struct.gameobject.game_object import GameObject
+from rubato.struct.group import Group
 from rubato.utils.error import Error
 # pylint: disable=redefined-outer-name
 
@@ -85,9 +85,9 @@ def test_fixed_update(monkeypatch, group, go):
     collide = Mock()
     insert = Mock()
     calc_bb = Mock()
-    monkeypatch.setattr("rubato.classes.qtree.QTree.collide", collide)
-    monkeypatch.setattr("rubato.classes.qtree.QTree.insert", insert)
-    monkeypatch.setattr("rubato.classes.qtree.QTree.calc_bb", calc_bb)
+    monkeypatch.setattr("rubato.struct.qtree.QTree.collide", collide)
+    monkeypatch.setattr("rubato.struct.qtree.QTree.insert", insert)
+    monkeypatch.setattr("rubato.struct.qtree.QTree.calc_bb", calc_bb)
 
 
     group.fixed_update()

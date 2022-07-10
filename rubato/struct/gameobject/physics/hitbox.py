@@ -1,13 +1,10 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, Dict, List, Optional, TYPE_CHECKING, Set
+from typing import Callable, Dict, List, Optional, Set
 import math
 
-from . import Component
-from ... import Display, Vector, Color, Error, SideError, Game, Draw, Math
-
-if TYPE_CHECKING:
-    from .. import Camera
+from .. import Component
+from .... import Display, Vector, Color, Error, SideError, Game, Draw, Math, Camera
 
 
 class Hitbox(Component):

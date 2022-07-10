@@ -4,7 +4,7 @@ from typing import List, TYPE_CHECKING, Optional
 import math
 
 from . import RigidBody, Circle
-from ... import Math, Vector
+from .... import Math, Vector
 
 if TYPE_CHECKING:
     from . import Hitbox, Polygon

@@ -4,8 +4,8 @@ have hitboxes and can collide and interact with other rigidbodies.
 """
 from __future__ import annotations
 
-from . import Component
-from ... import Vector, Time, Math
+from .. import Component
+from .... import Vector, Time, Math
 
 
 class RigidBody(Component):

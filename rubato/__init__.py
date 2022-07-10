@@ -32,7 +32,7 @@ simplefilter("default", UserWarning)
 
 from .utils import *
 from .game import Game
-from .classes import *
+from .struct import *
 from .misc import *
 
 

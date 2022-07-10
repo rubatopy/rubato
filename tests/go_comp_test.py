@@ -1,10 +1,10 @@
 """Test the Game Object class"""
 from unittest.mock import Mock, call
 import pytest
-from rubato.classes.camera import Camera
-from rubato.classes.components.hitbox import Hitbox, Rectangle
-from rubato.classes.game_object import GameObject
-from rubato.classes.components.component import Component
+from rubato.utils.camera import Camera
+from rubato.struct.gameobject.physics.hitbox import Hitbox, Rectangle
+from rubato.struct.gameobject.game_object import GameObject
+from rubato.struct.gameobject.component import Component
 from rubato.utils.error import DuplicateComponentError
 from rubato.utils.vector import Vector
 from rubato.utils.color import Color

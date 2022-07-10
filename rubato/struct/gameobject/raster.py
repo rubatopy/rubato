@@ -3,8 +3,7 @@ from typing import Dict, Tuple
 import sdl2, sdl2.ext, sdl2.sdlgfx
 
 from . import Component
-from .. import Camera
-from ... import Display, Vector, Color, Radio, Draw
+from ... import Display, Vector, Color, Radio, Draw, Camera
 
 
 class Raster(Component):

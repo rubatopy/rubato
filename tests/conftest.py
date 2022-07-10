@@ -1,9 +1,9 @@
 """Global Fixtures needed in multiple tests"""
 import pytest
-import sdl2
-import sdl2.ext
 
 import rubato
+import sdl2
+import sdl2.ext
 from rubato.utils.vector import Vector
 
 

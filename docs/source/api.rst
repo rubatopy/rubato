@@ -27,13 +27,13 @@ Game
 Scenes and Their Management
 ***************************
 
-:func:`Scenes <rubato.classes.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
-:func:`Camera <rubato.classes.camera.Camera>`. Scenes are used to compartmentalize code. For example,
+:func:`Scenes <rubato.struct.scene.Scene>` hold a collection of Game Objects and Groups. It also manages a
+:func:`Camera <rubato.utils.camera.Camera>`. Scenes are used to compartmentalize code. For example,
 you could have each level of your game on a different scene. Then to switch levels you would switch scenes.
-Every game has a :func:`Scene Manager <rubato.classes.scene_manager.SceneManager>` which helps you switch between scenes
+Every game has a :func:`Scene Manager <rubato.struct.scene_manager.SceneManager>` which helps you switch between scenes
 easily.
 
-:func:`Groups <rubato.classes.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose is to
+:func:`Groups <rubato.struct.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose is to
 further compartmentalize items. For example, items in 2 different groups won't collide with each other. In this tutorial,
 we won't be using Groups as we don't need this functionality here.
 
@@ -42,7 +42,7 @@ we won't be using Groups as we don't need this functionality here.
 
 SceneManager
 ============
-.. automodule:: rubato.classes.scene_manager
+.. automodule:: rubato.struct.scene_manager
     :members:
 
 
@@ -50,14 +50,14 @@ SceneManager
 
 Scene
 =====
-.. automodule:: rubato.classes.scene
+.. automodule:: rubato.struct.scene
     :members:
 
 .. _camera:
 
 Camera
 ------
-.. automodule:: rubato.classes.camera
+.. automodule:: rubato.utils.camera
     :members:
 
 
@@ -65,17 +65,17 @@ Camera
 
 Group
 =====
-.. automodule:: rubato.classes.group
+.. automodule:: rubato.struct.group
     :members:
 
 **************************
 Game Object and Components
 **************************
 
-:func:`Game Objects <rubato.classes.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
+:func:`Game Objects <rubato.struct.gameobject.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
 
-:func:`Components <rubato.classes.components.component.Component>` are how Game Objects get their functionality. Each component adds or
+:func:`Components <rubato.struct.gameobject.component.Component>` are how Game Objects get their functionality. Each component adds or
 changes something about the Game Object. For example, an Image component draws an image from your filesystem to the game at the
 Game Object's position.
 
@@ -83,7 +83,7 @@ Game Object's position.
 
 Game Object
 ============
-.. automodule:: rubato.classes.game_object
+.. automodule:: rubato.struct.gameobject.game_object
     :members:
 
 .. _components:
@@ -92,56 +92,56 @@ Components
 ==========
 The default Component class.
 
-.. automodule:: rubato.classes.components.component
+.. automodule:: rubato.struct.gameobject.component
     :members:
 
 .. _image:
 
 Image
 ---------
-.. automodule:: rubato.classes.components.image
+.. automodule:: rubato.struct.gameobject.sprites.image
     :members:
 
 .. _raster:
 
 Raster
 ---------
-.. automodule:: rubato.classes.components.raster
+.. automodule:: rubato.struct.gameobject.raster
     :members:
 
 .. _text:
 
 Text
 ---------
-.. automodule:: rubato.classes.components.text
+.. automodule:: rubato.struct.gameobject.ui.text
     :members:
 
 .. _button:
 
 Button
 ---------
-.. automodule:: rubato.classes.components.button
+.. automodule:: rubato.struct.gameobject.ui.button
     :members:
 
 .. _slider_:
 
 Slider
 ---------
-.. automodule:: rubato.classes.components.slider
+.. automodule:: rubato.struct.gameobject.ui.slider
     :members:
 
 .. _animation:
 
 Animation
 ---------
-.. automodule:: rubato.classes.components.animation
+.. automodule:: rubato.struct.gameobject.sprites.animation
     :members:
 
 .. _spritesheet:
 
 Spritesheet
 ___________
-.. automodule:: rubato.classes.components.spritesheet
+.. automodule:: rubato.struct.gameobject.sprites.spritesheet
     :members:
 
 
@@ -149,35 +149,35 @@ ___________
 
 Hitbox
 -------
-.. automodule:: rubato.classes.components.hitbox
+.. automodule:: rubato.struct.gameobject.physics.hitbox
     :members: Hitbox
 
 .. _rect:
 
 Rectangle
 __________
-.. autoclass:: rubato.classes.components.hitbox.Rectangle
+.. autoclass:: rubato.struct.gameobject.physics.hitbox.Rectangle
     :members:
 
 .. _poly:
 
 Polygon
 __________
-.. autoclass:: rubato.classes.components.hitbox.Polygon
+.. autoclass:: rubato.struct.gameobject.physics.hitbox.Polygon
     :members:
 
 .. _circle:
 
 Circle
 __________
-.. autoclass:: rubato.classes.components.hitbox.Circle
+.. autoclass:: rubato.struct.gameobject.physics.hitbox.Circle
     :members:
 
 .. _rigidbody:
 
 RigidBody
 ---------
-.. automodule:: rubato.classes.components.rigidbody
+.. automodule:: rubato.struct.gameobject.physics.rigidbody
     :members:
 
 *******
@@ -194,14 +194,14 @@ functions yourself.
 
 Engine
 =======
-.. autoclass:: rubato.classes.components.engine.Engine
+.. autoclass:: rubato.struct.gameobject.physics.engine.Engine
     :members:
 
 .. _manifold:
 
 Manifold
 ==========
-.. autoclass:: rubato.classes.components.engine.Manifold
+.. autoclass:: rubato.struct.gameobject.physics.engine.Manifold
     :members:
 
 ********************

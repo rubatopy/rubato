@@ -3,8 +3,8 @@ The Scene class which is a collection of groups. It also houses the current scen
 Scenes are built with a root group that everything is added to.
 """
 from __future__ import annotations
-from . import Camera, Group, GameObject
-from .. import Game, Color, Draw
+from . import Group, GameObject
+from .. import Game, Color, Draw, Camera
 
 
 class Scene:

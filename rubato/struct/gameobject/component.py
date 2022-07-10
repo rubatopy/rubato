@@ -8,10 +8,10 @@ Attention:
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
-from ... import Vector
+from ... import Vector, Camera
 
 if TYPE_CHECKING:
-    from .. import GameObject, Camera
+    from .. import GameObject
 
 
 class Component:

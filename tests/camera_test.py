@@ -2,7 +2,7 @@
 from unittest.mock import Mock
 
 import pytest
-from rubato.classes.camera import Camera
+from rubato.utils.camera import Camera
 from rubato.utils.radio import Radio
 from rubato.utils.display import Display
 from rubato.utils.vector import Vector

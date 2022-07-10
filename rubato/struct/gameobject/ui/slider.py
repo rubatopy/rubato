@@ -1,19 +1,15 @@
 """A slider component that can be used in UI."""
 from __future__ import annotations
+from typing import Callable
 
-from . import Component, Button
-from ... import Input, Vector, Math, Draw
-from ... import Color  # testing
-
-from typing import TYPE_CHECKING, Callable
-
-if TYPE_CHECKING:
-    from .. import Camera
+from . import Button
+from .. import Component
+from .... import Input, Vector, Math, Draw, Color, Camera
 
 
 class Slider(Component):
     """
-    A Slider component. Still needs to be added to a :func:`GameObject <rubato.classes.game_object.GameObject>`.
+    A Slider component. Still needs to be added to a :func:`GameObject <rubato.struct.game_object.GameObject>`.
 
     Args:
         offset: The offset of the component from the game object. Defaults to Vector(0, 0).
@@ -117,7 +113,8 @@ class Slider(Component):
 
     def draw(self, camera: Camera):
         """The draw function for buttons."""
-        if self.hidden: return
+        if self.hidden:
+            return
 
         super().draw(camera)
         self.button.draw(camera)

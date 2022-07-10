@@ -2,8 +2,8 @@
 from __future__ import annotations
 from typing import Callable
 
-from . import Component
-from ... import Input, Vector
+from .. import Component
+from .... import Input, Vector
 
 
 class Button(Component):

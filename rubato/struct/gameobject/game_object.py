@@ -2,13 +2,10 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
-from typing import List, Dict, TYPE_CHECKING, Optional, Type, TypeVar
+from typing import List, Dict, Optional, Type, TypeVar
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from .. import Game, Vector, Display, DuplicateComponentError, Draw, Color, ImplementationError
-
-if TYPE_CHECKING:
-    from . import Camera
+from ... import Game, Vector, Display, DuplicateComponentError, Draw, Color, ImplementationError, Camera
 
 T = TypeVar("T")
 

@@ -2,14 +2,11 @@
 The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Dict
+from typing import Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
-from . import Component, Rectangle
-from ... import Vector, Display, Radio, Sprite, Draw
-
-if TYPE_CHECKING:
-    from .. import Camera
+from .. import Component, Rectangle
+from .... import Vector, Display, Radio, Sprite, Draw, Camera
 
 
 class Image(Component):
