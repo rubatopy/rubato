@@ -64,7 +64,7 @@ class Camera:
         Returns:
             Vector: The translated coordinates.
         """
-        return (point - self.pos + Display.res/2) * self.zoom
+        return (point - self.pos + Display.center) * self.zoom
 
     def scale(self, dimension):
         """

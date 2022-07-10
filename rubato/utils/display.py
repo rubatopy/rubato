@@ -58,7 +58,7 @@ class DisplayProperties(type):
             While this value can be changed, it is recommended that you do not
             alter it after initialization as it will scale your entire project in unexpected ways.
             If you wish to achieve scaling across an entire scene, simply utilize the
-            :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
+            :func:`camera zoom <rubato.classes.camera.Camera.zoom>` property in your scene's camera.
         """
         return Vector(*cls.renderer.logical_size)
 
@@ -270,76 +270,76 @@ class Display(metaclass=DisplayProperties):
     @property
     def top_left(cls) -> Vector:
         """The position of the top left of the window."""
-        return Vector(-cls.res.x/2, -cls.res.y/2)
+        return Vector(0, 0)
 
     @classmethod
     @property
     def top_right(cls) -> Vector:
         """The position of the top right of the window."""
-        return Vector(cls.res.x/2, -cls.res.y/2)
+        return Vector(cls.res.x, 0)
 
     @classmethod
     @property
     def bottom_left(cls) -> Vector:
         """The position of the bottom left of the window."""
-        return Vector(-cls.res.x/2, cls.res.y/2)
+        return Vector(0, cls.res.y)
 
     @classmethod
     @property
     def bottom_right(cls) -> Vector:
         """The position of the bottom right of the window."""
-        return Vector(cls.res.x/2, cls.res.y/2)
+        return Vector(cls.res.x, cls.res.y)
 
     @classmethod
     @property
     def top_center(cls) -> Vector:
         """The position of the top center of the window."""
-        return Vector(0, -cls.res.y/2)
+        return Vector(cls.res.x / 2, 0)
 
     @classmethod
     @property
     def bottom_center(cls) -> Vector:
         """The position of the bottom center of the window."""
-        return Vector(0, cls.res.y/2)
+        return Vector(cls.res.x / 2, cls.res.y)
 
     @classmethod
     @property
     def center_left(cls) -> Vector:
         """The position of the center left of the window."""
-        return Vector(-cls.res.x/2, 0)
+        return Vector(0, cls.res.y / 2)
 
     @classmethod
     @property
     def center_right(cls) -> Vector:
         """The position of the center right of the window."""
-        return Vector(cls.res.x/2, 0)
+        return Vector(cls.res.x, cls.res.y / 2)
 
     @classmethod
     @property
     def center(cls) -> Vector:
         """The position of the center of the window."""
-        return Vector(0, 0)
+        return Vector(cls.res.x / 2, cls.res.y / 2)
 
     @classmethod
     @property
     def top(cls) -> int:
         """The position of the top of the window."""
-        return -cls.res.y/2
+        return 0
 
     @classmethod
     @property
     def right(cls) -> int:
         """The position of the right of the window."""
-        return cls.res.x/2
+        return cls.res.x
 
     @classmethod
     @property
     def left(cls) -> int:
         """The position of the left of the window."""
-        return -cls.res.x/2
+        return 0
 
     @classmethod
     @property
     def bottom(cls) -> int:
         """The position of the bottom of the window."""
-        return cls.res.y/2
+        return cls.res.y
