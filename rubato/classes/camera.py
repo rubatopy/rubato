@@ -38,22 +38,6 @@ class Camera:
         self._zoom = Math.clamp(new, 0.01, Math.INF)
         Radio.broadcast(Events.ZOOM, {"camera": self})
 
-    def translate(self, offset: Vector) -> None:
-        """
-        Translates the camera by the given offset
-        Args:
-            offset: The offset to translate the camera by.
-        """
-        self.pos += offset
-
-    def set(self, pos: Vector) -> None:
-        """
-        sets the camera position to the position given.
-        Args:
-            pos: The new position of the camera.
-        """
-        self.pos = pos
-
     def transform(self, point: Vector) -> Vector:
         """
         Transforms resolution space coordinates according to camera attributes.
