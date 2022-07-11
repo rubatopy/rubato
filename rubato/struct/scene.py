@@ -88,7 +88,11 @@ class Scene:
         Warning:
             This is a relatively expensive operation as it clones every group in the scene.
         """
-        new_scene = Scene(self.background_color, self.border_color, f"{self.id} (clone)")
+        new_scene = Scene(
+            name=f"{self.id} (clone)",
+            background_color=self.background_color,
+            border_color=self.border_color
+        )
         new_scene.root = self.root.clone()
         new_scene.ui = self.ui.clone()
 
