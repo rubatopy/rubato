@@ -12,9 +12,9 @@ class Scene:
     A scene is a collection of groups.
 
     Args:
+        name: The name of the scene. This is used to reference the scene from the scene manager. Defaults to "default".
         background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
         border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
-        name: The name of the scene. This is used to reference the scene from the scene manager. Defaults to "default".
 
     Attributes:
         root (Group): The base group of game objects in the scene.
@@ -28,9 +28,9 @@ class Scene:
 
     def __init__(
         self,
+        name: str = "default",
         background_color: Color = Color(255, 255, 255),
         border_color: Color = Color(),
-        name: str = "default",
     ):
         self.root: Group = Group(name="root")
         self.ui: Group = Group(name="ui")

@@ -15,10 +15,10 @@ class GameObject:
     The base game object class.
 
     Args:
+        name: The name of the game object. Defaults to "".
         pos: The position of the game object. Defaults to Vector(0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
-        name: The name of the game object. Defaults to "".
         debug: Whether or not to draw the center of the game object. Defaults to False.
 
     Attributes:
@@ -32,10 +32,10 @@ class GameObject:
 
     def __init__(
         self,
+        name: str = "",
         pos: Vector = Vector(),
         rotation: float = 0,
         z_index: int = 0,
-        name: str = "",
         debug: bool = False,
     ):
         self.name: str = name
