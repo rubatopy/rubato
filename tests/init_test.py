@@ -41,7 +41,7 @@ def test_init(monkeypatch):
     assert rubato.Game.initialized is False
     rubato.init(
         name="Untitled Game",
-        window_size=rubato.Vector(360, 360),
+        size=rubato.Vector(360, 360),
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,
@@ -61,7 +61,7 @@ def test_init(monkeypatch):
     sdl2.SDL_Quit()
     rubato.init(
         name="Untitled Game",
-        window_size=rubato.Vector(360, 360),
+        size=rubato.Vector(360, 360),
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,
