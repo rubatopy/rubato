@@ -11,14 +11,15 @@ class Button(Component):
     A Button component. Add this to game objects or UI elements to give them clickable areas.
 
     Args:
-        offset: The offset of the button from the game object. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the button from the game object. Defaults to 0.
         width: The width of the button. Defaults to 10.
         height: The height of the button. Defaults to 10.
         onclick: The function to call when the button is clicked. Defaults to lambda: None.
         onrelease: The function to call when the button is released. Defaults to lambda: None.
         onhover: The function to call when the mouse enters the button. Defaults to lambda: None.
         onexit: The function to call when the mouse exits the button. Defaults to lambda: None.
+        offset: The offset of the button from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the button from the game object. Defaults to 0.
+        z_index: The z-index of the button. Defaults to 0.
 
     Attributes:
         pressed (bool): Whether the button is currently pressed.
@@ -32,14 +33,14 @@ class Button(Component):
 
     def __init__(
         self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
         width: int = 10,
         height: int = 10,
         onclick: Callable = lambda: None,
         onrelease: Callable = lambda: None,
         onhover: Callable = lambda: None,
         onexit: Callable = lambda: None,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -73,13 +74,13 @@ class Button(Component):
 
     def clone(self) -> Button:
         return Button(
-            self.offset,
-            self.rotation_offset,
-            self.dims.x,
-            self.dims.y,
-            self.onclick,
-            self.onrelease,
-            self.onhover,
-            self.onexit,
-            self.z_index,
+            offset=self.offset,
+            rot_offset=self.rotation_offset,
+            width=self.dims.x,
+            height=self.dims.y,
+            onclick=self.onclick,
+            onrelease=self.onrelease,
+            onhover=self.onhover,
+            onexit=self.onexit,
+            z_index=self.z_index,
         )

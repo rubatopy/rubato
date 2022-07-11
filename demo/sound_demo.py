@@ -7,7 +7,7 @@ import rubato as rb
 
 rb.init(
     name="Sound Test",
-    window_size=rb.Vector(300, 0),
+    size=rb.Vector(300, 0),
     res=rb.Vector(0, 0),
 )
 

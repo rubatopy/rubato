@@ -11,8 +11,7 @@ num_objs = 70
 
 # Initializes rubato
 rb.init(
-    name="rubato Physics Demo",
-    window_size=rb.Vector(600, 600),
+    name="rubato physics demo",
     res=rb.Vector(1200, 1200)
 )
 

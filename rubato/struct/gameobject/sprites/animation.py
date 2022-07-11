@@ -18,13 +18,14 @@ class Animation(Component):
     Animations are a series of images that update automatically in accordance with parameters.
 
     Args:
-        offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
         scale: The scale of the animation. Defaults to Vector(1, 1).
         fps: The frames per second of the animation. Defaults to 24.
         anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
+        offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
+        z_index: The z-index of the animation. Defaults to 0.
 
     Attributes:
         default_state (Optional[str]): The key of the default state. Defaults
@@ -39,13 +40,13 @@ class Animation(Component):
 
     def __init__(
         self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
         scale: Vector = Vector(1, 1),
         fps: int = 24,
         anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)

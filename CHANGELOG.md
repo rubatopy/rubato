@@ -11,6 +11,7 @@
 -   z_indexes completely reworked.
 -   Some setup, draw, and update methods deprecated in some classes.
 -   Camera position is now where it looks at. ie. default camera position is now `Display.center`.
+-   Reorder constructor parameters for most classes.
 
 ### Added
 
