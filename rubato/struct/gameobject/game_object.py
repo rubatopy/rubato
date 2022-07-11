@@ -194,7 +194,13 @@ class GameObject:
         """
         Clones the game object.
         """
-        new_obj = GameObject(self.pos, self.rotation, self.z_index, f"{self.name} (clone)", self.debug)
+        new_obj = GameObject(
+            name=f"{self.name} (clone)",
+            pos=self.pos,
+            rotation=self.rotation,
+            z_index=self.z_index,
+            debug=self.debug
+        )
         for component in self._components.values():
             for comp in component:
                 new_obj.add(comp.clone())
