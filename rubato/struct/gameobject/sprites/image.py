@@ -14,25 +14,25 @@ class Image(Component):
     A component that handles Images.
 
     Args:
-        offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the image. Defaults to 0.
         rel_path: The relative path to the image. Defaults to "".
-        size: The size of the image. Defaults to Vector(32, 32).
         scale: The scale of the image. Defaults to Vector(1, 1).
         anti_aliasing: Whether or not to use anti-aliasing. Defaults to False.
         flipx: Whether or not to flip the image horizontally. Defaults to False.
         flipy: Whether or not to flip the image vertically. Defaults to False.
+        offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the image. Defaults to 0.
+        z_index: The z-index of the image. Defaults to 0.
     """
 
     def __init__(
         self,
         rel_path: str,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
         scale: Vector = Vector(1, 1),
         anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)

@@ -15,10 +15,10 @@ class GameObject:
     The base game object class.
 
     Args:
-        name: The name of the game object. Defaults to "".
         pos: The position of the game object. Defaults to Vector(0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
+        name: The name of the game object. Defaults to "".
         debug: Whether or not to draw the center of the game object. Defaults to False.
 
     Attributes:
@@ -31,7 +31,12 @@ class GameObject:
     """
 
     def __init__(
-        self, name: str = "", pos: Vector = Vector(), rotation: float = 0, z_index: int = 0, debug: bool = False
+        self,
+        pos: Vector = Vector(),
+        rotation: float = 0,
+        z_index: int = 0,
+        name: str = "",
+        debug: bool = False,
     ):
         self.name: str = name
         self.pos: Vector = pos
@@ -189,7 +194,7 @@ class GameObject:
         """
         Clones the game object.
         """
-        new_obj = GameObject(f"{self.name} (clone)", self.pos, self.rotation, self.z_index, self.debug)
+        new_obj = GameObject(self.pos, self.rotation, self.z_index, f"{self.name} (clone)", self.debug)
         for component in self._components.values():
             for comp in component:
                 new_obj.add(comp.clone())

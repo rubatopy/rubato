@@ -37,28 +37,30 @@ from .misc import *
 
 
 def init(
-    name: str = "Untitled Game",
-    window_size: Vector = Vector(360, 360),
     res: Vector = Vector(1080, 1080),
+    window_size: Vector = Vector(360, 360),
     window_pos: Vector | None = None,
+    name: str = "Untitled Game",
+    icon: str = "",
+    fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
     physics_fps: int = 30,
-    icon: str = "",
     hidden: bool = False,
-    fullscreen: Literal["off", "desktop", "exclusive"] = "off",
 ):
     """
     Initializes rubato.
 
     Args:
-        name: The title that appears at the top of the window. Defaults to "Untitled Game".
-        window_size: The size of the window, cast to int Vector. Defaults to Vector(360, 360).
         res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
+        window_size: The size of the window, cast to int Vector. Defaults to Vector(360, 360).
         window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
+        name: The title that appears at the top of the window. Defaults to "Untitled Game".
+        icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
+        fullscreen: Whether the game should be fullscreen. Can be one of "off", "desktop", or "exclusive".
+            Defaults to "off".
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 60.
-        icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
         hidden: Whether or not the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)

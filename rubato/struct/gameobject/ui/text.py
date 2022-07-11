@@ -12,26 +12,27 @@ class Text(Component):
     A text component subclass. Add this to game objects or UI elements to give them text.
 
     Args:
-        offset: The offset of the text from the game object. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the text from the game object. Defaults to 0.
         text: The text to display. Defaults to "".
+        font: The font to use. Defaults to Font().
         justify: The justification of the text. Defaults to "left".
         anchor: The anchor of the text. The zero vector means it is centered. x component is whether to shift left,
             none, or right (-1, 0, 1). y component is whether to shift top, none, or bottom (-1, 0, 1).
             Defaults to Vector(0, 0).
         width: The width of the text. Defaults to 0.
-        font: The font to use. Defaults to Font().
+        offset: The offset of the text from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the text from the game object. Defaults to 0.
+        z_index: The z index of the text. Defaults to 0.
     """
 
     def __init__(
         self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
         text: str = "",
+        font: Font = Font(),
         justify: Literal["left", "center", "right"] = "left",
         anchor: Vector = Vector(0, 0),
         width: int = 0,
-        font: Font = Font(),
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)

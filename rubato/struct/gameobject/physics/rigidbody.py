@@ -14,17 +14,18 @@ class RigidBody(Component):
     Rigidbodies require hitboxes.
 
     Args:
-        offset: The offset of the rigidbody from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The offset of the rigidbody's rotation from the gameobject. Defaults to 0.
-        bounciness: The bounciness of the rigidbody. Defaults to 0.
+        mass: The mass of the rigidbody. Defaults to -1.
         gravity: The gravity of the rigidbody. Defaults to Vector(0, 0).
+        friction: The friction of the rigidbody. Defaults to 0.
+        static: Whether the rigidbody is static. Defaults to False.
+        bounciness: The bounciness of the rigidbody. Defaults to 0.
         max_speed: The maximum speed of the rigidbody. Defaults to Vector(INF, INF).
         velocity: The velocity of the rigidbody. Defaults to Vector(0, 0).
         ang_vel: The angular velocity of the rigidbody. Defaults to 0.
-        friction: The friction of the rigidbody. Defaults to 0.
-        static: Whether the rigidbody is static. Defaults to False.
         pos_correction: The positional correction of the rigidbody. Defaults to 0.25.
-        mass: The mass of the rigidbody. Defaults to -1.
+        offset: The offset of the rigidbody from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The offset of the rigidbody's rotation from the gameobject. Defaults to 0.
+        z_index: The z-index of the rigidbody. Defaults to 0.
 
     Attributes:
         static (bool): Whether or not the rigidbody is static (as in, it does
@@ -45,17 +46,17 @@ class RigidBody(Component):
 
     def __init__(
         self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
-        bounciness: float = 0,
+        mass: float = 1,
         gravity: Vector = Vector(),
+        friction: float = 0,
+        static: bool = False,
+        bounciness: float = 0,
         max_speed: Vector = Vector(Math.INF, Math.INF),
         velocity: Vector = Vector(),
         ang_vel: float = 0,
-        friction: float = 0,
-        static: bool = False,
         pos_correction: float = 0.25,
-        mass: float = 1,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -171,14 +172,16 @@ class RigidBody(Component):
 
     def clone(self) -> RigidBody:
         return RigidBody(
-            {
-                "static": self.static,
-                "gravity": self.gravity,
-                "friction": self.friction,
-                "max_speed": self.max_speed,
-                "pos_correction": self.pos_correction,
-                "velocity": self.velocity,
-                "mass": self.mass,
-                "bounciness": self.bounciness,
-            }
+            mass=self.mass,
+            gravity=self.gravity,
+            friction=self.friction,
+            static=self.static,
+            bounciness=self.bounciness,
+            max_speed=self.max_speed,
+            velocity=self.velocity,
+            ang_vel=self.ang_vel,
+            pos_correction=self.pos_correction,
+            offset=self.offset,
+            rot_offset=self.rotation_offset,
+            z_index=self.z_index
         )
