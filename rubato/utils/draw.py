@@ -1,17 +1,13 @@
 """A static draw class for drawing things directly to the renderer."""
-from __future__ import annotations
 from ctypes import c_int16
-from typing import TYPE_CHECKING, List, Optional, Callable
+from typing import List, Optional, Callable
 from dataclasses import dataclass, field
 import heapq
 
 import sdl2, sdl2.ext
 from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
 
-from . import Vector, Color, Font, Display, Math
-
-if TYPE_CHECKING:
-    from . import Sprite
+from . import Vector, Color, Font, Display, Math, Sprite
 
 
 @dataclass(order=True)
@@ -405,4 +401,9 @@ class Draw:
             sprite: The sprite to draw.
             pos: The position to draw the sprite at. Defaults to Vector().
         """
-        sprite.render(pos)
+        if sprite.image == "":
+            return
+
+        sprite.update()
+
+        Draw.immediate_texture(sprite.tx, pos)

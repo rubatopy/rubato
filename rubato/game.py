@@ -6,10 +6,10 @@ import sys
 import sdl2, sdl2.ext, sdl2.sdlttf
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera
 
 if TYPE_CHECKING:
-    from . import SceneManager, Camera
+    from . import SceneManager
 
 
 class GameProperties(type):

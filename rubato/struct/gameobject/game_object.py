@@ -67,7 +67,6 @@ class GameObject:
             ) from err
 
         if isinstance(component, Hitbox):
-            component._pos = lambda: self.pos  # pylint: disable=protected-access
             comp_type = Hitbox
 
         if comp_type not in self._components:

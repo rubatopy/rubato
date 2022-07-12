@@ -7,7 +7,6 @@ from typing import Dict
 from . import Scene
 from .. import IdError
 
-
 class SceneManager:
     """
     The Scene Manager contains and handle multiple scenes.
