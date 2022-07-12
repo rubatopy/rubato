@@ -11,7 +11,7 @@ from .sprite import Sprite
 from .color import Color
 from .font import Font
 from .draw import Draw, DrawTask
-from .rb_time import *
+from .rb_time import DelayedTask, FramesTask, ScheduledTask, Time
 from .rb_input import Input
 from .sound import Sound
 from .debug import Debug
