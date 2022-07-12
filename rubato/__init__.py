@@ -33,7 +33,7 @@ simplefilter("default", UserWarning)
 from .utils import *
 from .game import Game
 from .struct import *
-from .misc import *
+from .misc import world_mouse, wrap
 
 
 def init(
