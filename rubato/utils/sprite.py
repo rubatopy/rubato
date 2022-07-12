@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import sdl2, sdl2.ext
 
-from . import get_path, Display, Vector, Draw
+from . import get_path, Display, Vector
 
 
 class Sprite:
@@ -118,21 +118,11 @@ class Sprite:
         """
         return Vector(self._original.w, self._original.h)
 
-    def render(self, pos: Vector = Vector()):
-        """
-        Render the sprite at a position.
-
-        Args:
-            pos: The position to render the sprite at. Defaults to Vector(0, 0).
-        """
-        if self.image == "":
-            return
-
+    def update(self):
+        """Updates the rotozoom of the sprite if any changes were made."""
         if self._changed:
             self._update_rotozoom()
             self._changed = False
-
-        Draw.immediate_texture(self.tx, pos)
 
     def delete(self):
         """Deletes the sprite"""
