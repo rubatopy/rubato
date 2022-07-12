@@ -12,8 +12,6 @@ class Slider(Component):
     A Slider component. Still needs to be added to a :func:`GameObject <rubato.struct.game_object.GameObject>`.
 
     Args:
-        offset: The offset of the component from the game object. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the component from the game object. Defaults to 0.
         button_width: The width of the clickable area. Defaults to 10.
         button_height: The height of the clickable area. Defaults to 10.
         slider_length: The length of the slider. Defaults to 10.
@@ -22,6 +20,9 @@ class Slider(Component):
         onrelease: The function to call when the button is released. Defaults to lambda: None.
         onhover: The function to call when the mouse enters the button. Defaults to lambda: None.
         onexit: The function to call when the mouse exits the button. Defaults to lambda: None.
+        offset: The offset of the component from the game object. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the component from the game object. Defaults to 0.
+        z_index: The z-index of the component. Defaults to 0.
 
     Attributes:
         pressed (bool): Whether the button is currently pressed.
@@ -38,8 +39,6 @@ class Slider(Component):
 
     def __init__(
         self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
         button_width: int = 10,
         button_height: int = 10,
         slider_length: int = 10,
@@ -48,6 +47,8 @@ class Slider(Component):
         onrelease: Callable = lambda: None,
         onhover: Callable = lambda: None,
         onexit: Callable = lambda: None,
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)

@@ -7,6 +7,7 @@ from typing import Dict
 from . import Scene
 from .. import IdError
 
+# THIS IS A STATIC CLASS
 class SceneManager:
     """
     The Scene Manager contains and handle multiple scenes.

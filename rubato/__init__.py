@@ -37,28 +37,31 @@ from .misc import world_mouse, wrap
 
 
 def init(
-    name: str = "Untitled Game",
-    window_size: Vector = Vector(360, 360),
+    name: str = "Untitled Rubato App",
     res: Vector = Vector(1080, 1080),
-    window_pos: Vector | None = None,
+    size: Vector | None = None,
+    pos: Vector | None = None,
+    icon: str = "",
+    fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
     physics_fps: int = 30,
-    icon: str = "",
     hidden: bool = False,
-    fullscreen: Literal["off", "desktop", "exclusive"] = "off",
 ):
     """
     Initializes rubato.
 
     Args:
-        name: The title that appears at the top of the window. Defaults to "Untitled Game".
-        window_size: The size of the window, cast to int Vector. Defaults to Vector(360, 360).
+        name: The title that appears at the top of the window. Defaults to "Untitled Rubato App".
         res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
-        window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
+        size: The size of the window, cast to int Vector. When not set, defaults to half the resolution.
+            This is usually the sweet spot between performance and image quality.
+        pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
+        icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
+        fullscreen: Whether the game should be fullscreen. Can be one of "off", "desktop", or "exclusive".
+            Defaults to "off".
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 60.
-        icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
         hidden: Whether or not the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
@@ -82,11 +85,11 @@ def init(
     else:
         flags |= sdl2.SDL_WINDOW_SHOWN
 
-    window_size = window_size.to_int()
-    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
+    pos, change_pos = (pos, True) if pos else (None, False)
     res = res.to_int()
+    size = res//2 if not size else size.to_int()
 
-    Display.window = sdl2.ext.Window(name, window_size.to_tuple(), window_pos.to_tuple() if window_pos else None, flags)
+    Display.window = sdl2.ext.Window(name, size.to_tuple(), pos.to_tuple() if pos else None, flags)
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.to_tuple()

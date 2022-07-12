@@ -12,20 +12,20 @@ class Raster(Component):
     set, it cannot be changed. You can however change the scale and rotation of the raster.
 
     Args:
-        offset: The offset of the raster from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the raster from the gameobject. Defaults to 0.
         width: The width of the raster. Defaults to 32.
         height: The height of the raster. Defaults to 32.
+        offset: The offset of the raster from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the raster from the gameobject. Defaults to 0.
         scale: The scale of the raster. Defaults to Vector(1, 1).
     """
 
     def __init__(
         self,
-        offset: Vector = Vector(),
-        rot_offset: float = 0,
         width: int = 32,
         height: int = 32,
         scale: Vector = Vector(1, 1),
+        offset: Vector = Vector(),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)

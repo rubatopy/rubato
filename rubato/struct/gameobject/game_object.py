@@ -31,7 +31,12 @@ class GameObject:
     """
 
     def __init__(
-        self, name: str = "", pos: Vector = Vector(), rotation: float = 0, z_index: int = 0, debug: bool = False
+        self,
+        name: str = "",
+        pos: Vector = Vector(),
+        rotation: float = 0,
+        z_index: int = 0,
+        debug: bool = False,
     ):
         self.name: str = name
         self.pos: Vector = pos
@@ -188,7 +193,13 @@ class GameObject:
         """
         Clones the game object.
         """
-        new_obj = GameObject(f"{self.name} (clone)", self.pos, self.rotation, self.z_index, self.debug)
+        new_obj = GameObject(
+            name=f"{self.name} (clone)",
+            pos=self.pos,
+            rotation=self.rotation,
+            z_index=self.z_index,
+            debug=self.debug
+        )
         for component in self._components.values():
             for comp in component:
                 new_obj.add(comp.clone())

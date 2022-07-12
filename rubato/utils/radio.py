@@ -101,17 +101,7 @@ class Radio:
                     event_name = Events.MOUSEUP
                 else:
                     event_name = Events.MOUSEDOWN
-                #
-                for val in {  # TODO: Get rid of this b4 push
-                        "mouse_button": mouse_button,
-                        "x": event.button.x,
-                        "y": event.button.y,
-                        "clicks": event.button.clicks,
-                        "which": event.button.which,
-                        "windowID": event.button.windowID,
-                        "timestamp": event.button.timestamp,
-                    }.values():
-                    print(val, type(val), hex(event.button.state))
+
                 cls.broadcast(
                     event_name,
                     {

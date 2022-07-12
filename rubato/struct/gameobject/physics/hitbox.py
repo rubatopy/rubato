@@ -13,38 +13,39 @@ class Hitbox(Component):
     Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
 
     Args:
-        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
+        tag: A string to tag the hitbox. Defaults to "".
         debug: Whether or not to draw the hitbox. Defaults to False.
         trigger: Whether or not the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
-        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
-        tag: A string to tag the hitbox. Defaults to "".
+        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        z_index: The z-index of the hitbox. Defaults to 0.
 
     Attributes:
+        tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
         debug (bool): Whether to draw a green outline around the hitbox or not.
         trigger (bool): Whether this hitbox is just a trigger or not.
         scale (int): The scale of the hitbox
         on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
         on_exit (Callable): The on_exit function to call when a collision ends with this hitbox.
         color (Color) The color to fill this hitbox with.
-        tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
         colliding (Set[Hitbox]): An unordered set of hitboxes that the Hitbox is currently colliding with.
     """
 
     def __init__(
         self,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
+        color: Color | None = None,
+        tag: str = "",
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
         on_collide: Callable = lambda manifold: None,
         on_exit: Callable = lambda manifold: None,
-        color: Color | None = None,
-        tag: str = "",
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -98,6 +99,16 @@ class Polygon(Hitbox):
 
     Args:
         verts: The vertices of the polygon. Defaults to [].
+        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
+        tag: A string to tag the hitbox. Defaults to "".
+        debug: Whether or not to draw the hitbox. Defaults to False.
+        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        scale: The scale of the hitbox. Defaults to 1.
+        on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
+        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        z_index: The z-index of the hitbox. Defaults to 0.
 
     Attributes:
         verts (List[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
@@ -105,16 +116,16 @@ class Polygon(Hitbox):
 
     def __init__(
         self,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
+        verts: List[Vector] = [],
+        color: Color | None = None,
+        tag: str = "",
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
         on_collide: Callable = lambda manifold: None,
         on_exit: Callable = lambda manifold: None,
-        color: Color | None = None,
-        tag: str = "",
-        verts: List[Vector] = [],
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(
@@ -144,17 +155,17 @@ class Polygon(Hitbox):
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
-            self.offset,
-            self.rot_offset,
-            self.debug,
-            self.trigger,
-            self.scale,
-            self.on_collide,
-            self.on_exit,
-            self.color,
-            self.tag,
-            self.verts,
-            self.z_index,
+            verts=self.verts,
+            color=self.color,
+            tag=self.tag,
+            debug=self.debug,
+            trigger=self.trigger,
+            scale=self.scale,
+            on_collide=self.on_collide,
+            on_exit=self.on_exit,
+            offset=self.offset,
+            rot_offset=self.rot_offset,
+            z_index=self.z_index,
         )
 
     def get_aabb(self) -> List[Vector]:
@@ -208,7 +219,8 @@ class Polygon(Hitbox):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def draw(self, camera: Camera):
-        if self.hidden: return
+        if self.hidden:
+            return
 
         list_of_points: List[tuple] = []
 
@@ -265,28 +277,35 @@ class Rectangle(Hitbox):
     Args:
         width: The width of the rectangle. Defaults to 10.
         height: The height of the rectangle. Defaults to 10.
+        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
+        tag: A string to tag the hitbox. Defaults to "".
+        debug: Whether or not to draw the hitbox. Defaults to False.
+        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        scale: The scale of the hitbox. Defaults to 1.
+        on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
+        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        z_index: The z-index of the hitbox. Defaults to 0.
 
     Attributes:
-        width (int): The width of the rectangle
-        height (int): The height of the rectangle
-
-    Note:
-        If color is unassigned, the rectangle will not be drawn. And will act like a rectangular hitbox.
+        width (int): The width of the rectangle.
+        height (int): The height of the rectangle.
     """
 
     def __init__(
         self,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
+        width: int = 10,
+        height: int = 10,
+        color: Color | None = None,
+        tag: str = "",
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
         on_collide: Callable = lambda manifold: None,
         on_exit: Callable = lambda manifold: None,
-        color: Color | None = None,
-        tag: str = "",
-        width: int = 10,
-        height: int = 10,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(
@@ -547,7 +566,8 @@ class Rectangle(Hitbox):
 
     def draw(self, camera: Camera):
         """Will draw the rectangle to the screen. Won't draw if color = None."""
-        if self.hidden: return
+        if self.hidden:
+            return
 
         list_of_points: List[tuple] = []
 
@@ -562,18 +582,18 @@ class Rectangle(Hitbox):
 
     def clone(self) -> Rectangle:
         return Rectangle(
-            self.offset,
-            self.rotation_offset,
-            self.debug,
-            self.trigger,
-            self.scale,
-            self.on_collide,
-            self.on_exit,
-            self.color,
-            self.tag,
-            self.width,
-            self.height,
-            self.z_index,
+            offset=self.offset,
+            rot_offset=self.rotation_offset,
+            debug=self.debug,
+            trigger=self.trigger,
+            scale=self.scale,
+            on_collide=self.on_collide,
+            on_exit=self.on_exit,
+            color=self.color,
+            tag=self.tag,
+            width=self.width,
+            height=self.height,
+            z_index=self.z_index,
         )
 
 
@@ -583,6 +603,16 @@ class Circle(Hitbox):
 
     Args:
         radius: The radius of the circle. Defaults to 10.
+        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
+        tag: A string to tag the hitbox. Defaults to "".
+        debug: Whether or not to draw the hitbox. Defaults to False.
+        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        scale: The scale of the hitbox. Defaults to 1.
+        on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
+        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        z_index: The z-index of the hitbox. Defaults to 0.
 
     Attributes:
         radius (int): The radius of the circle.
@@ -593,16 +623,16 @@ class Circle(Hitbox):
 
     def __init__(
         self,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
+        radius: int = 10,
+        color: Color | None = None,
+        tag: str = "",
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
         on_collide: Callable = lambda manifold: None,
         on_exit: Callable = lambda manifold: None,
-        color: Color | None = None,
-        tag: str = "",
-        radius: int = 10,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(
@@ -651,7 +681,8 @@ class Circle(Hitbox):
 
     def draw(self, camera: Camera):
         """Will draw the circle to the screen. Won't draw if color = None."""
-        if self.hidden: return
+        if self.hidden:
+            return
 
         relative_pos: Vector = None
         scaled_rad: float = None
@@ -669,15 +700,15 @@ class Circle(Hitbox):
 
     def clone(self) -> Circle:
         return Circle(
-            self.offset,
-            self.rotation_offset,
-            self.debug,
-            self.trigger,
-            self.scale,
-            self.on_collide,
-            self.on_exit,
-            self.color,
-            self.tag,
-            self.radius,
-            self.z_index,
+            offset=self.offset,
+            rot_offset=self.rotation_offset,
+            debug=self.debug,
+            trigger=self.trigger,
+            scale=self.scale,
+            on_collide=self.on_collide,
+            on_exit=self.on_exit,
+            color=self.color,
+            tag=self.tag,
+            radius=self.radius,
+            z_index=self.z_index,
         )
