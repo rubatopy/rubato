@@ -408,4 +408,6 @@ class Draw:
         if sprite.image == "":
             return
 
+        sprite.update()
+
         Draw.immediate_texture(sprite.tx, pos)
