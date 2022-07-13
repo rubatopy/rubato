@@ -7,7 +7,8 @@ from typing import List
 import os
 
 from . import Animation
-from .... import Vector, get_path, Sprite
+from ... import Sprite
+from .... import Vector, get_path
 
 
 class Spritesheet:

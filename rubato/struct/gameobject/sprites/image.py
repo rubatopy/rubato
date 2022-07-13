@@ -2,11 +2,11 @@
 The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
-from typing import Dict
 import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
 
 from .. import Component, Rectangle
-from .... import Vector, Display, Radio, Sprite, Draw, Camera
+from ... import Sprite
+from .... import Vector, Display, Draw, Camera
 
 
 class Image(Component):
@@ -55,8 +55,6 @@ class Image(Component):
 
         self._go_rotation = 0
         self._changed = True
-
-        Radio.listen("ZOOM", self.cam_update)
 
     @property
     def image(self) -> sdl2.SDL_Surface:
@@ -170,18 +168,7 @@ class Image(Component):
         self._resize_scale = Vector(new_size.x / self.get_size_original().x, new_size.y / self.get_size_original().y)
         self._changed = True
 
-    def cam_update(self, info: Dict[str, Camera]):
-        """Updates the image sizing when the camera zoom changes."""
-        width, height = self.image.w, self.image.h
-
-        new_size = Vector(
-            round(info["camera"].scale(width)),
-            round(info["camera"].scale(height)),
-        )
-
-        self.resize(new_size)
-
-    def draw(self, camera: Camera):
+    def update(self):
         if self.hidden:
             return
 
@@ -189,6 +176,12 @@ class Image(Component):
             self._go_rotation = self.gameobj.rotation
             self._changed = False
             self._update_sprite()
+
+        self._sprite.update()
+
+    def draw(self, camera: Camera):
+        if self.hidden:
+            return
 
         Draw.sprite(
             self._sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),

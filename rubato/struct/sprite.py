@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import sdl2, sdl2.ext
 
-from . import get_path, Display, Vector
+from .. import get_path, Display, Vector, Game
 
 
 class Sprite:
@@ -54,6 +54,7 @@ class Sprite:
         self._aa = aa
 
         self._changed = True
+        self._last_camera_zoom = 1
 
     @property
     def rotation(self) -> float:
@@ -86,13 +87,15 @@ class Sprite:
         self._changed = True
 
     def _update_rotozoom(self):
+        self._last_camera_zoom = Game.camera.zoom
+        self._changed = False
         self.image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
             -self.rotation,
             # It seems that rotation is counterclockwise, even though we assume clockwise until now.
             # Requires further investigation but is a fix for now.
-            self.scale.x,
-            self.scale.y,
+            self.scale.x * self._last_camera_zoom,
+            self.scale.y * self._last_camera_zoom,
             int(self.aa),
         ).contents
         self.tx = sdl2.ext.Texture(Display.renderer, self.image)
@@ -120,9 +123,8 @@ class Sprite:
 
     def update(self):
         """Updates the rotozoom of the sprite if any changes were made."""
-        if self._changed:
+        if self._changed or self._last_camera_zoom != Game.camera.zoom:
             self._update_rotozoom()
-            self._changed = False
 
     def delete(self):
         """Deletes the sprite"""

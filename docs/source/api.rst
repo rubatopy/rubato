@@ -237,6 +237,13 @@ Utilities
 *********
 These classes are utility classes that are used to make certain tasks easier.
 
+.. _sprite:
+
+Sprite
+======
+.. automodule:: rubato.struct.sprite
+    :members:
+
 .. _draw:
 
 Draw
