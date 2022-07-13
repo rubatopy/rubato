@@ -43,8 +43,8 @@ class Radio:
     @classmethod
     def pump(cls):
         """Pump events from SDL and broadcast them as necessary. Called automatically every frame."""
+        sdl2.SDL_PumpEvents()
         for event in sdl2.ext.get_events():
-            sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
                 cls.broadcast(Events.EXIT)
                 sdl2.sdlttf.TTF_Quit()

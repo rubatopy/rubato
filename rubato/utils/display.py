@@ -194,19 +194,13 @@ class Display(metaclass=DisplayProperties):
             tx: The texture to draw on the screen.
             pos: The position to draw the texture on.
         """
-        try:
-            w, h = tx.size
-        except AttributeError:
-            w, h = tx.contents.size
-
         cls.renderer.copy(
             tx,
             None,
             (
                 pos.x,
                 pos.y,
-                w,
-                h,
+                *tx.size
             ),
         )
 
