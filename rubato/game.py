@@ -90,8 +90,7 @@ class Game(metaclass=GameProperties):
         """
         cls.state = cls.RUNNING
         try:
-            while True:
-                cls.update()
+            cls.update()
         except PrintError as e:
             sys.stdout.flush()
             raise e
@@ -117,48 +116,49 @@ class Game(metaclass=GameProperties):
         Handles the game states.
         Will always process timed calls.
         """
-        # start timing the update loop
-        Time._frame_start = Time.now()  # pylint: disable= protected-access
+        while True:
+            # start timing the update loop
+            Time._frame_start = Time.now()  # pylint: disable= protected-access
 
-        # Event handling
-        Radio.pump()
+            # Event handling
+            Radio.pump()
 
-        # process delayed calls
-        Time.process_calls()
+            # process delayed calls
+            Time.process_calls()
 
-        if cls.state == Game.PAUSED:
-            # process user set pause update
-            cls.scenes.paused_update()
-        else:
-            # normal update
-            cls.scenes.update()
+            if cls.state == Game.PAUSED:
+                # process user set pause update
+                cls.scenes.paused_update()
+            else:
+                # normal update
+                cls.scenes.update()
 
-            # fixed update
-            Time.physics_counter += Time.delta_time
+                # fixed update
+                Time.physics_counter += Time.delta_time
 
-            while Time.physics_counter >= Time.fixed_delta:
-                if cls.state != Game.PAUSED:
-                    cls.scenes.fixed_update()
-                Time.physics_counter -= Time.fixed_delta
+                while Time.physics_counter >= Time.fixed_delta:
+                    if cls.state != Game.PAUSED:
+                        cls.scenes.fixed_update()
+                    Time.physics_counter -= Time.fixed_delta
 
-        cls.scenes.draw()
+            cls.scenes.draw()
 
-        if cls.show_fps:
-            Debug.draw_fps(cls.debug_font)
+            if cls.show_fps:
+                Debug.draw_fps(cls.debug_font)
 
-        # update renderers
-        Display.renderer.present()
+            # update renderers
+            Display.renderer.present()
 
-        # use delay to cap the fps if need be
-        if Time.capped:
-            delay = Time.normal_delta - (1000 * Time.delta_time)
-            if delay > 0:
-                sdl2.SDL_Delay(int(delay))
+            # use delay to cap the fps if need be
+            if Time.capped:
+                delay = Time.normal_delta - (1000 * Time.delta_time)
+                if delay > 0:
+                    sdl2.SDL_Delay(int(delay))
 
-        # dont allow updates to occur more than once in a millisecond
-        # this will likely never occur but is a failsafe
-        while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
-            sdl2.SDL_Delay(1)
+            # dont allow updates to occur more than once in a millisecond
+            # this will likely never occur but is a failsafe
+            while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
+                sdl2.SDL_Delay(1)
 
-        # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
+            # clock the time the update call took
+            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
