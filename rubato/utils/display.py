@@ -197,11 +197,7 @@ class Display(metaclass=DisplayProperties):
         cls.renderer.copy(
             tx,
             None,
-            (
-                pos.x,
-                pos.y,
-                *tx.size
-            ),
+            (pos.x, pos.y),
         )
 
     @classmethod
