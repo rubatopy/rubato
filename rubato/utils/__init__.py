@@ -7,7 +7,6 @@ from .rb_math import Math
 from .noise import Noise
 from .vector import Vector
 from .display import Display
-from .sprite import Sprite
 from .color import Color
 from .font import Font
 from .draw import Draw, DrawTask

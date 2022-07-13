@@ -7,7 +7,8 @@ from os import path, walk
 import sdl2
 
 from .. import Component
-from .... import Vector, Time, get_path, Sprite, Draw, Camera
+from ... import Sprite
+from .... import Vector, Time, get_path, Draw, Camera
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -242,6 +243,12 @@ class Animation(Component):
         for images in self._states.values():
             for image in images:
                 image.gameobj = self.gameobj
+
+    def update(self):
+        if self.hidden:
+            return
+
+        self.anim_frame.update()
 
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
