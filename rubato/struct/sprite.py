@@ -87,6 +87,8 @@ class Sprite:
         self._changed = True
 
     def _update_rotozoom(self):
+        self._last_camera_zoom = Game.camera.zoom
+        self._changed = False
         self.image = sdl2.sdlgfx.rotozoomSurfaceXY(
             self._original,
             -self.rotation,
@@ -122,9 +124,6 @@ class Sprite:
     def update(self):
         """Updates the rotozoom of the sprite if any changes were made."""
         if self._changed or self._last_camera_zoom != Game.camera.zoom:
-            self._last_camera_zoom = Game.camera.zoom
-            self._changed = False
-
             self._update_rotozoom()
 
     def delete(self):
