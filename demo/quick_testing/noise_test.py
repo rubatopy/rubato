@@ -34,7 +34,7 @@ def draw():
 
         angle += math.radians(degrees)
 
-    Draw.poly(points, Color.black, fill=Color.red)
+    Draw.indexed_poly(points, Color.black, fill=Color.red)
 
 
 width, height = 50, 50

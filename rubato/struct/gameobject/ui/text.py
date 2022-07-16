@@ -167,7 +167,7 @@ class Text(Component):
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        Draw.texture(
+        Draw.indexed_texture(
             self._tx,
             camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
             self.true_z

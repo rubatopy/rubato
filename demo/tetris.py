@@ -58,7 +58,7 @@ current = z_piece
 pos = V(1, 0)
 
 def draw_block(pos, color):
-    Draw.immediate_rect(
+    Draw.rect(
         center=pad + pos*block_size + block_size//2,
         width=block_size,
         height=block_size,

@@ -183,7 +183,7 @@ class Image(Component):
         if self.hidden:
             return
 
-        Draw.sprite(
+        Draw.indexed_sprite(
             self._sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
             self.true_z
         )

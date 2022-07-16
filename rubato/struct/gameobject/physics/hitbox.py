@@ -226,12 +226,12 @@ class Polygon(Hitbox):
 
         if self.color:
             list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
-            Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
+            Draw.indexed_poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             if not list_of_points:
                 list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
-            Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.indexed_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     @classmethod
     def generate_polygon(cls,
@@ -573,12 +573,12 @@ class Rectangle(Hitbox):
 
         if self.color:
             list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
-            Draw.poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
+            Draw.indexed_poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             if not list_of_points:
                 list_of_points = [camera.transform(v).to_int() for v in self.real_verts()]
-            Draw.poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.indexed_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Rectangle:
         return Rectangle(
@@ -690,13 +690,13 @@ class Circle(Hitbox):
         if self.color:
             relative_pos = camera.transform(self.pos)
             scaled_rad = camera.scale(self.radius)
-            Draw.circle(relative_pos, scaled_rad, self.color, fill=self.color, z_index=self.true_z)
+            Draw.indexed_circle(relative_pos, scaled_rad, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             if not relative_pos:
                 relative_pos = camera.transform(self.pos)
                 scaled_rad = camera.scale(self.radius)
-            Draw.circle(relative_pos, scaled_rad, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.indexed_circle(relative_pos, scaled_rad, Color(0, 255), int(2 * Display.display_ratio.x))
 
     def clone(self) -> Circle:
         return Circle(

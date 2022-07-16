@@ -7,7 +7,7 @@ main = rb.Scene()
 
 
 def update():
-    rb.Draw.circle(rb.Display.center, 100, rb.Color.red, 0, rb.Color.green)
+    rb.Draw.indexed_circle(rb.Display.center, 100, rb.Color.red, 0, rb.Color.green)
     if rb.Input.key_pressed("1"):
         rb.Display.set_fullscreen(True, "desktop")
     elif rb.Input.key_pressed("2"):

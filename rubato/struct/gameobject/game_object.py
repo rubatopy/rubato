@@ -175,8 +175,8 @@ class GameObject:
             p3 = (camera.transform(self.pos) + rotated_y).to_int()
             p4 = (camera.transform(self.pos) - rotated_y).to_int()
 
-            Draw.line(p1, p2, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
-            Draw.line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
+            Draw.indexed_line(p1, p2, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
+            Draw.indexed_line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
 
     def update(self):
         all_comps = list(self._components.values())

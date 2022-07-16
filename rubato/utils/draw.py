@@ -59,7 +59,7 @@ class Draw:
             task.func()
 
     @classmethod
-    def point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
+    def indexed_point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
         """
         Draw a point onto the renderer at the end of the frame.
 
@@ -68,10 +68,10 @@ class Draw:
             color (Color): The color to use for the pixel. Defaults to Color.green.
             z_index (int): Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_point(pos, color)))
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.point(pos, color)))
 
     @staticmethod
-    def immediate_point(pos: Vector, color: Color = Color.green):
+    def point(pos: Vector, color: Color = Color.green):
         """
         Draw a point onto the renderer immediately.
 
@@ -82,7 +82,7 @@ class Draw:
         pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @classmethod
-    def line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
+    def indexed_line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
         """
         Draw a line onto the renderer at the end of the frame.
 
@@ -93,10 +93,10 @@ class Draw:
             width: The width of the line. Defaults to 1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_line(p1, p2, color, width)))
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.line(p1, p2, color, width)))
 
     @staticmethod
-    def immediate_line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
+    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
         """
         Draw a line onto the renderer immediately.
 
@@ -112,7 +112,7 @@ class Draw:
         )
 
     @classmethod
-    def rect(
+    def indexed_rect(
         cls,
         center: Vector,
         width: int,
@@ -138,11 +138,11 @@ class Draw:
         """
         heapq.heappush(
             cls._queue,
-            DrawTask(z_index, lambda: cls.immediate_rect(center, width, height, border, border_thickness, fill, angle))
+            DrawTask(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle))
         )
 
     @staticmethod
-    def immediate_rect(
+    def rect(
         center: Vector,
         width: int,
         height: int,
@@ -170,10 +170,10 @@ class Draw:
 
         real = [(center + v).to_int() for v in trans]
 
-        Draw.immediate_poly(real, border, border_thickness, fill)
+        Draw.poly(real, border, border_thickness, fill)
 
     @classmethod
-    def circle(
+    def indexed_circle(
         cls,
         center: Vector,
         radius: int = 4,
@@ -194,11 +194,11 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
-            cls._queue, DrawTask(z_index, lambda: cls.immediate_circle(center, radius, border, border_thickness, fill))
+            cls._queue, DrawTask(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill))
         )
 
     @staticmethod
-    def immediate_circle(
+    def circle(
         center: Vector,
         radius: int = 4,
         border: Color = Color.clear,
@@ -240,7 +240,7 @@ class Draw:
             )
 
     @classmethod
-    def poly(
+    def indexed_poly(
         cls,
         points: List[Vector],
         border: Color = Color.clear,
@@ -259,11 +259,11 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
-            cls._queue, DrawTask(z_index, lambda: cls.immediate_poly(points, border, border_thickness, fill))
+            cls._queue, DrawTask(z_index, lambda: cls.poly(points, border, border_thickness, fill))
         )
 
     @staticmethod
-    def immediate_poly(
+    def poly(
         points: List[Vector], border: Color = Color.clear, border_thickness: int = 1, fill: Optional[Color] = None
     ):
         """
@@ -303,7 +303,7 @@ class Draw:
             )
         else:
             for i in range(len(points)):
-                Draw.immediate_line(
+                Draw.line(
                     Vector(
                         points[i].x,
                         points[i].y,
@@ -317,7 +317,7 @@ class Draw:
                 )
 
     @classmethod
-    def text(
+    def indexed_text(
         cls,
         text: str,
         font: Font,
@@ -340,11 +340,11 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(
-            cls._queue, DrawTask(z_index, lambda: cls.immediate_text(text, font, pos, justify, align, width))
+            cls._queue, DrawTask(z_index, lambda: cls.text(text, font, pos, justify, align, width))
         )
 
     @staticmethod
-    def immediate_text(
+    def text(
         text: str, font: Font, pos: Vector = Vector(), justify: str = "left", align: Vector = Vector(), width: int = 0
     ):
         """
@@ -362,7 +362,7 @@ class Draw:
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
-    def texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+    def indexed_texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
         """
         Draws an texture onto the renderer at the end of the frame.
 
@@ -371,10 +371,10 @@ class Draw:
             pos: The position of the texture. Defaults to Vector(0, 0).
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_texture(texture, pos)))
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.texture(texture, pos)))
 
     @staticmethod
-    def immediate_texture(texture: sdl2.ext.Texture, pos: Vector = Vector()):
+    def texture(texture: sdl2.ext.Texture, pos: Vector = Vector()):
         """
         Draws an SDL Texture onto the renderer immediately.
 
@@ -385,7 +385,7 @@ class Draw:
         Display.update(texture, pos)
 
     @classmethod
-    def sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
+    def indexed_sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
         """
         Draws an sprite onto the renderer at the end of the frame.
 
@@ -394,10 +394,10 @@ class Draw:
             pos: The position to draw the sprite at. Defaults to Vector(0, 0).
             z_index: The z-index of the sprite. Defaults to 0.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_sprite(sprite, pos)))
+        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.sprite(sprite, pos)))
 
     @staticmethod
-    def immediate_sprite(sprite: Sprite, pos: Vector = Vector()):
+    def sprite(sprite: Sprite, pos: Vector = Vector()):
         """
         Draws an sprite onto the renderer immediately.
 
@@ -410,4 +410,4 @@ class Draw:
 
         sprite.update()
 
-        Draw.immediate_texture(sprite.tx, pos)
+        Draw.texture(sprite.tx, pos)
