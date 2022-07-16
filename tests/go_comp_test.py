@@ -123,7 +123,7 @@ def test_draw(monkeypatch, go, comp, rub):
     go.add(comp)
     c = Camera()
     draw_line = Mock()
-    monkeypatch.setattr("rubato.utils.draw.Draw.line", draw_line)
+    monkeypatch.setattr("rubato.utils.draw.Draw.indexed_line", draw_line)
 
     go.debug = True
     go.draw(c)
