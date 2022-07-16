@@ -33,6 +33,7 @@
 -   Added `hidden` attribute to all components and removed `visible` attribute from `Animation`, `Image`, and `Raster`
 -   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the whole game.
 -   Restructured the internal file heirarchy. Should not affect normal library useage at all.
+-   Default border color in draw functions from `Color.green` to `Color.clear`
 
 ### Removed
 

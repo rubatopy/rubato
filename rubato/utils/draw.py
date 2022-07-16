@@ -65,8 +65,8 @@ class Draw:
 
         Args:
             pos (Vector): The position of the point.
-            color (Color, optional): The color to use for the pixel. Defaults to Color.green.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            color (Color): The color to use for the pixel. Defaults to Color.green.
+            z_index (int): Where to draw it in the drawing order. Defaults to Math.INF.
         """
         heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.immediate_point(pos, color)))
 
@@ -77,7 +77,7 @@ class Draw:
 
         Args:
             pos (Vector): The position of the point.
-            color (Color, optional): The color to use for the pixel. Defaults to Color.green.
+            color (Color): The color to use for the pixel. Defaults to Color.green.
         """
         pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
@@ -89,7 +89,7 @@ class Draw:
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to green.
+            color: The color to use for the line. Defaults to Color.green.
             width: The width of the line. Defaults to 1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
@@ -103,7 +103,7 @@ class Draw:
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to green.
+            color: The color to use for the line. Defaults to Color.green.
             width: The width of the line. Defaults to 1.
         """
         thickLineRGBA(
@@ -117,7 +117,7 @@ class Draw:
         center: Vector,
         width: int,
         height: int,
-        border: Color = Color.green,
+        border: Color = Color.clear,
         border_thickness: int = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
@@ -130,7 +130,7 @@ class Draw:
             center: The center of the rectangle.
             width: The width of the rectangle.
             height: The height of the rectangle.
-            border: The border color. Defaults to green.
+            border: The border color. Defaults to Color.clear.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
@@ -146,7 +146,7 @@ class Draw:
         center: Vector,
         width: int,
         height: int,
-        border: Color = Color.green,
+        border: Color = Color.clear,
         border_thickness: int = 1,
         fill: Optional[Color] = None,
         angle: float = 0
@@ -158,7 +158,7 @@ class Draw:
             center: The center of the rectangle.
             width: The width of the rectangle.
             height: The height of the rectangle.
-            border: The border color. Defaults to green.
+            border: The border color. Defaults to Color.clear.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
@@ -177,7 +177,7 @@ class Draw:
         cls,
         center: Vector,
         radius: int = 4,
-        border: Color = Color.green,
+        border: Color = Color.clear,
         border_thickness: int = 1,
         fill: Optional[Color] = None,
         z_index: int = Math.INF
@@ -201,7 +201,7 @@ class Draw:
     def immediate_circle(
         center: Vector,
         radius: int = 4,
-        border: Color = Color.green,
+        border: Color = Color.clear,
         border_thickness: int = 1,
         fill: Optional[Color] = None
     ):
@@ -243,7 +243,7 @@ class Draw:
     def poly(
         cls,
         points: List[Vector],
-        border: Color = Color.green,
+        border: Color = Color.clear,
         border_thickness: int = 1,
         fill: Optional[Color] = None,
         z_index: int = Math.INF
@@ -264,7 +264,7 @@ class Draw:
 
     @staticmethod
     def immediate_poly(
-        points: List[Vector], border: Color = Color.green, border_thickness: int = 1, fill: Optional[Color] = None
+        points: List[Vector], border: Color = Color.clear, border_thickness: int = 1, fill: Optional[Color] = None
     ):
         """
         Draws a polygon onto the renderer immediately.

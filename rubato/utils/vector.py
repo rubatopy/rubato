@@ -514,10 +514,12 @@ class Vector:
             return Vector(self.x * other.x, self.y * other.y)
 
     def __add__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x + other, self.y + other)
         if isinstance(other, Vector):
             return Vector(self.x + other.x, self.y + other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x + other[0], self.y + other[1])
 
     __iadd__ = __add__
     __imul__ = __mul__
@@ -526,10 +528,12 @@ class Vector:
     __radd__ = __add__
 
     def __sub__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x - other, self.y - other)
         if isinstance(other, Vector):
             return Vector(self.x - other.x, self.y - other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x - other, self.y - other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x - other[0], self.y - other[1])
 
     def __rsub__(self, other: any) -> Vector:
         return Vector(other - self.x, other - self.y)
