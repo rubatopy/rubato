@@ -2,7 +2,7 @@
 The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
-import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
+import sdl2
 
 from .. import Component, Rectangle
 from ... import Sprite

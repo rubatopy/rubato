@@ -2,8 +2,7 @@
 import pytest
 
 import rubato
-import sdl2
-import sdl2.ext
+import sdl2, sdl2.sdlttf
 from rubato.utils.vector import Vector
 
 

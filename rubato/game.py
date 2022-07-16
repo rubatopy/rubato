@@ -3,7 +3,7 @@ The main game module. It controls everything in the game.
 """
 from __future__ import annotations
 import sys
-import sdl2, sdl2.ext, sdl2.sdlttf
+import sdl2, sdl2.sdlttf
 from typing import TYPE_CHECKING
 
 from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera

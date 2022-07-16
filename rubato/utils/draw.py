@@ -5,8 +5,7 @@ from typing import TYPE_CHECKING, List, Optional, Callable
 from dataclasses import dataclass, field
 import heapq
 
-import sdl2, sdl2.ext
-from sdl2.sdlgfx import pixelRGBA, thickLineRGBA, filledPolygonRGBA, aapolygonRGBA
+import sdl2, sdl2.sdlgfx
 
 from . import Vector, Color, Font, Display, Math
 
@@ -79,7 +78,7 @@ class Draw:
             pos (Vector): The position of the point.
             color (Color): The color to use for the pixel. Defaults to Color.green.
         """
-        pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
+        sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @classmethod
     def indexed_line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
@@ -106,7 +105,7 @@ class Draw:
             color: The color to use for the line. Defaults to Color.green.
             width: The width of the line. Defaults to 1.
         """
-        thickLineRGBA(
+        sdl2.sdlgfx.thickLineRGBA(
             Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width), color.r,
             color.g, color.b, color.a
         )
@@ -280,7 +279,7 @@ class Draw:
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)
         if fill:
-            filledPolygonRGBA(
+            sdl2.sdlgfx.filledPolygonRGBA(
                 Display.renderer.sdlrenderer,
                 vx,
                 vy,
@@ -291,7 +290,7 @@ class Draw:
                 fill.a,
             )
         if border_thickness == 1:
-            aapolygonRGBA(
+            sdl2.sdlgfx.aapolygonRGBA(
                 Display.renderer.sdlrenderer,
                 vx,
                 vy,

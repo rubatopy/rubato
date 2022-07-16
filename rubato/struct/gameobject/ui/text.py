@@ -1,7 +1,7 @@
 """A text component."""
 from __future__ import annotations
 from typing import Literal
-import sdl2, sdl2.sdlttf, sdl2.ext
+import sdl2, sdl2.ext
 
 from .. import Component
 from .... import Display, Vector, Color, Font, Draw, Camera

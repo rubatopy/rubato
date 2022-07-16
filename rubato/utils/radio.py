@@ -10,7 +10,7 @@ broadcast that event key using :meth:`Radio.broadcast`.
 """
 
 from typing import Callable, List
-import sdl2, sdl2.ext, sdl2.sdlttf
+import sdl2, sdl2.ext
 from contextlib import suppress
 
 from . import Input, Display, Vector

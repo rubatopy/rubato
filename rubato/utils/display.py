@@ -6,7 +6,7 @@ from __future__ import annotations
 import ctypes
 from typing import Literal
 
-import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlimage
+import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
 from . import Vector, get_path
