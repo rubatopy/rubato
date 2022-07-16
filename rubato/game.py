@@ -84,6 +84,16 @@ class Game(metaclass=GameProperties):
     initialized = False
 
     @classmethod
+    def quit(cls):
+        """Quit the game and close the python process."""
+        Radio.broadcast(Events.EXIT)
+        cls.state = cls.STOPPED
+        sys.stdout.flush()
+        sdl2.sdlttf.TTF_Quit()
+        sdl2.SDL_Quit()
+        sys.exit()
+
+    @classmethod
     def constant_loop(cls):  # test: skip
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
@@ -91,15 +101,11 @@ class Game(metaclass=GameProperties):
         cls.state = cls.RUNNING
         try:
             cls.update()
+        except KeyboardInterrupt:
+            cls.quit()
         except PrintError as e:
             sys.stdout.flush()
             raise e
-        except KeyboardInterrupt:
-            sys.stdout.flush()
-            Radio.broadcast(Events.EXIT)
-            sdl2.sdlttf.TTF_Quit()
-            sdl2.SDL_Quit()
-            sys.exit()
         except (Exception,) as e:  # add possible exceptions here if there are more needed
             sys.stdout.flush()
             raise type(e)(
@@ -121,7 +127,8 @@ class Game(metaclass=GameProperties):
             Time._frame_start = Time.now()  # pylint: disable= protected-access
 
             # Event handling
-            Radio.pump()
+            if Radio.pump():
+                cls.quit()
 
             # process delayed calls
             Time.process_calls()

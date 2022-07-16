@@ -10,7 +10,6 @@ broadcast that event key using :meth:`Radio.broadcast`.
 """
 
 from typing import Callable, List
-import sys
 import sdl2, sdl2.ext, sdl2.sdlttf
 from contextlib import suppress
 
@@ -46,10 +45,7 @@ class Radio:
         sdl2.SDL_PumpEvents()
         for event in sdl2.ext.get_events():
             if event.type == sdl2.SDL_QUIT:
-                cls.broadcast(Events.EXIT)
-                sdl2.sdlttf.TTF_Quit()
-                sdl2.SDL_Quit()
-                sys.exit()
+                return 1
             if event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     cls.broadcast(
@@ -114,6 +110,7 @@ class Radio:
                         "timestamp": event.button.timestamp,
                     },
                 )
+        return 0
 
     @classmethod
     def listen(cls, event: str, func: Callable):
