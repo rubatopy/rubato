@@ -3,7 +3,7 @@ A sprite is a class that handles rendering of images.
 """
 from __future__ import annotations
 
-import sdl2, sdl2.ext
+import sdl2, sdl2.ext, sdl2.sdlgfx
 
 from .. import get_path, Display, Vector, Game
 
