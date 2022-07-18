@@ -26,7 +26,7 @@
 -   `world_mouse()` function to easily get the mouse position translated into world-coordinates
 -   Support for operations with Vectors using tuples and lists, meaning less objects need to be created.
     (note that no length checking occurs, so make sure your tuples and lists are of length 2).
--   `raise_error()` function to raise an error without our rubato traceback.
+-   `raise_operator_error()` function to raise an error about an operator in a Pythonic style.
 
 ### Changed
 
