@@ -57,7 +57,7 @@ jobs:
                   git pull
                   rm -rf docs
                   echo "removed docs folder"
-                  git rm -rf temp/${{ github.event.ref }}
+                  git rm -rf temp/${{ github.event.ref }} 2> /dev/null
                   echo "Removed all. Ready to pop stash."
                   git stash pop
 
