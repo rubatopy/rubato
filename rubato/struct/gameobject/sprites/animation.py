@@ -261,7 +261,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.indexed_sprite(
+        Draw.queue_sprite(
             self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
             self.true_z
         )

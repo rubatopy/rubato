@@ -58,7 +58,7 @@ class Draw:
             task.func()
 
     @classmethod
-    def indexed_point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
+    def queue_point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
         """
         Draw a point onto the renderer at the end of the frame.
 
@@ -81,7 +81,7 @@ class Draw:
         sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @classmethod
-    def indexed_line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
+    def queue_line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
         """
         Draw a line onto the renderer at the end of the frame.
 
@@ -111,7 +111,7 @@ class Draw:
         )
 
     @classmethod
-    def indexed_rect(
+    def queue_rect(
         cls,
         center: Vector,
         width: int,
@@ -172,7 +172,7 @@ class Draw:
         Draw.poly(real, border, border_thickness, fill)
 
     @classmethod
-    def indexed_circle(
+    def queue_circle(
         cls,
         center: Vector,
         radius: int = 4,
@@ -239,7 +239,7 @@ class Draw:
             )
 
     @classmethod
-    def indexed_poly(
+    def queue_poly(
         cls,
         points: List[Vector],
         border: Color = Color.clear,
@@ -316,7 +316,7 @@ class Draw:
                 )
 
     @classmethod
-    def indexed_text(
+    def queue_text(
         cls,
         text: str,
         font: Font,
@@ -361,7 +361,7 @@ class Draw:
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
-    def indexed_texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+    def queue_texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
         """
         Draws an texture onto the renderer at the end of the frame.
 
@@ -384,7 +384,7 @@ class Draw:
         Display.update(texture, pos)
 
     @classmethod
-    def indexed_sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
+    def queue_sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
         """
         Draws an sprite onto the renderer at the end of the frame.
 

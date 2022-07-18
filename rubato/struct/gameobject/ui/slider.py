@@ -98,15 +98,15 @@ class Slider(Component):
             self.slider_length
         )
         self.button.offset = Math.clamp(mouse_projection, 0, self.slider_length)
-        Draw.indexed_circle(self.gameobj.pos + self.offset, 5, Color.red, fill=Color.red)
-        Draw.indexed_circle(self.gameobj.pos + self.offset + slider_direction * self.slider_length, 5, fill=Color.green)
-        Draw.indexed_line(
+        Draw.queue_circle(self.gameobj.pos + self.offset, 5, Color.red, fill=Color.red)
+        Draw.queue_circle(self.gameobj.pos + self.offset + slider_direction * self.slider_length, 5, fill=Color.green)
+        Draw.queue_line(
             self.gameobj.pos + self.offset,
             self.gameobj.pos + self.offset + slider_direction * self.slider_length,
             width=3
         )
 
-        Draw.indexed_circle(
+        Draw.queue_circle(
             self.gameobj.pos + self.offset + slider_direction * mouse_projection,
             5,
             fill=Color.purple if self.button.pressed else Color.blue
