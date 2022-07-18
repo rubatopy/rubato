@@ -17,14 +17,14 @@ class Debug:
         h = Display.res.y // 40
         p = h // 4
         p2 = p + p
-        Draw.immediate_rect(
+        Draw.rect(
             Vector(p2 + (h * len(fs)) / 2, p2 + h / 2),
             h * len(fs) + p2,
             h + p2,
             Color(a=180),
             fill=Color(a=180),
         )
-        Draw.immediate_text(fs, font=font, pos=Vector(p2+2, p2+2), align=Vector(1, 1))
+        Draw.text(fs, font=font, pos=Vector(p2+2, p2+2), align=Vector(1, 1))
 
     @staticmethod
     def find_my_print():

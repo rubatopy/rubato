@@ -42,6 +42,11 @@ def test_mag(v1, v34):
     assert v1.mag_sq == 2
 
 
+def test_sum(v1, v34):
+    assert v1.sum() == 2
+    assert v34.sum() == 7
+
+
 def test_angle(v1, v34):
     assert v1.angle == 135
     assert v34.angle == 143.13010235415598
@@ -207,11 +212,15 @@ def test_inequalities():
     assert Vector(1, 1) <= Vector(1, 1)
     assert Vector(4, 3) >= Vector(1, 1)
 
-    # pylint: disable=unneeded-not
-    assert not Vector(1, 1) < 2
-    assert not Vector(4, 3) > 1
-    assert not Vector(1, 1) <= 1
-    assert not Vector(4, 3) >= 1
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        Vector(1, 1) < 2
+    with pytest.raises(TypeError):
+        Vector(4, 3) > 1
+    with pytest.raises(TypeError):
+        Vector(1, 1) <= 1
+    with pytest.raises(TypeError):
+        Vector(4, 3) >= 1
 
 
 def test_str(v1):
@@ -225,6 +234,9 @@ def test_math(v1, v34):
     assert vc == Vector(27, 64)
     assert v34**2 == Vector(9, 16)
     assert v34**v34 == Vector(27, 256)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 ** set()
 
     vc = v34.clone()
     vc *= 4
@@ -232,6 +244,9 @@ def test_math(v1, v34):
     assert v1 * 2 == Vector(2, 2)
     assert 2 * v1 == Vector(2, 2)
     assert v34 * v1 == Vector(3, 4)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 * set()
 
     vc = v34.clone()
     vc /= 2
@@ -239,6 +254,12 @@ def test_math(v1, v34):
     assert v1 / 2 == Vector(0.5, 0.5)
     assert 2 / v1 == Vector(2, 2)
     assert v1 / v34 == Vector(1 / 3, 1 / 4)
+    assert (2,3) / v1 == Vector(2, 3)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 / set()
+    with pytest.raises(TypeError):
+        set() / v1
 
     vc = v34.clone()
     vc //= 2
@@ -246,6 +267,12 @@ def test_math(v1, v34):
     assert v1 // 2 == Vector(0, 0)
     assert 2 // v1 == Vector(2, 2)
     assert v1 // v34 == Vector(0, 0)
+    assert (2,3) // v1 == Vector(2, 3)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 // set()
+    with pytest.raises(TypeError):
+        set() // v1
 
     vc = v34.clone()
     vc += v1
@@ -253,6 +280,9 @@ def test_math(v1, v34):
     assert v1 + v34 == Vector(4, 5)
     assert v1 + 2 == Vector(3, 3)
     assert 2 + v1 == Vector(3, 3)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 + set()
 
     vc = v34.clone()
     vc -= v1
@@ -260,6 +290,24 @@ def test_math(v1, v34):
     assert v1 - v34 == Vector(-2, -3)
     assert 2 - v1 == Vector(1, 1)
     assert v1 - 2 == Vector(-1, -1)
+    assert (0,1) - v1 == Vector(-1, 0)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 - set()
+    with pytest.raises(TypeError):
+        set() - v1
+
+    vc = v34.clone()
+    vc %= v1
+    assert vc == Vector(0, 0)
+    assert v34 % 2 == Vector(1, 0)
+    assert 5 % v34 == Vector(2, 1)
+    assert (5,6) % v34 == Vector(2, 2)
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        v1 % set()
+    with pytest.raises(TypeError):
+        set() % v1
 
     assert -v1 == Vector(-1, -1)
 
@@ -267,5 +315,17 @@ def test_math(v1, v34):
     assert hash(v34) == hash((3, 4))
 
 
-def test_iter(v1):
-    assert list(v1) == [1, 1]
+def test_iter():
+    x = Vector(0, 0)
+    x[0] = 1
+    x[1] = 2
+    assert x.x == 1
+    assert x.y == 2
+
+    with pytest.raises(IndexError):
+        assert x[2] == 3
+
+    with pytest.raises(IndexError):
+        x[2] = 3
+
+    assert list(x) == [1, 2]

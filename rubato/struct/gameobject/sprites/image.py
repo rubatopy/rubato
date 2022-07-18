@@ -2,7 +2,7 @@
 The image component that renders an image from the filesystem.
 """
 from __future__ import annotations
-import sdl2, sdl2.ext, sdl2.sdlgfx, sdl2.surface, sdl2.sdlimage
+import sdl2
 
 from .. import Component, Rectangle
 from ... import Sprite
@@ -183,7 +183,7 @@ class Image(Component):
         if self.hidden:
             return
 
-        Draw.sprite(
+        Draw.queue_sprite(
             self._sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
             self.true_z
         )

@@ -19,11 +19,14 @@
 -   true_z property for components which gets the z_index of the `Component` offset by its parent `GameObject`
 -   `Time.scheduled_call()` for a self-correcting recurring method call on a timed interval.
 -   clone functions for `Group`, `GameObject`, and `Scene`.
--   `Draw.texture` and `Draw.immediate_texture` to draw textures to the renderer
--   `Draw.sprite` and `Draw.immediate_sprite` to draw sprites to the renderer
+-   `Draw.texture` and `Draw.queue_texture` to draw textures to the renderer
+-   `Draw.sprite` and `Draw.queue_sprite` to draw sprites to the renderer
 -   `Sprite` class to draw images that are not linked to Game Objects
 -   `wrap()` function can create and populate a GameObject with component(s) automatically.
 -   `world_mouse()` function to easily get the mouse position translated into world-coordinates
+-   Support for operations with Vectors using tuples and lists, meaning less objects need to be created.
+    (note that no length checking occurs, so make sure your tuples and lists are of length 2).
+-   `raise_operator_error()` function to raise an error about an operator in a Pythonic style.
 
 ### Changed
 
@@ -33,18 +36,23 @@
 -   Added `hidden` attribute to all components and removed `visible` attribute from `Animation`, `Image`, and `Raster`
 -   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the whole game.
 -   Restructured the internal file heirarchy. Should not affect normal library useage at all.
+-   Default border color in draw functions from `Color.green` to `Color.clear`
+-   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index.
+    (replace {thing} with the draw function of your choice)
 
 ### Removed
 
 -   z_index from `Group`
 -   Misc. unused draw, setup, and update methods for some classes.
 -   Advanced rotational physics. Will be added in a later patch once Hitbox is refactored.
+-   Vector `unit()` method. Use `normalized()` or `normalize()` instead.
 
 ### Fixed
 
 -   Resizing an `Image` now works.
 -   Updated all clone functions to work with new stuff.
 -   Changing the camera zoom now affects all Sprites.
+-   Made vector operations more complete and raise errors properly.
 
 ## [v2.2.0] - June 12, 2022
 

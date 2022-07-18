@@ -1,7 +1,7 @@
 """A text component."""
 from __future__ import annotations
 from typing import Literal
-import sdl2, sdl2.sdlttf, sdl2.ext
+import sdl2, sdl2.ext
 
 from .. import Component
 from .... import Display, Vector, Color, Font, Draw, Camera
@@ -167,7 +167,7 @@ class Text(Component):
             self._stored_rot = self.gameobj.rotation + self.rotation_offset
             self.generate_surface()
 
-        Draw.texture(
+        Draw.queue_texture(
             self._tx,
             camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
             self.true_z
