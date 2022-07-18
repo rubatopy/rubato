@@ -45,7 +45,7 @@ class Radio:
         sdl2.SDL_PumpEvents()
         for event in sdl2.ext.get_events():
             if event.type == sdl2.SDL_QUIT:
-                return 1
+                return True
             if event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     cls.broadcast(
@@ -110,7 +110,7 @@ class Radio:
                         "timestamp": event.button.timestamp,
                     },
                 )
-        return 0
+        return False
 
     @classmethod
     def listen(cls, event: str, func: Callable):
