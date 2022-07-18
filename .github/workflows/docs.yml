@@ -1,9 +1,6 @@
 name: Docs
 
-on:
-    push:
-        branches:
-            - "main"
+on: [push]
 
 jobs:
     docs:
@@ -26,7 +23,8 @@ jobs:
             - name: Build Docs
               run: (cd docs && make save)
 
-            - name: Transfer Docs to gh-pages
+            - name: Transfer Docs to gh-pages (nightly)
+              if: ${{ github.event.ref }} == 'refs/heads/main'
               run: |
                   cp -r docs/build/html nightly
                   cp -r docs/blog blog
@@ -46,7 +44,21 @@ jobs:
                   git rm -f sitemap_gen.py
                   git stash pop
 
+            - name: Transfer Docs to gh-pages (branch)
+              if: ${{ github.event.ref }} != 'refs/heads/main'
+              run: |
+                  cp -r docs/build/html temp/${{ github.event.ref }}
+                  git add .
+                  git stash push
+                  git fetch
+                  git checkout gh-pages
+                  git pull
+                  rm -rf docs
+                  git rm -rf temp/${{ github.event.ref }}
+                  git stash pop
+
             - name: Build Sitemap
+              if: ${{ github.event.ref }} == 'refs/heads/main'
               run: python sitemap_gen.py
 
             - name: Commit files
@@ -55,7 +67,7 @@ jobs:
                   git config --local user.name "github-actions[bot]"
                   if [[ `git status --porcelain` ]]; then
                     git add .
-                    git commit -m "Build Docs" -a
+                    git commit -m "Build Docs ${{ github.event.ref }}" -a
                   fi
 
             - name: Push changes
