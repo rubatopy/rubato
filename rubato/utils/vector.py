@@ -491,28 +491,28 @@ class Vector:
         if isinstance(other, Vector):
             return self.x > other.x and self.y > other.y
         if isinstance(other, (tuple, list)):
-            return  self.x > other[0] and self.y > other[1]
+            return self.x > other[0] and self.y > other[1]
         return False
 
     def __lt__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x < other.x and self.y < other.y
         if isinstance(other, (tuple, list)):
-            return  self.x < other[0] and self.y < other[1]
+            return self.x < other[0] and self.y < other[1]
         return False
 
     def __ge__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x >= other.x and self.y >= other.y
         if isinstance(other, (tuple, list)):
-            return  self.x >= other[0] and self.y >= other[1]
+            return self.x >= other[0] and self.y >= other[1]
         return False
 
     def __le__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x <= other.x and self.y <= other.y
         if isinstance(other, (tuple, list)):
-            return  self.x <= other[0] and self.y <= other[1]
+            return self.x <= other[0] and self.y <= other[1]
         return False
 
     def __str__(self) -> str:
