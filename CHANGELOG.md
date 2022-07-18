@@ -26,6 +26,7 @@
 -   `world_mouse()` function to easily get the mouse position translated into world-coordinates
 -   Support for operations with Vectors using tuples and lists, meaning less objects need to be created.
     (note that no length checking occurs, so make sure your tuples and lists are of length 2).
+-   `raise_error()` function to raise an error without our rubato traceback.
 
 ### Changed
 
@@ -36,7 +37,7 @@
 -   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the whole game.
 -   Restructured the internal file heirarchy. Should not affect normal library useage at all.
 -   Default border color in draw functions from `Color.green` to `Color.clear`
--   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw witha specific z_index.
+-   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index.
     (replace {thing} with the draw function of your choice)
 
 ### Removed
