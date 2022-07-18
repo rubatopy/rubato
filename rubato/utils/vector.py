@@ -468,50 +468,64 @@ class Vector:
         """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
 
-    def __eq__(self, other: Vector) -> bool:
+    def __eq__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
-            return self.y == other.y and self.x == other.x
+            return self.x == other.x and self.y == other.y
+        if isinstance(other, (tuple, list)):
+            return self.x == other[0] and self.y == other[1]
         return False
 
     def __hash__(self):
         return hash((self.x, self.y))
 
-    def __gt__(self, other: Vector) -> bool:
+    def __gt__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x > other.x and self.y > other.y
+        if isinstance(other, (tuple, list)):
+            return  self.x > other[0] and self.y > other[1]
         return False
 
-    def __lt__(self, other: Vector) -> bool:
+    def __lt__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x < other.x and self.y < other.y
+        if isinstance(other, (tuple, list)):
+            return  self.x < other[0] and self.y < other[1]
         return False
 
-    def __ge__(self, other: Vector) -> bool:
+    def __ge__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x >= other.x and self.y >= other.y
+        if isinstance(other, (tuple, list)):
+            return  self.x >= other[0] and self.y >= other[1]
         return False
 
-    def __le__(self, other: Vector) -> bool:
+    def __le__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, Vector):
             return self.x <= other.x and self.y <= other.y
+        if isinstance(other, (tuple, list)):
+            return  self.x <= other[0] and self.y <= other[1]
         return False
 
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
 
     def __pow__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x**other, self.y**other)
         if isinstance(other, Vector):
             return Vector(self.x**other.x, self.y**other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x**other, self.y**other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x**other[0], self.y**other[1])
 
     __ipow__ = __pow__
 
     def __mul__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x * other, self.y * other)
         if isinstance(other, Vector):
             return Vector(self.x * other.x, self.y * other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x * other, self.y * other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x * other[0], self.y * other[1])
 
     def __add__(self, other: any) -> Vector:
         if isinstance(other, Vector):
@@ -541,10 +555,12 @@ class Vector:
     __isub__ = __sub__
 
     def __truediv__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x / other, self.y / other)
         if isinstance(other, Vector):
             return Vector(self.x / other.x, self.y / other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x / other, self.y / other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x / other[0], self.y / other[1])
 
     def __rtruediv__(self, other: any) -> Vector:
         return Vector(other / self.x, other / self.y)
@@ -552,10 +568,12 @@ class Vector:
     __itruediv__ = __truediv__
 
     def __floordiv__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x // other, self.y // other)
         if isinstance(other, Vector):
             return Vector(self.x // other.x, self.y // other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x // other, self.y // other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x // other[0], self.y // other[1])
 
     def __rfloordiv__(self, other: any) -> Vector:
         return Vector(other // self.x, other // self.y)
@@ -563,10 +581,12 @@ class Vector:
     __ifloordiv__ = __floordiv__
 
     def __mod__(self, other: any) -> Vector:
-        if isinstance(other, (int, float)):
-            return Vector(self.x % other, self.y % other)
         if isinstance(other, Vector):
             return Vector(self.x % other.x, self.y % other.y)
+        if isinstance(other, (int, float)):
+            return Vector(self.x % other, self.y % other)
+        if isinstance(other, (tuple, list)):
+            return Vector(self.x % other[0], self.y % other[1])
 
     def __rmod__(self, other: any) -> Vector:
         return Vector(other % self.x, other % self.y)

@@ -24,6 +24,8 @@
 -   `Sprite` class to draw images that are not linked to Game Objects
 -   `wrap()` function can create and populate a GameObject with component(s) automatically.
 -   `world_mouse()` function to easily get the mouse position translated into world-coordinates
+-   Support for operations with Vectors using tuples and lists, meaning less objects need to be created.
+    (note that no length checking occurs, so make sure your tuples and lists are of length 2).
 
 ### Changed
 
