@@ -525,6 +525,7 @@ class Vector:
             return Vector(self.x**other, self.y**other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x**other[0], self.y**other[1])
+        raise TypeError("Cannot do power operator between " + type(other) + " and Vector")
 
     __ipow__ = __pow__
 
@@ -535,6 +536,7 @@ class Vector:
             return Vector(self.x * other, self.y * other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x * other[0], self.y * other[1])
+        raise TypeError("Cannot do multiplication operator between " + type(other) + " and Vector")
 
     def __add__(self, other: any) -> Vector:
         if isinstance(other, Vector):
@@ -543,6 +545,7 @@ class Vector:
             return Vector(self.x + other, self.y + other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x + other[0], self.y + other[1])
+        raise TypeError("Cannot do addition operator between " + type(other) + " and Vector")
 
     __iadd__ = __add__
     __imul__ = __mul__
@@ -557,9 +560,16 @@ class Vector:
             return Vector(self.x - other, self.y - other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x - other[0], self.y - other[1])
+        raise TypeError("Cannot do subtraction operator between " + type(other) + " and Vector")
 
     def __rsub__(self, other: any) -> Vector:
-        return Vector(other - self.x, other - self.y)
+        if isinstance(other, Vector):
+            return Vector(other.x - self.x, other.y - self.y)
+        if isinstance(other, (int, float)):
+            return Vector(other - self.x, other - self.y)
+        if isinstance(other, (tuple, list)):
+            return Vector(other[0] - self.x, other[1] - self.y)
+        raise TypeError("Cannot do subtraction operator between " + type(other) + " and Vector")
 
     __isub__ = __sub__
 
@@ -570,9 +580,16 @@ class Vector:
             return Vector(self.x / other, self.y / other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x / other[0], self.y / other[1])
+        raise TypeError("Cannot do true division operator between " + type(other) + " and Vector")
 
     def __rtruediv__(self, other: any) -> Vector:
-        return Vector(other / self.x, other / self.y)
+        if isinstance(other, Vector):
+            return Vector(other.x / self.x, other.y / self.y)
+        if isinstance(other, (int, float)):
+            return Vector(other / self.x, other / self.y)
+        if isinstance(other, (tuple, list)):
+            return Vector(other[0] / self.x, other[1] / self.y)
+        raise TypeError("Cannot do true division operator between " + type(other) + " and Vector")
 
     __itruediv__ = __truediv__
 
@@ -583,9 +600,16 @@ class Vector:
             return Vector(self.x // other, self.y // other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x // other[0], self.y // other[1])
+        raise TypeError("Cannot do floor division operator between " + type(other) + " and Vector")
 
     def __rfloordiv__(self, other: any) -> Vector:
-        return Vector(other // self.x, other // self.y)
+        if isinstance(other, Vector):
+            return Vector(other.x // self.x, other.y // self.y)
+        if isinstance(other, (int, float)):
+            return Vector(other // self.x, other // self.y)
+        if isinstance(other, (tuple, list)):
+            return Vector(other[0] // self.x, other[1] // self.y)
+        raise TypeError("Cannot do floor division operator between " + type(other) + " and Vector")
 
     __ifloordiv__ = __floordiv__
 
@@ -596,9 +620,16 @@ class Vector:
             return Vector(self.x % other, self.y % other)
         if isinstance(other, (tuple, list)):
             return Vector(self.x % other[0], self.y % other[1])
+        raise TypeError("Cannot do modulo operator between " + type(other) + " and Vector")
 
     def __rmod__(self, other: any) -> Vector:
-        return Vector(other % self.x, other % self.y)
+        if isinstance(other, Vector):
+            return Vector(other.x % self.x, other.y % self.y)
+        if isinstance(other, (int, float)):
+            return Vector(other % self.x, other % self.y)
+        if isinstance(other, (tuple, list)):
+            return Vector(other[0] % self.x, other[1] % self.y)
+        raise TypeError("Cannot do modulo operator between " + type(other) + " and Vector")
 
     __imod__ = __mod__
 

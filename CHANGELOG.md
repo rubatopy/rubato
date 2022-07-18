@@ -50,6 +50,7 @@
 -   Resizing an `Image` now works.
 -   Updated all clone functions to work with new stuff.
 -   Changing the camera zoom now affects all Sprites.
+-   Made vector operations more complete and raise errors properly.
 
 ## [v2.2.0] - June 12, 2022
 
