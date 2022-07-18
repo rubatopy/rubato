@@ -365,6 +365,15 @@ class Vector:
         return base
 
     def distance_between(self, other: Vector) -> float:
+        """
+        Finds the pythagorean distance between two vectors.
+
+        Args:
+            other (Vector): The other vector.
+
+        Returns:
+            float: The distance.
+        """
         return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
 
     @staticmethod
