@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Iterator
 import math, random
 
-from . import Math, deprecated, raise_operator_error
+from . import Math, raise_operator_error
 
 
 class Vector:
@@ -121,20 +121,6 @@ class Vector:
         out.x, out.y = round(self.x * inv_mag, 10), round(self.y * inv_mag, 10)
 
         return out
-
-    @deprecated(normalized)
-    def unit(self, out: Vector = None) -> Vector:
-        """
-        Determines the unit vector of this vector.
-
-        Args:
-            out (Vector, optional): The output vector to set to. Defaults to a new vector.
-                If you want the function to act on itself, set this value to the reference of the vector.
-
-        Returns:
-            Vector: The vector output of the operation.
-        """
-        return self.normalized(out)
 
     def normalize(self):
         """
