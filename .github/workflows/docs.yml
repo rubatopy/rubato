@@ -56,7 +56,9 @@ jobs:
                   git checkout gh-pages
                   git pull
                   rm -rf docs
+                  echo "removed docs folder"
                   git rm -rf temp/${{ github.event.ref }}
+                  echo "Removed all. Ready to pop stash."
                   git stash pop
 
             - name: Build Sitemap
