@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Iterator
 import math, random
 
-from . import Math, deprecated, raise_error, raise_operator_error
+from . import Math, deprecated, raise_operator_error
 
 
 class Vector:
@@ -621,7 +621,7 @@ class Vector:
             return self.x
         elif index == 1:
             return self.y
-        raise_error(IndexError, f"Vector index of {index} out of range (should be 0 or 1)")
+        raise IndexError(f"Vector index of {index} out of range (should be 0 or 1)")
 
     def __setitem__(self, index: int, value: int):
         if index == 0:
@@ -629,7 +629,7 @@ class Vector:
         elif index == 1:
             self.y = value
         else:
-            raise_error(IndexError, f"Vector index of {index} out of range (should be 0 or 1)")
+            raise IndexError(f"Vector index of {index} out of range (should be 0 or 1)")
 
     def __len__(self) -> int:
         return 2

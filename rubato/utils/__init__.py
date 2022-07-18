@@ -1,24 +1,6 @@
 """
 This module houses all the utils
 """
-import sys
-import traceback
-from typing import Any
-
-
-def raise_error(exc: Exception, msg: str, traceback_remove: int = 2):
-    traceback.print_stack(limit=-(len(traceback.extract_stack()) - traceback_remove))
-    sys.tracebacklimit = 0
-    raise exc(msg)
-
-
-def raise_operator_error(op: str, obj1: Any, obj2: Any):
-    raise_error(
-        TypeError, f"unsupported operand type(s) for {op}: '{type(obj1).__name__}' and '{type(obj2).__name__}'", 3
-    )
-
-
-# pylint: disable=wrong-import-position
 from .path import *
 from .error import *
 from .rb_math import Math

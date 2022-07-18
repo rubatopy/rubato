@@ -9,6 +9,7 @@ poweruser. And all that finally with some legible documentation.
 """
 
 # pylint: disable=wrong-import-position
+import inspect
 from typing import Literal
 from warnings import simplefilter
 from importlib.resources import files

@@ -2,6 +2,7 @@
 Some custom errors
 """
 
+from typing import Any
 import warnings
 import functools
 import sys
@@ -94,9 +95,7 @@ def deprecated_no_replacement(func):
     def new_func(*args, **kwargs):
         warnings.simplefilter("always", DeprecationWarning)
         warnings.warn(
-            f"{func.__name__} has been deprecated. No replacement.",
-            category=DeprecationWarning,
-            stacklevel=2
+            f"{func.__name__} has been deprecated. No replacement.", category=DeprecationWarning, stacklevel=2
         )
         warnings.simplefilter("default", DeprecationWarning)
         return func(*args, **kwargs)
@@ -129,3 +128,7 @@ def removed(other_func=None):
     wrapper.__doc__ = other_func.__doc__
     wrapper.__dict__.update(other_func.__dict__)
     return wrapper
+
+
+def raise_operator_error(op: str, obj1: Any, obj2: Any):
+    raise TypeError(f"unsupported operand type(s) for {op}: '{type(obj1).__name__}' and '{type(obj2).__name__}'")

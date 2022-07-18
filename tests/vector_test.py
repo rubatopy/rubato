@@ -207,11 +207,15 @@ def test_inequalities():
     assert Vector(1, 1) <= Vector(1, 1)
     assert Vector(4, 3) >= Vector(1, 1)
 
-    # pylint: disable=unneeded-not
-    assert not Vector(1, 1) < 2
-    assert not Vector(4, 3) > 1
-    assert not Vector(1, 1) <= 1
-    assert not Vector(4, 3) >= 1
+    # pylint: disable=expression-not-assigned
+    with pytest.raises(TypeError):
+        Vector(1, 1) < 2
+    with pytest.raises(TypeError):
+        Vector(4, 3) > 1
+    with pytest.raises(TypeError):
+        Vector(1, 1) <= 1
+    with pytest.raises(TypeError):
+        Vector(4, 3) >= 1
 
 
 def test_str(v1):
