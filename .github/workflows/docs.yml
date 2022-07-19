@@ -30,9 +30,9 @@ jobs:
 
             - name: Transfer Docs to gh-pages (branch)
               run: |
-                  rm -rf ${{ LOCATION }}
+                  rm -rf ${{ env.LOCATION }}
                   mkdir -p temp
-                  cp -r docs/build/html ${{ LOCATION }}
+                  cp -r docs/build/html ${{ env.LOCATION }}
                   git add .
                   git stash push
                   git fetch
