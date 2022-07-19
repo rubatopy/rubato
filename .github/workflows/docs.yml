@@ -17,9 +17,9 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   body: |
                       Docs will be available soon.
-                      <!-- single comment -->
+                      <!-- DO NOT DELETE THIS COMMENTED LINE. -->
                   emojis: ""
-                  body-include: "<!-- single comment -->"
+                  body-include: "<!-- DO NOT DELETE THIS COMMENTED LINE. -->"
 
             - uses: actions/checkout@v2
               with:
@@ -71,7 +71,7 @@ jobs:
 
             - uses: SFDigitalServices/wait-for-deployment-action@v1
               with:
-                  token: ${{ github.token }}
+                  github-token: ${{ github.token }}
                   timeout: 300
                   environment: github-pages
 
