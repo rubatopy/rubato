@@ -1,15 +1,13 @@
-name: Docs
+name: Nightly Build
 
 on:
-    pull_request:
-        types: [synchronize]
+    push:
+        branches:
+            - "main"
 
 jobs:
     docs:
-        name: Deploy Docs
         runs-on: ubuntu-latest
-        env:
-            LOCATION: "temp/${{ github.event.pull_request.number }}"
         steps:
             - uses: actions/checkout@v2
               with:
@@ -28,18 +26,28 @@ jobs:
             - name: Build Docs
               run: (cd docs && make save)
 
-            - name: Transfer Docs to gh-pages (branch)
+            - name: Transfer Docs to gh-pages
               run: |
-                  rm -rf ${{ LOCATION }}
-                  mkdir -p temp
-                  cp -r docs/build/html ${{ LOCATION }}
+                  cp -r docs/build/html nightly
+                  cp -r docs/blog blog
+                  cp docs/index.html index.html
+                  cp docs/404.html 404.html
+                  cp docs/sitemap_gen.py sitemap_gen.py
                   git add .
                   git stash push
                   git fetch
                   git checkout gh-pages
                   git pull
                   rm -rf docs
+                  git rm -rf nightly
+                  git rm -rf blog
+                  git rm -f index.html
+                  git rm -f 404.html
+                  git rm -f sitemap_gen.py
                   git stash pop
+
+            - name: Build Sitemap
+              run: python sitemap_gen.py
 
             - name: Commit files
               run: |
@@ -47,7 +55,7 @@ jobs:
                   git config --local user.name "github-actions[bot]"
                   if [[ `git status --porcelain` ]]; then
                     git add .
-                    git commit -m "Build Docs #${{ github.event.pull_request.number }}" -a
+                    git commit -m "Build Docs" -a
                   fi
 
             - name: Push changes
