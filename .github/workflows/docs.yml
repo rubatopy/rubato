@@ -1,9 +1,10 @@
 name: Docs
 
 on:
+    pull_request:
     push:
-        branches-ignore:
-            - main
+        branches:
+            - "main"
 
 jobs:
     docs:
