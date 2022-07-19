@@ -2,6 +2,7 @@ name: Docs
 
 on:
     pull_request:
+        types: [synchronize]
 
 jobs:
     docs:
