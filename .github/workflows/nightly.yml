@@ -24,7 +24,7 @@ jobs:
                   pip install .[docs]
 
             - name: Build Docs
-              run:make docs-save
+              run: make docs-save
 
             - name: Transfer Docs to gh-pages
               run: |
