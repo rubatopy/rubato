@@ -1,11 +1,11 @@
 name: Docs
 
 on:
-    push
-    pull_request:
-        types:
-            - edited
-            - synchronize
+    - push
+    - pull_request:
+          types:
+              - edited
+              - synchronize
 
 jobs:
     docs:
