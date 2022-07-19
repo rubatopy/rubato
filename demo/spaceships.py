@@ -7,7 +7,7 @@ init(
     name="Point drawing",
     target_fps=24,
     res=Vector(800, 600),
-    window_size=Vector(800, 600),
+    size=Vector(800, 600),
 )
 
 main_scene = Scene()

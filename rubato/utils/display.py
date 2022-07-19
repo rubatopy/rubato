@@ -4,8 +4,9 @@ Global display class that allows for easy screen and window management.
 from __future__ import annotations
 
 import ctypes
+from typing import Literal
 
-import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlimage
+import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
 from . import Vector, get_path
@@ -58,7 +59,7 @@ class DisplayProperties(type):
             While this value can be changed, it is recommended that you do not
             alter it after initialization as it will scale your entire project in unexpected ways.
             If you wish to achieve scaling across an entire scene, simply utilize the
-            :func:`camera zoom <rubato.classes.camera.Camera.zoom>` property in your scene's camera.
+            :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
         """
         return Vector(*cls.renderer.logical_size)
 
@@ -138,6 +139,8 @@ class Display(metaclass=DisplayProperties):
     window: sdl2.ext.Window = None
     renderer: sdl2.ext.Renderer = None
     format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
+    _saved_window_size: Vector | None = None
+    _saved_window_pos: Vector | None = None
 
     @classmethod
     def set_window_icon(cls, path: str):
@@ -156,6 +159,33 @@ class Display(metaclass=DisplayProperties):
         )
 
     @classmethod
+    def set_fullscreen(cls, on: bool = True, mode: Literal["desktop", "exclusive"] = "desktop"):
+        """
+        Set the window to fullscreen.
+
+        Args:
+            on: Whether or not to set the window to fullscreen.
+            mode: The type of fullscreen to use. Can be either "desktop" or "exclusive".
+        """
+        if on:
+            if cls._saved_window_pos is None and cls._saved_window_size is None:
+                cls._saved_window_size = cls.window_size.clone()
+                cls._saved_window_pos = cls.window_pos.clone()
+            if mode == "desktop":
+                sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN_DESKTOP)
+            elif mode == "exclusive":
+                sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN)
+            else:
+                raise ValueError(f"Invalid fullscreen type: {mode}")
+        else:
+            if cls._saved_window_size is not None and cls._saved_window_pos is not None:
+                cls.window_size = cls._saved_window_size
+                cls.window_pos = cls._saved_window_pos
+                cls._saved_window_size = None
+                cls._saved_window_pos = None
+            sdl2.SDL_SetWindowFullscreen(cls.window.window, 0)
+
+    @classmethod
     def update(cls, tx: sdl2.ext.Texture, pos: Vector):
         """
         Update the current screen.
@@ -164,20 +194,10 @@ class Display(metaclass=DisplayProperties):
             tx: The texture to draw on the screen.
             pos: The position to draw the texture on.
         """
-        try:
-            w, h = tx.size
-        except AttributeError:
-            w, h = tx.contents.size
-
         cls.renderer.copy(
             tx,
             None,
-            (
-                pos.x,
-                pos.y,
-                w,
-                h,
-            ),
+            (pos.x, pos.y),
         )
 
     @classmethod

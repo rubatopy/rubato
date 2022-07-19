@@ -6,22 +6,22 @@ all:
 	@make demos
 
 test:
-	@pytest --cov=rubato --cov-report term-missing rubato/tests -s
+	@pytest --cov=rubato --cov-report term-missing tests -s
 
 test-rub:
-	@pytest -m "rub" --cov=rubato --cov-report term-missing rubato/tests -s
+	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
 
 test-sdl:
-	@pytest -m "sdl or rub" --cov=rubato --cov-report term-missing rubato/tests -s
+	@pytest -m "sdl or rub" --cov=rubato --cov-report term-missing tests -s
 
 test-no-rub:
-	@pytest -m "not rub" --cov=rubato --cov-report term-missing rubato/tests
+	@pytest -m "not rub" --cov=rubato --cov-report term-missing tests
 
 test-no-sdl:
-	@pytest -m "not sdl and not rub" --cov=rubato --cov-report term-missing rubato/tests -s
+	@pytest -m "not sdl and not rub" --cov=rubato --cov-report term-missing tests -s
 
 test-indiv:
-	@pytest rubato/tests -k "$(test)"
+	@pytest tests -k "$(test)"
 
 lint:
 	@echo "Linting Code"

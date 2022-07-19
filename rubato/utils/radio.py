@@ -10,21 +10,20 @@ broadcast that event key using :meth:`Radio.broadcast`.
 """
 
 from typing import Callable, List
-import sys
-import sdl2, sdl2.ext, sdl2.sdlttf
+import sdl2, sdl2.ext
 from contextlib import suppress
 
 from . import Input, Display, Vector
 
 class Events:
-    KEYUP = "KEYUP"
-    KEYDOWN = "KEYDOWN"
-    KEYHOLD = "KEYHOLD"
-    MOUSEUP = "MOUSEUP"
-    MOUSEDOWN = "MOUSEDOWN"
-    ZOOM = "ZOOM"
-    EXIT = "EXIT"
-    RESIZE = "RESIZE"
+    KEYUP = "KEYUP"  # Fired when a key is released
+    KEYDOWN = "KEYDOWN"  # Fired when a key is pressed
+    KEYHOLD = "KEYHOLD"  # Fired when a key is held down (After the initial keydown)
+    MOUSEUP = "MOUSEUP"  # Fired when a mouse button is released
+    MOUSEDOWN = "MOUSEDOWN"  # Fired when a mouse button is pressed
+    ZOOM = "ZOOM"  # Fired when the camera is zoomed
+    EXIT = "EXIT"  # Fired when the game is exiting
+    RESIZE = "RESIZE"  # Fired when the window is resized
 
 
 class Radio:
@@ -43,13 +42,10 @@ class Radio:
     @classmethod
     def pump(cls):
         """Pump events from SDL and broadcast them as necessary. Called automatically every frame."""
+        sdl2.SDL_PumpEvents()
         for event in sdl2.ext.get_events():
-            sdl2.SDL_PumpEvents()
             if event.type == sdl2.SDL_QUIT:
-                cls.broadcast(Events.EXIT)
-                sdl2.sdlttf.TTF_Quit()
-                sdl2.SDL_Quit()
-                sys.exit()
+                return True
             if event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     cls.broadcast(
@@ -101,7 +97,7 @@ class Radio:
                     event_name = Events.MOUSEUP
                 else:
                     event_name = Events.MOUSEDOWN
-                #
+
                 cls.broadcast(
                     event_name,
                     {
@@ -114,6 +110,7 @@ class Radio:
                         "timestamp": event.button.timestamp,
                     },
                 )
+        return False
 
     @classmethod
     def listen(cls, event: str, func: Callable):

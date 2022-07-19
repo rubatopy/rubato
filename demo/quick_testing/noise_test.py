@@ -4,7 +4,7 @@ import math
 
 init(
     name="drawings",
-    window_size=Vector(500, 500),
+    size=Vector(500, 500),
     res=Vector(500, 500),
     target_fps=24,
     icon="",
@@ -34,7 +34,7 @@ def draw():
 
         angle += math.radians(degrees)
 
-    Draw.poly(points, Color.black, fill=Color.red)
+    Draw.queue_poly(points, Color.black, fill=Color.red)
 
 
 width, height = 50, 50

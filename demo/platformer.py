@@ -6,7 +6,7 @@ Requires rubato 2.1.0 or later.
 import rubato as rb
 
 # initialize a new game
-rb.init(name="Platformer Demo", window_size=rb.Vector(960, 540), res=rb.Vector(1920, 1080))
+rb.init(name="Platformer Demo", res=rb.Vector(1920, 1080))
 
 # Change the global debug level
 # rb.Game.debug = True
@@ -208,7 +208,8 @@ def update():
 # define a custom fixed update function
 def fixed_update():
     # have the camera follow the player
-    camera_ideal = max(0, min(player.pos.x - rb.Display.res.x / 4, level_size - rb.Display.res.x))
+    camera_ideal = rb.Math.clamp(player.pos.x + rb.Display.res.x / 4, rb.Display.center.x,
+                                 level_size - rb.Display.res.x / 2)
     rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
 
 
@@ -228,6 +229,12 @@ def handle_keydown(event):
         elif jumps == 1:
             p_animation.set_current_state("somer", True)
         jumps -= 1
+    if event["key"] == "1":
+        rb.Game.camera.zoom = 1
+    if event["key"] == "2":
+        rb.Game.camera.zoom = 2
+    if event["key"] == "3":
+        rb.Game.camera.zoom = .5
 
 
 rb.Radio.listen("KEYDOWN", handle_keydown)

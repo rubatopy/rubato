@@ -10,6 +10,7 @@ import sdl2
 
 @dataclass(order=True)
 class DelayedTask:
+    """A task that is run after a specified number of milliseconds."""
     delay: int
     task: Callable = field(compare=False)
     is_stopped: bool = field(default=False, compare=False)
@@ -20,6 +21,7 @@ class DelayedTask:
 
 @dataclass(order=True)
 class FramesTask:
+    """A task that is run after a specified number of frames."""
     delay: int
     task: Callable = field(compare=False)
     is_stopped: bool = field(default=False, compare=False)
@@ -30,6 +32,7 @@ class FramesTask:
 
 @dataclass(order=True)
 class ScheduledTask:
+    """A task that is run every specified number of milliseconds."""
     interval: int = field(compare=False)
     task: Callable = field(compare=False)
     delay: int = field(default=0)

@@ -44,6 +44,31 @@ Each event gives a dictionary with the following information:
         "mods": int, # The code for the currently pressed modifiers. (can be processed with Input.mods_from_code)
     }
 
+************
+Mouse Events
+************
+
+There are 2 key events that are broadcast.
+
+.. code-block:: python
+
+    MOUSEUP = "MOUSEUP"  # Fired when a mouse button is released
+    MOUSEDOWN = "MOUSEDOWN"  # Fired when a mouse button is pressed
+
+Each event gives a dictionary with the following information:
+
+.. code-block:: python
+
+    {
+        "mouse_button": str,
+        "x": event.button.x,
+        "y": event.button.y,
+        "clicks": event.button.clicks,
+        "which": event.button.which,
+        "windowID": event.button.windowID,
+        "timestamp": event.button.timestamp,
+    }
+
 *************
 Window Events
 *************

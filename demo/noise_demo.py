@@ -10,7 +10,7 @@ import rubato as rb
 rb.init(
     name="Perlin Test",
     res=rb.Vector(480, 270),
-    window_size=rb.Vector(960, 540),
+    size=rb.Vector(960, 540),
 )
 
 main_scene = rb.Scene()
@@ -37,7 +37,7 @@ for x in range(rb.Display.res.x):
 def draw():
     for i in range(rb.Display.res.x):
         for j in range(rb.Display.res.y):
-            rb.Draw.point(saved[i][j][0], color=saved[i][j][1])
+            rb.Draw.queue_point(saved[i][j][0], color=saved[i][j][1])
 
 
 main_scene.draw = draw

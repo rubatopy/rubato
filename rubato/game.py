@@ -3,13 +3,13 @@ The main game module. It controls everything in the game.
 """
 from __future__ import annotations
 import sys
-import sdl2, sdl2.ext, sdl2.sdlttf
+import sdl2, sdl2.sdlttf
 from typing import TYPE_CHECKING
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera
 
 if TYPE_CHECKING:
-    from . import SceneManager, Camera
+    from . import SceneManager
 
 
 class GameProperties(type):
@@ -50,7 +50,7 @@ class GameProperties(type):
         Note:
             Returns a pointer to the current camera object.
             This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.scenes.current.camera <rubato.classes.scene.Scene.camera>` to access the camera directly.
+            use :func:`Game.scenes.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
 
         Returns:
             Camera: The current scene's camera
@@ -84,26 +84,36 @@ class Game(metaclass=GameProperties):
     initialized = False
 
     @classmethod
+    def quit(cls):
+        """Quit the game and close the python process."""
+        Radio.broadcast(Events.EXIT)
+        cls.state = cls.STOPPED
+        sys.stdout.flush()
+        sdl2.sdlttf.TTF_Quit()
+        sdl2.SDL_Quit()
+        sys.exit()
+
+    @classmethod
     def constant_loop(cls):  # test: skip
         """
         The constant game loop. Should only be called by :meth:`rubato.begin`.
         """
         cls.state = cls.RUNNING
         try:
-            while True:
-                cls.update()
-        except PrintError as e:
-            raise e
+            cls.update()
         except KeyboardInterrupt:
-            Radio.broadcast(Events.EXIT)
-            sdl2.sdlttf.TTF_Quit()
-            sdl2.SDL_Quit()
-            sys.exit()
+            cls.quit()
+        except PrintError as e:
+            sys.stdout.flush()
+            raise e
         except (Exception,) as e:  # add possible exceptions here if there are more needed
+            sys.stdout.flush()
             raise type(e)(
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
                 "https://github.com/rubatopy/rubato/issues"
             ).with_traceback(sys.exc_info()[2])
+        finally:
+            sys.stdout.flush()
 
     @classmethod
     def update(cls):  # test: skip
@@ -112,49 +122,50 @@ class Game(metaclass=GameProperties):
         Handles the game states.
         Will always process timed calls.
         """
-        # start timing the update loop
-        Time._frame_start = Time.now()  # pylint: disable= protected-access
+        while True:
+            # start timing the update loop
+            Time._frame_start = Time.now()  # pylint: disable= protected-access
 
-        # Event handling
-        Radio.pump()
+            # Event handling
+            if Radio.pump():
+                cls.quit()
 
-        # process delayed calls
-        Time.process_calls()
+            # process delayed calls
+            Time.process_calls()
 
-        if cls.state == Game.PAUSED:
-            # process user set pause update
-            cls.scenes.paused_update()
-        else:
-            # normal update
-            cls.scenes.update()
+            if cls.state == Game.PAUSED:
+                # process user set pause update
+                cls.scenes.paused_update()
+            else:
+                # normal update
+                cls.scenes.update()
 
-            # fixed update
-            Time.physics_counter += Time.delta_time
+                # fixed update
+                Time.physics_counter += Time.delta_time
 
-            while Time.physics_counter >= Time.fixed_delta:
-                if cls.state != Game.PAUSED:
-                    cls.scenes.fixed_update()
-                Time.physics_counter -= Time.fixed_delta
+                while Time.physics_counter >= Time.fixed_delta:
+                    if cls.state != Game.PAUSED:
+                        cls.scenes.fixed_update()
+                    Time.physics_counter -= Time.fixed_delta
 
-        cls.scenes.draw()
+            cls.scenes.draw()
 
-        if cls.show_fps:
-            Debug.draw_fps(cls.debug_font)
+            if cls.show_fps:
+                Debug.draw_fps(cls.debug_font)
 
-        # update renderers
-        Display.renderer.present()
+            # update renderers
+            Display.renderer.present()
 
-        # use delay to cap the fps if need be
-        if Time.capped:
-            delay = Time.normal_delta - (1000 * Time.delta_time)
-            if delay > 0:
-                sdl2.SDL_Delay(int(delay))
+            # use delay to cap the fps if need be
+            if Time.capped:
+                delay = Time.normal_delta - (1000 * Time.delta_time)
+                if delay > 0:
+                    sdl2.SDL_Delay(int(delay))
 
-        # dont allow updates to occur more than once in a millisecond
-        # this will likely never occur but is a failsafe
-        while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
-            sdl2.SDL_Delay(1)
+            # dont allow updates to occur more than once in a millisecond
+            # this will likely never occur but is a failsafe
+            while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
+                sdl2.SDL_Delay(1)
 
-        # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.frame_start) / 1000  \
-            # pylint: disable= comparison-with-callable
+            # clock the time the update call took
+            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable

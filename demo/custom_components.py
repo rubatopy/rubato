@@ -5,7 +5,7 @@ import rubato as rb
 from rubato import Vector
 
 size = Vector(300, 200)
-rb.init(res=size, window_size=size * 2)
+rb.init(res=size, size=size * 2)
 
 main_scene = rb.Scene()
 
@@ -54,7 +54,7 @@ class PlayerController(rb.Component):
         print(f"Hello! My name is {self.name}.")
 
 
-player = rb.GameObject("Player", pos=rb.Display.center)
+player = rb.GameObject(name="Player", pos=rb.Display.center)
 player.add(rb.Circle(radius=10, color=rb.Color.red))
 player.add(PlayerController("Bob"))
 

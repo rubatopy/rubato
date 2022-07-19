@@ -1,0 +1,65 @@
+name: Nightly Build
+
+on:
+    push:
+        branches:
+            - "main"
+
+jobs:
+    docs:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+            - uses: actions/setup-python@v2
+              with:
+                  python-version: "3.10"
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install .[docs]
+
+            - name: Build Docs
+              run: (cd docs && make save)
+
+            - name: Transfer Docs to gh-pages
+              run: |
+                  cp -r docs/build/html nightly
+                  cp -r docs/blog blog
+                  cp docs/index.html index.html
+                  cp docs/404.html 404.html
+                  cp docs/sitemap_gen.py sitemap_gen.py
+                  git add .
+                  git stash push
+                  git fetch
+                  git checkout gh-pages
+                  git pull
+                  rm -rf docs
+                  git rm -rf nightly
+                  git rm -rf blog
+                  git rm -f index.html
+                  git rm -f 404.html
+                  git rm -f sitemap_gen.py
+                  git stash pop
+
+            - name: Build Sitemap
+              run: python sitemap_gen.py
+
+            - name: Commit files
+              run: |
+                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git config --local user.name "github-actions[bot]"
+                  if [[ `git status --porcelain` ]]; then
+                    git add .
+                    git commit -m "Build Docs" -a
+                  fi
+
+            - name: Push changes
+              uses: ad-m/github-push-action@master
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: gh-pages
