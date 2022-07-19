@@ -7,7 +7,6 @@ import math, random
 
 from . import Math, raise_operator_error
 
-
 class Vector:
     """
     A Vector object that defines a 2D point in space
