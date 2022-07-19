@@ -11,15 +11,13 @@ jobs:
         env:
             LOCATION: "temp/${{ github.event.pull_request.number }}"
         steps:
-            - name: Update Comment
-              uses: actions-cool/maintain-one-comment@v2
+            - name: Comment PR
+              uses: thollander/actions-comment-pull-request@v1
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  body: |
+                  message: |
                       Docs will be available soon.
                       <!-- DO NOT DELETE THIS COMMENTED LINE. -->
-                  emojis: ""
-                  body-include: "<!-- DO NOT DELETE THIS COMMENTED LINE. -->"
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - uses: actions/checkout@v2
               with:
@@ -73,12 +71,11 @@ jobs:
               run: sleep 2m 30s
               shell: bash
 
-            - name: Update Comment
-              uses: actions-cool/maintain-one-comment@v2
+            - name: Edit PR comment
+              uses: thollander/actions-comment-pull-request@v1
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  body: |
+                  message: |
                       Docs are available [here](https://rubato.app/${{ env.LOCATION }}).
-                      <!-- single comment -->
-                  emojis: "+1"
-                  body-include: "<!-- single comment -->"
+                      <!-- DO NOT DELETE THIS COMMENTED LINE. -->
+                  comment_includes: "<!-- DO NOT DELETE THIS COMMENTED LINE. -->"
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
