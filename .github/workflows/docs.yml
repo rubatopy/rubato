@@ -69,11 +69,9 @@ jobs:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   branch: gh-pages
 
-            - uses: SFDigitalServices/wait-for-deployment-action@v2
-              with:
-                  github-token: ${{ github.token }}
-                  timeout: 300
-                  environment: github-pages
+            - name: Wait for deployment
+              run: sleep 2m 30s
+              shell: bash
 
             - name: Update Comment
               uses: actions-cool/maintain-one-comment@v2
