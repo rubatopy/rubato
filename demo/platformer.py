@@ -6,7 +6,10 @@ Requires rubato 2.1.0 or later.
 import rubato as rb
 
 # initialize a new game
-rb.init(name="Platformer Demo", res=rb.Vector(1920, 1080))
+rb.init(
+    name="Platformer Demo",  # Set a name
+    res=rb.Vector(1920, 1080),  # Increase the window resolution
+)
 
 # Change the global debug level
 # rb.Game.debug = True
@@ -125,8 +128,10 @@ obstacles = [
     )),
 ]
 
-# create triggers
+for obstacle in obstacles:
+    obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
 
+# create triggers
 triggers = [
     rb.GameObject(pos=rb.Vector(950, rb.Display.bottom -
                                 45),).add(rb.Rectangle(
@@ -136,9 +141,6 @@ triggers = [
                                     trigger=True,
                                 )),
 ]
-
-for obstacle in obstacles:
-    obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
 
 # Create animation for portal
 all_portal_images = rb.Spritesheet(
@@ -208,8 +210,9 @@ def update():
 # define a custom fixed update function
 def fixed_update():
     # have the camera follow the player
-    camera_ideal = rb.Math.clamp(player.pos.x + rb.Display.res.x / 4, rb.Display.center.x,
-                                 level_size - rb.Display.res.x / 2)
+    camera_ideal = rb.Math.clamp(
+        player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x / 2
+    )
     rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
 
 

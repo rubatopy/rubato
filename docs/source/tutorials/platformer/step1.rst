@@ -58,7 +58,6 @@ Replace the previous :code:`rb.init()` call with this:
     # initialize a new game
     rb.init(
         name="Platformer Demo",  # Set a name
-        window_size=rb.Vector(960, 540),  # Set the window size
         res=rb.Vector(1920, 1080),  # Increase the window resolution
     )
 
@@ -86,7 +85,6 @@ Here is what your main.py should look like:
     # initialize a new game
     rb.init(
         name="Platformer Demo",  # Set a name
-        window_size=rb.Vector(960, 540),  # Set the window size
         res=rb.Vector(1920, 1080),  # Increase the window resolution
     )
 
