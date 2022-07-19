@@ -73,7 +73,6 @@ jobs:
               with:
                   github-token: ${{ github.token }}
                   timeout: 300
-                  environment: github-pages
 
             - name: Update Comment
               uses: actions-cool/maintain-one-comment@v2
