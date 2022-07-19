@@ -1,6 +1,9 @@
 name: Docs
 
-on: [push]
+on:
+    push:
+        branches-ignore:
+            - main
 
 jobs:
     docs:
@@ -80,4 +83,4 @@ jobs:
             - name: Create commit comment
               uses: peter-evans/commit-comment@v2
               with:
-                  body: Docs for this commit are [here](https://rubato.app/temp/${{ github.event.after }})
+                  body: Docs for this commit are [here](https://rubato.app/temp/${{ github.event.after }}). Please wait 3 minutes for the docs to be deployed.
