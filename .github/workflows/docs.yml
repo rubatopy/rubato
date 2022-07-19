@@ -49,6 +49,9 @@ jobs:
                   git checkout gh-pages
                   git pull
                   rm -rf docs
+                  mkdir -p ${{ env.LOCATION }}
+                  git add .
+                  git rm -rf ${{ env.LOCATION }}
                   git stash pop
 
             - name: Commit files
