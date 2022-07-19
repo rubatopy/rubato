@@ -6,6 +6,7 @@ on:
             - "main"
     pull_request:
         types:
+            - edited
             - synchronize
 
 jobs:
