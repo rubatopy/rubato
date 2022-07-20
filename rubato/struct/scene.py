@@ -13,7 +13,8 @@ class Scene:
     A scene is a collection of groups.
 
     Args:
-        name: The name of the scene. This is used to reference the scene from the scene manager. Defaults to "default".
+        name: The name of the scene. This is used to reference the scene. Automatically set if not assigned.
+            Once this is set, it cannot be changed.
         background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
         border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
 
@@ -22,14 +23,13 @@ class Scene:
         ui (Group): The ui elements of this scene. These are drawn on top of everything else and do not interact with
             the other game objects.
         camera (Camera): The camera of this scene.
-        id (str): The id of this scene.
         border_color: The color of the border of the window.
         background_color: The color of the background of the window.
     """
 
     def __init__(
         self,
-        name: str = "default",
+        name: str | None = None,
         background_color: Color = Color(255, 255, 255),
         border_color: Color = Color(),
     ):
@@ -37,12 +37,25 @@ class Scene:
         self.ui: Group = Group(name="ui")
         self.camera = Camera()
         self._ui_cam = Camera()
-        self.id: str = name
+        self._id: str | None = name
         self.started = False
         self.border_color = border_color
         self.background_color = background_color
 
-        Game.scenes.add(self, name)
+        Game._add(self)
+
+    @property
+    def name(self) -> str:
+        """
+        The name of this scene. Get-only.
+        """
+        return self._id
+
+    def switch(self):
+        """
+        Switches to this scene.
+        """
+        Game.set_scene(self.name)
 
     def add(self, *items: GameObject | Group):
         """
@@ -90,7 +103,7 @@ class Scene:
             This is a relatively expensive operation as it clones every group in the scene.
         """
         new_scene = Scene(
-            name=f"{self.id} (clone)",
+            name=f"{self.name} (clone)",
             background_color=self.background_color,
             border_color=self.border_color
         )
@@ -111,6 +124,12 @@ class Scene:
         self.update()
         self.root.update()
         self.ui.update()
+
+    def private_paused_update(self):
+        if not self.started:
+            self.private_setup()
+
+        self.paused_update()
 
     def private_fixed_update(self):
         self.fixed_update()

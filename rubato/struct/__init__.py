@@ -5,4 +5,3 @@ from .sprite import Sprite
 from .gameobject import *
 from .group import Group
 from .scene import Scene
-from .scene_manager import SceneManager

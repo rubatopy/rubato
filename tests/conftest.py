@@ -30,4 +30,4 @@ def rub():
     yield
     sdl2.sdlttf.TTF_Quit()
     sdl2.SDL_Quit()
-    rubato.Game.initialized = False
+    rubato.Game._initialized = False
