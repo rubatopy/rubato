@@ -47,7 +47,7 @@ class Scene:
     @property
     def name(self) -> str:
         """
-        The name of this scene. Get-only.
+        The name of this scene. Read-only.
         """
         return self._id
 
