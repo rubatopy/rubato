@@ -147,8 +147,6 @@
 -   Changed default physics fps to 30.
 -   `Polygon.generate_polygon()` can now takes an optional `options` parameter. When set, it returns a `Polygon` instead of a list of vertices.
 -   Move basic draw functions from `Display` to `Draw`.
--   `SceneManager` is now a static class. Can still be referenced from `Game.scenes`.
--   `Scene` can now be created with a `name` parameter and will be automatically added to the `SceneManager`.
 
 ### Removed
 
