@@ -5,30 +5,36 @@ Step 2 - Creating a Player
 Welcome to the second part of making a platformer in rubato. In this step, we will be building a simple
 animated character.
 
-At this point, you should have a window drawing with a cyan background.
+At this point, you should have a black window with a resolution of 1920 by 1080 pixels.
 
-First, we need to understand how rubato is structured (we will explain it first, then walk you
-through it). rubato has 4 levels: Scenes, Groups, Game Objects, and Components.
+First, we need to understand the rubato heirarchy (we'll explain it first, then walk you
+through it). rubato has 4 levels of structure, in order: Scenes, Groups, Game Objects, and Components.
 
-:func:`Scenes <rubato.struct.scene.Scene>` hold 2 Groups. One for UI and one for all the other Game Objects. It also manages a
-:func:`Camera <rubato.utils.camera.Camera>`. We use Scenes to separate code. For example,
-you could have each game level on a different scene. Then to switch levels, you would switch scenes.
-Every game has a :func:`Scene Manager <rubato.struct.scene_manager.SceneManager>` which helps you switch between scenes
-easily.
+:func:`Scenes <rubato.struct.scene.Scene>` hold 2 Groups. One for menu items (the UI) and 
+one for the main Game Objects. It also manages a :func:`Camera <rubato.utils.camera.Camera>`. 
+We use Scenes to separate different sections of a game. For example, you could have each game 
+level in a different scene. Then to move between levels, you would simply switch scenes, and rubato will 
+automatically change which scene is updated and drawn to the window. Every game has a 
+:func:`Scene Manager <rubato.struct.scene_manager.SceneManager>` which helps you switch between scenes
+easily (which you can access with ``rb.Game.scenes``).
 
-:func:`Groups <rubato.struct.group.Group>` also hold a collection of Game Objects and other Groups. Their main purpose
-is to separate items further. For example, items in 2 different groups won't collide with each other. We won't use Groups
-in this tutorial as we don't need this functionality here.
+:func:`Groups <rubato.struct.group.Group>` are the next layer down. They can hold either Game Objects or other Groups. 
+Their main purpose is divide different "groups" of items (hence the name!). For example, 
+items in 2 different groups won't automatically collide with each other, but items sharing a Group will. 
+We won't explicitly use Groups in this tutorial as want everything in our level to interact with one another.
 
-:func:`Game Objects <rubato.struct.gameobject.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
-have a z-index. By themselves, they have very little functionality.
+:func:`Game Objects <rubato.struct.gameobject.game_object.GameObject>` are the main objects in a game. 
+They represent a "thing", such as a player, or an enemy, or a platform. Their behavior is almost entirely 
+determined by the Components that are assigned to them. Game Objects have a position and a z-index.
 
-:func:`Components <rubato.struct.component.Component>` are how Game Objects get their functionality. Each component adds or
-changes something about the Game Object. For example, an Image component draws an image from your filesystem to the game at the
-Game Object's position.
+:func:`Components <rubato.struct.gameobject.component.Component>` are lightweight "modules" that add to the behavior of a Game Object.
+For example, an Image component draws an image from your filesystem to the game at the Game Object's position. A RigidBody 
+component registers the Game Object into the built-in physics engine. A Hitbox component gives a Game Object shape.
 
-Ok now let's see this in action. Let's create a scene and add it to our game right after :code:`rb.init()` but before
-:code:`rb.begin()`.
+If this explanation was confusing, it'll hopefully make more sense seeing this system in action. 
+Let's create a scene and add it to our game right after :code:`rb.init()` but before
+:code:`rb.begin()`. Note that we don't have to worry about adding it to the SceneManager, 
+that all happens automatically when you create a scene.
 
 .. code-block:: python
 
