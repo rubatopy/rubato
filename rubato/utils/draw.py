@@ -24,13 +24,13 @@ class Draw:
     _queue: List[DrawTask] = []
 
     @classmethod
-    def clear(cls, border_color: Color, background_color: Color):
+    def clear(cls, border_color: Color = Color.black, background_color: Color = Color.white):
         """Clears the renderer and draws the background of the frame.
 
         Args:
-            border_color (Color): The border color.
+            border_color (Color): The border color. Defaults to black.
                 Shown when the aspect ratio of the game does not match the aspect ratio of the window.
-            background_color (Color): The background color.
+            background_color (Color): The background color. Defaults to white.
         """
         Display.renderer.clear(border_color.to_tuple())
         Display.renderer.fill(

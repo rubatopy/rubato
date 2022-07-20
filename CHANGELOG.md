@@ -12,6 +12,7 @@
 -   Some setup, draw, and update methods deprecated in some classes.
 -   Camera position is now where it looks at. ie. default camera position is now `Display.center`.
 -   Reorder constructor parameters for most classes.
+-   Removed `Game.scenes`, moving most `SceneManager` code into `Game`.
 
 ### Added
 
@@ -27,6 +28,7 @@
 -   Support for operations with Vectors using tuples and lists, meaning less objects need to be created.
     (note that no length checking occurs, so make sure your tuples and lists are of length 2).
 -   `raise_operator_error()` function to raise an error about an operator in a Pythonic style.
+-   `Scene.switch()` instance method that allows users to switch to a scene without calling `Game.set_scene(scene_id)`
 
 ### Changed
 
@@ -145,8 +147,6 @@
 -   Changed default physics fps to 30.
 -   `Polygon.generate_polygon()` can now takes an optional `options` parameter. When set, it returns a `Polygon` instead of a list of vertices.
 -   Move basic draw functions from `Display` to `Draw`.
--   `SceneManager` is now a static class. Can still be referenced from `Game.scenes`.
--   `Scene` can now be created with a `name` parameter and will be automatically added to the `SceneManager`.
 
 ### Removed
 
