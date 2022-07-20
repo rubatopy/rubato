@@ -4,13 +4,12 @@ The main game module. It controls everything in the game.
 from __future__ import annotations
 import sys
 import sdl2, sdl2.sdlttf
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera
+from . import Time, Display, Draw, Debug, Radio, Events, Font, PrintError, Camera, IdError
 
 if TYPE_CHECKING:
-    from . import SceneManager
-
+    from . import Scene
 
 class GameProperties(type):
     """
@@ -50,12 +49,12 @@ class GameProperties(type):
         Note:
             Returns a pointer to the current camera object.
             This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.scenes.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
+            use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
 
         Returns:
             Camera: The current scene's camera
         """
-        return cls.scenes.current.camera
+        return cls.current.camera
 
 
 # THIS IS A STATIC CLASS
@@ -65,8 +64,9 @@ class Game(metaclass=GameProperties):
 
     Attributes:
         name (str): The title of the game window.
-        scenes (SceneManager): The global scene manager.
-        debug (bool): Turn on debug rendering for everything in the game.
+        debug (bool): Whether to use debug-mode.
+        show_fps (bool): Whether to show fps.
+        debug_font (Font): What font to draw debug text in.
     """
     RUNNING = 1
     STOPPED = 2
@@ -79,9 +79,57 @@ class Game(metaclass=GameProperties):
     debug_font: Font
 
     _state: int = STOPPED
-    scenes: SceneManager = None
 
-    initialized = False
+    _initialized = False
+
+    _scenes: Dict[str, Scene] = {}
+    _scene_id : int = 0
+    _current: str = ""
+
+    @classmethod
+    @property
+    def current(cls) -> Scene:
+        """
+        The current scene. Get-only.
+
+        Returns:
+            The current scene.
+        """
+        return cls._scenes.get(cls._current)
+
+    @classmethod
+    def set_scene(cls, scene_id: str):
+        """
+        Changes the current scene.
+
+        Args:
+            scene_id (str): The id of the new scene.
+        """
+        cls._current = scene_id
+
+    @classmethod
+    def _add(cls, scene: Scene):
+        """
+        Add a scene to the game. Also set the current scene if this is the first added scene.
+
+        Args:
+            scene (Scene): The scene to add.
+            scene_id (str): The id of the scene.
+
+        Raises:
+            IdError: The given scene id is already used.
+        """
+        if scene.name is None:
+            scene._id = "scene" + str(cls._scene_id) # pylint: disable=protected-access
+
+        if scene.name in cls._scenes:
+            raise IdError(f"A scene with name '{scene.name}' has already been added.")
+
+        if not cls._scenes:
+            cls.set_scene(scene.name)
+
+        cls._scenes[scene.name] = scene
+        cls._scene_id += 1
 
     @classmethod
     def quit(cls):
@@ -133,22 +181,25 @@ class Game(metaclass=GameProperties):
             # process delayed calls
             Time.process_calls()
 
-            if cls.state == Game.PAUSED:
-                # process user set pause update
-                cls.scenes.paused_update()
+            if cls.current is not None:
+                if cls.state == Game.PAUSED:
+                    # process user set pause update
+                    cls.current.private_paused_update()
+                else:
+                    # normal update
+                    cls.current.private_update()
+
+                    # fixed update
+                    Time.physics_counter += Time.delta_time
+
+                    while Time.physics_counter >= Time.fixed_delta:
+                        if cls.state != Game.PAUSED:
+                            cls.current.private_fixed_update()
+                        Time.physics_counter -= Time.fixed_delta
+
+                cls.current.private_draw()
             else:
-                # normal update
-                cls.scenes.update()
-
-                # fixed update
-                Time.physics_counter += Time.delta_time
-
-                while Time.physics_counter >= Time.fixed_delta:
-                    if cls.state != Game.PAUSED:
-                        cls.scenes.fixed_update()
-                    Time.physics_counter -= Time.fixed_delta
-
-            cls.scenes.draw()
+                Draw.clear()
 
             if cls.show_fps:
                 Debug.draw_fps(cls.debug_font)

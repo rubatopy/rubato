@@ -25,7 +25,6 @@ def test_state(monkeypatch):
     push_event.assert_called_once()
 
 
-def test_camera(scene):
-    # pylint: disable=unused-argument
-    Game.scenes.add(scene, "main")
-    assert Game.camera == Game.scenes.current.camera
+def test_camera():
+    Scene()
+    assert Game.camera == Game.current.camera

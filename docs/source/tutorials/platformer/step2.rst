@@ -14,9 +14,7 @@ through it). rubato has 4 levels of structure, in order: Scenes, Groups, Game Ob
 one for the main Game Objects. It also manages a :func:`Camera <rubato.utils.camera.Camera>`. 
 We use Scenes to separate different sections of a game. For example, you could have each game 
 level in a different scene. Then to move between levels, you would simply switch scenes, and rubato will 
-automatically change which scene is updated and drawn to the window. Every game has a 
-:func:`Scene Manager <rubato.struct.scene_manager.SceneManager>` which helps you switch between scenes
-easily (which you can access with ``rb.Game.scenes``).
+automatically change which scene is updated and drawn to the window.
 
 :func:`Groups <rubato.struct.group.Group>` are the next layer down. They can hold either Game Objects or other Groups. 
 Their main purpose is divide different "groups" of items (hence the name!). For example, 
