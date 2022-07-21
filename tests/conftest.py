@@ -25,7 +25,7 @@ def rub():
         window_size=Vector(200, 100),
         res=Vector(400, 200),
         hidden=True,
-        pos=Vector(0, 0),
+        window_pos=Vector(0, 0),
     )
     yield
     sdl2.sdlttf.TTF_Quit()

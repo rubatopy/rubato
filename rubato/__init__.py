@@ -40,7 +40,7 @@ def init(
     name: str = "Untitled Rubato App",
     res: Vector = Vector(1080, 1080),
     window_size: Vector | None = None,
-    pos: Vector | None = None,
+    window_pos: Vector | None = None,
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
@@ -55,7 +55,7 @@ def init(
         res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
         window_size: The size of the window, cast to int Vector. When not set, defaults to half the resolution.
             This is usually the sweet spot between performance and image quality.
-        pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
+        window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
         icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
         fullscreen: Whether the game should be fullscreen. Can be one of "off", "desktop", or "exclusive".
@@ -85,11 +85,11 @@ def init(
     else:
         flags |= sdl2.SDL_WINDOW_SHOWN
 
-    pos, change_pos = (pos, True) if pos else (None, False)
+    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
     res = res.to_int()
     size = res//2 if not window_size else window_size.to_int()
 
-    Display.window = sdl2.ext.Window(name, size.to_tuple(), pos.to_tuple() if pos else None, flags)
+    Display.window = sdl2.ext.Window(name, size.to_tuple(), window_pos.to_tuple() if window_pos else None, flags)
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.to_tuple()
