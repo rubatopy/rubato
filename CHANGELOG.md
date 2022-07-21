@@ -41,6 +41,7 @@
 -   Default border color in draw functions from `Color.green` to `Color.clear`
 -   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index.
     (replace {thing} with the draw function of your choice)
+-   Switching scenes now only takes effect on the next frame.
 
 ### Removed
 
