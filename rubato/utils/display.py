@@ -201,8 +201,8 @@ class Display(metaclass=DisplayProperties):
             (
                 pos.x,
                 pos.y,
-                w if w % 2 else w + 1,
-                h if h % 2 else h + 1
+                w+1 if w % 2 else w,
+                h+1 if h % 2 else h
             ),
         )
 
