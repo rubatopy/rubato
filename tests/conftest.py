@@ -22,12 +22,12 @@ def rub():
     """Initialize Rubato"""
     # pylint: disable=unused-argument
     rubato.init(
-        size=Vector(200, 100),
+        window_size=Vector(200, 100),
         res=Vector(400, 200),
         hidden=True,
-        pos=Vector(0, 0),
+        window_pos=Vector(0, 0),
     )
     yield
     sdl2.sdlttf.TTF_Quit()
     sdl2.SDL_Quit()
-    rubato.Game._initialized = False
+    rubato.Game._initialized = False  # pylint: disable=protected-access

@@ -100,7 +100,7 @@ class Game(metaclass=GameProperties):
     @classmethod
     def set_scene(cls, scene_id: str):
         """
-        Changes the current scene.
+        Changes the current scene. Takes effect on the next frame.
 
         Args:
             scene_id (str): The id of the new scene.
@@ -181,23 +181,23 @@ class Game(metaclass=GameProperties):
             # process delayed calls
             Time.process_calls()
 
-            if cls.current is not None:
+            if curr := cls.current:
                 if cls.state == Game.PAUSED:
                     # process user set pause update
-                    cls.current.private_paused_update()
+                    curr.private_paused_update()
                 else:
                     # normal update
-                    cls.current.private_update()
+                    curr.private_update()
 
                     # fixed update
                     Time.physics_counter += Time.delta_time
 
                     while Time.physics_counter >= Time.fixed_delta:
                         if cls.state != Game.PAUSED:
-                            cls.current.private_fixed_update()
+                            curr.private_fixed_update()
                         Time.physics_counter -= Time.fixed_delta
 
-                cls.current.private_draw()
+                curr.private_draw()
             else:
                 Draw.clear()
 

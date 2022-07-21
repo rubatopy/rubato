@@ -4,7 +4,7 @@ import math
 
 init(
     name="drawings",
-    size=Vector(500, 500),
+    window_size=Vector(500, 500),
     res=Vector(500, 500),
     target_fps=24,
     icon="",
