@@ -40,14 +40,19 @@ jobs:
                   pip install build twine
             - name: Build
               run: python -m build
+
+            - name: Assign variable
+              id: secret
+              run: echo '::set-output name=secret::${{secrets.SECRET}}'
+
             - name: Publish to PyPI
-              if: ${{ inputs.publishPassword }} == ${{ secrets.publishPassword }} && ${{ inputs.pypiRepo }} == 'main'
+              if: ${{ inputs.publishPassword }} == steps.secret.outputs.secret && ${{ inputs.pypiRepo }} == 'main'
               uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
                   password: ${{ secrets.PYPI_API_TOKEN }}
             - name: Publish to TestPyPI
-              if: ${{ inputs.publishPassword }} == ${{ secrets.publishPassword }} && ${{ inputs.pypiRepo }} == 'test'
+              if: ${{ inputs.publishPassword }} == steps.secret.outputs.secret && ${{ inputs.pypiRepo }} == 'test'
               uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
