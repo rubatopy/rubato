@@ -38,17 +38,17 @@ def test_init(monkeypatch):
     set_icon = Mock()
     monkeypatch.setattr(rubato.Display, "set_window_icon", set_icon)
 
-    assert rubato.Game._initialized is False
+    assert rubato.Game._initialized is False  # pylint: disable=protected-access
     rubato.init(
         name="Untitled Game",
-        size=rubato.Vector(360, 360),
+        window_size=rubato.Vector(360, 360),
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,
         icon="",
         hidden=False,
     )
-    assert rubato.Game._initialized is True
+    assert rubato.Game._initialized is True  # pylint: disable=protected-access
     assert rubato.Game.state == rubato.Game.STOPPED
 
     assert rubato.Time.target_fps == 60
@@ -61,7 +61,7 @@ def test_init(monkeypatch):
     sdl2.SDL_Quit()
     rubato.init(
         name="Untitled Game",
-        size=rubato.Vector(360, 360),
+        window_size=rubato.Vector(360, 360),
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,

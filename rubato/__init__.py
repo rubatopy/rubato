@@ -39,7 +39,7 @@ from .misc import world_mouse, wrap
 def init(
     name: str = "Untitled Rubato App",
     res: Vector = Vector(1080, 1080),
-    size: Vector | None = None,
+    window_size: Vector | None = None,
     pos: Vector | None = None,
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
@@ -53,7 +53,7 @@ def init(
     Args:
         name: The title that appears at the top of the window. Defaults to "Untitled Rubato App".
         res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
-        size: The size of the window, cast to int Vector. When not set, defaults to half the resolution.
+        window_size: The size of the window, cast to int Vector. When not set, defaults to half the resolution.
             This is usually the sweet spot between performance and image quality.
         pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
@@ -87,7 +87,7 @@ def init(
 
     pos, change_pos = (pos, True) if pos else (None, False)
     res = res.to_int()
-    size = res//2 if not size else size.to_int()
+    size = res//2 if not window_size else window_size.to_int()
 
     Display.window = sdl2.ext.Window(name, size.to_tuple(), pos.to_tuple() if pos else None, flags)
 
