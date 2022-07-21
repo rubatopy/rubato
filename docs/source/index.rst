@@ -18,4 +18,5 @@
     :hidden:
     :glob:
 
+    tutorials/platformer/index
     tutorials/advanced/*
