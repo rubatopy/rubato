@@ -13,4 +13,7 @@ def package_files(directory):
 
 extra_files = package_files("rubato/static")
 
-setup(package_data={"rubato": extra_files})
+if "RUBATO_VERSION_NUMBER" in os.environ:
+    setup(version=os.environ["RUBATO_VERSION_NUMBER"], package_data={"rubato": extra_files})
+else:
+    setup(version="0.0.0.dev0", package_data={"rubato": extra_files})
