@@ -10,7 +10,7 @@ import rubato as rb
 rb.init(
     name="Perlin Test",
     res=rb.Vector(480, 270),
-    size=rb.Vector(960, 540),
+    window_size=rb.Vector(960, 540),
 )
 
 main_scene = rb.Scene()

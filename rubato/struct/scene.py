@@ -53,7 +53,7 @@ class Scene:
 
     def switch(self):
         """
-        Switches to this scene.
+        Switches to this scene on the next frame.
         """
         Game.set_scene(self.name)
 
