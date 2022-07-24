@@ -34,6 +34,11 @@ jobs:
                   cp docs/404.html 404.html
                   cp docs/sitemap_gen.py sitemap_gen.py
 
+            - name: Prep Git
+              run: |
+                  git config --global user.email "martin.chapino@gmail.com"
+                  git config --global user.name "Martin Chaperot (Bot)"
+
             - name: Transfer to rubato.app
               run: |
                   rm -rf target
