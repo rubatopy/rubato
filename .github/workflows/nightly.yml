@@ -37,7 +37,7 @@ jobs:
             - name: Transfer to rubato.app
               run: |
                   rm -rf target
-                  git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/rubatopy/rubato.app.git target
+                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/rubato.app.git target
                   cp index.html 404.html sitemap_gen.py target
                   cd target
                   git add .
@@ -47,7 +47,7 @@ jobs:
             - name: Transfer to docs.rubato.app
               run: |
                   rm -rf target
-                  git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/rubatopy/docs.rubato.app.git target
+                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/docs.rubato.app.git target
                   cp -R nightly sitemap_gen.py target
                   cd target
                   git add .
