@@ -47,7 +47,7 @@ jobs:
                   cd target
                   git add .
                   git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
-                  git push target main
+                  git push origin main
 
             - name: Transfer to docs.rubato.app
               run: |
@@ -57,4 +57,4 @@ jobs:
                   cd target
                   git add .
                   git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
-                  git push target main
+                  git push origin main
