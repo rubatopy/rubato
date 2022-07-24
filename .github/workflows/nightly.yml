@@ -39,7 +39,7 @@ jobs:
               env:
                   API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
               with:
-                  source_file: "index.html 404.html sitemap_gen.py"
+                  source_file: index.html 404.html sitemap_gen.py
                   destination_repo: "rubatopy/rubato.app"
                   user_email: "martin.chapino@gmail.com"
                   user_name: "Martin"
@@ -50,7 +50,7 @@ jobs:
               env:
                   API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
               with:
-                  source_file: "nightly/ sitemap_gen.py"
+                  source_file: nightly/ sitemap_gen.py
                   destination_repo: "rubatopy/docs.rubato.app"
                   user_email: "martin.chapino@gmail.com"
                   user_name: "Martin"
