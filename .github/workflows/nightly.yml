@@ -35,23 +35,21 @@ jobs:
                   cp docs/sitemap_gen.py sitemap_gen.py
 
             - name: Transfer to rubato.app
-              uses: dmnemec/copy_file_to_another_repo_action@main
-              env:
-                  API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
-              with:
-                  source_file: index.html 404.html sitemap_gen.py
-                  destination_repo: "rubatopy/rubato.app"
-                  user_email: "martin.chapino@gmail.com"
-                  user_name: "Martin"
-                  commit_message: "Update according to rubato commit ${{ github.sha }}"
+              run: |
+                  rm -rf target
+                  git clone https://.:${{ secrets.GITHUB_TOKEN }}@rubatopy/rubato.app target
+                  cp index.html 404.html sitemap_gen.py target
+                  cd target
+                  git add .
+                  git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
+                  git push target main
 
             - name: Transfer to docs.rubato.app
-              uses: dmnemec/copy_file_to_another_repo_action@main
-              env:
-                  API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
-              with:
-                  source_file: nightly/ sitemap_gen.py
-                  destination_repo: "rubatopy/docs.rubato.app"
-                  user_email: "martin.chapino@gmail.com"
-                  user_name: "Martin"
-                  commit_message: "Update according to rubato commit ${{ github.sha }}"
+              run: |
+                  rm -rf target
+                  git clone https://.:${{ secrets.GITHUB_TOKEN }}@rubatopy/docs.rubato.app target
+                  cp -R nightly sitemap_gen.py target
+                  cd target
+                  git add .
+                  git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
+                  git push target main
