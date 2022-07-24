@@ -26,41 +26,31 @@ jobs:
             - name: Build Docs
               run: (cd docs && make save)
 
-            - name: Transfer Docs to gh-pages
+            - name: Prep files for transfer
               run: |
                   cp -r docs/build/html nightly
-                  cp -r docs/blog blog
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
                   cp docs/sitemap_gen.py sitemap_gen.py
-                  git add .
-                  git stash push
-                  git fetch
-                  git checkout gh-pages
-                  git pull
-                  rm -rf docs
-                  git rm -rf nightly
-                  git rm -rf blog
-                  git rm -f index.html
-                  git rm -f 404.html
-                  git rm -f sitemap_gen.py
-                  git stash pop
 
-            - name: Build Sitemap
-              run: python sitemap_gen.py
-
-            - name: Commit files
-              run: |
-                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git config --local user.name "github-actions[bot]"
-                  if [[ `git status --porcelain` ]]; then
-                    git add .
-                    git commit -m "Build Docs" -a
-                  fi
-
-            - name: Push changes
-              uses: ad-m/github-push-action@master
+            - name: Transfer to rubato.app
+              uses: dmnemec/copy_file_to_another_repo_action@main
+              env:
+                  API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
               with:
-                  github_token: ${{ secrets.MY_GITHUB_TOKEN }}
-                  repository: "rubatopy/docs.rubato.app"
-                  branch: gh-pages
+                  source_file: "index.html 404.html sitemap_gen.py"
+                  destination_repo: "rubatopy/rubato.app"
+                  user_email: "martin.chapino@gmail.com"
+                  user_name: "Martin"
+                  commit_message: "Update according to rubato commit ${{ github.sha }}"
+
+            - name: Transfer to docs.rubato.app
+              uses: dmnemec/copy_file_to_another_repo_action@main
+              env:
+                  API_TOKEN_GITHUB: ${{ secrets.MY_GITHUB_TOKEN }}
+              with:
+                  source_file: "nightly/ sitemap_gen.py"
+                  destination_repo: "rubatopy/docs.rubato.app"
+                  user_email: "martin.chapino@gmail.com"
+                  user_name: "Martin"
+                  commit_message: "Update according to rubato commit ${{ github.sha }}"

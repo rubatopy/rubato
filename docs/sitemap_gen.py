@@ -2,12 +2,12 @@
 from pathlib import PurePath
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import parseString, Document
-from os import walk
+from os import walk, environ
 
-url = "https://rubato.app/"
+url = environ.get("URL", "https://rubato.app/")
 root = ET.Element("urlset", {"xmlns": "http://www.sitemaps.org/schemas/sitemap/0.9"})
 
-ignored_dirs = []
+ignored_dirs = ["temp"]
 ignored_files = ["404.html"]
 
 for path, dirs, files in walk("."):
