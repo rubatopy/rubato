@@ -36,6 +36,7 @@ jobs:
             - name: Install requirements
               run: |
                   pip install --upgrade pip
+                  git submodule update --init --recursive
                   pip install -e .[dev]
                   pip install build twine
             - name: Build
