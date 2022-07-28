@@ -184,7 +184,7 @@ def test_angle_between(v1, v34):
 def test_random(monkeypatch):
     random = Random(1)
     monkeypatch.setattr("rubato.utils.vector.random", random)
-    v = Vector.random_inside_unit_circle()
+    v = Vector.rand_unit_vector()
     assert v.x == 0.7474634342
     assert v.y == -0.6643029539
 

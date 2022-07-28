@@ -42,6 +42,7 @@
 -   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index.
     (replace {thing} with the draw function of your choice)
 -   Switching scenes now only takes effect on the next frame.
+-   Renamed `Vector.random_inside_unit_circle()` to `Vector.rand_unit_vector()`
 
 ### Removed
 

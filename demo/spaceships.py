@@ -45,7 +45,7 @@ class SpaceshipComp(Component):
 
     def update_wander(self):
         self.desired_direction = (self.desired_direction +
-                                  Vector.random_inside_unit_circle() * self.wander).normalized()
+                                  Vector.rand_unit_vector() * self.wander).normalized()
 
         desired_velocity = self.desired_direction * self.speed
         steering_force = (desired_velocity - self.velocity) * self.steer
