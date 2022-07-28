@@ -1,6 +1,7 @@
 name: Nightly Build
 
 on:
+    workflow_dispatch:
     push:
         branches:
             - "main"
@@ -26,40 +27,34 @@ jobs:
             - name: Build Docs
               run: (cd docs && make save)
 
-            - name: Transfer Docs to gh-pages
+            - name: Prep files for transfer
               run: |
                   cp -r docs/build/html nightly
-                  cp -r docs/blog blog
                   cp docs/index.html index.html
                   cp docs/404.html 404.html
                   cp docs/sitemap_gen.py sitemap_gen.py
-                  git add .
-                  git stash push
-                  git fetch
-                  git checkout gh-pages
-                  git pull
-                  rm -rf docs
-                  git rm -rf nightly
-                  git rm -rf blog
-                  git rm -f index.html
-                  git rm -f 404.html
-                  git rm -f sitemap_gen.py
-                  git stash pop
 
-            - name: Build Sitemap
-              run: python sitemap_gen.py
-
-            - name: Commit files
+            - name: Prep Git
               run: |
-                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git config --local user.name "github-actions[bot]"
-                  if [[ `git status --porcelain` ]]; then
-                    git add .
-                    git commit -m "Build Docs" -a
-                  fi
+                  git config --global user.email "martin.chapino@gmail.com"
+                  git config --global user.name "Martin Chaperot (Bot)"
 
-            - name: Push changes
-              uses: ad-m/github-push-action@master
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: gh-pages
+            - name: Transfer to rubato.app
+              run: |
+                  rm -rf target
+                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/rubato.app.git target
+                  cp index.html 404.html sitemap_gen.py target
+                  cd target
+                  git add .
+                  git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
+                  git push origin main
+
+            - name: Transfer to docs.rubato.app
+              run: |
+                  rm -rf target
+                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/docs.rubato.app.git target
+                  cp -R nightly sitemap_gen.py target
+                  cd target
+                  git add .
+                  git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
+                  git push origin main
