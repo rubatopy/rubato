@@ -42,6 +42,8 @@ class Group:
             ValueError: The group can only hold game objects or other groups.
         """
         for item in items:
+            if self.contains(item):
+                raise Error(f"The group {self.name} already contains {item.name}.")
             if isinstance(item, GameObject):
                 self.add_game_obj(item)
             elif isinstance(item, Group):
@@ -150,3 +152,23 @@ class Group:
             new_group.add(game_obj.clone())
 
         return new_group
+
+    def contains(self, other: GameObject | Group) -> bool:
+        """
+        Checks if the group contains the given object.
+
+        Args:
+            other: The object to check for.
+
+        Returns:
+            bool: Whether the group contains the object or not.
+
+        Warnings:
+            shallow check, does not check subgroups.
+        """
+        if isinstance(other, GameObject):
+            return other in self.game_objects
+        elif isinstance(other, Group):
+            return other in self.groups
+        else:
+            raise ValueError(f"The group {self.name} can only hold game objects/groups.")
