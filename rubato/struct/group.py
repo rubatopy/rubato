@@ -134,9 +134,9 @@ class Group:
 
     def count(self) -> int:
         """
-        Counts all the GameObjects in this group and all groups it contains.
+        Counts all the GameObjects and subgroups in this group.
         Returns:
-            int: The number of GameObjects in a group
+            int: The total number of GameObjects and subgroups contained in this group.
         """
         return len(self.game_objects) + len(self.groups) + sum([group.count() for group in self.groups])
 
