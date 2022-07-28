@@ -98,7 +98,7 @@ add_module_names = False
 
 html_logo = "_static/logo.png"
 
-html_favicon = "_static/logo.png"
+html_favicon = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_filled.png"
 
 theme_color = "#ff9484"
 
@@ -131,12 +131,12 @@ html_short_title = f"{project} docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
-html_baseurl = "https://rubatopy.github.io/rubato/"
+html_baseurl = "https://docs.rubato.app"
 
 # Open Graph
-ogp_site_url = "https://rubatopy.github.io"
+ogp_site_url = "https://docs.rubato.app"
 ogp_description_length = 300
-ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"
+ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/full.png"
 ogp_site_name = "rubato docs"
 ogp_custom_meta_tags = [
     '<meta property="og:title" content="rubato docs">',

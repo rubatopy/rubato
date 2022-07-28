@@ -1,11 +1,4 @@
-{% if versions %}
-<div class="sidebar-tree">
-    <p class="caption" role="heading"><span class="caption-text">{{ _('Versions') }}</span></p>
-    <ul>
-        <li class="toctree-l1"><a class="reference internal" href="{{ vpathto('main') }}">Nightly</a></li>
-        {%- for item in versions.in_development|reverse %} {% if item.name != "main" %}
-        <li class="toctree-l1"><a class="reference internal" href="{{ item.url }}">{{ item.name }}</a></li>
-        {% endif %} {%- endfor %}
-    </ul>
-</div>
-{% endif %}
+<div id="versionSidebarInclude"></div>
+<script>
+    $("#versionSidebarInclude").load("https://test.rubato.app/version_iframe.html");
+</script>
