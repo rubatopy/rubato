@@ -3,23 +3,24 @@
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
-SPHINXBUILD   ?= sphinx-multiversion
+SPHINXBUILD   ?= sphinx
 SOURCEDIR     = source
-BUILDDIR      = .
+BUILDDIR      = ./build/html
 LIVEBUILDDIR  = ./build/_html
-
-.PHONY: save
+BUILDER          = dirhtml
 
 save:
-	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)"
+	@make clear
+	@python -m $(SPHINXBUILD) -W --keep-going -T -q -b $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
+	@touch build/html/_modules/robots.txt
 
 test:
 	@make clear
-	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
+	@python -m $(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
 
 live:
 	@make clear
-	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" $(SPHINXOPTS) $(O) --watch ../rubato
+	@sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato
 
 clear:
 	@rm -rf build

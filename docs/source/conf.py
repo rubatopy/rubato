@@ -43,7 +43,6 @@ extensions = [
     "sphinx_autodoc_typehints",  # This need to be after napoleon
     "sphinx.ext.todo",
     "sphinx_sitemap",
-    "sphinx_multiversion",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,7 +51,7 @@ templates_path = ["_templates"]
 html_sidebars = {
     "**": [
         "sidebar/scroll-start.html",
-        "sidebar/brand.html",
+        "brand.html",
         "sidebar/search.html",
         "sidebar/navigation.html",
         "versioning.html",
@@ -96,7 +95,7 @@ add_module_names = False
 
 html_logo = "_static/logo_small.png"
 
-html_favicon = "_static/logo.png"
+html_favicon = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_filled.png"
 
 theme_color = "#ff9484"
 
@@ -125,15 +124,15 @@ html_short_title = f"{project} Docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
-html_baseurl = "https://tinmarr.github.io/rubato/"
+html_baseurl = "https://docs.rubato.app"
 
 # Open Graph
-ogp_site_url = "https://rubatopy.github.io"
+ogp_site_url = "https://docs.rubato.app"
 ogp_description_length = 300
-ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/logo_wide.png"  # pylint: disable=line-too-long
-ogp_site_name = "Rubato Documentation"
+ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/full.png"
+ogp_site_name = "rubato docs"
 ogp_custom_meta_tags = [
-    '<meta property="og:title" content="Rubato Documentation">',
+    '<meta property="og:title" content="rubato docs">',
 ]
 
 rst_epilog = """
