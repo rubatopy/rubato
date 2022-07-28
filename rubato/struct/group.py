@@ -169,7 +169,8 @@ class Group:
         """
         if isinstance(other, GameObject):
             return other in self.game_objects or sum([group.contains(other) for group in self.groups]) != 0
-        elif isinstance(other, Group):
+
+        if isinstance(other, Group):
             return other in self.groups or sum([group.contains(other) for group in self.groups]) != 0
-        else:
-            raise ValueError(f"The group {self.name} can only hold game objects/groups.")
+
+        return False
