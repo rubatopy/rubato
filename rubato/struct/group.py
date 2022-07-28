@@ -41,7 +41,7 @@ class Group:
             ValueError: The group can only hold game objects or other groups.
 
         Returns:
-            GameObject: The current game object
+            Group: This group.
         """
         for item in items:
             if self.contains(item):

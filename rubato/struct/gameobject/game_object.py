@@ -56,7 +56,7 @@ class GameObject:
             DuplicateComponentError: Raised when there is already a component of the same type on the game object.
 
         Returns:
-            GameObject: The current game object
+            GameObject: This GameObject.
         """
         for component in components:
             comp_type = type(component)
