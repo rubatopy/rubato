@@ -100,11 +100,10 @@ def test_fixed_update(monkeypatch, group, go):
     assert calc_bb.call_count == 5
 
 
-def test_count(group, go):
+def test_count(group):
     assert group.count() == 0
-    g = Group()
-    g.add(go)
-    assert [group.add(g) for _ in range(10)]
-    assert [group.add(go) for _ in range(10)]
+
+    group.add(*[Group() for _ in range(10)])
+    group.add(*[GameObject() for _ in range(10)])
 
     assert group.count() == 20
