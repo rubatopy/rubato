@@ -37,9 +37,11 @@ class Group:
             items: The item(s) you wish to add to the group
 
         Raises:
-            Error: The item being added is the group itself. A group cannot be
-                added to itself.
+            Error: The item being added is already in the group.
             ValueError: The group can only hold game objects or other groups.
+
+        Returns:
+            GameObject: The current game object
         """
         for item in items:
             if self.contains(item):
@@ -50,6 +52,8 @@ class Group:
                 self.add_group(item)
             else:
                 raise ValueError(f"The group {self.name} can only hold game objects/groups.")
+
+        return self
 
     def add_group(self, g: Group):
         """Add a group to the group."""
@@ -134,7 +138,7 @@ class Group:
         Returns:
             int: The number of GameObjects in a group
         """
-        return len(self.game_objects) + sum([group.count() for group in self.groups])
+        return len(self.game_objects) + len(self.groups) + sum([group.count() for group in self.groups])
 
     def clone(self) -> Group:
         """
@@ -162,13 +166,10 @@ class Group:
 
         Returns:
             bool: Whether the group contains the object or not.
-
-        Warnings:
-            shallow check, does not check subgroups.
         """
         if isinstance(other, GameObject):
-            return other in self.game_objects
+            return other in self.game_objects or sum([group.contains(other) for group in self.groups]) != 0
         elif isinstance(other, Group):
-            return other in self.groups
+            return other in self.groups or sum([group.contains(other) for group in self.groups]) != 0
         else:
             raise ValueError(f"The group {self.name} can only hold game objects/groups.")
