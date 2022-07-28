@@ -126,10 +126,10 @@ html_short_title = f"{project} docs"
 html_show_sphinx = False
 html_show_sourcelink = False
 
-html_baseurl = "https://rubato.app"
+html_baseurl = "https://docs.rubato.app"
 
 # Open Graph
-ogp_site_url = "https://rubato.app"
+ogp_site_url = "https://docs.rubato.app"
 ogp_description_length = 300
 ogp_image = "https://raw.githubusercontent.com/rubatopy/rubato/main/docs/source/_static/full.png"
 ogp_site_name = "rubato docs"
