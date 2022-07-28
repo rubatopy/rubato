@@ -43,7 +43,6 @@ extensions = [
     "sphinx_autodoc_typehints",  # This need to be after napoleon
     "sphinx.ext.todo",
     "sphinx_sitemap",
-    "sphinx_multiversion",
     "sphinx_design",
 ]
 
