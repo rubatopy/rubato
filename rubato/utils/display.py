@@ -194,11 +194,7 @@ class Display(metaclass=DisplayProperties):
             tx: The texture to draw on the screen.
             pos: The position to draw the texture on.
         """
-        cls.renderer.copy(
-            tx,
-            None,
-            (pos.x, pos.y),
-        )
+        cls.renderer.copy(src=tx, dstrect=(pos.x, pos.y))
 
     @classmethod
     def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
