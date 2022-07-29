@@ -29,6 +29,7 @@
     (note that no length checking occurs, so make sure your tuples and lists are of length 2).
 -   `raise_operator_error()` function to raise an error about an operator in a Pythonic style.
 -   `Scene.switch()` instance method that allows users to switch to a scene without calling `Game.set_scene(scene_id)`
+-   `Group.contains()` method for checking whether a group or gameobject has already been added to it.
 
 ### Changed
 
@@ -42,6 +43,7 @@
 -   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index.
     (replace {thing} with the draw function of your choice)
 -   Switching scenes now only takes effect on the next frame.
+-   Renamed `Vector.random_inside_unit_circle()` to `Vector.rand_unit_vector()`
 
 ### Removed
 
@@ -56,6 +58,7 @@
 -   Updated all clone functions to work with new stuff.
 -   Changing the camera zoom now affects all Sprites.
 -   Made vector operations more complete and raise errors properly.
+-   `Group.count()` not working properly.
 
 ## [v2.2.0] - June 12, 2022
 
