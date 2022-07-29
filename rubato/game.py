@@ -6,7 +6,7 @@ import sys
 import sdl2, sdl2.sdlttf
 from typing import TYPE_CHECKING, Dict
 
-from . import Time, Display, Draw, Debug, Radio, Events, Font, PrintError, Camera, IdError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError
 
 if TYPE_CHECKING:
     from . import Scene
@@ -142,13 +142,13 @@ class Game(metaclass=GameProperties):
         sys.exit()
 
     @classmethod
-    def constant_loop(cls):  # test: skip
+    def start(cls):  # test: skip
         """
-        The constant game loop. Should only be called by :meth:`rubato.begin`.
+        Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
         cls.state = cls.RUNNING
         try:
-            cls.update()
+            cls.loop()
         except KeyboardInterrupt:
             cls.quit()
         except PrintError as e:
@@ -164,11 +164,9 @@ class Game(metaclass=GameProperties):
             sys.stdout.flush()
 
     @classmethod
-    def update(cls):  # test: skip
+    def loop(cls):  # test: skip
         """
-        The update loop for the game. Called automatically every frame.
-        Handles the game states.
-        Will always process timed calls.
+        Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
         while True:
             # start timing the update loop
@@ -180,6 +178,8 @@ class Game(metaclass=GameProperties):
 
             # process delayed calls
             Time.process_calls()
+
+            cls.update()
 
             if curr := cls.current:
                 if cls.state == Game.PAUSED:
@@ -198,8 +198,8 @@ class Game(metaclass=GameProperties):
                         Time.physics_counter -= Time.fixed_delta
 
                 curr.private_draw()
-            else:
-                Draw.clear()
+
+            cls.draw()
 
             if cls.show_fps:
                 Debug.draw_fps(cls.debug_font)
@@ -220,3 +220,13 @@ class Game(metaclass=GameProperties):
 
             # clock the time the update call took
             Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
+
+    @staticmethod
+    def update():
+        """An overrideable method for updating the game. Called once per frame, before the current scene updates."""
+        pass
+
+    @staticmethod
+    def draw():
+        """An overrideable method for drawing the game. Called once per frame, after the current scene draws."""
+        pass

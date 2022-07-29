@@ -111,7 +111,7 @@ class Scene:
         new_scene.ui = self.ui.clone()
 
     def private_draw(self):
-        Draw.clear(self.border_color, self.background_color)
+        Draw.clear(self.background_color, self.border_color)
         self.draw()
         self.root.draw(self.camera)
         self.ui.draw(self._ui_cam)

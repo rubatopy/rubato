@@ -119,7 +119,7 @@ def begin():
         RuntimeError: rubato has not been initialized before calling.
     """
     if Game._initialized: # pylint: disable=protected-access
-        Game.constant_loop()
+        Game.start()
     else:
         raise RuntimeError(
             "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"
