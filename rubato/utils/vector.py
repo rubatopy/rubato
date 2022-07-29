@@ -405,7 +405,7 @@ class Vector:
     @classmethod
     def angle_between(cls, a: Vector, b: Vector) -> float:
         """
-        Returns the angle between two vectors (0 <= theta <= pi).
+        Returns the smallest possible angle between two vectors.
 
         Args:
             a: First vector.
@@ -417,7 +417,7 @@ class Vector:
         return round(math.degrees(math.acos((a.dot(b)) / (a.magnitude * b.magnitude))), 10)
 
     @classmethod
-    def random_inside_unit_circle(cls) -> Vector:
+    def rand_unit_vector(cls) -> Vector:
         """
         Returns a random unit vector inside the unit circle.
 

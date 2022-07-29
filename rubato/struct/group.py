@@ -37,17 +37,23 @@ class Group:
             items: The item(s) you wish to add to the group
 
         Raises:
-            Error: The item being added is the group itself. A group cannot be
-                added to itself.
+            Error: The item being added is already in the group.
             ValueError: The group can only hold game objects or other groups.
+
+        Returns:
+            Group: This group.
         """
         for item in items:
+            if self.contains(item):
+                raise Error(f"The group {self.name} already contains {item.name}.")
             if isinstance(item, GameObject):
                 self.add_game_obj(item)
             elif isinstance(item, Group):
                 self.add_group(item)
             else:
                 raise ValueError(f"The group {self.name} can only hold game objects/groups.")
+
+        return self
 
     def add_group(self, g: Group):
         """Add a group to the group."""
@@ -128,11 +134,11 @@ class Group:
 
     def count(self) -> int:
         """
-        Counts all the GameObjects in this group and all groups it contains.
+        Counts all the GameObjects and subgroups in this group.
         Returns:
-            int: The number of GameObjects in a group
+            int: The total number of GameObjects and subgroups contained in this group.
         """
-        return len(self.game_objects) + sum([group.count() for group in self.groups])
+        return len(self.game_objects) + len(self.groups) + sum([group.count() for group in self.groups])
 
     def clone(self) -> Group:
         """
@@ -150,3 +156,21 @@ class Group:
             new_group.add(game_obj.clone())
 
         return new_group
+
+    def contains(self, other: GameObject | Group) -> bool:
+        """
+        Checks if the group contains the given object.
+
+        Args:
+            other: The object to check for.
+
+        Returns:
+            bool: Whether the group contains the object or not.
+        """
+        if isinstance(other, GameObject):
+            return other in self.game_objects or sum([group.contains(other) for group in self.groups]) != 0
+
+        if isinstance(other, Group):
+            return other in self.groups or sum([group.contains(other) for group in self.groups]) != 0
+
+        return False
