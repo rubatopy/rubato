@@ -3,10 +3,10 @@ The main game module. It controls everything in the game.
 """
 from __future__ import annotations
 import sys
-import sdl2, sdl2.sdlttf, sdl2.ext
+import sdl2, sdl2.sdlttf
 from typing import TYPE_CHECKING, Dict
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw
 
 if TYPE_CHECKING:
     from . import Scene
@@ -169,67 +169,62 @@ class Game(metaclass=GameProperties):
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
         while True:
-            cls.pump()
-            cls.tick()
+            # start timing the update loop
+            Time._frame_start = Time.now()  # pylint: disable= protected-access
 
-    @classmethod
-    def pump(cls): # test: skip
-        sdl2.SDL_PumpEvents()
-        Radio.queue.extend(sdl2.ext.get_events())
+            # Pump SDL events
+            Radio.pump()
 
-    @classmethod
-    def tick(cls): # test: skip
-        # start timing the update loop
-        Time._frame_start = Time.now()  # pylint: disable= protected-access
+            # Event handling
+            if Radio.handle():
+                cls.quit()
 
-        # Event handling
-        if Radio.handle():
-            cls.quit()
+            # process delayed calls
+            Time.process_calls()
 
-        # process delayed calls
-        Time.process_calls()
+            cls.update()
 
-        cls.update()
+            if curr := cls.current:
+                if cls.state == Game.PAUSED:
+                    # process user set pause update
+                    curr.private_paused_update()
+                else:
+                    # normal update
+                    curr.private_update()
 
-        if curr := cls.current:
-            if cls.state == Game.PAUSED:
-                # process user set pause update
-                curr.private_paused_update()
-            else:
-                # normal update
-                curr.private_update()
+                    # fixed update
+                    Time.physics_counter += Time.delta_time
 
-                # fixed update
-                Time.physics_counter += Time.delta_time
+                    while Time.physics_counter >= Time.fixed_delta:
+                        if cls.state != Game.PAUSED:
+                            curr.private_fixed_update()
+                        Time.physics_counter -= Time.fixed_delta
 
-                while Time.physics_counter >= Time.fixed_delta:
-                    if cls.state != Game.PAUSED:
-                        curr.private_fixed_update()
-                    Time.physics_counter -= Time.fixed_delta
+                curr.private_draw()
 
-            curr.private_draw()
+            cls.draw()
 
-        cls.draw()
+            Draw.dump()
 
-        if cls.show_fps:
-            Debug.draw_fps(cls.debug_font)
+            if cls.show_fps:
+                Debug.draw_fps(cls.debug_font)
 
-        # update renderers
-        Display.renderer.present()
+            # update renderers
+            Display.renderer.present()
 
-        # use delay to cap the fps if need be
-        if Time.capped:
-            delay = Time.normal_delta - (1000 * Time.delta_time)
-            if delay > 0:
-                sdl2.SDL_Delay(int(delay))
+            # use delay to cap the fps if need be
+            if Time.capped:
+                delay = Time.normal_delta - (1000 * Time.delta_time)
+                if delay > 0:
+                    sdl2.SDL_Delay(int(delay))
 
-        # dont allow updates to occur more than once in a millisecond
-        # this will likely never occur but is a failsafe
-        while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
-            sdl2.SDL_Delay(1)
+            # dont allow updates to occur more than once in a millisecond
+            # this will likely never occur but is a failsafe
+            while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
+                sdl2.SDL_Delay(1)
 
-        # clock the time the update call took
-        Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
+            # clock the time the update call took
+            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
 
     @staticmethod
     def update(): # test: skip
