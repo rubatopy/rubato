@@ -66,6 +66,8 @@ def draw_block(pos, color):
     )
 
 def draw_scene():
+    Draw.clear(Color.darkgray)
+
     for i in range(len(field)):
         for j in range(len(field[i])):
             if field[i][j]:
@@ -82,8 +84,7 @@ def moveDown():
     pos.y += 1
     incScore(1)
 
-main = Scene(name="main", background_color=Color.darkgray)
-main.draw = draw_scene
+Game.draw = draw_scene
 
 Time.schedule(ScheduledTask(1000, moveDown, 1000))
 

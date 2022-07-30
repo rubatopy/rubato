@@ -45,39 +45,40 @@ class GameObject:
         self._components: Dict[type, List[Component]] = {}
         self.rotation: float = rotation
 
-    def add(self, component: Component) -> GameObject:
+    def add(self, *components: Component) -> GameObject:
         """
         Add a component to the game object.
 
         Args:
-            component (Component): The component to add.
+            components (Component): The component(s) to add.
 
         Raises:
             DuplicateComponentError: Raised when there is already a component of the same type on the game object.
 
         Returns:
-            GameObject: The current game object
+            GameObject: This GameObject.
         """
-        comp_type = type(component)
+        for component in components:
+            comp_type = type(component)
 
-        try:
-            if component.singular and comp_type in self._components:
-                raise DuplicateComponentError(
-                    f"There is already a component of type {comp_type} on the game object {self.name}"
-                )
-        except AttributeError as err:
-            raise ImplementationError(
-                "The component does not have a singular attribute. You most likely overrode the"
-                "__init__ method of the component without calling super().__init__()."
-            ) from err
+            try:
+                if component.singular and comp_type in self._components:
+                    raise DuplicateComponentError(
+                        f"There is already a component of type {comp_type} on the game object {self.name}"
+                    )
+            except AttributeError as err:
+                raise ImplementationError(
+                    "The component does not have a singular attribute. You most likely overrode the"
+                    "__init__ method of the component without calling super().__init__()."
+                ) from err
 
-        if isinstance(component, Hitbox):
-            comp_type = Hitbox
+            if isinstance(component, Hitbox):
+                comp_type = Hitbox
 
-        if comp_type not in self._components:
-            self._components[comp_type] = []
-        self._components[comp_type].append(component)
-        component.gameobj = self
+            if comp_type not in self._components:
+                self._components[comp_type] = []
+            self._components[comp_type].append(component)
+            component.gameobj = self
 
         return self
 

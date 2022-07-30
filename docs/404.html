@@ -5,7 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/png" href="/logo_filled.png" />
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+        ></script>
         <script
             src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js"
             integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
@@ -39,13 +43,33 @@
             }
         </style>
         <title>weeeee rubato 404</title>
+        <script>
+            reader = new XMLHttpRequest();
+            reader.open("get", "https://docs.rubato.app" + window.location.pathname, false);
+
+            reader.onreadystatechange = () => {
+                if (reader.readyState === 4) {
+                    //check to see whether request for the file failed or succeeded
+                    if (reader.status == 200 || reader.status == 0) {
+                        window.location = "https://docs.rubato.app" + window.location.pathname;
+                        return;
+                    }
+                }
+            };
+
+            try {
+                reader.send();
+            } catch (e) {}
+        </script>
     </head>
     <body>
         <div class="container text-center text-white my-5">
             <h1 class="display-4 text-red pt-3">404</h1>
             <br />
             <p class="lead text-white ml-auto mr-auto">erm, this is embarrassing.</p>
-            <p class="text-white ml-auto mr-auto">the link you went to doesn't exist.  <a class="btn btn-danger btn-sm" href="https://rubato.app">take me home, country roads</a></p>
+            <p class="text-white ml-auto mr-auto">
+                the link you went to doesn't exist. <a class="btn btn-danger btn-sm" href="https://rubato.app">take me home, country roads</a>
+            </p>
         </div>
     </body>
 </html>

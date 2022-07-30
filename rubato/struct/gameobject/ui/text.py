@@ -155,7 +155,7 @@ class Text(Component):
                 self._text,
                 self._justify,
                 self._width,
-                (self.gameobj.rotation if self.gameobj else 0) + self.rotation_offset,
+                (self.gameobj.rotation if self.gameobj else 0) + self.rot_offset,
             )
         )
 
@@ -164,7 +164,7 @@ class Text(Component):
             return
 
         if self.gameobj.rotation != self._stored_rot:
-            self._stored_rot = self.gameobj.rotation + self.rotation_offset
+            self._stored_rot = self.gameobj.rotation + self.rot_offset
             self.generate_surface()
 
         Draw.queue_texture(
@@ -189,6 +189,6 @@ class Text(Component):
             justify=self._justify,
             width=self._width,
             offset=self.offset,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             z_index=self.z_index,
         )

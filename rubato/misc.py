@@ -41,8 +41,7 @@ def wrap(
     if isinstance(comp, Component):
         go.add(comp)
     elif isinstance(comp, list):
-        for c in comp:
-            go.add(c)
+        go.add(*comp)
     else:
         raise TypeError("comp must be a Component or a list of Components.")
     return go

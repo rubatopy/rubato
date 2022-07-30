@@ -28,7 +28,7 @@ def test_begin_init(monkeypatch, rub):
     # pylint: disable=unused-argument
     assert rubato.Game.state == rubato.Game.STOPPED
     loop = Mock()
-    monkeypatch.setattr(rubato.Game, "constant_loop", loop)
+    monkeypatch.setattr(rubato.Game, "start", loop)
     rubato.begin()
     loop.assert_called_once()  # This code is reachable because of the monkeypatch
 

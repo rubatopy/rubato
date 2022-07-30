@@ -269,6 +269,27 @@ class Input:
         """
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
+    @staticmethod
+    def pt_in_poly(pt: Vector, verts: List[Vector]) -> bool:
+        """
+        Checks if a point is inside a polygon.
+
+        Args:
+            pt (Vector): The point to check.
+            verts (List[Vector]): The polygon representation as a list of Vectors (vertices)
+
+        Returns:
+            bool: Whether the point is inside the polygon.
+        """
+        last, now, odd = verts[-1], verts[0], False
+        for now in verts:
+            if ((now.y > pt.y) != (last.y > pt.y)) and \
+                (pt.x < (last.x - now.x) * (pt.y - now.y) / (last.y - now.y) + now.x):
+                odd = not odd
+            last = now
+
+        return odd
+
     @classmethod
     def mouse_in(cls, center: Vector, dims: Vector = Vector(1, 1), angle: float = 0) -> bool:
         """

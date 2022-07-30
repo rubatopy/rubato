@@ -55,12 +55,12 @@ class Button(Component):
     def update(self):
         """The update function for buttons."""
         if not self.hover and Input.mouse_in(
-            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rotation_offset
+            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rot_offset
         ):
             self.hover = True
             self.onhover()
         elif self.hover and not Input.mouse_in(
-            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rotation_offset
+            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rot_offset
         ):
             self.hover = False
             self.onexit()
@@ -75,7 +75,7 @@ class Button(Component):
     def clone(self) -> Button:
         return Button(
             offset=self.offset,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             width=self.dims.x,
             height=self.dims.y,
             onclick=self.onclick,

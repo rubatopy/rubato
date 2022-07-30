@@ -1,0 +1,62 @@
+name: Publish Package
+
+on:
+    workflow_dispatch:
+        inputs:
+            versionNumber:
+                required: true
+                type: string
+                description: Version Number (ex. 1.2.3.dev4)
+            pypiRepo:
+                required: true
+                type: choice
+                options:
+                    - main
+                    - test
+                description: PyPi Repo
+            publishPassword:
+                required: true
+                type: string
+                description: Password
+
+jobs:
+    publisher:
+        name: Publish to PyPi
+        runs-on: ubuntu-latest
+        env:
+            RUBATO_VERSION_NUMBER: ${{ inputs.versionNumber }}
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.10"
+            - name: Install requirements
+              run: |
+                  pip install --upgrade pip
+                  git submodule update --init --recursive
+                  pip install -e .[dev]
+                  pip install build twine
+            - name: Build
+              run: python -m build
+
+            - name: Assign variable
+              id: secret
+              run: echo '::set-output name=secret::${{secrets.publishPassword}}'
+
+            - name: Publish to PyPI
+              if: ${{ inputs.publishPassword == steps.secret.outputs.secret && inputs.pypiRepo == 'main' }}
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                  user: __token__
+                  password: ${{ secrets.PYPI_API_TOKEN }}
+
+            - name: Publish to TestPyPI
+              if: ${{ inputs.publishPassword == steps.secret.outputs.secret && inputs.pypiRepo == 'test' }}
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                  user: __token__
+                  password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+                  repository_url: https://test.pypi.org/legacy/

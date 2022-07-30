@@ -3,9 +3,8 @@ from __future__ import annotations
 from ctypes import c_int16
 from typing import TYPE_CHECKING, List, Optional, Callable
 from dataclasses import dataclass, field
-import heapq
 
-import sdl2, sdl2.sdlgfx
+import sdl2, sdl2.sdlgfx, sdl2.ext
 
 from . import Vector, Color, Font, Display, Math
 
@@ -24,13 +23,13 @@ class Draw:
     _queue: List[DrawTask] = []
 
     @classmethod
-    def clear(cls, border_color: Color = Color.black, background_color: Color = Color.white):
+    def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
         """Clears the renderer and draws the background of the frame.
 
         Args:
+            background_color (Color): The background color. Defaults to white.
             border_color (Color): The border color. Defaults to black.
                 Shown when the aspect ratio of the game does not match the aspect ratio of the window.
-            background_color (Color): The background color. Defaults to white.
         """
         Display.renderer.clear(border_color.to_tuple())
         Display.renderer.fill(
@@ -47,15 +46,20 @@ class Draw:
             z_index (int): The z_index to call at (lower z_indexes get called first).
             callback (Callable): The function to call.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, callback))
+        cls._queue.append(DrawTask(z_index, callback))
 
     @classmethod
     def dump(cls):
         """Draws all queued items. Is called automatically at the end of every frame."""
+        if not cls._queue:
+            return
 
-        while cls._queue:
-            task = heapq.heappop(cls._queue)
+        cls._queue.sort()
+
+        for task in cls._queue:
             task.func()
+
+        cls._queue.clear()
 
     @classmethod
     def queue_point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
@@ -67,7 +71,7 @@ class Draw:
             color (Color): The color to use for the pixel. Defaults to Color.green.
             z_index (int): Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.point(pos, color)))
+        cls.push(z_index, lambda: cls.point(pos, color))
 
     @staticmethod
     def point(pos: Vector, color: Color = Color.green):
@@ -92,7 +96,7 @@ class Draw:
             width: The width of the line. Defaults to 1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.line(p1, p2, color, width)))
+        cls.push(z_index, lambda: cls.line(p1, p2, color, width))
 
     @staticmethod
     def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
@@ -135,10 +139,7 @@ class Draw:
             angle: The angle in degrees. Defaults to 0.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(
-            cls._queue,
-            DrawTask(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle))
-        )
+        cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle))
 
     @staticmethod
     def rect(
@@ -192,9 +193,7 @@ class Draw:
             fill: The fill color. Defaults to None.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(
-            cls._queue, DrawTask(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill))
-        )
+        cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill))
 
     @staticmethod
     def circle(
@@ -257,9 +256,7 @@ class Draw:
             fill: The fill color. Defaults to None.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(
-            cls._queue, DrawTask(z_index, lambda: cls.poly(points, border, border_thickness, fill))
-        )
+        cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill))
 
     @staticmethod
     def poly(
@@ -338,9 +335,7 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(
-            cls._queue, DrawTask(z_index, lambda: cls.text(text, font, pos, justify, align, width))
-        )
+        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width))
 
     @staticmethod
     def text(
@@ -370,7 +365,7 @@ class Draw:
             pos: The position of the texture. Defaults to Vector(0, 0).
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.texture(texture, pos)))
+        cls.push(z_index, lambda: cls.texture(texture, pos))
 
     @staticmethod
     def texture(texture: sdl2.ext.Texture, pos: Vector = Vector()):
@@ -393,7 +388,7 @@ class Draw:
             pos: The position to draw the sprite at. Defaults to Vector(0, 0).
             z_index: The z-index of the sprite. Defaults to 0.
         """
-        heapq.heappush(cls._queue, DrawTask(z_index, lambda: cls.sprite(sprite, pos)))
+        cls.push(z_index, lambda: cls.sprite(sprite, pos))
 
     @staticmethod
     def sprite(sprite: Sprite, pos: Vector = Vector()):

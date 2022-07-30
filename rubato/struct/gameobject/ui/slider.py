@@ -72,13 +72,13 @@ class Slider(Component):
         # custom button update
         if not self.button.hover and Input.mouse_in(
             self.gameobj.pos + self.offset + self.button.offset, self.button.dims,
-            self.gameobj.rotation + self.rotation_offset
+            self.gameobj.rotation + self.rot_offset
         ):
             self.button.hover = True
             self.button.onhover()
         elif self.button.hover and not Input.mouse_in(
             self.gameobj.pos + self.offset + self.button.offset, self.button.dims,
-            self.gameobj.rotation + self.rotation_offset
+            self.gameobj.rotation + self.rot_offset
         ):
 
             self.button.hover = False
@@ -92,7 +92,7 @@ class Slider(Component):
             self.button.onrelease()
         # end custom button update
 
-        slider_direction: Vector = Vector.from_radial(1, self.gameobj.rotation + self.rotation_offset)
+        slider_direction: Vector = Vector.from_radial(1, self.gameobj.rotation + self.rot_offset)
         mouse_projection = Math.clamp(
             (Input.get_mouse_pos() - self.gameobj.pos - self.offset).dot(slider_direction) / slider_direction.mag_sq, 0,
             self.slider_length
