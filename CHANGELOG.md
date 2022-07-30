@@ -29,8 +29,9 @@
     (note that no length checking occurs, so make sure your tuples and lists are of length 2).
 -   `raise_operator_error()` function to raise an error about an operator in a Pythonic style.
 -   `Scene.switch()` instance method that allows users to switch to a scene without calling `Game.set_scene(scene_id)`
--   `Game.draw` and `Game.update` function, both of which are overrideable, to give user-defineable functionality not reliant on scenes.
+-   `Game.draw` and `Game.update` functions, both of which are overrideable, to give user-defineable functionality not reliant on scenes.
 -   `Group.contains()` method for checking whether a group or gameobject has already been added to it.
+-   `Hitbox.contains_pt` method for checking whether a point is inside a hitbox (useful in buttons and the like)
 
 ### Changed
 

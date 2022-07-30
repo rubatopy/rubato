@@ -182,6 +182,6 @@ class RigidBody(Component):
             ang_vel=self.ang_vel,
             pos_correction=self.pos_correction,
             offset=self.offset,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             z_index=self.z_index
         )

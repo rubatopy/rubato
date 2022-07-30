@@ -43,7 +43,7 @@ def test_init(go, comp):
 
     assert comp.offset.x == 1
     assert comp.offset.y == 1
-    assert comp.rotation_offset == 90
+    assert comp.rot_offset == 90
     assert not comp.singular
     assert not comp.gameobj
 
@@ -150,7 +150,7 @@ def test_comp_funcs():
 
     new = comp.clone()
     assert new.offset == comp.offset
-    assert new.rotation_offset == comp.rotation_offset
+    assert new.rot_offset == comp.rot_offset
     assert new.singular == comp.singular
     assert new.gameobj == comp.gameobj
     assert new is not comp

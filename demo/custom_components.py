@@ -4,8 +4,8 @@ Custom Component demo.
 import rubato as rb
 from rubato import Vector
 
-size = Vector(300, 200)
-rb.init(res=size, window_size=size * 2)
+size = Vector(600, 400)
+rb.init(res=size, window_size=size)
 
 main_scene = rb.Scene()
 
@@ -24,7 +24,7 @@ class PlayerController(rb.Component):
 
         # Change any attributes inherited from Component.
         self.singular = True
-        self.offset = rb.Vector(0, 10)
+        self.offset = rb.Vector(0, 20)
 
         # Initialize any attributes that you want to use in your component.
         self.health = 100
@@ -45,7 +45,7 @@ class PlayerController(rb.Component):
         """
         if rb.Input.mouse_pressed():
             self.hitbox.color = rb.Color.random()
-            self.gameobj.pos = rb.Input.get_mouse_pos()
+            self.gameobj.pos = rb.world_mouse()
 
     def speak(self):
         """
@@ -55,8 +55,24 @@ class PlayerController(rb.Component):
 
 
 player = rb.GameObject(name="Player", pos=rb.Display.center)
-player.add(rb.Circle(radius=10, color=rb.Color.red))
+player.add(rb.Circle(radius=20, color=rb.Color.red))
 player.add(PlayerController("Bob"))
+
+main_scene.add(
+    rb.wrap(
+        poly := rb.Polygon(
+            rb.Polygon.generate_polygon(5, 50),
+            color=rb.Color.green,
+        ),
+        pos=rb.Display.center + rb.Vector(-30),
+        rotation=30
+    )
+)
+
+def update():
+    poly.color = rb.Color.red if poly.contains_pt(rb.world_mouse()) else rb.Color.green
+
+rb.Game.update = update
 
 main_scene.add(player)
 rb.begin()
