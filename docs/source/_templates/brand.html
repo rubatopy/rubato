@@ -1,3 +1,22 @@
+<div id="vtag-name"></div>
+<style>
+    div#vtag-name {
+        color: var(--color-sidebar-caption-text);
+        font-size: var(--sidebar-caption-font-size);
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: right;
+        position: absolute;
+        right: 0;
+        padding: 1.25rem 1.25rem 0 0;
+    }
+</style>
+<script>
+    let vtag = document.getElementById("vtag-name");
+    window.onload = () => {
+        vtag.innerHTML = window.current;
+    };
+</script>
 <a class="sidebar-brand centered" href="https://www.rubato.app">
     {% block brand_content %}
     <div class="sidebar-logo-container">
