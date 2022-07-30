@@ -3,7 +3,7 @@ The main game module. It controls everything in the game.
 """
 from __future__ import annotations
 import sys
-import sdl2, sdl2.sdlttf
+import sdl2, sdl2.sdlttf, sdl2.ext
 from typing import TYPE_CHECKING, Dict
 
 from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError
@@ -21,7 +21,7 @@ class GameProperties(type):
     """
 
     @property
-    def state(cls) -> int:
+    def state(cls) -> int: # test: skip
         """
         The state of the game.
 
@@ -34,14 +34,14 @@ class GameProperties(type):
         return cls._state
 
     @state.setter
-    def state(cls, new: int):
+    def state(cls, new: int): # test: skip
         cls._state = new
 
         if cls._state == Game.STOPPED:
             sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
     @property
-    def camera(cls) -> Camera:
+    def camera(cls) -> Camera: # test: skip
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -88,7 +88,7 @@ class Game(metaclass=GameProperties):
 
     @classmethod
     @property
-    def current(cls) -> Scene:
+    def current(cls) -> Scene: # test: skip
         """
         The current scene. Get-only.
 
@@ -98,7 +98,7 @@ class Game(metaclass=GameProperties):
         return cls._scenes.get(cls._current)
 
     @classmethod
-    def set_scene(cls, scene_id: str):
+    def set_scene(cls, scene_id: str): # test: skip
         """
         Changes the current scene. Takes effect on the next frame.
 
@@ -108,7 +108,7 @@ class Game(metaclass=GameProperties):
         cls._current = scene_id
 
     @classmethod
-    def _add(cls, scene: Scene):
+    def _add(cls, scene: Scene): # test: skip
         """
         Add a scene to the game. Also set the current scene if this is the first added scene.
 
@@ -132,17 +132,17 @@ class Game(metaclass=GameProperties):
         cls._scene_id += 1
 
     @classmethod
-    def quit(cls):
+    def quit(cls): # test: skip
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
         cls.state = cls.STOPPED
         sys.stdout.flush()
         sdl2.sdlttf.TTF_Quit()
         sdl2.SDL_Quit()
-        sys.exit()
+        sys.exit(0)
 
     @classmethod
-    def start(cls):  # test: skip
+    def start(cls): # test: skip
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -154,7 +154,7 @@ class Game(metaclass=GameProperties):
         except PrintError as e:
             sys.stdout.flush()
             raise e
-        except (Exception,) as e:  # add possible exceptions here if there are more needed
+        except (Exception,) as e:
             sys.stdout.flush()
             raise type(e)(
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
@@ -164,72 +164,79 @@ class Game(metaclass=GameProperties):
             sys.stdout.flush()
 
     @classmethod
-    def loop(cls):  # test: skip
+    def loop(cls): # test: skip
         """
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
         while True:
-            # start timing the update loop
-            Time._frame_start = Time.now()  # pylint: disable= protected-access
+            cls.pump()
+            cls.tick()
 
-            # Pump SDL events
-            Radio.pump()
+    @classmethod
+    def pump(cls): # test: skip
+        sdl2.SDL_PumpEvents()
+        Radio.queue.extend(sdl2.ext.get_events())
 
-            # Event handling
-            if Radio.handle():
-                cls.quit()
+    @classmethod
+    def tick(cls): # test: skip
+        # start timing the update loop
+        Time._frame_start = Time.now()  # pylint: disable= protected-access
 
-            # process delayed calls
-            Time.process_calls()
+        # Event handling
+        if Radio.handle():
+            cls.quit()
 
-            cls.update()
+        # process delayed calls
+        Time.process_calls()
 
-            if curr := cls.current:
-                if cls.state == Game.PAUSED:
-                    # process user set pause update
-                    curr.private_paused_update()
-                else:
-                    # normal update
-                    curr.private_update()
+        cls.update()
 
-                    # fixed update
-                    Time.physics_counter += Time.delta_time
+        if curr := cls.current:
+            if cls.state == Game.PAUSED:
+                # process user set pause update
+                curr.private_paused_update()
+            else:
+                # normal update
+                curr.private_update()
 
-                    while Time.physics_counter >= Time.fixed_delta:
-                        if cls.state != Game.PAUSED:
-                            curr.private_fixed_update()
-                        Time.physics_counter -= Time.fixed_delta
+                # fixed update
+                Time.physics_counter += Time.delta_time
 
-                curr.private_draw()
+                while Time.physics_counter >= Time.fixed_delta:
+                    if cls.state != Game.PAUSED:
+                        curr.private_fixed_update()
+                    Time.physics_counter -= Time.fixed_delta
 
-            cls.draw()
+            curr.private_draw()
 
-            if cls.show_fps:
-                Debug.draw_fps(cls.debug_font)
+        cls.draw()
 
-            # update renderers
-            Display.renderer.present()
+        if cls.show_fps:
+            Debug.draw_fps(cls.debug_font)
 
-            # use delay to cap the fps if need be
-            if Time.capped:
-                delay = Time.normal_delta - (1000 * Time.delta_time)
-                if delay > 0:
-                    sdl2.SDL_Delay(int(delay))
+        # update renderers
+        Display.renderer.present()
 
-            # dont allow updates to occur more than once in a millisecond
-            # this will likely never occur but is a failsafe
-            while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
-                sdl2.SDL_Delay(1)
+        # use delay to cap the fps if need be
+        if Time.capped:
+            delay = Time.normal_delta - (1000 * Time.delta_time)
+            if delay > 0:
+                sdl2.SDL_Delay(int(delay))
 
-            # clock the time the update call took
-            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
+        # dont allow updates to occur more than once in a millisecond
+        # this will likely never occur but is a failsafe
+        while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
+            sdl2.SDL_Delay(1)
+
+        # clock the time the update call took
+        Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
 
     @staticmethod
-    def update():
+    def update(): # test: skip
         """An overrideable method for updating the game. Called once per frame, before the current scene updates."""
         pass
 
     @staticmethod
-    def draw():
+    def draw(): # test: skip
         """An overrideable method for drawing the game. Called once per frame, after the current scene draws."""
         pass

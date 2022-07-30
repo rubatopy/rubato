@@ -41,14 +41,8 @@ class Radio:
     queue = []
 
     @classmethod
-    def pump(cls):
-        """Pump the event queue from SDL. Called automatically."""
-        sdl2.SDL_PumpEvents()
-        cls.queue.extend(sdl2.ext.get_events())
-
-    @classmethod
     def handle(cls):
-        """Handle events and broadcast them as necessary. Called automatically every frame."""
+        """Handle the event queue"""
         while cls.queue:
             event = cls.queue.pop(0)
             if event.type == sdl2.SDL_QUIT:
