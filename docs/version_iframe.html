@@ -61,8 +61,16 @@
                 setDestination(groupedVersions[group][0], catA);
                 if (group == "latest") {
                     catA.innerText = `Latest (${groupedVersions[group][0]})`;
+                    if (window.current == groupedVersions[group][0]) {
+                        catA.classList.add("current");
+                        catLi.classList.add("current", "current-page");
+                    }
                 } else if (group == "nightly") {
                     catA.innerText = `Nightly`;
+                    if (window.current == groupedVersions[group][0]) {
+                        catA.classList.add("current");
+                        catLi.classList.add("current", "current-page");
+                    }
                 } else {
                     catA.innerText = `${group}.x.x`;
                 }
@@ -95,6 +103,7 @@
                         if (version == current || (current == "latest" && version == latest)) {
                             a.classList.add("current");
                             li.classList.add("current", "current-page");
+                            catLi.classList.add("current");
                         }
                         setDestination(version, a);
                         a.innerText = version;
