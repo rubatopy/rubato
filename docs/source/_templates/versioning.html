@@ -1,4 +1,9 @@
 <div id="versionSidebarInclude"></div>
 <script>
-    $("#versionSidebarInclude").load("https://test.rubato.app/version_iframe.html");
+    if (window.location.hostname == "localhost") {
+        console.log("loading test version sidebar from localhost:8001");
+        $("#versionSidebarInclude").load("http://localhost:8001/version_sidebar.html");
+    } else {
+        $("#versionSidebarInclude").load("https://test.rubato.app/version_sidebar.html");
+    }
 </script>
