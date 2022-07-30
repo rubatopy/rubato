@@ -6,7 +6,7 @@ import sys
 import sdl2, sdl2.sdlttf
 from typing import TYPE_CHECKING, Dict
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw
 
 if TYPE_CHECKING:
     from . import Scene
@@ -21,7 +21,7 @@ class GameProperties(type):
     """
 
     @property
-    def state(cls) -> int:
+    def state(cls) -> int: # test: skip
         """
         The state of the game.
 
@@ -34,14 +34,14 @@ class GameProperties(type):
         return cls._state
 
     @state.setter
-    def state(cls, new: int):
+    def state(cls, new: int): # test: skip
         cls._state = new
 
         if cls._state == Game.STOPPED:
             sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
     @property
-    def camera(cls) -> Camera:
+    def camera(cls) -> Camera: # test: skip
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -88,7 +88,7 @@ class Game(metaclass=GameProperties):
 
     @classmethod
     @property
-    def current(cls) -> Scene:
+    def current(cls) -> Scene: # test: skip
         """
         The current scene. Get-only.
 
@@ -98,7 +98,7 @@ class Game(metaclass=GameProperties):
         return cls._scenes.get(cls._current)
 
     @classmethod
-    def set_scene(cls, scene_id: str):
+    def set_scene(cls, scene_id: str): # test: skip
         """
         Changes the current scene. Takes effect on the next frame.
 
@@ -108,7 +108,7 @@ class Game(metaclass=GameProperties):
         cls._current = scene_id
 
     @classmethod
-    def _add(cls, scene: Scene):
+    def _add(cls, scene: Scene): # test: skip
         """
         Add a scene to the game. Also set the current scene if this is the first added scene.
 
@@ -132,17 +132,17 @@ class Game(metaclass=GameProperties):
         cls._scene_id += 1
 
     @classmethod
-    def quit(cls):
+    def quit(cls): # test: skip
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
         cls.state = cls.STOPPED
         sys.stdout.flush()
         sdl2.sdlttf.TTF_Quit()
         sdl2.SDL_Quit()
-        sys.exit()
+        sys.exit(0)
 
     @classmethod
-    def start(cls):  # test: skip
+    def start(cls): # test: skip
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -154,7 +154,7 @@ class Game(metaclass=GameProperties):
         except PrintError as e:
             sys.stdout.flush()
             raise e
-        except (Exception,) as e:  # add possible exceptions here if there are more needed
+        except (Exception,) as e:
             sys.stdout.flush()
             raise type(e)(
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
@@ -164,7 +164,7 @@ class Game(metaclass=GameProperties):
             sys.stdout.flush()
 
     @classmethod
-    def loop(cls):  # test: skip
+    def loop(cls): # test: skip
         """
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
@@ -172,8 +172,11 @@ class Game(metaclass=GameProperties):
             # start timing the update loop
             Time._frame_start = Time.now()  # pylint: disable= protected-access
 
+            # Pump SDL events
+            Radio.pump()
+
             # Event handling
-            if Radio.pump():
+            if Radio.handle():
                 cls.quit()
 
             # process delayed calls
@@ -202,6 +205,8 @@ class Game(metaclass=GameProperties):
 
             cls.draw()
 
+            Draw.dump()
+
             if cls.show_fps:
                 Debug.draw_fps(cls.debug_font)
 
@@ -223,11 +228,11 @@ class Game(metaclass=GameProperties):
             Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
 
     @staticmethod
-    def update():
+    def update(): # test: skip
         """An overrideable method for updating the game. Called once per frame, before the current scene updates."""
         pass
 
     @staticmethod
-    def draw():
+    def draw(): # test: skip
         """An overrideable method for drawing the game. Called once per frame, after the current scene draws."""
         pass
