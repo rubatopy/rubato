@@ -31,3 +31,10 @@ docs-live:
 
 build:
 	@python setup.py build_ext --inplace
+
+setup:
+	@git submodule update --init --recursive
+	@pip install --editable .[dev]
+	@pre-commit install -f
+	@pre-commit run --all-files
+	@python setup.py build_ext --inplace
