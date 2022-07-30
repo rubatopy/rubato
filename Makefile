@@ -38,3 +38,16 @@ setup:
 	@pre-commit install -f
 	@pre-commit run --all-files
 	@python setup.py build_ext --inplace
+
+delete-bin:
+	@cd rubato && find . -name "*.pyd" -type f -delete
+	@cd rubato && find . -name "*.so" -type f -delete
+	@rm -rf build
+
+delete-c:
+	@cd rubato && find . -name "*.c" -type f -delete
+	@rm -rf build
+
+delete-build:
+	@make delete-bin
+	@make delete-c

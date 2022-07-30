@@ -11,17 +11,17 @@ def package_files(directory):
             paths.append(os.path.join("..", path, filename))
     return paths
 
+
 setup(
     version=os.environ.get("RUBATO_VERSION_NUMBER", "0.0.0"),
-    package_data={
-        "rubato": package_files("rubato/static")
-    },
+    package_data={"rubato": package_files("rubato/static")},
     ext_modules=cythonize(
         "rubato/**/*.py",
         exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
         compiler_directives={
             "embedsignature": True,
-            "language_level": 3
+            "language_level": 3,
+            "binding": True,
         },
     ),
 )
