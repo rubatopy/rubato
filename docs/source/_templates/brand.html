@@ -13,9 +13,14 @@
 </style>
 <script>
     let vtag = document.getElementById("vtag-name");
-    window.onload = () => {
-        vtag.innerHTML = window.current;
-    };
+    function waitForElement() {
+        if (typeof window.current !== "undefined") {
+            vtag.innerHTML = window.current;
+        } else {
+            setTimeout(waitForElement, 250);
+        }
+    }
+    waitForElement();
 </script>
 <a class="sidebar-brand centered" href="https://www.rubato.app">
     {% block brand_content %}

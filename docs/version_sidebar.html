@@ -58,7 +58,7 @@
 
                 let catA = document.createElement("a");
                 catA.classList.add("reference", "internal");
-                setDestination(groupedVersions[group][0], catA);
+                setDestination(group == "latest" || group == "nightly" ? group : groupedVersions[group][0], catA);
                 if (group == "latest") {
                     catA.innerText = `Latest (${groupedVersions[group][0]})`;
                     if (window.current == groupedVersions[group][0] || (window.current == "latest" && groupedVersions[group][0] == latest)) {
