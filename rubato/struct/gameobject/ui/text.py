@@ -54,8 +54,8 @@ class Text(Component):
         return self._text
 
     @text.setter
-    def text(self, text: str):
-        self._text = text
+    def text(self, new: str):
+        self._text = new
         self.generate_surface()
 
     @property
@@ -103,8 +103,8 @@ class Text(Component):
         return self._width
 
     @width.setter
-    def width(self, width: int):
-        self._width = width
+    def width(self, new: int):
+        self._width = new
         self.generate_surface()
 
     @property

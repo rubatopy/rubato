@@ -62,9 +62,9 @@ class Font:
         return self._size
 
     @size.setter
-    def size(self, size: int):
-        self._size = size
-        sdl2.sdlttf.TTF_SetFontSize(self._font, size)
+    def size(self, new: int):
+        self._size = new
+        sdl2.sdlttf.TTF_SetFontSize(self._font, new)
 
     @property
     def color(self) -> Color:
@@ -72,11 +72,11 @@ class Font:
         return self._color
 
     @color.setter
-    def color(self, color: Color):
-        self._color = color
+    def color(self, new: Color):
+        self._color = new
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
-    def generate_surface(self, text: str, align: str = Vector(0, 0), width: int = 0, rot: int = 0) -> sdl2.SDL_Surface:
+    def generate_surface(self, text: str, align: Vector = Vector(0, 0), width: int = 0, rot: int = 0) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
 

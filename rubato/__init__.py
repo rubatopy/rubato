@@ -101,7 +101,7 @@ def init(
     if icon:
         Display.set_window_icon(icon)
     else:
-        Display.set_window_icon(files("rubato.static.png").joinpath("logo_filled.png"))
+        Display.set_window_icon(str(files("rubato.static.png").joinpath("logo_filled.png")))
 
     if fullscreen != "off":
         Display.set_fullscreen(True, fullscreen)

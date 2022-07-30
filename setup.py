@@ -1,6 +1,7 @@
 """Setup File"""
 from setuptools import setup
 import os
+from Cython.Build import cythonize
 
 
 def package_files(directory):
@@ -14,6 +15,19 @@ def package_files(directory):
 extra_files = package_files("rubato/static")
 
 if "RUBATO_VERSION_NUMBER" in os.environ:
-    setup(version=os.environ["RUBATO_VERSION_NUMBER"], package_data={"rubato": extra_files})
+    version = os.environ["RUBATO_VERSION_NUMBER"]
 else:
-    setup(version="0.0.0.dev0", package_data={"rubato": extra_files})
+    version = "0.0.0"
+
+setup(
+    version=version,
+    package_data={"rubato": extra_files},
+    ext_modules=cythonize(
+        "rubato/**/*.py",
+        exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
+        compiler_directives={
+            "embedsignature": True,
+            "language_level": 3
+        },
+    ),
+)

@@ -267,17 +267,18 @@ class Display(metaclass=DisplayProperties):
             ) != 0:
                 raise RuntimeError(f"Could not read screenshot: {sdl2.SDL_GetError()}")
 
+            pathBytes: bytes = path.encode("utf-8")
             if save_to_temp_path:
-                path = bytes(get_path(os.path.join(path, filename, filename + "." + extension)), "utf-8")
+                pathBytes = bytes(get_path(os.path.join(path, filename, filename + "." + extension)), "utf-8")
             else:
-                path = bytes(os.path.join(path, filename + "." + extension), "utf-8")
+                pathBytes = bytes(os.path.join(path, filename + "." + extension), "utf-8")
 
             if extension == "png":
-                return sdl2.sdlimage.IMG_SavePNG(render_surface, path) == 0
+                return sdl2.sdlimage.IMG_SavePNG(render_surface, pathBytes) == 0
             elif extension == "jpg":
-                return sdl2.sdlimage.IMG_SaveJPG(render_surface, path, quality) == 0
+                return sdl2.sdlimage.IMG_SaveJPG(render_surface, pathBytes, quality) == 0
             elif extension == "bmp":
-                return sdl2.SDL_SaveBMP(render_surface, path) == 0
+                return sdl2.SDL_SaveBMP(render_surface, pathBytes) == 0
 
         finally:
             sdl2.SDL_FreeSurface(render_surface)

@@ -148,7 +148,8 @@ class Polygon(Hitbox):
         verts = self.transformed_verts()
         max_dist = -Math.INF
         for vert in verts:
-            if (dist := vert.distance_between(self.offset)) > max_dist:
+            dist = vert.distance_between(self.offset)
+            if (dist) > max_dist:
                 max_dist = dist
         return round(max_dist, 10)
 
@@ -246,9 +247,7 @@ class Polygon(Hitbox):
             Draw.queue_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     @classmethod
-    def generate_polygon(cls,
-                         num_sides: int,
-                         radius: float | int = 1) -> List[Vector]:
+    def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> List[Vector]:
         """
         Generates the **vertices** of a regular polygon with a specified number of sides and a radius.
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
@@ -268,6 +267,7 @@ class Polygon(Hitbox):
 
         rotangle = 360 / num_sides
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
+
 
 class Rectangle(Hitbox):
     """
@@ -709,7 +709,7 @@ class Circle(Hitbox):
             return
 
         relative_pos: Vector = None
-        scaled_rad: float = None
+        scaled_rad: float = 0
 
         if self.color:
             relative_pos = camera.transform(self.pos)

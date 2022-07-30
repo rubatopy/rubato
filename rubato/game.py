@@ -181,7 +181,8 @@ class Game(metaclass=GameProperties):
 
             cls.update()
 
-            if curr := cls.current:
+            curr = cls.current
+            if curr: # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
                     curr.private_paused_update()

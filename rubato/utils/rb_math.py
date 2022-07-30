@@ -152,7 +152,10 @@ class Math:
         divisible_by = (1, square_rooted)
         keep = False
         val = 1
-        while (possible := square_rooted / (val := (val * val if keep else next(generator)))**2) >= 1:
+        possible = 1
+        while possible >= 1:
+            val = (val * val if keep else next(generator))
+            possible = square_rooted / val**2
             if Math.is_int(possible, error):
                 keep = True
                 divisible_by = (round(val), round(possible))
