@@ -1,4 +1,4 @@
-.PHONY: all
+.PHONY: all build
 
 all:
 	@make test
@@ -28,3 +28,6 @@ lint:
 
 docs-live:
 	@(cd docs && make live)
+
+build:
+	@python setup.py build_ext --inplace

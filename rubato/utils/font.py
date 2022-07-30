@@ -76,7 +76,9 @@ class Font:
         self._color = new
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
-    def generate_surface(self, text: str, align: Vector = Vector(0, 0), width: int = 0, rot: int = 0) -> sdl2.SDL_Surface:
+    def generate_surface(
+        self, text: str, align: Vector = Vector(0, 0), width: int = 0, rot: int = 0
+    ) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
 
