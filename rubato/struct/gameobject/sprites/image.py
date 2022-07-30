@@ -49,7 +49,7 @@ class Image(Component):
         self._flipy: bool = flipy
         self._scale: Vector = scale
         self._resize_scale: Vector = Vector(1, 1)  # This scale factor is changed when the image is resized.
-        self._rot = self.rotation_offset
+        self._rot = self.rot_offset
 
         self._original = Display.clone_surface(self._sprite.image)
 
@@ -78,12 +78,12 @@ class Image(Component):
         self._changed = True
 
     @property
-    def rotation_offset(self) -> float:
+    def rot_offset(self) -> float:
         """The rotation offset of the image."""
         return self._rot
 
-    @rotation_offset.setter
-    def rotation_offset(self, new: float):
+    @rot_offset.setter
+    def rot_offset(self, new: float):
         self._rot = new
         self._changed = True
 
@@ -146,7 +146,7 @@ class Image(Component):
 
     def _update_sprite(self):
         if self.gameobj:
-            self._sprite.rotation = -self.gameobj.rotation - self.rotation_offset
+            self._sprite.rotation = -self.gameobj.rotation - self.rot_offset
             self._sprite.aa = self.aa
             self._sprite.scale = Vector(
                 (-self.scale.x if self.flipx else self.scale.x) * self._resize_scale.x,
@@ -206,9 +206,9 @@ class Image(Component):
             anti_aliasing=self.aa,
             flipx=self.flipx,
             flipy=self.flipy,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
         new.image = Display.clone_surface(self.image)
-        new.rotation_offset = self.rotation_offset
+        new.rot_offset = self.rot_offset
         return new

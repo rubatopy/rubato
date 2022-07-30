@@ -28,7 +28,7 @@ class Component:
         gameobj (GameObject): The game object this component is attached to.
         singular (bool): Whether multiple components of the same type are allowed on a game object.
         offset (Vector): The offset from the center of the game object that the hitbox should be placed.
-        rotation_offset (float): The rotational offset from the game object's rotation.
+        rot_offset (float): The rotational offset from the game object's rotation.
         z_index (int): Where to draw the component in the z direction.
         started (bool): Whether the component has run its setup method.
         hidden (bool): Whether the component should not draw.
@@ -38,7 +38,7 @@ class Component:
         self.gameobj: Optional[GameObject] = None
         self.singular: bool = False
         self.offset: Vector = offset
-        self.rotation_offset: float = rot_offset
+        self.rot_offset: float = rot_offset
         self.z_index: int = z_index
         self.started = False
         self.hidden = False
@@ -80,7 +80,7 @@ class Component:
 
     def clone(self) -> Component:
         """Clones the component."""
-        new = Component(offset=self.offset, rot_offset=self.rotation_offset, z_index=self.z_index)
+        new = Component(offset=self.offset, rot_offset=self.rot_offset, z_index=self.z_index)
         new.gameobj = self.gameobj
         new.singular = self.singular
         return new

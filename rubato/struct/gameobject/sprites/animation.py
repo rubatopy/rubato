@@ -101,7 +101,7 @@ class Animation(Component):
         """The current animation frame."""
         sprite = self._states[self.current_state][self.current_frame]
         sprite.aa = self.aa
-        sprite.rotation = self.gameobj.rotation + self.rotation_offset
+        sprite.rotation = self.gameobj.rotation + self.rot_offset
 
         calculated_scale = self.scale.clone()
         if self.flipx:
@@ -293,7 +293,7 @@ class Animation(Component):
             flipx=self.flipx,
             flipy=self.flipy,
             offset=self.offset,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
         # pylint: disable=protected-access

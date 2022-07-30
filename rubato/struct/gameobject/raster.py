@@ -44,7 +44,7 @@ class Raster(Component):
         self._texture = sdl2.ext.Texture(Display.renderer, self._raster)
 
         self._scale = scale
-        self._rot = self.rotation_offset
+        self._rot = self.rot_offset
 
         self._cam_zoom = 1
         Radio.listen("ZOOM", self.cam_update)
@@ -89,12 +89,12 @@ class Raster(Component):
         self._changed = True
 
     @property
-    def rotation_offset(self) -> float:
+    def rot_offset(self) -> float:
         """The rotation offset of the raster."""
         return self._rot
 
-    @rotation_offset.setter
-    def rotation_offset(self, new: float):
+    @rot_offset.setter
+    def rot_offset(self, new: float):
         self._rot = new
         self._changed = True
 
@@ -230,7 +230,7 @@ class Raster(Component):
         if self.gameobj:
             self._drawn = sdl2.sdlgfx.rotozoomSurfaceXY(
                 self._raster,
-                -self.gameobj.rotation - self.rotation_offset,
+                -self.gameobj.rotation - self.rot_offset,
                 self.scale.x * self._cam_zoom,
                 self.scale.y * self._cam_zoom,
                 0,

@@ -1,10 +1,10 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, Dict, List, Optional, Set
+from typing import Callable, List, Set
 import math
 
 from .. import Component
-from .... import Display, Vector, Color, Error, SideError, Game, Draw, Math, Camera
+from .... import Display, Vector, Color, Error, SideError, Game, Draw, Math, Camera, Input
 
 
 class Hitbox(Component):
@@ -215,6 +215,18 @@ class Polygon(Hitbox):
         """Returns the a list of vertices in world coordinates"""
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
+    def contains_pt(self, pt: Vector) -> bool:
+        """
+        Checks if a point is inside the Polygon.
+
+        Args:
+            pt (Vector): The point to check, in game-world coordinates..
+
+        Returns:
+            bool: Whether or not the point is inside the Polygon.
+        """
+        return Input.pt_in_poly(pt, self.real_verts())
+
     def __str__(self):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
@@ -236,39 +248,26 @@ class Polygon(Hitbox):
     @classmethod
     def generate_polygon(cls,
                          num_sides: int,
-                         radius: float | int = 1,
-                         options: Optional[Dict] = None) -> List[Vector] | Polygon:
+                         radius: float | int = 1) -> List[Vector]:
         """
-        Generates the vertices of a regular polygon with a specified number of sides and a radius.
+        Generates the **vertices** of a regular polygon with a specified number of sides and a radius.
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
 
         Args:
             num_sides: The number of sides of the polygon.
             radius: The radius of the polygon. Defaults to 1.
-            option: A Polygon config. If set, will return a Polygon object. Otherwise it will return
-                a list of vertices. Defaults to the None.
 
         Raises:
             SideError: Raised when the number of sides is less than 3.
 
         Returns:
-            The vertices of the polygon or the Polygon object (depending on whether options is set).
+            The vertices of the polygon.
         """
         if num_sides < 3:
             raise SideError("Can't create a polygon with less than three sides")
 
-        rotangle = 2 * math.pi / num_sides
-        angle, verts = 0, []
-
-        for i in range(num_sides):
-            angle = (i * rotangle) + (math.pi - rotangle) / 2
-            verts.append(Vector(math.cos(angle) * radius, math.sin(angle) * radius))
-
-        if isinstance(options, dict):
-            return cls(options | {"verts": verts})
-        else:
-            return verts
-
+        rotangle = 360 / num_sides
+        return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
 
 class Rectangle(Hitbox):
     """
@@ -504,6 +503,18 @@ class Rectangle(Hitbox):
         """The radius of the rectangle."""
         return round(math.sqrt(self.width**2 + self.height**2) / 2, 10)
 
+    def contains_pt(self, pt: Vector) -> bool:
+        """
+        Checks if a point is inside the Rectangle.
+
+        Args:
+            pt (Vector): The point to check, in game-world coordinates.
+
+        Returns:
+            bool: Whether or not the point is inside the Rectangle.
+        """
+        return Input.pt_in_poly(pt, self.real_verts())
+
     def get_aabb(self) -> List[Vector]:
         verts = self.real_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
@@ -583,7 +594,7 @@ class Rectangle(Hitbox):
     def clone(self) -> Rectangle:
         return Rectangle(
             offset=self.offset,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             debug=self.debug,
             trigger=self.trigger,
             scale=self.scale,
@@ -679,6 +690,19 @@ class Circle(Hitbox):
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 
+    def contains_pt(self, pt: Vector) -> bool:
+        """
+        Checks if a point is inside the Circle.
+
+        Args:
+            pt (Vector): The point to check, in game-world coordinates..
+
+        Returns:
+            bool: Whether or not the point is inside the Circle.
+        """
+        r = self.transformed_radius()
+        return (pt - self.gameobj.pos).mag_sq <= r * r
+
     def draw(self, camera: Camera):
         """Will draw the circle to the screen. Won't draw if color = None."""
         if self.hidden:
@@ -701,7 +725,7 @@ class Circle(Hitbox):
     def clone(self) -> Circle:
         return Circle(
             offset=self.offset,
-            rot_offset=self.rotation_offset,
+            rot_offset=self.rot_offset,
             debug=self.debug,
             trigger=self.trigger,
             scale=self.scale,
