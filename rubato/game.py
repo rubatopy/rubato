@@ -172,8 +172,11 @@ class Game(metaclass=GameProperties):
             # start timing the update loop
             Time._frame_start = Time.now()  # pylint: disable= protected-access
 
+            # Pump SDL events
+            Radio.pump()
+
             # Event handling
-            if Radio.pump():
+            if Radio.handle():
                 cls.quit()
 
             # process delayed calls

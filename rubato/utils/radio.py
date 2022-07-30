@@ -38,12 +38,19 @@ class Radio:
     """
 
     listeners: dict[str, List] = {}
+    queue = []
 
     @classmethod
     def pump(cls):
-        """Pump events from SDL and broadcast them as necessary. Called automatically every frame."""
+        """Pump the event queue from SDL. Called automatically."""
         sdl2.SDL_PumpEvents()
-        for event in sdl2.ext.get_events():
+        cls.queue.extend(sdl2.ext.get_events())
+
+    @classmethod
+    def handle(cls):
+        """Handle events and broadcast them as necessary. Called automatically every frame."""
+        while cls.queue:
+            event = cls.queue.pop(0)
             if event.type == sdl2.SDL_QUIT:
                 return True
             if event.type == sdl2.SDL_WINDOWEVENT:
