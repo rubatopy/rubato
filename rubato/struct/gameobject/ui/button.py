@@ -35,10 +35,10 @@ class Button(Component):
         self,
         width: int = 10,
         height: int = 10,
-        onclick: Callable = lambda: None,
-        onrelease: Callable = lambda: None,
-        onhover: Callable = lambda: None,
-        onexit: Callable = lambda: None,
+        onclick: Callable | None = None,
+        onrelease: Callable | None = None,
+        onhover: Callable | None = None,
+        onexit: Callable | None = None,
         offset: Vector = Vector(),
         rot_offset: float = 0,
         z_index: int = 0
@@ -47,10 +47,10 @@ class Button(Component):
         self.dims: Vector = Vector(width, height)
         self.pressed: bool = False
         self.hover: bool = False
-        self.onclick: Callable = onclick
-        self.onrelease: Callable = onrelease
-        self.onhover: Callable = onhover
-        self.onexit: Callable = onexit
+        self.onclick: Callable = onclick if onclick else lambda: None
+        self.onrelease: Callable = onrelease if onrelease else lambda: None
+        self.onhover: Callable = onhover if onhover else lambda: None
+        self.onexit: Callable = onexit if onexit else lambda: None
 
     def update(self):
         """The update function for buttons."""

@@ -42,8 +42,8 @@ class Hitbox(Component):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -52,8 +52,8 @@ class Hitbox(Component):
         self.debug: bool = debug
         self.trigger: bool = trigger
         self.scale: int = scale
-        self.on_collide: Callable = on_collide
-        self.on_exit: Callable = on_exit
+        self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
+        self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
         self.color: Color = color
         self.singular: bool = False
         self.tag: str = tag
@@ -122,8 +122,8 @@ class Polygon(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -301,8 +301,8 @@ class Rectangle(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -640,8 +640,8 @@ class Circle(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
