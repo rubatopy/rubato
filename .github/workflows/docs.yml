@@ -1,28 +1,21 @@
-name: Docs
+name: PR Docs Preview
 
 on:
     pull_request:
-        types: [synchronize]
+        types:
+            - opened
+            - reopened
+            - synchronize
+            - closed
+
+concurrency: preview-${{ github.ref }}
 
 jobs:
     docs:
         name: Deploy Docs
         runs-on: ubuntu-latest
-        env:
-            LOCATION: "temp/${{ github.event.pull_request.number }}"
         steps:
-            - name: Comment PR
-              uses: thollander/actions-comment-pull-request@v1
-              with:
-                  message: |
-                      Docs will be available soon.
-                      <!-- DO NOT DELETE THIS COMMENTED LINE. -->
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
             - uses: actions/checkout@v2
-              with:
-                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
-                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
             - uses: actions/setup-python@v2
               with:
@@ -38,46 +31,9 @@ jobs:
             - name: Build Docs
               run: (cd docs && make save)
 
-            - name: Transfer Docs to gh-pages (branch)
-              run: |
-                  rm -rf ${{ env.LOCATION }}
-                  mkdir -p temp
-                  cp -r docs/build/html ${{ env.LOCATION }}
-                  git add .
-                  git stash push
-                  git fetch
-                  git checkout gh-pages
-                  git pull
-                  rm -rf docs
-                  mkdir -p ${{ env.LOCATION }}
-                  git add .
-                  git rm -rf ${{ env.LOCATION }}
-                  git stash pop
-
-            - name: Commit files
-              run: |
-                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git config --local user.name "github-actions[bot]"
-                  if [[ `git status --porcelain` ]]; then
-                    git add .
-                    git commit -m "Build Docs pr${{ github.event.pull_request.number }}" -a
-                  fi
-
-            - name: Push changes
-              uses: ad-m/github-push-action@master
+            - name: Deploy preview
+              uses: rossjrw/pr-preview-action@v1
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: gh-pages
-
-            - name: Wait for deployment
-              run: sleep 2m 30s
-              shell: bash
-
-            - name: Edit PR comment
-              uses: thollander/actions-comment-pull-request@v1
-              with:
-                  message: |
-                      Docs are available [here](https://rubato.app/${{ env.LOCATION }}).
-                      <!-- DO NOT DELETE THIS COMMENTED LINE. -->
-                  comment_includes: "<!-- DO NOT DELETE THIS COMMENTED LINE. -->"
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  source-dir: ./docs/build/html
+                  preview-branch: main
+                  umbrella-dir: docs/pr-preview
