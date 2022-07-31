@@ -10,10 +10,10 @@ printf "${BLUE}Waiting for changes...${NC}\n"
 while true; do
     NEW_TAIL=$(cat rubato/**/*.py)
     if [ "$OLD_TAIL" != "$NEW_TAIL" ]; then
-        echo "Rebuilding..."
+        printf "${BLUE}Rebuilding...${NC}\n"
         make build
         OLD_TAIL=$NEW_TAIL
-        echo "${BLUE}Waiting for changes...${NC}\n"
+        printf "${BLUE}Waiting for changes...${NC}\n"
     fi
     sleep 1
 done

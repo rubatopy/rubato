@@ -2,12 +2,14 @@
 A vector implementation.
 """
 from __future__ import annotations
+import cython
 from typing import Any, Iterator
 import math, random
 
 from . import Math, raise_operator_error
 
 
+@cython.cclass
 class Vector:
     """
     A Vector object that defines a 2D point in space
@@ -20,6 +22,8 @@ class Vector:
         x (float | int): The x coordinate.
         y (float | int): The y coordinate.
     """
+    x: float | int
+    y: float | int
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
         if type(x) in (float, int) and type(y) in (float, int):
@@ -385,7 +389,7 @@ class Vector:
         return Vector(round(math.cos(radians), 10) * magnitude, -round(math.sin(radians), 10) * magnitude)
 
     @staticmethod
-    def clamp_magnitude(vector: Vector, max_magnitude: float, min_magnitude: float = 0) -> Vector:
+    def clamp_magnitude(vector: Vector, max_magnitude: float | int, min_magnitude: float | int = 0) -> Vector:
         """
         Clamps the magnitude of the vector to the given range.
 
@@ -429,45 +433,38 @@ class Vector:
         """
         return cls.from_radial(1, random.random() * 360)
 
-    @classmethod
     @property
-    def zero(cls):
+    def zero(self):
         """A zeroed Vector"""
         return Vector(0, 0)
 
-    @classmethod
     @property
-    def one(cls) -> Vector:
+    def one(self) -> Vector:
         """A Vector with all ones"""
         return Vector(1, 1)
 
-    @classmethod
     @property
-    def up(cls):
+    def up(self):
         """A Vector in the up direction"""
         return Vector(0, -1)
 
-    @classmethod
     @property
-    def left(cls):
+    def left(self):
         """A Vector in the left direction"""
         return Vector(-1, 0)
 
-    @classmethod
     @property
-    def down(cls):
+    def down(self):
         """A Vector in the down direction"""
         return Vector(0, 1)
 
-    @classmethod
     @property
-    def right(cls):
+    def right(self):
         """A Vector in the right direction"""
         return Vector(1, 0)
 
-    @classmethod
     @property
-    def infinity(cls):
+    def infinity(self):
         """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
 
@@ -502,11 +499,11 @@ class Vector:
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
 
-    def __pow__(self, other: Any) -> Vector:
+    def __pow__(self, other: Any, mod: float | int) -> Vector:
         if isinstance(other, (int, float)):
-            return Vector(self.x**other, self.y**other)
+            return Vector(pow(self.x, other, mod), pow(self.y, other, mod))
         if isinstance(other, (Vector, tuple, list)):
-            return Vector(self.x**other[0], self.y**other[1])
+            return Vector(pow(self.x, other[0], mod), pow(self.y, other[1], mod))
         raise_operator_error("**", self, other)
 
     __ipow__ = __pow__
@@ -565,6 +562,7 @@ class Vector:
 
     def __floordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
+            print(repr(self))
             return Vector(self.x // other, self.y // other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x // other[0], self.y // other[1])
