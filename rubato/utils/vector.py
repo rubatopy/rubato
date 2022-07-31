@@ -597,20 +597,20 @@ class Vector:
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)
 
-    def __iter__(self) -> Iterator[int]:
+    def __iter__(self) -> Iterator[int | float]:
         return iter([self.x, self.y])
 
     def __repr__(self):
         return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
 
-    def __getitem__(self, index: int) -> int:
+    def __getitem__(self, index: int) -> int | float:
         if index == 0:
             return self.x
         elif index == 1:
             return self.y
         raise IndexError(f"Vector index of {index} out of range (should be 0 or 1)")
 
-    def __setitem__(self, index: int, value: int):
+    def __setitem__(self, index: int, value: int | float):
         if index == 0:
             self.x = value
         elif index == 1:

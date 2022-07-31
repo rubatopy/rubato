@@ -40,7 +40,7 @@ def input_update():
 
 def draw_update():
     for i in range(0, Display.res.x, 20):
-        Debug.circle(Vector(i, 50))
+        Draw.circle(Vector(i, 50))
 
 main.update = input_update
 main.draw = draw_update
