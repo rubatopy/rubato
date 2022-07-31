@@ -3,6 +3,11 @@ from setuptools import setup
 from Cython.Build import cythonize
 import os
 
+if "RUBATO_VERSION" in os.environ:
+    version = os.environ["RUBATO_VERSION"]
+else:
+    version = "0.0.0"
+
 
 def package_files(directory):
     paths = []
@@ -13,7 +18,7 @@ def package_files(directory):
 
 
 setup(
-    version=os.environ["RUBATO_VERSION"],
+    version=version,
     package_data={"rubato": package_files("rubato/static")},
     ext_modules=cythonize(
         "rubato/**/*.py",
