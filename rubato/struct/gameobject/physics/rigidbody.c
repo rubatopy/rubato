@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.physics.rigidbody",
         "sources": [
-            "rubato/struct/gameobject/physics/rigidbody.py"
+            "rubato\\struct\\gameobject\\physics\\rigidbody.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.physics.rigidbody"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/physics/rigidbody.py",
+  "rubato\\\\struct\\\\gameobject\\\\physics\\\\rigidbody.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1898,7 +1898,7 @@ static const char __pyx_k_RigidBody_add_cont_force_locals[] = "RigidBody.add_con
 static const char __pyx_k_The_Rigidbody_component_contain[] = "\nThe Rigidbody component contains an implementation of rigidbody physics. They\nhave hitboxes and can collide and interact with other rigidbodies.\n";
 static const char __pyx_k_RigidBody_add_cont_impulse_local[] = "RigidBody.add_cont_impulse.<locals>.<lambda>";
 static const char __pyx_k_rubato_struct_gameobject_physics[] = "rubato.struct.gameobject.physics.rigidbody";
-static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato/struct/gameobject/physics/rigidbody.py";
+static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato\\struct\\gameobject\\physics\\rigidbody.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_s_A_RigidBody_implementation_with;

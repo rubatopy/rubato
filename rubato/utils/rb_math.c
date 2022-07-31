@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.rb_math",
         "sources": [
-            "rubato/utils/rb_math.py"
+            "rubato\\utils\\rb_math.py"
         ]
     },
     "module_name": "rubato.utils.rb_math"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/rb_math.py",
+  "rubato\\\\utils\\\\rb_math.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2089,7 +2089,7 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_rubato_utils_rb_math[] = "rubato.utils.rb_math";
 static const char __pyx_k_Math_north_deg_to_rad[] = "Math.north_deg_to_rad";
 static const char __pyx_k_Math_rad_to_north_deg[] = "Math.rad_to_north_deg";
-static const char __pyx_k_rubato_utils_rb_math_py[] = "rubato/utils/rb_math.py";
+static const char __pyx_k_rubato_utils_rb_math_py[] = "rubato\\utils\\rb_math.py";
 static const char __pyx_k_Math_gen_primes_line_184[] = "Math.gen_primes (line 184)";
 static const char __pyx_k_a_and_b_must_be_integers[] = "a and b must be integers.";
 static const char __pyx_k_Math_simplify_sqrt_line_127[] = "Math.simplify_sqrt (line 127)";
@@ -2123,7 +2123,7 @@ static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s__26;
 static PyObject *__pyx_n_s__3;
 static PyObject *__pyx_n_s_a;
-static PyObject *__pyx_kp_s_a_and_b_must_be_integers;
+static PyObject *__pyx_kp_u_a_and_b_must_be_integers;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio_coroutines;
@@ -2298,7 +2298,7 @@ typedef struct {
   PyObject *__pyx_n_s__26;
   PyObject *__pyx_n_s__3;
   PyObject *__pyx_n_s_a;
-  PyObject *__pyx_kp_s_a_and_b_must_be_integers;
+  PyObject *__pyx_kp_u_a_and_b_must_be_integers;
   PyObject *__pyx_n_s_append;
   PyObject *__pyx_n_s_args;
   PyObject *__pyx_n_s_asyncio_coroutines;
@@ -2470,7 +2470,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s__26);
   Py_CLEAR(clear_module_state->__pyx_n_s__3);
   Py_CLEAR(clear_module_state->__pyx_n_s_a);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_a_and_b_must_be_integers);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_a_and_b_must_be_integers);
   Py_CLEAR(clear_module_state->__pyx_n_s_append);
   Py_CLEAR(clear_module_state->__pyx_n_s_args);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
@@ -2629,7 +2629,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s__26);
   Py_VISIT(traverse_module_state->__pyx_n_s__3);
   Py_VISIT(traverse_module_state->__pyx_n_s_a);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_a_and_b_must_be_integers);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_a_and_b_must_be_integers);
   Py_VISIT(traverse_module_state->__pyx_n_s_append);
   Py_VISIT(traverse_module_state->__pyx_n_s_args);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
@@ -2785,7 +2785,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s__26 __pyx_mstate_global->__pyx_n_s__26
 #define __pyx_n_s__3 __pyx_mstate_global->__pyx_n_s__3
 #define __pyx_n_s_a __pyx_mstate_global->__pyx_n_s_a
-#define __pyx_kp_s_a_and_b_must_be_integers __pyx_mstate_global->__pyx_kp_s_a_and_b_must_be_integers
+#define __pyx_kp_u_a_and_b_must_be_integers __pyx_mstate_global->__pyx_kp_u_a_and_b_must_be_integers
 #define __pyx_n_s_append __pyx_mstate_global->__pyx_n_s_append
 #define __pyx_n_s_args __pyx_mstate_global->__pyx_n_s_args
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
@@ -5675,7 +5675,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k__26, sizeof(__pyx_k__26), 0, 0, 1, 1},
   {0, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
   {0, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
-  {0, __pyx_k_a_and_b_must_be_integers, sizeof(__pyx_k_a_and_b_must_be_integers), 0, 0, 1, 0},
+  {0, __pyx_k_a_and_b_must_be_integers, sizeof(__pyx_k_a_and_b_must_be_integers), 0, 1, 0, 0},
   {0, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {0, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {0, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
@@ -5786,7 +5786,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s__26, __pyx_k__26, sizeof(__pyx_k__26), 0, 0, 1, 1},
   {&__pyx_n_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
-  {&__pyx_kp_s_a_and_b_must_be_integers, __pyx_k_a_and_b_must_be_integers, sizeof(__pyx_k_a_and_b_must_be_integers), 0, 0, 1, 0},
+  {&__pyx_kp_u_a_and_b_must_be_integers, __pyx_k_a_and_b_must_be_integers, sizeof(__pyx_k_a_and_b_must_be_integers), 0, 1, 0, 0},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
@@ -5896,7 +5896,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         div = math.gcd(a, b)
  *
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_a_and_b_must_be_integers); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_a_and_b_must_be_integers); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -6077,7 +6077,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s__26) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_n_s__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_n_s_a) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_s_a_and_b_must_be_integers) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u_a_and_b_must_be_integers) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_n_s_append) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s_args) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);

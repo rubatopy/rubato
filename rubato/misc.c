@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.misc",
         "sources": [
-            "rubato/misc.py"
+            "rubato\\misc.py"
         ]
     },
     "module_name": "rubato.misc"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/misc.py",
+  "rubato\\\\misc.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1731,7 +1731,7 @@ static const char __pyx_k_rubato_misc[] = "rubato.misc";
 static const char __pyx_k_world_mouse[] = "world_mouse";
 static const char __pyx_k_is_coroutine[] = "_is_coroutine";
 static const char __pyx_k_get_mouse_pos[] = "get_mouse_pos";
-static const char __pyx_k_rubato_misc_py[] = "rubato/misc.py";
+static const char __pyx_k_rubato_misc_py[] = "rubato\\misc.py";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_Component_List_Component[] = "Component | List[Component]";

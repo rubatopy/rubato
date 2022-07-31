@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.__init__",
         "sources": [
-            "rubato/struct/__init__.py"
+            "rubato\\struct\\__init__.py"
         ]
     },
     "module_name": "rubato.struct.__init__"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/__init__.py",
+  "rubato\\\\struct\\\\__init__.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */

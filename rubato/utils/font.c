@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.font",
         "sources": [
-            "rubato/utils/font.py"
+            "rubato\\utils\\font.py"
         ]
     },
     "module_name": "rubato.utils.font"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/font.py",
+  "rubato\\\\utils\\\\font.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1608,6 +1608,9 @@ static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name
 /* append.proto */
 static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
 
+/* PyUnicode_Unicode.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Unicode(PyObject *obj);
+
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
@@ -1887,6 +1890,7 @@ static const char __pyx_k_rot[] = "rot";
 static const char __pyx_k_str[] = "str";
 static const char __pyx_k_Font[] = "Font";
 static const char __pyx_k_List[] = "List";
+static const char __pyx_k_None[] = "None";
 static const char __pyx_k_bold[] = "bold";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_font[] = "font";
@@ -1984,7 +1988,7 @@ static const char __pyx_k_Fredoka_Regular_ttf[] = "Fredoka-Regular.ttf";
 static const char __pyx_k_TTF_STYLE_UNDERLINE[] = "TTF_STYLE_UNDERLINE";
 static const char __pyx_k_importlib_resources[] = "importlib.resources";
 static const char __pyx_k_rubato_static_fonts[] = "rubato.static.fonts";
-static const char __pyx_k_rubato_utils_font_py[] = "rubato/utils/font.py";
+static const char __pyx_k_rubato_utils_font_py[] = "rubato\\utils\\font.py";
 static const char __pyx_k_Comfortaa_Regular_ttf[] = "Comfortaa-Regular.ttf";
 static const char __pyx_k_Font_generate_surface[] = "Font.generate_surface";
 static const char __pyx_k_TTF_STYLE_STRIKETHROUGH[] = "TTF_STYLE_STRIKETHROUGH";
@@ -2002,8 +2006,8 @@ static const char __pyx_k_str_Literal_Comfortaa_Fredoka_Me[] = "str | Literal['C
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_Color;
-static PyObject *__pyx_n_s_Comfortaa;
-static PyObject *__pyx_kp_s_Comfortaa_Regular_ttf;
+static PyObject *__pyx_n_u_Comfortaa;
+static PyObject *__pyx_kp_u_Comfortaa_Regular_ttf;
 static PyObject *__pyx_n_s_FileNotFoundError;
 static PyObject *__pyx_n_s_Font;
 static PyObject *__pyx_n_s_FontTTF;
@@ -2015,21 +2019,22 @@ static PyObject *__pyx_n_s_Font_color;
 static PyObject *__pyx_n_s_Font_generate_surface;
 static PyObject *__pyx_n_s_Font_remove_style;
 static PyObject *__pyx_n_s_Font_size;
-static PyObject *__pyx_n_s_Fredoka;
-static PyObject *__pyx_kp_s_Fredoka_Regular_ttf;
+static PyObject *__pyx_n_u_Fredoka;
+static PyObject *__pyx_kp_u_Fredoka_Regular_ttf;
 static PyObject *__pyx_n_s_List;
 static PyObject *__pyx_kp_s_List_Literal_bold_italic_underli;
 static PyObject *__pyx_n_s_Literal;
-static PyObject *__pyx_n_s_Merriweather;
-static PyObject *__pyx_kp_s_Merriweather_Regular_ttf;
+static PyObject *__pyx_n_u_Merriweather;
+static PyObject *__pyx_kp_u_Merriweather_Regular_ttf;
+static PyObject *__pyx_kp_u_None;
 static PyObject *__pyx_n_s_OSError;
-static PyObject *__pyx_n_s_PressStart;
-static PyObject *__pyx_kp_s_PressStart2P_Regular_ttf;
-static PyObject *__pyx_n_s_Roboto;
-static PyObject *__pyx_kp_s_Roboto_Regular_ttf;
+static PyObject *__pyx_n_u_PressStart;
+static PyObject *__pyx_kp_u_PressStart2P_Regular_ttf;
+static PyObject *__pyx_n_u_Roboto;
+static PyObject *__pyx_kp_u_Roboto_Regular_ttf;
 static PyObject *__pyx_n_s_RuntimeError;
-static PyObject *__pyx_n_s_SourceCodePro;
-static PyObject *__pyx_kp_s_SourceCodePro_Regular_ttf;
+static PyObject *__pyx_n_u_SourceCodePro;
+static PyObject *__pyx_kp_u_SourceCodePro_Regular_ttf;
 static PyObject *__pyx_kp_u_Style;
 static PyObject *__pyx_n_s_TTF_STYLE_BOLD;
 static PyObject *__pyx_n_s_TTF_STYLE_ITALIC;
@@ -2050,7 +2055,7 @@ static PyObject *__pyx_n_s_align;
 static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_apply_styles;
 static PyObject *__pyx_n_s_asyncio_coroutines;
-static PyObject *__pyx_n_s_bold;
+static PyObject *__pyx_n_u_bold;
 static PyObject *__pyx_kp_u_cannot_be_found;
 static PyObject *__pyx_n_s_class_getitem;
 static PyObject *__pyx_n_s_cline_in_traceback;
@@ -2077,7 +2082,7 @@ static PyObject *__pyx_kp_u_is_not_currently_applied;
 static PyObject *__pyx_kp_u_is_not_valid_or_is_already_appl;
 static PyObject *__pyx_kp_u_is_too_big_for_the_text;
 static PyObject *__pyx_kp_u_is_too_small_for_the_text;
-static PyObject *__pyx_n_s_italic;
+static PyObject *__pyx_n_u_italic;
 static PyObject *__pyx_n_s_joinpath;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
@@ -2093,7 +2098,7 @@ static PyObject *__pyx_n_s_render_text;
 static PyObject *__pyx_n_s_return;
 static PyObject *__pyx_n_s_rot;
 static PyObject *__pyx_n_s_rotozoomSurface;
-static PyObject *__pyx_kp_s_rubato_static_fonts;
+static PyObject *__pyx_kp_u_rubato_static_fonts;
 static PyObject *__pyx_n_s_rubato_utils_font;
 static PyObject *__pyx_kp_s_rubato_utils_font_py;
 static PyObject *__pyx_n_s_s;
@@ -2112,7 +2117,7 @@ static PyObject *__pyx_n_s_size_2;
 static PyObject *__pyx_n_s_spec;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me;
-static PyObject *__pyx_n_s_strikethrough;
+static PyObject *__pyx_n_u_strikethrough;
 static PyObject *__pyx_n_s_style;
 static PyObject *__pyx_n_s_styles;
 static PyObject *__pyx_n_s_styles_2;
@@ -2123,7 +2128,7 @@ static PyObject *__pyx_n_s_text_fonts;
 static PyObject *__pyx_n_s_text_styles;
 static PyObject *__pyx_n_s_to_tuple;
 static PyObject *__pyx_n_s_typing;
-static PyObject *__pyx_n_s_underline;
+static PyObject *__pyx_n_u_underline;
 static PyObject *__pyx_n_s_width;
 #endif
 /* #### Code section: decls ### */
@@ -2183,8 +2188,8 @@ typedef struct {
   #endif
   PyObject *__pyx_kp_u_;
   PyObject *__pyx_n_s_Color;
-  PyObject *__pyx_n_s_Comfortaa;
-  PyObject *__pyx_kp_s_Comfortaa_Regular_ttf;
+  PyObject *__pyx_n_u_Comfortaa;
+  PyObject *__pyx_kp_u_Comfortaa_Regular_ttf;
   PyObject *__pyx_n_s_FileNotFoundError;
   PyObject *__pyx_n_s_Font;
   PyObject *__pyx_n_s_FontTTF;
@@ -2196,21 +2201,22 @@ typedef struct {
   PyObject *__pyx_n_s_Font_generate_surface;
   PyObject *__pyx_n_s_Font_remove_style;
   PyObject *__pyx_n_s_Font_size;
-  PyObject *__pyx_n_s_Fredoka;
-  PyObject *__pyx_kp_s_Fredoka_Regular_ttf;
+  PyObject *__pyx_n_u_Fredoka;
+  PyObject *__pyx_kp_u_Fredoka_Regular_ttf;
   PyObject *__pyx_n_s_List;
   PyObject *__pyx_kp_s_List_Literal_bold_italic_underli;
   PyObject *__pyx_n_s_Literal;
-  PyObject *__pyx_n_s_Merriweather;
-  PyObject *__pyx_kp_s_Merriweather_Regular_ttf;
+  PyObject *__pyx_n_u_Merriweather;
+  PyObject *__pyx_kp_u_Merriweather_Regular_ttf;
+  PyObject *__pyx_kp_u_None;
   PyObject *__pyx_n_s_OSError;
-  PyObject *__pyx_n_s_PressStart;
-  PyObject *__pyx_kp_s_PressStart2P_Regular_ttf;
-  PyObject *__pyx_n_s_Roboto;
-  PyObject *__pyx_kp_s_Roboto_Regular_ttf;
+  PyObject *__pyx_n_u_PressStart;
+  PyObject *__pyx_kp_u_PressStart2P_Regular_ttf;
+  PyObject *__pyx_n_u_Roboto;
+  PyObject *__pyx_kp_u_Roboto_Regular_ttf;
   PyObject *__pyx_n_s_RuntimeError;
-  PyObject *__pyx_n_s_SourceCodePro;
-  PyObject *__pyx_kp_s_SourceCodePro_Regular_ttf;
+  PyObject *__pyx_n_u_SourceCodePro;
+  PyObject *__pyx_kp_u_SourceCodePro_Regular_ttf;
   PyObject *__pyx_kp_u_Style;
   PyObject *__pyx_n_s_TTF_STYLE_BOLD;
   PyObject *__pyx_n_s_TTF_STYLE_ITALIC;
@@ -2231,7 +2237,7 @@ typedef struct {
   PyObject *__pyx_n_s_append;
   PyObject *__pyx_n_s_apply_styles;
   PyObject *__pyx_n_s_asyncio_coroutines;
-  PyObject *__pyx_n_s_bold;
+  PyObject *__pyx_n_u_bold;
   PyObject *__pyx_kp_u_cannot_be_found;
   PyObject *__pyx_n_s_class_getitem;
   PyObject *__pyx_n_s_cline_in_traceback;
@@ -2258,7 +2264,7 @@ typedef struct {
   PyObject *__pyx_kp_u_is_not_valid_or_is_already_appl;
   PyObject *__pyx_kp_u_is_too_big_for_the_text;
   PyObject *__pyx_kp_u_is_too_small_for_the_text;
-  PyObject *__pyx_n_s_italic;
+  PyObject *__pyx_n_u_italic;
   PyObject *__pyx_n_s_joinpath;
   PyObject *__pyx_n_s_main;
   PyObject *__pyx_n_s_metaclass;
@@ -2274,7 +2280,7 @@ typedef struct {
   PyObject *__pyx_n_s_return;
   PyObject *__pyx_n_s_rot;
   PyObject *__pyx_n_s_rotozoomSurface;
-  PyObject *__pyx_kp_s_rubato_static_fonts;
+  PyObject *__pyx_kp_u_rubato_static_fonts;
   PyObject *__pyx_n_s_rubato_utils_font;
   PyObject *__pyx_kp_s_rubato_utils_font_py;
   PyObject *__pyx_n_s_s;
@@ -2293,7 +2299,7 @@ typedef struct {
   PyObject *__pyx_n_s_spec;
   PyObject *__pyx_n_s_str;
   PyObject *__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me;
-  PyObject *__pyx_n_s_strikethrough;
+  PyObject *__pyx_n_u_strikethrough;
   PyObject *__pyx_n_s_style;
   PyObject *__pyx_n_s_styles;
   PyObject *__pyx_n_s_styles_2;
@@ -2304,7 +2310,7 @@ typedef struct {
   PyObject *__pyx_n_s_text_styles;
   PyObject *__pyx_n_s_to_tuple;
   PyObject *__pyx_n_s_typing;
-  PyObject *__pyx_n_s_underline;
+  PyObject *__pyx_n_u_underline;
   PyObject *__pyx_n_s_width;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
@@ -2364,8 +2370,8 @@ static int __pyx_m_clear(PyObject *m) {
   #endif
   Py_CLEAR(clear_module_state->__pyx_kp_u_);
   Py_CLEAR(clear_module_state->__pyx_n_s_Color);
-  Py_CLEAR(clear_module_state->__pyx_n_s_Comfortaa);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Comfortaa_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_n_u_Comfortaa);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Comfortaa_Regular_ttf);
   Py_CLEAR(clear_module_state->__pyx_n_s_FileNotFoundError);
   Py_CLEAR(clear_module_state->__pyx_n_s_Font);
   Py_CLEAR(clear_module_state->__pyx_n_s_FontTTF);
@@ -2377,21 +2383,22 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Font_generate_surface);
   Py_CLEAR(clear_module_state->__pyx_n_s_Font_remove_style);
   Py_CLEAR(clear_module_state->__pyx_n_s_Font_size);
-  Py_CLEAR(clear_module_state->__pyx_n_s_Fredoka);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Fredoka_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_n_u_Fredoka);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Fredoka_Regular_ttf);
   Py_CLEAR(clear_module_state->__pyx_n_s_List);
   Py_CLEAR(clear_module_state->__pyx_kp_s_List_Literal_bold_italic_underli);
   Py_CLEAR(clear_module_state->__pyx_n_s_Literal);
-  Py_CLEAR(clear_module_state->__pyx_n_s_Merriweather);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Merriweather_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_n_u_Merriweather);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Merriweather_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_None);
   Py_CLEAR(clear_module_state->__pyx_n_s_OSError);
-  Py_CLEAR(clear_module_state->__pyx_n_s_PressStart);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_PressStart2P_Regular_ttf);
-  Py_CLEAR(clear_module_state->__pyx_n_s_Roboto);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Roboto_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_n_u_PressStart);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_PressStart2P_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_n_u_Roboto);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Roboto_Regular_ttf);
   Py_CLEAR(clear_module_state->__pyx_n_s_RuntimeError);
-  Py_CLEAR(clear_module_state->__pyx_n_s_SourceCodePro);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_SourceCodePro_Regular_ttf);
+  Py_CLEAR(clear_module_state->__pyx_n_u_SourceCodePro);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_SourceCodePro_Regular_ttf);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Style);
   Py_CLEAR(clear_module_state->__pyx_n_s_TTF_STYLE_BOLD);
   Py_CLEAR(clear_module_state->__pyx_n_s_TTF_STYLE_ITALIC);
@@ -2412,7 +2419,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_append);
   Py_CLEAR(clear_module_state->__pyx_n_s_apply_styles);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
-  Py_CLEAR(clear_module_state->__pyx_n_s_bold);
+  Py_CLEAR(clear_module_state->__pyx_n_u_bold);
   Py_CLEAR(clear_module_state->__pyx_kp_u_cannot_be_found);
   Py_CLEAR(clear_module_state->__pyx_n_s_class_getitem);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
@@ -2439,7 +2446,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u_is_not_valid_or_is_already_appl);
   Py_CLEAR(clear_module_state->__pyx_kp_u_is_too_big_for_the_text);
   Py_CLEAR(clear_module_state->__pyx_kp_u_is_too_small_for_the_text);
-  Py_CLEAR(clear_module_state->__pyx_n_s_italic);
+  Py_CLEAR(clear_module_state->__pyx_n_u_italic);
   Py_CLEAR(clear_module_state->__pyx_n_s_joinpath);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
   Py_CLEAR(clear_module_state->__pyx_n_s_metaclass);
@@ -2455,7 +2462,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_return);
   Py_CLEAR(clear_module_state->__pyx_n_s_rot);
   Py_CLEAR(clear_module_state->__pyx_n_s_rotozoomSurface);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_rubato_static_fonts);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_rubato_static_fonts);
   Py_CLEAR(clear_module_state->__pyx_n_s_rubato_utils_font);
   Py_CLEAR(clear_module_state->__pyx_kp_s_rubato_utils_font_py);
   Py_CLEAR(clear_module_state->__pyx_n_s_s);
@@ -2474,7 +2481,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_spec);
   Py_CLEAR(clear_module_state->__pyx_n_s_str);
   Py_CLEAR(clear_module_state->__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me);
-  Py_CLEAR(clear_module_state->__pyx_n_s_strikethrough);
+  Py_CLEAR(clear_module_state->__pyx_n_u_strikethrough);
   Py_CLEAR(clear_module_state->__pyx_n_s_style);
   Py_CLEAR(clear_module_state->__pyx_n_s_styles);
   Py_CLEAR(clear_module_state->__pyx_n_s_styles_2);
@@ -2485,7 +2492,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_text_styles);
   Py_CLEAR(clear_module_state->__pyx_n_s_to_tuple);
   Py_CLEAR(clear_module_state->__pyx_n_s_typing);
-  Py_CLEAR(clear_module_state->__pyx_n_s_underline);
+  Py_CLEAR(clear_module_state->__pyx_n_u_underline);
   Py_CLEAR(clear_module_state->__pyx_n_s_width);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
@@ -2532,8 +2539,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   #endif
   Py_VISIT(traverse_module_state->__pyx_kp_u_);
   Py_VISIT(traverse_module_state->__pyx_n_s_Color);
-  Py_VISIT(traverse_module_state->__pyx_n_s_Comfortaa);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Comfortaa_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_n_u_Comfortaa);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Comfortaa_Regular_ttf);
   Py_VISIT(traverse_module_state->__pyx_n_s_FileNotFoundError);
   Py_VISIT(traverse_module_state->__pyx_n_s_Font);
   Py_VISIT(traverse_module_state->__pyx_n_s_FontTTF);
@@ -2545,21 +2552,22 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Font_generate_surface);
   Py_VISIT(traverse_module_state->__pyx_n_s_Font_remove_style);
   Py_VISIT(traverse_module_state->__pyx_n_s_Font_size);
-  Py_VISIT(traverse_module_state->__pyx_n_s_Fredoka);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Fredoka_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_n_u_Fredoka);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Fredoka_Regular_ttf);
   Py_VISIT(traverse_module_state->__pyx_n_s_List);
   Py_VISIT(traverse_module_state->__pyx_kp_s_List_Literal_bold_italic_underli);
   Py_VISIT(traverse_module_state->__pyx_n_s_Literal);
-  Py_VISIT(traverse_module_state->__pyx_n_s_Merriweather);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Merriweather_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_n_u_Merriweather);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Merriweather_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_None);
   Py_VISIT(traverse_module_state->__pyx_n_s_OSError);
-  Py_VISIT(traverse_module_state->__pyx_n_s_PressStart);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_PressStart2P_Regular_ttf);
-  Py_VISIT(traverse_module_state->__pyx_n_s_Roboto);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Roboto_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_n_u_PressStart);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_PressStart2P_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_n_u_Roboto);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Roboto_Regular_ttf);
   Py_VISIT(traverse_module_state->__pyx_n_s_RuntimeError);
-  Py_VISIT(traverse_module_state->__pyx_n_s_SourceCodePro);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_SourceCodePro_Regular_ttf);
+  Py_VISIT(traverse_module_state->__pyx_n_u_SourceCodePro);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_SourceCodePro_Regular_ttf);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Style);
   Py_VISIT(traverse_module_state->__pyx_n_s_TTF_STYLE_BOLD);
   Py_VISIT(traverse_module_state->__pyx_n_s_TTF_STYLE_ITALIC);
@@ -2580,7 +2588,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_append);
   Py_VISIT(traverse_module_state->__pyx_n_s_apply_styles);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
-  Py_VISIT(traverse_module_state->__pyx_n_s_bold);
+  Py_VISIT(traverse_module_state->__pyx_n_u_bold);
   Py_VISIT(traverse_module_state->__pyx_kp_u_cannot_be_found);
   Py_VISIT(traverse_module_state->__pyx_n_s_class_getitem);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
@@ -2607,7 +2615,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u_is_not_valid_or_is_already_appl);
   Py_VISIT(traverse_module_state->__pyx_kp_u_is_too_big_for_the_text);
   Py_VISIT(traverse_module_state->__pyx_kp_u_is_too_small_for_the_text);
-  Py_VISIT(traverse_module_state->__pyx_n_s_italic);
+  Py_VISIT(traverse_module_state->__pyx_n_u_italic);
   Py_VISIT(traverse_module_state->__pyx_n_s_joinpath);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
   Py_VISIT(traverse_module_state->__pyx_n_s_metaclass);
@@ -2623,7 +2631,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_return);
   Py_VISIT(traverse_module_state->__pyx_n_s_rot);
   Py_VISIT(traverse_module_state->__pyx_n_s_rotozoomSurface);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_rubato_static_fonts);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_rubato_static_fonts);
   Py_VISIT(traverse_module_state->__pyx_n_s_rubato_utils_font);
   Py_VISIT(traverse_module_state->__pyx_kp_s_rubato_utils_font_py);
   Py_VISIT(traverse_module_state->__pyx_n_s_s);
@@ -2642,7 +2650,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_spec);
   Py_VISIT(traverse_module_state->__pyx_n_s_str);
   Py_VISIT(traverse_module_state->__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me);
-  Py_VISIT(traverse_module_state->__pyx_n_s_strikethrough);
+  Py_VISIT(traverse_module_state->__pyx_n_u_strikethrough);
   Py_VISIT(traverse_module_state->__pyx_n_s_style);
   Py_VISIT(traverse_module_state->__pyx_n_s_styles);
   Py_VISIT(traverse_module_state->__pyx_n_s_styles_2);
@@ -2653,7 +2661,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_text_styles);
   Py_VISIT(traverse_module_state->__pyx_n_s_to_tuple);
   Py_VISIT(traverse_module_state->__pyx_n_s_typing);
-  Py_VISIT(traverse_module_state->__pyx_n_s_underline);
+  Py_VISIT(traverse_module_state->__pyx_n_u_underline);
   Py_VISIT(traverse_module_state->__pyx_n_s_width);
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
@@ -2697,8 +2705,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #define __pyx_kp_u_ __pyx_mstate_global->__pyx_kp_u_
 #define __pyx_n_s_Color __pyx_mstate_global->__pyx_n_s_Color
-#define __pyx_n_s_Comfortaa __pyx_mstate_global->__pyx_n_s_Comfortaa
-#define __pyx_kp_s_Comfortaa_Regular_ttf __pyx_mstate_global->__pyx_kp_s_Comfortaa_Regular_ttf
+#define __pyx_n_u_Comfortaa __pyx_mstate_global->__pyx_n_u_Comfortaa
+#define __pyx_kp_u_Comfortaa_Regular_ttf __pyx_mstate_global->__pyx_kp_u_Comfortaa_Regular_ttf
 #define __pyx_n_s_FileNotFoundError __pyx_mstate_global->__pyx_n_s_FileNotFoundError
 #define __pyx_n_s_Font __pyx_mstate_global->__pyx_n_s_Font
 #define __pyx_n_s_FontTTF __pyx_mstate_global->__pyx_n_s_FontTTF
@@ -2710,21 +2718,22 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Font_generate_surface __pyx_mstate_global->__pyx_n_s_Font_generate_surface
 #define __pyx_n_s_Font_remove_style __pyx_mstate_global->__pyx_n_s_Font_remove_style
 #define __pyx_n_s_Font_size __pyx_mstate_global->__pyx_n_s_Font_size
-#define __pyx_n_s_Fredoka __pyx_mstate_global->__pyx_n_s_Fredoka
-#define __pyx_kp_s_Fredoka_Regular_ttf __pyx_mstate_global->__pyx_kp_s_Fredoka_Regular_ttf
+#define __pyx_n_u_Fredoka __pyx_mstate_global->__pyx_n_u_Fredoka
+#define __pyx_kp_u_Fredoka_Regular_ttf __pyx_mstate_global->__pyx_kp_u_Fredoka_Regular_ttf
 #define __pyx_n_s_List __pyx_mstate_global->__pyx_n_s_List
 #define __pyx_kp_s_List_Literal_bold_italic_underli __pyx_mstate_global->__pyx_kp_s_List_Literal_bold_italic_underli
 #define __pyx_n_s_Literal __pyx_mstate_global->__pyx_n_s_Literal
-#define __pyx_n_s_Merriweather __pyx_mstate_global->__pyx_n_s_Merriweather
-#define __pyx_kp_s_Merriweather_Regular_ttf __pyx_mstate_global->__pyx_kp_s_Merriweather_Regular_ttf
+#define __pyx_n_u_Merriweather __pyx_mstate_global->__pyx_n_u_Merriweather
+#define __pyx_kp_u_Merriweather_Regular_ttf __pyx_mstate_global->__pyx_kp_u_Merriweather_Regular_ttf
+#define __pyx_kp_u_None __pyx_mstate_global->__pyx_kp_u_None
 #define __pyx_n_s_OSError __pyx_mstate_global->__pyx_n_s_OSError
-#define __pyx_n_s_PressStart __pyx_mstate_global->__pyx_n_s_PressStart
-#define __pyx_kp_s_PressStart2P_Regular_ttf __pyx_mstate_global->__pyx_kp_s_PressStart2P_Regular_ttf
-#define __pyx_n_s_Roboto __pyx_mstate_global->__pyx_n_s_Roboto
-#define __pyx_kp_s_Roboto_Regular_ttf __pyx_mstate_global->__pyx_kp_s_Roboto_Regular_ttf
+#define __pyx_n_u_PressStart __pyx_mstate_global->__pyx_n_u_PressStart
+#define __pyx_kp_u_PressStart2P_Regular_ttf __pyx_mstate_global->__pyx_kp_u_PressStart2P_Regular_ttf
+#define __pyx_n_u_Roboto __pyx_mstate_global->__pyx_n_u_Roboto
+#define __pyx_kp_u_Roboto_Regular_ttf __pyx_mstate_global->__pyx_kp_u_Roboto_Regular_ttf
 #define __pyx_n_s_RuntimeError __pyx_mstate_global->__pyx_n_s_RuntimeError
-#define __pyx_n_s_SourceCodePro __pyx_mstate_global->__pyx_n_s_SourceCodePro
-#define __pyx_kp_s_SourceCodePro_Regular_ttf __pyx_mstate_global->__pyx_kp_s_SourceCodePro_Regular_ttf
+#define __pyx_n_u_SourceCodePro __pyx_mstate_global->__pyx_n_u_SourceCodePro
+#define __pyx_kp_u_SourceCodePro_Regular_ttf __pyx_mstate_global->__pyx_kp_u_SourceCodePro_Regular_ttf
 #define __pyx_kp_u_Style __pyx_mstate_global->__pyx_kp_u_Style
 #define __pyx_n_s_TTF_STYLE_BOLD __pyx_mstate_global->__pyx_n_s_TTF_STYLE_BOLD
 #define __pyx_n_s_TTF_STYLE_ITALIC __pyx_mstate_global->__pyx_n_s_TTF_STYLE_ITALIC
@@ -2745,7 +2754,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_append __pyx_mstate_global->__pyx_n_s_append
 #define __pyx_n_s_apply_styles __pyx_mstate_global->__pyx_n_s_apply_styles
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
-#define __pyx_n_s_bold __pyx_mstate_global->__pyx_n_s_bold
+#define __pyx_n_u_bold __pyx_mstate_global->__pyx_n_u_bold
 #define __pyx_kp_u_cannot_be_found __pyx_mstate_global->__pyx_kp_u_cannot_be_found
 #define __pyx_n_s_class_getitem __pyx_mstate_global->__pyx_n_s_class_getitem
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
@@ -2772,7 +2781,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u_is_not_valid_or_is_already_appl __pyx_mstate_global->__pyx_kp_u_is_not_valid_or_is_already_appl
 #define __pyx_kp_u_is_too_big_for_the_text __pyx_mstate_global->__pyx_kp_u_is_too_big_for_the_text
 #define __pyx_kp_u_is_too_small_for_the_text __pyx_mstate_global->__pyx_kp_u_is_too_small_for_the_text
-#define __pyx_n_s_italic __pyx_mstate_global->__pyx_n_s_italic
+#define __pyx_n_u_italic __pyx_mstate_global->__pyx_n_u_italic
 #define __pyx_n_s_joinpath __pyx_mstate_global->__pyx_n_s_joinpath
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
 #define __pyx_n_s_metaclass __pyx_mstate_global->__pyx_n_s_metaclass
@@ -2788,7 +2797,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_return __pyx_mstate_global->__pyx_n_s_return
 #define __pyx_n_s_rot __pyx_mstate_global->__pyx_n_s_rot
 #define __pyx_n_s_rotozoomSurface __pyx_mstate_global->__pyx_n_s_rotozoomSurface
-#define __pyx_kp_s_rubato_static_fonts __pyx_mstate_global->__pyx_kp_s_rubato_static_fonts
+#define __pyx_kp_u_rubato_static_fonts __pyx_mstate_global->__pyx_kp_u_rubato_static_fonts
 #define __pyx_n_s_rubato_utils_font __pyx_mstate_global->__pyx_n_s_rubato_utils_font
 #define __pyx_kp_s_rubato_utils_font_py __pyx_mstate_global->__pyx_kp_s_rubato_utils_font_py
 #define __pyx_n_s_s __pyx_mstate_global->__pyx_n_s_s
@@ -2807,7 +2816,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_spec __pyx_mstate_global->__pyx_n_s_spec
 #define __pyx_n_s_str __pyx_mstate_global->__pyx_n_s_str
 #define __pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me __pyx_mstate_global->__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me
-#define __pyx_n_s_strikethrough __pyx_mstate_global->__pyx_n_s_strikethrough
+#define __pyx_n_u_strikethrough __pyx_mstate_global->__pyx_n_u_strikethrough
 #define __pyx_n_s_style __pyx_mstate_global->__pyx_n_s_style
 #define __pyx_n_s_styles __pyx_mstate_global->__pyx_n_s_styles
 #define __pyx_n_s_styles_2 __pyx_mstate_global->__pyx_n_s_styles_2
@@ -2818,7 +2827,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_text_styles __pyx_mstate_global->__pyx_n_s_text_styles
 #define __pyx_n_s_to_tuple __pyx_mstate_global->__pyx_n_s_to_tuple
 #define __pyx_n_s_typing __pyx_mstate_global->__pyx_n_s_typing
-#define __pyx_n_s_underline __pyx_mstate_global->__pyx_n_s_underline
+#define __pyx_n_u_underline __pyx_mstate_global->__pyx_n_u_underline
 #define __pyx_n_s_width __pyx_mstate_global->__pyx_n_s_width
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
@@ -2866,9 +2875,9 @@ static PyObject *__pyx_pf_6rubato_5utils_4font___defaults__(CYTHON_UNUSED PyObje
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyTuple_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(((PyObject*)__pyx_n_s_Roboto));
-  __Pyx_GIVEREF(((PyObject*)__pyx_n_s_Roboto));
-  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject*)__pyx_n_s_Roboto));
+  __Pyx_INCREF(((PyObject*)__pyx_n_u_Roboto));
+  __Pyx_GIVEREF(((PyObject*)__pyx_n_u_Roboto));
+  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject*)__pyx_n_u_Roboto));
   __Pyx_INCREF(((PyObject *)__pyx_int_16));
   __Pyx_GIVEREF(((PyObject *)__pyx_int_16));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_int_16));
@@ -2910,7 +2919,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font___init__, "Font.__init__(self, font: str | Literal['Comfortaa', 'Fredoka', 'Merriweather', 'Roboto', 'SourceCodePro', 'PressStart'] = 'Roboto', size: int = 16, styles: List[Literal['bold', 'italic', 'underline', 'strikethrough']] = [], color: Color = Color(0, 0, 0))");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font___init__, "Font.__init__(self, font: str | Literal['Comfortaa', 'Fredoka', 'Merriweather', 'Roboto', 'SourceCodePro', 'PressStart'] = u'Roboto', size: int = 16, styles: List[Literal['bold', 'italic', 'underline', 'strikethrough']] = [], color: Color = Color(0, 0, 0))");
 static PyMethodDef __pyx_mdef_6rubato_5utils_4font_4Font_1__init__ = {"__init__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_4font_4Font_1__init__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_4font_4Font___init__};
 static PyObject *__pyx_pw_6rubato_5utils_4font_4Font_1__init__(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -2942,7 +2951,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     #endif
     PyObject* values[5] = {0,0,0,0,0};
     __pyx_defaults *__pyx_dynamic_args = __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_self);
-    values[1] = ((PyObject *)((PyObject*)__pyx_n_s_Roboto));
+    values[1] = ((PyObject *)((PyObject*)__pyx_n_u_Roboto));
     values[2] = ((PyObject *)((PyObject *)__pyx_int_16));
     values[3] = __pyx_dynamic_args->__pyx_arg_styles;
     values[4] = __pyx_dynamic_args->__pyx_arg_color;
@@ -3135,7 +3144,7 @@ static PyObject *__pyx_pf_6rubato_5utils_4font_4Font___init__(CYTHON_UNUSED PyOb
       }
     }
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_kp_s_rubato_static_fonts};
+      PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_kp_u_rubato_static_fonts};
       __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
@@ -4202,7 +4211,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font_10generate_surface, "Font.generate_surface(self, str text: str, align: Vector = Vector(0, 0), width: int = 0, rot: int = 0) -> sdl2.SDL_Surface\n\n        Generate the surface containing the text.\n\n        Args:\n            text: The text to render.\n            align: The alignment to use. Defaults to Vector(0, 0).\n            width: The maximum width to use. Defaults to -1.\n            rot: The rotation of the text in degrees. Defaults to 0.\n\n        Raises:\n            ValueError: The width is too small for the text.\n            ValueError: The size of the text is too large for the font.\n\n        Returns:\n            sdl2.SDL_Surface: The surface containing the text.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font_10generate_surface, "Font.generate_surface(self, unicode text: str, align: Vector = Vector(0, 0), width: int = 0, rot: int = 0) -> sdl2.SDL_Surface\n\n        Generate the surface containing the text.\n\n        Args:\n            text: The text to render.\n            align: The alignment to use. Defaults to Vector(0, 0).\n            width: The maximum width to use. Defaults to -1.\n            rot: The rotation of the text in degrees. Defaults to 0.\n\n        Raises:\n            ValueError: The width is too small for the text.\n            ValueError: The size of the text is too large for the font.\n\n        Returns:\n            sdl2.SDL_Surface: The surface containing the text.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_4font_4Font_11generate_surface = {"generate_surface", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_4font_4Font_11generate_surface, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_4font_4Font_10generate_surface};
 static PyObject *__pyx_pw_6rubato_5utils_4font_4Font_11generate_surface(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -4320,7 +4329,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_text), (&PyString_Type), 1, "text", 1))) __PYX_ERR(0, 80, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_text), (&PyUnicode_Type), 1, "text", 1))) __PYX_ERR(0, 80, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_4font_4Font_10generate_surface(__pyx_self, __pyx_v_self, __pyx_v_text, __pyx_v_align, __pyx_v_width, __pyx_v_rot);
 
   /* function exit code */
@@ -4745,7 +4754,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font_12add_style, "Font.add_style(self, str style: str)\n\n        Adds a style to the font.\n\n        Args:\n            style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font_12add_style, "Font.add_style(self, unicode style: str)\n\n        Adds a style to the font.\n\n        Args:\n            style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_4font_4Font_13add_style = {"add_style", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_4font_4Font_13add_style, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_4font_4Font_12add_style};
 static PyObject *__pyx_pw_6rubato_5utils_4font_4Font_13add_style(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -4818,7 +4827,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_style), (&PyString_Type), 1, "style", 1))) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_style), (&PyUnicode_Type), 1, "style", 1))) __PYX_ERR(0, 108, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_4font_4Font_12add_style(__pyx_self, __pyx_v_self, __pyx_v_style);
 
   /* function exit code */
@@ -4946,7 +4955,7 @@ static PyObject *__pyx_pf_6rubato_5utils_4font_4Font_12add_style(CYTHON_UNUSED P
     __pyx_t_9 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_Style);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_Style);
-    __pyx_t_2 = __Pyx_PyObject_FormatSimple(__pyx_v_style, __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyUnicode_Unicode(__pyx_v_style); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_10 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) > __pyx_t_10) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_2) : __pyx_t_10;
     __pyx_t_9 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2);
@@ -5008,7 +5017,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font_14remove_style, "Font.remove_style(self, str style: str)\n\n        Removes a style from the font.\n\n        Args:\n            style: The style to remove. Can be one of the following: bold, italic, underline, strikethrough.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4font_4Font_14remove_style, "Font.remove_style(self, unicode style: str)\n\n        Removes a style from the font.\n\n        Args:\n            style: The style to remove. Can be one of the following: bold, italic, underline, strikethrough.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_4font_4Font_15remove_style = {"remove_style", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_4font_4Font_15remove_style, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_4font_4Font_14remove_style};
 static PyObject *__pyx_pw_6rubato_5utils_4font_4Font_15remove_style(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -5081,7 +5090,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_style), (&PyString_Type), 1, "style", 1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_style), (&PyUnicode_Type), 1, "style", 1))) __PYX_ERR(0, 121, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_4font_4Font_14remove_style(__pyx_self, __pyx_v_self, __pyx_v_style);
 
   /* function exit code */
@@ -5214,7 +5223,7 @@ static PyObject *__pyx_pf_6rubato_5utils_4font_4Font_14remove_style(CYTHON_UNUSE
     __pyx_t_7 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_Style);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Style);
-    __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_v_style, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Unicode(__pyx_v_style); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_8 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_8) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_8;
     __pyx_t_7 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -5561,8 +5570,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   #if CYTHON_USE_MODULE_STATE
   {0, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {0, __pyx_k_Color, sizeof(__pyx_k_Color), 0, 0, 1, 1},
-  {0, __pyx_k_Comfortaa, sizeof(__pyx_k_Comfortaa), 0, 0, 1, 1},
-  {0, __pyx_k_Comfortaa_Regular_ttf, sizeof(__pyx_k_Comfortaa_Regular_ttf), 0, 0, 1, 0},
+  {0, __pyx_k_Comfortaa, sizeof(__pyx_k_Comfortaa), 0, 1, 0, 1},
+  {0, __pyx_k_Comfortaa_Regular_ttf, sizeof(__pyx_k_Comfortaa_Regular_ttf), 0, 1, 0, 0},
   {0, __pyx_k_FileNotFoundError, sizeof(__pyx_k_FileNotFoundError), 0, 0, 1, 1},
   {0, __pyx_k_Font, sizeof(__pyx_k_Font), 0, 0, 1, 1},
   {0, __pyx_k_FontTTF, sizeof(__pyx_k_FontTTF), 0, 0, 1, 1},
@@ -5574,21 +5583,22 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Font_generate_surface, sizeof(__pyx_k_Font_generate_surface), 0, 0, 1, 1},
   {0, __pyx_k_Font_remove_style, sizeof(__pyx_k_Font_remove_style), 0, 0, 1, 1},
   {0, __pyx_k_Font_size, sizeof(__pyx_k_Font_size), 0, 0, 1, 1},
-  {0, __pyx_k_Fredoka, sizeof(__pyx_k_Fredoka), 0, 0, 1, 1},
-  {0, __pyx_k_Fredoka_Regular_ttf, sizeof(__pyx_k_Fredoka_Regular_ttf), 0, 0, 1, 0},
+  {0, __pyx_k_Fredoka, sizeof(__pyx_k_Fredoka), 0, 1, 0, 1},
+  {0, __pyx_k_Fredoka_Regular_ttf, sizeof(__pyx_k_Fredoka_Regular_ttf), 0, 1, 0, 0},
   {0, __pyx_k_List, sizeof(__pyx_k_List), 0, 0, 1, 1},
   {0, __pyx_k_List_Literal_bold_italic_underli, sizeof(__pyx_k_List_Literal_bold_italic_underli), 0, 0, 1, 0},
   {0, __pyx_k_Literal, sizeof(__pyx_k_Literal), 0, 0, 1, 1},
-  {0, __pyx_k_Merriweather, sizeof(__pyx_k_Merriweather), 0, 0, 1, 1},
-  {0, __pyx_k_Merriweather_Regular_ttf, sizeof(__pyx_k_Merriweather_Regular_ttf), 0, 0, 1, 0},
+  {0, __pyx_k_Merriweather, sizeof(__pyx_k_Merriweather), 0, 1, 0, 1},
+  {0, __pyx_k_Merriweather_Regular_ttf, sizeof(__pyx_k_Merriweather_Regular_ttf), 0, 1, 0, 0},
+  {0, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 0},
   {0, __pyx_k_OSError, sizeof(__pyx_k_OSError), 0, 0, 1, 1},
-  {0, __pyx_k_PressStart, sizeof(__pyx_k_PressStart), 0, 0, 1, 1},
-  {0, __pyx_k_PressStart2P_Regular_ttf, sizeof(__pyx_k_PressStart2P_Regular_ttf), 0, 0, 1, 0},
-  {0, __pyx_k_Roboto, sizeof(__pyx_k_Roboto), 0, 0, 1, 1},
-  {0, __pyx_k_Roboto_Regular_ttf, sizeof(__pyx_k_Roboto_Regular_ttf), 0, 0, 1, 0},
+  {0, __pyx_k_PressStart, sizeof(__pyx_k_PressStart), 0, 1, 0, 1},
+  {0, __pyx_k_PressStart2P_Regular_ttf, sizeof(__pyx_k_PressStart2P_Regular_ttf), 0, 1, 0, 0},
+  {0, __pyx_k_Roboto, sizeof(__pyx_k_Roboto), 0, 1, 0, 1},
+  {0, __pyx_k_Roboto_Regular_ttf, sizeof(__pyx_k_Roboto_Regular_ttf), 0, 1, 0, 0},
   {0, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
-  {0, __pyx_k_SourceCodePro, sizeof(__pyx_k_SourceCodePro), 0, 0, 1, 1},
-  {0, __pyx_k_SourceCodePro_Regular_ttf, sizeof(__pyx_k_SourceCodePro_Regular_ttf), 0, 0, 1, 0},
+  {0, __pyx_k_SourceCodePro, sizeof(__pyx_k_SourceCodePro), 0, 1, 0, 1},
+  {0, __pyx_k_SourceCodePro_Regular_ttf, sizeof(__pyx_k_SourceCodePro_Regular_ttf), 0, 1, 0, 0},
   {0, __pyx_k_Style, sizeof(__pyx_k_Style), 0, 1, 0, 0},
   {0, __pyx_k_TTF_STYLE_BOLD, sizeof(__pyx_k_TTF_STYLE_BOLD), 0, 0, 1, 1},
   {0, __pyx_k_TTF_STYLE_ITALIC, sizeof(__pyx_k_TTF_STYLE_ITALIC), 0, 0, 1, 1},
@@ -5609,7 +5619,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {0, __pyx_k_apply_styles, sizeof(__pyx_k_apply_styles), 0, 0, 1, 1},
   {0, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
-  {0, __pyx_k_bold, sizeof(__pyx_k_bold), 0, 0, 1, 1},
+  {0, __pyx_k_bold, sizeof(__pyx_k_bold), 0, 1, 0, 1},
   {0, __pyx_k_cannot_be_found, sizeof(__pyx_k_cannot_be_found), 0, 1, 0, 0},
   {0, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
   {0, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -5636,7 +5646,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_is_not_valid_or_is_already_appl, sizeof(__pyx_k_is_not_valid_or_is_already_appl), 0, 1, 0, 0},
   {0, __pyx_k_is_too_big_for_the_text, sizeof(__pyx_k_is_too_big_for_the_text), 0, 1, 0, 0},
   {0, __pyx_k_is_too_small_for_the_text, sizeof(__pyx_k_is_too_small_for_the_text), 0, 1, 0, 0},
-  {0, __pyx_k_italic, sizeof(__pyx_k_italic), 0, 0, 1, 1},
+  {0, __pyx_k_italic, sizeof(__pyx_k_italic), 0, 1, 0, 1},
   {0, __pyx_k_joinpath, sizeof(__pyx_k_joinpath), 0, 0, 1, 1},
   {0, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {0, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
@@ -5652,7 +5662,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
   {0, __pyx_k_rot, sizeof(__pyx_k_rot), 0, 0, 1, 1},
   {0, __pyx_k_rotozoomSurface, sizeof(__pyx_k_rotozoomSurface), 0, 0, 1, 1},
-  {0, __pyx_k_rubato_static_fonts, sizeof(__pyx_k_rubato_static_fonts), 0, 0, 1, 0},
+  {0, __pyx_k_rubato_static_fonts, sizeof(__pyx_k_rubato_static_fonts), 0, 1, 0, 0},
   {0, __pyx_k_rubato_utils_font, sizeof(__pyx_k_rubato_utils_font), 0, 0, 1, 1},
   {0, __pyx_k_rubato_utils_font_py, sizeof(__pyx_k_rubato_utils_font_py), 0, 0, 1, 0},
   {0, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
@@ -5671,7 +5681,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_spec, sizeof(__pyx_k_spec), 0, 0, 1, 1},
   {0, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {0, __pyx_k_str_Literal_Comfortaa_Fredoka_Me, sizeof(__pyx_k_str_Literal_Comfortaa_Fredoka_Me), 0, 0, 1, 0},
-  {0, __pyx_k_strikethrough, sizeof(__pyx_k_strikethrough), 0, 0, 1, 1},
+  {0, __pyx_k_strikethrough, sizeof(__pyx_k_strikethrough), 0, 1, 0, 1},
   {0, __pyx_k_style, sizeof(__pyx_k_style), 0, 0, 1, 1},
   {0, __pyx_k_styles, sizeof(__pyx_k_styles), 0, 0, 1, 1},
   {0, __pyx_k_styles_2, sizeof(__pyx_k_styles_2), 0, 0, 1, 1},
@@ -5682,13 +5692,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_text_styles, sizeof(__pyx_k_text_styles), 0, 0, 1, 1},
   {0, __pyx_k_to_tuple, sizeof(__pyx_k_to_tuple), 0, 0, 1, 1},
   {0, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
-  {0, __pyx_k_underline, sizeof(__pyx_k_underline), 0, 0, 1, 1},
+  {0, __pyx_k_underline, sizeof(__pyx_k_underline), 0, 1, 0, 1},
   {0, __pyx_k_width, sizeof(__pyx_k_width), 0, 0, 1, 1},
   #else
   {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_Color, __pyx_k_Color, sizeof(__pyx_k_Color), 0, 0, 1, 1},
-  {&__pyx_n_s_Comfortaa, __pyx_k_Comfortaa, sizeof(__pyx_k_Comfortaa), 0, 0, 1, 1},
-  {&__pyx_kp_s_Comfortaa_Regular_ttf, __pyx_k_Comfortaa_Regular_ttf, sizeof(__pyx_k_Comfortaa_Regular_ttf), 0, 0, 1, 0},
+  {&__pyx_n_u_Comfortaa, __pyx_k_Comfortaa, sizeof(__pyx_k_Comfortaa), 0, 1, 0, 1},
+  {&__pyx_kp_u_Comfortaa_Regular_ttf, __pyx_k_Comfortaa_Regular_ttf, sizeof(__pyx_k_Comfortaa_Regular_ttf), 0, 1, 0, 0},
   {&__pyx_n_s_FileNotFoundError, __pyx_k_FileNotFoundError, sizeof(__pyx_k_FileNotFoundError), 0, 0, 1, 1},
   {&__pyx_n_s_Font, __pyx_k_Font, sizeof(__pyx_k_Font), 0, 0, 1, 1},
   {&__pyx_n_s_FontTTF, __pyx_k_FontTTF, sizeof(__pyx_k_FontTTF), 0, 0, 1, 1},
@@ -5700,21 +5710,22 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Font_generate_surface, __pyx_k_Font_generate_surface, sizeof(__pyx_k_Font_generate_surface), 0, 0, 1, 1},
   {&__pyx_n_s_Font_remove_style, __pyx_k_Font_remove_style, sizeof(__pyx_k_Font_remove_style), 0, 0, 1, 1},
   {&__pyx_n_s_Font_size, __pyx_k_Font_size, sizeof(__pyx_k_Font_size), 0, 0, 1, 1},
-  {&__pyx_n_s_Fredoka, __pyx_k_Fredoka, sizeof(__pyx_k_Fredoka), 0, 0, 1, 1},
-  {&__pyx_kp_s_Fredoka_Regular_ttf, __pyx_k_Fredoka_Regular_ttf, sizeof(__pyx_k_Fredoka_Regular_ttf), 0, 0, 1, 0},
+  {&__pyx_n_u_Fredoka, __pyx_k_Fredoka, sizeof(__pyx_k_Fredoka), 0, 1, 0, 1},
+  {&__pyx_kp_u_Fredoka_Regular_ttf, __pyx_k_Fredoka_Regular_ttf, sizeof(__pyx_k_Fredoka_Regular_ttf), 0, 1, 0, 0},
   {&__pyx_n_s_List, __pyx_k_List, sizeof(__pyx_k_List), 0, 0, 1, 1},
   {&__pyx_kp_s_List_Literal_bold_italic_underli, __pyx_k_List_Literal_bold_italic_underli, sizeof(__pyx_k_List_Literal_bold_italic_underli), 0, 0, 1, 0},
   {&__pyx_n_s_Literal, __pyx_k_Literal, sizeof(__pyx_k_Literal), 0, 0, 1, 1},
-  {&__pyx_n_s_Merriweather, __pyx_k_Merriweather, sizeof(__pyx_k_Merriweather), 0, 0, 1, 1},
-  {&__pyx_kp_s_Merriweather_Regular_ttf, __pyx_k_Merriweather_Regular_ttf, sizeof(__pyx_k_Merriweather_Regular_ttf), 0, 0, 1, 0},
+  {&__pyx_n_u_Merriweather, __pyx_k_Merriweather, sizeof(__pyx_k_Merriweather), 0, 1, 0, 1},
+  {&__pyx_kp_u_Merriweather_Regular_ttf, __pyx_k_Merriweather_Regular_ttf, sizeof(__pyx_k_Merriweather_Regular_ttf), 0, 1, 0, 0},
+  {&__pyx_kp_u_None, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 0},
   {&__pyx_n_s_OSError, __pyx_k_OSError, sizeof(__pyx_k_OSError), 0, 0, 1, 1},
-  {&__pyx_n_s_PressStart, __pyx_k_PressStart, sizeof(__pyx_k_PressStart), 0, 0, 1, 1},
-  {&__pyx_kp_s_PressStart2P_Regular_ttf, __pyx_k_PressStart2P_Regular_ttf, sizeof(__pyx_k_PressStart2P_Regular_ttf), 0, 0, 1, 0},
-  {&__pyx_n_s_Roboto, __pyx_k_Roboto, sizeof(__pyx_k_Roboto), 0, 0, 1, 1},
-  {&__pyx_kp_s_Roboto_Regular_ttf, __pyx_k_Roboto_Regular_ttf, sizeof(__pyx_k_Roboto_Regular_ttf), 0, 0, 1, 0},
+  {&__pyx_n_u_PressStart, __pyx_k_PressStart, sizeof(__pyx_k_PressStart), 0, 1, 0, 1},
+  {&__pyx_kp_u_PressStart2P_Regular_ttf, __pyx_k_PressStart2P_Regular_ttf, sizeof(__pyx_k_PressStart2P_Regular_ttf), 0, 1, 0, 0},
+  {&__pyx_n_u_Roboto, __pyx_k_Roboto, sizeof(__pyx_k_Roboto), 0, 1, 0, 1},
+  {&__pyx_kp_u_Roboto_Regular_ttf, __pyx_k_Roboto_Regular_ttf, sizeof(__pyx_k_Roboto_Regular_ttf), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
-  {&__pyx_n_s_SourceCodePro, __pyx_k_SourceCodePro, sizeof(__pyx_k_SourceCodePro), 0, 0, 1, 1},
-  {&__pyx_kp_s_SourceCodePro_Regular_ttf, __pyx_k_SourceCodePro_Regular_ttf, sizeof(__pyx_k_SourceCodePro_Regular_ttf), 0, 0, 1, 0},
+  {&__pyx_n_u_SourceCodePro, __pyx_k_SourceCodePro, sizeof(__pyx_k_SourceCodePro), 0, 1, 0, 1},
+  {&__pyx_kp_u_SourceCodePro_Regular_ttf, __pyx_k_SourceCodePro_Regular_ttf, sizeof(__pyx_k_SourceCodePro_Regular_ttf), 0, 1, 0, 0},
   {&__pyx_kp_u_Style, __pyx_k_Style, sizeof(__pyx_k_Style), 0, 1, 0, 0},
   {&__pyx_n_s_TTF_STYLE_BOLD, __pyx_k_TTF_STYLE_BOLD, sizeof(__pyx_k_TTF_STYLE_BOLD), 0, 0, 1, 1},
   {&__pyx_n_s_TTF_STYLE_ITALIC, __pyx_k_TTF_STYLE_ITALIC, sizeof(__pyx_k_TTF_STYLE_ITALIC), 0, 0, 1, 1},
@@ -5735,7 +5746,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_apply_styles, __pyx_k_apply_styles, sizeof(__pyx_k_apply_styles), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
-  {&__pyx_n_s_bold, __pyx_k_bold, sizeof(__pyx_k_bold), 0, 0, 1, 1},
+  {&__pyx_n_u_bold, __pyx_k_bold, sizeof(__pyx_k_bold), 0, 1, 0, 1},
   {&__pyx_kp_u_cannot_be_found, __pyx_k_cannot_be_found, sizeof(__pyx_k_cannot_be_found), 0, 1, 0, 0},
   {&__pyx_n_s_class_getitem, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -5762,7 +5773,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_is_not_valid_or_is_already_appl, __pyx_k_is_not_valid_or_is_already_appl, sizeof(__pyx_k_is_not_valid_or_is_already_appl), 0, 1, 0, 0},
   {&__pyx_kp_u_is_too_big_for_the_text, __pyx_k_is_too_big_for_the_text, sizeof(__pyx_k_is_too_big_for_the_text), 0, 1, 0, 0},
   {&__pyx_kp_u_is_too_small_for_the_text, __pyx_k_is_too_small_for_the_text, sizeof(__pyx_k_is_too_small_for_the_text), 0, 1, 0, 0},
-  {&__pyx_n_s_italic, __pyx_k_italic, sizeof(__pyx_k_italic), 0, 0, 1, 1},
+  {&__pyx_n_u_italic, __pyx_k_italic, sizeof(__pyx_k_italic), 0, 1, 0, 1},
   {&__pyx_n_s_joinpath, __pyx_k_joinpath, sizeof(__pyx_k_joinpath), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
@@ -5778,7 +5789,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_return, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
   {&__pyx_n_s_rot, __pyx_k_rot, sizeof(__pyx_k_rot), 0, 0, 1, 1},
   {&__pyx_n_s_rotozoomSurface, __pyx_k_rotozoomSurface, sizeof(__pyx_k_rotozoomSurface), 0, 0, 1, 1},
-  {&__pyx_kp_s_rubato_static_fonts, __pyx_k_rubato_static_fonts, sizeof(__pyx_k_rubato_static_fonts), 0, 0, 1, 0},
+  {&__pyx_kp_u_rubato_static_fonts, __pyx_k_rubato_static_fonts, sizeof(__pyx_k_rubato_static_fonts), 0, 1, 0, 0},
   {&__pyx_n_s_rubato_utils_font, __pyx_k_rubato_utils_font, sizeof(__pyx_k_rubato_utils_font), 0, 0, 1, 1},
   {&__pyx_kp_s_rubato_utils_font_py, __pyx_k_rubato_utils_font_py, sizeof(__pyx_k_rubato_utils_font_py), 0, 0, 1, 0},
   {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
@@ -5797,7 +5808,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_spec, __pyx_k_spec, sizeof(__pyx_k_spec), 0, 0, 1, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me, __pyx_k_str_Literal_Comfortaa_Fredoka_Me, sizeof(__pyx_k_str_Literal_Comfortaa_Fredoka_Me), 0, 0, 1, 0},
-  {&__pyx_n_s_strikethrough, __pyx_k_strikethrough, sizeof(__pyx_k_strikethrough), 0, 0, 1, 1},
+  {&__pyx_n_u_strikethrough, __pyx_k_strikethrough, sizeof(__pyx_k_strikethrough), 0, 1, 0, 1},
   {&__pyx_n_s_style, __pyx_k_style, sizeof(__pyx_k_style), 0, 0, 1, 1},
   {&__pyx_n_s_styles, __pyx_k_styles, sizeof(__pyx_k_styles), 0, 0, 1, 1},
   {&__pyx_n_s_styles_2, __pyx_k_styles_2, sizeof(__pyx_k_styles_2), 0, 0, 1, 1},
@@ -5808,7 +5819,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_text_styles, __pyx_k_text_styles, sizeof(__pyx_k_text_styles), 0, 0, 1, 1},
   {&__pyx_n_s_to_tuple, __pyx_k_to_tuple, sizeof(__pyx_k_to_tuple), 0, 0, 1, 1},
   {&__pyx_n_s_typing, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
-  {&__pyx_n_s_underline, __pyx_k_underline, sizeof(__pyx_k_underline), 0, 0, 1, 1},
+  {&__pyx_n_u_underline, __pyx_k_underline, sizeof(__pyx_k_underline), 0, 1, 0, 1},
   {&__pyx_n_s_width, __pyx_k_width, sizeof(__pyx_k_width), 0, 0, 1, 1},
   #endif
   {0, 0, 0, 0, 0, 0, 0}
@@ -5978,8 +5989,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   #if CYTHON_USE_MODULE_STATE
   if (__Pyx_InitString(__pyx_string_tab[0], &__pyx_kp_u_) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[1], &__pyx_n_s_Color) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[2], &__pyx_n_s_Comfortaa) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[3], &__pyx_kp_s_Comfortaa_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[2], &__pyx_n_u_Comfortaa) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[3], &__pyx_kp_u_Comfortaa_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[4], &__pyx_n_s_FileNotFoundError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[5], &__pyx_n_s_Font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[6], &__pyx_n_s_FontTTF) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -5991,116 +6002,117 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[12], &__pyx_n_s_Font_generate_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[13], &__pyx_n_s_Font_remove_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[14], &__pyx_n_s_Font_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_n_s_Fredoka) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_s_Fredoka_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_n_u_Fredoka) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_u_Fredoka_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_n_s_List) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_kp_s_List_Literal_bold_italic_underli) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_s_Literal) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_n_s_Merriweather) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_kp_s_Merriweather_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s_OSError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_n_s_PressStart) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_kp_s_PressStart2P_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_n_s_Roboto) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_s_Roboto_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s_RuntimeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_SourceCodePro) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_kp_s_SourceCodePro_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_kp_u_Style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_n_s_TTF_STYLE_BOLD) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_TTF_STYLE_ITALIC) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_TTF_STYLE_STRIKETHROUGH) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_TTF_STYLE_UNDERLINE) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_TTF_SetFontSize) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_s_TTF_SetFontStyle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_kp_u_The_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_kp_u_The_width) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_kp_s_This_is_the_font_object_that_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_n_s_ValueError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_n_s_Vector) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_n_s__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_n_s__24) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[44], &__pyx_n_s__6) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[45], &__pyx_n_s_add_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[46], &__pyx_n_s_align) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[47], &__pyx_n_s_append) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[48], &__pyx_n_s_apply_styles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[49], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[50], &__pyx_n_s_bold) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[51], &__pyx_kp_u_cannot_be_found) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[52], &__pyx_n_s_class_getitem) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[53], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[54], &__pyx_n_s_color) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_n_s_color_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_n_s_e) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s_files) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s_font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_font_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_font_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_generate_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_get_ttf_font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_importlib_resources) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_kp_u_is_not_currently_applied) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_kp_u_is_not_valid_or_is_already_appl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_kp_u_is_too_big_for_the_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_kp_u_is_too_small_for_the_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_italic) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_joinpath) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_property) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_remove) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_remove_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_render_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_rot) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_rotozoomSurface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_kp_s_rubato_static_fonts) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_rubato_utils_font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_kp_s_rubato_utils_font_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_s) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_sdl2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_kp_s_sdl2_SDL_Surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_sdl2_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_sdl2_sdlgfx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_sdl2_sdlttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_sdlgfx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_sdlttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_setter) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_size_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_strikethrough) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_styles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_styles_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_text_fonts) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_text_styles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_to_tuple) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_underline) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_width) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_n_u_Merriweather) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_kp_u_Merriweather_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_kp_u_None) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_n_s_OSError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_n_u_PressStart) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u_PressStart2P_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_n_u_Roboto) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_kp_u_Roboto_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_RuntimeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_n_u_SourceCodePro) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_kp_u_SourceCodePro_Regular_ttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_kp_u_Style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_TTF_STYLE_BOLD) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_TTF_STYLE_ITALIC) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_TTF_STYLE_STRIKETHROUGH) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_TTF_STYLE_UNDERLINE) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_s_TTF_SetFontSize) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_TTF_SetFontStyle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_kp_u_The_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_kp_u_The_width) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_kp_s_This_is_the_font_object_that_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_n_s_ValueError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_n_s_Vector) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_n_s__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[44], &__pyx_n_s__24) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[45], &__pyx_n_s__6) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[46], &__pyx_n_s_add_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[47], &__pyx_n_s_align) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[48], &__pyx_n_s_append) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[49], &__pyx_n_s_apply_styles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[50], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[51], &__pyx_n_u_bold) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[52], &__pyx_kp_u_cannot_be_found) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[53], &__pyx_n_s_class_getitem) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[54], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_n_s_color) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_n_s_color_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s_e) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s_files) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_font_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_font_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_generate_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_get_ttf_font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_importlib_resources) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_kp_u_is_not_currently_applied) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_kp_u_is_not_valid_or_is_already_appl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_kp_u_is_too_big_for_the_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_kp_u_is_too_small_for_the_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_u_italic) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_joinpath) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_property) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_remove) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_remove_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_render_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_rot) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_rotozoomSurface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_kp_u_rubato_static_fonts) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_rubato_utils_font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_kp_s_rubato_utils_font_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_s) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_sdl2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_kp_s_sdl2_SDL_Surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_sdl2_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_sdl2_sdlgfx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_sdl2_sdlttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_sdlgfx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_sdlttf) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_setter) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_size_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_kp_s_str_Literal_Comfortaa_Fredoka_Me) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_u_strikethrough) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_style) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_styles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_styles_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_text) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_text_fonts) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_text_styles) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_to_tuple) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_u_underline) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_width) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   #endif
   #if !CYTHON_USE_MODULE_STATE
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -6583,12 +6595,12 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Comfortaa, __pyx_kp_s_Comfortaa_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Fredoka, __pyx_kp_s_Fredoka_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Merriweather, __pyx_kp_s_Merriweather_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_Roboto, __pyx_kp_s_Roboto_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_SourceCodePro, __pyx_kp_s_SourceCodePro_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_PressStart, __pyx_kp_s_PressStart2P_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_Comfortaa, __pyx_kp_u_Comfortaa_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_Fredoka, __pyx_kp_u_Fredoka_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_Merriweather, __pyx_kp_u_Merriweather_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_Roboto, __pyx_kp_u_Roboto_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_SourceCodePro, __pyx_kp_u_SourceCodePro_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_PressStart, __pyx_kp_u_PressStart2P_Regular_ttf) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_text_fonts, __pyx_t_2) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
@@ -6609,7 +6621,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_TTF_STYLE_BOLD); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_bold, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_bold, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/font.py":31
@@ -6627,7 +6639,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_TTF_STYLE_ITALIC); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_italic, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_italic, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/font.py":32
@@ -6645,7 +6657,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_TTF_STYLE_UNDERLINE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_underline, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_underline, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/font.py":33
@@ -6663,7 +6675,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_TTF_STYLE_STRIKETHROUGH); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_strikethrough, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_strikethrough, __pyx_t_4) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_text_styles, __pyx_t_2) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -8509,6 +8521,13 @@ static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x) {
         Py_DECREF(retval);
     }
     return 0;
+}
+
+/* PyUnicode_Unicode */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Unicode(PyObject *obj) {
+    if (unlikely(obj == Py_None))
+        obj = __pyx_kp_u_None;
+    return __Pyx_NewRef(obj);
 }
 
 /* Import */

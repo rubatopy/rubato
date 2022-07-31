@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.path",
         "sources": [
-            "rubato/utils/path.py"
+            "rubato\\utils\\path.py"
         ]
     },
     "module_name": "rubato.utils.path"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/path.py",
+  "rubato\\\\utils\\\\path.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1735,7 +1735,7 @@ static const char __pyx_k_AttributeError[] = "AttributeError";
 static const char __pyx_k_rubato_utils_path[] = "rubato.utils.path";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_rubato_utils_path_py[] = "rubato/utils/path.py";
+static const char __pyx_k_rubato_utils_path_py[] = "rubato\\utils\\path.py";
 static const char __pyx_k_A_simple_path_helper_for_managin[] = "A simple path helper for managing relative paths.";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_n_s_;
@@ -1980,7 +1980,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4path_get_path, "get_path(str rel_path: str) -> str\n\n    Gets the absolute path of a relative path.\n\n    Args:\n        rel_path: The relative path.\n\n    Returns:\n        The absolute path.\n    ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_4path_get_path, "get_path(unicode rel_path: str) -> str\n\n    Gets the absolute path of a relative path.\n\n    Args:\n        rel_path: The relative path.\n\n    Returns:\n        The absolute path.\n    ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_4path_1get_path = {"get_path", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_4path_1get_path, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_4path_get_path};
 static PyObject *__pyx_pw_6rubato_5utils_4path_1get_path(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -2041,7 +2041,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyString_Type), 1, "rel_path", 1))) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyUnicode_Type), 1, "rel_path", 1))) __PYX_ERR(0, 5, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_4path_get_path(__pyx_self, __pyx_v_rel_path);
 
   /* function exit code */
@@ -2129,7 +2129,7 @@ static PyObject *__pyx_pf_6rubato_5utils_4path_get_path(CYTHON_UNUSED PyObject *
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
-      if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("str", __pyx_t_4))) __PYX_ERR(0, 16, __pyx_L3_error)
+      if (!(likely(PyUnicode_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None) || __Pyx_RaiseUnexpectedTypeError("unicode", __pyx_t_4))) __PYX_ERR(0, 16, __pyx_L3_error)
       __pyx_r = ((PyObject*)__pyx_t_4);
       __pyx_t_4 = 0;
       goto __pyx_L7_try_return;
@@ -2196,7 +2196,7 @@ static PyObject *__pyx_pf_6rubato_5utils_4path_get_path(CYTHON_UNUSED PyObject *
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
-      if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None) || __Pyx_RaiseUnexpectedTypeError("str", __pyx_t_6))) __PYX_ERR(0, 18, __pyx_L5_except_error)
+      if (!(likely(PyUnicode_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None) || __Pyx_RaiseUnexpectedTypeError("unicode", __pyx_t_6))) __PYX_ERR(0, 18, __pyx_L5_except_error)
       __pyx_r = ((PyObject*)__pyx_t_6);
       __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

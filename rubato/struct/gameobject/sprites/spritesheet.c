@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.sprites.spritesheet",
         "sources": [
-            "rubato/struct/gameobject/sprites/spritesheet.py"
+            "rubato\\struct\\gameobject\\sprites\\spritesheet.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.sprites.spritesheet"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/sprites/spritesheet.py",
+  "rubato\\\\struct\\\\gameobject\\\\sprites\\\\spritesheet.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1972,7 +1972,7 @@ static const char __pyx_k_A_spritesheet_from_the_filesyst[] = "\n    A spriteshe
 static const char __pyx_k_are_out_of_range_of_the_sprites[] = ") are out of range of the spritesheet.";
 static const char __pyx_k_Your_sprite_size_or_grid_size_is[] = "Your sprite size or grid size is incorrect, please check";
 static const char __pyx_k_rubato_struct_gameobject_sprites[] = "rubato.struct.gameobject.sprites.spritesheet";
-static const char __pyx_k_rubato_struct_gameobject_sprites_2[] = "rubato/struct/gameobject/sprites/spritesheet.py";
+static const char __pyx_k_rubato_struct_gameobject_sprites_2[] = "rubato\\struct\\gameobject\\sprites\\spritesheet.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_s_A_spritesheet_from_the_filesyst;
 static PyObject *__pyx_n_s_Animation;
@@ -1997,12 +1997,12 @@ static PyObject *__pyx_kp_u_The_coordinates;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_Vector;
 static PyObject *__pyx_kp_s_Vector_None;
-static PyObject *__pyx_kp_s_Your_sprite_size_or_grid_size_is;
+static PyObject *__pyx_kp_u_Your_sprite_size_or_grid_size_is;
 static PyObject *__pyx_n_s__17;
-static PyObject *__pyx_kp_s__2;
+static PyObject *__pyx_n_s__2;
+static PyObject *__pyx_kp_u__2;
 static PyObject *__pyx_n_s__21;
 static PyObject *__pyx_kp_u__3;
-static PyObject *__pyx_kp_s__4;
 static PyObject *__pyx_kp_u__4;
 static PyObject *__pyx_n_s__5;
 static PyObject *__pyx_n_s_add_spritesheet;
@@ -2152,12 +2152,12 @@ typedef struct {
   PyObject *__pyx_n_s_TypeError;
   PyObject *__pyx_n_s_Vector;
   PyObject *__pyx_kp_s_Vector_None;
-  PyObject *__pyx_kp_s_Your_sprite_size_or_grid_size_is;
+  PyObject *__pyx_kp_u_Your_sprite_size_or_grid_size_is;
   PyObject *__pyx_n_s__17;
-  PyObject *__pyx_kp_s__2;
+  PyObject *__pyx_n_s__2;
+  PyObject *__pyx_kp_u__2;
   PyObject *__pyx_n_s__21;
   PyObject *__pyx_kp_u__3;
-  PyObject *__pyx_kp_s__4;
   PyObject *__pyx_kp_u__4;
   PyObject *__pyx_n_s__5;
   PyObject *__pyx_n_s_add_spritesheet;
@@ -2309,12 +2309,12 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_TypeError);
   Py_CLEAR(clear_module_state->__pyx_n_s_Vector);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Vector_None);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Your_sprite_size_or_grid_size_is);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Your_sprite_size_or_grid_size_is);
   Py_CLEAR(clear_module_state->__pyx_n_s__17);
-  Py_CLEAR(clear_module_state->__pyx_kp_s__2);
+  Py_CLEAR(clear_module_state->__pyx_n_s__2);
+  Py_CLEAR(clear_module_state->__pyx_kp_u__2);
   Py_CLEAR(clear_module_state->__pyx_n_s__21);
   Py_CLEAR(clear_module_state->__pyx_kp_u__3);
-  Py_CLEAR(clear_module_state->__pyx_kp_s__4);
   Py_CLEAR(clear_module_state->__pyx_kp_u__4);
   Py_CLEAR(clear_module_state->__pyx_n_s__5);
   Py_CLEAR(clear_module_state->__pyx_n_s_add_spritesheet);
@@ -2453,12 +2453,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_TypeError);
   Py_VISIT(traverse_module_state->__pyx_n_s_Vector);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Vector_None);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Your_sprite_size_or_grid_size_is);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Your_sprite_size_or_grid_size_is);
   Py_VISIT(traverse_module_state->__pyx_n_s__17);
-  Py_VISIT(traverse_module_state->__pyx_kp_s__2);
+  Py_VISIT(traverse_module_state->__pyx_n_s__2);
+  Py_VISIT(traverse_module_state->__pyx_kp_u__2);
   Py_VISIT(traverse_module_state->__pyx_n_s__21);
   Py_VISIT(traverse_module_state->__pyx_kp_u__3);
-  Py_VISIT(traverse_module_state->__pyx_kp_s__4);
   Py_VISIT(traverse_module_state->__pyx_kp_u__4);
   Py_VISIT(traverse_module_state->__pyx_n_s__5);
   Py_VISIT(traverse_module_state->__pyx_n_s_add_spritesheet);
@@ -2594,12 +2594,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_TypeError __pyx_mstate_global->__pyx_n_s_TypeError
 #define __pyx_n_s_Vector __pyx_mstate_global->__pyx_n_s_Vector
 #define __pyx_kp_s_Vector_None __pyx_mstate_global->__pyx_kp_s_Vector_None
-#define __pyx_kp_s_Your_sprite_size_or_grid_size_is __pyx_mstate_global->__pyx_kp_s_Your_sprite_size_or_grid_size_is
+#define __pyx_kp_u_Your_sprite_size_or_grid_size_is __pyx_mstate_global->__pyx_kp_u_Your_sprite_size_or_grid_size_is
 #define __pyx_n_s__17 __pyx_mstate_global->__pyx_n_s__17
-#define __pyx_kp_s__2 __pyx_mstate_global->__pyx_kp_s__2
+#define __pyx_n_s__2 __pyx_mstate_global->__pyx_n_s__2
+#define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
 #define __pyx_n_s__21 __pyx_mstate_global->__pyx_n_s__21
 #define __pyx_kp_u__3 __pyx_mstate_global->__pyx_kp_u__3
-#define __pyx_kp_s__4 __pyx_mstate_global->__pyx_kp_s__4
 #define __pyx_kp_u__4 __pyx_mstate_global->__pyx_kp_u__4
 #define __pyx_n_s__5 __pyx_mstate_global->__pyx_n_s__5
 #define __pyx_n_s_add_spritesheet __pyx_mstate_global->__pyx_n_s_add_spritesheet
@@ -2756,7 +2756,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet___init__, "Spritesheet.__init__(self, str rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None)");
+PyDoc_STRVAR(__pyx_doc_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet___init__, "Spritesheet.__init__(self, unicode rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None)");
 static PyMethodDef __pyx_mdef_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_1__init__ = {"__init__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_1__init__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet___init__};
 static PyObject *__pyx_pw_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_1__init__(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -2860,7 +2860,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyString_Type), 1, "rel_path", 1))) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyUnicode_Type), 1, "rel_path", 1))) __PYX_ERR(0, 27, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet___init__(__pyx_self, __pyx_v_self, __pyx_v_rel_path, __pyx_v_sprite_size, __pyx_v_grid_size);
 
   /* function exit code */
@@ -3524,7 +3524,7 @@ static PyObject *__pyx_pf_6rubato_6struct_10gameobject_7sprites_11spritesheet_11
         }
       }
       {
-        PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_kp_s__2};
+        PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_kp_u__2};
         __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_16, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
@@ -4583,7 +4583,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_14from_folder, "Spritesheet.from_folder(str rel_path: str, sprite_size: Vector, default_state=None, recursive: bool = True) -> Animation\n\n        Creates an Animation from a folder of spritesheets.\n        Directory must be comprised solely of spritesheets.\n        Added alphabetically. Default is the first sheet loaded.\n\n        Args:\n            rel_path: The relative path to the folder you wish to import\n            sprite_size: The size of a single sprite in your spritesheet, should be the same in all imported sheets.\n            default_state: Sets the default state of the animation.\n            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.\n\n        Returns:\n            Animation: the animation loaded from the folder of spritesheets\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_14from_folder, "Spritesheet.from_folder(unicode rel_path: str, sprite_size: Vector, default_state=None, recursive: bool = True) -> Animation\n\n        Creates an Animation from a folder of spritesheets.\n        Directory must be comprised solely of spritesheets.\n        Added alphabetically. Default is the first sheet loaded.\n\n        Args:\n            rel_path: The relative path to the folder you wish to import\n            sprite_size: The size of a single sprite in your spritesheet, should be the same in all imported sheets.\n            default_state: Sets the default state of the animation.\n            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.\n\n        Returns:\n            Animation: the animation loaded from the folder of spritesheets\n        ");
 static PyMethodDef __pyx_mdef_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_15from_folder = {"from_folder", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_15from_folder, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_14from_folder};
 static PyObject *__pyx_pw_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_15from_folder(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -4694,7 +4694,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyString_Type), 1, "rel_path", 1))) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyUnicode_Type), 1, "rel_path", 1))) __PYX_ERR(0, 109, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_6struct_10gameobject_7sprites_11spritesheet_11Spritesheet_14from_folder(__pyx_self, __pyx_v_rel_path, __pyx_v_sprite_size, __pyx_v_default_state, __pyx_v_recursive);
 
   /* "rubato/struct/gameobject/sprites/spritesheet.py":108
@@ -5118,7 +5118,7 @@ static PyObject *__pyx_pf_6rubato_6struct_10gameobject_7sprites_11spritesheet_11
             }
           }
           {
-            PyObject *__pyx_callargs[2] = {__pyx_t_8, __pyx_kp_s__4};
+            PyObject *__pyx_callargs[2] = {__pyx_t_8, __pyx_kp_u__4};
             __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
             __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
             if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L8_error)
@@ -5576,7 +5576,7 @@ static PyObject *__pyx_pf_6rubato_6struct_10gameobject_7sprites_11spritesheet_11
               }
             }
             {
-              PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_kp_s__4};
+              PyObject *__pyx_callargs[2] = {__pyx_t_15, __pyx_kp_u__4};
               __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
               __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
               if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 153, __pyx_L24_error)
@@ -5848,12 +5848,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {0, __pyx_k_Vector, sizeof(__pyx_k_Vector), 0, 0, 1, 1},
   {0, __pyx_k_Vector_None, sizeof(__pyx_k_Vector_None), 0, 0, 1, 0},
-  {0, __pyx_k_Your_sprite_size_or_grid_size_is, sizeof(__pyx_k_Your_sprite_size_or_grid_size_is), 0, 0, 1, 0},
+  {0, __pyx_k_Your_sprite_size_or_grid_size_is, sizeof(__pyx_k_Your_sprite_size_or_grid_size_is), 0, 1, 0, 0},
   {0, __pyx_k__17, sizeof(__pyx_k__17), 0, 0, 1, 1},
-  {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
+  {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
+  {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {0, __pyx_k__21, sizeof(__pyx_k__21), 0, 0, 1, 1},
   {0, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
-  {0, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
   {0, __pyx_k__4, sizeof(__pyx_k__4), 0, 1, 0, 0},
   {0, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
   {0, __pyx_k_add_spritesheet, sizeof(__pyx_k_add_spritesheet), 0, 0, 1, 1},
@@ -5956,12 +5956,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_Vector, __pyx_k_Vector, sizeof(__pyx_k_Vector), 0, 0, 1, 1},
   {&__pyx_kp_s_Vector_None, __pyx_k_Vector_None, sizeof(__pyx_k_Vector_None), 0, 0, 1, 0},
-  {&__pyx_kp_s_Your_sprite_size_or_grid_size_is, __pyx_k_Your_sprite_size_or_grid_size_is, sizeof(__pyx_k_Your_sprite_size_or_grid_size_is), 0, 0, 1, 0},
+  {&__pyx_kp_u_Your_sprite_size_or_grid_size_is, __pyx_k_Your_sprite_size_or_grid_size_is, sizeof(__pyx_k_Your_sprite_size_or_grid_size_is), 0, 1, 0, 0},
   {&__pyx_n_s__17, __pyx_k__17, sizeof(__pyx_k__17), 0, 0, 1, 1},
-  {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
+  {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
+  {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {&__pyx_n_s__21, __pyx_k__21, sizeof(__pyx_k__21), 0, 0, 1, 1},
   {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
-  {&__pyx_kp_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 0},
   {&__pyx_kp_u__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 1, 0, 0},
   {&__pyx_n_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
   {&__pyx_n_s_add_spritesheet, __pyx_k_add_spritesheet, sizeof(__pyx_k_add_spritesheet), 0, 0, 1, 1},
@@ -6067,7 +6067,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *
  *         for y in range(0, self._grid.y * self._sprite_size.y, self._sprite_size.y):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Your_sprite_size_or_grid_size_is); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Your_sprite_size_or_grid_size_is); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -6193,12 +6193,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_n_s_TypeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_Vector) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_kp_s_Vector_None) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_kp_s_Your_sprite_size_or_grid_size_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_kp_u_Your_sprite_size_or_grid_size_is) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_n_s__17) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_s__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_n_s__21) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_kp_u__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_kp_s__4) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_n_s__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_u__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s__21) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_kp_u__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_kp_u__4) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_n_s__5) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_n_s_add_spritesheet) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -6695,7 +6695,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_Animation);
   __Pyx_GIVEREF(__pyx_n_s_Animation);
   PyList_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_Animation);
-  __pyx_t_2 = __Pyx_Import(__pyx_kp_s__2, __pyx_t_3, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s__2, __pyx_t_3, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Animation); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 8, __pyx_L1_error)
@@ -6716,7 +6716,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_Sprite);
   __Pyx_GIVEREF(__pyx_n_s_Sprite);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Sprite);
-  __pyx_t_3 = __Pyx_Import(__pyx_kp_s__2, __pyx_t_2, 3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Import(__pyx_n_s__2, __pyx_t_2, 3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_Sprite); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -6740,7 +6740,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_get_path);
   __Pyx_GIVEREF(__pyx_n_s_get_path);
   PyList_SET_ITEM(__pyx_t_3, 1, __pyx_n_s_get_path);
-  __pyx_t_2 = __Pyx_Import(__pyx_kp_s__2, __pyx_t_3, 4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s__2, __pyx_t_3, 4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Vector); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 10, __pyx_L1_error)

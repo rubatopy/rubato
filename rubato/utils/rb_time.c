@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.rb_time",
         "sources": [
-            "rubato/utils/rb_time.py"
+            "rubato\\utils\\rb_time.py"
         ]
     },
     "module_name": "rubato.utils.rb_time"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/rb_time.py",
+  "rubato\\\\utils\\\\rb_time.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1920,7 +1920,7 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_Time_delayed_frames[] = "Time.delayed_frames";
 static const char __pyx_k_Time_scheduled_call[] = "Time.scheduled_call";
 static const char __pyx_k_rubato_utils_rb_time[] = "rubato.utils.rb_time";
-static const char __pyx_k_rubato_utils_rb_time_py[] = "rubato/utils/rb_time.py";
+static const char __pyx_k_rubato_utils_rb_time_py[] = "rubato\\utils\\rb_time.py";
 static const char __pyx_k_A_static_time_class_to_monitor[] = "\nA static time class to monitor time and to call functions in the future.\n\n";
 static const char __pyx_k_The_time_class_Attributes_frame[] = "\n    The time class\n\n    Attributes:\n        frames (int): The total number of elapsed frames since the start of the game.\n\n        fps (float): The current fps of this frame.\n\n        target_fps (float): The fps that the game should try to run at. 0 means that the game's fps will not be capped.\n            Defaults to 0.\n        physics_fps (float): The fps that the physics should run at. Defaults to 60.\n\n        delta_time (int): The number of seconds since the last frame.\n        fixed_delta (int): The number of seconds since the last fixed update.\n    ";
 static const char __pyx_k_A_task_that_is_run_after_a_speci[] = "A task that is run after a specified number of milliseconds.";
@@ -1945,7 +1945,7 @@ static PyObject *__pyx_kp_s_List_ScheduledTask;
 static PyObject *__pyx_n_s_SDL_GetTicks64;
 static PyObject *__pyx_n_s_ScheduledTask;
 static PyObject *__pyx_n_s_ScheduledTask_stop;
-static PyObject *__pyx_kp_s_Task_argument_must_of_of_type_De;
+static PyObject *__pyx_kp_u_Task_argument_must_of_of_type_De;
 static PyObject *__pyx_kp_s_The_time_class_Attributes_frame;
 static PyObject *__pyx_n_s_Time;
 static PyObject *__pyx_n_s_Time_delayed_call;
@@ -2117,7 +2117,7 @@ typedef struct {
   PyObject *__pyx_n_s_SDL_GetTicks64;
   PyObject *__pyx_n_s_ScheduledTask;
   PyObject *__pyx_n_s_ScheduledTask_stop;
-  PyObject *__pyx_kp_s_Task_argument_must_of_of_type_De;
+  PyObject *__pyx_kp_u_Task_argument_must_of_of_type_De;
   PyObject *__pyx_kp_s_The_time_class_Attributes_frame;
   PyObject *__pyx_n_s_Time;
   PyObject *__pyx_n_s_Time_delayed_call;
@@ -2287,7 +2287,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_SDL_GetTicks64);
   Py_CLEAR(clear_module_state->__pyx_n_s_ScheduledTask);
   Py_CLEAR(clear_module_state->__pyx_n_s_ScheduledTask_stop);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Task_argument_must_of_of_type_De);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Task_argument_must_of_of_type_De);
   Py_CLEAR(clear_module_state->__pyx_kp_s_The_time_class_Attributes_frame);
   Py_CLEAR(clear_module_state->__pyx_n_s_Time);
   Py_CLEAR(clear_module_state->__pyx_n_s_Time_delayed_call);
@@ -2444,7 +2444,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_SDL_GetTicks64);
   Py_VISIT(traverse_module_state->__pyx_n_s_ScheduledTask);
   Py_VISIT(traverse_module_state->__pyx_n_s_ScheduledTask_stop);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Task_argument_must_of_of_type_De);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Task_argument_must_of_of_type_De);
   Py_VISIT(traverse_module_state->__pyx_kp_s_The_time_class_Attributes_frame);
   Py_VISIT(traverse_module_state->__pyx_n_s_Time);
   Py_VISIT(traverse_module_state->__pyx_n_s_Time_delayed_call);
@@ -2598,7 +2598,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_SDL_GetTicks64 __pyx_mstate_global->__pyx_n_s_SDL_GetTicks64
 #define __pyx_n_s_ScheduledTask __pyx_mstate_global->__pyx_n_s_ScheduledTask
 #define __pyx_n_s_ScheduledTask_stop __pyx_mstate_global->__pyx_n_s_ScheduledTask_stop
-#define __pyx_kp_s_Task_argument_must_of_of_type_De __pyx_mstate_global->__pyx_kp_s_Task_argument_must_of_of_type_De
+#define __pyx_kp_u_Task_argument_must_of_of_type_De __pyx_mstate_global->__pyx_kp_u_Task_argument_must_of_of_type_De
 #define __pyx_kp_s_The_time_class_Attributes_frame __pyx_mstate_global->__pyx_kp_s_The_time_class_Attributes_frame
 #define __pyx_n_s_Time __pyx_mstate_global->__pyx_n_s_Time
 #define __pyx_n_s_Time_delayed_call __pyx_mstate_global->__pyx_n_s_Time_delayed_call
@@ -5666,7 +5666,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_SDL_GetTicks64, sizeof(__pyx_k_SDL_GetTicks64), 0, 0, 1, 1},
   {0, __pyx_k_ScheduledTask, sizeof(__pyx_k_ScheduledTask), 0, 0, 1, 1},
   {0, __pyx_k_ScheduledTask_stop, sizeof(__pyx_k_ScheduledTask_stop), 0, 0, 1, 1},
-  {0, __pyx_k_Task_argument_must_of_of_type_De, sizeof(__pyx_k_Task_argument_must_of_of_type_De), 0, 0, 1, 0},
+  {0, __pyx_k_Task_argument_must_of_of_type_De, sizeof(__pyx_k_Task_argument_must_of_of_type_De), 0, 1, 0, 0},
   {0, __pyx_k_The_time_class_Attributes_frame, sizeof(__pyx_k_The_time_class_Attributes_frame), 0, 0, 1, 0},
   {0, __pyx_k_Time, sizeof(__pyx_k_Time), 0, 0, 1, 1},
   {0, __pyx_k_Time_delayed_call, sizeof(__pyx_k_Time_delayed_call), 0, 0, 1, 1},
@@ -5776,7 +5776,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_SDL_GetTicks64, __pyx_k_SDL_GetTicks64, sizeof(__pyx_k_SDL_GetTicks64), 0, 0, 1, 1},
   {&__pyx_n_s_ScheduledTask, __pyx_k_ScheduledTask, sizeof(__pyx_k_ScheduledTask), 0, 0, 1, 1},
   {&__pyx_n_s_ScheduledTask_stop, __pyx_k_ScheduledTask_stop, sizeof(__pyx_k_ScheduledTask_stop), 0, 0, 1, 1},
-  {&__pyx_kp_s_Task_argument_must_of_of_type_De, __pyx_k_Task_argument_must_of_of_type_De, sizeof(__pyx_k_Task_argument_must_of_of_type_De), 0, 0, 1, 0},
+  {&__pyx_kp_u_Task_argument_must_of_of_type_De, __pyx_k_Task_argument_must_of_of_type_De, sizeof(__pyx_k_Task_argument_must_of_of_type_De), 0, 1, 0, 0},
   {&__pyx_kp_s_The_time_class_Attributes_frame, __pyx_k_The_time_class_Attributes_frame, sizeof(__pyx_k_The_time_class_Attributes_frame), 0, 0, 1, 0},
   {&__pyx_n_s_Time, __pyx_k_Time, sizeof(__pyx_k_Time), 0, 0, 1, 1},
   {&__pyx_n_s_Time_delayed_call, __pyx_k_Time_delayed_call, sizeof(__pyx_k_Time_delayed_call), 0, 0, 1, 1},
@@ -5894,7 +5894,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *
  *     @classmethod
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Task_argument_must_of_of_type_De); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_Task_argument_must_of_of_type_De); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -6064,7 +6064,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[13], &__pyx_n_s_SDL_GetTicks64) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[14], &__pyx_n_s_ScheduledTask) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_n_s_ScheduledTask_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_s_Task_argument_must_of_of_type_De) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_u_Task_argument_must_of_of_type_De) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_kp_s_The_time_class_Attributes_frame) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_Time) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_s_Time_delayed_call) < 0) __PYX_ERR(0, 1, __pyx_L1_error);

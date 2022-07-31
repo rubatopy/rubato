@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.debug",
         "sources": [
-            "rubato/utils/debug.py"
+            "rubato\\utils\\debug.py"
         ]
     },
     "module_name": "rubato.utils.debug"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/debug.py",
+  "rubato\\\\utils\\\\debug.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1832,7 +1832,7 @@ static const char __pyx_k_rubato_utils_debug[] = "rubato.utils.debug";
 static const char __pyx_k_Debug_find_my_print[] = "Debug.find_my_print";
 static const char __pyx_k_Debug_error_my_print[] = "Debug.error_my_print";
 static const char __pyx_k_Print_statement_found[] = "Print statement found!";
-static const char __pyx_k_rubato_utils_debug_py[] = "rubato/utils/debug.py";
+static const char __pyx_k_rubato_utils_debug_py[] = "rubato\\utils\\debug.py";
 static const char __pyx_k_Debug_find_my_print_line_29[] = "Debug.find_my_print (line 29)";
 static const char __pyx_k_Debug_error_my_print_line_51[] = "Debug.error_my_print (line 51)";
 static const char __pyx_k_Debug_comes_with_useful_functio[] = "\n    Debug comes with useful functions to help with debugging.\n    ";
@@ -1868,7 +1868,7 @@ static PyObject *__pyx_n_s_Display;
 static PyObject *__pyx_n_s_Draw;
 static PyObject *__pyx_n_s_Font;
 static PyObject *__pyx_n_s_PrintError;
-static PyObject *__pyx_kp_s_Print_statement_found;
+static PyObject *__pyx_kp_u_Print_statement_found;
 static PyObject *__pyx_n_s_Time;
 static PyObject *__pyx_n_s_TracePrints;
 static PyObject *__pyx_n_s_Vector;
@@ -2004,7 +2004,7 @@ typedef struct {
   PyObject *__pyx_n_s_Draw;
   PyObject *__pyx_n_s_Font;
   PyObject *__pyx_n_s_PrintError;
-  PyObject *__pyx_kp_s_Print_statement_found;
+  PyObject *__pyx_kp_u_Print_statement_found;
   PyObject *__pyx_n_s_Time;
   PyObject *__pyx_n_s_TracePrints;
   PyObject *__pyx_n_s_Vector;
@@ -2142,7 +2142,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Draw);
   Py_CLEAR(clear_module_state->__pyx_n_s_Font);
   Py_CLEAR(clear_module_state->__pyx_n_s_PrintError);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Print_statement_found);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Print_statement_found);
   Py_CLEAR(clear_module_state->__pyx_n_s_Time);
   Py_CLEAR(clear_module_state->__pyx_n_s_TracePrints);
   Py_CLEAR(clear_module_state->__pyx_n_s_Vector);
@@ -2267,7 +2267,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Draw);
   Py_VISIT(traverse_module_state->__pyx_n_s_Font);
   Py_VISIT(traverse_module_state->__pyx_n_s_PrintError);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Print_statement_found);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Print_statement_found);
   Py_VISIT(traverse_module_state->__pyx_n_s_Time);
   Py_VISIT(traverse_module_state->__pyx_n_s_TracePrints);
   Py_VISIT(traverse_module_state->__pyx_n_s_Vector);
@@ -2389,7 +2389,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Draw __pyx_mstate_global->__pyx_n_s_Draw
 #define __pyx_n_s_Font __pyx_mstate_global->__pyx_n_s_Font
 #define __pyx_n_s_PrintError __pyx_mstate_global->__pyx_n_s_PrintError
-#define __pyx_kp_s_Print_statement_found __pyx_mstate_global->__pyx_kp_s_Print_statement_found
+#define __pyx_kp_u_Print_statement_found __pyx_mstate_global->__pyx_kp_u_Print_statement_found
 #define __pyx_n_s_Time __pyx_mstate_global->__pyx_n_s_Time
 #define __pyx_n_s_TracePrints __pyx_mstate_global->__pyx_n_s_TracePrints
 #define __pyx_n_s_Vector __pyx_mstate_global->__pyx_n_s_Vector
@@ -3779,7 +3779,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5debug_5Debug_14error_my_print_11TraceP
     }
   }
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_s_Print_statement_found};
+    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_u_Print_statement_found};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
@@ -4125,7 +4125,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Draw, sizeof(__pyx_k_Draw), 0, 0, 1, 1},
   {0, __pyx_k_Font, sizeof(__pyx_k_Font), 0, 0, 1, 1},
   {0, __pyx_k_PrintError, sizeof(__pyx_k_PrintError), 0, 0, 1, 1},
-  {0, __pyx_k_Print_statement_found, sizeof(__pyx_k_Print_statement_found), 0, 0, 1, 0},
+  {0, __pyx_k_Print_statement_found, sizeof(__pyx_k_Print_statement_found), 0, 1, 0, 0},
   {0, __pyx_k_Time, sizeof(__pyx_k_Time), 0, 0, 1, 1},
   {0, __pyx_k_TracePrints, sizeof(__pyx_k_TracePrints), 0, 0, 1, 1},
   {0, __pyx_k_Vector, sizeof(__pyx_k_Vector), 0, 0, 1, 1},
@@ -4207,7 +4207,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Draw, __pyx_k_Draw, sizeof(__pyx_k_Draw), 0, 0, 1, 1},
   {&__pyx_n_s_Font, __pyx_k_Font, sizeof(__pyx_k_Font), 0, 0, 1, 1},
   {&__pyx_n_s_PrintError, __pyx_k_PrintError, sizeof(__pyx_k_PrintError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Print_statement_found, __pyx_k_Print_statement_found, sizeof(__pyx_k_Print_statement_found), 0, 0, 1, 0},
+  {&__pyx_kp_u_Print_statement_found, __pyx_k_Print_statement_found, sizeof(__pyx_k_Print_statement_found), 0, 1, 0, 0},
   {&__pyx_n_s_Time, __pyx_k_Time, sizeof(__pyx_k_Time), 0, 0, 1, 1},
   {&__pyx_n_s_TracePrints, __pyx_k_TracePrints, sizeof(__pyx_k_TracePrints), 0, 0, 1, 1},
   {&__pyx_n_s_Vector, __pyx_k_Vector, sizeof(__pyx_k_Vector), 0, 0, 1, 1},
@@ -4449,7 +4449,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_n_s_Draw) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_Font) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_s_PrintError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_kp_s_Print_statement_found) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_kp_u_Print_statement_found) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_Time) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s_TracePrints) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_n_s_Vector) < 0) __PYX_ERR(0, 1, __pyx_L1_error);

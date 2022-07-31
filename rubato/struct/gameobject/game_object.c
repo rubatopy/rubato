@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.game_object",
         "sources": [
-            "rubato/struct/gameobject/game_object.py"
+            "rubato\\struct\\gameobject\\game_object.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.game_object"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/game_object.py",
+  "rubato\\\\struct\\\\gameobject\\\\game_object.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2056,7 +2056,7 @@ static const char __pyx_k_The_base_game_object_class_Args[] = "\n    The base ga
 static const char __pyx_k_There_is_already_a_component_of[] = "There is already a component of type ";
 static const char __pyx_k_The_component_does_not_have_a_si[] = "The component does not have a singular attribute. You most likely overrode the__init__ method of the component without calling super().__init__().";
 static const char __pyx_k_rubato_struct_gameobject_game_ob[] = "rubato.struct.gameobject.game_object";
-static const char __pyx_k_rubato_struct_gameobject_game_ob_2[] = "rubato/struct/gameobject/game_object.py";
+static const char __pyx_k_rubato_struct_gameobject_game_ob_2[] = "rubato\\struct\\gameobject\\game_object.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_u_;

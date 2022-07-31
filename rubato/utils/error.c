@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.error",
         "sources": [
-            "rubato/utils/error.py"
+            "rubato\\utils\\error.py"
         ]
     },
     "module_name": "rubato.utils.error"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/error.py",
+  "rubato\\\\utils\\\\error.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1713,6 +1713,9 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
+/* PyUnicode_Unicode.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Unicode(PyObject *obj);
+
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
@@ -1894,6 +1897,7 @@ static const char __pyx_k_and[] = "' and '";
 static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_str[] = "str";
 static const char __pyx_k_sys[] = "sys";
+static const char __pyx_k_None[] = "None";
 static const char __pyx_k_args[] = "args";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_exit[] = "exit";
@@ -1955,7 +1959,7 @@ static const char __pyx_k_ImplementationError[] = "ImplementationError";
 static const char __pyx_k_has_been_deprecated[] = " has been deprecated. ";
 static const char __pyx_k_A_basic_rubato_Error[] = "A basic rubato Error.";
 static const char __pyx_k_raise_operator_error[] = "raise_operator_error";
-static const char __pyx_k_rubato_utils_error_py[] = "rubato/utils/error.py";
+static const char __pyx_k_rubato_utils_error_py[] = "rubato\\utils\\error.py";
 static const char __pyx_k_removed_locals_wrapper[] = "removed.<locals>.wrapper";
 static const char __pyx_k_DuplicateComponentError[] = "DuplicateComponentError";
 static const char __pyx_k_There_is_no_replacement[] = "There is no replacement.";
@@ -1989,13 +1993,14 @@ static PyObject *__pyx_n_s_DuplicateComponentError;
 static PyObject *__pyx_n_s_Error;
 static PyObject *__pyx_n_s_IdError;
 static PyObject *__pyx_n_s_ImplementationError;
+static PyObject *__pyx_kp_u_None;
 static PyObject *__pyx_kp_u_Please_use;
 static PyObject *__pyx_n_s_PrintError;
 static PyObject *__pyx_n_s_RemovalWarning;
 static PyObject *__pyx_n_s_SideError;
-static PyObject *__pyx_kp_s_There_is_no_replacement;
+static PyObject *__pyx_kp_u_There_is_no_replacement;
 static PyObject *__pyx_n_s_TypeError;
-static PyObject *__pyx_kp_s_Warning_Deprecated;
+static PyObject *__pyx_kp_u_Warning_Deprecated;
 static PyObject *__pyx_n_s__10;
 static PyObject *__pyx_n_s__11;
 static PyObject *__pyx_kp_u__15;
@@ -2003,13 +2008,13 @@ static PyObject *__pyx_kp_u__16;
 static PyObject *__pyx_kp_u__17;
 static PyObject *__pyx_n_s__18;
 static PyObject *__pyx_n_s__28;
-static PyObject *__pyx_n_s_always;
+static PyObject *__pyx_n_u_always;
 static PyObject *__pyx_kp_u_and;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_category;
 static PyObject *__pyx_n_s_cline_in_traceback;
-static PyObject *__pyx_n_s_default;
+static PyObject *__pyx_n_u_default;
 static PyObject *__pyx_n_s_deprecated;
 static PyObject *__pyx_n_s_deprecated_locals_wrapper;
 static PyObject *__pyx_n_s_deprecated_locals_wrapper_locals;
@@ -2149,13 +2154,14 @@ typedef struct {
   PyObject *__pyx_n_s_Error;
   PyObject *__pyx_n_s_IdError;
   PyObject *__pyx_n_s_ImplementationError;
+  PyObject *__pyx_kp_u_None;
   PyObject *__pyx_kp_u_Please_use;
   PyObject *__pyx_n_s_PrintError;
   PyObject *__pyx_n_s_RemovalWarning;
   PyObject *__pyx_n_s_SideError;
-  PyObject *__pyx_kp_s_There_is_no_replacement;
+  PyObject *__pyx_kp_u_There_is_no_replacement;
   PyObject *__pyx_n_s_TypeError;
-  PyObject *__pyx_kp_s_Warning_Deprecated;
+  PyObject *__pyx_kp_u_Warning_Deprecated;
   PyObject *__pyx_n_s__10;
   PyObject *__pyx_n_s__11;
   PyObject *__pyx_kp_u__15;
@@ -2163,13 +2169,13 @@ typedef struct {
   PyObject *__pyx_kp_u__17;
   PyObject *__pyx_n_s__18;
   PyObject *__pyx_n_s__28;
-  PyObject *__pyx_n_s_always;
+  PyObject *__pyx_n_u_always;
   PyObject *__pyx_kp_u_and;
   PyObject *__pyx_n_s_args;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_category;
   PyObject *__pyx_n_s_cline_in_traceback;
-  PyObject *__pyx_n_s_default;
+  PyObject *__pyx_n_u_default;
   PyObject *__pyx_n_s_deprecated;
   PyObject *__pyx_n_s_deprecated_locals_wrapper;
   PyObject *__pyx_n_s_deprecated_locals_wrapper_locals;
@@ -2306,13 +2312,14 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Error);
   Py_CLEAR(clear_module_state->__pyx_n_s_IdError);
   Py_CLEAR(clear_module_state->__pyx_n_s_ImplementationError);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_None);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Please_use);
   Py_CLEAR(clear_module_state->__pyx_n_s_PrintError);
   Py_CLEAR(clear_module_state->__pyx_n_s_RemovalWarning);
   Py_CLEAR(clear_module_state->__pyx_n_s_SideError);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_There_is_no_replacement);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_There_is_no_replacement);
   Py_CLEAR(clear_module_state->__pyx_n_s_TypeError);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Warning_Deprecated);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Warning_Deprecated);
   Py_CLEAR(clear_module_state->__pyx_n_s__10);
   Py_CLEAR(clear_module_state->__pyx_n_s__11);
   Py_CLEAR(clear_module_state->__pyx_kp_u__15);
@@ -2320,13 +2327,13 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u__17);
   Py_CLEAR(clear_module_state->__pyx_n_s__18);
   Py_CLEAR(clear_module_state->__pyx_n_s__28);
-  Py_CLEAR(clear_module_state->__pyx_n_s_always);
+  Py_CLEAR(clear_module_state->__pyx_n_u_always);
   Py_CLEAR(clear_module_state->__pyx_kp_u_and);
   Py_CLEAR(clear_module_state->__pyx_n_s_args);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_category);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
-  Py_CLEAR(clear_module_state->__pyx_n_s_default);
+  Py_CLEAR(clear_module_state->__pyx_n_u_default);
   Py_CLEAR(clear_module_state->__pyx_n_s_deprecated);
   Py_CLEAR(clear_module_state->__pyx_n_s_deprecated_locals_wrapper);
   Py_CLEAR(clear_module_state->__pyx_n_s_deprecated_locals_wrapper_locals);
@@ -2450,13 +2457,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Error);
   Py_VISIT(traverse_module_state->__pyx_n_s_IdError);
   Py_VISIT(traverse_module_state->__pyx_n_s_ImplementationError);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_None);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Please_use);
   Py_VISIT(traverse_module_state->__pyx_n_s_PrintError);
   Py_VISIT(traverse_module_state->__pyx_n_s_RemovalWarning);
   Py_VISIT(traverse_module_state->__pyx_n_s_SideError);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_There_is_no_replacement);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_There_is_no_replacement);
   Py_VISIT(traverse_module_state->__pyx_n_s_TypeError);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Warning_Deprecated);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Warning_Deprecated);
   Py_VISIT(traverse_module_state->__pyx_n_s__10);
   Py_VISIT(traverse_module_state->__pyx_n_s__11);
   Py_VISIT(traverse_module_state->__pyx_kp_u__15);
@@ -2464,13 +2472,13 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u__17);
   Py_VISIT(traverse_module_state->__pyx_n_s__18);
   Py_VISIT(traverse_module_state->__pyx_n_s__28);
-  Py_VISIT(traverse_module_state->__pyx_n_s_always);
+  Py_VISIT(traverse_module_state->__pyx_n_u_always);
   Py_VISIT(traverse_module_state->__pyx_kp_u_and);
   Py_VISIT(traverse_module_state->__pyx_n_s_args);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_category);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
-  Py_VISIT(traverse_module_state->__pyx_n_s_default);
+  Py_VISIT(traverse_module_state->__pyx_n_u_default);
   Py_VISIT(traverse_module_state->__pyx_n_s_deprecated);
   Py_VISIT(traverse_module_state->__pyx_n_s_deprecated_locals_wrapper);
   Py_VISIT(traverse_module_state->__pyx_n_s_deprecated_locals_wrapper_locals);
@@ -2591,13 +2599,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Error __pyx_mstate_global->__pyx_n_s_Error
 #define __pyx_n_s_IdError __pyx_mstate_global->__pyx_n_s_IdError
 #define __pyx_n_s_ImplementationError __pyx_mstate_global->__pyx_n_s_ImplementationError
+#define __pyx_kp_u_None __pyx_mstate_global->__pyx_kp_u_None
 #define __pyx_kp_u_Please_use __pyx_mstate_global->__pyx_kp_u_Please_use
 #define __pyx_n_s_PrintError __pyx_mstate_global->__pyx_n_s_PrintError
 #define __pyx_n_s_RemovalWarning __pyx_mstate_global->__pyx_n_s_RemovalWarning
 #define __pyx_n_s_SideError __pyx_mstate_global->__pyx_n_s_SideError
-#define __pyx_kp_s_There_is_no_replacement __pyx_mstate_global->__pyx_kp_s_There_is_no_replacement
+#define __pyx_kp_u_There_is_no_replacement __pyx_mstate_global->__pyx_kp_u_There_is_no_replacement
 #define __pyx_n_s_TypeError __pyx_mstate_global->__pyx_n_s_TypeError
-#define __pyx_kp_s_Warning_Deprecated __pyx_mstate_global->__pyx_kp_s_Warning_Deprecated
+#define __pyx_kp_u_Warning_Deprecated __pyx_mstate_global->__pyx_kp_u_Warning_Deprecated
 #define __pyx_n_s__10 __pyx_mstate_global->__pyx_n_s__10
 #define __pyx_n_s__11 __pyx_mstate_global->__pyx_n_s__11
 #define __pyx_kp_u__15 __pyx_mstate_global->__pyx_kp_u__15
@@ -2605,13 +2614,13 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u__17 __pyx_mstate_global->__pyx_kp_u__17
 #define __pyx_n_s__18 __pyx_mstate_global->__pyx_n_s__18
 #define __pyx_n_s__28 __pyx_mstate_global->__pyx_n_s__28
-#define __pyx_n_s_always __pyx_mstate_global->__pyx_n_s_always
+#define __pyx_n_u_always __pyx_mstate_global->__pyx_n_u_always
 #define __pyx_kp_u_and __pyx_mstate_global->__pyx_kp_u_and
 #define __pyx_n_s_args __pyx_mstate_global->__pyx_n_s_args
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_category __pyx_mstate_global->__pyx_n_s_category
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
-#define __pyx_n_s_default __pyx_mstate_global->__pyx_n_s_default
+#define __pyx_n_u_default __pyx_mstate_global->__pyx_n_u_default
 #define __pyx_n_s_deprecated __pyx_mstate_global->__pyx_n_s_deprecated
 #define __pyx_n_s_deprecated_locals_wrapper __pyx_mstate_global->__pyx_n_s_deprecated_locals_wrapper
 #define __pyx_n_s_deprecated_locals_wrapper_locals __pyx_mstate_global->__pyx_n_s_deprecated_locals_wrapper_locals
@@ -3279,7 +3288,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5error_deprecated(CYTHON_UNUSED PyObjec
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_other_func, __pyx_n_s_doc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_kp_s_Warning_Deprecated, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_kp_u_Warning_Deprecated, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_wrapper, __pyx_n_s_doc, __pyx_t_2) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
@@ -3754,7 +3763,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5error_2deprecated_no_replacement(CYTHO
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_func, __pyx_n_s_doc); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Add(__pyx_kp_s_Warning_Deprecated, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_kp_u_Warning_Deprecated, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_new_func, __pyx_n_s_doc, __pyx_t_2) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
@@ -4086,7 +4095,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5error_7removed_7wrapper_new_func(PyObj
     }
   }
   {
-    PyObject *__pyx_callargs[3] = {__pyx_t_4, __pyx_n_s_always, __pyx_t_2};
+    PyObject *__pyx_callargs[3] = {__pyx_t_4, __pyx_n_u_always, __pyx_t_2};
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 2+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4165,8 +4174,8 @@ static PyObject *__pyx_pf_6rubato_5utils_5error_7removed_7wrapper_new_func(PyObj
     __pyx_t_2 = __pyx_t_10;
     __pyx_t_10 = 0;
   } else {
-    __Pyx_INCREF(__pyx_kp_s_There_is_no_replacement);
-    __pyx_t_2 = __pyx_kp_s_There_is_no_replacement;
+    __Pyx_INCREF(__pyx_kp_u_There_is_no_replacement);
+    __pyx_t_2 = __pyx_kp_u_There_is_no_replacement;
   }
 
   /* "rubato/utils/error.py":117
@@ -4176,7 +4185,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5error_7removed_7wrapper_new_func(PyObj
  *                 (f"Please use {other_func.__name__} instead." if other_func else "There is no replacement."),
  *                 category=RemovalWarning,
  */
-  __pyx_t_10 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyUnicode_ConcatInPlaceSafe(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4519,7 +4528,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5error_6raise_operator_error, "raise_operator_error(str op: str, obj1: Any, obj2: Any)");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5error_6raise_operator_error, "raise_operator_error(unicode op: str, obj1: Any, obj2: Any)");
 static PyMethodDef __pyx_mdef_6rubato_5utils_5error_7raise_operator_error = {"raise_operator_error", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_5error_7raise_operator_error, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_5error_6raise_operator_error};
 static PyObject *__pyx_pw_6rubato_5utils_5error_7raise_operator_error(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -4604,7 +4613,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_op), (&PyString_Type), 1, "op", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_op), (&PyUnicode_Type), 1, "op", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_5error_6raise_operator_error(__pyx_self, __pyx_v_op, __pyx_v_obj1, __pyx_v_obj2);
 
   /* function exit code */
@@ -4642,7 +4651,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5error_6raise_operator_error(CYTHON_UNU
   __pyx_t_2 += 32;
   __Pyx_GIVEREF(__pyx_kp_u_unsupported_operand_type_s_for);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_unsupported_operand_type_s_for);
-  __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_v_op, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyUnicode_Unicode(__pyx_v_op); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
@@ -5485,13 +5494,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Error, sizeof(__pyx_k_Error), 0, 0, 1, 1},
   {0, __pyx_k_IdError, sizeof(__pyx_k_IdError), 0, 0, 1, 1},
   {0, __pyx_k_ImplementationError, sizeof(__pyx_k_ImplementationError), 0, 0, 1, 1},
+  {0, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 0},
   {0, __pyx_k_Please_use, sizeof(__pyx_k_Please_use), 0, 1, 0, 0},
   {0, __pyx_k_PrintError, sizeof(__pyx_k_PrintError), 0, 0, 1, 1},
   {0, __pyx_k_RemovalWarning, sizeof(__pyx_k_RemovalWarning), 0, 0, 1, 1},
   {0, __pyx_k_SideError, sizeof(__pyx_k_SideError), 0, 0, 1, 1},
-  {0, __pyx_k_There_is_no_replacement, sizeof(__pyx_k_There_is_no_replacement), 0, 0, 1, 0},
+  {0, __pyx_k_There_is_no_replacement, sizeof(__pyx_k_There_is_no_replacement), 0, 1, 0, 0},
   {0, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
-  {0, __pyx_k_Warning_Deprecated, sizeof(__pyx_k_Warning_Deprecated), 0, 0, 1, 0},
+  {0, __pyx_k_Warning_Deprecated, sizeof(__pyx_k_Warning_Deprecated), 0, 1, 0, 0},
   {0, __pyx_k__10, sizeof(__pyx_k__10), 0, 0, 1, 1},
   {0, __pyx_k__11, sizeof(__pyx_k__11), 0, 0, 1, 1},
   {0, __pyx_k__15, sizeof(__pyx_k__15), 0, 1, 0, 0},
@@ -5499,13 +5509,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k__17, sizeof(__pyx_k__17), 0, 1, 0, 0},
   {0, __pyx_k__18, sizeof(__pyx_k__18), 0, 0, 1, 1},
   {0, __pyx_k__28, sizeof(__pyx_k__28), 0, 0, 1, 1},
-  {0, __pyx_k_always, sizeof(__pyx_k_always), 0, 0, 1, 1},
+  {0, __pyx_k_always, sizeof(__pyx_k_always), 0, 1, 0, 1},
   {0, __pyx_k_and, sizeof(__pyx_k_and), 0, 1, 0, 0},
   {0, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {0, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {0, __pyx_k_category, sizeof(__pyx_k_category), 0, 0, 1, 1},
   {0, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {0, __pyx_k_default, sizeof(__pyx_k_default), 0, 0, 1, 1},
+  {0, __pyx_k_default, sizeof(__pyx_k_default), 0, 1, 0, 1},
   {0, __pyx_k_deprecated, sizeof(__pyx_k_deprecated), 0, 0, 1, 1},
   {0, __pyx_k_deprecated_locals_wrapper, sizeof(__pyx_k_deprecated_locals_wrapper), 0, 0, 1, 1},
   {0, __pyx_k_deprecated_locals_wrapper_locals, sizeof(__pyx_k_deprecated_locals_wrapper_locals), 0, 0, 1, 1},
@@ -5578,13 +5588,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Error, __pyx_k_Error, sizeof(__pyx_k_Error), 0, 0, 1, 1},
   {&__pyx_n_s_IdError, __pyx_k_IdError, sizeof(__pyx_k_IdError), 0, 0, 1, 1},
   {&__pyx_n_s_ImplementationError, __pyx_k_ImplementationError, sizeof(__pyx_k_ImplementationError), 0, 0, 1, 1},
+  {&__pyx_kp_u_None, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 0},
   {&__pyx_kp_u_Please_use, __pyx_k_Please_use, sizeof(__pyx_k_Please_use), 0, 1, 0, 0},
   {&__pyx_n_s_PrintError, __pyx_k_PrintError, sizeof(__pyx_k_PrintError), 0, 0, 1, 1},
   {&__pyx_n_s_RemovalWarning, __pyx_k_RemovalWarning, sizeof(__pyx_k_RemovalWarning), 0, 0, 1, 1},
   {&__pyx_n_s_SideError, __pyx_k_SideError, sizeof(__pyx_k_SideError), 0, 0, 1, 1},
-  {&__pyx_kp_s_There_is_no_replacement, __pyx_k_There_is_no_replacement, sizeof(__pyx_k_There_is_no_replacement), 0, 0, 1, 0},
+  {&__pyx_kp_u_There_is_no_replacement, __pyx_k_There_is_no_replacement, sizeof(__pyx_k_There_is_no_replacement), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Warning_Deprecated, __pyx_k_Warning_Deprecated, sizeof(__pyx_k_Warning_Deprecated), 0, 0, 1, 0},
+  {&__pyx_kp_u_Warning_Deprecated, __pyx_k_Warning_Deprecated, sizeof(__pyx_k_Warning_Deprecated), 0, 1, 0, 0},
   {&__pyx_n_s__10, __pyx_k__10, sizeof(__pyx_k__10), 0, 0, 1, 1},
   {&__pyx_n_s__11, __pyx_k__11, sizeof(__pyx_k__11), 0, 0, 1, 1},
   {&__pyx_kp_u__15, __pyx_k__15, sizeof(__pyx_k__15), 0, 1, 0, 0},
@@ -5592,13 +5603,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u__17, __pyx_k__17, sizeof(__pyx_k__17), 0, 1, 0, 0},
   {&__pyx_n_s__18, __pyx_k__18, sizeof(__pyx_k__18), 0, 0, 1, 1},
   {&__pyx_n_s__28, __pyx_k__28, sizeof(__pyx_k__28), 0, 0, 1, 1},
-  {&__pyx_n_s_always, __pyx_k_always, sizeof(__pyx_k_always), 0, 0, 1, 1},
+  {&__pyx_n_u_always, __pyx_k_always, sizeof(__pyx_k_always), 0, 1, 0, 1},
   {&__pyx_kp_u_and, __pyx_k_and, sizeof(__pyx_k_and), 0, 1, 0, 0},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {&__pyx_n_s_category, __pyx_k_category, sizeof(__pyx_k_category), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {&__pyx_n_s_default, __pyx_k_default, sizeof(__pyx_k_default), 0, 0, 1, 1},
+  {&__pyx_n_u_default, __pyx_k_default, sizeof(__pyx_k_default), 0, 1, 0, 1},
   {&__pyx_n_s_deprecated, __pyx_k_deprecated, sizeof(__pyx_k_deprecated), 0, 0, 1, 1},
   {&__pyx_n_s_deprecated_locals_wrapper, __pyx_k_deprecated_locals_wrapper, sizeof(__pyx_k_deprecated_locals_wrapper), 0, 0, 1, 1},
   {&__pyx_n_s_deprecated_locals_wrapper_locals, __pyx_k_deprecated_locals_wrapper_locals, sizeof(__pyx_k_deprecated_locals_wrapper_locals), 0, 0, 1, 1},
@@ -5679,7 +5690,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *             warnings.warn(
  *                 f"{func.__name__} has been deprecated. " + f"Please use {other_func.__name__} instead.",
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_s_always, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_u_always, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -5690,7 +5701,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *             return func(*args, **kwargs)
  *
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_default, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_default, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -5725,7 +5736,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         warnings.warn(
  *             f"{func.__name__} has been deprecated. No replacement.", category=DeprecationWarning, stacklevel=2
  */
-  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_always, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_u_always, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -5736,7 +5747,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return func(*args, **kwargs)
  *
  */
-  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_default, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_u_default, __pyx_builtin_DeprecationWarning); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -5852,83 +5863,84 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[12], &__pyx_n_s_Error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[13], &__pyx_n_s_IdError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[14], &__pyx_n_s_ImplementationError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_kp_u_Please_use) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_n_s_PrintError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_n_s_RemovalWarning) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_SideError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_kp_s_There_is_no_replacement) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_n_s_TypeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_kp_s_Warning_Deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s__10) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_n_s__11) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_kp_u__15) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u__16) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_u__17) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s__18) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s__28) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_n_s_always) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_kp_u_and) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_n_s_args) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_category) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_default) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_s_deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_deprecated_locals_wrapper) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_n_s_deprecated_locals_wrapper_locals) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_n_s_deprecated_no_replacement) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_n_s_deprecated_no_replacement_locals) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_kp_u_disable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[44], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[45], &__pyx_n_s_exit) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[46], &__pyx_n_s_func) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[47], &__pyx_n_s_functools) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[48], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[49], &__pyx_kp_u_has_been_deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[50], &__pyx_kp_u_has_been_deprecated_No_replacem) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[51], &__pyx_kp_u_has_been_removed) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[52], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[53], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[54], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_kp_u_instead) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_n_s_kwargs) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_mro_entries) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_new_func) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_obj1) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_obj2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_op) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_other_func) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_raise_operator_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_removed) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_removed_locals_wrapper) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_removed_locals_wrapper_locals_ne) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_rubato_utils_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_kp_s_rubato_utils_error_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_simplefilter) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_stacklevel) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_sys) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_kp_u_unsupported_operand_type_s_for) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_warn) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_warnings) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_wrapper) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_wraps) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[15], &__pyx_kp_u_None) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_u_Please_use) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_n_s_PrintError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_RemovalWarning) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_s_SideError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_kp_u_There_is_no_replacement) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_TypeError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_kp_u_Warning_Deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_n_s__10) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_n_s__11) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_kp_u__15) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_kp_u__16) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_kp_u__17) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s__18) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_n_s__28) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_n_u_always) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_kp_u_and) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_args) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_category) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_u_default) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_n_s_deprecated_locals_wrapper) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_n_s_deprecated_locals_wrapper_locals) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_n_s_deprecated_no_replacement) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_n_s_deprecated_no_replacement_locals) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_kp_u_disable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[44], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[45], &__pyx_kp_u_enable) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[46], &__pyx_n_s_exit) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[47], &__pyx_n_s_func) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[48], &__pyx_n_s_functools) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[49], &__pyx_kp_u_gc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[50], &__pyx_kp_u_has_been_deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[51], &__pyx_kp_u_has_been_deprecated_No_replacem) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[52], &__pyx_kp_u_has_been_removed) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[53], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[54], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_kp_u_instead) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_kp_u_isenabled) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s_kwargs) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_mro_entries) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_new_func) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_obj1) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_obj2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_op) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_other_func) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_raise_operator_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_removed) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_removed_locals_wrapper) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_removed_locals_wrapper_locals_ne) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_rubato_utils_error) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_kp_s_rubato_utils_error_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_simplefilter) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_stacklevel) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_sys) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_kp_u_unsupported_operand_type_s_for) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_warn) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_warnings) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_wrapper) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_wraps) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   #endif
   #if !CYTHON_USE_MODULE_STATE
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -8908,6 +8920,13 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
     __Pyx_DECREF_TypeName(type_name);
     __Pyx_DECREF_TypeName(obj_type_name);
     return 0;
+}
+
+/* PyUnicode_Unicode */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Unicode(PyObject *obj) {
+    if (unlikely(obj == Py_None))
+        obj = __pyx_kp_u_None;
+    return __Pyx_NewRef(obj);
 }
 
 /* PyObjectCallOneArg */

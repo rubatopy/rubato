@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.physics.qtree",
         "sources": [
-            "rubato/struct/gameobject/physics/qtree.py"
+            "rubato\\struct\\gameobject\\physics\\qtree.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.physics.qtree"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/physics/qtree.py",
+  "rubato\\\\struct\\\\gameobject\\\\physics\\\\qtree.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1856,7 +1856,7 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_The_Quadtree_itself[] = "The Quadtree itself.";
 static const char __pyx_k_Describes_a_QuadTree_implementa[] = "\nDescribes a QuadTree implementation for optimized collision detection.\nDo not use this in your own projects as it is tailored only to this use case.\n";
 static const char __pyx_k_rubato_struct_gameobject_physics[] = "rubato.struct.gameobject.physics.qtree";
-static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato/struct/gameobject/physics/qtree.py";
+static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato\\struct\\gameobject\\physics\\qtree.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_s_A_Subtree;

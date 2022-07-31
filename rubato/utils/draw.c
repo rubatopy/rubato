@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.draw",
         "sources": [
-            "rubato/utils/draw.py"
+            "rubato\\utils\\draw.py"
         ]
     },
     "module_name": "rubato.utils.draw"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/draw.py",
+  "rubato\\\\utils\\\\draw.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2302,7 +2302,7 @@ static const char __pyx_k_rubato_utils_draw[] = "rubato.utils.draw";
 static const char __pyx_k_Draw_queue_texture[] = "Draw.queue_texture";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_rubato_utils_draw_py[] = "rubato/utils/draw.py";
+static const char __pyx_k_rubato_utils_draw_py[] = "rubato\\utils\\draw.py";
 static const char __pyx_k_Draw_queue_line_locals_lambda[] = "Draw.queue_line.<locals>.<lambda>";
 static const char __pyx_k_Draw_queue_poly_locals_lambda[] = "Draw.queue_poly.<locals>.<lambda>";
 static const char __pyx_k_Draw_queue_rect_locals_lambda[] = "Draw.queue_rect.<locals>.<lambda>";

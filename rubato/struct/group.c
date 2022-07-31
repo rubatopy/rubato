@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.group",
         "sources": [
-            "rubato/struct/group.py"
+            "rubato\\struct\\group.py"
         ]
     },
     "module_name": "rubato.struct.group"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/group.py",
+  "rubato\\\\struct\\\\group.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1961,7 +1961,7 @@ static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_is_not_in_the_group[] = " is not in the group ";
 static const char __pyx_k_rubato_struct_group[] = "rubato.struct.group";
-static const char __pyx_k_rubato_struct_group_py[] = "rubato/struct/group.py";
+static const char __pyx_k_rubato_struct_group_py[] = "rubato\\struct\\group.py";
 static const char __pyx_k_Cannot_add_a_group_to_itself[] = "Cannot add a group to itself.";
 static const char __pyx_k_Groups_contain_game_objects_or[] = "\nGroups contain game objects or other groups and allow separation between game objects.\n";
 static const char __pyx_k_The_group_class_implementation[] = "\n    The group class implementation.\n\n    Args:\n        name: The name of the group. Defaults to \"\" and is set to \"Group #\" when it is added to another Group or Scene.\n        active: Whether the group is active or not. Defaults to True.\n\n    Attributes:\n        name (str): The name of the group.\n        active (bool): Whether the group is active or not.\n        groups (List[Group]): A list of groups that are children of this group.\n        game_objects (List[GameObject]): A list of game objects that are children of this group.\n    ";

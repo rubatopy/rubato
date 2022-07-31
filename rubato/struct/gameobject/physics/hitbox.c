@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.physics.hitbox",
         "sources": [
-            "rubato/struct/gameobject/physics/hitbox.py"
+            "rubato\\struct\\gameobject\\physics\\hitbox.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.physics.hitbox"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/physics/hitbox.py",
+  "rubato\\\\struct\\\\gameobject\\\\physics\\\\hitbox.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2039,7 +2039,7 @@ static const char __pyx_k_Tried_to_get_rect_property_befor[] = "Tried to get rec
 static const char __pyx_k_Tried_to_set_rect_property_befor[] = "Tried to set rect property before game object assignment.";
 static const char __pyx_k_Various_hitbox_components_that_e[] = "Various hitbox components that enable collisions";
 static const char __pyx_k_rubato_struct_gameobject_physics[] = "rubato.struct.gameobject.physics.hitbox";
-static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato/struct/gameobject/physics/hitbox.py";
+static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato\\struct\\gameobject\\physics\\hitbox.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_kp_u_;

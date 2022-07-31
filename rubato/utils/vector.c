@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.vector",
         "sources": [
-            "rubato/utils/vector.py"
+            "rubato\\utils\\vector.py"
         ]
     },
     "module_name": "rubato.utils.vector"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/vector.py",
+  "rubato\\\\utils\\\\vector.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2044,7 +2044,7 @@ static const char __pyx_k_Vector_angle_between[] = "Vector.angle_between";
 static const char __pyx_k_Vector_perpendicular[] = "Vector.perpendicular";
 static const char __pyx_k_raise_operator_error[] = "raise_operator_error";
 static const char __pyx_k_Vector_clamp_magnitude[] = "Vector.clamp_magnitude";
-static const char __pyx_k_rubato_utils_vector_py[] = "rubato/utils/vector.py";
+static const char __pyx_k_rubato_utils_vector_py[] = "rubato\\utils\\vector.py";
 static const char __pyx_k_A_vector_implementation[] = "\nA vector implementation.\n";
 static const char __pyx_k_Vector_distance_between[] = "Vector.distance_between";
 static const char __pyx_k_Vector_rand_unit_vector[] = "Vector.rand_unit_vector";

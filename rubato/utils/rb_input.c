@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.rb_input",
         "sources": [
-            "rubato/utils/rb_input.py"
+            "rubato\\utils\\rb_input.py"
         ]
     },
     "module_name": "rubato.utils.rb_input"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/rb_input.py",
+  "rubato\\\\utils\\\\rb_input.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1491,13 +1491,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject *key);
 #else
 #define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
-#endif
-
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
 #endif
 
 /* RaiseUnexpectedTypeError.proto */
@@ -2053,7 +2046,7 @@ static const char __pyx_k_SDL_GetScancodeFromName[] = "SDL_GetScancodeFromName";
 static const char __pyx_k_Input_get_keyboard_state[] = "Input.get_keyboard_state";
 static const char __pyx_k_Input_scancode_from_name[] = "Input.scancode_from_name";
 static const char __pyx_k_any_mouse_button_pressed[] = "any_mouse_button_pressed";
-static const char __pyx_k_rubato_utils_rb_input_py[] = "rubato/utils/rb_input.py";
+static const char __pyx_k_rubato_utils_rb_input_py[] = "rubato\\utils\\rb_input.py";
 static const char __pyx_k_SDL_RenderWindowToLogical[] = "SDL_RenderWindowToLogical";
 static const char __pyx_k_Input_set_mouse_visibility[] = "Input.set_mouse_visibility";
 static const char __pyx_k_Input_any_mouse_button_pressed[] = "Input.any_mouse_button_pressed";
@@ -2130,8 +2123,8 @@ static PyObject *__pyx_n_s_Vector;
 static PyObject *__pyx_kp_u__2;
 static PyObject *__pyx_n_s__3;
 static PyObject *__pyx_n_s__38;
-static PyObject *__pyx_n_s_alt;
-static PyObject *__pyx_n_s_altgr;
+static PyObject *__pyx_n_u_alt;
+static PyObject *__pyx_n_u_altgr;
 static PyObject *__pyx_n_s_angle;
 static PyObject *__pyx_n_s_annotations;
 static PyObject *__pyx_n_s_any;
@@ -2144,7 +2137,7 @@ static PyObject *__pyx_n_s_c_char_p;
 static PyObject *__pyx_n_s_c_float;
 static PyObject *__pyx_n_s_c_int;
 static PyObject *__pyx_n_s_c_uint8;
-static PyObject *__pyx_kp_s_caps_lock;
+static PyObject *__pyx_kp_u_caps_lock;
 static PyObject *__pyx_n_s_cast;
 static PyObject *__pyx_n_s_ceil;
 static PyObject *__pyx_n_s_center;
@@ -2154,7 +2147,7 @@ static PyObject *__pyx_n_s_class_getitem;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cls;
 static PyObject *__pyx_n_s_code;
-static PyObject *__pyx_n_s_ctrl;
+static PyObject *__pyx_n_u_ctrl;
 static PyObject *__pyx_n_s_ctypes;
 static PyObject *__pyx_n_s_decode;
 static PyObject *__pyx_n_s_deprecated;
@@ -2166,7 +2159,7 @@ static PyObject *__pyx_n_s_get_keyboard_state;
 static PyObject *__pyx_n_s_get_mouse_abs_pos;
 static PyObject *__pyx_n_s_get_mouse_pos;
 static PyObject *__pyx_n_s_get_name;
-static PyObject *__pyx_n_s_gui;
+static PyObject *__pyx_n_u_gui;
 static PyObject *__pyx_n_s_has_x_border;
 static PyObject *__pyx_n_s_has_y_border;
 static PyObject *__pyx_n_s_import;
@@ -2186,10 +2179,10 @@ static PyObject *__pyx_n_s_keys;
 static PyObject *__pyx_n_s_keystate;
 static PyObject *__pyx_n_s_last;
 static PyObject *__pyx_n_s_lb;
-static PyObject *__pyx_kp_s_left_alt;
-static PyObject *__pyx_kp_s_left_ctrl;
-static PyObject *__pyx_kp_s_left_gui;
-static PyObject *__pyx_kp_s_left_shift;
+static PyObject *__pyx_kp_u_left_alt;
+static PyObject *__pyx_kp_u_left_ctrl;
+static PyObject *__pyx_kp_u_left_gui;
+static PyObject *__pyx_kp_u_left_shift;
 static PyObject *__pyx_n_s_lower;
 static PyObject *__pyx_n_s_lt;
 static PyObject *__pyx_n_s_main;
@@ -2207,7 +2200,7 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_now;
 static PyObject *__pyx_n_s_numkeys;
-static PyObject *__pyx_n_s_numlock;
+static PyObject *__pyx_n_u_numlock;
 static PyObject *__pyx_n_s_odd;
 static PyObject *__pyx_n_s_p0;
 static PyObject *__pyx_n_s_p1;
@@ -2220,10 +2213,10 @@ static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_rb;
 static PyObject *__pyx_n_s_renderer;
 static PyObject *__pyx_n_s_return;
-static PyObject *__pyx_kp_s_right_alt;
-static PyObject *__pyx_kp_s_right_ctrl;
-static PyObject *__pyx_kp_s_right_gui;
-static PyObject *__pyx_kp_s_right_shift;
+static PyObject *__pyx_kp_u_right_alt;
+static PyObject *__pyx_kp_u_right_ctrl;
+static PyObject *__pyx_kp_u_right_gui;
+static PyObject *__pyx_kp_u_right_shift;
 static PyObject *__pyx_n_s_rotate;
 static PyObject *__pyx_n_s_rt;
 static PyObject *__pyx_n_s_rubato_utils_rb_input;
@@ -2234,7 +2227,7 @@ static PyObject *__pyx_n_s_sdlrenderer;
 static PyObject *__pyx_n_s_set_mouse_pos;
 static PyObject *__pyx_n_s_set_mouse_visibility;
 static PyObject *__pyx_n_s_set_name;
-static PyObject *__pyx_n_s_shift;
+static PyObject *__pyx_n_u_shift;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_spec;
 static PyObject *__pyx_n_s_staticmethod;
@@ -2243,7 +2236,7 @@ static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_toggle;
 static PyObject *__pyx_n_s_typing;
-static PyObject *__pyx_kp_s_utf_8;
+static PyObject *__pyx_kp_u_utf_8;
 static PyObject *__pyx_n_s_v;
 static PyObject *__pyx_n_s_val;
 static PyObject *__pyx_n_s_value;
@@ -2406,8 +2399,8 @@ typedef struct {
   PyObject *__pyx_kp_u__2;
   PyObject *__pyx_n_s__3;
   PyObject *__pyx_n_s__38;
-  PyObject *__pyx_n_s_alt;
-  PyObject *__pyx_n_s_altgr;
+  PyObject *__pyx_n_u_alt;
+  PyObject *__pyx_n_u_altgr;
   PyObject *__pyx_n_s_angle;
   PyObject *__pyx_n_s_annotations;
   PyObject *__pyx_n_s_any;
@@ -2420,7 +2413,7 @@ typedef struct {
   PyObject *__pyx_n_s_c_float;
   PyObject *__pyx_n_s_c_int;
   PyObject *__pyx_n_s_c_uint8;
-  PyObject *__pyx_kp_s_caps_lock;
+  PyObject *__pyx_kp_u_caps_lock;
   PyObject *__pyx_n_s_cast;
   PyObject *__pyx_n_s_ceil;
   PyObject *__pyx_n_s_center;
@@ -2430,7 +2423,7 @@ typedef struct {
   PyObject *__pyx_n_s_cline_in_traceback;
   PyObject *__pyx_n_s_cls;
   PyObject *__pyx_n_s_code;
-  PyObject *__pyx_n_s_ctrl;
+  PyObject *__pyx_n_u_ctrl;
   PyObject *__pyx_n_s_ctypes;
   PyObject *__pyx_n_s_decode;
   PyObject *__pyx_n_s_deprecated;
@@ -2442,7 +2435,7 @@ typedef struct {
   PyObject *__pyx_n_s_get_mouse_abs_pos;
   PyObject *__pyx_n_s_get_mouse_pos;
   PyObject *__pyx_n_s_get_name;
-  PyObject *__pyx_n_s_gui;
+  PyObject *__pyx_n_u_gui;
   PyObject *__pyx_n_s_has_x_border;
   PyObject *__pyx_n_s_has_y_border;
   PyObject *__pyx_n_s_import;
@@ -2462,10 +2455,10 @@ typedef struct {
   PyObject *__pyx_n_s_keystate;
   PyObject *__pyx_n_s_last;
   PyObject *__pyx_n_s_lb;
-  PyObject *__pyx_kp_s_left_alt;
-  PyObject *__pyx_kp_s_left_ctrl;
-  PyObject *__pyx_kp_s_left_gui;
-  PyObject *__pyx_kp_s_left_shift;
+  PyObject *__pyx_kp_u_left_alt;
+  PyObject *__pyx_kp_u_left_ctrl;
+  PyObject *__pyx_kp_u_left_gui;
+  PyObject *__pyx_kp_u_left_shift;
   PyObject *__pyx_n_s_lower;
   PyObject *__pyx_n_s_lt;
   PyObject *__pyx_n_s_main;
@@ -2483,7 +2476,7 @@ typedef struct {
   PyObject *__pyx_n_s_name_2;
   PyObject *__pyx_n_s_now;
   PyObject *__pyx_n_s_numkeys;
-  PyObject *__pyx_n_s_numlock;
+  PyObject *__pyx_n_u_numlock;
   PyObject *__pyx_n_s_odd;
   PyObject *__pyx_n_s_p0;
   PyObject *__pyx_n_s_p1;
@@ -2496,10 +2489,10 @@ typedef struct {
   PyObject *__pyx_n_s_rb;
   PyObject *__pyx_n_s_renderer;
   PyObject *__pyx_n_s_return;
-  PyObject *__pyx_kp_s_right_alt;
-  PyObject *__pyx_kp_s_right_ctrl;
-  PyObject *__pyx_kp_s_right_gui;
-  PyObject *__pyx_kp_s_right_shift;
+  PyObject *__pyx_kp_u_right_alt;
+  PyObject *__pyx_kp_u_right_ctrl;
+  PyObject *__pyx_kp_u_right_gui;
+  PyObject *__pyx_kp_u_right_shift;
   PyObject *__pyx_n_s_rotate;
   PyObject *__pyx_n_s_rt;
   PyObject *__pyx_n_s_rubato_utils_rb_input;
@@ -2510,7 +2503,7 @@ typedef struct {
   PyObject *__pyx_n_s_set_mouse_pos;
   PyObject *__pyx_n_s_set_mouse_visibility;
   PyObject *__pyx_n_s_set_name;
-  PyObject *__pyx_n_s_shift;
+  PyObject *__pyx_n_u_shift;
   PyObject *__pyx_n_s_size;
   PyObject *__pyx_n_s_spec;
   PyObject *__pyx_n_s_staticmethod;
@@ -2519,7 +2512,7 @@ typedef struct {
   PyObject *__pyx_n_s_test;
   PyObject *__pyx_n_s_toggle;
   PyObject *__pyx_n_s_typing;
-  PyObject *__pyx_kp_s_utf_8;
+  PyObject *__pyx_kp_u_utf_8;
   PyObject *__pyx_n_s_v;
   PyObject *__pyx_n_s_val;
   PyObject *__pyx_n_s_value;
@@ -2673,8 +2666,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u__2);
   Py_CLEAR(clear_module_state->__pyx_n_s__3);
   Py_CLEAR(clear_module_state->__pyx_n_s__38);
-  Py_CLEAR(clear_module_state->__pyx_n_s_alt);
-  Py_CLEAR(clear_module_state->__pyx_n_s_altgr);
+  Py_CLEAR(clear_module_state->__pyx_n_u_alt);
+  Py_CLEAR(clear_module_state->__pyx_n_u_altgr);
   Py_CLEAR(clear_module_state->__pyx_n_s_angle);
   Py_CLEAR(clear_module_state->__pyx_n_s_annotations);
   Py_CLEAR(clear_module_state->__pyx_n_s_any);
@@ -2687,7 +2680,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_c_float);
   Py_CLEAR(clear_module_state->__pyx_n_s_c_int);
   Py_CLEAR(clear_module_state->__pyx_n_s_c_uint8);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_caps_lock);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_caps_lock);
   Py_CLEAR(clear_module_state->__pyx_n_s_cast);
   Py_CLEAR(clear_module_state->__pyx_n_s_ceil);
   Py_CLEAR(clear_module_state->__pyx_n_s_center);
@@ -2697,7 +2690,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
   Py_CLEAR(clear_module_state->__pyx_n_s_cls);
   Py_CLEAR(clear_module_state->__pyx_n_s_code);
-  Py_CLEAR(clear_module_state->__pyx_n_s_ctrl);
+  Py_CLEAR(clear_module_state->__pyx_n_u_ctrl);
   Py_CLEAR(clear_module_state->__pyx_n_s_ctypes);
   Py_CLEAR(clear_module_state->__pyx_n_s_decode);
   Py_CLEAR(clear_module_state->__pyx_n_s_deprecated);
@@ -2709,7 +2702,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_get_mouse_abs_pos);
   Py_CLEAR(clear_module_state->__pyx_n_s_get_mouse_pos);
   Py_CLEAR(clear_module_state->__pyx_n_s_get_name);
-  Py_CLEAR(clear_module_state->__pyx_n_s_gui);
+  Py_CLEAR(clear_module_state->__pyx_n_u_gui);
   Py_CLEAR(clear_module_state->__pyx_n_s_has_x_border);
   Py_CLEAR(clear_module_state->__pyx_n_s_has_y_border);
   Py_CLEAR(clear_module_state->__pyx_n_s_import);
@@ -2729,10 +2722,10 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_keystate);
   Py_CLEAR(clear_module_state->__pyx_n_s_last);
   Py_CLEAR(clear_module_state->__pyx_n_s_lb);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_left_alt);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_left_ctrl);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_left_gui);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_left_shift);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_left_alt);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_left_ctrl);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_left_gui);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_left_shift);
   Py_CLEAR(clear_module_state->__pyx_n_s_lower);
   Py_CLEAR(clear_module_state->__pyx_n_s_lt);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
@@ -2750,7 +2743,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_name_2);
   Py_CLEAR(clear_module_state->__pyx_n_s_now);
   Py_CLEAR(clear_module_state->__pyx_n_s_numkeys);
-  Py_CLEAR(clear_module_state->__pyx_n_s_numlock);
+  Py_CLEAR(clear_module_state->__pyx_n_u_numlock);
   Py_CLEAR(clear_module_state->__pyx_n_s_odd);
   Py_CLEAR(clear_module_state->__pyx_n_s_p0);
   Py_CLEAR(clear_module_state->__pyx_n_s_p1);
@@ -2763,10 +2756,10 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_rb);
   Py_CLEAR(clear_module_state->__pyx_n_s_renderer);
   Py_CLEAR(clear_module_state->__pyx_n_s_return);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_right_alt);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_right_ctrl);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_right_gui);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_right_shift);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_right_alt);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_right_ctrl);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_right_gui);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_right_shift);
   Py_CLEAR(clear_module_state->__pyx_n_s_rotate);
   Py_CLEAR(clear_module_state->__pyx_n_s_rt);
   Py_CLEAR(clear_module_state->__pyx_n_s_rubato_utils_rb_input);
@@ -2777,7 +2770,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_set_mouse_pos);
   Py_CLEAR(clear_module_state->__pyx_n_s_set_mouse_visibility);
   Py_CLEAR(clear_module_state->__pyx_n_s_set_name);
-  Py_CLEAR(clear_module_state->__pyx_n_s_shift);
+  Py_CLEAR(clear_module_state->__pyx_n_u_shift);
   Py_CLEAR(clear_module_state->__pyx_n_s_size);
   Py_CLEAR(clear_module_state->__pyx_n_s_spec);
   Py_CLEAR(clear_module_state->__pyx_n_s_staticmethod);
@@ -2786,7 +2779,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_test);
   Py_CLEAR(clear_module_state->__pyx_n_s_toggle);
   Py_CLEAR(clear_module_state->__pyx_n_s_typing);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_utf_8);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_utf_8);
   Py_CLEAR(clear_module_state->__pyx_n_s_v);
   Py_CLEAR(clear_module_state->__pyx_n_s_val);
   Py_CLEAR(clear_module_state->__pyx_n_s_value);
@@ -2927,8 +2920,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u__2);
   Py_VISIT(traverse_module_state->__pyx_n_s__3);
   Py_VISIT(traverse_module_state->__pyx_n_s__38);
-  Py_VISIT(traverse_module_state->__pyx_n_s_alt);
-  Py_VISIT(traverse_module_state->__pyx_n_s_altgr);
+  Py_VISIT(traverse_module_state->__pyx_n_u_alt);
+  Py_VISIT(traverse_module_state->__pyx_n_u_altgr);
   Py_VISIT(traverse_module_state->__pyx_n_s_angle);
   Py_VISIT(traverse_module_state->__pyx_n_s_annotations);
   Py_VISIT(traverse_module_state->__pyx_n_s_any);
@@ -2941,7 +2934,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_c_float);
   Py_VISIT(traverse_module_state->__pyx_n_s_c_int);
   Py_VISIT(traverse_module_state->__pyx_n_s_c_uint8);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_caps_lock);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_caps_lock);
   Py_VISIT(traverse_module_state->__pyx_n_s_cast);
   Py_VISIT(traverse_module_state->__pyx_n_s_ceil);
   Py_VISIT(traverse_module_state->__pyx_n_s_center);
@@ -2951,7 +2944,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
   Py_VISIT(traverse_module_state->__pyx_n_s_cls);
   Py_VISIT(traverse_module_state->__pyx_n_s_code);
-  Py_VISIT(traverse_module_state->__pyx_n_s_ctrl);
+  Py_VISIT(traverse_module_state->__pyx_n_u_ctrl);
   Py_VISIT(traverse_module_state->__pyx_n_s_ctypes);
   Py_VISIT(traverse_module_state->__pyx_n_s_decode);
   Py_VISIT(traverse_module_state->__pyx_n_s_deprecated);
@@ -2963,7 +2956,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_get_mouse_abs_pos);
   Py_VISIT(traverse_module_state->__pyx_n_s_get_mouse_pos);
   Py_VISIT(traverse_module_state->__pyx_n_s_get_name);
-  Py_VISIT(traverse_module_state->__pyx_n_s_gui);
+  Py_VISIT(traverse_module_state->__pyx_n_u_gui);
   Py_VISIT(traverse_module_state->__pyx_n_s_has_x_border);
   Py_VISIT(traverse_module_state->__pyx_n_s_has_y_border);
   Py_VISIT(traverse_module_state->__pyx_n_s_import);
@@ -2983,10 +2976,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_keystate);
   Py_VISIT(traverse_module_state->__pyx_n_s_last);
   Py_VISIT(traverse_module_state->__pyx_n_s_lb);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_left_alt);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_left_ctrl);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_left_gui);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_left_shift);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_left_alt);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_left_ctrl);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_left_gui);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_left_shift);
   Py_VISIT(traverse_module_state->__pyx_n_s_lower);
   Py_VISIT(traverse_module_state->__pyx_n_s_lt);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
@@ -3004,7 +2997,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_name_2);
   Py_VISIT(traverse_module_state->__pyx_n_s_now);
   Py_VISIT(traverse_module_state->__pyx_n_s_numkeys);
-  Py_VISIT(traverse_module_state->__pyx_n_s_numlock);
+  Py_VISIT(traverse_module_state->__pyx_n_u_numlock);
   Py_VISIT(traverse_module_state->__pyx_n_s_odd);
   Py_VISIT(traverse_module_state->__pyx_n_s_p0);
   Py_VISIT(traverse_module_state->__pyx_n_s_p1);
@@ -3017,10 +3010,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_rb);
   Py_VISIT(traverse_module_state->__pyx_n_s_renderer);
   Py_VISIT(traverse_module_state->__pyx_n_s_return);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_right_alt);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_right_ctrl);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_right_gui);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_right_shift);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_right_alt);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_right_ctrl);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_right_gui);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_right_shift);
   Py_VISIT(traverse_module_state->__pyx_n_s_rotate);
   Py_VISIT(traverse_module_state->__pyx_n_s_rt);
   Py_VISIT(traverse_module_state->__pyx_n_s_rubato_utils_rb_input);
@@ -3031,7 +3024,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_set_mouse_pos);
   Py_VISIT(traverse_module_state->__pyx_n_s_set_mouse_visibility);
   Py_VISIT(traverse_module_state->__pyx_n_s_set_name);
-  Py_VISIT(traverse_module_state->__pyx_n_s_shift);
+  Py_VISIT(traverse_module_state->__pyx_n_u_shift);
   Py_VISIT(traverse_module_state->__pyx_n_s_size);
   Py_VISIT(traverse_module_state->__pyx_n_s_spec);
   Py_VISIT(traverse_module_state->__pyx_n_s_staticmethod);
@@ -3040,7 +3033,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_test);
   Py_VISIT(traverse_module_state->__pyx_n_s_toggle);
   Py_VISIT(traverse_module_state->__pyx_n_s_typing);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_utf_8);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_utf_8);
   Py_VISIT(traverse_module_state->__pyx_n_s_v);
   Py_VISIT(traverse_module_state->__pyx_n_s_val);
   Py_VISIT(traverse_module_state->__pyx_n_s_value);
@@ -3178,8 +3171,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
 #define __pyx_n_s__3 __pyx_mstate_global->__pyx_n_s__3
 #define __pyx_n_s__38 __pyx_mstate_global->__pyx_n_s__38
-#define __pyx_n_s_alt __pyx_mstate_global->__pyx_n_s_alt
-#define __pyx_n_s_altgr __pyx_mstate_global->__pyx_n_s_altgr
+#define __pyx_n_u_alt __pyx_mstate_global->__pyx_n_u_alt
+#define __pyx_n_u_altgr __pyx_mstate_global->__pyx_n_u_altgr
 #define __pyx_n_s_angle __pyx_mstate_global->__pyx_n_s_angle
 #define __pyx_n_s_annotations __pyx_mstate_global->__pyx_n_s_annotations
 #define __pyx_n_s_any __pyx_mstate_global->__pyx_n_s_any
@@ -3192,7 +3185,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_c_float __pyx_mstate_global->__pyx_n_s_c_float
 #define __pyx_n_s_c_int __pyx_mstate_global->__pyx_n_s_c_int
 #define __pyx_n_s_c_uint8 __pyx_mstate_global->__pyx_n_s_c_uint8
-#define __pyx_kp_s_caps_lock __pyx_mstate_global->__pyx_kp_s_caps_lock
+#define __pyx_kp_u_caps_lock __pyx_mstate_global->__pyx_kp_u_caps_lock
 #define __pyx_n_s_cast __pyx_mstate_global->__pyx_n_s_cast
 #define __pyx_n_s_ceil __pyx_mstate_global->__pyx_n_s_ceil
 #define __pyx_n_s_center __pyx_mstate_global->__pyx_n_s_center
@@ -3202,7 +3195,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
 #define __pyx_n_s_cls __pyx_mstate_global->__pyx_n_s_cls
 #define __pyx_n_s_code __pyx_mstate_global->__pyx_n_s_code
-#define __pyx_n_s_ctrl __pyx_mstate_global->__pyx_n_s_ctrl
+#define __pyx_n_u_ctrl __pyx_mstate_global->__pyx_n_u_ctrl
 #define __pyx_n_s_ctypes __pyx_mstate_global->__pyx_n_s_ctypes
 #define __pyx_n_s_decode __pyx_mstate_global->__pyx_n_s_decode
 #define __pyx_n_s_deprecated __pyx_mstate_global->__pyx_n_s_deprecated
@@ -3214,7 +3207,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_get_mouse_abs_pos __pyx_mstate_global->__pyx_n_s_get_mouse_abs_pos
 #define __pyx_n_s_get_mouse_pos __pyx_mstate_global->__pyx_n_s_get_mouse_pos
 #define __pyx_n_s_get_name __pyx_mstate_global->__pyx_n_s_get_name
-#define __pyx_n_s_gui __pyx_mstate_global->__pyx_n_s_gui
+#define __pyx_n_u_gui __pyx_mstate_global->__pyx_n_u_gui
 #define __pyx_n_s_has_x_border __pyx_mstate_global->__pyx_n_s_has_x_border
 #define __pyx_n_s_has_y_border __pyx_mstate_global->__pyx_n_s_has_y_border
 #define __pyx_n_s_import __pyx_mstate_global->__pyx_n_s_import
@@ -3234,10 +3227,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_keystate __pyx_mstate_global->__pyx_n_s_keystate
 #define __pyx_n_s_last __pyx_mstate_global->__pyx_n_s_last
 #define __pyx_n_s_lb __pyx_mstate_global->__pyx_n_s_lb
-#define __pyx_kp_s_left_alt __pyx_mstate_global->__pyx_kp_s_left_alt
-#define __pyx_kp_s_left_ctrl __pyx_mstate_global->__pyx_kp_s_left_ctrl
-#define __pyx_kp_s_left_gui __pyx_mstate_global->__pyx_kp_s_left_gui
-#define __pyx_kp_s_left_shift __pyx_mstate_global->__pyx_kp_s_left_shift
+#define __pyx_kp_u_left_alt __pyx_mstate_global->__pyx_kp_u_left_alt
+#define __pyx_kp_u_left_ctrl __pyx_mstate_global->__pyx_kp_u_left_ctrl
+#define __pyx_kp_u_left_gui __pyx_mstate_global->__pyx_kp_u_left_gui
+#define __pyx_kp_u_left_shift __pyx_mstate_global->__pyx_kp_u_left_shift
 #define __pyx_n_s_lower __pyx_mstate_global->__pyx_n_s_lower
 #define __pyx_n_s_lt __pyx_mstate_global->__pyx_n_s_lt
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
@@ -3255,7 +3248,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_name_2 __pyx_mstate_global->__pyx_n_s_name_2
 #define __pyx_n_s_now __pyx_mstate_global->__pyx_n_s_now
 #define __pyx_n_s_numkeys __pyx_mstate_global->__pyx_n_s_numkeys
-#define __pyx_n_s_numlock __pyx_mstate_global->__pyx_n_s_numlock
+#define __pyx_n_u_numlock __pyx_mstate_global->__pyx_n_u_numlock
 #define __pyx_n_s_odd __pyx_mstate_global->__pyx_n_s_odd
 #define __pyx_n_s_p0 __pyx_mstate_global->__pyx_n_s_p0
 #define __pyx_n_s_p1 __pyx_mstate_global->__pyx_n_s_p1
@@ -3268,10 +3261,10 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_rb __pyx_mstate_global->__pyx_n_s_rb
 #define __pyx_n_s_renderer __pyx_mstate_global->__pyx_n_s_renderer
 #define __pyx_n_s_return __pyx_mstate_global->__pyx_n_s_return
-#define __pyx_kp_s_right_alt __pyx_mstate_global->__pyx_kp_s_right_alt
-#define __pyx_kp_s_right_ctrl __pyx_mstate_global->__pyx_kp_s_right_ctrl
-#define __pyx_kp_s_right_gui __pyx_mstate_global->__pyx_kp_s_right_gui
-#define __pyx_kp_s_right_shift __pyx_mstate_global->__pyx_kp_s_right_shift
+#define __pyx_kp_u_right_alt __pyx_mstate_global->__pyx_kp_u_right_alt
+#define __pyx_kp_u_right_ctrl __pyx_mstate_global->__pyx_kp_u_right_ctrl
+#define __pyx_kp_u_right_gui __pyx_mstate_global->__pyx_kp_u_right_gui
+#define __pyx_kp_u_right_shift __pyx_mstate_global->__pyx_kp_u_right_shift
 #define __pyx_n_s_rotate __pyx_mstate_global->__pyx_n_s_rotate
 #define __pyx_n_s_rt __pyx_mstate_global->__pyx_n_s_rt
 #define __pyx_n_s_rubato_utils_rb_input __pyx_mstate_global->__pyx_n_s_rubato_utils_rb_input
@@ -3282,7 +3275,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_set_mouse_pos __pyx_mstate_global->__pyx_n_s_set_mouse_pos
 #define __pyx_n_s_set_mouse_visibility __pyx_mstate_global->__pyx_n_s_set_mouse_visibility
 #define __pyx_n_s_set_name __pyx_mstate_global->__pyx_n_s_set_name
-#define __pyx_n_s_shift __pyx_mstate_global->__pyx_n_s_shift
+#define __pyx_n_u_shift __pyx_mstate_global->__pyx_n_u_shift
 #define __pyx_n_s_size __pyx_mstate_global->__pyx_n_s_size
 #define __pyx_n_s_spec __pyx_mstate_global->__pyx_n_s_spec
 #define __pyx_n_s_staticmethod __pyx_mstate_global->__pyx_n_s_staticmethod
@@ -3291,7 +3284,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_test __pyx_mstate_global->__pyx_n_s_test
 #define __pyx_n_s_toggle __pyx_mstate_global->__pyx_n_s_toggle
 #define __pyx_n_s_typing __pyx_mstate_global->__pyx_n_s_typing
-#define __pyx_kp_s_utf_8 __pyx_mstate_global->__pyx_kp_s_utf_8
+#define __pyx_kp_u_utf_8 __pyx_mstate_global->__pyx_kp_u_utf_8
 #define __pyx_n_s_v __pyx_mstate_global->__pyx_n_s_v
 #define __pyx_n_s_val __pyx_mstate_global->__pyx_n_s_val
 #define __pyx_n_s_value __pyx_mstate_global->__pyx_n_s_value
@@ -3621,7 +3614,7 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                 elif key == "ctrl":
  */
     /*else*/ {
-      __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_key, __pyx_n_s_shift, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 66, __pyx_L1_error)
+      __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_key, __pyx_n_u_shift, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 66, __pyx_L1_error)
       if (__pyx_t_9) {
 
         /* "rubato/utils/rb_input.py":67
@@ -3631,9 +3624,9 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                 elif key == "ctrl":
  *                     key1, key2 = "left ctrl", "right ctrl"
  */
-        __pyx_t_5 = __pyx_kp_s_left_shift;
+        __pyx_t_5 = __pyx_kp_u_left_shift;
         __Pyx_INCREF(__pyx_t_5);
-        __pyx_t_4 = __pyx_kp_s_right_shift;
+        __pyx_t_4 = __pyx_kp_u_right_shift;
         __Pyx_INCREF(__pyx_t_4);
         __Pyx_XDECREF_SET(__pyx_v_key1, __pyx_t_5);
         __pyx_t_5 = 0;
@@ -3657,7 +3650,7 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                     key1, key2 = "left ctrl", "right ctrl"
  *                 elif key == "alt":
  */
-      __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_key, __pyx_n_s_ctrl, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 68, __pyx_L1_error)
+      __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_key, __pyx_n_u_ctrl, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 68, __pyx_L1_error)
       if (__pyx_t_9) {
 
         /* "rubato/utils/rb_input.py":69
@@ -3667,9 +3660,9 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                 elif key == "alt":
  *                     key1, key2 = "left alt", "right alt"
  */
-        __pyx_t_4 = __pyx_kp_s_left_ctrl;
+        __pyx_t_4 = __pyx_kp_u_left_ctrl;
         __Pyx_INCREF(__pyx_t_4);
-        __pyx_t_5 = __pyx_kp_s_right_ctrl;
+        __pyx_t_5 = __pyx_kp_u_right_ctrl;
         __Pyx_INCREF(__pyx_t_5);
         __Pyx_XDECREF_SET(__pyx_v_key1, __pyx_t_4);
         __pyx_t_4 = 0;
@@ -3693,7 +3686,7 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                     key1, key2 = "left alt", "right alt"
  *                 elif key == "gui":
  */
-      __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_key, __pyx_n_s_alt, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_key, __pyx_n_u_alt, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 70, __pyx_L1_error)
       if (__pyx_t_9) {
 
         /* "rubato/utils/rb_input.py":71
@@ -3703,9 +3696,9 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                 elif key == "gui":
  *                     key1, key2 = "left gui", "right gui"
  */
-        __pyx_t_5 = __pyx_kp_s_left_alt;
+        __pyx_t_5 = __pyx_kp_u_left_alt;
         __Pyx_INCREF(__pyx_t_5);
-        __pyx_t_4 = __pyx_kp_s_right_alt;
+        __pyx_t_4 = __pyx_kp_u_right_alt;
         __Pyx_INCREF(__pyx_t_4);
         __Pyx_XDECREF_SET(__pyx_v_key1, __pyx_t_5);
         __pyx_t_5 = 0;
@@ -3729,7 +3722,7 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                     key1, key2 = "left gui", "right gui"
  *                 else:
  */
-      __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_key, __pyx_n_s_gui, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 72, __pyx_L1_error)
+      __pyx_t_9 = (__Pyx_PyUnicode_Equals(__pyx_v_key, __pyx_n_u_gui, Py_EQ)); if (unlikely((__pyx_t_9 < 0))) __PYX_ERR(0, 72, __pyx_L1_error)
       if (__pyx_t_9) {
 
         /* "rubato/utils/rb_input.py":73
@@ -3739,9 +3732,9 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_key_pressed(CYTHON_UNU
  *                 else:
  *                     key1, key2 = key, key
  */
-        __pyx_t_4 = __pyx_kp_s_left_gui;
+        __pyx_t_4 = __pyx_kp_u_left_gui;
         __Pyx_INCREF(__pyx_t_4);
-        __pyx_t_5 = __pyx_kp_s_right_gui;
+        __pyx_t_5 = __pyx_kp_u_right_gui;
         __Pyx_INCREF(__pyx_t_5);
         __Pyx_XDECREF_SET(__pyx_v_key1, __pyx_t_4);
         __pyx_t_4 = 0;
@@ -4451,7 +4444,7 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_4get_name(CYTHON_UNUSE
     }
   }
   {
-    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_s_utf_8};
+    PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_u_utf_8};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
@@ -4481,7 +4474,7 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_4get_name(CYTHON_UNUSE
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("str", __pyx_t_1))) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None) || __Pyx_RaiseUnexpectedTypeError("unicode", __pyx_t_1))) __PYX_ERR(0, 103, __pyx_L1_error)
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -4720,7 +4713,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_8rb_input_5Input_8key_from_name, "Input.key_from_name(cls, str char: str) -> int\n\n        Gets the keycode of a key from its name.\n\n        Args:\n            char: The name of the key.\n\n        Returns:\n            int: The corresponding keycode.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_8rb_input_5Input_8key_from_name, "Input.key_from_name(cls, unicode char: str) -> int\n\n        Gets the keycode of a key from its name.\n\n        Args:\n            char: The name of the key.\n\n        Returns:\n            int: The corresponding keycode.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_8rb_input_5Input_9key_from_name = {"key_from_name", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_8rb_input_5Input_9key_from_name, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_8rb_input_5Input_8key_from_name};
 static PyObject *__pyx_pw_6rubato_5utils_8rb_input_5Input_9key_from_name(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -4793,7 +4786,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char), (&PyString_Type), 1, "char", 1))) __PYX_ERR(0, 119, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char), (&PyUnicode_Type), 1, "char", 1))) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_8rb_input_5Input_8key_from_name(__pyx_self, __pyx_v_cls, __pyx_v_char);
 
   /* function exit code */
@@ -4840,9 +4833,9 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_8key_from_name(CYTHON_
   __Pyx_INCREF(__pyx_v_char);
   __Pyx_GIVEREF(__pyx_v_char);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_char);
-  __Pyx_INCREF(__pyx_kp_s_utf_8);
-  __Pyx_GIVEREF(__pyx_kp_s_utf_8);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_kp_s_utf_8);
+  __Pyx_INCREF(__pyx_kp_u_utf_8);
+  __Pyx_GIVEREF(__pyx_kp_u_utf_8);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_kp_u_utf_8);
   __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4932,7 +4925,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_8rb_input_5Input_10scancode_from_name, "Input.scancode_from_name(cls, str char: str) -> int\n\n        Gets the scancode of a key from its name.\n\n        Args:\n            char: The name of the key.\n\n        Returns:\n            int: The corresponding scancode.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_8rb_input_5Input_10scancode_from_name, "Input.scancode_from_name(cls, unicode char: str) -> int\n\n        Gets the scancode of a key from its name.\n\n        Args:\n            char: The name of the key.\n\n        Returns:\n            int: The corresponding scancode.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_8rb_input_5Input_11scancode_from_name = {"scancode_from_name", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_8rb_input_5Input_11scancode_from_name, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_8rb_input_5Input_10scancode_from_name};
 static PyObject *__pyx_pw_6rubato_5utils_8rb_input_5Input_11scancode_from_name(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -5005,7 +4998,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char), (&PyString_Type), 1, "char", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_char), (&PyUnicode_Type), 1, "char", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_8rb_input_5Input_10scancode_from_name(__pyx_self, __pyx_v_cls, __pyx_v_char);
 
   /* function exit code */
@@ -5052,9 +5045,9 @@ static PyObject *__pyx_pf_6rubato_5utils_8rb_input_5Input_10scancode_from_name(C
   __Pyx_INCREF(__pyx_v_char);
   __Pyx_GIVEREF(__pyx_v_char);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_char);
-  __Pyx_INCREF(__pyx_kp_s_utf_8);
-  __Pyx_GIVEREF(__pyx_kp_s_utf_8);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_kp_s_utf_8);
+  __Pyx_INCREF(__pyx_kp_u_utf_8);
+  __Pyx_GIVEREF(__pyx_kp_u_utf_8);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_kp_u_utf_8);
   __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -9260,8 +9253,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {0, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
   {0, __pyx_k__38, sizeof(__pyx_k__38), 0, 0, 1, 1},
-  {0, __pyx_k_alt, sizeof(__pyx_k_alt), 0, 0, 1, 1},
-  {0, __pyx_k_altgr, sizeof(__pyx_k_altgr), 0, 0, 1, 1},
+  {0, __pyx_k_alt, sizeof(__pyx_k_alt), 0, 1, 0, 1},
+  {0, __pyx_k_altgr, sizeof(__pyx_k_altgr), 0, 1, 0, 1},
   {0, __pyx_k_angle, sizeof(__pyx_k_angle), 0, 0, 1, 1},
   {0, __pyx_k_annotations, sizeof(__pyx_k_annotations), 0, 0, 1, 1},
   {0, __pyx_k_any, sizeof(__pyx_k_any), 0, 0, 1, 1},
@@ -9274,7 +9267,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_c_float, sizeof(__pyx_k_c_float), 0, 0, 1, 1},
   {0, __pyx_k_c_int, sizeof(__pyx_k_c_int), 0, 0, 1, 1},
   {0, __pyx_k_c_uint8, sizeof(__pyx_k_c_uint8), 0, 0, 1, 1},
-  {0, __pyx_k_caps_lock, sizeof(__pyx_k_caps_lock), 0, 0, 1, 0},
+  {0, __pyx_k_caps_lock, sizeof(__pyx_k_caps_lock), 0, 1, 0, 0},
   {0, __pyx_k_cast, sizeof(__pyx_k_cast), 0, 0, 1, 1},
   {0, __pyx_k_ceil, sizeof(__pyx_k_ceil), 0, 0, 1, 1},
   {0, __pyx_k_center, sizeof(__pyx_k_center), 0, 0, 1, 1},
@@ -9284,7 +9277,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {0, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
   {0, __pyx_k_code, sizeof(__pyx_k_code), 0, 0, 1, 1},
-  {0, __pyx_k_ctrl, sizeof(__pyx_k_ctrl), 0, 0, 1, 1},
+  {0, __pyx_k_ctrl, sizeof(__pyx_k_ctrl), 0, 1, 0, 1},
   {0, __pyx_k_ctypes, sizeof(__pyx_k_ctypes), 0, 0, 1, 1},
   {0, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
   {0, __pyx_k_deprecated, sizeof(__pyx_k_deprecated), 0, 0, 1, 1},
@@ -9296,7 +9289,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_get_mouse_abs_pos, sizeof(__pyx_k_get_mouse_abs_pos), 0, 0, 1, 1},
   {0, __pyx_k_get_mouse_pos, sizeof(__pyx_k_get_mouse_pos), 0, 0, 1, 1},
   {0, __pyx_k_get_name, sizeof(__pyx_k_get_name), 0, 0, 1, 1},
-  {0, __pyx_k_gui, sizeof(__pyx_k_gui), 0, 0, 1, 1},
+  {0, __pyx_k_gui, sizeof(__pyx_k_gui), 0, 1, 0, 1},
   {0, __pyx_k_has_x_border, sizeof(__pyx_k_has_x_border), 0, 0, 1, 1},
   {0, __pyx_k_has_y_border, sizeof(__pyx_k_has_y_border), 0, 0, 1, 1},
   {0, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -9316,10 +9309,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_keystate, sizeof(__pyx_k_keystate), 0, 0, 1, 1},
   {0, __pyx_k_last, sizeof(__pyx_k_last), 0, 0, 1, 1},
   {0, __pyx_k_lb, sizeof(__pyx_k_lb), 0, 0, 1, 1},
-  {0, __pyx_k_left_alt, sizeof(__pyx_k_left_alt), 0, 0, 1, 0},
-  {0, __pyx_k_left_ctrl, sizeof(__pyx_k_left_ctrl), 0, 0, 1, 0},
-  {0, __pyx_k_left_gui, sizeof(__pyx_k_left_gui), 0, 0, 1, 0},
-  {0, __pyx_k_left_shift, sizeof(__pyx_k_left_shift), 0, 0, 1, 0},
+  {0, __pyx_k_left_alt, sizeof(__pyx_k_left_alt), 0, 1, 0, 0},
+  {0, __pyx_k_left_ctrl, sizeof(__pyx_k_left_ctrl), 0, 1, 0, 0},
+  {0, __pyx_k_left_gui, sizeof(__pyx_k_left_gui), 0, 1, 0, 0},
+  {0, __pyx_k_left_shift, sizeof(__pyx_k_left_shift), 0, 1, 0, 0},
   {0, __pyx_k_lower, sizeof(__pyx_k_lower), 0, 0, 1, 1},
   {0, __pyx_k_lt, sizeof(__pyx_k_lt), 0, 0, 1, 1},
   {0, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -9337,7 +9330,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {0, __pyx_k_now, sizeof(__pyx_k_now), 0, 0, 1, 1},
   {0, __pyx_k_numkeys, sizeof(__pyx_k_numkeys), 0, 0, 1, 1},
-  {0, __pyx_k_numlock, sizeof(__pyx_k_numlock), 0, 0, 1, 1},
+  {0, __pyx_k_numlock, sizeof(__pyx_k_numlock), 0, 1, 0, 1},
   {0, __pyx_k_odd, sizeof(__pyx_k_odd), 0, 0, 1, 1},
   {0, __pyx_k_p0, sizeof(__pyx_k_p0), 0, 0, 1, 1},
   {0, __pyx_k_p1, sizeof(__pyx_k_p1), 0, 0, 1, 1},
@@ -9350,10 +9343,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_rb, sizeof(__pyx_k_rb), 0, 0, 1, 1},
   {0, __pyx_k_renderer, sizeof(__pyx_k_renderer), 0, 0, 1, 1},
   {0, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
-  {0, __pyx_k_right_alt, sizeof(__pyx_k_right_alt), 0, 0, 1, 0},
-  {0, __pyx_k_right_ctrl, sizeof(__pyx_k_right_ctrl), 0, 0, 1, 0},
-  {0, __pyx_k_right_gui, sizeof(__pyx_k_right_gui), 0, 0, 1, 0},
-  {0, __pyx_k_right_shift, sizeof(__pyx_k_right_shift), 0, 0, 1, 0},
+  {0, __pyx_k_right_alt, sizeof(__pyx_k_right_alt), 0, 1, 0, 0},
+  {0, __pyx_k_right_ctrl, sizeof(__pyx_k_right_ctrl), 0, 1, 0, 0},
+  {0, __pyx_k_right_gui, sizeof(__pyx_k_right_gui), 0, 1, 0, 0},
+  {0, __pyx_k_right_shift, sizeof(__pyx_k_right_shift), 0, 1, 0, 0},
   {0, __pyx_k_rotate, sizeof(__pyx_k_rotate), 0, 0, 1, 1},
   {0, __pyx_k_rt, sizeof(__pyx_k_rt), 0, 0, 1, 1},
   {0, __pyx_k_rubato_utils_rb_input, sizeof(__pyx_k_rubato_utils_rb_input), 0, 0, 1, 1},
@@ -9364,7 +9357,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_set_mouse_pos, sizeof(__pyx_k_set_mouse_pos), 0, 0, 1, 1},
   {0, __pyx_k_set_mouse_visibility, sizeof(__pyx_k_set_mouse_visibility), 0, 0, 1, 1},
   {0, __pyx_k_set_name, sizeof(__pyx_k_set_name), 0, 0, 1, 1},
-  {0, __pyx_k_shift, sizeof(__pyx_k_shift), 0, 0, 1, 1},
+  {0, __pyx_k_shift, sizeof(__pyx_k_shift), 0, 1, 0, 1},
   {0, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {0, __pyx_k_spec, sizeof(__pyx_k_spec), 0, 0, 1, 1},
   {0, __pyx_k_staticmethod, sizeof(__pyx_k_staticmethod), 0, 0, 1, 1},
@@ -9373,7 +9366,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {0, __pyx_k_toggle, sizeof(__pyx_k_toggle), 0, 0, 1, 1},
   {0, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
-  {0, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
+  {0, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
   {0, __pyx_k_v, sizeof(__pyx_k_v), 0, 0, 1, 1},
   {0, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
   {0, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
@@ -9458,8 +9451,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {&__pyx_n_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
   {&__pyx_n_s__38, __pyx_k__38, sizeof(__pyx_k__38), 0, 0, 1, 1},
-  {&__pyx_n_s_alt, __pyx_k_alt, sizeof(__pyx_k_alt), 0, 0, 1, 1},
-  {&__pyx_n_s_altgr, __pyx_k_altgr, sizeof(__pyx_k_altgr), 0, 0, 1, 1},
+  {&__pyx_n_u_alt, __pyx_k_alt, sizeof(__pyx_k_alt), 0, 1, 0, 1},
+  {&__pyx_n_u_altgr, __pyx_k_altgr, sizeof(__pyx_k_altgr), 0, 1, 0, 1},
   {&__pyx_n_s_angle, __pyx_k_angle, sizeof(__pyx_k_angle), 0, 0, 1, 1},
   {&__pyx_n_s_annotations, __pyx_k_annotations, sizeof(__pyx_k_annotations), 0, 0, 1, 1},
   {&__pyx_n_s_any, __pyx_k_any, sizeof(__pyx_k_any), 0, 0, 1, 1},
@@ -9472,7 +9465,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_c_float, __pyx_k_c_float, sizeof(__pyx_k_c_float), 0, 0, 1, 1},
   {&__pyx_n_s_c_int, __pyx_k_c_int, sizeof(__pyx_k_c_int), 0, 0, 1, 1},
   {&__pyx_n_s_c_uint8, __pyx_k_c_uint8, sizeof(__pyx_k_c_uint8), 0, 0, 1, 1},
-  {&__pyx_kp_s_caps_lock, __pyx_k_caps_lock, sizeof(__pyx_k_caps_lock), 0, 0, 1, 0},
+  {&__pyx_kp_u_caps_lock, __pyx_k_caps_lock, sizeof(__pyx_k_caps_lock), 0, 1, 0, 0},
   {&__pyx_n_s_cast, __pyx_k_cast, sizeof(__pyx_k_cast), 0, 0, 1, 1},
   {&__pyx_n_s_ceil, __pyx_k_ceil, sizeof(__pyx_k_ceil), 0, 0, 1, 1},
   {&__pyx_n_s_center, __pyx_k_center, sizeof(__pyx_k_center), 0, 0, 1, 1},
@@ -9482,7 +9475,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_cls, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
   {&__pyx_n_s_code, __pyx_k_code, sizeof(__pyx_k_code), 0, 0, 1, 1},
-  {&__pyx_n_s_ctrl, __pyx_k_ctrl, sizeof(__pyx_k_ctrl), 0, 0, 1, 1},
+  {&__pyx_n_u_ctrl, __pyx_k_ctrl, sizeof(__pyx_k_ctrl), 0, 1, 0, 1},
   {&__pyx_n_s_ctypes, __pyx_k_ctypes, sizeof(__pyx_k_ctypes), 0, 0, 1, 1},
   {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
   {&__pyx_n_s_deprecated, __pyx_k_deprecated, sizeof(__pyx_k_deprecated), 0, 0, 1, 1},
@@ -9494,7 +9487,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_mouse_abs_pos, __pyx_k_get_mouse_abs_pos, sizeof(__pyx_k_get_mouse_abs_pos), 0, 0, 1, 1},
   {&__pyx_n_s_get_mouse_pos, __pyx_k_get_mouse_pos, sizeof(__pyx_k_get_mouse_pos), 0, 0, 1, 1},
   {&__pyx_n_s_get_name, __pyx_k_get_name, sizeof(__pyx_k_get_name), 0, 0, 1, 1},
-  {&__pyx_n_s_gui, __pyx_k_gui, sizeof(__pyx_k_gui), 0, 0, 1, 1},
+  {&__pyx_n_u_gui, __pyx_k_gui, sizeof(__pyx_k_gui), 0, 1, 0, 1},
   {&__pyx_n_s_has_x_border, __pyx_k_has_x_border, sizeof(__pyx_k_has_x_border), 0, 0, 1, 1},
   {&__pyx_n_s_has_y_border, __pyx_k_has_y_border, sizeof(__pyx_k_has_y_border), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -9514,10 +9507,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_keystate, __pyx_k_keystate, sizeof(__pyx_k_keystate), 0, 0, 1, 1},
   {&__pyx_n_s_last, __pyx_k_last, sizeof(__pyx_k_last), 0, 0, 1, 1},
   {&__pyx_n_s_lb, __pyx_k_lb, sizeof(__pyx_k_lb), 0, 0, 1, 1},
-  {&__pyx_kp_s_left_alt, __pyx_k_left_alt, sizeof(__pyx_k_left_alt), 0, 0, 1, 0},
-  {&__pyx_kp_s_left_ctrl, __pyx_k_left_ctrl, sizeof(__pyx_k_left_ctrl), 0, 0, 1, 0},
-  {&__pyx_kp_s_left_gui, __pyx_k_left_gui, sizeof(__pyx_k_left_gui), 0, 0, 1, 0},
-  {&__pyx_kp_s_left_shift, __pyx_k_left_shift, sizeof(__pyx_k_left_shift), 0, 0, 1, 0},
+  {&__pyx_kp_u_left_alt, __pyx_k_left_alt, sizeof(__pyx_k_left_alt), 0, 1, 0, 0},
+  {&__pyx_kp_u_left_ctrl, __pyx_k_left_ctrl, sizeof(__pyx_k_left_ctrl), 0, 1, 0, 0},
+  {&__pyx_kp_u_left_gui, __pyx_k_left_gui, sizeof(__pyx_k_left_gui), 0, 1, 0, 0},
+  {&__pyx_kp_u_left_shift, __pyx_k_left_shift, sizeof(__pyx_k_left_shift), 0, 1, 0, 0},
   {&__pyx_n_s_lower, __pyx_k_lower, sizeof(__pyx_k_lower), 0, 0, 1, 1},
   {&__pyx_n_s_lt, __pyx_k_lt, sizeof(__pyx_k_lt), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -9535,7 +9528,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_now, __pyx_k_now, sizeof(__pyx_k_now), 0, 0, 1, 1},
   {&__pyx_n_s_numkeys, __pyx_k_numkeys, sizeof(__pyx_k_numkeys), 0, 0, 1, 1},
-  {&__pyx_n_s_numlock, __pyx_k_numlock, sizeof(__pyx_k_numlock), 0, 0, 1, 1},
+  {&__pyx_n_u_numlock, __pyx_k_numlock, sizeof(__pyx_k_numlock), 0, 1, 0, 1},
   {&__pyx_n_s_odd, __pyx_k_odd, sizeof(__pyx_k_odd), 0, 0, 1, 1},
   {&__pyx_n_s_p0, __pyx_k_p0, sizeof(__pyx_k_p0), 0, 0, 1, 1},
   {&__pyx_n_s_p1, __pyx_k_p1, sizeof(__pyx_k_p1), 0, 0, 1, 1},
@@ -9548,10 +9541,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_rb, __pyx_k_rb, sizeof(__pyx_k_rb), 0, 0, 1, 1},
   {&__pyx_n_s_renderer, __pyx_k_renderer, sizeof(__pyx_k_renderer), 0, 0, 1, 1},
   {&__pyx_n_s_return, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
-  {&__pyx_kp_s_right_alt, __pyx_k_right_alt, sizeof(__pyx_k_right_alt), 0, 0, 1, 0},
-  {&__pyx_kp_s_right_ctrl, __pyx_k_right_ctrl, sizeof(__pyx_k_right_ctrl), 0, 0, 1, 0},
-  {&__pyx_kp_s_right_gui, __pyx_k_right_gui, sizeof(__pyx_k_right_gui), 0, 0, 1, 0},
-  {&__pyx_kp_s_right_shift, __pyx_k_right_shift, sizeof(__pyx_k_right_shift), 0, 0, 1, 0},
+  {&__pyx_kp_u_right_alt, __pyx_k_right_alt, sizeof(__pyx_k_right_alt), 0, 1, 0, 0},
+  {&__pyx_kp_u_right_ctrl, __pyx_k_right_ctrl, sizeof(__pyx_k_right_ctrl), 0, 1, 0, 0},
+  {&__pyx_kp_u_right_gui, __pyx_k_right_gui, sizeof(__pyx_k_right_gui), 0, 1, 0, 0},
+  {&__pyx_kp_u_right_shift, __pyx_k_right_shift, sizeof(__pyx_k_right_shift), 0, 1, 0, 0},
   {&__pyx_n_s_rotate, __pyx_k_rotate, sizeof(__pyx_k_rotate), 0, 0, 1, 1},
   {&__pyx_n_s_rt, __pyx_k_rt, sizeof(__pyx_k_rt), 0, 0, 1, 1},
   {&__pyx_n_s_rubato_utils_rb_input, __pyx_k_rubato_utils_rb_input, sizeof(__pyx_k_rubato_utils_rb_input), 0, 0, 1, 1},
@@ -9562,7 +9555,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_set_mouse_pos, __pyx_k_set_mouse_pos, sizeof(__pyx_k_set_mouse_pos), 0, 0, 1, 1},
   {&__pyx_n_s_set_mouse_visibility, __pyx_k_set_mouse_visibility, sizeof(__pyx_k_set_mouse_visibility), 0, 0, 1, 1},
   {&__pyx_n_s_set_name, __pyx_k_set_name, sizeof(__pyx_k_set_name), 0, 0, 1, 1},
-  {&__pyx_n_s_shift, __pyx_k_shift, sizeof(__pyx_k_shift), 0, 0, 1, 1},
+  {&__pyx_n_u_shift, __pyx_k_shift, sizeof(__pyx_k_shift), 0, 1, 0, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_spec, __pyx_k_spec, sizeof(__pyx_k_spec), 0, 0, 1, 1},
   {&__pyx_n_s_staticmethod, __pyx_k_staticmethod, sizeof(__pyx_k_staticmethod), 0, 0, 1, 1},
@@ -9571,7 +9564,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_toggle, __pyx_k_toggle, sizeof(__pyx_k_toggle), 0, 0, 1, 1},
   {&__pyx_n_s_typing, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
-  {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
+  {&__pyx_kp_u_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
   {&__pyx_n_s_v, __pyx_k_v, sizeof(__pyx_k_v), 0, 0, 1, 1},
   {&__pyx_n_s_val, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
@@ -9905,8 +9898,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_kp_u__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s__38) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_alt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_altgr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_u_alt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_u_altgr) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_angle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_annotations) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_any) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9919,7 +9912,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_c_float) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_c_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_c_uint8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_kp_s_caps_lock) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_kp_u_caps_lock) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_cast) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_ceil) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9929,7 +9922,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_cls) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_code) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_ctrl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_u_ctrl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_ctypes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_decode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_deprecated) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9941,7 +9934,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_get_mouse_abs_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_get_mouse_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_get_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_gui) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_u_gui) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_has_x_border) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_has_y_border) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9961,10 +9954,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_keystate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_last) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_lb) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_kp_s_left_alt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_kp_s_left_ctrl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_kp_s_left_gui) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_kp_s_left_shift) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_kp_u_left_alt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_kp_u_left_ctrl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_kp_u_left_gui) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_kp_u_left_shift) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_lower) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_lt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9982,7 +9975,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_now) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_n_s_numkeys) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_n_s_numlock) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_n_u_numlock) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_n_s_odd) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_n_s_p0) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_n_s_p1) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9995,10 +9988,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_rb) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_renderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_kp_s_right_alt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_kp_s_right_ctrl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_kp_s_right_gui) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_kp_s_right_shift) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_kp_u_right_alt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_kp_u_right_ctrl) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_kp_u_right_gui) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_kp_u_right_shift) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_n_s_rotate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_n_s_rt) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[166], &__pyx_n_s_rubato_utils_rb_input) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -10009,7 +10002,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[171], &__pyx_n_s_set_mouse_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[172], &__pyx_n_s_set_mouse_visibility) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[173], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[174], &__pyx_n_s_shift) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[174], &__pyx_n_u_shift) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[175], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[176], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[177], &__pyx_n_s_staticmethod) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -10018,7 +10011,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[180], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[181], &__pyx_n_s_toggle) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[182], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[183], &__pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[183], &__pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[184], &__pyx_n_s_v) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[185], &__pyx_n_s_val) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[186], &__pyx_n_s_value) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -10561,7 +10554,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_SHIFT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_shift, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_shift, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":24
@@ -10576,7 +10569,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_LSHIFT); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_left_shift, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_left_shift, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":25
@@ -10591,7 +10584,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_RSHIFT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_right_shift, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_right_shift, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":26
@@ -10606,7 +10599,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_ALT); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_alt, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_alt, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":27
@@ -10621,7 +10614,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_LALT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_left_alt, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_left_alt, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":28
@@ -10636,7 +10629,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_RALT); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_right_alt, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_right_alt, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":29
@@ -10651,7 +10644,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_CTRL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_ctrl, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_ctrl, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":30
@@ -10666,7 +10659,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_LCTRL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_left_ctrl, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_left_ctrl, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":31
@@ -10681,7 +10674,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_RCTRL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_right_ctrl, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_right_ctrl, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":32
@@ -10696,7 +10689,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_GUI); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_gui, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_gui, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":33
@@ -10711,7 +10704,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_LGUI); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_left_gui, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_left_gui, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":34
@@ -10726,7 +10719,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_RGUI); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_right_gui, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_right_gui, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":35
@@ -10741,7 +10734,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_NUM); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_numlock, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_numlock, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "rubato/utils/rb_input.py":36
@@ -10756,7 +10749,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_KMOD_CAPS); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_s_caps_lock, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_kp_u_caps_lock, __pyx_t_4) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "rubato/utils/rb_input.py":37
@@ -10771,7 +10764,7 @@ if (!__Pyx_RefNanny) {
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_KMOD_MODE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_altgr, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_altgr, __pyx_t_5) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_mods, __pyx_t_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;

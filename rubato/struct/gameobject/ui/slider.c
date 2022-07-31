@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.ui.slider",
         "sources": [
-            "rubato/struct/gameobject/ui/slider.py"
+            "rubato\\struct\\gameobject\\ui\\slider.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.ui.slider"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/ui/slider.py",
+  "rubato\\\\struct\\\\gameobject\\\\ui\\\\slider.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1843,7 +1843,7 @@ static const char __pyx_k_Slider___init___locals_lambda[] = "Slider.__init__.<lo
 static const char __pyx_k_A_Slider_component_Still_needs[] = "\n    A Slider component. Still needs to be added to a :func:`GameObject <rubato.struct.game_object.GameObject>`.\n\n    Args:\n        button_width: The width of the clickable area. Defaults to 10.\n        button_height: The height of the clickable area. Defaults to 10.\n        slider_length: The length of the slider. Defaults to 10.\n        slider_direction: The direction of the slider. Defaults to Vector(0, -1).\n        onclick: The function to call when the button is clicked. Defaults to lambda: None.\n        onrelease: The function to call when the button is released. Defaults to lambda: None.\n        onhover: The function to call when the mouse enters the button. Defaults to lambda: None.\n        onexit: The function to call when the mouse exits the button. Defaults to lambda: None.\n        offset: The offset of the component from the game object. Defaults to Vector(0, 0).\n        rot_offset: The rotation offset of the component from the game object. Defaults to 0.\n        z_index: The z-index of the component. Defaults to 0.\n\n    Attributes:\n        pressed (bool): Whether the button is currently pressed.\n        hover (bool): Whether the mouse is hovering over the button.\n        dims (Vector): The dimensions of the button.\n        onclick (Callable): The function to call when the button is clicked.\n        onrelease (Callable): The function to call when the button is released.\n        onhover (Callable): The function to call when the mouse enters the button.\n        onexit (Callable): The function to call when the mouse exits the button.\n        slider_length (int): The length of the slider.\n        slider_direction (Vector): The direction of the slider.\n        button (Button): The button component.\n    ";
 static const char __pyx_k_A_slider_component_that_can_be_u[] = "A slider component that can be used in UI.";
 static const char __pyx_k_rubato_struct_gameobject_ui_slid[] = "rubato.struct.gameobject.ui.slider";
-static const char __pyx_k_rubato_struct_gameobject_ui_slid_2[] = "rubato/struct/gameobject/ui/slider.py";
+static const char __pyx_k_rubato_struct_gameobject_ui_slid_2[] = "rubato\\struct\\gameobject\\ui\\slider.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_s_A_Slider_component_Still_needs;

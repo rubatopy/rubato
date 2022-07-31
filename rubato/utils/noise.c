@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.noise",
         "sources": [
-            "rubato/utils/noise.py"
+            "rubato\\utils\\noise.py"
         ]
     },
     "module_name": "rubato.utils.noise"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/noise.py",
+  "rubato\\\\utils\\\\noise.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1921,7 +1921,7 @@ static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_rubato_utils_noise[] = "rubato.utils.noise";
 static const char __pyx_k_N_GRADS_2D_EXPONENT[] = "_N_GRADS_2D_EXPONENT";
-static const char __pyx_k_rubato_utils_noise_py[] = "rubato/utils/noise.py";
+static const char __pyx_k_rubato_utils_noise_py[] = "rubato\\utils\\noise.py";
 static const char __pyx_k_A_modified_implementation_of_th[] = "\n    A modified implementation of the OpenSimplex2 algorithm.\n\n    Attributes:\n        seed (int): The seed for the random noise. Setting to a fixed value will result in the same noise every time.\n    ";
 static const char __pyx_k_A_utility_for_generating_simple[] = "\nA utility for generating simple smooth noise in your projects.\n";
 #if !CYTHON_USE_MODULE_STATE

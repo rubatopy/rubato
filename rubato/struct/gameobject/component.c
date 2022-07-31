@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.component",
         "sources": [
-            "rubato/struct/gameobject/component.py"
+            "rubato\\struct\\gameobject\\component.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.component"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/component.py",
+  "rubato\\\\struct\\\\gameobject\\\\component.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1795,7 +1795,7 @@ static const char __pyx_k_Component_private_update[] = "Component.private_update
 static const char __pyx_k_A_component_adds_functionality[] = "\n    A component adds functionality to the game object it is attached to. Note that this is a template class and should\n    not be used directly. Instead create another class and extend from this one.\n\n    Args:\n        offset: The offset of the component from the game object. Defaults to Vector(0, 0).\n        rot_offset: The rotation offset of the component from the game object. Defaults to 0.\n        z_index: The vertical offset of where to draw the component. Defaults to 0.\n\n    Attributes:\n        gameobj (GameObject): The game object this component is attached to.\n        singular (bool): Whether multiple components of the same type are allowed on a game object.\n        offset (Vector): The offset from the center of the game object that the hitbox should be placed.\n        rot_offset (float): The rotational offset from the game object's rotation.\n        z_index (int): Where to draw the component in the z direction.\n        started (bool): Whether the component has run its setup method.\n        hidden (bool): Whether the component should not draw.\n    ";
 static const char __pyx_k_The_component_module_that_repre[] = "\nThe component module that represents the template for all components.\n\nAttention:\n    Each component can only be attached to one game object. To add one component to multiple game objects, use the\n    ``clone()`` method.\n";
 static const char __pyx_k_rubato_struct_gameobject_compone[] = "rubato.struct.gameobject.component";
-static const char __pyx_k_rubato_struct_gameobject_compone_2[] = "rubato/struct/gameobject/component.py";
+static const char __pyx_k_rubato_struct_gameobject_compone_2[] = "rubato\\struct\\gameobject\\component.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_s_A_component_adds_functionality;

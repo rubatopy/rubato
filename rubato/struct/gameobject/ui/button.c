@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.ui.button",
         "sources": [
-            "rubato/struct/gameobject/ui/button.py"
+            "rubato\\struct\\gameobject\\ui\\button.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.ui.button"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/ui/button.py",
+  "rubato\\\\struct\\\\gameobject\\\\ui\\\\button.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1820,7 +1820,7 @@ static const char __pyx_k_Button___init___locals_lambda[] = "Button.__init__.<lo
 static const char __pyx_k_A_Button_component_Add_this_to[] = "\n    A Button component. Add this to game objects or UI elements to give them clickable areas.\n\n    Args:\n        width: The width of the button. Defaults to 10.\n        height: The height of the button. Defaults to 10.\n        onclick: The function to call when the button is clicked. Defaults to lambda: None.\n        onrelease: The function to call when the button is released. Defaults to lambda: None.\n        onhover: The function to call when the mouse enters the button. Defaults to lambda: None.\n        onexit: The function to call when the mouse exits the button. Defaults to lambda: None.\n        offset: The offset of the button from the game object. Defaults to Vector(0, 0).\n        rot_offset: The rotation offset of the button from the game object. Defaults to 0.\n        z_index: The z-index of the button. Defaults to 0.\n\n    Attributes:\n        pressed (bool): Whether the button is currently pressed.\n        hover (bool): Whether the mouse is hovering over the button.\n        dims (Vector): The dimensions of the button.\n        onclick (Callable): The function to call when the button is clicked.\n        onrelease (Callable): The function to call when the button is released.\n        onhover (Callable): The function to call when the mouse enters the button.\n        onexit (Callable): The function to call when the mouse exits the button.\n    ";
 static const char __pyx_k_A_button_component_that_can_be_u[] = "A button component that can be used in UI or to detect mouse presses in an area.";
 static const char __pyx_k_rubato_struct_gameobject_ui_butt[] = "rubato.struct.gameobject.ui.button";
-static const char __pyx_k_rubato_struct_gameobject_ui_butt_2[] = "rubato/struct/gameobject/ui/button.py";
+static const char __pyx_k_rubato_struct_gameobject_ui_butt_2[] = "rubato\\struct\\gameobject\\ui\\button.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_s_A_Button_component_Add_this_to;

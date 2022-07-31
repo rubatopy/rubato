@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.scene",
         "sources": [
-            "rubato/struct/scene.py"
+            "rubato\\struct\\scene.py"
         ]
     },
     "module_name": "rubato.struct.scene"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/scene.py",
+  "rubato\\\\struct\\\\scene.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1859,7 +1859,7 @@ static const char __pyx_k_rubato_struct_scene[] = "rubato.struct.scene";
 static const char __pyx_k_Scene_private_update[] = "Scene.private_update";
 static const char __pyx_k_private_fixed_update[] = "private_fixed_update";
 static const char __pyx_k_private_paused_update[] = "private_paused_update";
-static const char __pyx_k_rubato_struct_scene_py[] = "rubato/struct/scene.py";
+static const char __pyx_k_rubato_struct_scene_py[] = "rubato\\struct\\scene.py";
 static const char __pyx_k_Scene_private_fixed_update[] = "Scene.private_fixed_update";
 static const char __pyx_k_Scene_private_paused_update[] = "Scene.private_paused_update";
 static const char __pyx_k_A_scene_is_a_collection_of_grou[] = "\n    A scene is a collection of groups.\n\n    Args:\n        name: The name of the scene. This is used to reference the scene. Automatically set if not assigned.\n            Once this is set, it cannot be changed.\n        background_color: The color of the background of the window. Defaults to Color(255, 255, 255).\n        border_color: The color of the border of the window. Defaults to Color(0, 0, 0).\n\n    Attributes:\n        root (Group): The base group of game objects in the scene.\n        ui (Group): The ui elements of this scene. These are drawn on top of everything else and do not interact with\n            the other game objects.\n        camera (Camera): The camera of this scene.\n        border_color: The color of the border of the window.\n        background_color: The color of the background of the window.\n    ";

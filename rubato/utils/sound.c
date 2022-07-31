@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.sound",
         "sources": [
-            "rubato/utils/sound.py"
+            "rubato\\utils\\sound.py"
         ]
     },
     "module_name": "rubato.utils.sound"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/sound.py",
+  "rubato\\\\utils\\\\sound.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1470,23 +1470,6 @@ static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr
         __Pyx__ArgTypeTest(obj, type, name, exact))
 static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
-/* UnpackUnboundCMethod.proto */
-typedef struct {
-    PyObject *type;
-    PyObject **method_name;
-    PyCFunction func;
-    PyObject *method;
-    int flag;
-} __Pyx_CachedCFunction;
-
-/* CallUnboundCMethod1.proto */
-static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
-#else
-#define __Pyx_CallUnboundCMethod1(cfunc, self, arg)  __Pyx__CallUnboundCMethod1(cfunc, self, arg)
-#endif
-
 /* PyIntBinop.proto */
 #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyInt_TrueDivideObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
@@ -1627,37 +1610,6 @@ static CYTHON_INLINE void __Pyx__ExceptionSwap(PyThreadState *tstate, PyObject *
 static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value, PyObject **tb);
 #endif
 
-/* UnicodeConcatInPlace.proto */
-# if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
-    #if CYTHON_REFNANNY
-        #define __Pyx_PyUnicode_ConcatInPlace(left, right) __Pyx_PyUnicode_ConcatInPlaceImpl(&left, right, __pyx_refnanny)
-    #else
-        #define __Pyx_PyUnicode_ConcatInPlace(left, right) __Pyx_PyUnicode_ConcatInPlaceImpl(&left, right)
-    #endif
-    static CYTHON_INLINE PyObject *__Pyx_PyUnicode_ConcatInPlaceImpl(PyObject **p_left, PyObject *right
-        #if CYTHON_REFNANNY
-        , void* __pyx_refnanny
-        #endif
-    );
-#else
-#define __Pyx_PyUnicode_ConcatInPlace __Pyx_PyUnicode_Concat
-#endif
-#define __Pyx_PyUnicode_ConcatInPlaceSafe(left, right) ((unlikely((left) == Py_None) || unlikely((right) == Py_None)) ?\
-    PyNumber_InPlaceAdd(left, right) : __Pyx_PyUnicode_ConcatInPlace(left, right))
-
-/* StrConcatInPlace.proto */
-#if PY_MAJOR_VERSION >= 3
-    #define __Pyx_PyStr_Concat __Pyx_PyUnicode_Concat
-    #define __Pyx_PyStr_ConcatInPlace __Pyx_PyUnicode_ConcatInPlace
-#else
-    #define __Pyx_PyStr_Concat PyNumber_Add
-    #define __Pyx_PyStr_ConcatInPlace PyNumber_InPlaceAdd
-#endif
-#define __Pyx_PyStr_ConcatSafe(a, b) ((unlikely((a) == Py_None) || unlikely((b) == Py_None)) ?\
-    PyNumber_Add(a, b) : __Pyx_PyStr_Concat(a, b))
-#define __Pyx_PyStr_ConcatInPlaceSafe(a, b) ((unlikely((a) == Py_None) || unlikely((b) == Py_None)) ?\
-    PyNumber_InPlaceAdd(a, b) : __Pyx_PyStr_ConcatInPlace(a, b))
-
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
 static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
@@ -1668,6 +1620,9 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
 #define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
 #define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
 #endif
+
+/* PyUnicode_Unicode.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Unicode(PyObject *obj);
 
 /* JoinPyUnicode.proto */
 static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,
@@ -1946,6 +1901,7 @@ static const char __pyx_k_pop[] = "pop";
 static const char __pyx_k_str[] = "str";
 static const char __pyx_k_Dict[] = "Dict";
 static const char __pyx_k_Math[] = "Math";
+static const char __pyx_k_None[] = "None";
 static const char __pyx_k_bool[] = "bool";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_init[] = "__init__";
@@ -1974,10 +1930,8 @@ static const char __pyx_k_sound[] = "sound";
 static const char __pyx_k_split[] = "split";
 static const char __pyx_k_state[] = "state";
 static const char __pyx_k_super[] = "super";
-static const char __pyx_k_utf_8[] = "utf-8";
 static const char __pyx_k_PAUSED[] = "PAUSED";
 static const char __pyx_k_ctypes[] = "ctypes";
-static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_module[] = "__module__";
 static const char __pyx_k_name_2[] = "__name__";
@@ -2048,7 +2002,7 @@ static const char __pyx_k_rubato_utils_sound[] = "rubato.utils.sound";
 static const char __pyx_k_Mix_ChannelFinished[] = "Mix_ChannelFinished";
 static const char __pyx_k_import_sound_folder[] = "import_sound_folder";
 static const char __pyx_k_Mix_AllocateChannels[] = "Mix_AllocateChannels";
-static const char __pyx_k_rubato_utils_sound_py[] = "rubato/utils/sound.py";
+static const char __pyx_k_rubato_utils_sound_py[] = "rubato\\utils\\sound.py";
 static const char __pyx_k_No_sound_with_the_name[] = "No sound with the name ";
 static const char __pyx_k_channel_finish_callback[] = "channel_finish_callback";
 static const char __pyx_k_Sound_import_sound_folder[] = "Sound.import_sound_folder";
@@ -2058,16 +2012,16 @@ static const char __pyx_k_A_sound_class_that_is_used_to_m[] = "\n    A sound cla
 static const char __pyx_k_If_you_have_files_with_duplicate[] = "If you have files with duplicate names you must set duplicate_namesto True";
 static const char __pyx_k_There_is_already_a_sound_with_th[] = "There is already a sound with the name ";
 #if !CYTHON_USE_MODULE_STATE
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_AUDIO_F32;
 static PyObject *__pyx_kp_s_A_sound_class_that_is_used_to_m;
 static PyObject *__pyx_n_s_CFUNCTYPE;
-static PyObject *__pyx_kp_s_Could_not_open_audio_device;
+static PyObject *__pyx_kp_u_Could_not_open_audio_device;
 static PyObject *__pyx_n_s_Dict;
 static PyObject *__pyx_kp_s_Dict_int_Sound;
 static PyObject *__pyx_kp_s_Dict_str_Sound;
 static PyObject *__pyx_n_s_IdError;
-static PyObject *__pyx_kp_s_If_you_have_files_with_duplicate;
+static PyObject *__pyx_kp_u_If_you_have_files_with_duplicate;
 static PyObject *__pyx_n_s_KeyError;
 static PyObject *__pyx_n_s_MIX_MAX_VOLUME;
 static PyObject *__pyx_n_s_Math;
@@ -2082,6 +2036,7 @@ static PyObject *__pyx_n_s_Mix_PlayChannel;
 static PyObject *__pyx_n_s_Mix_Resume;
 static PyObject *__pyx_n_s_Mix_VolumeChunk;
 static PyObject *__pyx_kp_u_No_sound_with_the_name;
+static PyObject *__pyx_kp_u_None;
 static PyObject *__pyx_n_s_PAUSED;
 static PyObject *__pyx_n_s_PLAYING;
 static PyObject *__pyx_n_s_STOPPED;
@@ -2098,7 +2053,6 @@ static PyObject *__pyx_n_s_Sound_state;
 static PyObject *__pyx_n_s_Sound_stop;
 static PyObject *__pyx_kp_u_There_is_already_a_sound_with_th;
 static PyObject *__pyx_n_s_Warning;
-static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_kp_u__2;
 static PyObject *__pyx_n_s__25;
 static PyObject *__pyx_n_s__31;
@@ -2123,7 +2077,6 @@ static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_duplicate_names;
 static PyObject *__pyx_n_s_e;
-static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_err;
 static PyObject *__pyx_n_s_files;
 static PyObject *__pyx_kp_u_found;
@@ -2183,7 +2136,6 @@ static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_typing;
-static PyObject *__pyx_kp_s_utf_8;
 static PyObject *__pyx_n_s_volume;
 static PyObject *__pyx_n_s_volume_2;
 static PyObject *__pyx_n_s_walk;
@@ -2200,8 +2152,6 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_12set_volume(CYTHON_UNUSE
 static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_14get_volume(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_rel_path, PyObject *__pyx_v_duplicate_names, PyObject *__pyx_v_recursive); /* proto */
 static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_18get_sound(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_sound_name); /* proto */
-static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_encode = {0, 0, 0, 0, 0};
-static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_split = {0, 0, 0, 0, 0};
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -2253,16 +2203,16 @@ typedef struct {
   #ifdef __Pyx_FusedFunction_USED
   PyTypeObject *__pyx_FusedFunctionType;
   #endif
-  PyObject *__pyx_kp_s_;
+  PyObject *__pyx_kp_u_;
   PyObject *__pyx_n_s_AUDIO_F32;
   PyObject *__pyx_kp_s_A_sound_class_that_is_used_to_m;
   PyObject *__pyx_n_s_CFUNCTYPE;
-  PyObject *__pyx_kp_s_Could_not_open_audio_device;
+  PyObject *__pyx_kp_u_Could_not_open_audio_device;
   PyObject *__pyx_n_s_Dict;
   PyObject *__pyx_kp_s_Dict_int_Sound;
   PyObject *__pyx_kp_s_Dict_str_Sound;
   PyObject *__pyx_n_s_IdError;
-  PyObject *__pyx_kp_s_If_you_have_files_with_duplicate;
+  PyObject *__pyx_kp_u_If_you_have_files_with_duplicate;
   PyObject *__pyx_n_s_KeyError;
   PyObject *__pyx_n_s_MIX_MAX_VOLUME;
   PyObject *__pyx_n_s_Math;
@@ -2277,6 +2227,7 @@ typedef struct {
   PyObject *__pyx_n_s_Mix_Resume;
   PyObject *__pyx_n_s_Mix_VolumeChunk;
   PyObject *__pyx_kp_u_No_sound_with_the_name;
+  PyObject *__pyx_kp_u_None;
   PyObject *__pyx_n_s_PAUSED;
   PyObject *__pyx_n_s_PLAYING;
   PyObject *__pyx_n_s_STOPPED;
@@ -2293,7 +2244,6 @@ typedef struct {
   PyObject *__pyx_n_s_Sound_stop;
   PyObject *__pyx_kp_u_There_is_already_a_sound_with_th;
   PyObject *__pyx_n_s_Warning;
-  PyObject *__pyx_kp_s__2;
   PyObject *__pyx_kp_u__2;
   PyObject *__pyx_n_s__25;
   PyObject *__pyx_n_s__31;
@@ -2318,7 +2268,6 @@ typedef struct {
   PyObject *__pyx_n_s_doc;
   PyObject *__pyx_n_s_duplicate_names;
   PyObject *__pyx_n_s_e;
-  PyObject *__pyx_n_s_encode;
   PyObject *__pyx_n_s_err;
   PyObject *__pyx_n_s_files;
   PyObject *__pyx_kp_u_found;
@@ -2378,7 +2327,6 @@ typedef struct {
   PyObject *__pyx_n_s_super;
   PyObject *__pyx_n_s_test;
   PyObject *__pyx_n_s_typing;
-  PyObject *__pyx_kp_s_utf_8;
   PyObject *__pyx_n_s_volume;
   PyObject *__pyx_n_s_volume_2;
   PyObject *__pyx_n_s_walk;
@@ -2446,16 +2394,16 @@ static int __pyx_m_clear(PyObject *m) {
   #ifdef __Pyx_FusedFunction_USED
   Py_CLEAR(clear_module_state->__pyx_FusedFunctionType);
   #endif
-  Py_CLEAR(clear_module_state->__pyx_kp_s_);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_);
   Py_CLEAR(clear_module_state->__pyx_n_s_AUDIO_F32);
   Py_CLEAR(clear_module_state->__pyx_kp_s_A_sound_class_that_is_used_to_m);
   Py_CLEAR(clear_module_state->__pyx_n_s_CFUNCTYPE);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Could_not_open_audio_device);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Could_not_open_audio_device);
   Py_CLEAR(clear_module_state->__pyx_n_s_Dict);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Dict_int_Sound);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Dict_str_Sound);
   Py_CLEAR(clear_module_state->__pyx_n_s_IdError);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_If_you_have_files_with_duplicate);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_If_you_have_files_with_duplicate);
   Py_CLEAR(clear_module_state->__pyx_n_s_KeyError);
   Py_CLEAR(clear_module_state->__pyx_n_s_MIX_MAX_VOLUME);
   Py_CLEAR(clear_module_state->__pyx_n_s_Math);
@@ -2470,6 +2418,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Mix_Resume);
   Py_CLEAR(clear_module_state->__pyx_n_s_Mix_VolumeChunk);
   Py_CLEAR(clear_module_state->__pyx_kp_u_No_sound_with_the_name);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_None);
   Py_CLEAR(clear_module_state->__pyx_n_s_PAUSED);
   Py_CLEAR(clear_module_state->__pyx_n_s_PLAYING);
   Py_CLEAR(clear_module_state->__pyx_n_s_STOPPED);
@@ -2486,7 +2435,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Sound_stop);
   Py_CLEAR(clear_module_state->__pyx_kp_u_There_is_already_a_sound_with_th);
   Py_CLEAR(clear_module_state->__pyx_n_s_Warning);
-  Py_CLEAR(clear_module_state->__pyx_kp_s__2);
   Py_CLEAR(clear_module_state->__pyx_kp_u__2);
   Py_CLEAR(clear_module_state->__pyx_n_s__25);
   Py_CLEAR(clear_module_state->__pyx_n_s__31);
@@ -2511,7 +2459,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_doc);
   Py_CLEAR(clear_module_state->__pyx_n_s_duplicate_names);
   Py_CLEAR(clear_module_state->__pyx_n_s_e);
-  Py_CLEAR(clear_module_state->__pyx_n_s_encode);
   Py_CLEAR(clear_module_state->__pyx_n_s_err);
   Py_CLEAR(clear_module_state->__pyx_n_s_files);
   Py_CLEAR(clear_module_state->__pyx_kp_u_found);
@@ -2571,7 +2518,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_super);
   Py_CLEAR(clear_module_state->__pyx_n_s_test);
   Py_CLEAR(clear_module_state->__pyx_n_s_typing);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_utf_8);
   Py_CLEAR(clear_module_state->__pyx_n_s_volume);
   Py_CLEAR(clear_module_state->__pyx_n_s_volume_2);
   Py_CLEAR(clear_module_state->__pyx_n_s_walk);
@@ -2626,16 +2572,16 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   #ifdef __Pyx_FusedFunction_USED
   Py_VISIT(traverse_module_state->__pyx_FusedFunctionType);
   #endif
-  Py_VISIT(traverse_module_state->__pyx_kp_s_);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_);
   Py_VISIT(traverse_module_state->__pyx_n_s_AUDIO_F32);
   Py_VISIT(traverse_module_state->__pyx_kp_s_A_sound_class_that_is_used_to_m);
   Py_VISIT(traverse_module_state->__pyx_n_s_CFUNCTYPE);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Could_not_open_audio_device);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Could_not_open_audio_device);
   Py_VISIT(traverse_module_state->__pyx_n_s_Dict);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Dict_int_Sound);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Dict_str_Sound);
   Py_VISIT(traverse_module_state->__pyx_n_s_IdError);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_If_you_have_files_with_duplicate);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_If_you_have_files_with_duplicate);
   Py_VISIT(traverse_module_state->__pyx_n_s_KeyError);
   Py_VISIT(traverse_module_state->__pyx_n_s_MIX_MAX_VOLUME);
   Py_VISIT(traverse_module_state->__pyx_n_s_Math);
@@ -2650,6 +2596,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Mix_Resume);
   Py_VISIT(traverse_module_state->__pyx_n_s_Mix_VolumeChunk);
   Py_VISIT(traverse_module_state->__pyx_kp_u_No_sound_with_the_name);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_None);
   Py_VISIT(traverse_module_state->__pyx_n_s_PAUSED);
   Py_VISIT(traverse_module_state->__pyx_n_s_PLAYING);
   Py_VISIT(traverse_module_state->__pyx_n_s_STOPPED);
@@ -2666,7 +2613,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Sound_stop);
   Py_VISIT(traverse_module_state->__pyx_kp_u_There_is_already_a_sound_with_th);
   Py_VISIT(traverse_module_state->__pyx_n_s_Warning);
-  Py_VISIT(traverse_module_state->__pyx_kp_s__2);
   Py_VISIT(traverse_module_state->__pyx_kp_u__2);
   Py_VISIT(traverse_module_state->__pyx_n_s__25);
   Py_VISIT(traverse_module_state->__pyx_n_s__31);
@@ -2691,7 +2637,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_doc);
   Py_VISIT(traverse_module_state->__pyx_n_s_duplicate_names);
   Py_VISIT(traverse_module_state->__pyx_n_s_e);
-  Py_VISIT(traverse_module_state->__pyx_n_s_encode);
   Py_VISIT(traverse_module_state->__pyx_n_s_err);
   Py_VISIT(traverse_module_state->__pyx_n_s_files);
   Py_VISIT(traverse_module_state->__pyx_kp_u_found);
@@ -2751,7 +2696,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_super);
   Py_VISIT(traverse_module_state->__pyx_n_s_test);
   Py_VISIT(traverse_module_state->__pyx_n_s_typing);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_utf_8);
   Py_VISIT(traverse_module_state->__pyx_n_s_volume);
   Py_VISIT(traverse_module_state->__pyx_n_s_volume_2);
   Py_VISIT(traverse_module_state->__pyx_n_s_walk);
@@ -2803,16 +2747,16 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #ifdef __Pyx_FusedFunction_USED
 #define __pyx_FusedFunctionType __pyx_mstate_global->__pyx_FusedFunctionType
 #endif
-#define __pyx_kp_s_ __pyx_mstate_global->__pyx_kp_s_
+#define __pyx_kp_u_ __pyx_mstate_global->__pyx_kp_u_
 #define __pyx_n_s_AUDIO_F32 __pyx_mstate_global->__pyx_n_s_AUDIO_F32
 #define __pyx_kp_s_A_sound_class_that_is_used_to_m __pyx_mstate_global->__pyx_kp_s_A_sound_class_that_is_used_to_m
 #define __pyx_n_s_CFUNCTYPE __pyx_mstate_global->__pyx_n_s_CFUNCTYPE
-#define __pyx_kp_s_Could_not_open_audio_device __pyx_mstate_global->__pyx_kp_s_Could_not_open_audio_device
+#define __pyx_kp_u_Could_not_open_audio_device __pyx_mstate_global->__pyx_kp_u_Could_not_open_audio_device
 #define __pyx_n_s_Dict __pyx_mstate_global->__pyx_n_s_Dict
 #define __pyx_kp_s_Dict_int_Sound __pyx_mstate_global->__pyx_kp_s_Dict_int_Sound
 #define __pyx_kp_s_Dict_str_Sound __pyx_mstate_global->__pyx_kp_s_Dict_str_Sound
 #define __pyx_n_s_IdError __pyx_mstate_global->__pyx_n_s_IdError
-#define __pyx_kp_s_If_you_have_files_with_duplicate __pyx_mstate_global->__pyx_kp_s_If_you_have_files_with_duplicate
+#define __pyx_kp_u_If_you_have_files_with_duplicate __pyx_mstate_global->__pyx_kp_u_If_you_have_files_with_duplicate
 #define __pyx_n_s_KeyError __pyx_mstate_global->__pyx_n_s_KeyError
 #define __pyx_n_s_MIX_MAX_VOLUME __pyx_mstate_global->__pyx_n_s_MIX_MAX_VOLUME
 #define __pyx_n_s_Math __pyx_mstate_global->__pyx_n_s_Math
@@ -2827,6 +2771,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Mix_Resume __pyx_mstate_global->__pyx_n_s_Mix_Resume
 #define __pyx_n_s_Mix_VolumeChunk __pyx_mstate_global->__pyx_n_s_Mix_VolumeChunk
 #define __pyx_kp_u_No_sound_with_the_name __pyx_mstate_global->__pyx_kp_u_No_sound_with_the_name
+#define __pyx_kp_u_None __pyx_mstate_global->__pyx_kp_u_None
 #define __pyx_n_s_PAUSED __pyx_mstate_global->__pyx_n_s_PAUSED
 #define __pyx_n_s_PLAYING __pyx_mstate_global->__pyx_n_s_PLAYING
 #define __pyx_n_s_STOPPED __pyx_mstate_global->__pyx_n_s_STOPPED
@@ -2843,7 +2788,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Sound_stop __pyx_mstate_global->__pyx_n_s_Sound_stop
 #define __pyx_kp_u_There_is_already_a_sound_with_th __pyx_mstate_global->__pyx_kp_u_There_is_already_a_sound_with_th
 #define __pyx_n_s_Warning __pyx_mstate_global->__pyx_n_s_Warning
-#define __pyx_kp_s__2 __pyx_mstate_global->__pyx_kp_s__2
 #define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
 #define __pyx_n_s__25 __pyx_mstate_global->__pyx_n_s__25
 #define __pyx_n_s__31 __pyx_mstate_global->__pyx_n_s__31
@@ -2868,7 +2812,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_doc __pyx_mstate_global->__pyx_n_s_doc
 #define __pyx_n_s_duplicate_names __pyx_mstate_global->__pyx_n_s_duplicate_names
 #define __pyx_n_s_e __pyx_mstate_global->__pyx_n_s_e
-#define __pyx_n_s_encode __pyx_mstate_global->__pyx_n_s_encode
 #define __pyx_n_s_err __pyx_mstate_global->__pyx_n_s_err
 #define __pyx_n_s_files __pyx_mstate_global->__pyx_n_s_files
 #define __pyx_kp_u_found __pyx_mstate_global->__pyx_kp_u_found
@@ -2928,7 +2871,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_super __pyx_mstate_global->__pyx_n_s_super
 #define __pyx_n_s_test __pyx_mstate_global->__pyx_n_s_test
 #define __pyx_n_s_typing __pyx_mstate_global->__pyx_n_s_typing
-#define __pyx_kp_s_utf_8 __pyx_mstate_global->__pyx_kp_s_utf_8
 #define __pyx_n_s_volume __pyx_mstate_global->__pyx_n_s_volume
 #define __pyx_n_s_volume_2 __pyx_mstate_global->__pyx_n_s_volume_2
 #define __pyx_n_s_walk __pyx_mstate_global->__pyx_n_s_walk
@@ -3162,7 +3104,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5sound_5Sound___init__, "Sound.__init__(self, str rel_path: str, str sound_name: str = None)");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5sound_5Sound___init__, "Sound.__init__(self, unicode rel_path: str, unicode sound_name: str = None)");
 static PyMethodDef __pyx_mdef_6rubato_5utils_5sound_5Sound_1__init__ = {"__init__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_5sound_5Sound_1__init__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_5sound_5Sound___init__};
 static PyObject *__pyx_pw_6rubato_5utils_5sound_5Sound_1__init__(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -3251,8 +3193,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyString_Type), 1, "rel_path", 1))) __PYX_ERR(0, 57, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sound_name), (&PyString_Type), 1, "sound_name", 1))) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyUnicode_Type), 1, "rel_path", 1))) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sound_name), (&PyUnicode_Type), 1, "sound_name", 1))) __PYX_ERR(0, 57, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_5sound_5Sound___init__(__pyx_self, __pyx_v_self, __pyx_v_rel_path, __pyx_v_sound_name);
 
   /* function exit code */
@@ -3291,7 +3233,11 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound___init__(CYTHON_UNUSED Py
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_Mix_LoadWAV); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_rel_path, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (unlikely(__pyx_v_rel_path == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "encode");
+    __PYX_ERR(0, 58, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyUnicode_AsUTF8String(__pyx_v_rel_path); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -3363,7 +3309,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound___init__(CYTHON_UNUSED Py
  *             self.name = rel_path.split("/")[-1].split(".")[0]
  *         else:
  */
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_sound_name); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_6 = (__pyx_v_sound_name != Py_None)&&(__Pyx_PyUnicode_IS_TRUE(__pyx_v_sound_name) != 0);
   __pyx_t_7 = ((!__pyx_t_6) != 0);
   if (__pyx_t_7) {
 
@@ -3374,9 +3320,13 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound___init__(CYTHON_UNUSED Py
  *         else:
  *             self.name = sound_name
  */
-    __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_rel_path, __pyx_kp_s_); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+    if (unlikely(__pyx_v_rel_path == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "split");
+      __PYX_ERR(0, 64, __pyx_L1_error)
+    }
+    __pyx_t_1 = PyUnicode_Split(__pyx_v_rel_path, __pyx_kp_u_, -1L); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_t_1, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_split); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
@@ -3395,7 +3345,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound___init__(CYTHON_UNUSED Py
       }
     }
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_kp_s__2};
+      PyObject *__pyx_callargs[2] = {__pyx_t_2, __pyx_kp_u__2};
       __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_5, 1+__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 64, __pyx_L1_error)
@@ -5523,7 +5473,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5sound_5Sound_16import_sound_folder, "Sound.import_sound_folder(cls, str rel_path: str, duplicate_names=False, recursive: bool = True)\n\n        Imports a folder of sounds, saving each one in the loaded_sounds\n        dictionary by filename.\n\n        Args:\n            rel_path: The relative path to the folder you wish to import.\n            duplicate_names: if you wish to have duplicate names to your sounds,\n            it will use the relative and the sound path for the sounds name\n            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5sound_5Sound_16import_sound_folder, "Sound.import_sound_folder(cls, unicode rel_path: str, duplicate_names=False, recursive: bool = True)\n\n        Imports a folder of sounds, saving each one in the loaded_sounds\n        dictionary by filename.\n\n        Args:\n            rel_path: The relative path to the folder you wish to import.\n            duplicate_names: if you wish to have duplicate names to your sounds,\n            it will use the relative and the sound path for the sounds name\n            recursive: Whether it will import an animation shallowly or recursively. Defaults to True.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_5sound_5Sound_17import_sound_folder = {"import_sound_folder", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_5sound_5Sound_17import_sound_folder, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_5sound_5Sound_16import_sound_folder};
 static PyObject *__pyx_pw_6rubato_5utils_5sound_5Sound_17import_sound_folder(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -5634,7 +5584,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyString_Type), 1, "rel_path", 1))) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rel_path), (&PyUnicode_Type), 1, "rel_path", 1))) __PYX_ERR(0, 169, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(__pyx_self, __pyx_v_cls, __pyx_v_rel_path, __pyx_v_duplicate_names, __pyx_v_recursive);
 
   /* "rubato/utils/sound.py":168
@@ -5941,7 +5891,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(CYT
           }
         }
         {
-          PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_s__2};
+          PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_u__2};
           __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_8, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
@@ -5969,7 +5919,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(CYT
           }
         }
         {
-          PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_s__2};
+          PyObject *__pyx_callargs[2] = {__pyx_t_3, __pyx_kp_u__2};
           __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_4, 1+__pyx_t_4);
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 187, __pyx_L1_error)
@@ -6398,7 +6348,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(CYT
  */
         __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_duplicate_names); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 198, __pyx_L1_error)
         if (__pyx_t_6) {
-          __pyx_t_8 = __Pyx_PyStr_ConcatSafe(__pyx_v_rel_path, __pyx_kp_s_); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 198, __pyx_L1_error)
+          __pyx_t_8 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_rel_path, __pyx_kp_u_); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 198, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __pyx_t_23 = PyNumber_Add(__pyx_t_8, __pyx_v_sound_path); if (unlikely(!__pyx_t_23)) __PYX_ERR(0, 198, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_23);
@@ -6419,7 +6369,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(CYT
             }
           }
           {
-            PyObject *__pyx_callargs[2] = {__pyx_t_23, __pyx_kp_s__2};
+            PyObject *__pyx_callargs[2] = {__pyx_t_23, __pyx_kp_u__2};
             __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_8, __pyx_callargs+1-__pyx_t_15, 1+__pyx_t_15);
             __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
             if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
@@ -6447,7 +6397,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_16import_sound_folder(CYT
             }
           }
           {
-            PyObject *__pyx_callargs[2] = {__pyx_t_23, __pyx_kp_s__2};
+            PyObject *__pyx_callargs[2] = {__pyx_t_23, __pyx_kp_u__2};
             __pyx_t_8 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_15, 1+__pyx_t_15);
             __Pyx_XDECREF(__pyx_t_23); __pyx_t_23 = 0;
             if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 198, __pyx_L1_error)
@@ -6704,7 +6654,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5sound_5Sound_18get_sound, "Sound.get_sound(cls, str sound_name: str) -> Sound\n\n        Gets the sound based on the sound name.\n\n        Args:\n            sound_name: The name of the sound.\n\n        Raises:\n            IdError: No sound is associated to the sound name.\n\n        Returns:\n            Sound: The sound.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_5sound_5Sound_18get_sound, "Sound.get_sound(cls, unicode sound_name: str) -> Sound\n\n        Gets the sound based on the sound name.\n\n        Args:\n            sound_name: The name of the sound.\n\n        Raises:\n            IdError: No sound is associated to the sound name.\n\n        Returns:\n            Sound: The sound.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_5sound_5Sound_19get_sound = {"get_sound", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_5sound_5Sound_19get_sound, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_5sound_5Sound_18get_sound};
 static PyObject *__pyx_pw_6rubato_5utils_5sound_5Sound_19get_sound(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -6777,7 +6727,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sound_name), (&PyString_Type), 1, "sound_name", 1))) __PYX_ERR(0, 206, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sound_name), (&PyUnicode_Type), 1, "sound_name", 1))) __PYX_ERR(0, 206, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_5sound_5Sound_18get_sound(__pyx_self, __pyx_v_cls, __pyx_v_sound_name);
 
   /* function exit code */
@@ -6896,7 +6846,7 @@ static PyObject *__pyx_pf_6rubato_5utils_5sound_5Sound_18get_sound(CYTHON_UNUSED
         __pyx_t_11 += 23;
         __Pyx_GIVEREF(__pyx_kp_u_No_sound_with_the_name);
         PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_kp_u_No_sound_with_the_name);
-        __pyx_t_13 = __Pyx_PyObject_FormatSimple(__pyx_v_sound_name, __pyx_empty_unicode); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 222, __pyx_L14_error)
+        __pyx_t_13 = __Pyx_PyUnicode_Unicode(__pyx_v_sound_name); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 222, __pyx_L14_error)
         __Pyx_GOTREF(__pyx_t_13);
         __pyx_t_12 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_13) > __pyx_t_12) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_13) : __pyx_t_12;
         __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_13);
@@ -7045,16 +6995,16 @@ static PyMethodDef __pyx_methods[] = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   #if CYTHON_USE_MODULE_STATE
-  {0, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {0, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {0, __pyx_k_AUDIO_F32, sizeof(__pyx_k_AUDIO_F32), 0, 0, 1, 1},
   {0, __pyx_k_A_sound_class_that_is_used_to_m, sizeof(__pyx_k_A_sound_class_that_is_used_to_m), 0, 0, 1, 0},
   {0, __pyx_k_CFUNCTYPE, sizeof(__pyx_k_CFUNCTYPE), 0, 0, 1, 1},
-  {0, __pyx_k_Could_not_open_audio_device, sizeof(__pyx_k_Could_not_open_audio_device), 0, 0, 1, 0},
+  {0, __pyx_k_Could_not_open_audio_device, sizeof(__pyx_k_Could_not_open_audio_device), 0, 1, 0, 0},
   {0, __pyx_k_Dict, sizeof(__pyx_k_Dict), 0, 0, 1, 1},
   {0, __pyx_k_Dict_int_Sound, sizeof(__pyx_k_Dict_int_Sound), 0, 0, 1, 0},
   {0, __pyx_k_Dict_str_Sound, sizeof(__pyx_k_Dict_str_Sound), 0, 0, 1, 0},
   {0, __pyx_k_IdError, sizeof(__pyx_k_IdError), 0, 0, 1, 1},
-  {0, __pyx_k_If_you_have_files_with_duplicate, sizeof(__pyx_k_If_you_have_files_with_duplicate), 0, 0, 1, 0},
+  {0, __pyx_k_If_you_have_files_with_duplicate, sizeof(__pyx_k_If_you_have_files_with_duplicate), 0, 1, 0, 0},
   {0, __pyx_k_KeyError, sizeof(__pyx_k_KeyError), 0, 0, 1, 1},
   {0, __pyx_k_MIX_MAX_VOLUME, sizeof(__pyx_k_MIX_MAX_VOLUME), 0, 0, 1, 1},
   {0, __pyx_k_Math, sizeof(__pyx_k_Math), 0, 0, 1, 1},
@@ -7069,6 +7019,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Mix_Resume, sizeof(__pyx_k_Mix_Resume), 0, 0, 1, 1},
   {0, __pyx_k_Mix_VolumeChunk, sizeof(__pyx_k_Mix_VolumeChunk), 0, 0, 1, 1},
   {0, __pyx_k_No_sound_with_the_name, sizeof(__pyx_k_No_sound_with_the_name), 0, 1, 0, 0},
+  {0, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 0},
   {0, __pyx_k_PAUSED, sizeof(__pyx_k_PAUSED), 0, 0, 1, 1},
   {0, __pyx_k_PLAYING, sizeof(__pyx_k_PLAYING), 0, 0, 1, 1},
   {0, __pyx_k_STOPPED, sizeof(__pyx_k_STOPPED), 0, 0, 1, 1},
@@ -7085,7 +7036,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Sound_stop, sizeof(__pyx_k_Sound_stop), 0, 0, 1, 1},
   {0, __pyx_k_There_is_already_a_sound_with_th, sizeof(__pyx_k_There_is_already_a_sound_with_th), 0, 1, 0, 0},
   {0, __pyx_k_Warning, sizeof(__pyx_k_Warning), 0, 0, 1, 1},
-  {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {0, __pyx_k__25, sizeof(__pyx_k__25), 0, 0, 1, 1},
   {0, __pyx_k__31, sizeof(__pyx_k__31), 0, 0, 1, 1},
@@ -7110,7 +7060,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {0, __pyx_k_duplicate_names, sizeof(__pyx_k_duplicate_names), 0, 0, 1, 1},
   {0, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
-  {0, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {0, __pyx_k_err, sizeof(__pyx_k_err), 0, 0, 1, 1},
   {0, __pyx_k_files, sizeof(__pyx_k_files), 0, 0, 1, 1},
   {0, __pyx_k_found, sizeof(__pyx_k_found), 0, 1, 0, 0},
@@ -7170,21 +7119,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {0, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {0, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
-  {0, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
   {0, __pyx_k_volume, sizeof(__pyx_k_volume), 0, 0, 1, 1},
   {0, __pyx_k_volume_2, sizeof(__pyx_k_volume_2), 0, 0, 1, 1},
   {0, __pyx_k_walk, sizeof(__pyx_k_walk), 0, 0, 1, 1},
   #else
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_AUDIO_F32, __pyx_k_AUDIO_F32, sizeof(__pyx_k_AUDIO_F32), 0, 0, 1, 1},
   {&__pyx_kp_s_A_sound_class_that_is_used_to_m, __pyx_k_A_sound_class_that_is_used_to_m, sizeof(__pyx_k_A_sound_class_that_is_used_to_m), 0, 0, 1, 0},
   {&__pyx_n_s_CFUNCTYPE, __pyx_k_CFUNCTYPE, sizeof(__pyx_k_CFUNCTYPE), 0, 0, 1, 1},
-  {&__pyx_kp_s_Could_not_open_audio_device, __pyx_k_Could_not_open_audio_device, sizeof(__pyx_k_Could_not_open_audio_device), 0, 0, 1, 0},
+  {&__pyx_kp_u_Could_not_open_audio_device, __pyx_k_Could_not_open_audio_device, sizeof(__pyx_k_Could_not_open_audio_device), 0, 1, 0, 0},
   {&__pyx_n_s_Dict, __pyx_k_Dict, sizeof(__pyx_k_Dict), 0, 0, 1, 1},
   {&__pyx_kp_s_Dict_int_Sound, __pyx_k_Dict_int_Sound, sizeof(__pyx_k_Dict_int_Sound), 0, 0, 1, 0},
   {&__pyx_kp_s_Dict_str_Sound, __pyx_k_Dict_str_Sound, sizeof(__pyx_k_Dict_str_Sound), 0, 0, 1, 0},
   {&__pyx_n_s_IdError, __pyx_k_IdError, sizeof(__pyx_k_IdError), 0, 0, 1, 1},
-  {&__pyx_kp_s_If_you_have_files_with_duplicate, __pyx_k_If_you_have_files_with_duplicate, sizeof(__pyx_k_If_you_have_files_with_duplicate), 0, 0, 1, 0},
+  {&__pyx_kp_u_If_you_have_files_with_duplicate, __pyx_k_If_you_have_files_with_duplicate, sizeof(__pyx_k_If_you_have_files_with_duplicate), 0, 1, 0, 0},
   {&__pyx_n_s_KeyError, __pyx_k_KeyError, sizeof(__pyx_k_KeyError), 0, 0, 1, 1},
   {&__pyx_n_s_MIX_MAX_VOLUME, __pyx_k_MIX_MAX_VOLUME, sizeof(__pyx_k_MIX_MAX_VOLUME), 0, 0, 1, 1},
   {&__pyx_n_s_Math, __pyx_k_Math, sizeof(__pyx_k_Math), 0, 0, 1, 1},
@@ -7199,6 +7147,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Mix_Resume, __pyx_k_Mix_Resume, sizeof(__pyx_k_Mix_Resume), 0, 0, 1, 1},
   {&__pyx_n_s_Mix_VolumeChunk, __pyx_k_Mix_VolumeChunk, sizeof(__pyx_k_Mix_VolumeChunk), 0, 0, 1, 1},
   {&__pyx_kp_u_No_sound_with_the_name, __pyx_k_No_sound_with_the_name, sizeof(__pyx_k_No_sound_with_the_name), 0, 1, 0, 0},
+  {&__pyx_kp_u_None, __pyx_k_None, sizeof(__pyx_k_None), 0, 1, 0, 0},
   {&__pyx_n_s_PAUSED, __pyx_k_PAUSED, sizeof(__pyx_k_PAUSED), 0, 0, 1, 1},
   {&__pyx_n_s_PLAYING, __pyx_k_PLAYING, sizeof(__pyx_k_PLAYING), 0, 0, 1, 1},
   {&__pyx_n_s_STOPPED, __pyx_k_STOPPED, sizeof(__pyx_k_STOPPED), 0, 0, 1, 1},
@@ -7215,7 +7164,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Sound_stop, __pyx_k_Sound_stop, sizeof(__pyx_k_Sound_stop), 0, 0, 1, 1},
   {&__pyx_kp_u_There_is_already_a_sound_with_th, __pyx_k_There_is_already_a_sound_with_th, sizeof(__pyx_k_There_is_already_a_sound_with_th), 0, 1, 0, 0},
   {&__pyx_n_s_Warning, __pyx_k_Warning, sizeof(__pyx_k_Warning), 0, 0, 1, 1},
-  {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {&__pyx_n_s__25, __pyx_k__25, sizeof(__pyx_k__25), 0, 0, 1, 1},
   {&__pyx_n_s__31, __pyx_k__31, sizeof(__pyx_k__31), 0, 0, 1, 1},
@@ -7240,7 +7188,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_duplicate_names, __pyx_k_duplicate_names, sizeof(__pyx_k_duplicate_names), 0, 0, 1, 1},
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
-  {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_err, __pyx_k_err, sizeof(__pyx_k_err), 0, 0, 1, 1},
   {&__pyx_n_s_files, __pyx_k_files, sizeof(__pyx_k_files), 0, 0, 1, 1},
   {&__pyx_kp_u_found, __pyx_k_found, sizeof(__pyx_k_found), 0, 1, 0, 0},
@@ -7300,7 +7247,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_typing, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
-  {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
   {&__pyx_n_s_volume, __pyx_k_volume, sizeof(__pyx_k_volume), 0, 0, 1, 1},
   {&__pyx_n_s_volume_2, __pyx_k_volume_2, sizeof(__pyx_k_volume_2), 0, 0, 1, 1},
   {&__pyx_n_s_walk, __pyx_k_walk, sizeof(__pyx_k_walk), 0, 0, 1, 1},
@@ -7330,7 +7276,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *                                   "to True") from err
  *         else:
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_If_you_have_files_with_duplicate); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_If_you_have_files_with_duplicate); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
@@ -7352,7 +7298,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *
  *
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Could_not_open_audio_device); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Could_not_open_audio_device); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -7496,21 +7442,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 /* #### Code section: init_constants ### */
 
 static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
-  __pyx_umethod_PyString_Type_encode.type = (PyObject*)&PyString_Type;
-  __pyx_umethod_PyString_Type_encode.method_name = &__pyx_n_s_encode;
-  __pyx_umethod_PyString_Type_split.type = (PyObject*)&PyString_Type;
-  __pyx_umethod_PyString_Type_split.method_name = &__pyx_n_s_split;
   #if CYTHON_USE_MODULE_STATE
-  if (__Pyx_InitString(__pyx_string_tab[0], &__pyx_kp_s_) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[0], &__pyx_kp_u_) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[1], &__pyx_n_s_AUDIO_F32) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[2], &__pyx_kp_s_A_sound_class_that_is_used_to_m) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[3], &__pyx_n_s_CFUNCTYPE) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[4], &__pyx_kp_s_Could_not_open_audio_device) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[4], &__pyx_kp_u_Could_not_open_audio_device) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[5], &__pyx_n_s_Dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[6], &__pyx_kp_s_Dict_int_Sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[7], &__pyx_kp_s_Dict_str_Sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[8], &__pyx_n_s_IdError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[9], &__pyx_kp_s_If_you_have_files_with_duplicate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[9], &__pyx_kp_u_If_you_have_files_with_duplicate) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[10], &__pyx_n_s_KeyError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[11], &__pyx_n_s_MIX_MAX_VOLUME) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[12], &__pyx_n_s_Math) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -7525,23 +7467,23 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_Mix_Resume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s_Mix_VolumeChunk) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[23], &__pyx_kp_u_No_sound_with_the_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_n_s_PAUSED) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_n_s_PLAYING) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_n_s_STOPPED) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s_Sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_Sound___init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_n_s_Sound_get_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_n_s_Sound_get_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_n_s_Sound_import_sound_folder) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_Sound_pause) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_Sound_play) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_Sound_resume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_Sound_set_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_s_Sound_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_Sound_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_kp_u_There_is_already_a_sound_with_th) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_n_s_Warning) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_kp_s__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[24], &__pyx_kp_u_None) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[25], &__pyx_n_s_PAUSED) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[26], &__pyx_n_s_PLAYING) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[27], &__pyx_n_s_STOPPED) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[28], &__pyx_n_s_Sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[29], &__pyx_n_s_Sound___init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[30], &__pyx_n_s_Sound_get_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[31], &__pyx_n_s_Sound_get_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[32], &__pyx_n_s_Sound_import_sound_folder) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_Sound_pause) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_Sound_play) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_Sound_resume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_n_s_Sound_set_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_n_s_Sound_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_n_s_Sound_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_kp_u_There_is_already_a_sound_with_th) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[40], &__pyx_n_s_Warning) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[41], &__pyx_kp_u__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[42], &__pyx_n_s__25) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[43], &__pyx_n_s__31) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -7566,70 +7508,68 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_duplicate_names) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_e) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_encode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_err) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_files) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_kp_u_found) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_get_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_get_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_get_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_i) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_import_sound_folder) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_init_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_join) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_loaded_sounds) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_loops) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_mixer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_os) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_p) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_path_to_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_pause) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_paused) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_play) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_pop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_property) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_range) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_recursive) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_rel_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_resume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_rubato_utils_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_kp_s_rubato_utils_sound_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_sdl2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_sdl2_sdlmixer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_sdlmixer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_set_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_sound_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_sound_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_split) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_volume_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_n_s_walk) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_err) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_files) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_kp_u_found) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_get_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_get_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_get_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_i) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_import_sound_folder) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_init) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_init_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_join) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_loaded_sounds) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_loops) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_mixer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_name_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_os) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_p) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_path_to_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_pause) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_paused) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_play) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_pop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_property) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_range) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_recursive) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_rel_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_resume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_rubato_utils_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_kp_s_rubato_utils_sound_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_sdl2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_sdl2_sdlmixer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_sdlmixer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_self) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_set_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_sound) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_sound_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_sound_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_split) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_state) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_stop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_volume) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_volume_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_walk) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   #endif
   #if !CYTHON_USE_MODULE_STATE
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -9434,78 +9374,6 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
     return 0;
 }
 
-/* UnpackUnboundCMethod */
-static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
-    PyObject *method;
-    method = __Pyx_PyObject_GetAttrStr(target->type, *target->method_name);
-    if (unlikely(!method))
-        return -1;
-    target->method = method;
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION >= 3
-    if (likely(__Pyx_TypeCheck(method, &PyMethodDescr_Type)))
-    #endif
-    {
-        PyMethodDescrObject *descr = (PyMethodDescrObject*) method;
-        target->func = descr->d_method->ml_meth;
-        target->flag = descr->d_method->ml_flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_STACKLESS);
-    }
-#endif
-    return 0;
-}
-
-/* CallUnboundCMethod1 */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg) {
-    if (likely(cfunc->func)) {
-        int flag = cfunc->flag;
-        if (flag == METH_O) {
-            return (*(cfunc->func))(self, arg);
-        } else if ((PY_VERSION_HEX >= 0x030600B1) && flag == METH_FASTCALL) {
-            if ((PY_VERSION_HEX >= 0x030700A0)) {
-                return (*(__Pyx_PyCFunctionFast)(void*)(PyCFunction)cfunc->func)(self, &arg, 1);
-            } else {
-                return (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)cfunc->func)(self, &arg, 1, NULL);
-            }
-        } else if ((PY_VERSION_HEX >= 0x030700A0) && flag == (METH_FASTCALL | METH_KEYWORDS)) {
-            return (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)cfunc->func)(self, &arg, 1, NULL);
-        }
-    }
-    return __Pyx__CallUnboundCMethod1(cfunc, self, arg);
-}
-#endif
-static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg){
-    PyObject *args, *result = NULL;
-    if (unlikely(!cfunc->func && !cfunc->method) && unlikely(__Pyx_TryUnpackUnboundCMethod(cfunc) < 0)) return NULL;
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (cfunc->func && (cfunc->flag & METH_VARARGS)) {
-        args = PyTuple_New(1);
-        if (unlikely(!args)) goto bad;
-        Py_INCREF(arg);
-        PyTuple_SET_ITEM(args, 0, arg);
-        if (cfunc->flag & METH_KEYWORDS)
-            result = (*(PyCFunctionWithKeywords)(void*)(PyCFunction)cfunc->func)(self, args, NULL);
-        else
-            result = (*cfunc->func)(self, args);
-    } else {
-        args = PyTuple_New(2);
-        if (unlikely(!args)) goto bad;
-        Py_INCREF(self);
-        PyTuple_SET_ITEM(args, 0, self);
-        Py_INCREF(arg);
-        PyTuple_SET_ITEM(args, 1, arg);
-        result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
-    }
-#else
-    args = PyTuple_Pack(2, self, arg);
-    if (unlikely(!args)) goto bad;
-    result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
-#endif
-bad:
-    Py_XDECREF(args);
-    return result;
-}
-
 /* PyIntBinop */
 #if !CYTHON_COMPILING_IN_PYPY
 static PyObject* __Pyx_PyInt_TrueDivideObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check) {
@@ -10463,64 +10331,6 @@ static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value,
 }
 #endif
 
-/* UnicodeConcatInPlace */
-# if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
-static int
-__Pyx_unicode_modifiable(PyObject *unicode)
-{
-    if (Py_REFCNT(unicode) != 1)
-        return 0;
-    if (!PyUnicode_CheckExact(unicode))
-        return 0;
-    if (PyUnicode_CHECK_INTERNED(unicode))
-        return 0;
-    return 1;
-}
-static CYTHON_INLINE PyObject *__Pyx_PyUnicode_ConcatInPlaceImpl(PyObject **p_left, PyObject *right
-        #if CYTHON_REFNANNY
-        , void* __pyx_refnanny
-        #endif
-    ) {
-    PyObject *left = *p_left;
-    Py_ssize_t left_len, right_len, new_len;
-    if (unlikely(__Pyx_PyUnicode_READY(left) == -1))
-        return NULL;
-    if (unlikely(__Pyx_PyUnicode_READY(right) == -1))
-        return NULL;
-    left_len = PyUnicode_GET_LENGTH(left);
-    if (left_len == 0) {
-        Py_INCREF(right);
-        return right;
-    }
-    right_len = PyUnicode_GET_LENGTH(right);
-    if (right_len == 0) {
-        Py_INCREF(left);
-        return left;
-    }
-    if (unlikely(left_len > PY_SSIZE_T_MAX - right_len)) {
-        PyErr_SetString(PyExc_OverflowError,
-                        "strings are too large to concat");
-        return NULL;
-    }
-    new_len = left_len + right_len;
-    if (__Pyx_unicode_modifiable(left)
-            && PyUnicode_CheckExact(right)
-            && PyUnicode_KIND(right) <= PyUnicode_KIND(left)
-            && !(PyUnicode_IS_ASCII(left) && !PyUnicode_IS_ASCII(right))) {
-        __Pyx_GIVEREF(*p_left);
-        if (unlikely(PyUnicode_Resize(p_left, new_len) != 0)) {
-            __Pyx_GOTREF(*p_left);
-            return NULL;
-        }
-        __Pyx_INCREF(*p_left);
-        _PyUnicode_FastCopyCharacters(*p_left, left_len, right, 0, right_len);
-        return *p_left;
-    } else {
-        return __Pyx_PyUnicode_Concat(left, right);
-    }
-  }
-#endif
-
 /* DictGetItem */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
 static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
@@ -10544,6 +10354,13 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
     return value;
 }
 #endif
+
+/* PyUnicode_Unicode */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Unicode(PyObject *obj) {
+    if (unlikely(obj == Py_None))
+        obj = __pyx_kp_u_None;
+    return __Pyx_NewRef(obj);
+}
 
 /* JoinPyUnicode */
 static PyObject* __Pyx_PyUnicode_Join(PyObject* value_tuple, Py_ssize_t value_count, Py_ssize_t result_ulength,

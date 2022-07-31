@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.struct.gameobject.physics.engine",
         "sources": [
-            "rubato/struct/gameobject/physics/engine.py"
+            "rubato\\struct\\gameobject\\physics\\engine.py"
         ]
     },
     "module_name": "rubato.struct.gameobject.physics.engine"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/struct/gameobject/physics/engine.py",
+  "rubato\\\\struct\\\\gameobject\\\\physics\\\\engine.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2038,7 +2038,7 @@ static const char __pyx_k_A_class_that_represents_informa[] = "\n    A class tha
 static const char __pyx_k_rubato_s_physics_engine_Handles[] = "\n    rubato's physics engine.\n    Handles overlap tests for Hitboxes and resolves Rigidbody collisions.\n    ";
 static const char __pyx_k_Handles_collision_manifold_gener[] = "Handles collision manifold generation for complex geometries.";
 static const char __pyx_k_rubato_struct_gameobject_physics[] = "rubato.struct.gameobject.physics.engine";
-static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato/struct/gameobject/physics/engine.py";
+static const char __pyx_k_rubato_struct_gameobject_physics_2[] = "rubato\\struct\\gameobject\\physics\\engine.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_kp_s_A_class_that_represents_informa;
 static PyObject *__pyx_n_s_Circle;

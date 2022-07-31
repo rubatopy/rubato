@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.camera",
         "sources": [
-            "rubato/utils/camera.py"
+            "rubato\\utils\\camera.py"
         ]
     },
     "module_name": "rubato.utils.camera"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/camera.py",
+  "rubato\\\\utils\\\\camera.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1783,7 +1783,7 @@ static const char __pyx_k_Camera_i_transform[] = "Camera.i_transform";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_rubato_utils_camera[] = "rubato.utils.camera";
-static const char __pyx_k_rubato_utils_camera_py[] = "rubato/utils/camera.py";
+static const char __pyx_k_rubato_utils_camera_py[] = "rubato\\utils\\camera.py";
 static const char __pyx_k_The_Camera_module_handles_where[] = "\nThe Camera module handles where things are drawn.\nA camera can zoom, pan, and travel along the z-index.\nItems only render if their z-index is not more than that of the camera's.\n\nThe current scene's camera can be accessed through :code:`Game.camera`.\n";
 static const char __pyx_k_The_camera_class_Args_pos_The_p[] = "\n    The camera class.\n\n    Args:\n        pos: The position of the camera. Defaults to center of Display.\n        zoom: The zoom of the camera.\n        z_index: The z-index of the camera.\n\n    Attributes:\n        z_index (int): The current z_index of the camera.\n        pos (Vector): The current position of the camera. Center based i.e. where the camera is looking at.\n    ";
 #if !CYTHON_USE_MODULE_STATE
@@ -1806,7 +1806,7 @@ static PyObject *__pyx_n_s__14;
 static PyObject *__pyx_kp_u__2;
 static PyObject *__pyx_n_s_asyncio_coroutines;
 static PyObject *__pyx_n_s_broadcast;
-static PyObject *__pyx_n_s_camera;
+static PyObject *__pyx_n_u_camera;
 static PyObject *__pyx_n_s_center;
 static PyObject *__pyx_n_s_clamp;
 static PyObject *__pyx_n_s_cline_in_traceback;
@@ -1903,7 +1903,7 @@ typedef struct {
   PyObject *__pyx_kp_u__2;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_broadcast;
-  PyObject *__pyx_n_s_camera;
+  PyObject *__pyx_n_u_camera;
   PyObject *__pyx_n_s_center;
   PyObject *__pyx_n_s_clamp;
   PyObject *__pyx_n_s_cline_in_traceback;
@@ -2004,7 +2004,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_u__2);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_broadcast);
-  Py_CLEAR(clear_module_state->__pyx_n_s_camera);
+  Py_CLEAR(clear_module_state->__pyx_n_u_camera);
   Py_CLEAR(clear_module_state->__pyx_n_s_center);
   Py_CLEAR(clear_module_state->__pyx_n_s_clamp);
   Py_CLEAR(clear_module_state->__pyx_n_s_cline_in_traceback);
@@ -2092,7 +2092,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_u__2);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_broadcast);
-  Py_VISIT(traverse_module_state->__pyx_n_s_camera);
+  Py_VISIT(traverse_module_state->__pyx_n_u_camera);
   Py_VISIT(traverse_module_state->__pyx_n_s_center);
   Py_VISIT(traverse_module_state->__pyx_n_s_clamp);
   Py_VISIT(traverse_module_state->__pyx_n_s_cline_in_traceback);
@@ -2177,7 +2177,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_broadcast __pyx_mstate_global->__pyx_n_s_broadcast
-#define __pyx_n_s_camera __pyx_mstate_global->__pyx_n_s_camera
+#define __pyx_n_u_camera __pyx_mstate_global->__pyx_n_u_camera
 #define __pyx_n_s_center __pyx_mstate_global->__pyx_n_s_center
 #define __pyx_n_s_clamp __pyx_mstate_global->__pyx_n_s_clamp
 #define __pyx_n_s_cline_in_traceback __pyx_mstate_global->__pyx_n_s_cline_in_traceback
@@ -2786,7 +2786,7 @@ static PyObject *__pyx_pf_6rubato_5utils_6camera_6Camera_4zoom(CYTHON_UNUSED PyO
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_camera, __pyx_v_self) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_u_camera, __pyx_v_self) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __pyx_t_4 = NULL;
   __pyx_t_6 = 0;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -3332,7 +3332,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {0, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {0, __pyx_k_broadcast, sizeof(__pyx_k_broadcast), 0, 0, 1, 1},
-  {0, __pyx_k_camera, sizeof(__pyx_k_camera), 0, 0, 1, 1},
+  {0, __pyx_k_camera, sizeof(__pyx_k_camera), 0, 1, 0, 1},
   {0, __pyx_k_center, sizeof(__pyx_k_center), 0, 0, 1, 1},
   {0, __pyx_k_clamp, sizeof(__pyx_k_clamp), 0, 0, 1, 1},
   {0, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -3389,7 +3389,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
   {&__pyx_n_s_broadcast, __pyx_k_broadcast, sizeof(__pyx_k_broadcast), 0, 0, 1, 1},
-  {&__pyx_n_s_camera, __pyx_k_camera, sizeof(__pyx_k_camera), 0, 0, 1, 1},
+  {&__pyx_n_u_camera, __pyx_k_camera, sizeof(__pyx_k_camera), 0, 1, 0, 1},
   {&__pyx_n_s_center, __pyx_k_center, sizeof(__pyx_k_center), 0, 0, 1, 1},
   {&__pyx_n_s_clamp, __pyx_k_clamp, sizeof(__pyx_k_clamp), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
@@ -3539,7 +3539,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[16], &__pyx_kp_u__2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[17], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[18], &__pyx_n_s_broadcast) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_s_camera) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[19], &__pyx_n_u_camera) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[20], &__pyx_n_s_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[21], &__pyx_n_s_clamp) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[22], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);

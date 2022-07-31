@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.display",
         "sources": [
-            "rubato/utils/display.py"
+            "rubato\\utils\\display.py"
         ]
     },
     "module_name": "rubato.utils.display"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/display.py",
+  "rubato\\\\utils\\\\display.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1476,13 +1476,6 @@ static PyObject* __Pyx_PyInt_TrueDivideObjC(PyObject *op1, PyObject *op2, long i
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
 /* PyObjectFormatSimple.proto */
 #if CYTHON_COMPILING_IN_PYPY
     #define __Pyx_PyObject_FormatSimple(s, f) (\
@@ -1511,26 +1504,6 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 /* PyIntCompare.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_NeObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
 
-/* UnpackUnboundCMethod.proto */
-typedef struct {
-    PyObject *type;
-    PyObject **method_name;
-    PyCFunction func;
-    PyObject *method;
-    int flag;
-} __Pyx_CachedCFunction;
-
-/* CallUnboundCMethod1.proto */
-static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
-#else
-#define __Pyx_CallUnboundCMethod1(cfunc, self, arg)  __Pyx__CallUnboundCMethod1(cfunc, self, arg)
-#endif
-
-/* RaiseUnexpectedTypeError.proto */
-static int __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj);
-
 /* UnicodeConcatInPlace.proto */
 # if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
     #if CYTHON_REFNANNY
@@ -1548,19 +1521,6 @@ static int __Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj);
 #endif
 #define __Pyx_PyUnicode_ConcatInPlaceSafe(left, right) ((unlikely((left) == Py_None) || unlikely((right) == Py_None)) ?\
     PyNumber_InPlaceAdd(left, right) : __Pyx_PyUnicode_ConcatInPlace(left, right))
-
-/* StrConcatInPlace.proto */
-#if PY_MAJOR_VERSION >= 3
-    #define __Pyx_PyStr_Concat __Pyx_PyUnicode_Concat
-    #define __Pyx_PyStr_ConcatInPlace __Pyx_PyUnicode_ConcatInPlace
-#else
-    #define __Pyx_PyStr_Concat PyNumber_Add
-    #define __Pyx_PyStr_ConcatInPlace PyNumber_InPlaceAdd
-#endif
-#define __Pyx_PyStr_ConcatSafe(a, b) ((unlikely((a) == Py_None) || unlikely((b) == Py_None)) ?\
-    PyNumber_Add(a, b) : __Pyx_PyStr_Concat(a, b))
-#define __Pyx_PyStr_ConcatInPlaceSafe(a, b) ((unlikely((a) == Py_None) || unlikely((b) == Py_None)) ?\
-    PyNumber_InPlaceAdd(a, b) : __Pyx_PyStr_ConcatInPlace(a, b))
 
 /* PyIntCompare.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
@@ -1926,7 +1886,6 @@ static const char __pyx_k_Vector[] = "Vector";
 static const char __pyx_k_bottom[] = "bottom";
 static const char __pyx_k_center[] = "center";
 static const char __pyx_k_ctypes[] = "ctypes";
-static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_module[] = "__module__";
@@ -2035,7 +1994,7 @@ static const char __pyx_k_Display_save_screenshot[] = "Display.save_screenshot";
 static const char __pyx_k_Display_set_window_icon[] = "Display.set_window_icon";
 static const char __pyx_k_Invalid_fullscreen_type[] = "Invalid fullscreen type: ";
 static const char __pyx_k_SDL_SetWindowFullscreen[] = "SDL_SetWindowFullscreen";
-static const char __pyx_k_rubato_utils_display_py[] = "rubato/utils/display.py";
+static const char __pyx_k_rubato_utils_display_py[] = "rubato\\utils\\display.py";
 static const char __pyx_k_Could_not_create_surface[] = "Could not create surface: ";
 static const char __pyx_k_SDL_GetWindowBordersSize[] = "SDL_GetWindowBordersSize";
 static const char __pyx_k_SDL_PIXELFORMAT_ARGB8888[] = "SDL_PIXELFORMAT_ARGB8888";
@@ -2058,7 +2017,7 @@ static const char __pyx_k_Global_display_class_that_allow[] = "\nGlobal display 
 static const char __pyx_k_Invalid_extension_Only_png_jpg_b[] = "Invalid extension. Only png, jpg, bmp are supported.";
 static const char __pyx_k_SDL_CreateRGBSurfaceWithFormatFr[] = "SDL_CreateRGBSurfaceWithFormatFrom";
 #if !CYTHON_USE_MODULE_STATE
-static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_kp_s_A_static_class_that_houses_all;
 static PyObject *__pyx_kp_u_Could_not_create_surface;
 static PyObject *__pyx_kp_u_Could_not_read_screenshot;
@@ -2094,7 +2053,7 @@ static PyObject *__pyx_n_s_Display_top_right;
 static PyObject *__pyx_n_s_Display_update;
 static PyObject *__pyx_n_s_IMG_SaveJPG;
 static PyObject *__pyx_n_s_IMG_SavePNG;
-static PyObject *__pyx_kp_s_Invalid_extension_Only_png_jpg_b;
+static PyObject *__pyx_kp_u_Invalid_extension_Only_png_jpg_b;
 static PyObject *__pyx_kp_u_Invalid_fullscreen_type;
 static PyObject *__pyx_n_s_Literal;
 static PyObject *__pyx_kp_s_Literal_desktop_exclusive;
@@ -2116,14 +2075,13 @@ static PyObject *__pyx_n_s_SDL_WINDOW_FULLSCREEN_DESKTOP;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_Vector;
 static PyObject *__pyx_kp_s_Vector_None;
-static PyObject *__pyx_kp_s__3;
 static PyObject *__pyx_kp_u__3;
 static PyObject *__pyx_n_s__5;
 static PyObject *__pyx_n_s__52;
 static PyObject *__pyx_n_s__8;
 static PyObject *__pyx_n_s_annotations;
 static PyObject *__pyx_n_s_asyncio_coroutines;
-static PyObject *__pyx_n_s_bmp;
+static PyObject *__pyx_n_u_bmp;
 static PyObject *__pyx_n_s_bool;
 static PyObject *__pyx_n_s_border_size;
 static PyObject *__pyx_n_s_bottom;
@@ -2142,13 +2100,12 @@ static PyObject *__pyx_n_s_cls;
 static PyObject *__pyx_n_s_contents;
 static PyObject *__pyx_n_s_copy;
 static PyObject *__pyx_n_s_ctypes;
-static PyObject *__pyx_n_s_desktop;
+static PyObject *__pyx_n_u_desktop;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_display_ratio;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_dstrect;
-static PyObject *__pyx_n_s_encode;
-static PyObject *__pyx_n_s_exclusive;
+static PyObject *__pyx_n_u_exclusive;
 static PyObject *__pyx_n_s_ext;
 static PyObject *__pyx_n_s_extension;
 static PyObject *__pyx_n_s_filename;
@@ -2165,7 +2122,7 @@ static PyObject *__pyx_n_s_initializing;
 static PyObject *__pyx_n_s_int;
 static PyObject *__pyx_n_s_is_coroutine;
 static PyObject *__pyx_n_s_join;
-static PyObject *__pyx_n_s_jpg;
+static PyObject *__pyx_n_u_jpg;
 static PyObject *__pyx_n_s_left;
 static PyObject *__pyx_n_s_load_img;
 static PyObject *__pyx_n_s_logical_size;
@@ -2182,7 +2139,7 @@ static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_path_bytes;
 static PyObject *__pyx_n_s_pitch;
 static PyObject *__pyx_n_s_pixels;
-static PyObject *__pyx_n_s_png;
+static PyObject *__pyx_n_u_png;
 static PyObject *__pyx_n_s_pos;
 static PyObject *__pyx_n_s_position;
 static PyObject *__pyx_n_s_prepare;
@@ -2233,7 +2190,7 @@ static PyObject *__pyx_n_s_top_right;
 static PyObject *__pyx_n_s_tx;
 static PyObject *__pyx_n_s_typing;
 static PyObject *__pyx_n_s_update;
-static PyObject *__pyx_kp_s_utf_8;
+static PyObject *__pyx_kp_u_utf_8;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_w;
 static PyObject *__pyx_n_s_window;
@@ -2276,7 +2233,6 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_30top(CYTHON_UNUSED P
 static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_32right(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
 static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_34left(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_cls); /* proto */
 static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_36bottom(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
-static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_encode = {0, 0, 0, 0, 0};
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -2349,7 +2305,7 @@ typedef struct {
   #ifdef __Pyx_FusedFunction_USED
   PyTypeObject *__pyx_FusedFunctionType;
   #endif
-  PyObject *__pyx_kp_s_;
+  PyObject *__pyx_kp_u_;
   PyObject *__pyx_kp_s_A_static_class_that_houses_all;
   PyObject *__pyx_kp_u_Could_not_create_surface;
   PyObject *__pyx_kp_u_Could_not_read_screenshot;
@@ -2385,7 +2341,7 @@ typedef struct {
   PyObject *__pyx_n_s_Display_update;
   PyObject *__pyx_n_s_IMG_SaveJPG;
   PyObject *__pyx_n_s_IMG_SavePNG;
-  PyObject *__pyx_kp_s_Invalid_extension_Only_png_jpg_b;
+  PyObject *__pyx_kp_u_Invalid_extension_Only_png_jpg_b;
   PyObject *__pyx_kp_u_Invalid_fullscreen_type;
   PyObject *__pyx_n_s_Literal;
   PyObject *__pyx_kp_s_Literal_desktop_exclusive;
@@ -2407,14 +2363,13 @@ typedef struct {
   PyObject *__pyx_n_s_ValueError;
   PyObject *__pyx_n_s_Vector;
   PyObject *__pyx_kp_s_Vector_None;
-  PyObject *__pyx_kp_s__3;
   PyObject *__pyx_kp_u__3;
   PyObject *__pyx_n_s__5;
   PyObject *__pyx_n_s__52;
   PyObject *__pyx_n_s__8;
   PyObject *__pyx_n_s_annotations;
   PyObject *__pyx_n_s_asyncio_coroutines;
-  PyObject *__pyx_n_s_bmp;
+  PyObject *__pyx_n_u_bmp;
   PyObject *__pyx_n_s_bool;
   PyObject *__pyx_n_s_border_size;
   PyObject *__pyx_n_s_bottom;
@@ -2433,13 +2388,12 @@ typedef struct {
   PyObject *__pyx_n_s_contents;
   PyObject *__pyx_n_s_copy;
   PyObject *__pyx_n_s_ctypes;
-  PyObject *__pyx_n_s_desktop;
+  PyObject *__pyx_n_u_desktop;
   PyObject *__pyx_n_s_dict;
   PyObject *__pyx_n_s_display_ratio;
   PyObject *__pyx_n_s_doc;
   PyObject *__pyx_n_s_dstrect;
-  PyObject *__pyx_n_s_encode;
-  PyObject *__pyx_n_s_exclusive;
+  PyObject *__pyx_n_u_exclusive;
   PyObject *__pyx_n_s_ext;
   PyObject *__pyx_n_s_extension;
   PyObject *__pyx_n_s_filename;
@@ -2456,7 +2410,7 @@ typedef struct {
   PyObject *__pyx_n_s_int;
   PyObject *__pyx_n_s_is_coroutine;
   PyObject *__pyx_n_s_join;
-  PyObject *__pyx_n_s_jpg;
+  PyObject *__pyx_n_u_jpg;
   PyObject *__pyx_n_s_left;
   PyObject *__pyx_n_s_load_img;
   PyObject *__pyx_n_s_logical_size;
@@ -2473,7 +2427,7 @@ typedef struct {
   PyObject *__pyx_n_s_path_bytes;
   PyObject *__pyx_n_s_pitch;
   PyObject *__pyx_n_s_pixels;
-  PyObject *__pyx_n_s_png;
+  PyObject *__pyx_n_u_png;
   PyObject *__pyx_n_s_pos;
   PyObject *__pyx_n_s_position;
   PyObject *__pyx_n_s_prepare;
@@ -2524,7 +2478,7 @@ typedef struct {
   PyObject *__pyx_n_s_tx;
   PyObject *__pyx_n_s_typing;
   PyObject *__pyx_n_s_update;
-  PyObject *__pyx_kp_s_utf_8;
+  PyObject *__pyx_kp_u_utf_8;
   PyObject *__pyx_n_s_value;
   PyObject *__pyx_n_s_w;
   PyObject *__pyx_n_s_window;
@@ -2619,7 +2573,7 @@ static int __pyx_m_clear(PyObject *m) {
   #ifdef __Pyx_FusedFunction_USED
   Py_CLEAR(clear_module_state->__pyx_FusedFunctionType);
   #endif
-  Py_CLEAR(clear_module_state->__pyx_kp_s_);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_);
   Py_CLEAR(clear_module_state->__pyx_kp_s_A_static_class_that_houses_all);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Could_not_create_surface);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Could_not_read_screenshot);
@@ -2655,7 +2609,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_Display_update);
   Py_CLEAR(clear_module_state->__pyx_n_s_IMG_SaveJPG);
   Py_CLEAR(clear_module_state->__pyx_n_s_IMG_SavePNG);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_Invalid_extension_Only_png_jpg_b);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_Invalid_extension_Only_png_jpg_b);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Invalid_fullscreen_type);
   Py_CLEAR(clear_module_state->__pyx_n_s_Literal);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Literal_desktop_exclusive);
@@ -2677,14 +2631,13 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueError);
   Py_CLEAR(clear_module_state->__pyx_n_s_Vector);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Vector_None);
-  Py_CLEAR(clear_module_state->__pyx_kp_s__3);
   Py_CLEAR(clear_module_state->__pyx_kp_u__3);
   Py_CLEAR(clear_module_state->__pyx_n_s__5);
   Py_CLEAR(clear_module_state->__pyx_n_s__52);
   Py_CLEAR(clear_module_state->__pyx_n_s__8);
   Py_CLEAR(clear_module_state->__pyx_n_s_annotations);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
-  Py_CLEAR(clear_module_state->__pyx_n_s_bmp);
+  Py_CLEAR(clear_module_state->__pyx_n_u_bmp);
   Py_CLEAR(clear_module_state->__pyx_n_s_bool);
   Py_CLEAR(clear_module_state->__pyx_n_s_border_size);
   Py_CLEAR(clear_module_state->__pyx_n_s_bottom);
@@ -2703,13 +2656,12 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_contents);
   Py_CLEAR(clear_module_state->__pyx_n_s_copy);
   Py_CLEAR(clear_module_state->__pyx_n_s_ctypes);
-  Py_CLEAR(clear_module_state->__pyx_n_s_desktop);
+  Py_CLEAR(clear_module_state->__pyx_n_u_desktop);
   Py_CLEAR(clear_module_state->__pyx_n_s_dict);
   Py_CLEAR(clear_module_state->__pyx_n_s_display_ratio);
   Py_CLEAR(clear_module_state->__pyx_n_s_doc);
   Py_CLEAR(clear_module_state->__pyx_n_s_dstrect);
-  Py_CLEAR(clear_module_state->__pyx_n_s_encode);
-  Py_CLEAR(clear_module_state->__pyx_n_s_exclusive);
+  Py_CLEAR(clear_module_state->__pyx_n_u_exclusive);
   Py_CLEAR(clear_module_state->__pyx_n_s_ext);
   Py_CLEAR(clear_module_state->__pyx_n_s_extension);
   Py_CLEAR(clear_module_state->__pyx_n_s_filename);
@@ -2726,7 +2678,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_int);
   Py_CLEAR(clear_module_state->__pyx_n_s_is_coroutine);
   Py_CLEAR(clear_module_state->__pyx_n_s_join);
-  Py_CLEAR(clear_module_state->__pyx_n_s_jpg);
+  Py_CLEAR(clear_module_state->__pyx_n_u_jpg);
   Py_CLEAR(clear_module_state->__pyx_n_s_left);
   Py_CLEAR(clear_module_state->__pyx_n_s_load_img);
   Py_CLEAR(clear_module_state->__pyx_n_s_logical_size);
@@ -2743,7 +2695,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_path_bytes);
   Py_CLEAR(clear_module_state->__pyx_n_s_pitch);
   Py_CLEAR(clear_module_state->__pyx_n_s_pixels);
-  Py_CLEAR(clear_module_state->__pyx_n_s_png);
+  Py_CLEAR(clear_module_state->__pyx_n_u_png);
   Py_CLEAR(clear_module_state->__pyx_n_s_pos);
   Py_CLEAR(clear_module_state->__pyx_n_s_position);
   Py_CLEAR(clear_module_state->__pyx_n_s_prepare);
@@ -2794,7 +2746,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_tx);
   Py_CLEAR(clear_module_state->__pyx_n_s_typing);
   Py_CLEAR(clear_module_state->__pyx_n_s_update);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_utf_8);
+  Py_CLEAR(clear_module_state->__pyx_kp_u_utf_8);
   Py_CLEAR(clear_module_state->__pyx_n_s_value);
   Py_CLEAR(clear_module_state->__pyx_n_s_w);
   Py_CLEAR(clear_module_state->__pyx_n_s_window);
@@ -2876,7 +2828,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   #ifdef __Pyx_FusedFunction_USED
   Py_VISIT(traverse_module_state->__pyx_FusedFunctionType);
   #endif
-  Py_VISIT(traverse_module_state->__pyx_kp_s_);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_);
   Py_VISIT(traverse_module_state->__pyx_kp_s_A_static_class_that_houses_all);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Could_not_create_surface);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Could_not_read_screenshot);
@@ -2912,7 +2864,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_Display_update);
   Py_VISIT(traverse_module_state->__pyx_n_s_IMG_SaveJPG);
   Py_VISIT(traverse_module_state->__pyx_n_s_IMG_SavePNG);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_Invalid_extension_Only_png_jpg_b);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_Invalid_extension_Only_png_jpg_b);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Invalid_fullscreen_type);
   Py_VISIT(traverse_module_state->__pyx_n_s_Literal);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Literal_desktop_exclusive);
@@ -2934,14 +2886,13 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueError);
   Py_VISIT(traverse_module_state->__pyx_n_s_Vector);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Vector_None);
-  Py_VISIT(traverse_module_state->__pyx_kp_s__3);
   Py_VISIT(traverse_module_state->__pyx_kp_u__3);
   Py_VISIT(traverse_module_state->__pyx_n_s__5);
   Py_VISIT(traverse_module_state->__pyx_n_s__52);
   Py_VISIT(traverse_module_state->__pyx_n_s__8);
   Py_VISIT(traverse_module_state->__pyx_n_s_annotations);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
-  Py_VISIT(traverse_module_state->__pyx_n_s_bmp);
+  Py_VISIT(traverse_module_state->__pyx_n_u_bmp);
   Py_VISIT(traverse_module_state->__pyx_n_s_bool);
   Py_VISIT(traverse_module_state->__pyx_n_s_border_size);
   Py_VISIT(traverse_module_state->__pyx_n_s_bottom);
@@ -2960,13 +2911,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_contents);
   Py_VISIT(traverse_module_state->__pyx_n_s_copy);
   Py_VISIT(traverse_module_state->__pyx_n_s_ctypes);
-  Py_VISIT(traverse_module_state->__pyx_n_s_desktop);
+  Py_VISIT(traverse_module_state->__pyx_n_u_desktop);
   Py_VISIT(traverse_module_state->__pyx_n_s_dict);
   Py_VISIT(traverse_module_state->__pyx_n_s_display_ratio);
   Py_VISIT(traverse_module_state->__pyx_n_s_doc);
   Py_VISIT(traverse_module_state->__pyx_n_s_dstrect);
-  Py_VISIT(traverse_module_state->__pyx_n_s_encode);
-  Py_VISIT(traverse_module_state->__pyx_n_s_exclusive);
+  Py_VISIT(traverse_module_state->__pyx_n_u_exclusive);
   Py_VISIT(traverse_module_state->__pyx_n_s_ext);
   Py_VISIT(traverse_module_state->__pyx_n_s_extension);
   Py_VISIT(traverse_module_state->__pyx_n_s_filename);
@@ -2983,7 +2933,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_int);
   Py_VISIT(traverse_module_state->__pyx_n_s_is_coroutine);
   Py_VISIT(traverse_module_state->__pyx_n_s_join);
-  Py_VISIT(traverse_module_state->__pyx_n_s_jpg);
+  Py_VISIT(traverse_module_state->__pyx_n_u_jpg);
   Py_VISIT(traverse_module_state->__pyx_n_s_left);
   Py_VISIT(traverse_module_state->__pyx_n_s_load_img);
   Py_VISIT(traverse_module_state->__pyx_n_s_logical_size);
@@ -3000,7 +2950,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_path_bytes);
   Py_VISIT(traverse_module_state->__pyx_n_s_pitch);
   Py_VISIT(traverse_module_state->__pyx_n_s_pixels);
-  Py_VISIT(traverse_module_state->__pyx_n_s_png);
+  Py_VISIT(traverse_module_state->__pyx_n_u_png);
   Py_VISIT(traverse_module_state->__pyx_n_s_pos);
   Py_VISIT(traverse_module_state->__pyx_n_s_position);
   Py_VISIT(traverse_module_state->__pyx_n_s_prepare);
@@ -3051,7 +3001,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_tx);
   Py_VISIT(traverse_module_state->__pyx_n_s_typing);
   Py_VISIT(traverse_module_state->__pyx_n_s_update);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_utf_8);
+  Py_VISIT(traverse_module_state->__pyx_kp_u_utf_8);
   Py_VISIT(traverse_module_state->__pyx_n_s_value);
   Py_VISIT(traverse_module_state->__pyx_n_s_w);
   Py_VISIT(traverse_module_state->__pyx_n_s_window);
@@ -3130,7 +3080,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #ifdef __Pyx_FusedFunction_USED
 #define __pyx_FusedFunctionType __pyx_mstate_global->__pyx_FusedFunctionType
 #endif
-#define __pyx_kp_s_ __pyx_mstate_global->__pyx_kp_s_
+#define __pyx_kp_u_ __pyx_mstate_global->__pyx_kp_u_
 #define __pyx_kp_s_A_static_class_that_houses_all __pyx_mstate_global->__pyx_kp_s_A_static_class_that_houses_all
 #define __pyx_kp_u_Could_not_create_surface __pyx_mstate_global->__pyx_kp_u_Could_not_create_surface
 #define __pyx_kp_u_Could_not_read_screenshot __pyx_mstate_global->__pyx_kp_u_Could_not_read_screenshot
@@ -3166,7 +3116,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_Display_update __pyx_mstate_global->__pyx_n_s_Display_update
 #define __pyx_n_s_IMG_SaveJPG __pyx_mstate_global->__pyx_n_s_IMG_SaveJPG
 #define __pyx_n_s_IMG_SavePNG __pyx_mstate_global->__pyx_n_s_IMG_SavePNG
-#define __pyx_kp_s_Invalid_extension_Only_png_jpg_b __pyx_mstate_global->__pyx_kp_s_Invalid_extension_Only_png_jpg_b
+#define __pyx_kp_u_Invalid_extension_Only_png_jpg_b __pyx_mstate_global->__pyx_kp_u_Invalid_extension_Only_png_jpg_b
 #define __pyx_kp_u_Invalid_fullscreen_type __pyx_mstate_global->__pyx_kp_u_Invalid_fullscreen_type
 #define __pyx_n_s_Literal __pyx_mstate_global->__pyx_n_s_Literal
 #define __pyx_kp_s_Literal_desktop_exclusive __pyx_mstate_global->__pyx_kp_s_Literal_desktop_exclusive
@@ -3188,14 +3138,13 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_ValueError __pyx_mstate_global->__pyx_n_s_ValueError
 #define __pyx_n_s_Vector __pyx_mstate_global->__pyx_n_s_Vector
 #define __pyx_kp_s_Vector_None __pyx_mstate_global->__pyx_kp_s_Vector_None
-#define __pyx_kp_s__3 __pyx_mstate_global->__pyx_kp_s__3
 #define __pyx_kp_u__3 __pyx_mstate_global->__pyx_kp_u__3
 #define __pyx_n_s__5 __pyx_mstate_global->__pyx_n_s__5
 #define __pyx_n_s__52 __pyx_mstate_global->__pyx_n_s__52
 #define __pyx_n_s__8 __pyx_mstate_global->__pyx_n_s__8
 #define __pyx_n_s_annotations __pyx_mstate_global->__pyx_n_s_annotations
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
-#define __pyx_n_s_bmp __pyx_mstate_global->__pyx_n_s_bmp
+#define __pyx_n_u_bmp __pyx_mstate_global->__pyx_n_u_bmp
 #define __pyx_n_s_bool __pyx_mstate_global->__pyx_n_s_bool
 #define __pyx_n_s_border_size __pyx_mstate_global->__pyx_n_s_border_size
 #define __pyx_n_s_bottom __pyx_mstate_global->__pyx_n_s_bottom
@@ -3214,13 +3163,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_contents __pyx_mstate_global->__pyx_n_s_contents
 #define __pyx_n_s_copy __pyx_mstate_global->__pyx_n_s_copy
 #define __pyx_n_s_ctypes __pyx_mstate_global->__pyx_n_s_ctypes
-#define __pyx_n_s_desktop __pyx_mstate_global->__pyx_n_s_desktop
+#define __pyx_n_u_desktop __pyx_mstate_global->__pyx_n_u_desktop
 #define __pyx_n_s_dict __pyx_mstate_global->__pyx_n_s_dict
 #define __pyx_n_s_display_ratio __pyx_mstate_global->__pyx_n_s_display_ratio
 #define __pyx_n_s_doc __pyx_mstate_global->__pyx_n_s_doc
 #define __pyx_n_s_dstrect __pyx_mstate_global->__pyx_n_s_dstrect
-#define __pyx_n_s_encode __pyx_mstate_global->__pyx_n_s_encode
-#define __pyx_n_s_exclusive __pyx_mstate_global->__pyx_n_s_exclusive
+#define __pyx_n_u_exclusive __pyx_mstate_global->__pyx_n_u_exclusive
 #define __pyx_n_s_ext __pyx_mstate_global->__pyx_n_s_ext
 #define __pyx_n_s_extension __pyx_mstate_global->__pyx_n_s_extension
 #define __pyx_n_s_filename __pyx_mstate_global->__pyx_n_s_filename
@@ -3237,7 +3185,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_int __pyx_mstate_global->__pyx_n_s_int
 #define __pyx_n_s_is_coroutine __pyx_mstate_global->__pyx_n_s_is_coroutine
 #define __pyx_n_s_join __pyx_mstate_global->__pyx_n_s_join
-#define __pyx_n_s_jpg __pyx_mstate_global->__pyx_n_s_jpg
+#define __pyx_n_u_jpg __pyx_mstate_global->__pyx_n_u_jpg
 #define __pyx_n_s_left __pyx_mstate_global->__pyx_n_s_left
 #define __pyx_n_s_load_img __pyx_mstate_global->__pyx_n_s_load_img
 #define __pyx_n_s_logical_size __pyx_mstate_global->__pyx_n_s_logical_size
@@ -3254,7 +3202,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_path_bytes __pyx_mstate_global->__pyx_n_s_path_bytes
 #define __pyx_n_s_pitch __pyx_mstate_global->__pyx_n_s_pitch
 #define __pyx_n_s_pixels __pyx_mstate_global->__pyx_n_s_pixels
-#define __pyx_n_s_png __pyx_mstate_global->__pyx_n_s_png
+#define __pyx_n_u_png __pyx_mstate_global->__pyx_n_u_png
 #define __pyx_n_s_pos __pyx_mstate_global->__pyx_n_s_pos
 #define __pyx_n_s_position __pyx_mstate_global->__pyx_n_s_position
 #define __pyx_n_s_prepare __pyx_mstate_global->__pyx_n_s_prepare
@@ -3305,7 +3253,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_tx __pyx_mstate_global->__pyx_n_s_tx
 #define __pyx_n_s_typing __pyx_mstate_global->__pyx_n_s_typing
 #define __pyx_n_s_update __pyx_mstate_global->__pyx_n_s_update
-#define __pyx_kp_s_utf_8 __pyx_mstate_global->__pyx_kp_s_utf_8
+#define __pyx_kp_u_utf_8 __pyx_mstate_global->__pyx_kp_u_utf_8
 #define __pyx_n_s_value __pyx_mstate_global->__pyx_n_s_value
 #define __pyx_n_s_w __pyx_mstate_global->__pyx_n_s_w
 #define __pyx_n_s_window __pyx_mstate_global->__pyx_n_s_window
@@ -4516,7 +4464,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_17DisplayProperties_14window_name, "DisplayProperties.window_name(cls, str new: str)");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_17DisplayProperties_14window_name, "DisplayProperties.window_name(cls, unicode new: str)");
 static PyMethodDef __pyx_mdef_6rubato_5utils_7display_17DisplayProperties_15window_name = {"window_name", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_7display_17DisplayProperties_15window_name, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_7display_17DisplayProperties_14window_name};
 static PyObject *__pyx_pw_6rubato_5utils_7display_17DisplayProperties_15window_name(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -4589,7 +4537,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_new), (&PyString_Type), 1, "new", 1))) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_new), (&PyUnicode_Type), 1, "new", 1))) __PYX_ERR(0, 84, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_7display_17DisplayProperties_14window_name(__pyx_self, __pyx_v_cls, __pyx_v_new);
 
   /* function exit code */
@@ -5476,7 +5424,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_7Display_set_window_icon, "Display.set_window_icon(cls, str path: str)\n\n        Set the icon of the window.\n\n        Args:\n            path: The path to the icon.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_7Display_set_window_icon, "Display.set_window_icon(cls, unicode path: str)\n\n        Set the icon of the window.\n\n        Args:\n            path: The path to the icon.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_7display_7Display_1set_window_icon = {"set_window_icon", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_7display_7Display_1set_window_icon, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_7display_7Display_set_window_icon};
 static PyObject *__pyx_pw_6rubato_5utils_7display_7Display_1set_window_icon(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -5549,7 +5497,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyString_Type), 1, "path", 1))) __PYX_ERR(0, 146, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyUnicode_Type), 1, "path", 1))) __PYX_ERR(0, 146, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_7display_7Display_set_window_icon(__pyx_self, __pyx_v_cls, __pyx_v_path);
 
   /* function exit code */
@@ -5738,7 +5686,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_7Display_2set_fullscreen, "Display.set_fullscreen(cls, on: bool = True, mode: Literal['desktop', 'exclusive'] = 'desktop')\n\n        Set the window to fullscreen.\n\n        Args:\n            on: Whether or not to set the window to fullscreen.\n            mode: The type of fullscreen to use. Can be either \"desktop\" or \"exclusive\".\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_7Display_2set_fullscreen, "Display.set_fullscreen(cls, on: bool = True, mode: Literal['desktop', 'exclusive'] = u'desktop')\n\n        Set the window to fullscreen.\n\n        Args:\n            on: Whether or not to set the window to fullscreen.\n            mode: The type of fullscreen to use. Can be either \"desktop\" or \"exclusive\".\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_7display_7Display_3set_fullscreen = {"set_fullscreen", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_7display_7Display_3set_fullscreen, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_7display_7Display_2set_fullscreen};
 static PyObject *__pyx_pw_6rubato_5utils_7display_7Display_3set_fullscreen(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -5776,7 +5724,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
  *         Set the window to fullscreen.
  */
     values[1] = ((PyObject *)((PyObject *)Py_True));
-    values[2] = ((PyObject *)((PyObject*)__pyx_n_s_desktop));
+    values[2] = ((PyObject *)((PyObject*)__pyx_n_u_desktop));
     if (__pyx_kwds) {
       Py_ssize_t kw_args;
       switch (__pyx_nargs) {
@@ -5991,7 +5939,7 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_2set_fullscreen(CYTHO
  *                 sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN_DESKTOP)
  *             elif mode == "exclusive":
  */
-    __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_desktop, Py_EQ)); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 174, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_mode, __pyx_n_u_desktop, Py_EQ)); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 174, __pyx_L1_error)
     if (__pyx_t_1) {
 
       /* "rubato/utils/display.py":175
@@ -6057,7 +6005,7 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_2set_fullscreen(CYTHO
  *                 sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN)
  *             else:
  */
-    __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_exclusive, Py_EQ)); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_mode, __pyx_n_u_exclusive, Py_EQ)); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 176, __pyx_L1_error)
     if (likely(__pyx_t_1)) {
 
       /* "rubato/utils/display.py":177
@@ -7177,7 +7125,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_7Display_10save_screenshot, "Display.save_screenshot(cls, str filename: str, str path: str = './', str extension: str = 'png', save_to_temp_path: bool = False, quality: int = 100) -> bool\n\n        Save the current screen to a file.\n\n        Args:\n            filename: The name of the file to save to.\n            path: Path to output folder.\n            extension: The extension to save the file as. (png, jpg, bmp supported)\n            save_to_temp_path: Whether to save the file to a temporary path (i.e. MEIPASS used in exe).\n            quality: The quality of the jpg 0-100 (only used for jpgs).\n\n        Returns:\n            If save was successful.\n        ");
+PyDoc_STRVAR(__pyx_doc_6rubato_5utils_7display_7Display_10save_screenshot, "Display.save_screenshot(cls, unicode filename: str, unicode path: str = u'./', unicode extension: str = u'png', save_to_temp_path: bool = False, quality: int = 100) -> bool\n\n        Save the current screen to a file.\n\n        Args:\n            filename: The name of the file to save to.\n            path: Path to output folder.\n            extension: The extension to save the file as. (png, jpg, bmp supported)\n            save_to_temp_path: Whether to save the file to a temporary path (i.e. MEIPASS used in exe).\n            quality: The quality of the jpg 0-100 (only used for jpgs).\n\n        Returns:\n            If save was successful.\n        ");
 static PyMethodDef __pyx_mdef_6rubato_5utils_7display_7Display_11save_screenshot = {"save_screenshot", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5utils_7display_7Display_11save_screenshot, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5utils_7display_7Display_10save_screenshot};
 static PyObject *__pyx_pw_6rubato_5utils_7display_7Display_11save_screenshot(PyObject *__pyx_self,
 #if CYTHON_METH_FASTCALL
@@ -7209,8 +7157,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_cls,&__pyx_n_s_filename,&__pyx_n_s_path,&__pyx_n_s_extension,&__pyx_n_s_save_to_temp_path,&__pyx_n_s_quality,0};
     #endif
     PyObject* values[6] = {0,0,0,0,0,0};
-    values[2] = ((PyObject*)((PyObject*)__pyx_kp_s_));
-    values[3] = ((PyObject*)((PyObject*)__pyx_n_s_png));
+    values[2] = ((PyObject*)((PyObject*)__pyx_kp_u_));
+    values[3] = ((PyObject*)((PyObject*)__pyx_n_u_png));
 
     /* "rubato/utils/display.py":239
  *         path: str = "./",
@@ -7316,9 +7264,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyString_Type), 1, "filename", 1))) __PYX_ERR(0, 236, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyString_Type), 1, "path", 1))) __PYX_ERR(0, 237, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_extension), (&PyString_Type), 1, "extension", 1))) __PYX_ERR(0, 238, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filename), (&PyUnicode_Type), 1, "filename", 1))) __PYX_ERR(0, 236, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), (&PyUnicode_Type), 1, "path", 1))) __PYX_ERR(0, 237, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_extension), (&PyUnicode_Type), 1, "extension", 1))) __PYX_ERR(0, 238, __pyx_L1_error)
   __pyx_r = __pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(__pyx_self, __pyx_v_cls, __pyx_v_filename, __pyx_v_path, __pyx_v_extension, __pyx_v_save_to_temp_path, __pyx_v_quality);
 
   /* "rubato/utils/display.py":233
@@ -7379,21 +7327,21 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
  */
   __Pyx_INCREF(__pyx_v_extension);
   __pyx_t_1 = __pyx_v_extension;
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_png, Py_NE)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 255, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_png, Py_NE)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 255, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
   } else {
     __pyx_t_2 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_jpg, Py_NE)); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 255, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_jpg, Py_NE)); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 255, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_4 != 0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_2 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_t_1, __pyx_n_s_bmp, Py_NE)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 255, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_n_u_bmp, Py_NE)); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 255, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_3 != 0);
   __pyx_t_2 = __pyx_t_4;
   __pyx_L4_bool_binop_done:;
@@ -7752,9 +7700,12 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
  *             if save_to_temp_path:
  *                 path_bytes = bytes(get_path(os.path.join(path, filename, filename + "." + extension)), "utf-8")
  */
-    __pyx_t_8 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_path, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 270, __pyx_L9_error)
+    if (unlikely(__pyx_v_path == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "encode");
+      __PYX_ERR(0, 270, __pyx_L9_error)
+    }
+    __pyx_t_8 = PyUnicode_AsUTF8String(__pyx_v_path); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 270, __pyx_L9_error)
     __Pyx_GOTREF(__pyx_t_8);
-    if (!(likely(PyBytes_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None) || __Pyx_RaiseUnexpectedTypeError("bytes", __pyx_t_8))) __PYX_ERR(0, 270, __pyx_L9_error)
     __pyx_v_path_bytes = ((PyObject*)__pyx_t_8);
     __pyx_t_8 = 0;
 
@@ -7785,9 +7736,9 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
       __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_join); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 272, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __pyx_t_13 = __Pyx_PyStr_ConcatSafe(__pyx_v_filename, __pyx_kp_s__3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 272, __pyx_L9_error)
+      __pyx_t_13 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_filename, __pyx_kp_u__3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 272, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_5 = __Pyx_PyStr_ConcatInPlaceSafe(__pyx_t_13, __pyx_v_extension); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L9_error)
+      __pyx_t_5 = __Pyx_PyUnicode_ConcatInPlaceSafe(__pyx_t_13, __pyx_v_extension); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __pyx_t_13 = NULL;
@@ -7836,9 +7787,9 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_8);
-      __Pyx_INCREF(__pyx_kp_s_utf_8);
-      __Pyx_GIVEREF(__pyx_kp_s_utf_8);
-      PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_kp_s_utf_8);
+      __Pyx_INCREF(__pyx_kp_u_utf_8);
+      __Pyx_GIVEREF(__pyx_kp_u_utf_8);
+      PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_kp_u_utf_8);
       __pyx_t_8 = 0;
       __pyx_t_8 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 272, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -7872,9 +7823,9 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
       __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_join); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 274, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_PyStr_ConcatSafe(__pyx_v_filename, __pyx_kp_s__3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 274, __pyx_L9_error)
+      __pyx_t_10 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_filename, __pyx_kp_u__3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 274, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_12 = __Pyx_PyStr_ConcatInPlaceSafe(__pyx_t_10, __pyx_v_extension); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 274, __pyx_L9_error)
+      __pyx_t_12 = __Pyx_PyUnicode_ConcatInPlaceSafe(__pyx_t_10, __pyx_v_extension); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 274, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = NULL;
@@ -7902,9 +7853,9 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_8);
-      __Pyx_INCREF(__pyx_kp_s_utf_8);
-      __Pyx_GIVEREF(__pyx_kp_s_utf_8);
-      PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_kp_s_utf_8);
+      __Pyx_INCREF(__pyx_kp_u_utf_8);
+      __Pyx_GIVEREF(__pyx_kp_u_utf_8);
+      PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_kp_u_utf_8);
       __pyx_t_8 = 0;
       __pyx_t_8 = __Pyx_PyObject_Call(((PyObject *)(&PyBytes_Type)), __pyx_t_7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 274, __pyx_L9_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -7921,7 +7872,7 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
  *                 return sdl2.sdlimage.IMG_SavePNG(render_surface, path_bytes) == 0
  *             elif extension == "jpg":
  */
-    __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_v_extension, __pyx_n_s_png, Py_EQ)); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 276, __pyx_L9_error)
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_extension, __pyx_n_u_png, Py_EQ)); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 276, __pyx_L9_error)
     __pyx_t_4 = (__pyx_t_2 != 0);
     if (__pyx_t_4) {
 
@@ -7984,7 +7935,7 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
  *                 return sdl2.sdlimage.IMG_SaveJPG(render_surface, path_bytes, quality) == 0
  *             elif extension == "bmp":
  */
-    __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_v_extension, __pyx_n_s_jpg, Py_EQ)); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 278, __pyx_L9_error)
+    __pyx_t_4 = (__Pyx_PyUnicode_Equals(__pyx_v_extension, __pyx_n_u_jpg, Py_EQ)); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 278, __pyx_L9_error)
     __pyx_t_2 = (__pyx_t_4 != 0);
     if (__pyx_t_2) {
 
@@ -8047,7 +7998,7 @@ static PyObject *__pyx_pf_6rubato_5utils_7display_7Display_10save_screenshot(CYT
  *                 return sdl2.SDL_SaveBMP(render_surface, path_bytes) == 0
  *
  */
-    __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_v_extension, __pyx_n_s_bmp, Py_EQ)); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 280, __pyx_L9_error)
+    __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_v_extension, __pyx_n_u_bmp, Py_EQ)); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 280, __pyx_L9_error)
     __pyx_t_4 = (__pyx_t_2 != 0);
     if (__pyx_t_4) {
 
@@ -10243,7 +10194,7 @@ static PyMethodDef __pyx_methods[] = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   #if CYTHON_USE_MODULE_STATE
-  {0, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {0, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {0, __pyx_k_A_static_class_that_houses_all, sizeof(__pyx_k_A_static_class_that_houses_all), 0, 0, 1, 0},
   {0, __pyx_k_Could_not_create_surface, sizeof(__pyx_k_Could_not_create_surface), 0, 1, 0, 0},
   {0, __pyx_k_Could_not_read_screenshot, sizeof(__pyx_k_Could_not_read_screenshot), 0, 1, 0, 0},
@@ -10279,7 +10230,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_Display_update, sizeof(__pyx_k_Display_update), 0, 0, 1, 1},
   {0, __pyx_k_IMG_SaveJPG, sizeof(__pyx_k_IMG_SaveJPG), 0, 0, 1, 1},
   {0, __pyx_k_IMG_SavePNG, sizeof(__pyx_k_IMG_SavePNG), 0, 0, 1, 1},
-  {0, __pyx_k_Invalid_extension_Only_png_jpg_b, sizeof(__pyx_k_Invalid_extension_Only_png_jpg_b), 0, 0, 1, 0},
+  {0, __pyx_k_Invalid_extension_Only_png_jpg_b, sizeof(__pyx_k_Invalid_extension_Only_png_jpg_b), 0, 1, 0, 0},
   {0, __pyx_k_Invalid_fullscreen_type, sizeof(__pyx_k_Invalid_fullscreen_type), 0, 1, 0, 0},
   {0, __pyx_k_Literal, sizeof(__pyx_k_Literal), 0, 0, 1, 1},
   {0, __pyx_k_Literal_desktop_exclusive, sizeof(__pyx_k_Literal_desktop_exclusive), 0, 0, 1, 0},
@@ -10301,14 +10252,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {0, __pyx_k_Vector, sizeof(__pyx_k_Vector), 0, 0, 1, 1},
   {0, __pyx_k_Vector_None, sizeof(__pyx_k_Vector_None), 0, 0, 1, 0},
-  {0, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
   {0, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {0, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
   {0, __pyx_k__52, sizeof(__pyx_k__52), 0, 0, 1, 1},
   {0, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 1},
   {0, __pyx_k_annotations, sizeof(__pyx_k_annotations), 0, 0, 1, 1},
   {0, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
-  {0, __pyx_k_bmp, sizeof(__pyx_k_bmp), 0, 0, 1, 1},
+  {0, __pyx_k_bmp, sizeof(__pyx_k_bmp), 0, 1, 0, 1},
   {0, __pyx_k_bool, sizeof(__pyx_k_bool), 0, 0, 1, 1},
   {0, __pyx_k_border_size, sizeof(__pyx_k_border_size), 0, 0, 1, 1},
   {0, __pyx_k_bottom, sizeof(__pyx_k_bottom), 0, 0, 1, 1},
@@ -10327,13 +10277,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_contents, sizeof(__pyx_k_contents), 0, 0, 1, 1},
   {0, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
   {0, __pyx_k_ctypes, sizeof(__pyx_k_ctypes), 0, 0, 1, 1},
-  {0, __pyx_k_desktop, sizeof(__pyx_k_desktop), 0, 0, 1, 1},
+  {0, __pyx_k_desktop, sizeof(__pyx_k_desktop), 0, 1, 0, 1},
   {0, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {0, __pyx_k_display_ratio, sizeof(__pyx_k_display_ratio), 0, 0, 1, 1},
   {0, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {0, __pyx_k_dstrect, sizeof(__pyx_k_dstrect), 0, 0, 1, 1},
-  {0, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
-  {0, __pyx_k_exclusive, sizeof(__pyx_k_exclusive), 0, 0, 1, 1},
+  {0, __pyx_k_exclusive, sizeof(__pyx_k_exclusive), 0, 1, 0, 1},
   {0, __pyx_k_ext, sizeof(__pyx_k_ext), 0, 0, 1, 1},
   {0, __pyx_k_extension, sizeof(__pyx_k_extension), 0, 0, 1, 1},
   {0, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
@@ -10350,7 +10299,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_int, sizeof(__pyx_k_int), 0, 0, 1, 1},
   {0, __pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 0, 1, 1},
   {0, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
-  {0, __pyx_k_jpg, sizeof(__pyx_k_jpg), 0, 0, 1, 1},
+  {0, __pyx_k_jpg, sizeof(__pyx_k_jpg), 0, 1, 0, 1},
   {0, __pyx_k_left, sizeof(__pyx_k_left), 0, 0, 1, 1},
   {0, __pyx_k_load_img, sizeof(__pyx_k_load_img), 0, 0, 1, 1},
   {0, __pyx_k_logical_size, sizeof(__pyx_k_logical_size), 0, 0, 1, 1},
@@ -10367,7 +10316,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_path_bytes, sizeof(__pyx_k_path_bytes), 0, 0, 1, 1},
   {0, __pyx_k_pitch, sizeof(__pyx_k_pitch), 0, 0, 1, 1},
   {0, __pyx_k_pixels, sizeof(__pyx_k_pixels), 0, 0, 1, 1},
-  {0, __pyx_k_png, sizeof(__pyx_k_png), 0, 0, 1, 1},
+  {0, __pyx_k_png, sizeof(__pyx_k_png), 0, 1, 0, 1},
   {0, __pyx_k_pos, sizeof(__pyx_k_pos), 0, 0, 1, 1},
   {0, __pyx_k_position, sizeof(__pyx_k_position), 0, 0, 1, 1},
   {0, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
@@ -10418,7 +10367,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_tx, sizeof(__pyx_k_tx), 0, 0, 1, 1},
   {0, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
   {0, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
-  {0, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
+  {0, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
   {0, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {0, __pyx_k_w, sizeof(__pyx_k_w), 0, 0, 1, 1},
   {0, __pyx_k_window, sizeof(__pyx_k_window), 0, 0, 1, 1},
@@ -10429,7 +10378,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {0, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   #else
-  {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_kp_s_A_static_class_that_houses_all, __pyx_k_A_static_class_that_houses_all, sizeof(__pyx_k_A_static_class_that_houses_all), 0, 0, 1, 0},
   {&__pyx_kp_u_Could_not_create_surface, __pyx_k_Could_not_create_surface, sizeof(__pyx_k_Could_not_create_surface), 0, 1, 0, 0},
   {&__pyx_kp_u_Could_not_read_screenshot, __pyx_k_Could_not_read_screenshot, sizeof(__pyx_k_Could_not_read_screenshot), 0, 1, 0, 0},
@@ -10465,7 +10414,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Display_update, __pyx_k_Display_update, sizeof(__pyx_k_Display_update), 0, 0, 1, 1},
   {&__pyx_n_s_IMG_SaveJPG, __pyx_k_IMG_SaveJPG, sizeof(__pyx_k_IMG_SaveJPG), 0, 0, 1, 1},
   {&__pyx_n_s_IMG_SavePNG, __pyx_k_IMG_SavePNG, sizeof(__pyx_k_IMG_SavePNG), 0, 0, 1, 1},
-  {&__pyx_kp_s_Invalid_extension_Only_png_jpg_b, __pyx_k_Invalid_extension_Only_png_jpg_b, sizeof(__pyx_k_Invalid_extension_Only_png_jpg_b), 0, 0, 1, 0},
+  {&__pyx_kp_u_Invalid_extension_Only_png_jpg_b, __pyx_k_Invalid_extension_Only_png_jpg_b, sizeof(__pyx_k_Invalid_extension_Only_png_jpg_b), 0, 1, 0, 0},
   {&__pyx_kp_u_Invalid_fullscreen_type, __pyx_k_Invalid_fullscreen_type, sizeof(__pyx_k_Invalid_fullscreen_type), 0, 1, 0, 0},
   {&__pyx_n_s_Literal, __pyx_k_Literal, sizeof(__pyx_k_Literal), 0, 0, 1, 1},
   {&__pyx_kp_s_Literal_desktop_exclusive, __pyx_k_Literal_desktop_exclusive, sizeof(__pyx_k_Literal_desktop_exclusive), 0, 0, 1, 0},
@@ -10487,14 +10436,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_Vector, __pyx_k_Vector, sizeof(__pyx_k_Vector), 0, 0, 1, 1},
   {&__pyx_kp_s_Vector_None, __pyx_k_Vector_None, sizeof(__pyx_k_Vector_None), 0, 0, 1, 0},
-  {&__pyx_kp_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 0},
   {&__pyx_kp_u__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 1, 0, 0},
   {&__pyx_n_s__5, __pyx_k__5, sizeof(__pyx_k__5), 0, 0, 1, 1},
   {&__pyx_n_s__52, __pyx_k__52, sizeof(__pyx_k__52), 0, 0, 1, 1},
   {&__pyx_n_s__8, __pyx_k__8, sizeof(__pyx_k__8), 0, 0, 1, 1},
   {&__pyx_n_s_annotations, __pyx_k_annotations, sizeof(__pyx_k_annotations), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
-  {&__pyx_n_s_bmp, __pyx_k_bmp, sizeof(__pyx_k_bmp), 0, 0, 1, 1},
+  {&__pyx_n_u_bmp, __pyx_k_bmp, sizeof(__pyx_k_bmp), 0, 1, 0, 1},
   {&__pyx_n_s_bool, __pyx_k_bool, sizeof(__pyx_k_bool), 0, 0, 1, 1},
   {&__pyx_n_s_border_size, __pyx_k_border_size, sizeof(__pyx_k_border_size), 0, 0, 1, 1},
   {&__pyx_n_s_bottom, __pyx_k_bottom, sizeof(__pyx_k_bottom), 0, 0, 1, 1},
@@ -10513,13 +10461,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_contents, __pyx_k_contents, sizeof(__pyx_k_contents), 0, 0, 1, 1},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
   {&__pyx_n_s_ctypes, __pyx_k_ctypes, sizeof(__pyx_k_ctypes), 0, 0, 1, 1},
-  {&__pyx_n_s_desktop, __pyx_k_desktop, sizeof(__pyx_k_desktop), 0, 0, 1, 1},
+  {&__pyx_n_u_desktop, __pyx_k_desktop, sizeof(__pyx_k_desktop), 0, 1, 0, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_display_ratio, __pyx_k_display_ratio, sizeof(__pyx_k_display_ratio), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_dstrect, __pyx_k_dstrect, sizeof(__pyx_k_dstrect), 0, 0, 1, 1},
-  {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
-  {&__pyx_n_s_exclusive, __pyx_k_exclusive, sizeof(__pyx_k_exclusive), 0, 0, 1, 1},
+  {&__pyx_n_u_exclusive, __pyx_k_exclusive, sizeof(__pyx_k_exclusive), 0, 1, 0, 1},
   {&__pyx_n_s_ext, __pyx_k_ext, sizeof(__pyx_k_ext), 0, 0, 1, 1},
   {&__pyx_n_s_extension, __pyx_k_extension, sizeof(__pyx_k_extension), 0, 0, 1, 1},
   {&__pyx_n_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
@@ -10536,7 +10483,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_int, __pyx_k_int, sizeof(__pyx_k_int), 0, 0, 1, 1},
   {&__pyx_n_s_is_coroutine, __pyx_k_is_coroutine, sizeof(__pyx_k_is_coroutine), 0, 0, 1, 1},
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
-  {&__pyx_n_s_jpg, __pyx_k_jpg, sizeof(__pyx_k_jpg), 0, 0, 1, 1},
+  {&__pyx_n_u_jpg, __pyx_k_jpg, sizeof(__pyx_k_jpg), 0, 1, 0, 1},
   {&__pyx_n_s_left, __pyx_k_left, sizeof(__pyx_k_left), 0, 0, 1, 1},
   {&__pyx_n_s_load_img, __pyx_k_load_img, sizeof(__pyx_k_load_img), 0, 0, 1, 1},
   {&__pyx_n_s_logical_size, __pyx_k_logical_size, sizeof(__pyx_k_logical_size), 0, 0, 1, 1},
@@ -10553,7 +10500,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_path_bytes, __pyx_k_path_bytes, sizeof(__pyx_k_path_bytes), 0, 0, 1, 1},
   {&__pyx_n_s_pitch, __pyx_k_pitch, sizeof(__pyx_k_pitch), 0, 0, 1, 1},
   {&__pyx_n_s_pixels, __pyx_k_pixels, sizeof(__pyx_k_pixels), 0, 0, 1, 1},
-  {&__pyx_n_s_png, __pyx_k_png, sizeof(__pyx_k_png), 0, 0, 1, 1},
+  {&__pyx_n_u_png, __pyx_k_png, sizeof(__pyx_k_png), 0, 1, 0, 1},
   {&__pyx_n_s_pos, __pyx_k_pos, sizeof(__pyx_k_pos), 0, 0, 1, 1},
   {&__pyx_n_s_position, __pyx_k_position, sizeof(__pyx_k_position), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
@@ -10604,7 +10551,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_tx, __pyx_k_tx, sizeof(__pyx_k_tx), 0, 0, 1, 1},
   {&__pyx_n_s_typing, __pyx_k_typing, sizeof(__pyx_k_typing), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
-  {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
+  {&__pyx_kp_u_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 1, 0, 0},
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_w, __pyx_k_w, sizeof(__pyx_k_w), 0, 0, 1, 1},
   {&__pyx_n_s_window, __pyx_k_window, sizeof(__pyx_k_window), 0, 0, 1, 1},
@@ -10640,7 +10587,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *
  *         render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Invalid_extension_Only_png_jpg_b); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Invalid_extension_Only_png_jpg_b); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -10812,7 +10759,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
   __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_rubato_utils_display_py, __pyx_n_s_set_fullscreen, 161, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __pyx_tuple__29 = PyTuple_Pack(2, ((PyObject *)Py_True), ((PyObject*)__pyx_n_s_desktop)); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(2, ((PyObject *)Py_True), ((PyObject*)__pyx_n_u_desktop)); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 161, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
 
@@ -10863,7 +10810,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
   __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(6, 0, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_rubato_utils_display_py, __pyx_n_s_save_screenshot, 233, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 233, __pyx_L1_error)
-  __pyx_tuple__38 = PyTuple_Pack(4, ((PyObject*)__pyx_kp_s_), ((PyObject*)__pyx_n_s_png), ((PyObject *)Py_False), ((PyObject *)__pyx_int_100)); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(4, ((PyObject*)__pyx_kp_u_), ((PyObject*)__pyx_n_u_png), ((PyObject *)Py_False), ((PyObject *)__pyx_int_100)); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
@@ -10992,10 +10939,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 /* #### Code section: init_constants ### */
 
 static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
-  __pyx_umethod_PyString_Type_encode.type = (PyObject*)&PyString_Type;
-  __pyx_umethod_PyString_Type_encode.method_name = &__pyx_n_s_encode;
   #if CYTHON_USE_MODULE_STATE
-  if (__Pyx_InitString(__pyx_string_tab[0], &__pyx_kp_s_) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[0], &__pyx_kp_u_) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[1], &__pyx_kp_s_A_static_class_that_houses_all) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[2], &__pyx_kp_u_Could_not_create_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[3], &__pyx_kp_u_Could_not_read_screenshot) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -11031,7 +10976,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[33], &__pyx_n_s_Display_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[34], &__pyx_n_s_IMG_SaveJPG) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[35], &__pyx_n_s_IMG_SavePNG) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_kp_s_Invalid_extension_Only_png_jpg_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[36], &__pyx_kp_u_Invalid_extension_Only_png_jpg_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[37], &__pyx_kp_u_Invalid_fullscreen_type) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[38], &__pyx_n_s_Literal) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[39], &__pyx_kp_s_Literal_desktop_exclusive) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -11053,133 +10998,131 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   if (__Pyx_InitString(__pyx_string_tab[55], &__pyx_n_s_ValueError) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[56], &__pyx_n_s_Vector) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   if (__Pyx_InitString(__pyx_string_tab[57], &__pyx_kp_s_Vector_None) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_kp_s__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_kp_u__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s__5) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s__52) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s__8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_annotations) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_bmp) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_bool) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_border_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_bottom) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_bottom_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_bottom_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_bottom_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_byref) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_c_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_center_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_center_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_clone) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_clone_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_cls) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_contents) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_copy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_s_ctypes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_desktop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_display_ratio) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_s_dstrect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_encode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_exclusive) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_extension) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_filename) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_format) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_get_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_get_window_border_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_h) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_has_x_border) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_has_y_border) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_image) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_join) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_jpg) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_load_img) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_logical_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_mode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_mro_entries) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_on) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_os) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_path_bytes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_s_pitch) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_pixels) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_png) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_position) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_n_s_property) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_n_s_quality) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_rat) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_render_rat) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[133], &__pyx_n_s_render_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[134], &__pyx_n_s_renderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[135], &__pyx_n_s_res) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[136], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[137], &__pyx_n_s_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[138], &__pyx_n_s_round) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[139], &__pyx_n_s_rubato_utils_display) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[140], &__pyx_kp_s_rubato_utils_display_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[141], &__pyx_n_s_save_screenshot) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[142], &__pyx_n_s_save_to_temp_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[143], &__pyx_n_s_saved_window_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_n_s_saved_window_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_sdl2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_kp_s_sdl2_SDL_Surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_n_s_sdl2_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_kp_s_sdl2_ext_Renderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_kp_s_sdl2_ext_Texture) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_kp_s_sdl2_ext_Window) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[151], &__pyx_n_s_sdl2_sdlimage) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[152], &__pyx_n_s_sdlimage) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[153], &__pyx_n_s_sdlrenderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[154], &__pyx_n_s_set_fullscreen) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[155], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[156], &__pyx_n_s_set_window_icon) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_setter) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_n_s_src) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_n_s_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_n_s_title) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[166], &__pyx_n_s_to_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[167], &__pyx_n_s_to_tuple) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[168], &__pyx_n_s_top) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[169], &__pyx_n_s_top_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[170], &__pyx_n_s_top_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[171], &__pyx_n_s_top_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[172], &__pyx_n_s_tx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[173], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[174], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[175], &__pyx_kp_s_utf_8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[176], &__pyx_n_s_value) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[177], &__pyx_n_s_w) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[178], &__pyx_n_s_window) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[179], &__pyx_n_s_window_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[180], &__pyx_n_s_window_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[181], &__pyx_n_s_window_rat) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[182], &__pyx_n_s_window_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[183], &__pyx_n_s_x) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  if (__Pyx_InitString(__pyx_string_tab[184], &__pyx_n_s_y) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[58], &__pyx_kp_u__3) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[59], &__pyx_n_s__5) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[60], &__pyx_n_s__52) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[61], &__pyx_n_s__8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[62], &__pyx_n_s_annotations) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[63], &__pyx_n_s_asyncio_coroutines) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[64], &__pyx_n_u_bmp) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[65], &__pyx_n_s_bool) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[66], &__pyx_n_s_border_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[67], &__pyx_n_s_bottom) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[68], &__pyx_n_s_bottom_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[69], &__pyx_n_s_bottom_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[70], &__pyx_n_s_bottom_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[71], &__pyx_n_s_byref) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[72], &__pyx_n_s_c_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[73], &__pyx_n_s_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[74], &__pyx_n_s_center_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[75], &__pyx_n_s_center_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[76], &__pyx_n_s_cline_in_traceback) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[77], &__pyx_n_s_clone) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[78], &__pyx_n_s_clone_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[79], &__pyx_n_s_cls) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[80], &__pyx_n_s_contents) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[81], &__pyx_n_s_copy) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[82], &__pyx_n_s_ctypes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[83], &__pyx_n_u_desktop) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[84], &__pyx_n_s_dict) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[85], &__pyx_n_s_display_ratio) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[86], &__pyx_n_s_doc) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[87], &__pyx_n_s_dstrect) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[88], &__pyx_n_u_exclusive) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[89], &__pyx_n_s_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[90], &__pyx_n_s_extension) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[91], &__pyx_n_s_filename) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[92], &__pyx_n_s_format) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[93], &__pyx_n_s_get_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[94], &__pyx_n_s_get_window_border_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[95], &__pyx_n_s_h) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[96], &__pyx_n_s_has_x_border) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[97], &__pyx_n_s_has_y_border) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[98], &__pyx_n_s_image) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[99], &__pyx_n_s_import) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[100], &__pyx_n_s_init_subclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[101], &__pyx_n_s_initializing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[102], &__pyx_n_s_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[103], &__pyx_n_s_is_coroutine) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[104], &__pyx_n_s_join) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[105], &__pyx_n_u_jpg) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[106], &__pyx_n_s_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[107], &__pyx_n_s_load_img) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[108], &__pyx_n_s_logical_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[109], &__pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[110], &__pyx_n_s_metaclass) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[111], &__pyx_n_s_mode) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[112], &__pyx_n_s_module) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[113], &__pyx_n_s_mro_entries) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[114], &__pyx_n_s_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[115], &__pyx_n_s_new) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[116], &__pyx_n_s_on) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[117], &__pyx_n_s_os) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[118], &__pyx_n_s_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[119], &__pyx_n_s_path_bytes) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[120], &__pyx_n_s_pitch) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[121], &__pyx_n_s_pixels) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[122], &__pyx_n_u_png) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[123], &__pyx_n_s_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[124], &__pyx_n_s_position) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[125], &__pyx_n_s_prepare) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[126], &__pyx_n_s_property) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[127], &__pyx_n_s_quality) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[128], &__pyx_n_s_qualname) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[129], &__pyx_n_s_rat) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[130], &__pyx_n_s_render_rat) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[131], &__pyx_n_s_render_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[132], &__pyx_n_s_renderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[133], &__pyx_n_s_res) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[134], &__pyx_n_s_return) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[135], &__pyx_n_s_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[136], &__pyx_n_s_round) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[137], &__pyx_n_s_rubato_utils_display) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[138], &__pyx_kp_s_rubato_utils_display_py) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[139], &__pyx_n_s_save_screenshot) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[140], &__pyx_n_s_save_to_temp_path) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[141], &__pyx_n_s_saved_window_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[142], &__pyx_n_s_saved_window_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[143], &__pyx_n_s_sdl2) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[144], &__pyx_kp_s_sdl2_SDL_Surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[145], &__pyx_n_s_sdl2_ext) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[146], &__pyx_kp_s_sdl2_ext_Renderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[147], &__pyx_kp_s_sdl2_ext_Texture) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[148], &__pyx_kp_s_sdl2_ext_Window) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[149], &__pyx_n_s_sdl2_sdlimage) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[150], &__pyx_n_s_sdlimage) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[151], &__pyx_n_s_sdlrenderer) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[152], &__pyx_n_s_set_fullscreen) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[153], &__pyx_n_s_set_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[154], &__pyx_n_s_set_window_icon) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[155], &__pyx_n_s_setter) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[156], &__pyx_n_s_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[157], &__pyx_n_s_spec) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[158], &__pyx_n_s_src) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[159], &__pyx_n_s_str) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[160], &__pyx_n_s_super) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[161], &__pyx_n_s_surface) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[162], &__pyx_n_s_test) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[163], &__pyx_n_s_title) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[164], &__pyx_n_s_to_int) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[165], &__pyx_n_s_to_tuple) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[166], &__pyx_n_s_top) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[167], &__pyx_n_s_top_center) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[168], &__pyx_n_s_top_left) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[169], &__pyx_n_s_top_right) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[170], &__pyx_n_s_tx) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[171], &__pyx_n_s_typing) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[172], &__pyx_n_s_update) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[173], &__pyx_kp_u_utf_8) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[174], &__pyx_n_s_value) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[175], &__pyx_n_s_w) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[176], &__pyx_n_s_window) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[177], &__pyx_n_s_window_name) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[178], &__pyx_n_s_window_pos) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[179], &__pyx_n_s_window_rat) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[180], &__pyx_n_s_window_size) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[181], &__pyx_n_s_x) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (__Pyx_InitString(__pyx_string_tab[182], &__pyx_n_s_y) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   #endif
   #if !CYTHON_USE_MODULE_STATE
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
@@ -13994,89 +13937,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_NeObjC(PyObject *op1, PyObject *op2, 
     }
     return (
         PyObject_RichCompare(op1, op2, Py_NE));
-}
-
-/* UnpackUnboundCMethod */
-static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
-    PyObject *method;
-    method = __Pyx_PyObject_GetAttrStr(target->type, *target->method_name);
-    if (unlikely(!method))
-        return -1;
-    target->method = method;
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION >= 3
-    if (likely(__Pyx_TypeCheck(method, &PyMethodDescr_Type)))
-    #endif
-    {
-        PyMethodDescrObject *descr = (PyMethodDescrObject*) method;
-        target->func = descr->d_method->ml_meth;
-        target->flag = descr->d_method->ml_flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_STACKLESS);
-    }
-#endif
-    return 0;
-}
-
-/* CallUnboundCMethod1 */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg) {
-    if (likely(cfunc->func)) {
-        int flag = cfunc->flag;
-        if (flag == METH_O) {
-            return (*(cfunc->func))(self, arg);
-        } else if ((PY_VERSION_HEX >= 0x030600B1) && flag == METH_FASTCALL) {
-            if ((PY_VERSION_HEX >= 0x030700A0)) {
-                return (*(__Pyx_PyCFunctionFast)(void*)(PyCFunction)cfunc->func)(self, &arg, 1);
-            } else {
-                return (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)cfunc->func)(self, &arg, 1, NULL);
-            }
-        } else if ((PY_VERSION_HEX >= 0x030700A0) && flag == (METH_FASTCALL | METH_KEYWORDS)) {
-            return (*(__Pyx_PyCFunctionFastWithKeywords)(void*)(PyCFunction)cfunc->func)(self, &arg, 1, NULL);
-        }
-    }
-    return __Pyx__CallUnboundCMethod1(cfunc, self, arg);
-}
-#endif
-static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg){
-    PyObject *args, *result = NULL;
-    if (unlikely(!cfunc->func && !cfunc->method) && unlikely(__Pyx_TryUnpackUnboundCMethod(cfunc) < 0)) return NULL;
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (cfunc->func && (cfunc->flag & METH_VARARGS)) {
-        args = PyTuple_New(1);
-        if (unlikely(!args)) goto bad;
-        Py_INCREF(arg);
-        PyTuple_SET_ITEM(args, 0, arg);
-        if (cfunc->flag & METH_KEYWORDS)
-            result = (*(PyCFunctionWithKeywords)(void*)(PyCFunction)cfunc->func)(self, args, NULL);
-        else
-            result = (*cfunc->func)(self, args);
-    } else {
-        args = PyTuple_New(2);
-        if (unlikely(!args)) goto bad;
-        Py_INCREF(self);
-        PyTuple_SET_ITEM(args, 0, self);
-        Py_INCREF(arg);
-        PyTuple_SET_ITEM(args, 1, arg);
-        result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
-    }
-#else
-    args = PyTuple_Pack(2, self, arg);
-    if (unlikely(!args)) goto bad;
-    result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
-#endif
-bad:
-    Py_XDECREF(args);
-    return result;
-}
-
-/* RaiseUnexpectedTypeError */
-static int
-__Pyx_RaiseUnexpectedTypeError(const char *expected, PyObject *obj)
-{
-    __Pyx_TypeName obj_type_name = __Pyx_PyType_GetName(Py_TYPE(obj));
-    PyErr_Format(PyExc_TypeError, "Expected %s, got " __Pyx_FMT_TYPENAME,
-                 expected, obj_type_name);
-    __Pyx_DECREF_TypeName(obj_type_name);
-    return 0;
 }
 
 /* UnicodeConcatInPlace */

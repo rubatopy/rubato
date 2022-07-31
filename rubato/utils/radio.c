@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.utils.radio",
         "sources": [
-            "rubato/utils/radio.py"
+            "rubato\\utils\\radio.py"
         ]
     },
     "module_name": "rubato.utils.radio"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/utils/radio.py",
+  "rubato\\\\utils\\\\radio.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1996,7 +1996,7 @@ static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_rubato_utils_radio[] = "rubato.utils.radio";
 static const char __pyx_k_SDL_MOUSEBUTTONDOWN[] = "SDL_MOUSEBUTTONDOWN";
-static const char __pyx_k_rubato_utils_radio_py[] = "rubato/utils/radio.py";
+static const char __pyx_k_rubato_utils_radio_py[] = "rubato\\utils\\radio.py";
 static const char __pyx_k_SDL_WINDOWEVENT_RESIZED[] = "SDL_WINDOWEVENT_RESIZED";
 static const char __pyx_k_Listener_already_registered[] = "Listener already registered";
 static const char __pyx_k_Broadcast_system_manages_all_ev[] = "\n    Broadcast system manages all events and inter-class communication.\n    Handles event callbacks during the beginning of each\n    :func:`Game.update() <rubato.game.update>` call.\n\n    Attributes:\n        listeners (dict[str, Callable]): A dictionary with all of the\n            active listeners.\n    ";

@@ -5,7 +5,7 @@
     "distutils": {
         "name": "rubato.game",
         "sources": [
-            "rubato/game.py"
+            "rubato\\game.py"
         ]
     },
     "module_name": "rubato.game"
@@ -1167,7 +1167,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato/game.py",
+  "rubato\\\\game.py",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -1977,7 +1977,7 @@ static const char __pyx_k_Dict_str_Scene[] = "Dict[str, Scene]";
 static const char __pyx_k_GameProperties[] = "GameProperties";
 static const char __pyx_k_Game_set_scene[] = "Game.set_scene";
 static const char __pyx_k_private_update[] = "private_update";
-static const char __pyx_k_rubato_game_py[] = "rubato/game.py";
+static const char __pyx_k_rubato_game_py[] = "rubato\\game.py";
 static const char __pyx_k_with_traceback[] = "with_traceback";
 static const char __pyx_k_physics_counter[] = "physics_counter";
 static const char __pyx_k_A_scene_with_name[] = "A scene with name '";
