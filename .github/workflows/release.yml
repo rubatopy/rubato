@@ -1,0 +1,64 @@
+name: Release
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    releaser:
+        name: Release ${{ matrix.os }} (Python ${{ matrix.python-version }})
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ["3.10"]
+                os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+        env:
+            RUBATO_VERSION: ${{ github.event.release.tagName }}
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v4
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Install requirements
+              run: |
+                  pip install --upgrade pip
+                  git submodule update --init --recursive
+                  pip install Cython==3.0.0a10 --install-option="--no-cython-compile"
+                  python setup.py egg_info
+                  pip install `grep -v '^\[' rubato.egg-info/requires.txt`
+                  pip install build twine
+
+            - name: Build
+              run: python -m build
+
+            - name: Publish to PyPI
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                  user: __token__
+                  password: ${{ secrets.PYPI_API_TOKEN }}
+                  skip_existing: true
+                  repository_url: https://test.pypi.org/legacy/
+
+            - name: Upload Wheel
+              uses: AButler/upload-release-assets@v2.0
+              with:
+                  files: "dist/*.whl"
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  release-tag: ${{ github.event.release.tagName }}
+
+            - name: Upload tar.gz
+              uses: AButler/upload-release-assets@v2.0
+              with:
+                  files: "dist/*.tar.gz"
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  release-tag: ${{ github.event.release.tagName }}

@@ -3,6 +3,7 @@ from setuptools import setup
 from Cython.Build import cythonize
 import os
 
+
 def package_files(directory):
     paths = []
     for (path, _, filenames) in os.walk(directory):
@@ -12,7 +13,7 @@ def package_files(directory):
 
 
 setup(
-    version="0.0.1.dev2",
+    version=os.environ["RUBATO_VERSION"],
     package_data={"rubato": package_files("rubato/static")},
     ext_modules=cythonize(
         "rubato/**/*.py",
