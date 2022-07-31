@@ -33,10 +33,6 @@ jobs:
             - name: Build Docs
               run: make docs-save
 
-            - name: Transfer Docs to gh-pages (branch)
-              run: |
-                  (cd docs && make save)
-
             - name: Deploy to Netlify
               uses: nwtgck/actions-netlify@v1.2
               with:
