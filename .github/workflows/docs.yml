@@ -1,21 +1,23 @@
-name: PR Docs Preview
+name: Docs Preview Build
 
 on:
-    pull_request:
-        types:
-            - opened
-            - reopened
-            - synchronize
-            - closed
+    push:
+        branches-ignore:
+            - "main"
 
-concurrency: preview-${{ github.ref }}
+concurrency:
+    cancel-in-progress: true
+    group: preview-${{ github.ref }}
 
 jobs:
     docs:
-        name: Deploy Docs
+        name: Build Docs
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
             - uses: actions/setup-python@v2
               with:
@@ -29,11 +31,18 @@ jobs:
                   pip install `grep -v '^\[' rubato.egg-info/requires.txt`
 
             - name: Build Docs
-              run: (cd docs && make save)
+              run: |
+                  (cd docs && make save)
+                  cp -r docs/build/html docs/temp
 
-            - name: Deploy preview
-              uses: rossjrw/pr-preview-action@v1
+            - name: Commit files
+              run: |
+                  git config --local user.email "martin.chapino@gmail.com"
+                  git config --local user.name "Martin Chaperot [bot]"
+                  git commit -m "Build Docs" -a
+
+            - name: Push changes
+              uses: ad-m/github-push-action@master
               with:
-                  source-dir: ./docs/build/html
-                  preview-branch: gh-pages
-                  umbrella-dir: docs/pr-preview
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: ${{ github.ref }}
