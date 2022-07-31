@@ -12,8 +12,8 @@ poweruser. And all that finally with some legible documentation.
 from typing import Literal
 from warnings import simplefilter
 from importlib.resources import files
-import os, sys
 from pathlib import Path
+import os, sys
 
 # Sets the sdl path to the proper rubato sdl directory, from now on all sdl imports will be relative to this directory.
 if sys.platform.startswith("darwin"):
