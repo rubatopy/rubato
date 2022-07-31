@@ -33,16 +33,17 @@ jobs:
             - name: Build Docs
               run: |
                   (cd docs && make save)
-                  cp -r docs/build/html docs/temp
 
-            - name: Commit files
-              run: |
-                  git config --local user.email "martin.chapino@gmail.com"
-                  git config --local user.name "Martin Chaperot [bot]"
-                  git commit -m "Build Docs" -a
-
-            - name: Push changes
-              uses: ad-m/github-push-action@master
+            - name: Deploy to Netlify
+              uses: nwtgck/actions-netlify@v1.2
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: ${{ github.ref }}
+                  publish-dir: "./docs/build/html"
+                  production-branch: main
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  deploy-message: "Deploy from GitHub Actions"
+                  enable-pull-request-comment: true
+                  overwrites-pull-request-comment: true
+              env:
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+              timeout-minutes: 1
