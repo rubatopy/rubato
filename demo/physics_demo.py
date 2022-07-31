@@ -10,10 +10,7 @@ import rubato as rb
 num_objs = 70
 
 # Initializes rubato
-rb.init(
-    name="rubato physics demo",
-    res=rb.Vector(1200, 1200)
-)
+rb.init(name="rubato physics demo", res=rb.Vector(1200, 1200))
 
 rb.Game.show_fps = True
 

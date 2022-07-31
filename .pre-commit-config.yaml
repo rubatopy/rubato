@@ -1,7 +1,7 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
-exclude: ^rubato/static/
-files: ^(rubato/|demo/)
+exclude: rubato/static/
+files: (rubato/|demo/)|(.c)
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v2.3.0
@@ -12,4 +12,4 @@ repos:
       rev: v2.13.8
       hooks:
           - id: pylint
-            exclude: ^(demo/)
+            exclude: (demo)
