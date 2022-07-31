@@ -139,7 +139,7 @@ class Engine:
             Returns a collision info object if a collision is detected or None if no collision is detected.
         """
         col = Engine.overlap(hitbox_a, hitbox_b)
-        if (col) is None:
+        if col is None:
             if hitbox_b in hitbox_a.colliding:
                 mani = Manifold(hitbox_a, hitbox_b)
                 hitbox_a.colliding.remove(hitbox_b)

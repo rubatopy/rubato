@@ -399,7 +399,7 @@ class Vector:
         vector_c = vector.clone()
         magnitude = vector_c.magnitude
         new = Math.clamp((magnitude), min_magnitude, max_magnitude)
-        if (new) != magnitude:
+        if new != magnitude:
             vector_c.magnitude = new
 
         return vector_c
