@@ -13,7 +13,8 @@ class Font:
     Args:
         font: The font to use. Can also be a path to a font file. Defaults to Roboto.
         size: The size of the font. Defaults to 16.
-        styles: The styles to apply to the font. Defaults to ["normal"].
+        styles: The styles to apply to the font. Defaults to [].
+            Fill with only the following: bold, italic, underline, strikethrough.
         color: The color of the font. Defaults to Color(0, 0, 0).
     """
 
@@ -37,7 +38,7 @@ class Font:
         self,
         font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "PressStart"] = "Roboto",
         size: int = 16,
-        styles: List[Literal["bold", "italic", "underline", "strikethrough"]] = [],
+        styles: List[str] = [],
         color: Color = Color(0, 0, 0),
     ):
         self._size = size
