@@ -6,9 +6,9 @@ Before we can design our game, we need to do a few things to set rubato up.
 
 First, follow the :doc:`setup guide <../../intro>`, naming your file ``main.py``.
 
-Then, download and extracted these
-`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_files/platformer_files.zip>`_ 
-in the same directory as your ``main.py`` file (so you have ``main.py`` and the ``platformer_files`` folder in the same directory.)
+Then, download and extract these
+`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_files/platformer_files.zip>`_
+into the same directory as your ``main.py`` file (so you have ``main.py`` and the ``platformer_files`` folder in the same directory.)
 
 At this point, your ``main.py`` file should look like this:
 
@@ -55,7 +55,7 @@ Here we're introducing a new class: :func:`rb.Vector <rubato.utils.vector.Vector
 A rubato :func:`Vector <rubato.utils.vector.Vector>` is an object that contains two numbers, x and y.
 A Vector can represent a point, dimensions, a mathematical vector, or anything else that has x and y
 parameters. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
-many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a 
+many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a
 deeper look at what that means in a bit.
 
 At this point, running the game should look like this:
@@ -82,5 +82,5 @@ Here is what your main.py should look like:
     rb.begin()
 
 
-If you made it here, great! We're ready to build the platformer. 
+If you made it here, great! We're ready to build the platformer.
 Next, we'll create a player and add him to the game.
