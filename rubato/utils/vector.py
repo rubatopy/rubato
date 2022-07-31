@@ -19,11 +19,11 @@ class Vector:
         y: The y coordinate. Defaults to 0.
 
     Attributes:
-        x (float | int): The x coordinate.
-        y (float | int): The y coordinate.
+        x (float): The x coordinate.
+        y (float): The y coordinate.
     """
-    x: float | int
-    y: float | int
+    x = cython.declare(cython.float, visibility="public")
+    y = cython.declare(cython.float, visibility="public")
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
         if type(x) in (float, int) and type(y) in (float, int):
