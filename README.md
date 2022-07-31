@@ -14,7 +14,6 @@
 &nbsp;
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/2048px-LinkedIn_icon_circle.svg.png" alt="Linkedin Page" width="25"/>](https://www.linkedin.com/company/rubatopy/)
 &nbsp;
-[<img src="https://freepngimg.com/thumb/logo/64838-icons-symbol-envelope-computer-mail-logo-email.png" alt="Email" width="25"/>](mailto:info@rubato.app)
 
 rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and game object management, event listener system and more all come prepackaged.
 
