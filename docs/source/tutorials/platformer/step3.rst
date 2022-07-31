@@ -150,7 +150,7 @@ In the next step, we'll be building the level for the player to explore.
 
         # Create animation and initialize states
         p_animation = rb.Spritesheet.from_folder(
-            rel_path="platformer_files/dino",
+            rel_path="files/dino",
             sprite_size=rb.Vector(24, 24),
             default_state="idle",
         )

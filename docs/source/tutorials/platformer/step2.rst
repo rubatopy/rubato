@@ -64,7 +64,7 @@ left side of the screen.
 If we ran this now, we won't see our player because Game Objects don't draw anything by themselves. Let's change that
 by adding a simple Animation to the player.
 
-You will see a few image files inside the ``platformer_files/dino`` directory. Each of these image
+You will see a few image files inside the ``files/dino`` directory. Each of these image
 files is a spritesheet for a single animation. Instead of loading each frame and image ourselves, we can use
 :func:`rb.Spritesheet.from_folder() <rubato.struct.gameobject.sprites.spritesheet.Spritesheet.from_folder>` to load them
 all at once. This function takes the path to a folder and returns an
@@ -83,7 +83,7 @@ return to when other states finish. In our case, this will be the idle state.
 
     # Create animation and initialize states
     p_animation = rb.Spritesheet.from_folder(
-        rel_path="platformer_files/dino",
+        rel_path="files/dino",
         sprite_size=rb.Vector(24, 24),
         default_state="idle",
     )
@@ -124,7 +124,7 @@ Here is what you should have so far if you've been following along:
 
     # Create animation and initialize states
     p_animation = rb.Spritesheet.from_folder(
-        rel_path="platformer_files/dino",
+        rel_path="files/dino",
         sprite_size=rb.Vector(24, 24),
         default_state="idle",
     )

@@ -151,7 +151,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         # Create animation and initialize states
         p_animation = rb.Spritesheet.from_folder(
-            rel_path="platformer_files/dino",
+            rel_path="files/dino",
             sprite_size=rb.Vector(24, 24),
             default_state="idle",
         )

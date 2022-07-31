@@ -7,8 +7,8 @@ Before we can design our game, we need to do a few things to set rubato up.
 First, follow the :doc:`setup guide <../../intro>`, naming your file ``main.py``.
 
 Then, download and extract these
-`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_files/platformer_files.zip>`_
-into the same directory as your ``main.py`` file (so you have ``main.py`` and the ``platformer_files`` folder in the same directory.)
+`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/files/files.zip>`_
+into the same directory as your ``main.py`` file (so you have ``main.py`` and the ``files`` folder in the same directory.)
 
 At this point, your ``main.py`` file should look like this:
 
@@ -20,7 +20,7 @@ At this point, your ``main.py`` file should look like this:
 
     rb.begin()
 
-Running ``main.py`` using ``python3 main.py`` should result in a window similar to this appearing:
+Running ``main.py`` using ``python main.py`` should result in a window similar to this appearing:
 
 .. image:: /_static/tutorials_static/platformer/step1/1.png
     :width: 25%

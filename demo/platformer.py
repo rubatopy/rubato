@@ -33,7 +33,7 @@ player = rb.GameObject(
 
 # Create animation and initialize states
 p_animation = rb.Spritesheet.from_folder(
-    rel_path="platformer_files/dino",
+    rel_path="files/dino",
     sprite_size=rb.Vector(24, 24),
     default_state="idle",
 )
@@ -144,7 +144,7 @@ triggers = [
 
 # Create animation for portal
 all_portal_images = rb.Spritesheet(
-    rel_path="platformer_files/portals/portal1_spritesheet.png",
+    rel_path="files/portals/portal1_spritesheet.png",
     sprite_size=rb.Vector(32, 32),
     grid_size=rb.Vector(8, 1),
 )

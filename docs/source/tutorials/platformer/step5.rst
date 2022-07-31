@@ -130,7 +130,7 @@ This was just the tip of the iceberg of what rubato can do.
 
         # Create animation and initialize states
         p_animation = rb.Spritesheet.from_folder(
-            rel_path="platformer_files/dino",
+            rel_path="files/dino",
             sprite_size=rb.Vector(24, 24),
             default_state="idle",
         )
