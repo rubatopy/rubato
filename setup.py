@@ -1,7 +1,7 @@
 """Setup File"""
 from setuptools import setup
-import os
 from Cython.Build import cythonize
+import os
 
 def package_files(directory):
     paths = []
