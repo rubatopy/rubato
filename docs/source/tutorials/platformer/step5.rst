@@ -2,7 +2,7 @@
 Step 5 - Finishing Touches
 ###############################
 
-Welcome to part five of making a platformer in rubato. In this step, we will be adding the finishing touches to our game. We're almost done!
+This is the final step! We'll be making small quality-of-life changes to the game to make it play more like a real platformer.
 
 .. important::
 
@@ -16,11 +16,13 @@ Jump Limit
 
 Right now, when you move around, you'll find that you quickly run out of jumps. This is because we implemented a 2 jump limit. However,
 once you run out of jumps, you can't do anything to reset your jump counter. We want this counter to be reset whenever you land on the ground. To do
-this, we will add our ground detection hitbox to the player, making sure to set the trigger parameter to true. This prevents the hitbox from
-colliding. It will still detect collisions and call the relevant callbacks. We will also define a player_collide callback that will be called
-when the player's ground detector collides. When this happens, we use the provided collision
-:func:`Manifold <rubato.struct.gameobject.physics.engine.Manifold>` to make sure the other collider is a ground hitbox, that we are not already grounded,
-and that we are indeed falling towards the ground. This code looks like this:
+this, we will add a ground detection hitbox to the player, making sure to set the ``trigger`` parameter to true.
+
+Making a hitbox a "trigger" prevents the hitbox from colliding. It will still detect collisions and call the relevant callbacks.
+We will define a player_collide callback that will be called when the player's ground detector collides.
+When this happens, we use the provided collision :func:`Manifold <rubato.struct.gameobject.physics.engine.Manifold>` to
+make sure the other collider is a ground hitbox, that we are not already grounded, and that we are indeed falling towards the ground.
+That code looks like this:
 
 .. code-block:: python
 
@@ -82,6 +84,10 @@ space there! Remember that we set our level to be 120% the width of the screen. 
     main.update = update # This line should already exist in your code
     main.fixed_update = fixed_update
 
+``lerp`` and ``clamp`` are both built-in methods to the :func:`rb.Math <rubato.utils.rb_math.Math>` class.
+Note that we've used :func:`rb.Time.fixed_delta <rubato.utils.rb_time.Time.fixed_delta>`, which represents the
+time elapsed since the last update to the physics engine, in seconds. This is to make our camera follow the player more smoothly,
+in line with the fps.
 
 ***********
 To Conclude
@@ -91,7 +97,7 @@ To Conclude
 
 This was just the tip of the iceberg of what rubato can do.
 
-.. dropdown:: To summarize, this is what you should have now
+.. dropdown:: If you got lost, here's the full code, just for kicks:
 
     .. code-block:: python
 
@@ -111,7 +117,7 @@ This was just the tip of the iceberg of what rubato can do.
         # Tracks the number of jumps the player has left
         jumps = 2
         # size of level
-        level_size = rb.Display.res.x * 1.2
+        level_size = int(rb.Display.res.x * 1.2)
 
         # Create a scene
         main = rb.Scene(background_color=rb.Color.cyan.lighter())
@@ -260,16 +266,15 @@ This was just the tip of the iceberg of what rubato can do.
         # begin the game
         rb.begin()
 
-While creating this tutorial, we also added some features that we didn't cover in this tutorial. Some of these features include: win detection, more
-complex animation switching, and a respawn system.
+We're also including a version with some more in-depth features that weren't covered in this tutorial, including
+win detection, advanced animation switching, and a respawn system.
 
-.. dropdown:: Here is what our code looks like.
+.. dropdown:: Here is what that code looks like:
 
     .. literalinclude:: ../../../../demo/platformer.py
         :language: python
         :lines: 6-
         :caption: platformer.py
 
-We hope you enjoyed this tutorial! If you have any questions, please feel free to contact us on our `Discord server <https://discord.gg/rdce5GXRrC>`_ or by `sending us an email <mailto:info@rubato.app>`_!
-
-Thank you and looking forward to seeing all the thing you can build!
+We hope this tutorial gave enough detail as to the basics of rubato to let you make your own games and simulations!
+If you have questions or feedback, please feel free to contact us on our `Discord server <https://discord.gg/rdce5GXRrC>`_ or by `sending us an email <mailto:info@rubato.app>`_!
