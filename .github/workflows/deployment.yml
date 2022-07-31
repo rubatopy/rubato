@@ -37,8 +37,10 @@ jobs:
               run: |
                   pip install --upgrade pip
                   git submodule update --init --recursive
-                  pip install -e .[dev]
+                  python setup.py egg_info
+                  pip install `grep -v '^\[' rubato.egg-info/requires.txt`
                   pip install build twine
+
             - name: Build
               run: python -m build
 
