@@ -16,6 +16,10 @@ from contextlib import suppress
 from . import Input, Display, Vector
 
 class Events:
+    """
+    Describes all rubato-fired events that can be listened for.
+    """
+
     KEYUP = "KEYUP"  # Fired when a key is released
     KEYDOWN = "KEYDOWN"  # Fired when a key is pressed
     KEYHOLD = "KEYHOLD"  # Fired when a key is held down (After the initial keydown)

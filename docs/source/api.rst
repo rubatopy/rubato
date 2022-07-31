@@ -322,6 +322,7 @@ Radio
 =====
 .. automodule:: rubato.utils.radio
     :members:
+    :undoc-members:
 
 .. _errors:
 

@@ -2,12 +2,12 @@
 Step 3 - Adding Player Behavior
 ###############################
 
-Welcome to the third part of making a platformer in rubato. In this step, we will be adding player behavior to our character.
+In this step, we will be adding player behavior to our character.
 
-We want our character to have to behaviors. First, we want to add movement behavior. This includes moving left, right and jumping. We also want our
-player to be affected by physics. This means that our player will be affected by gravity and will collide with other physics objects.
+We want our dinosaur to be able to move left, right and jump.
+We also want to apply physics laws to him, such as gravity and collisions with future obstacles.
 
-First, let's add physics to our player. To do this, we will add a :func:`RigidBody <rubato.classes.components.rigidbody.RigidBody>` component to our
+First, let's add physics to our player. To do this, we will add a :func:`RigidBody <rubato.struct.gameobject.physics.rigidbody.RigidBody>` component to our
 player. Add the following code after the animation code, but before the ``main.add`` call.
 
 .. code-block:: python
@@ -20,9 +20,9 @@ player. Add the following code after the animation code, but before the ``main.a
     )
     player.add(player_body)
 
-This enables physics for our player. You should see the dinosaur slowly falling down the screen. 2 things to note here:
+This enables physics for our player. Running the file, you should see the dinosaur slowly falling down the screen. 2 things to note here:
     * We base the gravity off of our Display resolution so that scaling our screen does not affect the gravity.
-    * ``pos_correction`` is the amount of correction to ensure that our player does not get stuck in the ground.
+    * ``pos_correction`` is the amount we correct the position of the player every frame if it is colliding with something. Setting it to 1 means that all overlaps are fully corrected in one frame.
 
 Let's also add a hitbox to our player. For simplicity, we will use a rectangular hitbox. Add the following code right after the previous block.
 
@@ -35,7 +35,8 @@ Let's also add a hitbox to our player. For simplicity, we will use a rectangular
         tag="player",
     ))
 
-Currently the game will look the same as before but adding the following line right after the init call will show you what the hitbox looks like.
+This rectangle won't actually draw unless the following line is added.
+Feel free to remove the following line once you've confirmed that the rectangle was added properly.
 
 .. code-block:: python
 
@@ -57,7 +58,7 @@ Next let's add movement. Since we need to check player input every frame, lets c
     main.update = update
 
 Add the above code between the ``main.add`` and the ``rb.begin`` lines. Anything inside this custom update function will be run every frame. Inside
-this function, we will check for player input and update the player's velocity accordingly.
+this function, we will check for player input and update the player's velocity accordingly:
 
 .. code-block:: python
 
@@ -104,19 +105,22 @@ Also at the top of your file, under the debug line, add the following:
     # Tracks the number of jumps the player has left
     jumps = 2
 
-The ``handle_keydown`` function does a lot so let's break it down line by line. First, we use the ``global`` keyword to declare that we are changing
-the global jumps variable. This variable will be used later when dealing with ground. Next, we check if the keydown event's key is "w" and if you still
-have jumps remaining. If so, we set your upwards velocity to 800 (remember that negative y values are up on the screen). Next depending on how many
-jumps you have we set a different jump animation. The first is a regular jump and the second is a summersault. Finally, we decrement the number of
-jumps you have left.
+Let's break this down.
+
+First, we use the ``global`` keyword to declare that we are changing the global jumps variable.
+This variable will be used later when dealing with ground contact. Next, we check if the keydown event's key is "w" and if you still
+have jumps remaining. If so, we set your upwards velocity to 800 (remember that negative y values represent up on the screen).
+We also want to vary the jump animation on your last jump. The first is a regular jump and the second is a somersault.
+Finally, we decrement the number of jumps you have left, so you can't jump infinitely.
 
 The :code:`rb.Radio.listen("KEYDOWN", handle_keydown)` line is where we tell rubato to listen for a keydown event and run the ``handle_keydown`` function
-when an event is broadcast.
+whenever that event is broadcast. Note that you can also replace ``"KEYDOWN"`` with ``rb.Events.KEYDOWN`` and get the same functionality.
+:func:`Events <rubato.utils.radio.Events>` have all other rubato-triggered events that you can listen for.
 
-At this point you should be able to move your character around and jump twice before falling to your doom. In the next step we will add a level for you
-to run around in.
+Running the script at this point should show a falling dinosaur, and let you dump twice and move a little left and right before falling to your doom.
+In the next step, we'll be building the level for the player to explore.
 
-.. dropdown:: Here is all the code we have done at this point:
+.. dropdown:: Here's the full source code if you've been following along:
 
     .. code-block:: python
 
