@@ -42,8 +42,8 @@ class Hitbox(Component):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -52,8 +52,8 @@ class Hitbox(Component):
         self.debug: bool = debug
         self.trigger: bool = trigger
         self.scale: int = scale
-        self.on_collide: Callable = on_collide
-        self.on_exit: Callable = on_exit
+        self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
+        self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
         self.color: Color = color
         self.singular: bool = False
         self.tag: str = tag
@@ -122,8 +122,8 @@ class Polygon(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -148,7 +148,8 @@ class Polygon(Hitbox):
         verts = self.transformed_verts()
         max_dist = -Math.INF
         for vert in verts:
-            if (dist := vert.distance_between(self.offset)) > max_dist:
+            dist = vert.distance_between(self.offset)
+            if (dist) > max_dist:
                 max_dist = dist
         return round(max_dist, 10)
 
@@ -246,9 +247,7 @@ class Polygon(Hitbox):
             Draw.queue_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
 
     @classmethod
-    def generate_polygon(cls,
-                         num_sides: int,
-                         radius: float | int = 1) -> List[Vector]:
+    def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> List[Vector]:
         """
         Generates the **vertices** of a regular polygon with a specified number of sides and a radius.
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
@@ -268,6 +267,7 @@ class Polygon(Hitbox):
 
         rotangle = 360 / num_sides
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
+
 
 class Rectangle(Hitbox):
     """
@@ -301,8 +301,8 @@ class Rectangle(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -640,8 +640,8 @@ class Circle(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: int = 1,
-        on_collide: Callable = lambda manifold: None,
-        on_exit: Callable = lambda manifold: None,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
         z_index: int = 0
@@ -709,7 +709,7 @@ class Circle(Hitbox):
             return
 
         relative_pos: Vector = None
-        scaled_rad: float = None
+        scaled_rad: float = 0
 
         if self.color:
             relative_pos = camera.transform(self.pos)

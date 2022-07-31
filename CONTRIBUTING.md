@@ -7,17 +7,19 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Setting up dev environment
 
-You need to install our dev requirements and setup pre-commit in order to work on Rubato.
+Setting up your environment is easy. Just run:
 
 ```shell
-git submodule update --init --recursive
-pip install --editable .[dev]
-pre-commit install -f
-pre-commit run --all-files
+make setup
 ```
 
-Note: be sure to escape the '\[' and '\]' characters if you're using zsh or a similar shell.
-You should be good to go. Commits take a bit of time to check (around 10-15 seconds) so be patient.
+This will take a couple minutes the first time so be patient. Once this finishes, everything is ready to go!
+
+rubato is a Cython project. To compile the code, run:
+
+```shell
+make build
+```
 
 ### To run tests
 
@@ -62,7 +64,7 @@ The docs are built and publish automatically
 ### To run the docs locally
 
 ```shell
-pip install --editable .[docs] # install requirements for docs
+pip install -e .[docs] # install requirements for docs
 make docs-live # start doc server
 ```
 

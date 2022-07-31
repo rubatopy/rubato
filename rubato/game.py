@@ -2,9 +2,9 @@
 The main game module. It controls everything in the game.
 """
 from __future__ import annotations
-import sys
-import sdl2, sdl2.sdlttf
 from typing import TYPE_CHECKING, Dict
+import sdl2, sdl2.sdlttf
+import sys
 
 from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw
 
@@ -184,7 +184,8 @@ class Game(metaclass=GameProperties):
 
             cls.update()
 
-            if curr := cls.current:
+            curr = cls.current
+            if curr: # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
                     curr.private_paused_update()

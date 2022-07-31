@@ -56,7 +56,7 @@ def test_init(monkeypatch):
     assert rubato.Time.normal_delta == 1000 / 60
     assert rubato.Time.physics_fps == 30
 
-    set_icon.assert_called_once_with(files("rubato.static.png").joinpath("logo_filled.png"))
+    set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.png")))
     set_icon.reset_mock()
     sdl2.SDL_Quit()
     rubato.init(

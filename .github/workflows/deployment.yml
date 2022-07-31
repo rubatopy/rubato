@@ -37,8 +37,11 @@ jobs:
               run: |
                   pip install --upgrade pip
                   git submodule update --init --recursive
-                  pip install -e .[dev]
+                  pip install Cython==3.0.0a10 --install-option="--no-cython-compile"
+                  python setup.py egg_info
+                  pip install `grep -v '^\[' rubato.egg-info/requires.txt`
                   pip install build twine
+
             - name: Build
               run: python -m build
 

@@ -77,8 +77,8 @@ class Animation(Component):
         return self._fps
 
     @fps.setter
-    def fps(self, fps):
-        self._fps = fps
+    def fps(self, new):
+        self._fps = new
         self._time_step = 1000 / self._fps
 
     @property
