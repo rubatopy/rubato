@@ -51,3 +51,7 @@ delete-c:
 delete-build:
 	@make delete-bin
 	@make delete-c
+
+pypi-build:
+	@rm -rf dist
+	@python -m build
