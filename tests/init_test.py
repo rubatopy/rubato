@@ -65,7 +65,7 @@ def test_init(monkeypatch):
         res=rubato.Vector(1080, 1080),
         target_fps=60,
         physics_fps=30,
-        icon=files("rubato.static.png").joinpath("logo_filled.ico"),
+        icon=str(files("rubato.static.png").joinpath("logo_filled.ico")),
         hidden=True,
     )
-    set_icon.assert_called_once_with(files("rubato.static.png").joinpath("logo_filled.ico"))
+    set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.ico")))

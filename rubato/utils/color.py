@@ -58,7 +58,7 @@ class Color:
 
     # [/grayscaledef]
 
-    def __init__(self, r: int = 0, g: int = 0, b: int = 0, a: int = 255):
+    def __init__(self, r: int | float = 0, g: int | float = 0, b: int | float = 0, a: int | float = 255):
         self.r = int(Math.clamp(r, 0, 255))
         self.g = int(Math.clamp(g, 0, 255))
         self.b = int(Math.clamp(b, 0, 255))
@@ -244,10 +244,9 @@ class Color:
         if lv < 8:
             raise ValueError(f"Invalid hex string: {h}")
         try:
-            h = tuple(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+            return cls(*(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)))
         except ValueError:
             raise ValueError(f"Invalid hex string: {h}") from ValueError
-        return cls(h[0], h[1], h[2], h[3])
 
     @classmethod
     def from_hsv(cls, h: float, s: float, v: float, a: float = 1) -> Color:
