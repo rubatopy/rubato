@@ -1,24 +1,19 @@
-name: Docs
+name: Docs Preview Build
 
 on:
-    pull_request:
-        types: [synchronize, opened, reopened, edited]
+    push:
+        branches-ignore:
+            - "main"
+
+concurrency:
+    cancel-in-progress: true
+    group: preview-${{ github.ref }}
 
 jobs:
     docs:
-        name: Deploy Docs
+        name: Build Docs
         runs-on: ubuntu-latest
-        env:
-            LOCATION: "temp/${{ github.event.pull_request.number }}"
         steps:
-            - name: Comment PR
-              uses: thollander/actions-comment-pull-request@v1
-              with:
-                  message: |
-                      Docs will be available soon.
-                      <!-- DO NOT DELETE THIS COMMENTED LINE. -->
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
             - uses: actions/checkout@v2
               with:
                   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
@@ -40,44 +35,22 @@ jobs:
 
             - name: Transfer Docs to gh-pages (branch)
               run: |
-                  rm -rf ${{ env.LOCATION }}
-                  mkdir -p temp
-                  cp -r docs/build/html ${{ env.LOCATION }}
-                  git add .
-                  git stash push
-                  git fetch
-                  git checkout gh-pages
-                  git pull
-                  rm -rf docs
-                  mkdir -p ${{ env.LOCATION }}
-                  git add .
-                  git rm -rf ${{ env.LOCATION }}
-                  git stash pop
+                  (cd docs && make save)
 
-            - name: Commit files
-              run: |
-                  git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                  git config --local user.name "github-actions[bot]"
-                  if [[ `git status --porcelain` ]]; then
-                    git add .
-                    git commit -m "Build Docs pr${{ github.event.pull_request.number }}" -a
-                  fi
-
-            - name: Push changes
-              uses: ad-m/github-push-action@master
+            - name: Deploy to Netlify
+              uses: nwtgck/actions-netlify@v1.2
               with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: gh-pages
-
-            - name: Wait for deployment
-              run: sleep 2m 30s
-              shell: bash
-
-            - name: Edit PR comment
-              uses: thollander/actions-comment-pull-request@v1
-              with:
-                  message: |
-                      Docs are available [here](https://rubato.app/${{ env.LOCATION }}).
-                      <!-- DO NOT DELETE THIS COMMENTED LINE. -->
-                  comment_includes: "<!-- DO NOT DELETE THIS COMMENTED LINE. -->"
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  publish-dir: "./docs/build/html"
+                  production-branch: main
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  deploy-message: "Deploy from GitHub Actions"
+                  enable-pull-request-comment: true
+                  enable-commit-comment: false
+                  overwrites-pull-request-comment: true
+                  alias: ${{ github.head_ref }}
+                  github-deployment-environment: Preview-${{ github.ref }}
+                  github-deployment-description: "Preview build for ${{ github.ref }}"
+              env:
+                  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+                  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+              timeout-minutes: 1
