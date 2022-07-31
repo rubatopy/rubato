@@ -155,7 +155,7 @@ class Text(Component):
                 self._text,
                 self._justify,
                 self._width,
-                (self.gameobj.rotation if self.gameobj else 0) + self.rot_offset,
+                int((self.gameobj.rotation if self.gameobj else 0) + self.rot_offset),
             )
         )
 

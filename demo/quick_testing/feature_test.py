@@ -6,4 +6,4 @@ def a():
     pass
 
 
-print(rb.Vector(1, 1)[2])
+print(rb.Vector(1, 1)[1])
