@@ -6,7 +6,10 @@ Requires rubato 2.1.0 or later.
 import rubato as rb
 
 # initialize a new game
-rb.init(name="Platformer Demo", res=rb.Vector(1920, 1080))
+rb.init(
+    name="Platformer Demo",  # Set a name
+    res=rb.Vector(1920, 1080),  # Increase the window resolution
+)
 
 # Change the global debug level
 # rb.Game.debug = True
@@ -22,14 +25,21 @@ level_size = int(rb.Display.res.x * 1.2)
 # create the scene for level one
 main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
-# create the player
-player = rb.GameObject(pos=rb.Display.center_left + rb.Vector(50, 0), z_index=1)
+# Create the player and set its starting position
+player = rb.GameObject(
+    pos=rb.Display.center_left + rb.Vector(50, 0),
+    z_index=1,
+)
 
 # Create animation and initialize states
-p_animation = rb.Spritesheet.from_folder("sprites/dino/blue", rb.Vector(24, 24), default_state="idle")
+p_animation = rb.Spritesheet.from_folder(
+    rel_path="files/dino",
+    sprite_size=rb.Vector(24, 24),
+    default_state="idle",
+)
 p_animation.scale = rb.Vector(4, 4)
-p_animation.fps = 10
-player.add(p_animation)
+p_animation.fps = 10  # The frames will change 10 times a second
+player.add(p_animation)  # Add the animation component to the player
 
 # define a collision handler
 won = False
@@ -59,7 +69,6 @@ def player_collide(col_info: rb.Manifold):
 
 
 # add a hitbox to the player with the collider
-
 player.add(rb.Rectangle(width=64, height=64, tag="player"))
 # add a ground detector
 player.add(rb.Rectangle(
@@ -119,8 +128,10 @@ obstacles = [
     )),
 ]
 
-# create triggers
+for obstacle in obstacles:
+    obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
 
+# create triggers
 triggers = [
     rb.GameObject(pos=rb.Vector(950, rb.Display.bottom -
                                 45),).add(rb.Rectangle(
@@ -131,12 +142,9 @@ triggers = [
                                 )),
 ]
 
-for obstacle in obstacles:
-    obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
-
 # Create animation for portal
 all_portal_images = rb.Spritesheet(
-    rel_path="sprites/portals/portal1_spritesheet.png",
+    rel_path="files/portals/portal1_spritesheet.png",
     sprite_size=rb.Vector(32, 32),
     grid_size=rb.Vector(8, 1),
 )
@@ -162,6 +170,7 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 
 
 # define a custom update function
+# this function is run every frame
 def update():
     global grounded
     # check for user directional input
@@ -201,8 +210,9 @@ def update():
 # define a custom fixed update function
 def fixed_update():
     # have the camera follow the player
-    camera_ideal = rb.Math.clamp(player.pos.x + rb.Display.res.x / 4, rb.Display.center.x,
-                                 level_size - rb.Display.res.x / 2)
+    camera_ideal = rb.Math.clamp(
+        player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x / 2
+    )
     rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
 
 

@@ -5,15 +5,14 @@ Getting Started
 ************
 Installation
 ************
-Installing rubato is simple. Just run the following in a terminal:
+Installing rubato is simple. Make sure you have Python 3.10 or later installed, then run the following in a terminal:
 
 .. code-block:: console
 
     $ pip install rubato
 
 .. note::
-    | Python 3.10.x required
-    | We recommend installing python direct from python.org if you do not already have it.
+    | We recommend installing python directly from `python.org <https://www.python.org/downloads/>`_ if you do not already have it.
 
 On Windows and Mac, the dll files that SDL needs come pre-bundled with rubato, so you should be ready to go.
 
@@ -23,11 +22,11 @@ On Windows and Mac, the dll files that SDL needs come pre-bundled with rubato, s
 
         $ pip install pysdl2-dll
 
-************
+**********
 Setting Up
-************
+**********
 Once you've installed rubato, setting up a new project is easy.
-To create a new blank project, simply create a new python file and type the following:
+To create a new blank project, simply create a new python file (such as ``main.py``) and type the following:
 
 .. code-block:: python
 
@@ -36,16 +35,12 @@ To create a new blank project, simply create a new python file and type the foll
     rb.init()
 
 :func:`rb.init() <rubato.init>` initializes rubato.
-An optional dictionary argument passed into :func:`rb.init() <rubato.init>` can specify such things as window size, resolution, background color, and more.
+An optional dictionary argument passed into :func:`rb.init() <rubato.init>` can specify such things as window name and size, resolution, and more.
 
 .. note::
 
     Throughout our documentation, we assume that rubato is imported as ``rb``.
-
-rubato documentation describes exactly what custom parameters you can specify when creating rubato objects or calling specific functions such as ``init()``.
-
-.. warning::
-    You should `only` interact with rubato (adding scenes, game objects, etc.) **AFTER** calling ``init()``.
+    If you used ``from rubato import *``, just delete the ``rb.`` prefix where needed.
 
 Now that rubato is ready, add the following line of code to the end of the file:
 
@@ -57,11 +52,14 @@ Now that rubato is ready, add the following line of code to the end of the file:
 Without it, rubato won't know to begin the engine cycle, and your game won't run.
 It is recommended to call :func:`rb.begin() <rubato.begin>` at the bottom of your project file as in this example.
 
-Now run your code in a terminal using ``python3 YOUR_FILENAME.py``. If you see a black square window, congrats!
+Now run your code in a terminal using ``python YOUR_FILENAME.py``. If you see a white square window, congrats!
 You're officially up and running with rubato.
+
+.. warning::
+    When you are working with rubato, make sure to only call rubato functions after calling ``init()`` and before ``begin()``.
+    Note that any code placed after ``begin()`` wont run, because the function blocks the main thread.
 
 .. note::
     Code not working? It's possible something went wrong during the dependency installation process.
     Check your terminal log for errors and reinstall rubato and the SDL dlls if necessary.
-
-you can jump straight into the :doc:`full api documentation  <api>`.
+    You can also file a bug report `here <https://github.com/rubatopy/rubato/issues>`_ if something went wrong on our end.
