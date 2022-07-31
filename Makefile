@@ -1,25 +1,23 @@
 .PHONY: all build
 
-all:
-	@make test
-	@make lint
+all: test lint
 
-test:
+test: build
 	@pytest --cov=rubato --cov-report term-missing tests -s
 
-test-rub:
+test-rub: build
 	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
 
-test-sdl:
+test-sdl: build
 	@pytest -m "sdl or rub" --cov=rubato --cov-report term-missing tests -s
 
-test-no-rub:
+test-no-rub: build
 	@pytest -m "not rub" --cov=rubato --cov-report term-missing tests
 
-test-no-sdl:
+test-no-sdl: build
 	@pytest -m "not sdl and not rub" --cov=rubato --cov-report term-missing tests -s
 
-test-indiv:
+test-indiv: build
 	@pytest tests -k "$(test)"
 
 lint:
@@ -48,9 +46,7 @@ delete-c:
 	@cd rubato && find . -name "*.c" -type f -delete
 	@rm -rf build
 
-delete-build:
-	@make delete-bin
-	@make delete-c
+delete-build: delete-bin delete-c
 
 pypi-build:
 	@rm -rf dist
