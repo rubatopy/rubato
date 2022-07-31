@@ -26,10 +26,8 @@ class Vector:
     y = cython.declare(cython.float, visibility="public")
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
-        if type(x) in (float, int) and type(y) in (float, int):
-            self.x, self.y = x, y
-        else:
-            raise TypeError(f"Vector must be initialized with two numbers (float or int) not: {x, y}.")
+        self.x = x
+        self.y = y
 
     @property
     def magnitude(self) -> float:
