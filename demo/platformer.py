@@ -20,7 +20,7 @@ grounded = False
 # Tracks the number of jumps the player has left
 jumps = 0
 # size of level
-level_size = rb.Display.res.x * 1.2
+level_size = int(rb.Display.res.x * 1.2)
 
 # create the scene for level one
 main = rb.Scene(background_color=rb.Color.cyan.lighter())

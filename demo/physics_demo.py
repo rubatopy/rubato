@@ -20,7 +20,7 @@ main_scene = rb.Scene()  # Create our scene
 top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -30)).add(
     rb.Rectangle(
         width=rb.Display.res.x + 175,
-        height=rb.Display.res.y / 10,
+        height=rb.Display.res.y // 10,
         color=rb.Color.gray,
     )
 )
@@ -28,14 +28,14 @@ top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -30)).add(
 bottom = rb.GameObject(pos=rb.Display.bottom_center + rb.Vector(0, 30)).add(
     rb.Rectangle(
         width=rb.Display.res.x + 175,
-        height=rb.Display.res.y / 10,
+        height=rb.Display.res.y // 10,
         color=rb.Color.gray,
     )
 )
 
 left = rb.GameObject(pos=rb.Display.center_left + rb.Vector(-30, 0)).add(
     rb.Rectangle(
-        width=rb.Display.res.x / 10,
+        width=rb.Display.res.x // 10,
         height=rb.Display.res.y + 175,
         color=rb.Color.gray,
     )
@@ -43,7 +43,7 @@ left = rb.GameObject(pos=rb.Display.center_left + rb.Vector(-30, 0)).add(
 
 right = rb.GameObject(pos=rb.Display.center_right + rb.Vector(30, 0)).add(
     rb.Rectangle(
-        width=rb.Display.res.x / 10,
+        width=rb.Display.res.x // 10,
         height=rb.Display.res.y + 175,
         color=rb.Color.gray,
     )
@@ -60,7 +60,7 @@ for _ in range(num_objs):
                 randint(rb.Display.res.x / 20, 19 * rb.Display.res.x /
                         20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
             )
-        ).add(rb.Circle(radius=rb.Display.res.x / num_objs, color=rb.Color.random_default())).add(
+        ).add(rb.Circle(radius=rb.Display.res.x // num_objs, color=rb.Color.random_default())).add(
             rb.RigidBody(
                 mass=0.1,
                 bounciness=1,
