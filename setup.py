@@ -21,7 +21,6 @@ setup(
         compiler_directives={
             "embedsignature": True,
             "language_level": 3,
-            "binding": True,
         },
     ),
 )
