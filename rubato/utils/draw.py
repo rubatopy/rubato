@@ -271,7 +271,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
-        x_coords, y_coords = zip(*points)
+        x_coords, y_coords = zip(*(coord.tuple_int() for coord in points))
 
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)

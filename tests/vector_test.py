@@ -101,21 +101,6 @@ def test_rotate(v1):
     assert v1.rotate(45) == Vector(1.4142135624, 0)
 
 
-def test_to_int(v1, v34):
-    v1 += 0.1
-    assert not isinstance(v1.x, int)
-    assert not isinstance(v1.y, int)
-
-    v1 = v1.to_int()
-    assert isinstance(v1.x, int)
-    assert isinstance(v1.y, int)
-
-    v34 += 0.1
-    v34 = v34.tuple_int()
-    assert isinstance(v34[0], int)
-    assert isinstance(v34[1], int)
-
-
 def test_clone(v1, v34):
     v3 = v1.clone()
     assert v3 == v1
