@@ -7,6 +7,7 @@ import math, random
 
 from . import Math, raise_operator_error
 
+
 class Vector:
     """
     A Vector object that defines a 2D point in space
@@ -249,7 +250,7 @@ class Vector:
         """Returns a copy of the vector."""
         return Vector(self.x, self.y)
 
-    def lerp(self, target: Vector, t: float, out: Vector = None) -> Vector:
+    def lerp(self, target: Vector, t: float | int, out: Vector = None) -> Vector:
         """
         Lerps the current vector to target by a factor of t.
 
@@ -368,7 +369,7 @@ class Vector:
         return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
 
     @staticmethod
-    def from_radial(magnitude: float, angle: float) -> Vector:
+    def from_radial(magnitude: float | int, angle: float | int) -> Vector:
         """
         Generates a Vector from the given angle and magnitude.
 

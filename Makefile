@@ -30,6 +30,9 @@ docs-live:
 build:
 	@python setup.py build_ext --inplace
 
+watch:
+	@bash ./watchBuild.sh
+
 setup:
 	@git submodule update --init --recursive
 	@pip install --editable .[dev]
