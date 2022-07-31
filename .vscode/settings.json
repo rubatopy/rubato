@@ -44,5 +44,6 @@
     "python.formatting.provider": "yapf",
     "python.linting.pylintCategorySeverity.refactor": "Information",
     "githubPullRequests.ignoredPrBranches": ["main"],
-    "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py", "demo/**/*", "docs/**/*"]
+    "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py", "demo/**/*", "docs/**/*"],
+    "githubPullRequests.ignoredPullRequestBranches": ["main"]
 }
