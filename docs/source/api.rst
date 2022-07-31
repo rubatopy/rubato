@@ -1,9 +1,7 @@
 ######################
 Full API Documentation
 ######################
-rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and game object management, event listener system and more all come prepackaged.
-
-Fundamentally, rubato is built developer-focused. From intricate rigidbody simulations to 2D games, rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
+This page describes all user-accessible API components to the rubato project.
 
 .. toctree::
     :hidden:
