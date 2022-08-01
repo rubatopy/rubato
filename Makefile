@@ -72,8 +72,8 @@ pypi-build:
 	@rm -rf dist
 	@python -m build
 
-pypi-publish:
+pypi-publish-wheels:
 	@rm -rf dist
 	@pip install build twine
 	@python -m build
-	@python -m twine upload dist/*
+	@python -m twine upload dist/*.whl
