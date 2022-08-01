@@ -15,28 +15,26 @@
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/2048px-LinkedIn_icon_circle.svg.png" alt="Linkedin Page" width="25"/>](https://www.linkedin.com/company/rubatopy/)
 &nbsp;
 
-rubato is a modern 2D game engine for python. Accurate fixed-step physics simulations, robust scene and game object management, event listener system and more all come prepackaged.
+rubato is a modern 2D engine for game developement in python. Dynamic physics simulations, robust scene management, event listener system and more all come prepackaged. Built in Cython using SDL2, rubato offers great performance without compromising on the intuitive nature of python code.
 
-rubato is built developer-first. From intricate rigidbody simulations to 2D games, rubato streamlines development for beginners and the poweruser. And all that finally with some legible documentation.
-
-rubato uses SDL2 as its backend and currently ships with the needed DLLs for Mac and Windows. If your looking for a PyGame backend, the final PyGame-based release was 1.2, however it is not supported. It will not be recieving any updates and any projects using this version should consider upgrading. This has allowed us to implement more complex features not supported by PyGame such as antialiasing and hardware acceleration. If you would like to read more about PySDL2 or need to utilize its underlying functionality in your project, you can read the python wrapper documentation [here](https://pysdl2.readthedocs.io/en/0.9.11/) and the base C++ SDL wiki [here](https://wiki.libsdl.org).
+As of release 3.0.0, the transition to SDL2 and Cython was completed. DLLs and wheels for the household-name platforms come prebundled, making rubato plug-and-play on most machines. This transition has enabled more complex functionality such as antialiasing and hardware acceleration, as well as a backend of C classes that will be gradually rolled out in later 3.x releases to improve performance. Older versions of rubato, such as PyGame-based 1.2, are now completely deprecated and it is highly recommended for users of those versions to upgrade. If you would like to read more about PySDL2 or need to utilize its underlying functionality in your project, you can read the python wrapper documentation [here](https://pysdl2.readthedocs.io/en/0.9.11/) and the base C++ SDL wiki [here](https://wiki.libsdl.org).
 
 _Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
 
 ### Get started [here](https://rubato.app/).
 
-### A big thank you to all of our [contributors](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTORS.md) who help make this project possible.
+A big thank you to all of our [contributors](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTORS.md) who help make this project possible.
 
-## Changelog
+#### Changelog
 
 See [CHANGELOG.md](https://github.com/rubatopy/rubato/blob/main/CHANGELOG.md)
 
-## Looking to contribute to Rubato?
+#### Looking to contribute to Rubato?
 
 See [CONTRIBUTING.md](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTING.md).
 
-## Code of Conduct
+#### Code of Conduct
 
 See [CODE_OF_CONDUCT.md](https://github.com/rubatopy/rubato/blob/main/CODE_OF_CONDUCT.md).
 
-_Credit to [@ArksDigital](https://twitter.com/ArksDigital) for the dino animation used in the demos and in the tutorial. ([itch page](https://arks.itch.io/dino-characters))_
+_Credit to [@ArksDigital](https://twitter.com/ArksDigital) for the dino animation used in several of the demos / tutorials. ([itch page](https://arks.itch.io/dino-characters))_
