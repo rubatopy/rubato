@@ -128,3 +128,27 @@ jobs:
                   git add .
                   git diff-index --quiet HEAD || git commit -m "Update from release ${{ github.ref_name }}"
                   git push origin main
+    cacher:
+        name: Cache Github API Responses
+        runs-on: ubuntu-latest
+        needs: docs
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.10"
+
+            - name: Cache Docs
+              run: |
+                  cd docs
+                  python ghapi_cacher.py
+
+            - name: Push changes
+              uses: ad-m/github-push-action@master
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: main
