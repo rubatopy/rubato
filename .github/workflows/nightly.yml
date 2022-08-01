@@ -9,13 +9,15 @@ on:
 jobs:
     docs:
         runs-on: ubuntu-latest
+        env:
+            RUBATO_VERSION: "v0.0.0"
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
               with:
                   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
                   fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
 
-            - uses: actions/setup-python@v2
+            - uses: actions/setup-python@v4
               with:
                   python-version: "3.10"
 
@@ -28,7 +30,7 @@ jobs:
                   make delete-build
 
             - name: Build Docs
-              run: (cd docs && make save)
+              run: make docs-save
 
             - name: Prep files for transfer
               run: |

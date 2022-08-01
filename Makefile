@@ -1,6 +1,7 @@
 .PHONY: all build
 
-all: test lint
+
+all: test lint demos
 
 test: build
 	@pytest --cov=rubato --cov-report term-missing tests -s
@@ -24,8 +25,27 @@ lint:
 	@echo "Linting Code"
 	@pylint rubato
 
-docs-live:
-	@(cd docs && make live)
+demos:
+	@cd demo && ./_run_all.sh
+
+SPHINXBUILD   ?= sphinx
+SOURCEDIR     = source
+BUILDDIR      = ./build/html
+LIVEBUILDDIR  = ./build/_html
+BUILDER          = dirhtml
+
+docs-save: docs-clear
+	@cd docs && python -m $(SPHINXBUILD) -W --keep-going -T -q -b $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
+	@cd docs && touch build/html/_modules/robots.txt
+
+docs-test: docs-clear
+	@cd docs && python -m $(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
+
+docs-live: docs-clear
+	@cd docs && sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato
+
+docs-clear:
+	@cd docs && rm -rf build
 
 build:
 	@python setup.py build_ext --inplace
@@ -54,3 +74,9 @@ delete-build: delete-bin delete-c
 pypi-build:
 	@rm -rf dist
 	@python -m build
+
+pypi-publish-wheels:
+	@rm -rf dist
+	@pip install build twine
+	@python -m build
+	@python -m twine upload dist/*.whl

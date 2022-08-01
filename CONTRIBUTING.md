@@ -158,3 +158,40 @@ __
 
 H6
 ```
+
+## Releasing new versions
+
+1.  Update`Changelod.md` so that unreleased becomes this version and update the link at the bottom of the file.
+    (following the format as the other links). Also remove unused sections in the unreleased section.
+
+2.  Push the changelog to Github and release a new Github release. Make sure to end the release description with:
+
+    ```markdown
+    As always, see the [`CHANGELOG.md`](https://github.com/rubatopy/rubato/blob/{VERSION_NAME}/CHANGELOG.md) and the [documentation](https://rubato.app/{VERSION_NAME}) for more details.
+    ```
+
+3.  Once the automatic release is complete, build and upload the apple silicon build with on a apple silicon Mac:
+
+    ```shell
+    RUBATO_VERSION={VERSION_NAME} make pypi-publish-wheels
+    ```
+
+    Also upload the wheel to the github release.
+
+4.  Finally, add the following to the top of the changelog and push:
+
+    ```markdown
+    ## [Unreleased]
+
+    ### Breaking Changes
+
+    ### Added
+
+    ### Changed
+
+    ### Removed
+
+    ### Fixed
+    ```
+    
+5. Close the relevent milestones and issues

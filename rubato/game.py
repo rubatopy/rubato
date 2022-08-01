@@ -202,6 +202,8 @@ class Game(metaclass=GameProperties):
                         Time.physics_counter -= Time.fixed_delta
 
                 curr.private_draw()
+            else:
+                Draw.clear()
 
             cls.draw()
 
