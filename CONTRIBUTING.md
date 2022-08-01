@@ -193,3 +193,5 @@ H6
 
     ### Fixed
     ```
+    
+5. Close the relevent milestones and issues
