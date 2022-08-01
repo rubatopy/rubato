@@ -16,6 +16,16 @@ jobs:
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
 
         steps:
+            - name: Report Version
+              run: |
+                  export RUBATO_VERSION=${{ github.event.release.tag.name }}
+                  echo "Releasing $RUBATO_VERSION"
+              shell: bash
+
+            - name: cancelling
+              if: ${{ !contains(github.event.release.tag.name, 'v' ) }}
+              uses: andymckay/cancel-action@0.2
+
             - uses: actions/checkout@v3
               with:
                   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
@@ -31,7 +41,7 @@ jobs:
                   pip install --upgrade pip
                   git submodule update --init --recursive
                   pip install build
-                  export RUBATO_VERSION=${{ github.event.release.tagName }}
+              shell: bash
 
             - name: Build
               run: python -m build
