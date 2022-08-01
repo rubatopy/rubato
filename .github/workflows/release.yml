@@ -18,12 +18,12 @@ jobs:
         steps:
             - name: Report Version
               run: |
-                  export RUBATO_VERSION=${{ github.event.release.tag.name }}
+                  export RUBATO_VERSION=${{ github.ref_name }}
                   echo "Releasing $RUBATO_VERSION"
               shell: bash
 
             - name: cancelling
-              if: ${{ !contains(github.event.release.tag.name, 'v' ) }}
+              if: ${{ !contains(github.ref_name, 'v' ) }}
               uses: andymckay/cancel-action@0.2
 
             - uses: actions/checkout@v3
@@ -46,13 +46,13 @@ jobs:
             - name: Build
               run: python -m build
 
-            - name: Publish to PyPI
-              uses: pypa/gh-action-pypi-publish@release/v1
-              with:
-                  user: __token__
-                  password: ${{ secrets.PYPI_API_TOKEN }}
-                  skip_existing: true
-                  repository_url: https://test.pypi.org/legacy/
+            # - name: Publish to PyPI
+            #   uses: pypa/gh-action-pypi-publish@release/v1
+            #   with:
+            #       user: __token__
+            #       password: ${{ secrets.PYPI_API_TOKEN }}
+            #       skip_existing: true
+            #       repository_url: https://test.pypi.org/legacy/
 
             - name: Upload Wheel
               uses: AButler/upload-release-assets@v2.0
