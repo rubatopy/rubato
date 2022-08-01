@@ -36,7 +36,7 @@ jobs:
 
             - name: Install requirements
               run: |
-                  pip install --upgrade pip
+                  python -m pip install --upgrade pip
                   git submodule update --init --recursive
                   pip install Cython==3.0.0a10 --install-option="--no-cython-compile"
                   python setup.py egg_info

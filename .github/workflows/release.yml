@@ -38,7 +38,7 @@ jobs:
 
             - name: Install requirements
               run: |
-                  pip install --upgrade pip
+                  python -m pip install --upgrade pip
                   git submodule update --init --recursive
                   pip install build
 
@@ -52,7 +52,7 @@ jobs:
                   name: ${{matrix.os}}-wheel
                   path: dist/*.whl
 
-            - name: Upload Wheel as Artifact
+            - name: Upload Tar.Gz as Artifact
               if: startsWith(matrix.os, 'windows')
               uses: actions/upload-artifact@v3
               with:
@@ -66,12 +66,14 @@ jobs:
         steps:
             - uses: actions/download-artifact@v3
 
-            - name: Display structure of downloaded files
-              run: ls -R
+            - name: Move Files to dist
+              run: |
+                  mkdir dist
+                  cp */* dist/
 
-            # - name: Publish to PyPI
-            #   uses: pypa/gh-action-pypi-publish@release/v1
-            #   with:
-            #       user: __token__
-            #       password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-            #       repository_url: https://test.pypi.org/legacy/
+            - name: Publish to PyPI
+              uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                  user: __token__
+                  password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+                  repository_url: https://test.pypi.org/legacy/
