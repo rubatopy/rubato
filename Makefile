@@ -71,3 +71,9 @@ delete-build: delete-bin delete-c
 pypi-build:
 	@rm -rf dist
 	@python -m build
+
+pypi-publish:
+	@rm -rf dist
+	@pip install build twine
+	@python -m build
+	@python -m twine upload dist/*

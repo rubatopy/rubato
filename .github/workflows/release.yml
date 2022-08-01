@@ -75,8 +75,7 @@ jobs:
               uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
-                  password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-                  repository_url: https://test.pypi.org/legacy/
+                  password: ${{ secrets.PYPI_API_TOKEN }}
 
             - name: Upload to release
               uses: AButler/upload-release-assets@v2.0
@@ -128,5 +127,4 @@ jobs:
                   cd target
                   git add .
                   git diff-index --quiet HEAD || git commit -m "Update from release ${{ github.ref_name }}"
-
-#                  git push origin main
+                  git push origin main
