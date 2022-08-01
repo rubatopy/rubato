@@ -52,7 +52,7 @@ jobs:
                 path: dist/*.whl
 
             - name: Upload Wheel as Artifact
-              if: startsWith(matrix.os, "windows")
+              if: startsWith(matrix.os, 'windows')
               uses: actions/upload-artifact@v3
               with:
                 name: tar.gz
