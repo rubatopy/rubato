@@ -19,7 +19,7 @@ jobs:
             - name: Report Version
               run: |
                   export RUBATO_VERSION=${{ github.ref_name }}
-                  echo "Releasing $RUBATO_VERSION"
+                  echo 'Releasing $RUBATO_VERSION'
               shell: bash
 
             - name: cancelling
@@ -77,3 +77,56 @@ jobs:
                   user: __token__
                   password: ${{ secrets.TEST_PYPI_API_TOKEN }}
                   repository_url: https://test.pypi.org/legacy/
+
+            - name: Upload to release
+              uses: AButler/upload-release-assets@v2.0
+              with:
+                  files: "dist/*"
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  release-tag: ${{ github.ref_name }}
+
+    docs:
+        name: Release Docs
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+                  fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.10"
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install Cython==3.0.0a10
+                  python setup.py egg_info
+                  pip install `grep -v '^\[' rubato.egg-info/requires.txt`
+                  make delete-build
+
+            - name: Build Docs
+              run: make docs-save
+
+            - name: Prep files for transfer
+              run: |
+                  cp -r docs/build/html latest
+                  cp -r docs/build/html ${{ github.ref_name }}
+                  touch ${{ github.ref_name }}/robots.txt
+
+            - name: Prep Git
+              run: |
+                  git config --global user.email "martin.chapino@gmail.com"
+                  git config --global user.name "Martin Chaperot (Bot)"
+
+            - name: Transfer to docs.rubato.app
+              run: |
+                  rm -rf target
+                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/docs.rubato.app.git target
+                  cp -R latest ${{ github.ref_name }} target
+                  cd target
+                  git add .
+                  git diff-index --quiet HEAD || git commit -m "Update from release ${{ github.ref_name }}"
+
+#                  git push origin main
