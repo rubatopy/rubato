@@ -47,7 +47,7 @@
     (replace {thing} with the draw function of your choice)
 -   Switching scenes now only takes effect on the next frame.
 -   Reordered `Draw.clear` params to be more intuitive.
--   Renderer is now not automatically cleared if no scene exists.
+-   Renderer is automatically cleared if no scene exists.
 
 ### Removed
 
