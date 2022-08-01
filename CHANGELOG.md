@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [v3.0.0] - July 31, 2022
 
 ### Key Features
 
@@ -13,6 +13,8 @@
 -   Camera position is now where it looks at. ie. default camera position is now `Display.center`.
 -   Reorder constructor parameters for most classes.
 -   Removed `Game.scenes`, moving most `SceneManager` code into `Game`.
+-   Renamed several internal `Time` attributes to better describe what they are.
+-   Renamed `Vector.random_inside_unit_circle()` to `Vector.rand_unit_vector()`
 
 ### Added
 
@@ -36,7 +38,6 @@
 ### Changed
 
 -   Made `Time.now()` a function instead of a property.
--   Renamed several internal `Time` attributes to better describe what they are.
 -   Refactored collision detection code to not report contact points, since we don't need them anymore.
 -   Added `hidden` attribute to all components and removed `visible` attribute from `Animation`, `Image`, and `Raster`
 -   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the whole game.
@@ -47,7 +48,6 @@
 -   Switching scenes now only takes effect on the next frame.
 -   Reordered `Draw.clear` params to be more intuitive.
 -   Renderer is now not automatically cleared if no scene exists.
--   Renamed `Vector.random_inside_unit_circle()` to `Vector.rand_unit_vector()`
 
 ### Removed
 
@@ -258,7 +258,8 @@
 -   Sprites, Scenes, Main game object
 -   Rigidbody implementation
 
-[unreleased]: https://github.com/rubatopy/rubato/tree/main
+[unreleased]: https://github.com/rubatopy/rubato/
+[v3.0.0]: https://github.com/rubatopy/rubato/tree/v3.0.0
 [v2.2.0]: https://github.com/rubatopy/rubato/tree/v2.2.0
 [v2.1.1]: https://github.com/rubatopy/rubato/tree/v2.1.1
 [v2.1.0]: https://github.com/rubatopy/rubato/tree/v2.1.0
