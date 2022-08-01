@@ -15,9 +15,6 @@ jobs:
                 python-version: ["3.10"]
                 os: ["ubuntu-latest", "windows-latest", "macos-latest"]
 
-        env:
-            RUBATO_VERSION: ${{ github.event.release.tagName }}
-
         steps:
             - uses: actions/checkout@v3
               with:
@@ -33,10 +30,8 @@ jobs:
               run: |
                   pip install --upgrade pip
                   git submodule update --init --recursive
-                  pip install Cython==3.0.0a10 --install-option="--no-cython-compile"
-                  python setup.py egg_info
-                  pip install `grep -v '^\[' rubato.egg-info/requires.txt`
-                  pip install build twine
+                  pip install build
+                  export RUBATO_VERSION=${{ github.event.release.tagName }}
 
             - name: Build
               run: python -m build
