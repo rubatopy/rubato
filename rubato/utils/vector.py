@@ -135,12 +135,6 @@ class Vector:
         """
         return self.x + self.y
 
-    def to_tuple(self) -> Tuple[int, int]:
-        """
-        Returns the x and y coordinates of the vector as a tuple.
-        """
-        return self.x, self.y
-
     def dot(self, other: Vector) -> float | int:
         """
         Takes the dot product of two vectors.
@@ -242,6 +236,12 @@ class Vector:
     def rounded(self) -> Vector:
         """Returns a new vector with values that are rounded."""
         return Vector(round(self.x), round(self.y))
+
+    def to_tuple(self) -> Tuple[int, int]:
+        """
+        Returns the x and y coordinates of the vector as a tuple.
+        """
+        return self.x, self.y
 
     def tuple_int(self) -> Tuple[int, int]:
         """Returns a tuple with rounded values."""

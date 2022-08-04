@@ -164,13 +164,14 @@ class Draw:
             angle: The angle in degrees. Defaults to 0.
         """
         x, y = width // 2, height // 2
-        verts = [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
+        verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
-        trans = [v.rotate(angle) for v in verts]
-
-        real = [(center + v).rounded() for v in trans]
-
-        Draw.poly(real, border, border_thickness, fill)
+        Draw.poly(
+            [center + v.rotate(angle) for v in verts],
+            border,
+            border_thickness,
+            fill
+        )
 
     @classmethod
     def queue_circle(
