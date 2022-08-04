@@ -144,8 +144,8 @@ class Draw:
     @staticmethod
     def rect(
         center: Vector,
-        width: int,
-        height: int,
+        width: int | float,
+        height: int | float,
         border: Color = Color.clear,
         border_thickness: int = 1,
         fill: Optional[Color] = None,

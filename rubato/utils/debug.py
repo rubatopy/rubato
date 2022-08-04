@@ -14,7 +14,7 @@ class Debug:
     @staticmethod
     def draw_fps(font: Font):
         fs = str(int(Time.smooth_fps))
-        h = Display.res.y // 40
+        h = int(Display.res.y // 40)
         p = h // 4
         p2 = p + p
         Draw.rect(
@@ -24,7 +24,7 @@ class Debug:
             Color(a=180),
             fill=Color(a=180),
         )
-        Draw.text(fs, font=font, pos=Vector(p2+2, p2+2), align=Vector(1, 1))
+        Draw.text(fs, font=font, pos=Vector(p2 + 2, p2 + 2), align=Vector(1, 1))
 
     @staticmethod
     def find_my_print():

@@ -339,24 +339,24 @@ class Display(metaclass=DisplayProperties):
 
     @classmethod
     @property
-    def top(cls) -> int:
+    def top(cls) -> float:
         """The position of the top of the window."""
         return 0
 
     @classmethod
     @property
-    def right(cls) -> int:
+    def right(cls) -> float:
         """The position of the right of the window."""
         return cls.res.x
 
     @classmethod
     @property
-    def left(cls) -> int:
+    def left(cls) -> float:
         """The position of the left of the window."""
         return 0
 
     @classmethod
     @property
-    def bottom(cls) -> int:
+    def bottom(cls) -> float:
         """The position of the bottom of the window."""
         return cls.res.y

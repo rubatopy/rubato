@@ -22,8 +22,8 @@ class Vector:
         x (float): The x coordinate.
         y (float): The y coordinate.
     """
-    x = cython.declare(cython.float, visibility="public")
-    y = cython.declare(cython.float, visibility="public")
+    x: float = cython.declare(cython.float, visibility="public")
+    y: float = cython.declare(cython.float, visibility="public")
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
         self.x = x
