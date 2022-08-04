@@ -22,9 +22,9 @@ true_random = True
 rb.Noise.seed = randint(-100, 100)
 
 saved = []
-for x in range(rb.Display.res.x):
+for x in range(int(rb.Display.res.x)):
     saved.append([])
-    for y in range(rb.Display.res.y):
+    for y in range(int(rb.Display.res.y)):
         if true_random:
             noise = random.random() * 2 - 1
         else:
@@ -35,8 +35,8 @@ for x in range(rb.Display.res.x):
 
 
 def draw():
-    for i in range(rb.Display.res.x):
-        for j in range(rb.Display.res.y):
+    for i in range(int(rb.Display.res.x)):
+        for j in range(int(rb.Display.res.y)):
             rb.Draw.queue_point(saved[i][j][0], color=saved[i][j][1])
 
 

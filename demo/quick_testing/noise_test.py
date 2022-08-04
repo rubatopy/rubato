@@ -12,12 +12,12 @@ init(
 
 main = Scene(background_color=Color(255, 255, 255))
 
-noise_size: Vector = Vector.one * 10
+noise_size: Vector = Vector.one() * 10
 degrees: int = 1
 Game.debug = True
 num_points: int = 300
 
-draw_offset: Vector = Display.center_left + Vector.right * Display.res.x * 0.5
+draw_offset: Vector = Display.center_left + Vector.right() * Display.res.x * 0.5
 
 
 def draw():
@@ -30,7 +30,7 @@ def draw():
         radius = Math.lerp(100, 120, (Noise.noise2(sample_offset.x, sample_offset.y) + 1) / 2)
         x = radius * math.cos(angle)
         y = radius * math.sin(angle)
-        points.append((Vector(x, y) + draw_offset).to_int())
+        points.append((Vector(x, y) + draw_offset).rounded())
 
         angle += math.radians(degrees)
 

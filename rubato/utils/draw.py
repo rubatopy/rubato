@@ -168,7 +168,7 @@ class Draw:
 
         trans = [v.rotate(angle) for v in verts]
 
-        real = [(center + v).to_int() for v in trans]
+        real = [(center + v).rounded() for v in trans]
 
         Draw.poly(real, border, border_thickness, fill)
 

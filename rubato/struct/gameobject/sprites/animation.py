@@ -223,11 +223,11 @@ class Animation(Component):
                 # This will just load from the start to the end of the spritesheet.
         """
         state = []
-        x = from_coord.x
-        y = from_coord.y
+        x, y = from_coord.tuple_int()
+        to_x, to_y = to_coord.tuple_int()
         while True:
             state.append(spritesheet.get(x, y))
-            if y == to_coord.y and x == to_coord.x:
+            if y == to_y and x == to_x:
                 break
             x += 1
             if x >= spritesheet.grid_size.x:
@@ -237,12 +237,6 @@ class Animation(Component):
                 y += 1
 
         self.add(state_name, state)
-
-    def setup(self):
-        """Sets up the animation component."""
-        for images in self._states.values():
-            for image in images:
-                image.gameobj = self.gameobj
 
     def update(self):
         if self.hidden:

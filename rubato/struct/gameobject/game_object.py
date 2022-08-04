@@ -170,11 +170,11 @@ class GameObject:
         if self.debug or Game.debug:
             rotated_x = Vector(int(camera.scale(10)), 0).rotate(self.rotation)
             rotated_y = Vector(0, int(camera.scale(10))).rotate(self.rotation)
-            p1 = (camera.transform(self.pos) + rotated_x).to_int()
-            p2 = (camera.transform(self.pos) - rotated_x).to_int()
+            p1 = (camera.transform(self.pos) + rotated_x).rounded()
+            p2 = (camera.transform(self.pos) - rotated_x).rounded()
 
-            p3 = (camera.transform(self.pos) + rotated_y).to_int()
-            p4 = (camera.transform(self.pos) - rotated_y).to_int()
+            p3 = (camera.transform(self.pos) + rotated_y).rounded()
+            p4 = (camera.transform(self.pos) - rotated_y).rounded()
 
             Draw.queue_line(p1, p2, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
             Draw.queue_line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))

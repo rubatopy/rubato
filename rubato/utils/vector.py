@@ -3,7 +3,7 @@ A vector implementation.
 """
 from __future__ import annotations
 import cython
-from typing import Any, Iterator
+from typing import Any, Iterator, Tuple
 import math, random
 
 from . import Math, raise_operator_error
@@ -90,15 +90,15 @@ class Vector:
         Warnings:
             Should only be used on vectors with integer components.
         """
-        mag: Vector = self.rationalized_mag_vector.to_int()
-        no_root = mag.y == 1  # No square root in the answer.
+        mag: Tuple[int, int] = self.rationalized_mag_vector.tuple_int()
+        no_root = mag[1] == 1  # No square root in the answer.
 
-        num_dem1: Vector = Vector(*Math.simplify(round(self.x), mag.x))
-        num_dem2: Vector = Vector(*Math.simplify(round(self.y), mag.x))
+        num_dem1: Tuple[int, int] = Math.simplify(round(self.x), mag[0])
+        num_dem2: Tuple[int, int] = Math.simplify(round(self.y), mag[0])
 
         if no_root:
-            return f"<{num_dem1.x}/{num_dem1.y}, {num_dem2.x}/{num_dem2.y}>"
-        return f"<{num_dem1.x}/{num_dem1.y}√{mag.y}, {num_dem2.x}/{num_dem2.y}√{mag.y}>"
+            return f"<{num_dem1[0]}/{num_dem1[1]}, {num_dem2[0]}/{num_dem2[1]}>"
+        return f"<{num_dem1[0]}/{num_dem1[1]}√{mag[1]}, {num_dem2[0]}/{num_dem2[1]}√{mag[1]}>"
 
     def normalized(self, out: Vector = None) -> Vector:
         """
@@ -114,12 +114,12 @@ class Vector:
         if out is None:
             out = Vector()
 
-        if self.mag_sq != 0:
-            inv_mag = 1 / math.sqrt(self.mag_sq)
-        else:
-            inv_mag = 0
+        mag = self.magnitude
 
-        out.x, out.y = round(self.x * inv_mag, 10), round(self.y * inv_mag, 10)
+        inv_mag = 1 / mag if mag != 0 else 0
+
+        out.x = self.x * inv_mag
+        out.y = self.y * inv_mag
 
         return out
 
@@ -135,11 +135,11 @@ class Vector:
         """
         return self.x + self.y
 
-    def to_tuple(self) -> tuple:
+    def to_tuple(self) -> Tuple[int, int]:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
-        return (*self,)
+        return self.x, self.y
 
     def dot(self, other: Vector) -> float | int:
         """
@@ -239,13 +239,13 @@ class Vector:
 
         return out
 
-    def to_int(self) -> Vector:
-        """Returns a new vector with values that are ints."""
-        return Vector(int(self.x), int(self.y))
+    def rounded(self) -> Vector:
+        """Returns a new vector with values that are rounded."""
+        return Vector(round(self.x), round(self.y))
 
-    def tuple_int(self) -> tuple:
+    def tuple_int(self) -> Tuple[int, int]:
         """Returns a tuple with rounded values."""
-        return int(self.x), int(self.y)
+        return round(self.x), round(self.y)
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""
@@ -596,7 +596,6 @@ class Vector:
 
     def __floordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
-            print(repr(self))
             return Vector(self.x // other, self.y // other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x // other[0], self.y // other[1])
@@ -611,7 +610,6 @@ class Vector:
 
     def __ifloordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
-            print(repr(self))
             return Vector(self.x // other, self.y // other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x // other[0], self.y // other[1])
