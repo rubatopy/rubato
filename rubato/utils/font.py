@@ -78,7 +78,7 @@ class Font:
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
     def generate_surface(
-        self, text: str, align: Vector = Vector(0, 0), width: int = 0, rot: int = 0
+        self, text: str, align: Vector = Vector(0, 0), width: int | float = 0, rot: int | float = 0
     ) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
@@ -99,7 +99,7 @@ class Font:
         try:
 
             return sdl2.sdlgfx.rotozoomSurface(
-                self._font.render_text(text, width=None if width <= 0 else width, align=align), rot, 1, 1
+                self._font.render_text(text, width=None if width <= 0 else int(width), align=align), rot, 1, 1
             )
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e

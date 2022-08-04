@@ -41,7 +41,7 @@ class Hitbox(Component):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int = 1,
+        scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
@@ -51,7 +51,7 @@ class Hitbox(Component):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.debug: bool = debug
         self.trigger: bool = trigger
-        self.scale: int = scale
+        self.scale: int | float = scale
         self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
         self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
         self.color: Color = color
@@ -121,7 +121,7 @@ class Polygon(Hitbox):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int = 1,
+        scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
@@ -300,7 +300,7 @@ class Rectangle(Hitbox):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int = 1,
+        scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
@@ -639,7 +639,7 @@ class Circle(Hitbox):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int = 1,
+        scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector = Vector(0, 0),
@@ -658,7 +658,7 @@ class Circle(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self.radius: int = int(radius)
+        self.radius = radius
 
     @property
     def center(self) -> Vector:
@@ -686,7 +686,7 @@ class Circle(Hitbox):
             self.gameobj.pos + offset,
         ]
 
-    def transformed_radius(self) -> int:
+    def transformed_radius(self) -> int | float:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 

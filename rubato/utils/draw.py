@@ -85,7 +85,14 @@ class Draw:
         sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @classmethod
-    def queue_line(cls, p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1, z_index: int = Math.INF):
+    def queue_line(
+        cls,
+        p1: Vector,
+        p2: Vector,
+        color: Color = Color.green,
+        width: int | float = 1,
+        z_index: int = Math.INF
+    ):
         """
         Draw a line onto the renderer at the end of the frame.
 
@@ -99,7 +106,7 @@ class Draw:
         cls.push(z_index, lambda: cls.line(p1, p2, color, width))
 
     @staticmethod
-    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int = 1):
+    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int | float = 1):
         """
         Draw a line onto the renderer immediately.
 
@@ -110,18 +117,18 @@ class Draw:
             width: The width of the line. Defaults to 1.
         """
         sdl2.sdlgfx.thickLineRGBA(
-            Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width), color.r,
-            color.g, color.b, color.a
+            Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width),
+            color.r, color.g, color.b, color.a
         )
 
     @classmethod
     def queue_rect(
         cls,
         center: Vector,
-        width: int,
-        height: int,
+        width: int | float,
+        height: int | float,
         border: Color = Color.clear,
-        border_thickness: int = 1,
+        border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
         z_index: int = Math.INF
@@ -147,7 +154,7 @@ class Draw:
         width: int | float,
         height: int | float,
         border: Color = Color.clear,
-        border_thickness: int = 1,
+        border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0
     ):
@@ -179,7 +186,7 @@ class Draw:
         center: Vector,
         radius: int = 4,
         border: Color = Color.clear,
-        border_thickness: int = 1,
+        border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         z_index: int = Math.INF
     ):
@@ -199,9 +206,9 @@ class Draw:
     @staticmethod
     def circle(
         center: Vector,
-        radius: int = 4,
+        radius: int | float = 4,
         border: Color = Color.clear,
-        border_thickness: int = 1,
+        border_thickness: int | float = 1,
         fill: Optional[Color] = None
     ):
         """
@@ -226,7 +233,7 @@ class Draw:
                 fill.a,
             )
 
-        for i in range(border_thickness):
+        for i in range(int(border_thickness)):
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
                 int(center.x),
@@ -243,7 +250,7 @@ class Draw:
         cls,
         points: List[Vector],
         border: Color = Color.clear,
-        border_thickness: int = 1,
+        border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         z_index: int = Math.INF
     ):
@@ -261,7 +268,10 @@ class Draw:
 
     @staticmethod
     def poly(
-        points: List[Vector], border: Color = Color.clear, border_thickness: int = 1, fill: Optional[Color] = None
+        points: List[Vector],
+        border: Color = Color.clear,
+        border_thickness: int | float = 1,
+        fill: Optional[Color] = None
     ):
         """
         Draws a polygon onto the renderer immediately.
@@ -321,7 +331,7 @@ class Draw:
         pos: Vector = Vector(),
         justify: str = "left",
         align: Vector = Vector(),
-        width: int = 0,
+        width: int | float = 0,
         z_index: int = Math.INF
     ):
         """
@@ -340,7 +350,12 @@ class Draw:
 
     @staticmethod
     def text(
-        text: str, font: Font, pos: Vector = Vector(), justify: str = "left", align: Vector = Vector(), width: int = 0
+        text: str,
+        font: Font,
+        pos: Vector = Vector(),
+        justify: str = "left",
+        align: Vector = Vector(),
+        width: int | float = 0
     ):
         """
         Draws some text onto the renderer immediately.
