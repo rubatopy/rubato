@@ -34,21 +34,24 @@ BUILDDIR      = ./build/html
 LIVEBUILDDIR  = ./build/_html
 BUILDER          = dirhtml
 
-docs-save: docs-clear
+docs-save: docs-clear delete-build
 	@cd docs && python -m $(SPHINXBUILD) -W --keep-going -T -q -b $(BUILDER) "$(SOURCEDIR)" "$(BUILDDIR)"
 	@cd docs && touch build/html/_modules/robots.txt
 
-docs-test: docs-clear
+docs-test: docs-clear delete-build
 	@cd docs && python -m $(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
 
-docs-live: docs-clear
-	@cd docs && sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato
+docs-live: docs-clear delete-bin
+	@bash -c "trap 'make build;echo ctrl+c to exit' SIGINT; (cd docs && sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato)"
 
 docs-clear:
 	@cd docs && rm -rf build
 
 build:
 	@python setup.py build_ext --inplace
+
+watch:
+	@bash ./watchBuild.sh
 
 setup:
 	@git submodule update --init --recursive
@@ -60,13 +63,13 @@ setup:
 delete-bin:
 	@cd rubato && find . -name "*.pyd" -type f -delete
 	@cd rubato && find . -name "*.so" -type f -delete
-	@rm -rf build
 
 delete-c:
 	@cd rubato && find . -name "*.c" -type f -delete
-	@rm -rf build
 
 delete-build: delete-bin delete-c
+	@rm -rf build
+
 
 pypi-build:
 	@rm -rf dist

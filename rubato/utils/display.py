@@ -41,7 +41,7 @@ class DisplayProperties(type):
 
     @window_size.setter
     def window_size(cls, new: Vector):
-        cls.window.size = new.to_int().to_tuple()
+        cls.window.size = new.tuple_int()
 
     @property
     def res(cls) -> Vector:
@@ -65,7 +65,7 @@ class DisplayProperties(type):
 
     @res.setter
     def res(cls, new: Vector):
-        cls.renderer.logical_size = new.to_int().to_tuple()
+        cls.renderer.logical_size = new.tuple_int()
 
     @property
     def window_pos(cls) -> Vector:
@@ -74,7 +74,7 @@ class DisplayProperties(type):
 
     @window_pos.setter
     def window_pos(cls, new: Vector):
-        cls.window.position = new.to_int().to_tuple()
+        cls.window.position = new.tuple_int()
 
     @property
     def window_name(cls):
@@ -339,24 +339,24 @@ class Display(metaclass=DisplayProperties):
 
     @classmethod
     @property
-    def top(cls) -> int:
+    def top(cls) -> float:
         """The position of the top of the window."""
         return 0
 
     @classmethod
     @property
-    def right(cls) -> int:
+    def right(cls) -> float:
         """The position of the right of the window."""
         return cls.res.x
 
     @classmethod
     @property
-    def left(cls) -> int:
+    def left(cls) -> float:
         """The position of the left of the window."""
         return 0
 
     @classmethod
     @property
-    def bottom(cls) -> int:
+    def bottom(cls) -> float:
         """The position of the bottom of the window."""
         return cls.res.y

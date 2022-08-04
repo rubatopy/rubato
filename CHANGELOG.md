@@ -2,11 +2,18 @@
 
 ## [Unreleased]
 
+### Key Features
+-   Made `Vector` a C class
+
 ### Breaking Changes
+-   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
+    Be careful in accuracy-dependent calculations to handle deviation properly.
+-   Rename `Vector.to_int()` to `Vector.rounded()`. It now rounds a vector instead of doing an int cast
 
 ### Added
 
 ### Changed
+-   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 
 ### Removed
 

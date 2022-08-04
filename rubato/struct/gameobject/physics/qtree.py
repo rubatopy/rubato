@@ -37,7 +37,7 @@ class QTree:
 
     @staticmethod
     def calc_bb(hbs: List[Hitbox]):
-        tl, br = Vector.infinity, -1 * Vector.infinity
+        tl, br = Vector.infinity(), -1 * Vector.infinity()
         for hb in hbs:
             aabb = hb.get_aabb()
             tl.x = min(tl.x, aabb[0].x)

@@ -2,11 +2,14 @@
 A vector implementation.
 """
 from __future__ import annotations
-from typing import Any, Iterator
+import cython
+from typing import Any, Iterator, Tuple
 import math, random
 
 from . import Math, raise_operator_error
 
+
+@cython.cclass
 class Vector:
     """
     A Vector object that defines a 2D point in space
@@ -16,15 +19,15 @@ class Vector:
         y: The y coordinate. Defaults to 0.
 
     Attributes:
-        x (float | int): The x coordinate.
-        y (float | int): The y coordinate.
+        x (float): The x coordinate.
+        y (float): The y coordinate.
     """
+    x: float = cython.declare(cython.float, visibility="public")
+    y: float = cython.declare(cython.float, visibility="public")
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
-        if type(x) in (float, int) and type(y) in (float, int):
-            self.x, self.y = x, y
-        else:
-            raise TypeError(f"Vector must be initialized with two numbers (float or int) not: {x, y}.")
+        self.x = x
+        self.y = y
 
     @property
     def magnitude(self) -> float:
@@ -87,16 +90,15 @@ class Vector:
         Warnings:
             Should only be used on vectors with integer components.
         """
-        mag: Vector = self.rationalized_mag_vector
-        mag = mag.to_int()
-        no_root = mag.y == 1  # No square root in the answer.
+        mag: Tuple[int, int] = self.rationalized_mag_vector.tuple_int()
+        no_root = mag[1] == 1  # No square root in the answer.
 
-        num_dem1: Vector = Vector(*Math.simplify(round(self.x), mag.x))
-        num_dem2: Vector = Vector(*Math.simplify(round(self.y), mag.x))
+        num_dem1: Tuple[int, int] = Math.simplify(round(self.x), mag[0])
+        num_dem2: Tuple[int, int] = Math.simplify(round(self.y), mag[0])
 
         if no_root:
-            return f"<{num_dem1.x}/{num_dem1.y}, {num_dem2.x}/{num_dem2.y}>"
-        return f"<{num_dem1.x}/{num_dem1.y}√{mag.y}, {num_dem2.x}/{num_dem2.y}√{mag.y}>"
+            return f"<{num_dem1[0]}/{num_dem1[1]}, {num_dem2[0]}/{num_dem2[1]}>"
+        return f"<{num_dem1[0]}/{num_dem1[1]}√{mag[1]}, {num_dem2[0]}/{num_dem2[1]}√{mag[1]}>"
 
     def normalized(self, out: Vector = None) -> Vector:
         """
@@ -112,12 +114,12 @@ class Vector:
         if out is None:
             out = Vector()
 
-        if self.mag_sq != 0:
-            inv_mag = 1 / math.sqrt(self.mag_sq)
-        else:
-            inv_mag = 0
+        mag = self.magnitude
 
-        out.x, out.y = round(self.x * inv_mag, 10), round(self.y * inv_mag, 10)
+        inv_mag = 1 / mag if mag != 0 else 0
+
+        out.x = self.x * inv_mag
+        out.y = self.y * inv_mag
 
         return out
 
@@ -132,12 +134,6 @@ class Vector:
         Sums the x and y coordinates of the vector.
         """
         return self.x + self.y
-
-    def to_tuple(self) -> tuple:
-        """
-        Returns the x and y coordinates of the vector as a tuple.
-        """
-        return (*self,)
 
     def dot(self, other: Vector) -> float | int:
         """
@@ -237,19 +233,25 @@ class Vector:
 
         return out
 
-    def to_int(self) -> Vector:
-        """Returns a new vector with values that are ints."""
+    def rounded(self) -> Vector:
+        """Returns a new vector with values that are rounded."""
         return Vector(round(self.x), round(self.y))
 
-    def tuple_int(self) -> tuple:
+    def to_tuple(self) -> Tuple[int, int]:
+        """
+        Returns the x and y coordinates of the vector as a tuple.
+        """
+        return self.x, self.y
+
+    def tuple_int(self) -> Tuple[int, int]:
         """Returns a tuple with rounded values."""
-        return int(self.x), int(self.y)
+        return round(self.x), round(self.y)
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""
         return Vector(self.x, self.y)
 
-    def lerp(self, target: Vector, t: float, out: Vector = None) -> Vector:
+    def lerp(self, target: Vector, t: float | int, out: Vector = None) -> Vector:
         """
         Lerps the current vector to target by a factor of t.
 
@@ -368,7 +370,7 @@ class Vector:
         return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
 
     @staticmethod
-    def from_radial(magnitude: float, angle: float) -> Vector:
+    def from_radial(magnitude: float | int, angle: float | int) -> Vector:
         """
         Generates a Vector from the given angle and magnitude.
 
@@ -384,7 +386,7 @@ class Vector:
         return Vector(round(math.cos(radians), 10) * magnitude, -round(math.sin(radians), 10) * magnitude)
 
     @staticmethod
-    def clamp_magnitude(vector: Vector, max_magnitude: float, min_magnitude: float = 0) -> Vector:
+    def clamp_magnitude(vector: Vector, max_magnitude: float | int, min_magnitude: float | int = 0) -> Vector:
         """
         Clamps the magnitude of the vector to the given range.
 
@@ -428,45 +430,38 @@ class Vector:
         """
         return cls.from_radial(1, random.random() * 360)
 
-    @classmethod
-    @property
-    def zero(cls):
+    @staticmethod
+    def zero():
         """A zeroed Vector"""
         return Vector(0, 0)
 
-    @classmethod
-    @property
-    def one(cls) -> Vector:
+    @staticmethod
+    def one() -> Vector:
         """A Vector with all ones"""
         return Vector(1, 1)
 
-    @classmethod
-    @property
-    def up(cls):
+    @staticmethod
+    def up():
         """A Vector in the up direction"""
         return Vector(0, -1)
 
-    @classmethod
-    @property
-    def left(cls):
+    @staticmethod
+    def left():
         """A Vector in the left direction"""
         return Vector(-1, 0)
 
-    @classmethod
-    @property
-    def down(cls):
+    @staticmethod
+    def down():
         """A Vector in the down direction"""
         return Vector(0, 1)
 
-    @classmethod
-    @property
-    def right(cls):
+    @staticmethod
+    def right():
         """A Vector in the right direction"""
         return Vector(1, 0)
 
-    @classmethod
-    @property
-    def infinity(cls):
+    @staticmethod
+    def infinity():
         """A Vector at positive infinity"""
         return Vector(Math.INF, Math.INF)
 
@@ -501,14 +496,19 @@ class Vector:
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
 
-    def __pow__(self, other: Any) -> Vector:
+    def __pow__(self, other: Any, mod: float | int) -> Vector:
         if isinstance(other, (int, float)):
-            return Vector(self.x**other, self.y**other)
+            return Vector(pow(self.x, other, mod), pow(self.y, other, mod))
         if isinstance(other, (Vector, tuple, list)):
-            return Vector(self.x**other[0], self.y**other[1])
+            return Vector(pow(self.x, other[0], mod), pow(self.y, other[1], mod))
         raise_operator_error("**", self, other)
 
-    __ipow__ = __pow__
+    def __ipow__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(pow(self.x, other), pow(self.y, other))
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(pow(self.x, other[0]), pow(self.y, other[1]))
+        raise_operator_error("**", self, other)
 
     def __mul__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
@@ -524,11 +524,33 @@ class Vector:
             return Vector(self.x + other[0], self.y + other[1])
         raise_operator_error("+", self, other)
 
-    __iadd__ = __add__
-    __imul__ = __mul__
+    def __imul__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x * other, self.y * other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x * other[0], self.y * other[1])
+        raise_operator_error("*", self, other)
 
-    __rmul__ = __mul__
-    __radd__ = __add__
+    def __iadd__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x + other[0], self.y + other[1])
+        raise_operator_error("+", self, other)
+
+    def __rmul__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x * other, self.y * other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x * other[0], self.y * other[1])
+        raise_operator_error("*", self, other)
+
+    def __radd__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x + other[0], self.y + other[1])
+        raise_operator_error("+", self, other)
 
     def __sub__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
@@ -544,7 +566,12 @@ class Vector:
             return Vector(other[0] - self.x, other[1] - self.y)
         raise_operator_error("-", other, self)
 
-    __isub__ = __sub__
+    def __isub__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x - other, self.y - other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x - other[0], self.y - other[1])
+        raise_operator_error("-", self, other)
 
     def __truediv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
@@ -560,7 +587,12 @@ class Vector:
             return Vector(other[0] / self.x, other[1] / self.y)
         raise_operator_error("/", other, self)
 
-    __itruediv__ = __truediv__
+    def __itruediv__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x / other, self.y / other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x / other[0], self.y / other[1])
+        raise_operator_error("/", self, other)
 
     def __floordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
@@ -576,7 +608,12 @@ class Vector:
             return Vector(other[0] // self.x, other[1] // self.y)
         raise_operator_error("//", other, self)
 
-    __ifloordiv__ = __floordiv__
+    def __ifloordiv__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x // other, self.y // other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x // other[0], self.y // other[1])
+        raise_operator_error("//", self, other)
 
     def __mod__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
@@ -592,7 +629,12 @@ class Vector:
             return Vector(other[0] % self.x, other[1] % self.y)
         raise_operator_error("%", other, self)
 
-    __imod__ = __mod__
+    def __imod__(self, other: Any) -> Vector:
+        if isinstance(other, (int, float)):
+            return Vector(self.x % other, self.y % other)
+        if isinstance(other, (Vector, tuple, list)):
+            return Vector(self.x % other[0], self.y % other[1])
+        raise_operator_error("%", self, other)
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)

@@ -61,8 +61,8 @@ def test_rationalized_mag(v1, v34):
 
 def test_normalized(v34):
     normalized = v34.normalized()
-    assert normalized.x == 3 / 5
-    assert normalized.y == 4 / 5
+    assert normalized.x == pytest.approx(3 / 5)
+    assert normalized.y == pytest.approx(4 / 5)
     assert Vector().normalized().x == 0
     assert Vector().normalized().y == 0
 
@@ -99,21 +99,6 @@ def test_clamp(v1, v34):
 def test_rotate(v1):
     assert v1.rotate(90) == Vector(1, -1)
     assert v1.rotate(45) == Vector(1.4142135624, 0)
-
-
-def test_to_int(v1, v34):
-    v1 += 0.1
-    assert not isinstance(v1.x, int)
-    assert not isinstance(v1.y, int)
-
-    v1 = v1.to_int()
-    assert isinstance(v1.x, int)
-    assert isinstance(v1.y, int)
-
-    v34 += 0.1
-    v34 = v34.tuple_int()
-    assert isinstance(v34[0], int)
-    assert isinstance(v34[1], int)
 
 
 def test_clone(v1, v34):
@@ -185,19 +170,19 @@ def test_random(monkeypatch):
     random = Random(1)
     monkeypatch.setattr("rubato.utils.vector.random", random)
     v = Vector.rand_unit_vector()
-    assert v.x == 0.7474634342
-    assert v.y == -0.6643029539
+    assert v.x == pytest.approx(0.7474634342)
+    assert v.y == pytest.approx(-0.6643029539)
 
 
 def test_quick_vectors():
     # pylint: disable=comparison-with-callable
-    assert Vector.zero == Vector()
-    assert Vector.one == Vector(1, 1)
-    assert Vector.up == Vector(0, -1)
-    assert Vector.down == Vector(0, 1)
-    assert Vector.left == Vector(-1, 0)
-    assert Vector.right == Vector(1, 0)
-    assert Vector.infinity == Vector(sys.maxsize, sys.maxsize)
+    assert Vector.zero() == Vector()
+    assert Vector.one() == Vector(1, 1)
+    assert Vector.up() == Vector(0, -1)
+    assert Vector.down() == Vector(0, 1)
+    assert Vector.left() == Vector(-1, 0)
+    assert Vector.right() == Vector(1, 0)
+    assert Vector.infinity() == Vector(sys.maxsize, sys.maxsize)
 
 
 def test_eq():
@@ -224,8 +209,8 @@ def test_inequalities():
 
 
 def test_str(v1):
-    assert str(v1) == "<1, 1>"
-    assert "rubato.Vector(1, 1) at" in repr(v1)
+    assert str(v1) == "<1.0, 1.0>"
+    assert "rubato.Vector(1.0, 1.0) at" in repr(v1)
 
 
 def test_math(v1, v34):

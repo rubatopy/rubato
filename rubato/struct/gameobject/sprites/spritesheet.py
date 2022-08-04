@@ -2,7 +2,7 @@
 A module to load, manage, and interact with spritesheets.
 """
 import sdl2
-from typing import List
+from typing import List, Tuple
 import os
 
 from . import Animation
@@ -25,47 +25,47 @@ class Spritesheet:
     """
 
     def __init__(self, rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None):
-        self._grid: Vector = grid_size
-        self._sprite_size: Vector = sprite_size
+        self._sprite_size: Tuple[int, int] = sprite_size.tuple_int()
         self._sheet = Sprite(rel_path=rel_path)
         self._sprites: List[List[Sprite]] = []
 
-        if not self._grid:
-            self._grid = self._sheet.get_size() / self._sprite_size
-            self._grid = self._grid.to_int()
-        if (self._sprite_size * self._grid) != self._sheet.get_size():
-            raise IndexError("Your sprite size or grid size is incorrect, please check")
+        if not grid_size:
+            self._grid: Tuple[int, int] = (self._sheet.get_size() / self._sprite_size).tuple_int()
+        else:
+            self._grid: Tuple[int, int] = grid_size.tuple_int()
+            if Vector(*self._sprite_size) * self._grid != self._sheet.get_size():
+                raise IndexError("Sprite and grid size do not match given spritesheet size.")
 
-        for y in range(0, self._grid.y * self._sprite_size.y, self._sprite_size.y):
+        for y in range(0, self._grid[1] * self._sprite_size[1], self._sprite_size[1]):
             self._sprites.append([])
-            for x in range(0, self._grid.x * self._sprite_size.x, self._sprite_size.x):
+            for x in range(0, self._grid[0] * self._sprite_size[0], self._sprite_size[0]):
                 sub = sdl2.SDL_CreateRGBSurfaceWithFormat(
-                    0, self._sprite_size.x, self._sprite_size.y, 32, sdl2.SDL_PIXELFORMAT_RGBA8888
+                    0, self._sprite_size[0], self._sprite_size[1], 32, sdl2.SDL_PIXELFORMAT_RGBA8888
                 )
                 sdl2.SDL_BlitSurface(
                     self._sheet.image,
-                    sdl2.SDL_Rect(x, y, self._sprite_size.x, self._sprite_size.y),
+                    sdl2.SDL_Rect(x, y, self._sprite_size[0], self._sprite_size[1]),
                     sub,
-                    sdl2.SDL_Rect(0, 0, self._sprite_size.x, self._sprite_size.y),
+                    sdl2.SDL_Rect(0, 0, self._sprite_size[0], self._sprite_size[1]),
                 )
 
-                sprite = Sprite("")
+                sprite: Sprite = Sprite("")
                 sprite.image = sub.contents
                 # pylint: disable=protected-access
                 sprite._original = sub.contents
                 sprite._changed = True
 
-                self._sprites[y // self._sprite_size.y].append(sprite)
+                self._sprites[y // self._sprite_size[1]].append(sprite)
 
     @property
     def grid_size(self) -> Vector:
         """The size of the spritesheet grid (readonly)."""
-        return self._grid
+        return Vector(*self._grid)
 
     @property
     def sprite_size(self) -> Vector:
         """The size of each sprite (readonly)."""
-        return self._sprite_size
+        return Vector(*self._sprite_size)
 
     @property
     def sheet(self) -> Sprite:
@@ -85,7 +85,7 @@ class Spritesheet:
         Example:
             You can use :code:`spritesheet.get(*spritesheet.end)` to get the final Sprite
         """
-        return self.grid_size - Vector.one
+        return self.grid_size - Vector.one()
 
     def get(self, x: int, y: int) -> Sprite:
         """
@@ -131,28 +131,22 @@ class Spritesheet:
             files.sort()
             for sprite_path in files:
                 path_to_spritesheet = os.path.join(path, sprite_path)
-                try:
-                    sprite_sheet = Spritesheet(
-                        rel_path=path_to_spritesheet,
-                        sprite_size=sprite_size,
-                    )
-                    anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
-                except TypeError:
-                    continue
+                sprite_sheet = Spritesheet(
+                    rel_path=path_to_spritesheet,
+                    sprite_size=sprite_size,
+                )
+                anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
         else:
             for _, _, files in os.walk(path):
                 # walk to directory path and ignore name and subdirectories
                 files.sort()
                 for sprite_path in files:
                     path_to_spritesheet = os.path.join(path, sprite_path)
-                    try:
-                        sprite_sheet = Spritesheet(
-                            rel_path=path_to_spritesheet,
-                            sprite_size=sprite_size,
-                        )
-                        anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
-                    except TypeError:
-                        continue
+                    sprite_sheet = Spritesheet(
+                        rel_path=path_to_spritesheet,
+                        sprite_size=sprite_size,
+                    )
+                    anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
 
         if default_state:
             anim.default_state = default_state

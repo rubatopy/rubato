@@ -200,7 +200,7 @@ def update():
 
     if rb.Input.key_pressed("r"):
         player.pos = rb.Display.center_left + rb.Vector(50, 0)
-        player.get(rb.RigidBody).velocity = rb.Vector.zero
+        player.get(rb.RigidBody).velocity = rb.Vector.zero()
         grounded = False
 
     if rb.Input.key_pressed("space"):
