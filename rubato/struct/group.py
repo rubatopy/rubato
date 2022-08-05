@@ -134,9 +134,10 @@ class Group:
         Returns:
             List[GameObject]: The resultant list.
         """
-        if include_self:
-            return self.game_objects + [group.all_gameobjects(True) for group in self.groups]
-        return [group.all_gameobjects(True) for group in self.groups]
+        ret: List[GameObject] = self.game_objects if include_self else []
+        for group in self.groups:
+            ret.extend(group.all_gameobjects(True))
+        return ret
 
     def draw(self, camera: Camera):
         if self.active:
