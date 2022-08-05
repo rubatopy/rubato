@@ -47,6 +47,14 @@ make test-no-rub # Run tests that don't need Rubato initialized
 make test-no-sdl # Run tests that don't need SDL
 make test-indiv # Run individual tests. Must specify test parameter. (e.g. make test-indiv test=test_foo)
 make lint # Run linting
+make demos # runs all demos for 3 seconds
+make docs-live # builds the documentation locally
+make docs-clear # clears the built docs
+make build # builds the project
+make watch # builds the project as you make changes
+make delete-bin # deletes the binary files
+make delete-c # deletes the c files
+make delete-build # undoes the build process
 ```
 
 ## Suggest Improvements
@@ -60,7 +68,7 @@ https://github.com/rubatopy/rubato/issues
 1. Make to remove any unnecessary print statements and remove all `TODO` comments.
 2. Update the `CHANGELOG.md` with details of changes.
 3. Make sure that all changes have unit-tests.
-4. Make sure that all Github Actions pass.
+4. Make sure that all GitHub Actions pass.
 5. The pull request will then be review and merged by a maintainer.
 
 ## Documentaion
