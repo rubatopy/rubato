@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, List, Set
+from typing import Callable, List, Set, Tuple
 import math
 
 from .. import Component
@@ -64,23 +64,23 @@ class Hitbox(Component):
         """The getter method for the position of the hitbox's center"""
         return self.gameobj.pos + self.offset
 
-    def get_aabb(self) -> List[Vector]:
+    def get_aabb(self) -> Tuple[Vector, Vector]:
         """
         Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
 
         Returns:
             The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
         """
-        return [self.gameobj.pos, self.gameobj.pos]
+        return self.gameobj.pos, self.gameobj.pos
 
-    def get_obb(self) -> List[Vector]:
+    def get_obb(self) -> Tuple[Vector, Vector]:
         """
         Gets the top left and bottom right corners of the oriented bounding box in world coordinates.
 
         Returns:
             The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
         """
-        return [self.gameobj.pos, self.gameobj.pos]
+        return self.gameobj.pos, self.gameobj.pos
 
 
 class Polygon(Hitbox):
@@ -169,7 +169,7 @@ class Polygon(Hitbox):
             z_index=self.z_index,
         )
 
-    def get_aabb(self) -> List[Vector]:
+    def get_aabb(self) -> Tuple[Vector, Vector]:
         verts = self.real_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
@@ -183,9 +183,9 @@ class Polygon(Hitbox):
             elif vert.x < left:
                 left = vert.x
 
-        return [Vector(left, top), Vector(right, bottom)]
+        return Vector(left, top), Vector(right, bottom)
 
-    def get_obb(self) -> List[Vector]:
+    def get_obb(self) -> Tuple[Vector, Vector]:
         verts = self.translated_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
@@ -199,10 +199,10 @@ class Polygon(Hitbox):
             elif vert.x < left:
                 left = vert.x
 
-        return [
+        return (
             Vector(left, top).rotate(self.gameobj.rotation) + self.gameobj.pos,
-            Vector(right, bottom).rotate(self.gameobj.rotation) + self.gameobj.pos,
-        ]
+            Vector(right, bottom).rotate(self.gameobj.rotation) + self.gameobj.pos
+        )
 
     def translated_verts(self) -> List[Vector]:
         """Offsets each vertex with the Polygon's offset"""
@@ -515,7 +515,7 @@ class Rectangle(Hitbox):
         """
         return Input.pt_in_poly(pt, self.real_verts())
 
-    def get_aabb(self) -> List[Vector]:
+    def get_aabb(self) -> Tuple[Vector, Vector]:
         verts = self.real_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
@@ -529,14 +529,14 @@ class Rectangle(Hitbox):
             elif vert.x < left:
                 left = vert.x
 
-        return [Vector(left, top), Vector(right, bottom)]
+        return Vector(left, top), Vector(right, bottom)
 
-    def get_obb(self) -> List[Vector]:
+    def get_obb(self) -> Tuple[Vector, Vector]:
         dim = Vector(self.width / 2, self.height / 2)
-        return [
+        return (
             (self.offset - dim).rotate(self.gameobj.rotation) + self.gameobj.pos,
-            (self.offset + dim).rotate(self.gameobj.rotation) + self.gameobj.pos,
-        ]
+            (self.offset + dim).rotate(self.gameobj.rotation) + self.gameobj.pos
+        )
 
     def vertices(self) -> List[Vector]:
         """
@@ -671,20 +671,14 @@ class Circle(Hitbox):
         """Sets the center of the circle."""
         self.gameobj.pos = new
 
-    def get_aabb(self) -> List[Vector]:
+    def get_aabb(self) -> Tuple[Vector, Vector]:
         offset = self.transformed_radius()
-        return [
-            self.pos - offset,
-            self.pos + offset,
-        ]
+        return self.pos - offset, self.pos + offset
 
-    def get_obb(self) -> List[Vector]:
+    def get_obb(self) -> Tuple[Vector, Vector]:
         r = self.transformed_radius()
         offset = Vector(r, r).rotate(self.gameobj.rotation)
-        return [
-            self.gameobj.pos - offset,
-            self.gameobj.pos + offset,
-        ]
+        return self.gameobj.pos - offset, self.gameobj.pos + offset
 
     def transformed_radius(self) -> int | float:
         """Gets the true radius of the circle"""
