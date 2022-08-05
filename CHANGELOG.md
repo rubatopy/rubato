@@ -22,6 +22,7 @@
 
 ### Fixed
 -   Deeply nested groups not colliding with ancestors
+-   Hitboxes outside the boundaries not making use of QTrees properly
 
 ## [v3.0.0] - July 31, 2022
 
