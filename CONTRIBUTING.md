@@ -7,7 +7,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Setting up dev environment
 
-Setting up your environment is easy. Just run:
+Setting up your environment is easy. In a Bash shell, just run:
 
 ```shell
 make setup
