@@ -128,10 +128,10 @@ class GameObject:
         Returns:
             The component if it was found or None if it wasn't.
         """
-        if comp_type in (Rectangle, Polygon, Circle):
-            comp_type = Hitbox
         if comp_type in self._components:
-            return self._components[comp_type][0]
+            return self._components.get(comp_type, [None])[0]
+        if comp_type in (Rectangle, Polygon, Circle):
+            return self._components.get(Hitbox, [None])[0]
         return None
 
     def get_all(self, comp_type: Type[T]) -> List[T]:
@@ -145,10 +145,10 @@ class GameObject:
             A list containing all the components of that type. If no components were found, the
                 list is empty.
         """
-        if comp_type in (Rectangle, Polygon, Circle):
-            comp_type = Hitbox
         if comp_type in self._components:
-            return self._components[comp_type]
+            return self._components.get(comp_type, [])
+        if comp_type in (Rectangle, Polygon, Circle):
+            return self._components.get(Hitbox, [])
         return []
 
     def delete(self):

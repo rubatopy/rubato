@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List
 
 from . import GameObject, Hitbox, QTree
-from .. import Error, Display, Camera
+from .. import Error, Camera
 
 
 class Group:
@@ -103,27 +103,41 @@ class Group:
         Called automatically by rubato as long as the group is added to a scene.
         """
         if self.active:
-            for game_obj in self.game_objects:
-                game_obj.fixed_update()
-
-            qtree = QTree(Display.top_left, Display.bottom_right)
-
-            # collide all hitboxes with each other
-            for game_obj in self.game_objects:
-                hts = game_obj._components.get(Hitbox, []) # pylint: disable=protected-access
-                if hts:
-                    bb = QTree.calc_bb(hts)
-                    qtree.collide(hts, bb)
-                    qtree.insert(hts, bb)
+            all_hts = []
 
             for group in self.groups:
                 group.fixed_update()
 
-                # collide children groups with parent hitboxes
-                for game_obj in group.game_objects:
-                    hts = game_obj._components.get(Hitbox, []) # pylint: disable=protected-access
-                    if hts:
-                        qtree.collide(hts, QTree.calc_bb(hts))
+            for game_obj in self.game_objects:
+                game_obj.fixed_update()
+                hts = game_obj.get_all(Hitbox)
+                if hts:
+                    all_hts.append(hts)
+
+            qtree = QTree(all_hts)
+
+            all_gos = self.all_gameobjects()
+
+            for go in all_gos:
+                hts = go.get_all(Hitbox)
+                if hts:
+                    qtree.collide(hts, qtree.calc_bb(hts))
+
+
+    def all_gameobjects(self, include_self: bool = False) -> List[GameObject]:
+        """
+        Returns a list of all game objects in the group and all of its children.
+
+        Args:
+            include_self (bool, optional): Whether to include this group's direct children. Defaults to False.
+
+        Returns:
+            List[GameObject]: The resultant list.
+        """
+        ret: List[GameObject] = self.game_objects if include_self else []
+        for group in self.groups:
+            ret.extend(group.all_gameobjects(True))
+        return ret
 
     def draw(self, camera: Camera):
         if self.active:

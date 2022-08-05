@@ -7,17 +7,22 @@
 
 ### Breaking Changes
 -   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
-    Be careful in accuracy-dependent calculations to handle deviation properly.
+    Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are implicitly cast to floats
+    when used in Vector.
 -   Rename `Vector.to_int()` to `Vector.rounded()`. It now rounds a vector instead of doing an int cast
 
 ### Added
+-   `Group.all_gameobjects()` to get, recursively, all the game objects belonging to a group and its children.
 
 ### Changed
 -   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
+-   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
 
 ### Removed
 
 ### Fixed
+-   Deeply nested groups not colliding with ancestors
+-   Hitboxes outside the boundaries not making use of QTrees properly
 
 ## [v3.0.0] - July 31, 2022
 
