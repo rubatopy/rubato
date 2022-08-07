@@ -10,7 +10,7 @@ broadcast that event key using :meth:`Radio.broadcast`.
 """
 from __future__ import annotations
 import ctypes
-from typing import Callable, List
+from typing import Callable
 from contextlib import suppress
 import sdl2
 import cython
@@ -54,7 +54,7 @@ class Radio:
         listeners (dict[str, Callable]): A dictionary with all of the
             active listeners.
     """
-    listeners: dict[str, List[Listener]] = {}
+    listeners: dict[str, list[Listener]] = {}
 
     @classmethod
     def handle(cls) -> bool:

@@ -3,7 +3,6 @@ This color module contains the Color class, which is used to represent colors in
 """
 from __future__ import annotations
 from random import randint, choice
-from typing import Tuple
 import sdl2
 
 from . import Math, Display
@@ -130,7 +129,7 @@ class Color:
             (1 - t) * self.a + t * other.a,
         )
 
-    def to_tuple(self) -> Tuple[int, int, int, int]:
+    def to_tuple(self) -> tuple[int, int, int, int]:
         """
         Converts the Color to a tuple.
 
@@ -148,7 +147,7 @@ class Color:
         """
         return f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}".replace(" ", "")
 
-    def to_hsv(self) -> Tuple[float | int, float | int, float]:
+    def to_hsv(self) -> tuple[float | int, float | int, float]:
         """
         Converts the Color to a tuple containing its HSV values.
 

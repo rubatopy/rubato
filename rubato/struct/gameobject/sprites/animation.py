@@ -2,7 +2,7 @@
 This is the animation component module for game objects.
 """
 from __future__ import annotations
-from typing import List, Dict, TYPE_CHECKING
+from typing import TYPE_CHECKING
 from os import path, walk
 import sdl2
 
@@ -55,7 +55,7 @@ class Animation(Component):
         self._fps: int = fps
         self.singular = False
 
-        self._states: Dict[str, List[Sprite]] = {}
+        self._states: dict[str, list[Sprite]] = {}
         self._freeze: int = -1
 
         self.default_state: str = None
@@ -151,7 +151,7 @@ class Animation(Component):
         """Reset the animation state back to the first frame."""
         self.current_frame = 0
 
-    def add(self, state_name: str, images: List[Sprite]):
+    def add(self, state_name: str, images: list[Sprite]):
         """
         Adds a state to the animation.
 

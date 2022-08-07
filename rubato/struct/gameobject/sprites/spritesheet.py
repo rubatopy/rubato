@@ -2,7 +2,6 @@
 A module to load, manage, and interact with spritesheets.
 """
 import sdl2
-from typing import List, Tuple
 import os
 
 from . import Animation
@@ -25,14 +24,14 @@ class Spritesheet:
     """
 
     def __init__(self, rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None):
-        self._sprite_size: Tuple[int, int] = sprite_size.tuple_int()
+        self._sprite_size: tuple[int, int] = sprite_size.tuple_int()
         self._sheet = Sprite(rel_path=rel_path)
-        self._sprites: List[List[Sprite]] = []
+        self._sprites: list[list[Sprite]] = []
 
         if not grid_size:
-            self._grid: Tuple[int, int] = (self._sheet.get_size() / self._sprite_size).tuple_int()
+            self._grid: tuple[int, int] = (self._sheet.get_size() / self._sprite_size).tuple_int()
         else:
-            self._grid: Tuple[int, int] = grid_size.tuple_int()
+            self._grid: tuple[int, int] = grid_size.tuple_int()
             if Vector(*self._sprite_size) * self._grid != self._sheet.get_size():
                 raise IndexError("Sprite and grid size do not match given spritesheet size.")
 
@@ -73,7 +72,7 @@ class Spritesheet:
         return self._sheet
 
     @property
-    def sprites(self) -> List[List[Sprite]]:
+    def sprites(self) -> list[list[Sprite]]:
         """The list of all the sprites as sprites (readonly)."""
         return self._sprites
 

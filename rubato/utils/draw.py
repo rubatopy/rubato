@@ -1,7 +1,7 @@
 """A static draw class for drawing things directly to the renderer."""
 from __future__ import annotations
 from ctypes import c_int16
-from typing import TYPE_CHECKING, List, Optional, Callable
+from typing import TYPE_CHECKING, Optional, Callable
 import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
@@ -22,7 +22,7 @@ class DrawTask:
 
 class Draw:
     """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
-    _queue: List[DrawTask] = []
+    _queue: list[DrawTask] = []
 
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
@@ -250,7 +250,7 @@ class Draw:
     @classmethod
     def queue_poly(
         cls,
-        points: List[Vector],
+        points: list[Vector],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -270,7 +270,7 @@ class Draw:
 
     @staticmethod
     def poly(
-        points: List[Vector],
+        points: list[Vector],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None

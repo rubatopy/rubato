@@ -3,7 +3,6 @@ A fully functional, multi-channel sound system.
 """
 from __future__ import annotations
 from os import path, walk
-from typing import Dict
 from ctypes import c_int, CFUNCTYPE
 
 import sdl2.sdlmixer as mixer
@@ -43,16 +42,16 @@ class Sound():
         sound_name: The name of the sound. Defaults to the name of the file.
 
     Attributes:
-        loaded_sounds (Dict[str, Sound]): A dictionary housing all the loaded
+        loaded_sounds (dict[str, Sound]): A dictionary housing all the loaded
             sounds, stored by their name.
-        active_channels (Dict[int, Sound]): A dictionary housing all the active sounds, stored by their name.
+        active_channels (dict[int, Sound]): A dictionary housing all the active sounds, stored by their name.
     """
     STOPPED = 0
     PLAYING = 1
     PAUSED = 2
 
-    loaded_sounds: Dict[str, Sound] = {}
-    active_channels: Dict[int, Sound] = {}
+    loaded_sounds: dict[str, Sound] = {}
+    active_channels: dict[int, Sound] = {}
 
     def __init__(self, rel_path: str, sound_name: str = None):
         self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))

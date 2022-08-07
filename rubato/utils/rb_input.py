@@ -1,10 +1,7 @@
 """
 The Input module is the way you collect input from the user.
-
-
 """
 import ctypes
-from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
@@ -19,7 +16,7 @@ class Input:
     """
     # KEYBOARD METHODS
 
-    _mods: Dict[str, int] = {
+    _mods: dict[str, int] = {
         "shift": sdl2.KMOD_SHIFT,
         "left shift": sdl2.KMOD_LSHIFT,
         "right shift": sdl2.KMOD_RSHIFT,
@@ -103,7 +100,7 @@ class Input:
         return sdl2.SDL_GetKeyName(code).decode("utf-8").lower()
 
     @classmethod
-    def mods_from_code(cls, code: int) -> List[str]:
+    def mods_from_code(cls, code: int) -> list[str]:
         """
         Gets the modifier names from a mod code.
 
@@ -111,7 +108,7 @@ class Input:
             code: The mod code.
 
         Returns:
-            List[str]: A list with the names of the currently pressed modifiers.
+            list[str]: A list with the names of the currently pressed modifiers.
         """
         return [name for name, val in cls._mods.items() if code & val]
 
@@ -155,12 +152,12 @@ class Input:
     # MOUSE FUNCTIONS
 
     @classmethod
-    def mouse_state(cls) -> Tuple[bool]:
+    def mouse_state(cls) -> tuple[bool]:
         """
         Checks which mouse buttons are pressed.
 
         Returns:
-            Tuple[bool]: A tuple with 5 booleans representing the state of each
+            tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
         info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
@@ -184,12 +181,12 @@ class Input:
 
     @classmethod
     @deprecated(mouse_state)
-    def mouse_is_pressed(cls) -> Tuple[bool]:
+    def mouse_is_pressed(cls) -> tuple[bool]:
         """
         Checks which mouse buttons are pressed.
 
         Returns:
-            Tuple[bool]: A tuple with 5 booleans representing the state of each
+            tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
         info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
@@ -270,13 +267,13 @@ class Input:
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @staticmethod
-    def pt_in_poly(pt: Vector, verts: List[Vector]) -> bool:
+    def pt_in_poly(pt: Vector, verts: list[Vector]) -> bool:
         """
         Checks if a point is inside a polygon.
 
         Args:
             pt (Vector): The point to check.
-            verts (List[Vector]): The polygon representation as a list of Vectors (vertices)
+            verts (list[Vector]): The polygon representation as a list of Vectors (vertices)
 
         Returns:
             bool: Whether the point is inside the polygon.

@@ -1,5 +1,5 @@
 """The font module for text rendering"""
-from typing import List, Literal
+from typing import Literal
 import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlgfx
 from importlib.resources import files
 
@@ -38,7 +38,7 @@ class Font:
         self,
         font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "PressStart"] = "Roboto",
         size: int = 16,
-        styles: List[str] = [],
+        styles: list[str] = [],
         color: Color = Color(0, 0, 0),
     ):
         self._size = size

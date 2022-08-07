@@ -1,6 +1,6 @@
 """Handles collision manifold generation for complex geometries."""
 from __future__ import annotations
-from typing import List, TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional
 import math
 
 from . import RigidBody, Circle
@@ -288,7 +288,7 @@ class Engine:
         return best_dist, best_ind
 
     @staticmethod
-    def get_support(verts: List[Vector], direction: Vector) -> Vector:
+    def get_support(verts: list[Vector], direction: Vector) -> Vector:
         """Gets the furthest support vertex in a given direction."""
         best_proj = -Math.INF
         best_vert = None
@@ -303,7 +303,7 @@ class Engine:
         return best_vert
 
     @staticmethod
-    def get_normal(verts: List[Vector], index: int) -> Vector:
+    def get_normal(verts: list[Vector], index: int) -> Vector:
         """Finds a vector perpendicular to a side"""
         face = (verts[(index + 1) % len(verts)] - verts[index]).perpendicular()
         face.magnitude = 1

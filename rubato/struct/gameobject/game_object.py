@@ -2,7 +2,7 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
-from typing import List, Dict, Optional, Type, TypeVar
+from typing import Optional, Type, TypeVar
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
 from ... import Game, Vector, Display, DuplicateComponentError, Draw, ImplementationError, Camera
@@ -42,7 +42,7 @@ class GameObject:
         self.pos: Vector = pos
         self.debug: bool = debug
         self.z_index: int = z_index
-        self._components: Dict[type, List[Component]] = {}
+        self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
 
     def add(self, *components: Component) -> GameObject:
@@ -134,7 +134,7 @@ class GameObject:
             return self._components.get(Hitbox, [None])[0]
         return None
 
-    def get_all(self, comp_type: Type[T]) -> List[T]:
+    def get_all(self, comp_type: Type[T]) -> list[T]:
         """
         Gets all the components of a type from the game object.
 

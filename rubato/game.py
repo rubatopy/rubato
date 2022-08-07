@@ -2,7 +2,7 @@
 The main game module. It controls everything in the game.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
@@ -82,7 +82,7 @@ class Game(metaclass=GameProperties):
 
     _initialized = False
 
-    _scenes: Dict[str, Scene] = {}
+    _scenes: dict[str, Scene] = {}
     _scene_id : int = 0
     _current: str = ""
 

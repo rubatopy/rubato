@@ -3,7 +3,7 @@ A static time class to monitor time and to call functions in the future.
 
 """
 from dataclasses import dataclass, field
-from typing import Callable, List
+from typing import Callable
 import heapq
 import sdl2
 
@@ -62,9 +62,9 @@ class Time:
 
     frames: int = 0
 
-    _frame_queue: List[FramesTask] = []
-    _task_queue: List[DelayedTask] = []
-    _schedule_queue: List[ScheduledTask] = []
+    _frame_queue: list[FramesTask] = []
+    _task_queue: list[DelayedTask] = []
+    _schedule_queue: list[ScheduledTask] = []
 
     delta_time: float = 0.001
     fixed_delta: float = 0
