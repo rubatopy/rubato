@@ -2,7 +2,7 @@
 from __future__ import annotations
 from ctypes import c_int16
 from typing import TYPE_CHECKING, List, Optional, Callable
-from dataclasses import dataclass, field
+import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
@@ -11,12 +11,14 @@ from . import Vector, Color, Font, Display, Math
 if TYPE_CHECKING:
     from .. import Sprite
 
-
-@dataclass(order=True)
+@cython.cclass
 class DrawTask:
-    priority: int
-    func: Callable = field(compare=False)
+    priority: cython.int = cython.declare(cython.int, visibility="public")
+    func: Callable = cython.declare(object, visibility="public")
 
+    def __init__(self, priority: cython.int, func: Callable):
+        self.priority = priority
+        self.func = func
 
 class Draw:
     """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
@@ -54,7 +56,7 @@ class Draw:
         if not cls._queue:
             return
 
-        cls._queue.sort()
+        cls._queue.sort(key=lambda x: x.priority)
 
         for task in cls._queue:
             task.func()
