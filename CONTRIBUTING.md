@@ -7,7 +7,11 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Setting up dev environment
 
-Setting up your environment is easy. Just run:
+* **Linux:** The GNU C Compiler (gcc) is usually present, or easily available through the package system. On Ubuntu or Debian, for instance, it is part of the `build-essential` package. Next to a C compiler, Cython requires the Python header files. On Ubuntu or Debian, the command `sudo apt-get install build-essential python3-dev` will fetch everything you need.
+* **Mac OS X:** To retrieve gcc, one option is to install Apple’s XCode, which can be retrieved from the Mac OS X’s install DVDs or from https://developer.apple.com/.
+* **Windows:** Get the Microsoft Build Tools [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/). You need the **MSVC** compiler, and the SDK for your Windows version. To download make using Chocolatey, go [here](https://stackoverflow.com/a/57042516).
+
+Setting up your environment is easy. In a Bash shell, just run:
 
 ```shell
 make setup
@@ -15,7 +19,7 @@ make setup
 
 This will take a couple minutes the first time so be patient. Once this finishes, everything is ready to go!
 
-rubato is a Cython project. To compile the code, run:
+#### rubato is a Cython project. To compile the code, run:
 
 ```shell
 make build
@@ -31,16 +35,26 @@ make test
 
 This will run all the tests. There are also more make targets for specific tests.
 
+## Makefile documentation
+
 ```shell
 make all # Run all tests and linting
 make # same as make all
 make test # Run all tests
-make lint # Run linting
-make test-no-sdl # Run tests that don't need SDL
-make test-no-rub # Run tests that don't need Rubato initialized
 make test-rub # Run tests that need Rubato initialized
 make test-sdl # Run tests that need SDL
+make test-no-rub # Run tests that don't need Rubato initialized
+make test-no-sdl # Run tests that don't need SDL
 make test-indiv # Run individual tests. Must specify test parameter. (e.g. make test-indiv test=test_foo)
+make lint # Run linting
+make demos # runs all demos for 3 seconds
+make docs-live # builds the documentation locally
+make docs-clear # clears the built docs
+make build # builds the project
+make watch # builds the project as you make changes
+make delete-bin # deletes the binary files
+make delete-c # deletes the c files
+make delete-build # undoes the build process
 ```
 
 ## Suggest Improvements
@@ -54,7 +68,7 @@ https://github.com/rubatopy/rubato/issues
 1. Make to remove any unnecessary print statements and remove all `TODO` comments.
 2. Update the `CHANGELOG.md` with details of changes.
 3. Make sure that all changes have unit-tests.
-4. Make sure that all Github Actions pass.
+4. Make sure that all GitHub Actions pass.
 5. The pull request will then be review and merged by a maintainer.
 
 ## Documentaion
