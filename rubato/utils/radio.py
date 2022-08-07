@@ -11,8 +11,8 @@ broadcast that event key using :meth:`Radio.broadcast`.
 
 import ctypes
 from typing import Callable, List
-import sdl2
 from contextlib import suppress
+import sdl2
 
 from . import Input, Display, Vector
 
@@ -55,20 +55,22 @@ class Radio:
     listeners: dict[str, List] = {}
 
     @classmethod
-    def handle(cls):
-        """Handle the event queue"""
+    def handle(cls) -> bool:
+        """
+        Handle the current SDL event queue.
+
+        Returns:
+            bool: Whether an SDL Quit event was fired.
+        """
         event = sdl2.SDL_Event()
 
-        while True:
-            if sdl2.SDL_PeepEvents(
-                ctypes.byref(event),
-                1,
-                sdl2.SDL_GETEVENT,
-                sdl2.SDL_FIRSTEVENT,
-                sdl2.SDL_LASTEVENT
-            ) <= 0:
-                break
-
+        while sdl2.SDL_PeepEvents(
+            ctypes.byref(event),
+            1,
+            sdl2.SDL_GETEVENT,
+            sdl2.SDL_FIRSTEVENT,
+            sdl2.SDL_LASTEVENT
+        ) > 0:
             if event.type == sdl2.SDL_QUIT:
                 return True
             if event.type == sdl2.SDL_WINDOWEVENT:
