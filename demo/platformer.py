@@ -240,7 +240,7 @@ def handle_keydown(event):
         rb.Game.camera.zoom = .5
 
 
-rb.Radio.listen("KEYDOWN", handle_keydown)
+rb.Radio.listen(rb.Events.KEYDOWN, handle_keydown)
 
 # begin the game
 rb.begin()
