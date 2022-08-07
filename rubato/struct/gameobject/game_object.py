@@ -168,8 +168,9 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            rotated_x = Vector(int(camera.scale(10)), 0).rotate(self.rotation)
-            rotated_y = Vector(0, int(camera.scale(10))).rotate(self.rotation)
+            scale = int(camera.scale(10))
+            rotated_x = Vector(scale, 0).rotate(self.rotation)
+            rotated_y = rotated_x.perpendicular(-1)
             p1 = (camera.transform(self.pos) + rotated_x).rounded()
             p2 = (camera.transform(self.pos) - rotated_x).rounded()
 
