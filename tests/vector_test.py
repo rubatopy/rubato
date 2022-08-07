@@ -1,8 +1,8 @@
 """Test the Vector class"""
 from random import Random
-import sys
 import pytest
 from rubato.utils.vector import Vector
+from rubato.utils.rb_math import Math
 # pylint: disable=redefined-outer-name
 
 
@@ -182,7 +182,7 @@ def test_quick_vectors():
     assert Vector.down() == Vector(0, 1)
     assert Vector.left() == Vector(-1, 0)
     assert Vector.right() == Vector(1, 0)
-    assert Vector.infinity() == Vector(sys.maxsize, sys.maxsize)
+    assert Vector.infinity() == Vector(Math.INF, Math.INF)
 
 
 def test_eq():

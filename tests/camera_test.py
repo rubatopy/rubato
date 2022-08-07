@@ -6,7 +6,7 @@ from rubato.utils.camera import Camera
 from rubato.utils.radio import Radio
 from rubato.utils.display import Display
 from rubato.utils.vector import Vector
-import sys
+from rubato.utils.rb_math import Math
 
 
 @pytest.mark.rub
@@ -15,7 +15,7 @@ def test_init(rub):
     c = Camera()
     assert c.pos == Display.center  # pylint: disable=comparison-with-callable
     assert c._zoom == 1  # pylint: disable=protected-access
-    assert c.z_index == sys.maxsize
+    assert c.z_index == Math.INF
 
 
 def test_zoom_prop():
