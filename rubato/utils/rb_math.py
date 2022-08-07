@@ -2,18 +2,17 @@
 The math module includes some helper functions for commonly used equations.
 """
 import math
-import sys
 
 class Math:
     """
     A more complete math class.
 
     Attributes:
-        INF (float): The max value of a float.
+        INF (int): The max value of a 32-bit integer.
         PI_HALF (float): The value of pi / 2.
         PI_TWO (float): The value of pi * 2.
     """
-    INF = sys.maxsize
+    INF = 2147483647
     PI_HALF = math.pi / 2
     PI_TWO = math.tau
 
