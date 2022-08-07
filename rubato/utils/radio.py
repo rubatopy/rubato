@@ -9,8 +9,9 @@ broadcast that event key using :meth:`Radio.broadcast`.
 :doc:`Go here <events>` to see all the events that can be broadcast.
 """
 
+import ctypes
 from typing import Callable, List
-import sdl2, sdl2.ext
+import sdl2
 from contextlib import suppress
 
 from . import Input, Display, Vector
@@ -58,7 +59,23 @@ class Radio:
     @classmethod
     def pump(cls):
         sdl2.SDL_PumpEvents()
-        cls.queue.extend(sdl2.ext.get_events())
+        evlist = []
+
+        op = sdl2.SDL_GETEVENT
+        first = sdl2.SDL_FIRSTEVENT
+        last = sdl2.SDL_LASTEVENT
+
+        while True:
+            evarray = (sdl2.SDL_Event * 10)()
+            ptr = ctypes.cast(evarray, ctypes.POINTER(sdl2.SDL_Event))
+            ret = sdl2.SDL_PeepEvents(ptr, 10, op, first, last)
+            if ret <= 0:
+                break
+            evlist += list(evarray)[:ret]
+            if ret < 10:
+                break
+
+        cls.queue.extend(evlist)
 
     @classmethod
     def handle(cls):
