@@ -244,7 +244,7 @@ class Polygon(Hitbox):
         if self.debug or Game.debug:
             if not list_of_points:
                 list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
 
     @classmethod
     def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> List[Vector]:
@@ -589,7 +589,7 @@ class Rectangle(Hitbox):
         if self.debug or Game.debug:
             if not list_of_points:
                 list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
 
     def clone(self) -> Rectangle:
         return Rectangle(
@@ -714,7 +714,7 @@ class Circle(Hitbox):
             if not relative_pos:
                 relative_pos = camera.transform(self.pos)
                 scaled_rad = camera.scale(self.radius)
-            Draw.queue_circle(relative_pos, int(scaled_rad), Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.queue_circle(relative_pos, int(scaled_rad), Color.cyan, 2 * Display.display_ratio.x)
 
     def clone(self) -> Circle:
         return Circle(

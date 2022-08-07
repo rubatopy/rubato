@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import List, Dict, Optional, Type, TypeVar
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from ... import Game, Vector, Display, DuplicateComponentError, Draw, Color, ImplementationError, Camera
+from ... import Game, Vector, Display, DuplicateComponentError, Draw, ImplementationError, Camera
 
 T = TypeVar("T")
 
@@ -176,8 +176,8 @@ class GameObject:
             p3 = (camera.transform(self.pos) + rotated_y).rounded()
             p4 = (camera.transform(self.pos) - rotated_y).rounded()
 
-            Draw.queue_line(p1, p2, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
-            Draw.queue_line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
+            Draw.queue_line(p1, p2, width=2 * max(1, Display.display_ratio.y))
+            Draw.queue_line(p3, p4, width=2 * max(1, Display.display_ratio.y))
 
     def update(self):
         all_comps = list(self._components.values())

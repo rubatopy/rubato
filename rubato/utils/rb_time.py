@@ -60,7 +60,7 @@ class Time:
         fixed_delta (int): The number of seconds since the last fixed update.
     """
 
-    frames = 0
+    frames: int = 0
 
     _frame_queue: List[FramesTask] = []
     _task_queue: List[DelayedTask] = []
@@ -72,21 +72,22 @@ class Time:
     fps = 60
     _frame_start: int = 0
 
-    physics_counter = 0
+    physics_counter: float = 0
 
-    _fps_history = 120
+    _fps_history: int = 120
     _past_fps = [0] * _fps_history
+    _fps_index: int = 0
 
     target_fps = 0  # this means no cap
-    capped = False
+    capped: bool = False
 
     physics_fps = 60
 
     @classmethod
     @property
-    def smooth_fps(cls) -> float:
+    def smooth_fps(cls) -> int:
         """The average fps over the past 120 frames. This is a get-only property."""
-        return sum(cls._past_fps) / cls._fps_history
+        return int(sum(cls._past_fps) / cls._fps_history)
 
     @classmethod
     def now(cls) -> int:
@@ -186,8 +187,8 @@ class Time:
         cls.frames += 1
         cls.fps = 1 / cls.delta_time
 
-        del cls._past_fps[0]
-        cls._past_fps.append(cls.fps)
+        cls._past_fps[cls._fps_index] = int(cls.fps)
+        cls._fps_index = (cls._fps_index + 1) % cls._fps_history
 
         while cls._frame_queue:
             if cls._frame_queue[0].delay <= cls.frames:

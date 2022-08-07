@@ -17,6 +17,7 @@
 ### Changed
 -   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 -   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
+-   Default drawing/debug colors from green to cyan.
 
 ### Removed
 

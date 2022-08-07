@@ -13,18 +13,17 @@ class Debug:
 
     @staticmethod
     def draw_fps(font: Font):
-        fs = str(int(Time.smooth_fps))
-        h = int(Display.res.y // 40)
-        p = h // 4
-        p2 = p + p
+        fs = str(Time.smooth_fps)
+        h = int(Display.res.y) >> 5
+        p = h // 2
         Draw.rect(
-            Vector(p2 + (h * len(fs)) / 2, p2 + h / 2),
-            h * len(fs) + p2,
-            h + p2,
-            Color(a=180),
-            fill=Color(a=180),
+            Vector(p + (h * len(fs)) / 2, p + h / 2),
+            h * len(fs) + p,
+            h + p,
+            Color(a=200),
+            fill=Color(a=200)
         )
-        Draw.text(fs, font=font, pos=Vector(p2 + 2, p2 + 2), align=Vector(1, 1))
+        Draw.text(fs, font=font, pos=Vector(p + 4, p + 3), align=Vector(1, 1))
 
     @staticmethod
     def find_my_print():

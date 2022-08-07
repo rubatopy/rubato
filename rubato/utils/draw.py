@@ -62,25 +62,25 @@ class Draw:
         cls._queue.clear()
 
     @classmethod
-    def queue_point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
+    def queue_point(cls, pos: Vector, color: Color = Color.cyan, z_index: int = Math.INF):
         """
         Draw a point onto the renderer at the end of the frame.
 
         Args:
             pos (Vector): The position of the point.
-            color (Color): The color to use for the pixel. Defaults to Color.green.
+            color (Color): The color to use for the pixel. Defaults to Color.cyan.
             z_index (int): Where to draw it in the drawing order. Defaults to Math.INF.
         """
         cls.push(z_index, lambda: cls.point(pos, color))
 
     @staticmethod
-    def point(pos: Vector, color: Color = Color.green):
+    def point(pos: Vector, color: Color = Color.cyan):
         """
         Draw a point onto the renderer immediately.
 
         Args:
             pos (Vector): The position of the point.
-            color (Color): The color to use for the pixel. Defaults to Color.green.
+            color (Color): The color to use for the pixel. Defaults to Color.cyan.
         """
         sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
@@ -89,7 +89,7 @@ class Draw:
         cls,
         p1: Vector,
         p2: Vector,
-        color: Color = Color.green,
+        color: Color = Color.cyan,
         width: int | float = 1,
         z_index: int = Math.INF
     ):
@@ -99,21 +99,21 @@ class Draw:
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to Color.green.
+            color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         cls.push(z_index, lambda: cls.line(p1, p2, color, width))
 
     @staticmethod
-    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int | float = 1):
+    def line(p1: Vector, p2: Vector, color: Color = Color.cyan, width: int | float = 1):
         """
         Draw a line onto the renderer immediately.
 
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to Color.green.
+            color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
         """
         sdl2.sdlgfx.thickLineRGBA(
@@ -297,7 +297,10 @@ class Draw:
                 fill.b,
                 fill.a,
             )
-        if border_thickness == 1:
+
+        if border_thickness <= 0:
+            return
+        elif border_thickness == 1:
             sdl2.sdlgfx.aapolygonRGBA(
                 Display.renderer.sdlrenderer,
                 vx,
@@ -319,7 +322,7 @@ class Draw:
                         points[(i + 1) % len(points)].x,
                         points[(i + 1) % len(points)].y,
                     ),
-                    Color(0, 255),
+                    border,
                     border_thickness,
                 )
 

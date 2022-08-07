@@ -30,8 +30,8 @@ class Scene:
     def __init__(
         self,
         name: str | None = None,
-        background_color: Color = Color(255, 255, 255),
-        border_color: Color = Color(),
+        background_color: Color = Color.white,
+        border_color: Color = Color.black,
     ):
         self.root: Group = Group(name="root")
         self.ui: Group = Group(name="ui")
