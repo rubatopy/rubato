@@ -169,16 +169,14 @@ class GameObject:
 
         if self.debug or Game.debug:
             scale = int(camera.scale(10))
-            rotated_x = Vector(scale, 0).rotate(self.rotation)
-            rotated_y = rotated_x.perpendicular(-1)
-            p1 = (camera.transform(self.pos) + rotated_x).rounded()
-            p2 = (camera.transform(self.pos) - rotated_x).rounded()
 
-            p3 = (camera.transform(self.pos) + rotated_y).rounded()
-            p4 = (camera.transform(self.pos) - rotated_y).rounded()
+            rot_x = Vector(scale, 0).rotate(self.rotation)
+            rot_y = rot_x.perpendicular()
 
-            Draw.queue_line(p1, p2, width=2 * max(1, Display.display_ratio.y))
-            Draw.queue_line(p3, p4, width=2 * max(1, Display.display_ratio.y))
+            real_pos = camera.transform(self.pos)
+
+            Draw.queue_line(real_pos + rot_x, real_pos - rot_x, width=2 * max(1, Display.display_ratio.y))
+            Draw.queue_line(real_pos + rot_y, real_pos - rot_y, width=2 * max(1, Display.display_ratio.y))
 
     def update(self):
         all_comps = list(self._components.values())
