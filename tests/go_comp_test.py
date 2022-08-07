@@ -132,8 +132,8 @@ def test_draw(monkeypatch, go, comp, rub):
     p1 = Vector(110, 100)
     p2 = Vector(90, 100)
 
-    p3 = Vector(100, 110)
-    p4 = Vector(100, 90)
+    p3 = Vector(100, 90)
+    p4 = Vector(100, 110)
 
     draw_line.assert_has_calls([call(p1, p2, width=4.0), call(p3, p4, width=4.0)])
 
