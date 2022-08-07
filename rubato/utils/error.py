@@ -53,6 +53,13 @@ class PrintError(Exception):
     pass
 
 
+class InitError(Exception):
+    """
+    An error that is raised when you try to initialize a static class.
+    """
+    pass
+
+
 class RemovalWarning(DeprecationWarning):
     """
     A warning that is raised when you try to use a removed function.

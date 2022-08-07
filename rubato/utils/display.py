@@ -3,48 +3,67 @@ Global display class that allows for easy screen and window management.
 """
 from __future__ import annotations
 
-import ctypes
+import ctypes, cython
 from typing import Literal
 
 import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
-from . import Vector, get_path
+from . import Vector, get_path, InitError
 
 
-class DisplayProperties(type):
+class _Res:
+
+    def __get__(self, *_):
+        return Vector(*Display.renderer.logical_size)
+
+    def __set__(self, _, new: Vector):
+        Display.renderer.logical_size = new.tuple_int()
+
+
+class _WindowPos:
+
+    def __get__(self, *_):
+        return Vector(*Display.window.position)
+
+    def __set__(self, _, new: Vector):
+        Display.window.position = new.tuple_int()
+
+
+class _WindowName:
+
+    def __get__(self, *_) -> str:
+        return Display.window.title
+
+    def __set__(self, _, new: str):
+        Display.window.title = new
+
+
+class _WindowSize:
+
+    def __get__(self, *_):
+        return Vector(*Display.window.size)
+
+    def __set__(self, _, new: Vector):
+        Display.window.size = new.tuple_int()
+
+
+@cython.cclass
+class Display:
     """
-    Defines static property methods for Display.
-
-    Attention:
-        This is only a metaclass for the class below it, so you wont be able to access this class.
-        To use the property methods here, simply access them as you would any other ``Display`` property.
+    A static class that houses all of the display information
     """
 
-    @property
-    def window_size(cls) -> Vector:
-        """
-        The pixel size of the physical window.
+    window: sdl2.ext.Window | None
+    """The pysdl2 window element."""
+    renderer: sdl2.ext.Renderer | None
+    """The pysdl2 renderer element."""
+    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
 
-        Warning:
-            Using this value to determine the placement of your game objects may
-            lead to unexpected results. You should instead use
-            :func:`Display.res <rubato.utils.display.Display.res>`
-        """
-        # Another way to do this.
-        # wp, hp = ctypes.c_int(), ctypes.c_int()
-        # if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
-        #     raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
-        # w, h = wp.value, hp.value
-
-        return Vector(*cls.window.size)
-
-    @window_size.setter
-    def window_size(cls, new: Vector):
-        cls.window.size = new.tuple_int()
-
-    @property
-    def res(cls) -> Vector:
+    if cython.compiled:
+        window_pos: object = type("Vector", (_WindowPos,), {})()
+        """The current position of the window in terms of screen pixels"""
+        res: object = type("Vector", (_Res,), {})()
         """
         The pixel resolution of the game. This is the number of virtual
         pixels on the window.
@@ -61,30 +80,56 @@ class DisplayProperties(type):
             If you wish to achieve scaling across an entire scene, simply utilize the
             :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
         """
-        return Vector(*cls.renderer.logical_size)
+        window_name: object = type("str", (_WindowName,), {})()
+        """The name of the window."""
+        window_size: object = type("Vector", (_WindowSize,), {})()
+        """
+        The pixel size of the physical window.
 
-    @res.setter
-    def res(cls, new: Vector):
-        cls.renderer.logical_size = new.tuple_int()
-
-    @property
-    def window_pos(cls) -> Vector:
+        Warning:
+            Using this value to determine the placement of your game objects may
+            lead to unexpected results. You should instead use
+            :func:`Display.res <rubato.utils.display.Display.res>`
+        """
+    else:
+        window_pos: Vector = _WindowPos()
         """The current position of the window in terms of screen pixels"""
-        return Vector(*cls.window.position)
+        res: Vector = _Res()
+        """
+        The pixel resolution of the game. This is the number of virtual
+        pixels on the window.
 
-    @window_pos.setter
-    def window_pos(cls, new: Vector):
-        cls.window.position = new.tuple_int()
+        Example:
+            The window (:func:`Display.window_size <rubato.utils.display.DisplayProperties.window_size>`)
+            could be rendered at 500x500 while the resolution is at 1000x1000.
+            This would mean that you can place game objects at 900, 900 and still see them despite the window not being
+            900 pixels tall.
 
-    @property
-    def window_name(cls):
-        return cls.window.title
+        Warning:
+            While this value can be changed, it is recommended that you do not
+            alter it after initialization as it will scale your entire project in unexpected ways.
+            If you wish to achieve scaling across an entire scene, simply utilize the
+            :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
+        """
+        window_name: str = _WindowName()
+        """The name of the window."""
+        window_size: Vector = _WindowSize()
+        """
+        The pixel size of the physical window.
 
-    @window_name.setter
-    def window_name(cls, new: str):
-        cls.window.title = new
+        Warning:
+            Using this value to determine the placement of your game objects may
+            lead to unexpected results. You should instead use
+            :func:`Display.res <rubato.utils.display.Display.res>`
+        """
 
-    @property
+    _saved_window_size: Vector | None
+    _saved_window_pos: Vector | None
+
+    def __init__(self) -> None:
+        raise InitError("Display is a static class and cannot be initialized.")
+
+    @classmethod
     def display_ratio(cls) -> Vector:
         """The ratio of the renderer resolution to the window size. This is a read-only property.
 
@@ -93,7 +138,7 @@ class DisplayProperties(type):
         """
         return cls.res / cls.window_size
 
-    @property
+    @classmethod
     def border_size(cls) -> int:
         """The size of the black border on either side of the drawing area when the aspect ratios don't match."""
         # if a smart programmer can actually understand this, please check that its working correctly.
@@ -109,7 +154,7 @@ class DisplayProperties(type):
             return round((cls.window_size.y - cls.window_size.y / rat) / 2)
         return 0
 
-    @property
+    @classmethod
     def has_x_border(cls) -> bool:
         """Whether or not the window has a black border on the left or right side."""
         render_rat = cls.res.y / cls.res.x
@@ -117,30 +162,13 @@ class DisplayProperties(type):
 
         return render_rat > window_rat
 
-    @property
+    @classmethod
     def has_y_border(cls) -> bool:
         """Whether or not the window has a black border on the top or bottom."""
         render_rat = cls.res.y / cls.res.x
         window_rat = cls.window_size.y / cls.window_size.x
 
         return render_rat < window_rat
-
-
-class Display(metaclass=DisplayProperties):
-    """
-    A static class that houses all of the display information
-
-    Attributes:
-        window (sdl2.Window): The pysdl2 window element.
-        renderer (sdl2.Renderer): The pysdl2 renderer element.
-        format (sdl2.PixelFormat): The pysdl2 pixel format element.
-    """
-
-    window: sdl2.ext.Window = None
-    renderer: sdl2.ext.Renderer = None
-    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
-    _saved_window_size: Vector | None = None
-    _saved_window_pos: Vector | None = None
 
     @classmethod
     def set_window_icon(cls, path: str):
@@ -283,80 +311,71 @@ class Display(metaclass=DisplayProperties):
         finally:
             sdl2.SDL_FreeSurface(render_surface)
 
-    @classmethod
-    @property
-    def top_left(cls) -> Vector:
+    _top_left = type("Vector", (), {"__get__": lambda *_: Vector()})()
+    _top_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, 0)})()
+    _bottom_left = type("Vector", (), {"__get__": lambda *_: Vector(0, Display.res.y)})()
+    _bottom_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, Display.res.y)})()
+    _top_center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, 0)})()
+    _bottom_center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, Display.res.y)})()
+    _center_left = type("Vector", (), {"__get__": lambda *_: Vector(0, Display.res.y // 2)})()
+    _center_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, Display.res.y // 2)})()
+    _center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, Display.res.y // 2)})()
+    _top = type("int", (), {"__get__": lambda *_: 0})()
+    _bottom = type("int", (), {"__get__": lambda *_: int(Display.res.y)})()
+    _left = type("int", (), {"__get__": lambda *_: 0})()
+    _right = type("int", (), {"__get__": lambda *_: int(Display.res.x)})()
+
+    if cython.compiled:
+        top_left: object = _top_left
         """The position of the top left of the window."""
-        return Vector(0, 0)
-
-    @classmethod
-    @property
-    def top_right(cls) -> Vector:
+        top_right: object = _top_right
         """The position of the top right of the window."""
-        return Vector(cls.res.x, 0)
-
-    @classmethod
-    @property
-    def bottom_left(cls) -> Vector:
+        bottom_left: object = _bottom_left
         """The position of the bottom left of the window."""
-        return Vector(0, cls.res.y)
-
-    @classmethod
-    @property
-    def bottom_right(cls) -> Vector:
+        bottom_right: object = _bottom_right
         """The position of the bottom right of the window."""
-        return Vector(cls.res.x, cls.res.y)
-
-    @classmethod
-    @property
-    def top_center(cls) -> Vector:
+        top_center: object = _top_center
         """The position of the top center of the window."""
-        return Vector(cls.res.x / 2, 0)
-
-    @classmethod
-    @property
-    def bottom_center(cls) -> Vector:
+        bottom_center: object = _bottom_center
         """The position of the bottom center of the window."""
-        return Vector(cls.res.x / 2, cls.res.y)
-
-    @classmethod
-    @property
-    def center_left(cls) -> Vector:
+        center_left: object = _center_left
         """The position of the center left of the window."""
-        return Vector(0, cls.res.y / 2)
-
-    @classmethod
-    @property
-    def center_right(cls) -> Vector:
+        center_right: object = _center_right
         """The position of the center right of the window."""
-        return Vector(cls.res.x, cls.res.y / 2)
-
-    @classmethod
-    @property
-    def center(cls) -> Vector:
+        center: object = _center
         """The position of the center of the window."""
-        return Vector(cls.res.x / 2, cls.res.y / 2)
-
-    @classmethod
-    @property
-    def top(cls) -> float:
+        top: object = _top
         """The position of the top of the window."""
-        return 0
-
-    @classmethod
-    @property
-    def right(cls) -> float:
-        """The position of the right of the window."""
-        return cls.res.x
-
-    @classmethod
-    @property
-    def left(cls) -> float:
-        """The position of the left of the window."""
-        return 0
-
-    @classmethod
-    @property
-    def bottom(cls) -> float:
+        bottom: object = _bottom
         """The position of the bottom of the window."""
-        return cls.res.y
+        left: object = _left
+        """The position of the left of the window."""
+        right: object = _right
+        """The position of the right of the window."""
+    else:
+        top_left: Vector = _top_left
+        """The position of the top left of the window."""
+        top_right: Vector = _top_right
+        """The position of the top right of the window."""
+        bottom_left: Vector = _bottom_left
+        """The position of the bottom left of the window."""
+        bottom_right: Vector = _bottom_right
+        """The position of the bottom right of the window."""
+        top_center: Vector = _top_center
+        """The position of the top center of the window."""
+        bottom_center: Vector = _bottom_center
+        """The position of the bottom center of the window."""
+        center_left: Vector = _center_left
+        """The position of the center left of the window."""
+        center_right: Vector = _center_right
+        """The position of the center right of the window."""
+        center: Vector = _center
+        """The position of the center of the window."""
+        top: int = _top
+        """The position of the top of the window."""
+        bottom: int = _bottom
+        """The position of the bottom of the window."""
+        left: int = _left
+        """The position of the left of the window."""
+        right: int = _right
+        """The position of the right of the window."""
