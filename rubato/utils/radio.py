@@ -52,36 +52,23 @@ class Radio:
         listeners (dict[str, Callable]): A dictionary with all of the
             active listeners.
     """
-
     listeners: dict[str, List] = {}
-    queue = []
-
-    @classmethod
-    def pump(cls):
-        sdl2.SDL_PumpEvents()
-        evlist = []
-
-        op = sdl2.SDL_GETEVENT
-        first = sdl2.SDL_FIRSTEVENT
-        last = sdl2.SDL_LASTEVENT
-
-        while True:
-            evarray = (sdl2.SDL_Event * 10)()
-            ptr = ctypes.cast(evarray, ctypes.POINTER(sdl2.SDL_Event))
-            ret = sdl2.SDL_PeepEvents(ptr, 10, op, first, last)
-            if ret <= 0:
-                break
-            evlist += list(evarray)[:ret]
-            if ret < 10:
-                break
-
-        cls.queue.extend(evlist)
 
     @classmethod
     def handle(cls):
         """Handle the event queue"""
-        while cls.queue:
-            event = cls.queue.pop(0)
+        event = sdl2.SDL_Event()
+
+        while True:
+            if sdl2.SDL_PeepEvents(
+                ctypes.byref(event),
+                1,
+                sdl2.SDL_GETEVENT,
+                sdl2.SDL_FIRSTEVENT,
+                sdl2.SDL_LASTEVENT
+            ) <= 0:
+                break
+
             if event.type == sdl2.SDL_QUIT:
                 return True
             if event.type == sdl2.SDL_WINDOWEVENT:
@@ -148,6 +135,7 @@ class Radio:
                         "timestamp": event.button.timestamp,
                     },
                 )
+
         return False
 
     @classmethod

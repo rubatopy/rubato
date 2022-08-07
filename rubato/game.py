@@ -173,7 +173,7 @@ class Game(metaclass=GameProperties):
             Time._frame_start = Time.now()  # pylint: disable= protected-access
 
             # Pump SDL events
-            Radio.pump()
+            sdl2.SDL_PumpEvents()
 
             # Event handling
             if Radio.handle():
