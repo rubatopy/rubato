@@ -8,15 +8,17 @@ broadcast that event key using :meth:`Radio.broadcast`.
 
 :doc:`Go here <events>` to see all the events that can be broadcast.
 """
-
+from __future__ import annotations
 import ctypes
 from typing import Callable, List
 from contextlib import suppress
 import sdl2
+import cython
 
 from . import Input, Display, Vector
 
 
+@cython.cclass
 class Events:
     """
     Describes all rubato-fired events that can be listened for.
@@ -41,7 +43,7 @@ class Events:
     EXIT = "EXIT"
     RESIZE = "RESIZE"
 
-
+@cython.cclass
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.
@@ -52,7 +54,7 @@ class Radio:
         listeners (dict[str, Callable]): A dictionary with all of the
             active listeners.
     """
-    listeners: dict[str, List] = {}
+    listeners: dict[str, List[Listener]] = {}
 
     @classmethod
     def handle(cls) -> bool:
@@ -73,7 +75,7 @@ class Radio:
         ) > 0:
             if event.type == sdl2.SDL_QUIT:
                 return True
-            if event.type == sdl2.SDL_WINDOWEVENT:
+            elif event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     cls.broadcast(
                         Events.RESIZE, {
@@ -87,7 +89,7 @@ class Radio:
                         event.window.data1,
                         event.window.data2,
                     )
-            if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
+            elif event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
                 key_info, unicode = event.key.keysym, ""
                 with suppress(ValueError):
                     unicode = chr(key_info.sym)
@@ -106,8 +108,7 @@ class Radio:
                         "mods": key_info.mod,
                     },
                 )
-
-            if event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
+            elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
                 mouse_button = None
                 if event.button.state == sdl2.SDL_BUTTON_LEFT:
                     mouse_button = "mouse 1"
@@ -150,12 +151,10 @@ class Radio:
             func: The function to run once the event is
                 broadcast. It may take in a params dictionary argument.
         """
-        listener = Listener(event, func)
-
-        return cls.register(listener)
+        return cls.register(Listener(event, func))
 
     @classmethod
-    def register(cls, listener: "Listener"):
+    def register(cls, listener: Listener):
         """
         Registers an event listener.
 
@@ -189,6 +188,7 @@ class Radio:
             listener.ping(params)
 
 
+@cython.cclass
 class Listener:
     """
     The actual listener object itself. A backend class for the Radio.
@@ -202,6 +202,9 @@ class Listener:
         callback (Callable): The function called when the event occurs
         registered (bool): Describes whether the listener is registered
     """
+    event: str = cython.declare(str, visibility="public")
+    callback: Callable = cython.declare(object, visibility="public")
+    registered: cython.bint = cython.declare(cython.bint, visibility="public")
 
     def __init__(self, event: str, callback: Callable):
         self.event = event
