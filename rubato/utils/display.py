@@ -53,75 +53,42 @@ class Display:
     """
     A static class that houses all of the display information
     """
-
-    window: sdl2.ext.Window | None
-    """The pysdl2 window element."""
-    renderer: sdl2.ext.Renderer | None
-    """The pysdl2 renderer element."""
+    window = None
+    """sdl2.ext.Window | None: The pysdl2 window element."""
+    renderer = None
+    """sdl2.ext.Renderer | None: The pysdl2 renderer element."""
     format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
 
-    if cython.compiled:
-        window_pos: object = type("Vector", (_WindowPos,), {})()
-        """The current position of the window in terms of screen pixels"""
-        res: object = type("Vector", (_Res,), {})()
-        """
-        The pixel resolution of the game. This is the number of virtual
-        pixels on the window.
+    window_pos = type("Vector", (_WindowPos,), {})()
+    """Vector: The current position of the window in terms of screen pixels"""
+    res = type("Vector", (_Res,), {})()
+    """
+    Vector: The pixel resolution of the game. This is the number of virtual
+    pixels on the window.
 
-        Example:
-            The window (:func:`Display.window_size <rubato.utils.display.DisplayProperties.window_size>`)
-            could be rendered at 500x500 while the resolution is at 1000x1000.
-            This would mean that you can place game objects at 900, 900 and still see them despite the window not being
-            900 pixels tall.
+    Example:
+        The window (:func:`Display.window_size <rubato.utils.display.DisplayProperties.window_size>`)
+        could be rendered at 500x500 while the resolution is at 1000x1000.
+        This would mean that you can place game objects at 900, 900 and still see them despite the window not being
+        900 pixels tall.
 
-        Warning:
-            While this value can be changed, it is recommended that you do not
-            alter it after initialization as it will scale your entire project in unexpected ways.
-            If you wish to achieve scaling across an entire scene, simply utilize the
-            :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
-        """
-        window_name: object = type("str", (_WindowName,), {})()
-        """The name of the window."""
-        window_size: object = type("Vector", (_WindowSize,), {})()
-        """
-        The pixel size of the physical window.
+    Warning:
+        While this value can be changed, it is recommended that you do not
+        alter it after initialization as it will scale your entire project in unexpected ways.
+        If you wish to achieve scaling across an entire scene, simply utilize the
+        :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
+    """
+    window_name = type("str", (_WindowName,), {})()
+    """str: The name of the window."""
+    window_size = type("Vector", (_WindowSize,), {})()
+    """
+    Vector: The pixel size of the physical window.
 
-        Warning:
-            Using this value to determine the placement of your game objects may
-            lead to unexpected results. You should instead use
-            :func:`Display.res <rubato.utils.display.Display.res>`
-        """
-    else:
-        window_pos: Vector = _WindowPos()
-        """The current position of the window in terms of screen pixels"""
-        res: Vector = _Res()
-        """
-        The pixel resolution of the game. This is the number of virtual
-        pixels on the window.
-
-        Example:
-            The window (:func:`Display.window_size <rubato.utils.display.DisplayProperties.window_size>`)
-            could be rendered at 500x500 while the resolution is at 1000x1000.
-            This would mean that you can place game objects at 900, 900 and still see them despite the window not being
-            900 pixels tall.
-
-        Warning:
-            While this value can be changed, it is recommended that you do not
-            alter it after initialization as it will scale your entire project in unexpected ways.
-            If you wish to achieve scaling across an entire scene, simply utilize the
-            :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
-        """
-        window_name: str = _WindowName()
-        """The name of the window."""
-        window_size: Vector = _WindowSize()
-        """
-        The pixel size of the physical window.
-
-        Warning:
-            Using this value to determine the placement of your game objects may
-            lead to unexpected results. You should instead use
-            :func:`Display.res <rubato.utils.display.Display.res>`
-        """
+    Warning:
+        Using this value to determine the placement of your game objects may
+        lead to unexpected results. You should instead use
+        :func:`Display.res <rubato.utils.display.Display.res>`
+    """
 
     _saved_window_size: Vector | None
     _saved_window_pos: Vector | None
@@ -311,71 +278,29 @@ class Display:
         finally:
             sdl2.SDL_FreeSurface(render_surface)
 
-    _top_left = type("Vector", (), {"__get__": lambda *_: Vector()})()
-    _top_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, 0)})()
-    _bottom_left = type("Vector", (), {"__get__": lambda *_: Vector(0, Display.res.y)})()
-    _bottom_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, Display.res.y)})()
-    _top_center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, 0)})()
-    _bottom_center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, Display.res.y)})()
-    _center_left = type("Vector", (), {"__get__": lambda *_: Vector(0, Display.res.y // 2)})()
-    _center_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, Display.res.y // 2)})()
-    _center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, Display.res.y // 2)})()
-    _top = type("int", (), {"__get__": lambda *_: 0})()
-    _bottom = type("int", (), {"__get__": lambda *_: int(Display.res.y)})()
-    _left = type("int", (), {"__get__": lambda *_: 0})()
-    _right = type("int", (), {"__get__": lambda *_: int(Display.res.x)})()
-
-    if cython.compiled:
-        top_left: object = _top_left
-        """The position of the top left of the window."""
-        top_right: object = _top_right
-        """The position of the top right of the window."""
-        bottom_left: object = _bottom_left
-        """The position of the bottom left of the window."""
-        bottom_right: object = _bottom_right
-        """The position of the bottom right of the window."""
-        top_center: object = _top_center
-        """The position of the top center of the window."""
-        bottom_center: object = _bottom_center
-        """The position of the bottom center of the window."""
-        center_left: object = _center_left
-        """The position of the center left of the window."""
-        center_right: object = _center_right
-        """The position of the center right of the window."""
-        center: object = _center
-        """The position of the center of the window."""
-        top: object = _top
-        """The position of the top of the window."""
-        bottom: object = _bottom
-        """The position of the bottom of the window."""
-        left: object = _left
-        """The position of the left of the window."""
-        right: object = _right
-        """The position of the right of the window."""
-    else:
-        top_left: Vector = _top_left
-        """The position of the top left of the window."""
-        top_right: Vector = _top_right
-        """The position of the top right of the window."""
-        bottom_left: Vector = _bottom_left
-        """The position of the bottom left of the window."""
-        bottom_right: Vector = _bottom_right
-        """The position of the bottom right of the window."""
-        top_center: Vector = _top_center
-        """The position of the top center of the window."""
-        bottom_center: Vector = _bottom_center
-        """The position of the bottom center of the window."""
-        center_left: Vector = _center_left
-        """The position of the center left of the window."""
-        center_right: Vector = _center_right
-        """The position of the center right of the window."""
-        center: Vector = _center
-        """The position of the center of the window."""
-        top: int = _top
-        """The position of the top of the window."""
-        bottom: int = _bottom
-        """The position of the bottom of the window."""
-        left: int = _left
-        """The position of the left of the window."""
-        right: int = _right
-        """The position of the right of the window."""
+    top_left = type("Vector", (), {"__get__": lambda *_: Vector()})()
+    """Vector: The position of the top left of the window."""
+    top_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, 0)})()
+    """Vector: The position of the top right of the window."""
+    bottom_left = type("Vector", (), {"__get__": lambda *_: Vector(0, Display.res.y)})()
+    """Vector: The position of the bottom left of the window."""
+    bottom_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, Display.res.y)})()
+    """Vector: The position of the bottom right of the window."""
+    top_center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, 0)})()
+    """Vector: The position of the top center of the window."""
+    bottom_center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, Display.res.y)})()
+    """Vector: The position of the bottom center of the window."""
+    center_left = type("Vector", (), {"__get__": lambda *_: Vector(0, Display.res.y // 2)})()
+    """Vector: The position of the center left of the window."""
+    center_right = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x, Display.res.y // 2)})()
+    """Vector: The position of the center right of the window."""
+    center = type("Vector", (), {"__get__": lambda *_: Vector(Display.res.x // 2, Display.res.y // 2)})()
+    """Vector: The position of the center of the window."""
+    top = type("int", (), {"__get__": lambda *_: 0})()
+    """int: The position of the top of the window."""
+    bottom = type("int", (), {"__get__": lambda *_: int(Display.res.y)})()
+    """int: The position of the bottom of the window."""
+    left = type("int", (), {"__get__": lambda *_: 0})()
+    """int: The position of the left of the window."""
+    right = type("int", (), {"__get__": lambda *_: int(Display.res.x)})()
+    """int: The position of the right of the window."""
