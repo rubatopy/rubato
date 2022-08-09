@@ -1,6 +1,6 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
-from typing import Callable, List, Set, Tuple
+from typing import Callable
 import math
 
 from .. import Component
@@ -23,16 +23,6 @@ class Hitbox(Component):
         offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
-
-    Attributes:
-        tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
-        debug (bool): Whether to draw a green outline around the hitbox or not.
-        trigger (bool): Whether this hitbox is just a trigger or not.
-        scale (int): The scale of the hitbox
-        on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
-        on_exit (Callable): The on_exit function to call when a collision ends with this hitbox.
-        color (Color) The color to fill this hitbox with.
-        colliding (Set[Hitbox]): An unordered set of hitboxes that the Hitbox is currently colliding with.
     """
 
     def __init__(
@@ -50,21 +40,30 @@ class Hitbox(Component):
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.debug: bool = debug
+        """Whether to draw a green outline around the hitbox or not."""
         self.trigger: bool = trigger
+        """Whether this hitbox is just a trigger or not."""
         self.scale: int | float = scale
+        """The scale of the hitbox."""
         self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
+        """The on_collide function to call when a collision happens with this hitbox."""
         self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
+        """The on_exit function to call when a collision ends with this hitbox."""
         self.color: Color = color
+        """The color to fill this hitbox with."""
         self.singular: bool = False
+        """Whether this hitbox is singular or not."""
         self.tag: str = tag
-        self.colliding: Set[Hitbox] = set()
+        """The tag of the hitbox (can be used to identify hitboxes in collision callbacks)"""
+        self.colliding: set[Hitbox] = set()
+        """An unordered set of hitboxes that the Hitbox is currently colliding with."""
 
     @property
     def pos(self) -> Vector:
         """The getter method for the position of the hitbox's center"""
         return self.gameobj.pos + self.offset
 
-    def get_aabb(self) -> Tuple[Vector, Vector]:
+    def get_aabb(self) -> tuple[Vector, Vector]:
         """
         Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
 
@@ -73,7 +72,7 @@ class Hitbox(Component):
         """
         return self.gameobj.pos, self.gameobj.pos
 
-    def get_obb(self) -> Tuple[Vector, Vector]:
+    def get_obb(self) -> tuple[Vector, Vector]:
         """
         Gets the top left and bottom right corners of the oriented bounding box in world coordinates.
 
@@ -111,12 +110,12 @@ class Polygon(Hitbox):
         z_index: The z-index of the hitbox. Defaults to 0.
 
     Attributes:
-        verts (List[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
+        verts (list[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
     """
 
     def __init__(
         self,
-        verts: List[Vector] = [],
+        verts: list[Vector] = [],
         color: Color | None = None,
         tag: str = "",
         debug: bool = False,
@@ -140,7 +139,7 @@ class Polygon(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self.verts: List[Vector] = verts
+        self.verts: list[Vector] = verts
 
     @property
     def radius(self) -> float:
@@ -169,7 +168,7 @@ class Polygon(Hitbox):
             z_index=self.z_index,
         )
 
-    def get_aabb(self) -> Tuple[Vector, Vector]:
+    def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.real_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
@@ -185,7 +184,7 @@ class Polygon(Hitbox):
 
         return Vector(left, top), Vector(right, bottom)
 
-    def get_obb(self) -> Tuple[Vector, Vector]:
+    def get_obb(self) -> tuple[Vector, Vector]:
         verts = self.translated_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
@@ -204,15 +203,15 @@ class Polygon(Hitbox):
             Vector(right, bottom).rotate(self.gameobj.rotation) + self.gameobj.pos
         )
 
-    def translated_verts(self) -> List[Vector]:
+    def translated_verts(self) -> list[Vector]:
         """Offsets each vertex with the Polygon's offset"""
         return [v * self.scale + self.offset for v in self.verts]
 
-    def transformed_verts(self) -> List[Vector]:
+    def transformed_verts(self) -> list[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
         return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
-    def real_verts(self) -> List[Vector]:
+    def real_verts(self) -> list[Vector]:
         """Returns the a list of vertices in world coordinates"""
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
@@ -235,7 +234,7 @@ class Polygon(Hitbox):
         if self.hidden:
             return
 
-        list_of_points: List[tuple] = []
+        list_of_points: list[tuple] = []
 
         if self.color:
             list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
@@ -244,10 +243,10 @@ class Polygon(Hitbox):
         if self.debug or Game.debug:
             if not list_of_points:
                 list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
 
     @classmethod
-    def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> List[Vector]:
+    def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
         """
         Generates the **vertices** of a regular polygon with a specified number of sides and a radius.
         You can use this as the `verts` option in the Polygon constructor if you wish to generate a regular polygon.
@@ -515,7 +514,7 @@ class Rectangle(Hitbox):
         """
         return Input.pt_in_poly(pt, self.real_verts())
 
-    def get_aabb(self) -> Tuple[Vector, Vector]:
+    def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.real_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
@@ -531,47 +530,47 @@ class Rectangle(Hitbox):
 
         return Vector(left, top), Vector(right, bottom)
 
-    def get_obb(self) -> Tuple[Vector, Vector]:
+    def get_obb(self) -> tuple[Vector, Vector]:
         dim = Vector(self.width / 2, self.height / 2)
         return (
             (self.offset - dim).rotate(self.gameobj.rotation) + self.gameobj.pos,
             (self.offset + dim).rotate(self.gameobj.rotation) + self.gameobj.pos
         )
 
-    def vertices(self) -> List[Vector]:
+    def vertices(self) -> list[Vector]:
         """
         Generates a list of the rectangle's vertices with no transformations applied.
 
         Returns:
-            List[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
+            list[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
         """
         x, y = self.width / 2, self.height / 2
         return [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
 
-    def translated_verts(self) -> List[Vector]:
+    def translated_verts(self) -> list[Vector]:
         """
         Offsets each vertex with the Polygon's offset. Top left, top right, bottom right, bottom left.
 
         Returns:
-            List[Vector]: The list of vertices.
+            list[Vector]: The list of vertices.
         """
         return [v * self.scale + self.offset for v in self.vertices()]
 
-    def transformed_verts(self) -> List[Vector]:
+    def transformed_verts(self) -> list[Vector]:
         """
         Generates a list of the rectangle's vertices, scaled and rotated.
 
         Returns:
-            List[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
+            list[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
         """
         return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
-    def real_verts(self) -> List[Vector]:
+    def real_verts(self) -> list[Vector]:
         """
         Generates a list of the rectangle's vertices, relative to its position.
 
         Returns:
-            List[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
+            list[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
         """
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
@@ -580,7 +579,7 @@ class Rectangle(Hitbox):
         if self.hidden:
             return
 
-        list_of_points: List[tuple] = []
+        list_of_points: list[tuple] = []
 
         if self.color:
             list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
@@ -589,7 +588,7 @@ class Rectangle(Hitbox):
         if self.debug or Game.debug:
             if not list_of_points:
                 list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
 
     def clone(self) -> Rectangle:
         return Rectangle(
@@ -671,11 +670,11 @@ class Circle(Hitbox):
         """Sets the center of the circle."""
         self.gameobj.pos = new
 
-    def get_aabb(self) -> Tuple[Vector, Vector]:
+    def get_aabb(self) -> tuple[Vector, Vector]:
         offset = self.transformed_radius()
         return self.pos - offset, self.pos + offset
 
-    def get_obb(self) -> Tuple[Vector, Vector]:
+    def get_obb(self) -> tuple[Vector, Vector]:
         r = self.transformed_radius()
         offset = Vector(r, r).rotate(self.gameobj.rotation)
         return self.gameobj.pos - offset, self.gameobj.pos + offset
@@ -714,7 +713,7 @@ class Circle(Hitbox):
             if not relative_pos:
                 relative_pos = camera.transform(self.pos)
                 scaled_rad = camera.scale(self.radius)
-            Draw.queue_circle(relative_pos, int(scaled_rad), Color(0, 255), int(2 * Display.display_ratio.x))
+            Draw.queue_circle(relative_pos, int(scaled_rad), Color.cyan, 2 * Display.display_ratio.x)
 
     def clone(self) -> Circle:
         return Circle(

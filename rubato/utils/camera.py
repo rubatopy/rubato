@@ -16,16 +16,14 @@ class Camera:
         pos: The position of the camera. Defaults to center of Display.
         zoom: The zoom of the camera.
         z_index: The z-index of the camera.
-
-    Attributes:
-        z_index (int): The current z_index of the camera.
-        pos (Vector): The current position of the camera. Center based i.e. where the camera is looking at.
     """
 
     def __init__(self, pos: Vector = None, zoom: float = 1, z_index: int = Math.INF):
-        self.pos = pos if pos else Display.center
+        self.pos: Vector = pos if pos else Display.center
+        """The current position of the camera. Center based i.e. where the camera is looking at."""
         self._zoom = zoom
-        self.z_index = z_index
+        self.z_index: int = z_index
+        """The current z_index of the camera."""
 
     @property
     def zoom(self) -> float:

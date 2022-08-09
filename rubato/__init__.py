@@ -44,7 +44,7 @@ def init(
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
-    physics_fps: int = 30,
+    physics_fps: int = Time.physics_fps,
     hidden: bool = False,
 ):
     """
@@ -106,7 +106,7 @@ def init(
         Display.set_fullscreen(True, fullscreen)
 
     Game.debug_font = Font(
-        size=int(Display.res.y // 40 if Display.res.y > 0 else 1), font="PressStart", color=Color(0, 255, 0)
+        size=int(Display.res.y) >> 5 if Display.res.y > 0 else 1, font="PressStart", color=Color.cyan
     )
 
 

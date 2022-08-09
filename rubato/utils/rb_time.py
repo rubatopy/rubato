@@ -3,9 +3,10 @@ A static time class to monitor time and to call functions in the future.
 
 """
 from dataclasses import dataclass, field
-from typing import Callable, List
+from typing import Callable
 import heapq
 import sdl2
+from . import InitError
 
 
 @dataclass(order=True)
@@ -19,6 +20,7 @@ class DelayedTask:
         """Stop the DelayedTask from invoking."""
         self.is_stopped = True
 
+
 @dataclass(order=True)
 class FramesTask:
     """A task that is run after a specified number of frames."""
@@ -29,6 +31,7 @@ class FramesTask:
     def stop(self):
         """Stop the FramesTask from invoking."""
         self.is_stopped = True
+
 
 @dataclass(order=True)
 class ScheduledTask:
@@ -43,50 +46,48 @@ class ScheduledTask:
         self.is_stopped = True
 
 
+# THIS IS A STATIC CLASS
 class Time:
     """
-    The time class
-
-    Attributes:
-        frames (int): The total number of elapsed frames since the start of the game.
-
-        fps (float): The current fps of this frame.
-
-        target_fps (float): The fps that the game should try to run at. 0 means that the game's fps will not be capped.
-            Defaults to 0.
-        physics_fps (float): The fps that the physics should run at. Defaults to 60.
-
-        delta_time (int): The number of seconds since the last frame.
-        fixed_delta (int): The number of seconds since the last fixed update.
+    The time class.
     """
 
-    frames = 0
+    frames: int = 0
+    """The total number of elapsed frames since the start of the game."""
 
-    _frame_queue: List[FramesTask] = []
-    _task_queue: List[DelayedTask] = []
-    _schedule_queue: List[ScheduledTask] = []
+    _frame_queue: list[FramesTask] = []
+    _task_queue: list[DelayedTask] = []
+    _schedule_queue: list[ScheduledTask] = []
 
     delta_time: float = 0.001
     fixed_delta: float = 0
+    """The number of seconds since the last fixed update."""
     normal_delta: float = 0
     fps = 60
+    """The current fps of thi frame."""
     _frame_start: int = 0
 
-    physics_counter = 0
+    physics_counter: float = 0
 
-    _fps_history = 120
+    _fps_history: int = 120
     _past_fps = [0] * _fps_history
+    _fps_index: int = 0
 
     target_fps = 0  # this means no cap
-    capped = False
+    """The fps that the game should try to run at. 0 means that the game's fps will not be capped. Defaults to 0."""
+    capped: bool = False
 
-    physics_fps = 60
+    physics_fps = 30
+    """The fps that the physics should run at. Defaults to 30."""
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     @property
-    def smooth_fps(cls) -> float:
+    def smooth_fps(cls) -> int:
         """The average fps over the past 120 frames. This is a get-only property."""
-        return sum(cls._past_fps) / cls._fps_history
+        return int(sum(cls._past_fps) / cls._fps_history)
 
     @classmethod
     def now(cls) -> int:
@@ -186,20 +187,22 @@ class Time:
         cls.frames += 1
         cls.fps = 1 / cls.delta_time
 
-        del cls._past_fps[0]
-        cls._past_fps.append(cls.fps)
+        cls._past_fps[cls._fps_index] = int(cls.fps)
+        cls._fps_index = (cls._fps_index + 1) % cls._fps_history
 
         while cls._frame_queue:
             if cls._frame_queue[0].delay <= cls.frames:
                 timer_task = heapq.heappop(cls._frame_queue)
-                if not timer_task.is_stopped: timer_task.task()
+                if not timer_task.is_stopped:
+                    timer_task.task()
             else:
                 break
 
         while cls._task_queue:
             if cls._task_queue[0].delay <= cls.now():
                 timer_task = heapq.heappop(cls._task_queue)
-                if not timer_task.is_stopped: timer_task.task()
+                if not timer_task.is_stopped:
+                    timer_task.task()
             else:
                 break
 

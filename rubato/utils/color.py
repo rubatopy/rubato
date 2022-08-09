@@ -3,7 +3,6 @@ This color module contains the Color class, which is used to represent colors in
 """
 from __future__ import annotations
 from random import randint, choice
-from typing import Tuple
 import sdl2
 
 from . import Math, Display
@@ -18,12 +17,6 @@ class Color:
         g: The green value. Defaults to 0.
         b: The blue value. Defaults to 0.
         a: The alpha value. Defaults to 255.
-
-    Attributes:
-        r (int): The red value.
-        g (int): The green value.
-        b (int): The blue value.
-        a (int): The alpha value.
     """
 
     # [colordef]
@@ -59,10 +52,14 @@ class Color:
     # [/grayscaledef]
 
     def __init__(self, r: int | float = 0, g: int | float = 0, b: int | float = 0, a: int | float = 255):
-        self.r = int(Math.clamp(r, 0, 255))
-        self.g = int(Math.clamp(g, 0, 255))
-        self.b = int(Math.clamp(b, 0, 255))
-        self.a = int(Math.clamp(a, 0, 255))
+        self.r: int = int(Math.clamp(r, 0, 255))
+        """The red value."""
+        self.g: int = int(Math.clamp(g, 0, 255))
+        """The green value."""
+        self.b: int = int(Math.clamp(b, 0, 255))
+        """The blue value."""
+        self.a: int = int(Math.clamp(a, 0, 255))
+        """The alpha value."""
 
     @property
     def rgba32(self):
@@ -130,7 +127,7 @@ class Color:
             (1 - t) * self.a + t * other.a,
         )
 
-    def to_tuple(self) -> Tuple[int, int, int, int]:
+    def to_tuple(self) -> tuple[int, int, int, int]:
         """
         Converts the Color to a tuple.
 
@@ -148,7 +145,7 @@ class Color:
         """
         return f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}".replace(" ", "")
 
-    def to_hsv(self) -> Tuple[float | int, float | int, float]:
+    def to_hsv(self) -> tuple[float | int, float | int, float]:
         """
         Converts the Color to a tuple containing its HSV values.
 
@@ -204,8 +201,9 @@ class Color:
         """
 
         return Color(
-            *
-            choice(list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values() if grayscale else []))
+            *choice(
+                list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values() if grayscale else [])
+            )
         )
 
     @classmethod

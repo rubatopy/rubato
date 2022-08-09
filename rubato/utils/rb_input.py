@@ -1,25 +1,186 @@
 """
 The Input module is the way you collect input from the user.
-
-
 """
 import ctypes
-from typing import Tuple, List, Dict
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display, deprecated, Math
+from . import Vector, Display, deprecated, Math, InitError
 
 
+# THIS IS A STATIC CLASS
 class Input:
     """
-    The input class, handling keyboard and mouse getter and setter functionality
+    The input class, handling keyboard, mouse, and controller functionality.
 
     Go :doc:`here <key-names>` for a list of all the available keys.
     """
+    # CONTROLLER METHODS
+
+    _controllers: list[sdl2.SDL_Joystick] = []
+
+    @classmethod
+    @property
+    def controllers(cls) -> int:
+        """
+        The number of controllers currently registered. (getonly)
+
+        If non-zero, the controllers are registered from 0 to n-1 where n is the number of controllers.
+        This number index is passed to events that are propagated when controllers are inputted to.
+
+        Returns:
+            int: The total number of controllers.
+        """
+        return len(cls._controllers)
+
+    @classmethod
+    def update_controllers(cls) -> None:
+        """
+        Register controllers if needed. Called automatically.
+        """
+        conts = sdl2.SDL_NumJoysticks()
+        length = len(cls._controllers)
+        if conts > length:
+            if length == 0:
+                sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
+            for i in range(length, conts):
+                cls._controllers.append(sdl2.SDL_JoystickOpen(i))
+
+    @classmethod
+    def controller_name(cls, controller: int) -> str:
+        """
+        Get the name of the controller at the given index.
+
+        Args:
+            index (int): The index of the controller to get the name of.
+
+        Raises:
+            IndexError: If the index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            str: The name of the controller. If controller is less than 0, returns an empty string.
+        """
+        if controller < 0:
+            return ""
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickNameForIndex(controller)
+
+    @classmethod
+    def controller_axis(cls, controller: int, axis: int) -> int:
+        """
+        Get the value of a given joystick axis on a controller.
+
+        Args:
+            controller (int): The index of the controller.
+            axis (int): The index of the joystick axis.
+
+        Raises:
+            IndexError: The given controller index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            int: The value of the axis. If controller is less than 0, returns 0.
+        """
+        if controller < 0:
+            return 0
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickGetAxis(cls._controllers[controller], axis)
+
+    @classmethod
+    def axis_centered(cls, val: int) -> bool:
+        """
+        Check whether a given axis value is within the 10% bounds of deadzone considered the "center".
+
+        Args:
+            val (int): The value of the axis.
+
+        Returns:
+            bool: Whether the axis is centered.
+        """
+        return -3200 < val < 3200
+
+    @classmethod
+    def controller_button(cls, controller: int, button: int) -> bool:
+        """
+        Get whether a given button on a controller is pressed.
+
+        Args:
+            controller (int): The index of the controller.
+            button (int): The index of the button.
+
+        Raises:
+            IndexError: The given controller index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            bool: Whether the button is pressed. If controller is less than 0, returns False.
+        """
+        if controller < 0:
+            return False
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickGetButton(cls._controllers[controller], button) == 1
+
+    @classmethod
+    def controller_hat(cls, controller: int, hat: int) -> int:
+        """
+        Get the value of a given hat on a controller.
+
+        Args:
+            controller (int): The index of the controller.
+            hat (int): The index of the hat.
+
+        Raises:
+            IndexError: The given controller index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            int: The value of the hat, which you can translate with `translate_hat()`.
+                If controller is less than 0, returns 0.
+        """
+        if controller < 0:
+            return 0
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickGetHat(cls._controllers[controller], hat)
+
+    @classmethod
+    def translate_hat(cls, val: int) -> str:
+        """
+        Translate a hat value to a string.
+
+        Args:
+            val (int): The hat value.
+
+        Returns:
+            str: The string representation of the hat value.
+        """
+        if val & sdl2.SDL_HAT_CENTERED:
+            return "center"
+        elif val & sdl2.SDL_HAT_UP:
+            return "up"
+        elif val & sdl2.SDL_HAT_RIGHT:
+            return "right"
+        elif val & sdl2.SDL_HAT_DOWN:
+            return "down"
+        elif val & sdl2.SDL_HAT_LEFT:
+            return "left"
+        elif val & sdl2.SDL_HAT_RIGHTUP:
+            return "right up"
+        elif val & sdl2.SDL_HAT_RIGHTDOWN:
+            return "right down"
+        elif val & sdl2.SDL_HAT_LEFTUP:
+            return "left up"
+        elif val & sdl2.SDL_HAT_LEFTDOWN:
+            return "left down"
+        return "unknown"
+
     # KEYBOARD METHODS
 
-    _mods: Dict[str, int] = {
+    _mods: dict[str, int] = {
         "shift": sdl2.KMOD_SHIFT,
         "left shift": sdl2.KMOD_LSHIFT,
         "right shift": sdl2.KMOD_RSHIFT,
@@ -36,6 +197,9 @@ class Input:
         "caps lock": sdl2.KMOD_CAPS,
         "altgr": sdl2.KMOD_MODE,
     }
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def key_pressed(cls, *keys: str) -> bool:
@@ -57,6 +221,8 @@ class Input:
                 if rb.Input.key_pressed("shift", "w"):
                     # handle the "shift+w" keypress
         """
+        state = cls.get_keyboard_state()
+
         for key in keys:
             key = key.lower()
             if key in cls._mods and len(keys) > 1:
@@ -75,8 +241,8 @@ class Input:
                     key1, key2 = key, key
 
                 if not (
-                    cls.get_keyboard_state()[cls.scancode_from_name(key1)] or
-                    cls.get_keyboard_state()[cls.scancode_from_name(key2)]
+                    state[cls.scancode_from_name(key1)] or
+                    state[cls.scancode_from_name(key2)]
                 ):
                     return False
         return True
@@ -103,7 +269,7 @@ class Input:
         return sdl2.SDL_GetKeyName(code).decode("utf-8").lower()
 
     @classmethod
-    def mods_from_code(cls, code: int) -> List[str]:
+    def mods_from_code(cls, code: int) -> list[str]:
         """
         Gets the modifier names from a mod code.
 
@@ -111,7 +277,7 @@ class Input:
             code: The mod code.
 
         Returns:
-            List[str]: A list with the names of the currently pressed modifiers.
+            list[str]: A list with the names of the currently pressed modifiers.
         """
         return [name for name, val in cls._mods.items() if code & val]
 
@@ -149,18 +315,17 @@ class Input:
         Returns:
             bool: True if the window is focused, false otherwise.
         """
-        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus(
-        ) == Display.window
+        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus() == Display.window
 
     # MOUSE FUNCTIONS
 
     @classmethod
-    def mouse_state(cls) -> Tuple[bool]:
+    def mouse_state(cls) -> tuple[bool]:
         """
         Checks which mouse buttons are pressed.
 
         Returns:
-            Tuple[bool]: A tuple with 5 booleans representing the state of each
+            tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
         info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
@@ -184,12 +349,12 @@ class Input:
 
     @classmethod
     @deprecated(mouse_state)
-    def mouse_is_pressed(cls) -> Tuple[bool]:
+    def mouse_is_pressed(cls) -> tuple[bool]:
         """
         Checks which mouse buttons are pressed.
 
         Returns:
-            Tuple[bool]: A tuple with 5 booleans representing the state of each
+            tuple[bool]: A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
         info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
@@ -225,9 +390,9 @@ class Input:
 
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
-        if Display.has_x_border:
+        if Display.has_x_border():
             x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
-        elif Display.has_y_border:
+        elif Display.has_y_border():
             y_window.value = Math.clamp(y_window.value, size, Display.window_size.y - size)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
@@ -270,13 +435,13 @@ class Input:
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @staticmethod
-    def pt_in_poly(pt: Vector, verts: List[Vector]) -> bool:
+    def pt_in_poly(pt: Vector, verts: list[Vector]) -> bool:
         """
         Checks if a point is inside a polygon.
 
         Args:
             pt (Vector): The point to check.
-            verts (List[Vector]): The polygon representation as a list of Vectors (vertices)
+            verts (list[Vector]): The polygon representation as a list of Vectors (vertices)
 
         Returns:
             bool: Whether the point is inside the polygon.

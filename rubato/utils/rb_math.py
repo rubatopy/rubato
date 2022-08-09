@@ -2,20 +2,23 @@
 The math module includes some helper functions for commonly used equations.
 """
 import math
-import sys
+from . import InitError
 
+
+# THIS IS A STATIC CLASS
 class Math:
     """
-    A more complete math class.
-
-    Attributes:
-        INF (float): The max value of a float.
-        PI_HALF (float): The value of pi / 2.
-        PI_TWO (float): The value of pi * 2.
+    A more complete math class.s
     """
-    INF = sys.maxsize
-    PI_HALF = math.pi / 2
-    PI_TWO = math.tau
+    INF: int = 2147483647
+    """The max value of a 32-bit integer."""
+    PI_HALF: float = math.pi / 2
+    """The value of pi / 2."""
+    PI_TWO: float = math.tau
+    """The value of pi * 2."""
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @staticmethod
     def clamp(a: float | int, lower: float | int, upper: float | int) -> float:

@@ -23,18 +23,6 @@ class Slider(Component):
         offset: The offset of the component from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the component from the game object. Defaults to 0.
         z_index: The z-index of the component. Defaults to 0.
-
-    Attributes:
-        pressed (bool): Whether the button is currently pressed.
-        hover (bool): Whether the mouse is hovering over the button.
-        dims (Vector): The dimensions of the button.
-        onclick (Callable): The function to call when the button is clicked.
-        onrelease (Callable): The function to call when the button is released.
-        onhover (Callable): The function to call when the mouse enters the button.
-        onexit (Callable): The function to call when the mouse exits the button.
-        slider_length (int): The length of the slider.
-        slider_direction (Vector): The direction of the slider.
-        button (Button): The button component.
     """
 
     def __init__(
@@ -53,19 +41,29 @@ class Slider(Component):
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.dims: Vector = Vector(button_width, button_height)
+        """The dimensions of the button."""
         self.pressed: bool = False
+        """Whether the button is currently pressed."""
         self.hover: bool = False
+        """Whether the mouse is hovering over the button."""
         self.onclick: Callable = onclick if onclick else lambda: None
+        """The function to call when the button is clicked."""
         self.onrelease: Callable = onrelease if onrelease else lambda: None
+        """The function to call when the button is released."""
         self.onhover: Callable = onhover if onhover else lambda: None
+        """The function to call when the mouse enters the button."""
         self.onexit: Callable = onexit if onexit else lambda: None
+        """The function to call when the mouse exits the button."""
         self.slider_length: int = slider_length
+        """The length of the slider."""
         self.slider_direction: Vector = slider_direction
+        """The direction of the slider."""
 
         # button handled by slider and not by game object
         self.button = Button(
             width=button_width, height=button_height, onclick=onclick, onrelease=onrelease, onexit=onexit
         )
+        """The button component."""
 
     def update(self):
         """The update function for buttons."""

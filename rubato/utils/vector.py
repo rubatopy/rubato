@@ -3,7 +3,7 @@ A vector implementation.
 """
 from __future__ import annotations
 import cython
-from typing import Any, Iterator, Tuple
+from typing import Any, Iterator
 import math, random
 
 from . import Math, raise_operator_error
@@ -17,13 +17,11 @@ class Vector:
     Args:
         x: The x coordinate. Defaults to 0.
         y: The y coordinate. Defaults to 0.
-
-    Attributes:
-        x (float): The x coordinate.
-        y (float): The y coordinate.
     """
     x: float = cython.declare(cython.float, visibility="public")
+    """The x coordinate."""
     y: float = cython.declare(cython.float, visibility="public")
+    """The y coordinate."""
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
         self.x = x
@@ -90,11 +88,11 @@ class Vector:
         Warnings:
             Should only be used on vectors with integer components.
         """
-        mag: Tuple[int, int] = self.rationalized_mag_vector.tuple_int()
+        mag: tuple[int, int] = self.rationalized_mag_vector.tuple_int()
         no_root = mag[1] == 1  # No square root in the answer.
 
-        num_dem1: Tuple[int, int] = Math.simplify(round(self.x), mag[0])
-        num_dem2: Tuple[int, int] = Math.simplify(round(self.y), mag[0])
+        num_dem1: tuple[int, int] = Math.simplify(round(self.x), mag[0])
+        num_dem2: tuple[int, int] = Math.simplify(round(self.y), mag[0])
 
         if no_root:
             return f"<{num_dem1[0]}/{num_dem1[1]}, {num_dem2[0]}/{num_dem2[1]}>"
@@ -237,13 +235,13 @@ class Vector:
         """Returns a new vector with values that are rounded."""
         return Vector(round(self.x), round(self.y))
 
-    def to_tuple(self) -> Tuple[int, int]:
+    def to_tuple(self) -> tuple[int, int]:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
         return self.x, self.y
 
-    def tuple_int(self) -> Tuple[int, int]:
+    def tuple_int(self) -> tuple[int, int]:
         """Returns a tuple with rounded values."""
         return round(self.x), round(self.y)
 

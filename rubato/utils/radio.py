@@ -8,66 +8,77 @@ broadcast that event key using :meth:`Radio.broadcast`.
 
 :doc:`Go here <events>` to see all the events that can be broadcast.
 """
-
-from typing import Callable, List
-import sdl2, sdl2.ext
+from __future__ import annotations
+import ctypes
+from typing import Callable
 from contextlib import suppress
+import sdl2
+import cython
 
-from . import Input, Display, Vector
+from . import Input, Display, Vector, InitError
 
 
+@cython.cclass
 class Events:
     """
     Describes all rubato-fired events that can be listened for.
-
-    Attributes:
-        KEYUP: Fired when a key is released
-        KEYDOWN: Fired when a key is pressed
-        KEYHOLD: Fired when a key is held down (After the initial keydown)
-        MOUSEUP: Fired when a mouse button is released
-        MOUSEDOWN: Fired when a mouse button is pressed
-        ZOOM: Fired when the camera is zoomed
-        EXIT: Fired when the game is exiting
-        RESIZE: Fired when the window is resized
     """
 
     KEYUP = "KEYUP"
+    """Fired when a key is released"""
     KEYDOWN = "KEYDOWN"
+    """Fired when a key is pressed"""
     KEYHOLD = "KEYHOLD"
+    """Fired when a key is held down (After the initial keydown)"""
     MOUSEUP = "MOUSEUP"
+    """Fired when a mouse button is released"""
     MOUSEDOWN = "MOUSEDOWN"
+    """Fired when a mouse button is pressed"""
+    JOYAXISMOTION = "JOYAXISMOTION"
+    """Fired when a controller joystick axis is moved"""
+    JOYHATMOTION = "JOYHATMOTION"
+    """Fired when a controller hat button is changed"""
+    JOYBUTTONDOWN = "JOYBUTTONDOWN"
+    """Fired when a controller button is pressed"""
+    JOYBUTTONUP = "JOYBUTTONUP"
+    """Fired when a controller button is released"""
     ZOOM = "ZOOM"
+    """Fired when the camera is zoomed"""
     EXIT = "EXIT"
+    """Fired when the game is exiting"""
     RESIZE = "RESIZE"
+    """Fired when the window is resized"""
 
 
+# THIS IS A STATIC CLASS
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.
     Handles event callbacks during the beginning of each
     :func:`Game.update() <rubato.game.update>` call.
-
-    Attributes:
-        listeners (dict[str, Callable]): A dictionary with all of the
-            active listeners.
     """
+    listeners: dict[str, list[Listener]] = {}
+    """A dictionary with all of the active listeners."""
 
-    listeners: dict[str, List] = {}
-    queue = []
-
-    @classmethod
-    def pump(cls):
-        sdl2.SDL_PumpEvents()
-        cls.queue.extend(sdl2.ext.get_events())
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
-    def handle(cls):
-        """Handle the event queue"""
-        while cls.queue:
-            event = cls.queue.pop(0)
+    def handle(cls) -> bool:
+        """
+        Handle the current SDL event queue.
+
+        Returns:
+            bool: Whether an SDL Quit event was fired.
+        """
+        event = sdl2.SDL_Event()
+
+        while sdl2.SDL_PeepEvents(
+            ctypes.byref(event), 1, sdl2.SDL_GETEVENT, sdl2.SDL_FIRSTEVENT, sdl2.SDL_LASTEVENT
+        ) > 0:
             if event.type == sdl2.SDL_QUIT:
                 return True
-            if event.type == sdl2.SDL_WINDOWEVENT:
+            elif event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
                     cls.broadcast(
                         Events.RESIZE, {
@@ -81,7 +92,7 @@ class Radio:
                         event.window.data1,
                         event.window.data2,
                     )
-            if event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
+            elif event.type in (sdl2.SDL_KEYDOWN, sdl2.SDL_KEYUP):
                 key_info, unicode = event.key.keysym, ""
                 with suppress(ValueError):
                     unicode = chr(key_info.sym)
@@ -100,8 +111,7 @@ class Radio:
                         "mods": key_info.mod,
                     },
                 )
-
-            if event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
+            elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
                 mouse_button = None
                 if event.button.state == sdl2.SDL_BUTTON_LEFT:
                     mouse_button = "mouse 1"
@@ -131,6 +141,43 @@ class Radio:
                         "timestamp": event.button.timestamp,
                     },
                 )
+            elif event.type == sdl2.SDL_JOYAXISMOTION:
+                cls.broadcast(
+                    Events.JOYAXISMOTION,
+                    {
+                        "controller": event.jaxis.which,
+                        "axis": event.jaxis.axis,
+                        "value": event.jaxis.value,
+                        "centered": Input.axis_centered(event.jaxis.value),
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYBUTTONDOWN:
+                cls.broadcast(
+                    Events.JOYBUTTONDOWN,
+                    {
+                        "controller": event.jbutton.which,
+                        "button": event.jbutton.button
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYBUTTONUP:
+                cls.broadcast(
+                    Events.JOYBUTTONUP,
+                    {
+                        "controller": event.jbutton.which,
+                        "button": event.jbutton.button
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYHATMOTION:
+                cls.broadcast(
+                    Events.JOYHATMOTION,
+                    {
+                        "controller": event.jhat.which,
+                        "hat": event.jhat.hat,
+                        "value": event.jhat.value,
+                        "name": Input.translate_hat(event.jhat.value),
+                    },
+                )
+
         return False
 
     @classmethod
@@ -143,12 +190,10 @@ class Radio:
             func: The function to run once the event is
                 broadcast. It may take in a params dictionary argument.
         """
-        listener = Listener(event, func)
-
-        return cls.register(listener)
+        return cls.register(Listener(event, func))
 
     @classmethod
-    def register(cls, listener: "Listener"):
+    def register(cls, listener: Listener):
         """
         Registers an event listener.
 
@@ -182,6 +227,7 @@ class Radio:
             listener.ping(params)
 
 
+@cython.cclass
 class Listener:
     """
     The actual listener object itself. A backend class for the Radio.
@@ -189,12 +235,13 @@ class Listener:
     Args:
         event: The event key to listen for.
         callback: The function to run once the event is broadcast.
-
-    Attributes:
-        event (str): The event descriptor
-        callback (Callable): The function called when the event occurs
-        registered (bool): Describes whether the listener is registered
     """
+    event: str = cython.declare(str, visibility="public")
+    """The event descriptor"""
+    callback: Callable = cython.declare(object, visibility="public")
+    """The function called when the event occurs"""
+    registered: cython.bint = cython.declare(cython.bint, visibility="public")
+    """Describes whether the listener is registered"""
 
     def __init__(self, event: str, callback: Callable):
         self.event = event

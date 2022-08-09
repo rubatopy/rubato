@@ -1,11 +1,6 @@
 """Test the Math class"""
-import sys
 import pytest
 from rubato.utils.rb_math import Math
-
-
-def test_inf():
-    assert Math.INF == sys.maxsize
 
 
 def test_clamp():

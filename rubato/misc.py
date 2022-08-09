@@ -1,6 +1,4 @@
 """Miscellaneous helper functions for rubato developers."""
-from typing import List
-
 from . import Vector, GameObject, Component, Game, Input
 
 def world_mouse() -> Vector:
@@ -13,7 +11,7 @@ def world_mouse() -> Vector:
     return Game.camera.i_transform(Input.get_mouse_pos())
 
 def wrap(
-    comp: Component | List[Component],
+    comp: Component | list[Component],
     name: str = "",
     pos: Vector = Vector(),
     rotation: float = 0,

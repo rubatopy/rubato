@@ -1,5 +1,4 @@
 """A Raster is a grid of pixels that you can draw shapes onto or edit individual pixels."""
-from typing import Dict, Tuple
 import sdl2, sdl2.ext, sdl2.sdlgfx
 
 from . import Component
@@ -164,8 +163,8 @@ class Raster(Component):
             self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4]
         )
 
-    def get_pixel_tuple(self, pos: Tuple[int | float, int | float]) \
-            -> Tuple[int | float, int | float, int | float, int | float]:
+    def get_pixel_tuple(self, pos: tuple[int | float, int | float]) \
+            -> tuple[int | float, int | float, int | float, int | float]:
         """
         Gets the color of a pixel on the image.
 
@@ -220,7 +219,7 @@ class Raster(Component):
             self._raster, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._raster.format, color.r, color.g, color.b)
         )
 
-    def cam_update(self, info: Dict[str, Camera]):
+    def cam_update(self, info: dict[str, Camera]):
         """Updates the raster size when the camera zoom changes"""
         self._cam_zoom = info["camera"].zoom
         self._changed = True

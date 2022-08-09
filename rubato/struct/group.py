@@ -2,7 +2,6 @@
 Groups contain game objects or other groups and allow separation between game objects.
 """
 from __future__ import annotations
-from typing import List
 
 from . import GameObject, Hitbox, QTree
 from .. import Error, Camera
@@ -15,19 +14,17 @@ class Group:
     Args:
         name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.
         active: Whether the group is active or not. Defaults to True.
-
-    Attributes:
-        name (str): The name of the group.
-        active (bool): Whether the group is active or not.
-        groups (List[Group]): A list of groups that are children of this group.
-        game_objects (List[GameObject]): A list of game objects that are children of this group.
     """
 
     def __init__(self, name: str = "", active: bool = True):
         self.name: str = name
+        """The name of the group."""
         self.active: bool = active
-        self.groups: List[Group] = []
-        self.game_objects: List[GameObject] = []
+        """Whether the group is active or not."""
+        self.groups: list[Group] = []
+        """A list of groups that are children of this group."""
+        self.game_objects: list[GameObject] = []
+        """A list of game objects that are children of this group."""
 
     def add(self, *items: GameObject | Group):
         """
@@ -123,8 +120,7 @@ class Group:
                 if hts:
                     qtree.collide(hts, qtree.calc_bb(hts))
 
-
-    def all_gameobjects(self, include_self: bool = False) -> List[GameObject]:
+    def all_gameobjects(self, include_self: bool = False) -> list[GameObject]:
         """
         Returns a list of all game objects in the group and all of its children.
 
@@ -132,9 +128,9 @@ class Group:
             include_self (bool, optional): Whether to include this group's direct children. Defaults to False.
 
         Returns:
-            List[GameObject]: The resultant list.
+            list[GameObject]: The resultant list.
         """
-        ret: List[GameObject] = self.game_objects if include_self else []
+        ret: list[GameObject] = self.game_objects if include_self else []
         for group in self.groups:
             ret.extend(group.all_gameobjects(True))
         return ret

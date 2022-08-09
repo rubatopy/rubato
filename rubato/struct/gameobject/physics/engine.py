@@ -1,20 +1,24 @@
 """Handles collision manifold generation for complex geometries."""
 from __future__ import annotations
-from typing import List, TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional
 import math
 
 from . import RigidBody, Circle
-from .... import Math, Vector
+from .... import Math, Vector, InitError
 
 if TYPE_CHECKING:
     from . import Hitbox, Polygon
 
 
+# THIS IS A STATIC CLASS
 class Engine:
     """
     rubato's physics engine.
     Handles overlap tests for Hitboxes and resolves Rigidbody collisions.
     """
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @staticmethod
     def resolve(col: Manifold):
@@ -288,7 +292,7 @@ class Engine:
         return best_dist, best_ind
 
     @staticmethod
-    def get_support(verts: List[Vector], direction: Vector) -> Vector:
+    def get_support(verts: list[Vector], direction: Vector) -> Vector:
         """Gets the furthest support vertex in a given direction."""
         best_proj = -Math.INF
         best_vert = None
@@ -303,7 +307,7 @@ class Engine:
         return best_vert
 
     @staticmethod
-    def get_normal(verts: List[Vector], index: int) -> Vector:
+    def get_normal(verts: list[Vector], index: int) -> Vector:
         """Finds a vector perpendicular to a side"""
         face = (verts[(index + 1) % len(verts)] - verts[index]).perpendicular()
         face.magnitude = 1
@@ -319,12 +323,6 @@ class Manifold:
         shape_b: The second shape involved in the collision.
         penetration: The amount of penetration between the two shapes.
         normal: The normal of the collision.
-
-    Attributes:
-        shape_a (Optional[Hitbox]): A reference to the first shape.
-        shape_b (Optional[Hitbox]): A reference to the second shape.
-        penetration (float): The amount by which the colliders are intersecting.
-        normal (Vector): The direction that would most quickly separate the two colliders.
     """
 
     def __init__(
@@ -334,10 +332,14 @@ class Manifold:
         penetration: float = 0,
         normal: Vector = Vector(),
     ):
-        self.shape_a = shape_a
-        self.shape_b = shape_b
-        self.penetration = penetration
-        self.normal = normal
+        self.shape_a: Optional[Hitbox] = shape_a
+        """A reference to the first shape."""
+        self.shape_b: Optional[Hitbox] = shape_b
+        """A reference to the second shape."""
+        self.penetration: float = penetration
+        """The amount by which the colliders are intersecting."""
+        self.normal: Vector = normal
+        """The direction that would most quickly separate the two colliders."""
 
     def __str__(self) -> str:
         return f"Manifold <{self.penetration}, {self.normal}>"

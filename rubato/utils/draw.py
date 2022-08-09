@@ -1,26 +1,34 @@
 """A static draw class for drawing things directly to the renderer."""
 from __future__ import annotations
 from ctypes import c_int16
-from typing import TYPE_CHECKING, List, Optional, Callable
-from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Optional, Callable
+import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math
+from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
     from .. import Sprite
 
 
-@dataclass(order=True)
+@cython.cclass
 class DrawTask:
-    priority: int
-    func: Callable = field(compare=False)
+    priority: cython.int = cython.declare(cython.int, visibility="public")
+    func: Callable = cython.declare(object, visibility="public")
+
+    def __init__(self, priority: cython.int, func: Callable):
+        self.priority = priority
+        self.func = func
 
 
+# THIS IS A STATIC CLASS
 class Draw:
     """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
-    _queue: List[DrawTask] = []
+    _queue: list[DrawTask] = []
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
@@ -54,7 +62,7 @@ class Draw:
         if not cls._queue:
             return
 
-        cls._queue.sort()
+        cls._queue.sort(key=lambda x: x.priority)
 
         for task in cls._queue:
             task.func()
@@ -62,36 +70,31 @@ class Draw:
         cls._queue.clear()
 
     @classmethod
-    def queue_point(cls, pos: Vector, color: Color = Color.green, z_index: int = Math.INF):
+    def queue_point(cls, pos: Vector, color: Color = Color.cyan, z_index: int = Math.INF):
         """
         Draw a point onto the renderer at the end of the frame.
 
         Args:
             pos (Vector): The position of the point.
-            color (Color): The color to use for the pixel. Defaults to Color.green.
+            color (Color): The color to use for the pixel. Defaults to Color.cyan.
             z_index (int): Where to draw it in the drawing order. Defaults to Math.INF.
         """
         cls.push(z_index, lambda: cls.point(pos, color))
 
     @staticmethod
-    def point(pos: Vector, color: Color = Color.green):
+    def point(pos: Vector, color: Color = Color.cyan):
         """
         Draw a point onto the renderer immediately.
 
         Args:
             pos (Vector): The position of the point.
-            color (Color): The color to use for the pixel. Defaults to Color.green.
+            color (Color): The color to use for the pixel. Defaults to Color.cyan.
         """
         sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos.x), round(pos.y), *color.to_tuple())
 
     @classmethod
     def queue_line(
-        cls,
-        p1: Vector,
-        p2: Vector,
-        color: Color = Color.green,
-        width: int | float = 1,
-        z_index: int = Math.INF
+        cls, p1: Vector, p2: Vector, color: Color = Color.cyan, width: int | float = 1, z_index: int = Math.INF
     ):
         """
         Draw a line onto the renderer at the end of the frame.
@@ -99,26 +102,26 @@ class Draw:
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to Color.green.
+            color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
         cls.push(z_index, lambda: cls.line(p1, p2, color, width))
 
     @staticmethod
-    def line(p1: Vector, p2: Vector, color: Color = Color.green, width: int | float = 1):
+    def line(p1: Vector, p2: Vector, color: Color = Color.cyan, width: int | float = 1):
         """
         Draw a line onto the renderer immediately.
 
         Args:
             p1: The first point of the line.
             p2: The second point of the line.
-            color: The color to use for the line. Defaults to Color.green.
+            color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
         """
         sdl2.sdlgfx.thickLineRGBA(
-            Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width),
-            color.r, color.g, color.b, color.a
+            Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width), color.r,
+            color.g, color.b, color.a
         )
 
     @classmethod
@@ -173,12 +176,7 @@ class Draw:
         x, y = width // 2, height // 2
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
-        Draw.poly(
-            [center + v.rotate(angle) for v in verts],
-            border,
-            border_thickness,
-            fill
-        )
+        Draw.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
 
     @classmethod
     def queue_circle(
@@ -248,7 +246,7 @@ class Draw:
     @classmethod
     def queue_poly(
         cls,
-        points: List[Vector],
+        points: list[Vector],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -268,7 +266,7 @@ class Draw:
 
     @staticmethod
     def poly(
-        points: List[Vector],
+        points: list[Vector],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None
@@ -297,7 +295,10 @@ class Draw:
                 fill.b,
                 fill.a,
             )
-        if border_thickness == 1:
+
+        if border_thickness <= 0:
+            return
+        elif border_thickness == 1:
             sdl2.sdlgfx.aapolygonRGBA(
                 Display.renderer.sdlrenderer,
                 vx,
@@ -319,7 +320,7 @@ class Draw:
                         points[(i + 1) % len(points)].x,
                         points[(i + 1) % len(points)].y,
                     ),
-                    Color(0, 255),
+                    border,
                     border_thickness,
                 )
 

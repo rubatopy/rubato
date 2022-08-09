@@ -2,10 +2,10 @@
 A game object is a basic element that holds components, postion, and z_index.
 """
 from __future__ import annotations
-from typing import List, Dict, Optional, Type, TypeVar
+from typing import Optional, Type, TypeVar
 
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from ... import Game, Vector, Display, DuplicateComponentError, Draw, Color, ImplementationError, Camera
+from ... import Game, Vector, Display, DuplicateComponentError, Draw, ImplementationError, Camera
 
 T = TypeVar("T")
 
@@ -20,14 +20,6 @@ class GameObject:
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
         debug: Whether or not to draw the center of the game object. Defaults to False.
-
-    Attributes:
-        name (str): The name of the game object. Will default to:
-            "Game Object {number in group}"
-        pos (Vector): The current position of the game object.
-        z_index (int): The z_index of the game object.
-        rotation (float): The rotation of the game object in degrees.
-        debug (bool): Whether or not to draw a debug crosshair for the game object.
     """
 
     def __init__(
@@ -39,11 +31,18 @@ class GameObject:
         debug: bool = False,
     ):
         self.name: str = name
+        """
+        The name of the game object. Will default to: "Game Object {number in group}"
+        """
         self.pos: Vector = pos
+        """The current position of the game object."""
         self.debug: bool = debug
+        """Whether or not to draw a debug crosshair for the game object."""
         self.z_index: int = z_index
-        self._components: Dict[type, List[Component]] = {}
+        """The z_index of the game object."""
+        self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
+        """The rotation of the game object in degrees."""
 
     def add(self, *components: Component) -> GameObject:
         """
@@ -134,7 +133,7 @@ class GameObject:
             return self._components.get(Hitbox, [None])[0]
         return None
 
-    def get_all(self, comp_type: Type[T]) -> List[T]:
+    def get_all(self, comp_type: Type[T]) -> list[T]:
         """
         Gets all the components of a type from the game object.
 
@@ -168,16 +167,15 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            rotated_x = Vector(int(camera.scale(10)), 0).rotate(self.rotation)
-            rotated_y = Vector(0, int(camera.scale(10))).rotate(self.rotation)
-            p1 = (camera.transform(self.pos) + rotated_x).rounded()
-            p2 = (camera.transform(self.pos) - rotated_x).rounded()
+            scale = int(camera.scale(10))
 
-            p3 = (camera.transform(self.pos) + rotated_y).rounded()
-            p4 = (camera.transform(self.pos) - rotated_y).rounded()
+            rot_x = Vector(scale, 0).rotate(self.rotation)
+            rot_y = rot_x.perpendicular()
 
-            Draw.queue_line(p1, p2, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
-            Draw.queue_line(p3, p4, Color(0, 255), int(2 * max(1, Display.display_ratio.y)))
+            real_pos = camera.transform(self.pos)
+
+            Draw.queue_line(real_pos + rot_x, real_pos - rot_x, width=2 * max(1, Display.display_ratio.y))
+            Draw.queue_line(real_pos + rot_y, real_pos - rot_y, width=2 * max(1, Display.display_ratio.y))
 
     def update(self):
         all_comps = list(self._components.values())
@@ -195,11 +193,7 @@ class GameObject:
         Clones the game object.
         """
         new_obj = GameObject(
-            name=f"{self.name} (clone)",
-            pos=self.pos,
-            rotation=self.rotation,
-            z_index=self.z_index,
-            debug=self.debug
+            name=f"{self.name} (clone)", pos=self.pos, rotation=self.rotation, z_index=self.z_index, debug=self.debug
         )
         for component in self._components.values():
             for comp in component:

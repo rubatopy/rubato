@@ -18,10 +18,6 @@ class Sprite:
         rotation: The rotation of the image. Defaults to 0.
         scale: The scale of the image. Defaults to Vector(1, 1).
         aa: Whether anti aliasing is turned on. Defaults to True.
-
-    Attributes:
-        image: The image that is rendered. This is an SDL_Surface or a string in the surface hasn't been set yet.
-        pos: The position of the image.
     """
 
     def __init__(
@@ -33,6 +29,7 @@ class Sprite:
         aa: bool = True,
     ):
         self.image: sdl2.SDL_Surface | str = ""
+        """The image that is rendered. This is an SDL_Surface or a string in the surface hasn't been set yet."""
         self._original: sdl2.SDL_Surface | str = ""
         self.tx: sdl2.ext.Texture | str = ""
 

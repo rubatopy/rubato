@@ -26,22 +26,6 @@ class RigidBody(Component):
         offset: The offset of the rigidbody from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The offset of the rigidbody's rotation from the gameobject. Defaults to 0.
         z_index: The z-index of the rigidbody. Defaults to 0.
-
-    Attributes:
-        static (bool): Whether or not the rigidbody is static (as in, it does
-            not move).
-        gravity (Vector): The acceleration of the gravity that should be
-            applied.
-        friction (float): The friction coefficient of the Rigidbody (usually a
-            a value between 0 and 1).
-        max_speed (Vector): The maximum speed of the Rigidbody.
-        min_speed (Vector): The minimum speed of the Rigidbody.
-        velocity (Vector): The current velocity of the Rigidbody.
-        ang_vel (float): The current angular velocity of the Rigidbody.
-        bounciness (float): How bouncy the rigidbody is (usually a value
-            between 0 and 1).
-        advanced (bool): Whether to use rotational collision resolution
-            (not desired in basic platformers, for instance).
     """
 
     def __init__(
@@ -62,17 +46,24 @@ class RigidBody(Component):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
         self.static: bool = static
+        """Whether or not the rigidbody is static (as in, it does not move)."""
 
         self.gravity: Vector = gravity
+        """The acceleration of the gravity that should be applied."""
         self.friction: float = friction
+        """The friction coefficient of the Rigidbody (usually a value between 0 and 1)."""
         self.max_speed: Vector = max_speed
+        """The maximum speed of the Rigidbody."""
 
         self.pos_correction: float = pos_correction
+        """The positional correction of the rigidbody."""
 
         self.velocity: Vector = velocity
+        """The current velocity of the Rigidbody."""
         self.ang_vel: float = ang_vel
+        """The current angular velocity of the Rigidbody."""
 
-        self.singular = True
+        self.singular: bool = True
 
         if mass == 0 or self.static:
             self._inv_mass = 0
@@ -80,6 +71,7 @@ class RigidBody(Component):
             self._inv_mass: float = 1 / mass
 
         self.bounciness: float = bounciness
+        """How bouncy the rigidbody is (usually a value between 0 and 1)."""
 
     @property
     def inv_mass(self) -> float:

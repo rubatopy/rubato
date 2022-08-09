@@ -2,7 +2,6 @@
 Describes a QuadTree implementation for optimized collision detection.
 Do not use this in your own projects as it is tailored only to this use case.
 """
-from typing import List, Tuple
 import Cython
 
 from . import Hitbox, Engine
@@ -11,8 +10,8 @@ from .... import Vector
 @Cython.cclass
 class QTree:
     """The Quadtree itself."""
-    def __init__(self, hbs: List[List[Hitbox]]):
-        self.bbs: List[Tuple[Vector, Vector]] = []
+    def __init__(self, hbs: list[list[Hitbox]]):
+        self.bbs: list[tuple[Vector, Vector]] = []
 
         tl: Vector = Vector.infinity()
         br: Vector = -1 * Vector.infinity()
@@ -20,7 +19,7 @@ class QTree:
             local_tl: Vector = Vector.infinity()
             local_br: Vector = -1 * Vector.infinity()
             for hb in gen:
-                aabb: Tuple[Vector, Vector] = hb.get_aabb()
+                aabb: tuple[Vector, Vector] = hb.get_aabb()
 
                 if aabb[0].x < local_tl.x:
                     if aabb[0].x < tl.x:
@@ -44,7 +43,7 @@ class QTree:
                         local_br.y = aabb[1].y
             self.bbs.append((local_tl, local_br))
 
-        self.stack: List[List[Hitbox]] = []
+        self.stack: list[list[Hitbox]] = []
 
         center: Vector = (tl + br) / 2
 
@@ -54,8 +53,8 @@ class QTree:
         self.southwest: STree = STree(Vector(tl.x, center.y), Vector(center.x, br.y))
 
         for i in range(len(hbs)):
-            bb: Tuple[Vector, Vector] = self.bbs[i]
-            hbg: List[Hitbox] = hbs[i]
+            bb: tuple[Vector, Vector] = self.bbs[i]
+            hbg: list[Hitbox] = hbs[i]
 
             self.collide(hbg, bb)
 
@@ -63,7 +62,7 @@ class QTree:
                 and not self.southeast.insert(hbg, bb) and not self.southwest.insert(hbg, bb):
                 self.stack.append(hbg)
 
-    def collide(self, hbs: List[Hitbox], bb: Tuple[Vector, Vector]):
+    def collide(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]):
         for hb in hbs:
             for li in self.stack:
                 for item in li:
@@ -74,11 +73,11 @@ class QTree:
         self.southeast.collide(hbs, bb)
         self.southwest.collide(hbs, bb)
 
-    def calc_bb(self, hbs: List[Hitbox]) -> Tuple[Vector, Vector]:
+    def calc_bb(self, hbs: list[Hitbox]) -> tuple[Vector, Vector]:
         tl: Vector = Vector.infinity()
         br: Vector = -1 * Vector.infinity()
         for hb in hbs:
-            aabb: Tuple[Vector, Vector] = hb.get_aabb()
+            aabb: tuple[Vector, Vector] = hb.get_aabb()
 
             if aabb[0].x < tl.x:
                 tl.x = aabb[0].x
@@ -98,7 +97,7 @@ class STree:
         self.top_left: Vector = top_left
         self.bottom_right: Vector = bottom_right
 
-        self.stack: List[List[Hitbox]] = []
+        self.stack: list[list[Hitbox]] = []
 
         self.has_children: bool = False
 
@@ -107,7 +106,7 @@ class STree:
         self.southeast: STree = None
         self.southwest: STree = None
 
-    def insert(self, hbs: List[Hitbox], bb: Tuple[Vector, Vector]) -> bool:
+    def insert(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]) -> bool:
         if (bb[0].x < self.top_left.x) or (bb[0].y < self.top_left.y) \
             or (bb[1].x > self.bottom_right.x) or (bb[1].y > self.bottom_right.y):
             return False
@@ -130,7 +129,7 @@ class STree:
 
         return True
 
-    def collide(self, hbs: List[Hitbox], bb: Tuple[Vector, Vector]) -> bool:
+    def collide(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]) -> bool:
         if (bb[1].y < self.top_left.y) or (bb[1].x < self.top_left.x) \
             or (bb[0].y > self.bottom_right.y) or (bb[0].x > self.bottom_right.x):
             return

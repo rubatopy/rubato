@@ -1,17 +1,16 @@
 """
 A utility for generating simple smooth noise in your projects.
 """
-from . import Math
+from . import Math, InitError
 
 
+# THIS IS A STATIC CLASS
 class Noise:
     """
     A modified implementation of the OpenSimplex2 algorithm.
-
-    Attributes:
-        seed (int): The seed for the random noise. Setting to a fixed value will result in the same noise every time.
     """
-    seed = 0
+    seed: int = 0
+    """The seed for the random noise. Setting to a fixed value will result in the same noise every time."""
 
     _PRIME_X = 0x5205402B9270C86F
     _PRIME_Y = 0x598CD327003817B5
@@ -31,6 +30,9 @@ class Noise:
     _RSQUARED_2D = 0.5
 
     _GRADIENTS_2D = []
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def noise(cls, x: float) -> float:
