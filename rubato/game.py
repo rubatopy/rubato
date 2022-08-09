@@ -191,9 +191,9 @@ class Game():
             # Register controllers if needed
             conts = sdl2.SDL_NumJoysticks()
             if conts > cls._controllers:
-                if not cls._controllers:
+                if cls._controllers == 0:
                     sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
-                for i in range(cls._controllers, sdl2.SDL_NumJoysticks()):
+                for i in range(cls._controllers, conts):
                     sdl2.SDL_JoystickOpen(i)
                 cls._controllers = conts
 
