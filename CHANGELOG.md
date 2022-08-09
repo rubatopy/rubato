@@ -23,6 +23,7 @@
 -   Default drawing/debug colors from green to cyan.
 
 ### Removed
+-   `Game.name`, which did not do anything... yikes.
 
 ### Fixed
 -   Deeply nested groups not colliding with ancestors

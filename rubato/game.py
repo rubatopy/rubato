@@ -21,8 +21,6 @@ class Game:
     STOPPED = 2
     PAUSED = 3
 
-    name: str = ""
-    """The title of the game window."""
     debug: bool = False
     """Whether to use debug-mode."""
     show_fps: bool = False

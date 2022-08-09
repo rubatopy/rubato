@@ -8,7 +8,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 ## Setting up dev environment
 
 -   **Linux:** The GNU C Compiler (gcc) is usually present, or easily available through the package system. On Ubuntu or Debian, for instance, it is part of the `build-essential` package. Next to a C compiler, Cython requires the Python header files. On Ubuntu or Debian, the command `sudo apt-get install build-essential python3-dev` will fetch everything you need.
--   **Mac OS X:** To retrieve gcc, one option is to install Apple’s XCode, which can be retrieved from the Mac OS X’s install DVDs or from https://developer.apple.com/.
+-   **Mac OS X:** To clang, install the XCode CLI with `xcode-select –install`.
 -   **Windows:** Get the Microsoft Build Tools [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/). You need the **MSVC** compiler, and the SDK for your Windows version. To download make using Chocolatey, go [here](https://stackoverflow.com/a/57042516).
 
 Setting up your environment is easy. In a Bash shell, just run:
