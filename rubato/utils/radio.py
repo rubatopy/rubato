@@ -35,15 +35,13 @@ class Events:
     MOUSEDOWN = "MOUSEDOWN"
     """Fired when a mouse button is pressed"""
     JOYAXISMOTION = "JOYAXISMOTION"
-    """Fired when a joystick axis is moved"""
-    JOYAXISCENTER = "JOYAXISCENTER"
-    """Fired when a joystick axis is centered"""
+    """Fired when a controller joystick axis is moved"""
     JOYHATMOTION = "JOYHATMOTION"
-    """Fired when a joystick hat button is changed"""
+    """Fired when a controller hat button is changed"""
     JOYBUTTONDOWN = "JOYBUTTONDOWN"
-    """Fired when a joystick button is pressed"""
+    """Fired when a controller button is pressed"""
     JOYBUTTONUP = "JOYBUTTONUP"
-    """Fired when a joystick button is released"""
+    """Fired when a controller button is released"""
     ZOOM = "ZOOM"
     """Fired when the camera is zoomed"""
     EXIT = "EXIT"
@@ -144,23 +142,15 @@ class Radio:
                     },
                 )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
-                if event.jaxis.value < -3200 or event.jaxis.value > 3200:
-                    cls.broadcast(
-                        Events.JOYAXISMOTION,
-                        {
-                            "controller": event.jaxis.which,
-                            "axis": event.jaxis.axis,
-                            "value": event.jaxis.value,
-                        },
-                    )
-                else:
-                    cls.broadcast(
-                        Events.JOYAXISCENTER,
-                        {
-                            "controller": event.jaxis.which,
-                            "axis": event.jaxis.axis
-                        },
-                    )
+                cls.broadcast(
+                    Events.JOYAXISMOTION,
+                    {
+                        "controller": event.jaxis.which,
+                        "axis": event.jaxis.axis,
+                        "value": event.jaxis.value,
+                        "centered": -3200 < event.jaxis.value < 3200,
+                    },
+                )
             elif event.type == sdl2.SDL_JOYBUTTONDOWN:
                 cls.broadcast(
                     Events.JOYBUTTONDOWN,

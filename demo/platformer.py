@@ -246,27 +246,16 @@ def handle_controller_button(event):
     if event["button"] == 0:
         handle_keydown({"key": "w"})
 
-def handle_controller_joy_down(event):
+def handle_controller_joy(event):
     global a_down, d_down
     if event["axis"] == 0:
-        if event["value"] < 0:
-            a_down = True
-            d_down = False
-        elif event["value"] > 0:
-            d_down = True
-            a_down = False
-
-def handle_controller_joy_center(event):
-    global a_down, d_down
-    if event["axis"] == 0:
-        a_down = False
-        d_down = False
+        a_down = not event["centered"] and event["value"] < 0
+        d_down = not event["centered"] and event["value"] > 0
 
 rb.Radio.listen(rb.Events.KEYDOWN, handle_keydown)
 
 rb.Radio.listen(rb.Events.JOYBUTTONDOWN, handle_controller_button)
-rb.Radio.listen(rb.Events.JOYAXISMOTION, handle_controller_joy_down)
-rb.Radio.listen(rb.Events.JOYAXISCENTER, handle_controller_joy_center)
+rb.Radio.listen(rb.Events.JOYAXISMOTION, handle_controller_joy)
 
 # begin the game
 rb.begin()
