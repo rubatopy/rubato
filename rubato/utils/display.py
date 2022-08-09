@@ -62,6 +62,7 @@ class Display(metaclass=_DisplayProperties):
         renderer (sdl2.Renderer): The pysdl2 renderer element.
         format (sdl2.PixelFormat): The pysdl2 pixel format element.
         window_size (Vector): The pixel size of the physical window.
+
             Warning:
                 Using this value to determine the placement of your game objects may
                 lead to unexpected results. You should instead use
