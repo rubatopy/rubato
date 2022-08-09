@@ -168,7 +168,7 @@ class Radio:
                     },
                 )
             elif event.type == sdl2.SDL_JOYHATMOTION:
-                if event.jhat.value != sdl2.SDL_HAT_CENTERED:
+                if event.jhat.value & sdl2.SDL_HAT_CENTERED:
                     name = "center"
                 elif event.jhat.value & sdl2.SDL_HAT_UP:
                     name = "up"
