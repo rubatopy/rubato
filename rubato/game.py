@@ -2,11 +2,11 @@
 The main game module. It controls everything in the game.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError
 
 if TYPE_CHECKING:
     from . import Scene
@@ -82,9 +82,12 @@ class Game(metaclass=GameProperties):
 
     _initialized = False
 
-    _scenes: Dict[str, Scene] = {}
+    _scenes: dict[str, Scene] = {}
     _scene_id : int = 0
     _current: str = ""
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     @property
@@ -173,7 +176,7 @@ class Game(metaclass=GameProperties):
             Time._frame_start = Time.now()  # pylint: disable= protected-access
 
             # Pump SDL events
-            Radio.pump()
+            sdl2.SDL_PumpEvents()
 
             # Event handling
             if Radio.handle():

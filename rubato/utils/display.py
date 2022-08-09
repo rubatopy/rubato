@@ -9,7 +9,7 @@ from typing import Literal
 import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
-from . import Vector, get_path
+from . import Vector, get_path, InitError
 
 
 class DisplayProperties(type):
@@ -141,6 +141,9 @@ class Display(metaclass=DisplayProperties):
     format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
     _saved_window_size: Vector | None = None
     _saved_window_pos: Vector | None = None
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def set_window_icon(cls, path: str):
