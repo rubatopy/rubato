@@ -32,7 +32,7 @@ def test_init(group):
 
 
 def test_add(monkeypatch, group, go):
-    monkeypatch.setattr("rubato.game.Game._state", 1)
+    monkeypatch.setattr("rubato.game.Game.state", 1)
     group.add(go)
     assert go in group.game_objects
 
