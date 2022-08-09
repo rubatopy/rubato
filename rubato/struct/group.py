@@ -122,7 +122,6 @@ class Group:
                 if hts:
                     qtree.collide(hts, qtree.calc_bb(hts))
 
-
     def all_gameobjects(self, include_self: bool = False) -> list[GameObject]:
         """
         Returns a list of all game objects in the group and all of its children.

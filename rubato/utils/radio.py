@@ -15,56 +15,55 @@ from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, Vector
+from . import Input, Display, Vector, InitError
 
 
 @cython.cclass
 class Events:
     """
     Describes all rubato-fired events that can be listened for.
-
-    Attributes:
-        KEYUP: Fired when a key is released
-        KEYDOWN: Fired when a key is pressed
-        KEYHOLD: Fired when a key is held down (After the initial keydown)
-        MOUSEUP: Fired when a mouse button is released
-        MOUSEDOWN: Fired when a mouse button is pressed
-        JOYAXISMOTION: Fired when a joystick axis is moved
-        JOYAXISCENTER: Fired when a joystick axis is centered
-        JOYHATMOTION: Fired when a joystick hat button is changed
-        JOYBUTTONDOWN: Fired when a joystick button is pressed
-        JOYBUTTONUP: Fired when a joystick button is released
-        ZOOM: Fired when the camera is zoomed
-        EXIT: Fired when the game is exiting
-        RESIZE: Fired when the window is resized
     """
 
     KEYUP = "KEYUP"
+    """Fired when a key is released"""
     KEYDOWN = "KEYDOWN"
+    """Fired when a key is pressed"""
     KEYHOLD = "KEYHOLD"
+    """Fired when a key is held down (After the initial keydown)"""
     MOUSEUP = "MOUSEUP"
+    """Fired when a mouse button is released"""
     MOUSEDOWN = "MOUSEDOWN"
+    """Fired when a mouse button is pressed"""
     JOYAXISMOTION = "JOYAXISMOTION"
+    """Fired when a joystick axis is moved"""
     JOYAXISCENTER = "JOYAXISCENTER"
+    """Fired when a joystick axis is centered"""
     JOYHATMOTION = "JOYHATMOTION"
+    """Fired when a joystick hat button is changed"""
     JOYBUTTONDOWN = "JOYBUTTONDOWN"
+    """Fired when a joystick button is pressed"""
     JOYBUTTONUP = "JOYBUTTONUP"
+    """Fired when a joystick button is released"""
     ZOOM = "ZOOM"
+    """Fired when the camera is zoomed"""
     EXIT = "EXIT"
+    """Fired when the game is exiting"""
     RESIZE = "RESIZE"
+    """Fired when the window is resized"""
 
 
+# THIS IS A STATIC CLASS
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.
     Handles event callbacks during the beginning of each
     :func:`Game.update() <rubato.game.update>` call.
-
-    Attributes:
-        listeners (dict[str, Callable]): A dictionary with all of the
-            active listeners.
     """
     listeners: dict[str, list[Listener]] = {}
+    """A dictionary with all of the active listeners."""
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def handle(cls) -> bool:
@@ -77,11 +76,7 @@ class Radio:
         event = sdl2.SDL_Event()
 
         while sdl2.SDL_PeepEvents(
-            ctypes.byref(event),
-            1,
-            sdl2.SDL_GETEVENT,
-            sdl2.SDL_FIRSTEVENT,
-            sdl2.SDL_LASTEVENT
+            ctypes.byref(event), 1, sdl2.SDL_GETEVENT, sdl2.SDL_FIRSTEVENT, sdl2.SDL_LASTEVENT
         ) > 0:
             if event.type == sdl2.SDL_QUIT:
                 return True
@@ -270,15 +265,13 @@ class Listener:
     Args:
         event: The event key to listen for.
         callback: The function to run once the event is broadcast.
-
-    Attributes:
-        event (str): The event descriptor
-        callback (Callable): The function called when the event occurs
-        registered (bool): Describes whether the listener is registered
     """
     event: str = cython.declare(str, visibility="public")
+    """The event descriptor"""
     callback: Callable = cython.declare(object, visibility="public")
+    """The function called when the event occurs"""
     registered: cython.bint = cython.declare(cython.bint, visibility="public")
+    """Describes whether the listener is registered"""
 
     def __init__(self, event: str, callback: Callable):
         self.event = event

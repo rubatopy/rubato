@@ -44,7 +44,7 @@ def init(
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
-    physics_fps: int = 30,
+    physics_fps: int = Time.physics_fps,
     hidden: bool = False,
 ):
     """

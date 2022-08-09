@@ -10,7 +10,6 @@ from sdl2 import AUDIO_F32
 
 from . import IdError, get_path, Math
 
-
 if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):
     raise Exception("Could not open audio device.")
 
@@ -40,18 +39,15 @@ class Sound():
     Args:
         rel_path: The relative path to the sound file you wish to import.
         sound_name: The name of the sound. Defaults to the name of the file.
-
-    Attributes:
-        loaded_sounds (dict[str, Sound]): A dictionary housing all the loaded
-            sounds, stored by their name.
-        active_channels (dict[int, Sound]): A dictionary housing all the active sounds, stored by their name.
     """
     STOPPED = 0
     PLAYING = 1
     PAUSED = 2
 
     loaded_sounds: dict[str, Sound] = {}
+    """A dictionary housing all the loaded sounds, stored by their name."""
     active_channels: dict[int, Sound] = {}
+    """A dictionary housing all the active sounds, stored by their name."""
 
     def __init__(self, rel_path: str, sound_name: str = None):
         self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))
@@ -187,8 +183,10 @@ class Sound():
                 try:
                     cls(path_to_sound, name)
                 except IdError as err:
-                    raise Warning("If you have files with duplicate names you must set duplicate_names"
-                                  "to True") from err
+                    raise Warning(
+                        "If you have files with duplicate names you must set duplicate_names"
+                        "to True"
+                    ) from err
         else:
             for _, _, files in walk(p):
                 # walk to directory path and ignore name and subdirectories
@@ -198,8 +196,10 @@ class Sound():
                     try:
                         cls(path_to_sound, name)
                     except IdError as err:
-                        raise Warning("If you have files with duplicate names you must set duplicate_names"
-                                      "to True") from err
+                        raise Warning(
+                            "If you have files with duplicate names you must set duplicate_names"
+                            "to True"
+                        ) from err
 
     @classmethod
     def get_sound(cls, sound_name: str) -> Sound:
