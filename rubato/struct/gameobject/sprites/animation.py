@@ -27,16 +27,6 @@ class Animation(Component):
         offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
         z_index: The z-index of the animation. Defaults to 0.
-
-    Attributes:
-        default_state (Optional[str]): The key of the default state. Defaults
-            to None.
-        current_state (str): The key of the current state. Defaults to "".
-        animation_frames_left (int): The number of animation frames left.
-        loop (bool): Whether the animation should loop. Defaults to False.
-        aa (bool): Whether or not to enable anti aliasing.
-        flipx (bool): Whether or not to flip the animation along the x axis.
-        flipy (bool): Whether or not to flip the animation along the y axis.
     """
 
     def __init__(
@@ -59,14 +49,23 @@ class Animation(Component):
         self._freeze: int = -1
 
         self.default_state: str = None
+        """The key of the default state."""
         self.current_state: str = ""
+        """The key of the current state."""
         self.animation_frames_left: int = 0
+        """The number of animation frames left."""
         self._current_frame: int = 0
+        """The current frame of the animation."""
         self.loop: bool = True
+        """Whether the animation should loop."""
         self.scale: Vector = scale
+        """The scale of the animation."""
         self.aa: bool = anti_aliasing
+        """Whether or not to enable anti aliasing."""
         self.flipx: bool = flipx
+        """Whether or not to flip the animation along the x axis."""
         self.flipy: bool = flipy
+        """Whether or not to flip the animation along the y axis."""
 
         self._time_step = 1000 / self._fps
         self._time_count = 0

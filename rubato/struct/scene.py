@@ -17,14 +17,6 @@ class Scene:
             Once this is set, it cannot be changed.
         background_color: The color of the background of the window. Defaults to Color(255, 255, 255).
         border_color: The color of the border of the window. Defaults to Color(0, 0, 0).
-
-    Attributes:
-        root (Group): The base group of game objects in the scene.
-        ui (Group): The ui elements of this scene. These are drawn on top of everything else and do not interact with
-            the other game objects.
-        camera (Camera): The camera of this scene.
-        border_color: The color of the border of the window.
-        background_color: The color of the background of the window.
     """
 
     def __init__(
@@ -34,13 +26,21 @@ class Scene:
         border_color: Color = Color.black,
     ):
         self.root: Group = Group(name="root")
+        """The base group of game objects in the scene."""
         self.ui: Group = Group(name="ui")
+        """
+        The ui elements of this scene. These are drawn on top of everything else and do not interact with the other
+        game objects.
+        """
         self.camera = Camera()
+        """The camera of this scene."""
         self._ui_cam = Camera()
         self._id: str | None = name
         self.started = False
         self.border_color = border_color
+        """The color of the border of the window."""
         self.background_color = background_color
+        """The color of the background of the window."""
 
         Game._add(self)
 
@@ -103,9 +103,7 @@ class Scene:
             This is a relatively expensive operation as it clones every group in the scene.
         """
         new_scene = Scene(
-            name=f"{self.name} (clone)",
-            background_color=self.background_color,
-            border_color=self.border_color
+            name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
         )
         new_scene.root = self.root.clone()
         new_scene.ui = self.ui.clone()

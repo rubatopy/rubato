@@ -23,16 +23,6 @@ class Hitbox(Component):
         offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
-
-    Attributes:
-        tag (str): The tag of the hitbox (can be used to identify hitboxes in collision callbacks)
-        debug (bool): Whether to draw a green outline around the hitbox or not.
-        trigger (bool): Whether this hitbox is just a trigger or not.
-        scale (int): The scale of the hitbox
-        on_collide (Callable): The on_collide function to call when a collision happens with this hitbox.
-        on_exit (Callable): The on_exit function to call when a collision ends with this hitbox.
-        color (Color) The color to fill this hitbox with.
-        colliding (set[Hitbox]): An unordered set of hitboxes that the Hitbox is currently colliding with.
     """
 
     def __init__(
@@ -50,14 +40,23 @@ class Hitbox(Component):
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.debug: bool = debug
+        """Whether to draw a green outline around the hitbox or not."""
         self.trigger: bool = trigger
+        """Whether this hitbox is just a trigger or not."""
         self.scale: int | float = scale
+        """The scale of the hitbox."""
         self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
+        """The on_collide function to call when a collision happens with this hitbox."""
         self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
+        """The on_exit function to call when a collision ends with this hitbox."""
         self.color: Color = color
+        """The color to fill this hitbox with."""
         self.singular: bool = False
+        """Whether this hitbox is singular or not."""
         self.tag: str = tag
+        """The tag of the hitbox (can be used to identify hitboxes in collision callbacks)"""
         self.colliding: set[Hitbox] = set()
+        """An unordered set of hitboxes that the Hitbox is currently colliding with."""
 
     @property
     def pos(self) -> Vector:

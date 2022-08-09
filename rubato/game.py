@@ -11,46 +11,33 @@ from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdE
 if TYPE_CHECKING:
     from . import Scene
 
-class _GameProperties(type): # pylint: disable=missing-class-docstring
-    @property
-    def state(cls) -> int: # test: skip
-        return cls._state
-
-    @state.setter
-    def state(cls, new: int): # test: skip
-        cls._state = new
-
-        if cls._state == Game.STOPPED:
-            sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
-
 
 # THIS IS A STATIC CLASS
-class Game(metaclass=_GameProperties):
+class Game:
     """
     The main game class.
-
-    Attributes:
-        name (str): The title of the game window.
-        debug (bool): Whether to use debug-mode.
-        show_fps (bool): Whether to show fps.
-        debug_font (Font): What font to draw debug text in.
-        state (int): The state of the game. The game states are::
-
-            Game.RUNNING
-            Game.STOPPED
-            Game.PAUSED
     """
     RUNNING = 1
     STOPPED = 2
     PAUSED = 3
 
     name: str = ""
-
+    """The title of the game window."""
     debug: bool = False
+    """Whether to use debug-mode."""
     show_fps: bool = False
+    """Whether to show fps."""
     debug_font: Font
+    """What font to draw debug text in."""
 
-    _state: int = STOPPED
+    state: int = STOPPED
+    """
+    The state of the game. The game states are::
+
+        Game.RUNNING
+        Game.STOPPED
+        Game.PAUSED
+    """
 
     _initialized = False
 
@@ -78,7 +65,7 @@ class Game(metaclass=_GameProperties):
         Changes the current scene. Takes effect on the next frame.
 
         Args:
-            scene_id (str): The id of the new scene.
+            scene_id: The id of the new scene.
         """
         cls._current = scene_id
 
@@ -88,8 +75,7 @@ class Game(metaclass=_GameProperties):
         Add a scene to the game. Also set the current scene if this is the first added scene.
 
         Args:
-            scene (Scene): The scene to add.
-            scene_id (str): The id of the scene.
+            scene: The scene to add.
 
         Raises:
             IdError: The given scene id is already used.
@@ -163,6 +149,9 @@ class Game(metaclass=_GameProperties):
         while True:
             # start timing the update loop
             Time._frame_start = Time.now()  # pylint: disable= protected-access
+
+            if cls.state == cls.STOPPED:
+                sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
             # Pump SDL events
             sdl2.SDL_PumpEvents()

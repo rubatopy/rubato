@@ -8,11 +8,9 @@ from . import Math, InitError
 class Noise:
     """
     A modified implementation of the OpenSimplex2 algorithm.
-
-    Attributes:
-        seed (int): The seed for the random noise. Setting to a fixed value will result in the same noise every time.
     """
-    seed = 0
+    seed: int = 0
+    """The seed for the random noise. Setting to a fixed value will result in the same noise every time."""
 
     _PRIME_X = 0x5205402B9270C86F
     _PRIME_Y = 0x598CD327003817B5

@@ -58,7 +58,7 @@ class InitError(Exception):
     An error that is raised when you try to initialize a static class.
 
     Args:
-        className: The static class.
+        classObject: The static class.
     """
 
     def __init__(self, classObject: object):

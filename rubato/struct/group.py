@@ -14,19 +14,17 @@ class Group:
     Args:
         name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.
         active: Whether the group is active or not. Defaults to True.
-
-    Attributes:
-        name (str): The name of the group.
-        active (bool): Whether the group is active or not.
-        groups (list[Group]): A list of groups that are children of this group.
-        game_objects (list[GameObject]): A list of game objects that are children of this group.
     """
 
     def __init__(self, name: str = "", active: bool = True):
         self.name: str = name
+        """The name of the group."""
         self.active: bool = active
+        """Whether the group is active or not."""
         self.groups: list[Group] = []
+        """A list of groups that are children of this group."""
         self.game_objects: list[GameObject] = []
+        """A list of game objects that are children of this group."""
 
     def add(self, *items: GameObject | Group):
         """
