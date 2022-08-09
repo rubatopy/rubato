@@ -11,26 +11,9 @@ from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdE
 if TYPE_CHECKING:
     from . import Scene
 
-class GameProperties(type):
-    """
-    Defines static property methods for Game.
-
-    Warning:
-        This is only a metaclass for the class below it, so you wont be able to access this class.
-        To use the property methods here, simply access them as you would any other Game property.
-    """
-
+class _GameProperties(type): # pylint: disable=missing-class-docstring
     @property
     def state(cls) -> int: # test: skip
-        """
-        The state of the game.
-
-        The game states are::
-
-            Game.RUNNING
-            Game.STOPPED
-            Game.PAUSED
-        """
         return cls._state
 
     @state.setter
@@ -40,25 +23,9 @@ class GameProperties(type):
         if cls._state == Game.STOPPED:
             sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
-    @property
-    def camera(cls) -> Camera: # test: skip
-        """
-        A shortcut getter allowing easy access to the current camera.
-        This is a get-only property.
-
-        Note:
-            Returns a pointer to the current camera object.
-            This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
-
-        Returns:
-            Camera: The current scene's camera
-        """
-        return cls.current.camera
-
 
 # THIS IS A STATIC CLASS
-class Game(metaclass=GameProperties):
+class Game(metaclass=_GameProperties):
     """
     The main game class.
 
@@ -67,6 +34,11 @@ class Game(metaclass=GameProperties):
         debug (bool): Whether to use debug-mode.
         show_fps (bool): Whether to show fps.
         debug_font (Font): What font to draw debug text in.
+        state (int): The state of the game. The game states are::
+
+            Game.RUNNING
+            Game.STOPPED
+            Game.PAUSED
     """
     RUNNING = 1
     STOPPED = 2
@@ -133,6 +105,23 @@ class Game(metaclass=GameProperties):
 
         cls._scenes[scene.name] = scene
         cls._scene_id += 1
+
+    @classmethod
+    @property
+    def camera(cls) -> Camera: # test: skip
+        """
+        A shortcut getter allowing easy access to the current camera.
+        This is a get-only property.
+
+        Note:
+            Returns a pointer to the current camera object.
+            This is so you can access/change the current camera properties faster, but you'd still need to
+            use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
+
+        Returns:
+            Camera: The current scene's camera
+        """
+        return cls.current.camera
 
     @classmethod
     def quit(cls): # test: skip
