@@ -20,8 +20,8 @@ class Sprite:
         aa: Whether anti aliasing is turned on. Defaults to True.
 
     Attributes:
-        image: The image that is rendered. This is an SDL_Surface or a string in the surface hasn't been set yet.
-        pos: The position of the image.
+        image (sdl2.SDL_Surface | str): The image that is rendered. This is an SDL_Surface or a string in the surface hasn't been set yet.
+        pos (Vector): The position of the image.
     """
 
     def __init__(

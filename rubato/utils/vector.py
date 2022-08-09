@@ -17,13 +17,11 @@ class Vector:
     Args:
         x: The x coordinate. Defaults to 0.
         y: The y coordinate. Defaults to 0.
-
-    Attributes:
-        x (float): The x coordinate.
-        y (float): The y coordinate.
     """
     x: float = cython.declare(cython.float, visibility="public")
+    """The x coordinate."""
     y: float = cython.declare(cython.float, visibility="public")
+    """The y coordinate."""
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
         self.x = x

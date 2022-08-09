@@ -5,9 +5,10 @@ import ctypes
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display, deprecated, Math
+from . import Vector, Display, deprecated, Math, InitError
 
 
+# THIS IS A STATIC CLASS
 class Input:
     """
     The input class, handling keyboard and mouse getter and setter functionality
@@ -33,6 +34,9 @@ class Input:
         "caps lock": sdl2.KMOD_CAPS,
         "altgr": sdl2.KMOD_MODE,
     }
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def key_pressed(cls, *keys: str) -> bool:
@@ -146,8 +150,7 @@ class Input:
         Returns:
             bool: True if the window is focused, false otherwise.
         """
-        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus(
-        ) == Display.window
+        return sdl2.SDL_GetKeyboardFocus() == Display.window or sdl2.SDL_GetMouseFocus() == Display.window
 
     # MOUSE FUNCTIONS
 

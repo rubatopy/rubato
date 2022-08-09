@@ -56,8 +56,13 @@ class PrintError(Exception):
 class InitError(Exception):
     """
     An error that is raised when you try to initialize a static class.
+
+    Args:
+        className: The static class.
     """
-    pass
+
+    def __init__(self, classObject: object):
+        super().__init__(f"{classObject.__class__.__name__} is a static class and cannot be initialized.")
 
 
 class RemovalWarning(DeprecationWarning):

@@ -94,7 +94,7 @@ class Display:
     _saved_window_pos: Vector | None
 
     def __init__(self) -> None:
-        raise InitError("Display is a static class and cannot be initialized.")
+        raise InitError(self)
 
     @classmethod
     def display_ratio(cls) -> Vector:

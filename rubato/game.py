@@ -44,7 +44,7 @@ class Game():
     debug_font: Font
     """What font to draw debug text in."""
 
-    state = type("int", (_State), {})()
+    state = type("int", (_State,), {})()
     """
     int: The state of the game.
 

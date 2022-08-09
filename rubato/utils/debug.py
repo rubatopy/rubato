@@ -3,26 +3,24 @@ This Debug module provides a set of functions to help with debugging.
 """
 import sys, traceback
 
-from . import PrintError, Display, Time, Draw, Vector, Color, Font
+from . import PrintError, Display, Time, Draw, Vector, Color, Font, InitError
 
 
+# THIS IS A STATIC CLASS
 class Debug:
     """
     Debug comes with useful functions to help with debugging.
     """
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @staticmethod
     def draw_fps(font: Font):
         fs = str(Time.smooth_fps)
         h = int(Display.res.y) >> 5
         p = h // 2
-        Draw.rect(
-            Vector(p + (h * len(fs)) / 2, p + h / 2),
-            h * len(fs) + p,
-            h + p,
-            Color(a=200),
-            fill=Color(a=200)
-        )
+        Draw.rect(Vector(p + (h * len(fs)) / 2, p + h / 2), h * len(fs) + p, h + p, Color(a=200), fill=Color(a=200))
         Draw.text(fs, font=font, pos=Vector(p + 4, p + 3), align=Vector(1, 1))
 
     @staticmethod

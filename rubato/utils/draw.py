@@ -6,10 +6,11 @@ import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math
+from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
     from .. import Sprite
+
 
 @cython.cclass
 class DrawTask:
@@ -20,9 +21,14 @@ class DrawTask:
         self.priority = priority
         self.func = func
 
+
+# THIS IS A STATIC CLASS
 class Draw:
     """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
     _queue: list[DrawTask] = []
+
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
@@ -88,12 +94,7 @@ class Draw:
 
     @classmethod
     def queue_line(
-        cls,
-        p1: Vector,
-        p2: Vector,
-        color: Color = Color.cyan,
-        width: int | float = 1,
-        z_index: int = Math.INF
+        cls, p1: Vector, p2: Vector, color: Color = Color.cyan, width: int | float = 1, z_index: int = Math.INF
     ):
         """
         Draw a line onto the renderer at the end of the frame.
@@ -119,8 +120,8 @@ class Draw:
             width: The width of the line. Defaults to 1.
         """
         sdl2.sdlgfx.thickLineRGBA(
-            Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width),
-            color.r, color.g, color.b, color.a
+            Display.renderer.sdlrenderer, round(p1.x), round(p1.y), round(p2.x), round(p2.y), round(width), color.r,
+            color.g, color.b, color.a
         )
 
     @classmethod
@@ -175,12 +176,7 @@ class Draw:
         x, y = width // 2, height // 2
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
-        Draw.poly(
-            [center + v.rotate(angle) for v in verts],
-            border,
-            border_thickness,
-            fill
-        )
+        Draw.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
 
     @classmethod
     def queue_circle(
