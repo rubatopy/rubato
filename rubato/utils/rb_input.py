@@ -54,6 +54,8 @@ class Input:
                 if rb.Input.key_pressed("shift", "w"):
                     # handle the "shift+w" keypress
         """
+        state = cls.get_keyboard_state()
+
         for key in keys:
             key = key.lower()
             if key in cls._mods and len(keys) > 1:
@@ -72,8 +74,8 @@ class Input:
                     key1, key2 = key, key
 
                 if not (
-                    cls.get_keyboard_state()[cls.scancode_from_name(key1)] or
-                    cls.get_keyboard_state()[cls.scancode_from_name(key2)]
+                    state[cls.scancode_from_name(key1)] or
+                    state[cls.scancode_from_name(key2)]
                 ):
                     return False
         return True

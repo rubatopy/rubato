@@ -86,11 +86,27 @@ class Game(metaclass=GameProperties):
     _scene_id : int = 0
     _current: str = ""
 
+    _controllers: int = 0
+
+    @classmethod
+    @property
+    def controllers(cls) -> int:
+        """
+        The number of controllers currently registered. (getonly)
+
+        If non-zero, the controllers are registered from 0 to n-1 where n is the number of controllers.
+        This number index is passed to events that are propagated when controllers are inputted to.
+
+        Returns:
+            int: The total number of controllers.
+        """
+        return cls._controllers
+
     @classmethod
     @property
     def current(cls) -> Scene: # test: skip
         """
-        The current scene. Get-only.
+        The current scene. (getonly)
 
         Returns:
             The current scene.
@@ -181,6 +197,13 @@ class Game(metaclass=GameProperties):
 
             # process delayed calls
             Time.process_calls()
+
+            if sdl2.SDL_NumJoysticks() > cls._controllers:
+                if not cls._controllers:
+                    sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
+                for i in range(cls._controllers, sdl2.SDL_NumJoysticks()):
+                    sdl2.SDL_JoystickOpen(i)
+                cls._controllers = sdl2.SDL_NumJoysticks()
 
             cls.update()
 

@@ -29,6 +29,11 @@ class Events:
         KEYHOLD: Fired when a key is held down (After the initial keydown)
         MOUSEUP: Fired when a mouse button is released
         MOUSEDOWN: Fired when a mouse button is pressed
+        JOYAXISMOTION: Fired when a joystick axis is moved
+        JOYAXISCENTER: Fired when a joystick axis is centered
+        JOYHATMOTION: Fired when a joystick hat button is changed
+        JOYBUTTONDOWN: Fired when a joystick button is pressed
+        JOYBUTTONUP: Fired when a joystick button is released
         ZOOM: Fired when the camera is zoomed
         EXIT: Fired when the game is exiting
         RESIZE: Fired when the window is resized
@@ -39,11 +44,16 @@ class Events:
     KEYHOLD = "KEYHOLD"
     MOUSEUP = "MOUSEUP"
     MOUSEDOWN = "MOUSEDOWN"
+    JOYAXISMOTION = "JOYAXISMOTION"
+    JOYAXISCENTER = "JOYAXISCENTER"
+    JOYHATMOTION = "JOYHATMOTION"
+    JOYBUTTONDOWN = "JOYBUTTONDOWN"
+    JOYBUTTONUP = "JOYBUTTONUP"
     ZOOM = "ZOOM"
     EXIT = "EXIT"
     RESIZE = "RESIZE"
 
-@cython.cclass
+
 class Radio:
     """
     Broadcast system manages all events and inter-class communication.
@@ -136,6 +146,70 @@ class Radio:
                         "which": event.button.which,
                         "windowID": event.button.windowID,
                         "timestamp": event.button.timestamp,
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYAXISMOTION:
+                if event.jaxis.value < -3200 or event.jaxis.value > 3200:
+                    cls.broadcast(
+                        Events.JOYAXISMOTION,
+                        {
+                            "controller": event.jaxis.which,
+                            "axis": event.jaxis.axis,
+                            "value": event.jaxis.value,
+                        },
+                    )
+                else:
+                    cls.broadcast(
+                        Events.JOYAXISCENTER,
+                        {
+                            "controller": event.jaxis.which,
+                            "axis": event.jaxis.axis
+                        },
+                    )
+            elif event.type == sdl2.SDL_JOYBUTTONDOWN:
+                cls.broadcast(
+                    Events.JOYBUTTONDOWN,
+                    {
+                        "controller": event.jbutton.which,
+                        "button": event.jbutton.button
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYBUTTONUP:
+                cls.broadcast(
+                    Events.JOYBUTTONUP,
+                    {
+                        "controller": event.jbutton.which,
+                        "button": event.jbutton.button
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYHATMOTION:
+                if event.jhat.value != sdl2.SDL_HAT_CENTERED:
+                    name = "center"
+                elif event.jhat.value & sdl2.SDL_HAT_UP:
+                    name = "up"
+                elif event.jhat.value & sdl2.SDL_HAT_RIGHT:
+                    name = "right"
+                elif event.jhat.value & sdl2.SDL_HAT_DOWN:
+                    name = "down"
+                elif event.jhat.value & sdl2.SDL_HAT_LEFT:
+                    name = "left"
+                elif event.jhat.value & sdl2.SDL_HAT_RIGHTUP:
+                    name = "right up"
+                elif event.jhat.value & sdl2.SDL_HAT_RIGHTDOWN:
+                    name = "right down"
+                elif event.jhat.value & sdl2.SDL_HAT_LEFTUP:
+                    name = "left up"
+                elif event.jhat.value & sdl2.SDL_HAT_LEFTDOWN:
+                    name = "left down"
+                else:
+                    name = "unknown"
+                cls.broadcast(
+                    Events.JOYHATMOTION,
+                    {
+                        "controller": event.jhat.which,
+                        "hat": event.jhat.hat,
+                        "value": event.jhat.value,
+                        "name": name,
                     },
                 )
 

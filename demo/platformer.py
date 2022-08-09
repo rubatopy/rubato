@@ -168,13 +168,15 @@ portal.add(
 # add them all to the scene
 main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 
+a_down = False
+d_down = False
 
 # define a custom update function
 # this function is run every frame
 def update():
     global grounded
     # check for user directional input
-    if rb.Input.key_pressed("a"):
+    if rb.Input.key_pressed("a") or a_down:
         player_body.velocity.x = -300
         p_animation.flipx = True
         if grounded:
@@ -182,7 +184,7 @@ def update():
                 p_animation.set_current_state("sneak", True)
             else:
                 p_animation.set_current_state("run", True)
-    elif rb.Input.key_pressed("d"):
+    elif rb.Input.key_pressed("d") or d_down:
         player_body.velocity.x = 300
         p_animation.flipx = False
         if grounded:
@@ -239,8 +241,32 @@ def handle_keydown(event):
     if event["key"] == "3":
         rb.Game.camera.zoom = .5
 
+# define a custom controller listener
+def handle_controller_button(event):
+    if event["button"] == 0:
+        handle_keydown({"key": "w"})
+
+def handle_controller_joy_down(event):
+    global a_down, d_down
+    if event["axis"] == 0:
+        if event["value"] < 0:
+            a_down = True
+            d_down = False
+        elif event["value"] > 0:
+            d_down = True
+            a_down = False
+
+def handle_controller_joy_center(event):
+    global a_down, d_down
+    if event["axis"] == 0:
+        a_down = False
+        d_down = False
 
 rb.Radio.listen(rb.Events.KEYDOWN, handle_keydown)
+
+rb.Radio.listen(rb.Events.JOYBUTTONDOWN, handle_controller_button)
+rb.Radio.listen(rb.Events.JOYAXISMOTION, handle_controller_joy_down)
+rb.Radio.listen(rb.Events.JOYAXISCENTER, handle_controller_joy_center)
 
 # begin the game
 rb.begin()
