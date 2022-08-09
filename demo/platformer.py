@@ -173,8 +173,12 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 # this function is run every frame
 def update():
     global grounded
+
+    move_axis = rb.Input.controller_axis(rb.Input.controllers - 1, 0)
+    centered = rb.Input.axis_centered(move_axis)
+
     # check for user directional input
-    if rb.Input.key_pressed("a"):
+    if rb.Input.key_pressed("a") or (move_axis < 0 and not centered):
         player_body.velocity.x = -300
         p_animation.flipx = True
         if grounded:
@@ -182,7 +186,7 @@ def update():
                 p_animation.set_current_state("sneak", True)
             else:
                 p_animation.set_current_state("run", True)
-    elif rb.Input.key_pressed("d"):
+    elif rb.Input.key_pressed("d") or (move_axis > 0 and not centered):
         player_body.velocity.x = 300
         p_animation.flipx = False
         if grounded:
@@ -198,7 +202,7 @@ def update():
             else:
                 p_animation.set_current_state("idle", True)
 
-    if rb.Input.key_pressed("r"):
+    if rb.Input.key_pressed("r") or rb.Input.controller_button(rb.Input.controllers - 1, 6):
         player.pos = rb.Display.center_left + rb.Vector(50, 0)
         player.get(rb.RigidBody).velocity = rb.Vector.zero()
         grounded = False
@@ -240,7 +244,15 @@ def handle_keydown(event):
         rb.Game.camera.zoom = .5
 
 
+# define a custom controller listener
+def handle_controller_button(event):
+    if event["button"] == 0:
+        handle_keydown({"key": "w"})
+
+
 rb.Radio.listen(rb.Events.KEYDOWN, handle_keydown)
+
+rb.Radio.listen(rb.Events.JOYBUTTONDOWN, handle_controller_button)
 
 # begin the game
 rb.begin()
