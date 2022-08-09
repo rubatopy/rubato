@@ -20,15 +20,6 @@ class Button(Component):
         offset: The offset of the button from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the button from the game object. Defaults to 0.
         z_index: The z-index of the button. Defaults to 0.
-
-    Attributes:
-        pressed (bool): Whether the button is currently pressed.
-        hover (bool): Whether the mouse is hovering over the button.
-        dims (Vector): The dimensions of the button.
-        onclick (Callable): The function to call when the button is clicked.
-        onrelease (Callable): The function to call when the button is released.
-        onhover (Callable): The function to call when the mouse enters the button.
-        onexit (Callable): The function to call when the mouse exits the button.
     """
 
     def __init__(
@@ -45,12 +36,19 @@ class Button(Component):
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self.dims: Vector = Vector(width, height)
+        """The dimensions of the button."""
         self.pressed: bool = False
+        """Whether the button is currently pressed."""
         self.hover: bool = False
+        """Whether the mouse is hovering over the button."""
         self.onclick: Callable = onclick if onclick else lambda: None
+        """The function to call when the button is clicked."""
         self.onrelease: Callable = onrelease if onrelease else lambda: None
+        """The function to call when the button is released."""
         self.onhover: Callable = onhover if onhover else lambda: None
+        """The function to call when the mouse enters the button."""
         self.onexit: Callable = onexit if onexit else lambda: None
+        """The function to call when the mouse exits the button."""
 
     def update(self):
         """The update function for buttons."""

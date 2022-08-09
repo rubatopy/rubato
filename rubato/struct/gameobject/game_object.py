@@ -20,14 +20,6 @@ class GameObject:
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
         debug: Whether or not to draw the center of the game object. Defaults to False.
-
-    Attributes:
-        name (str): The name of the game object. Will default to:
-            "Game Object {number in group}"
-        pos (Vector): The current position of the game object.
-        z_index (int): The z_index of the game object.
-        rotation (float): The rotation of the game object in degrees.
-        debug (bool): Whether or not to draw a debug crosshair for the game object.
     """
 
     def __init__(
@@ -39,11 +31,18 @@ class GameObject:
         debug: bool = False,
     ):
         self.name: str = name
+        """
+        The name of the game object. Will default to: "Game Object {number in group}"
+        """
         self.pos: Vector = pos
+        """The current position of the game object."""
         self.debug: bool = debug
+        """Whether or not to draw a debug crosshair for the game object."""
         self.z_index: int = z_index
+        """The z_index of the game object."""
         self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
+        """The rotation of the game object in degrees."""
 
     def add(self, *components: Component) -> GameObject:
         """
@@ -194,11 +193,7 @@ class GameObject:
         Clones the game object.
         """
         new_obj = GameObject(
-            name=f"{self.name} (clone)",
-            pos=self.pos,
-            rotation=self.rotation,
-            z_index=self.z_index,
-            debug=self.debug
+            name=f"{self.name} (clone)", pos=self.pos, rotation=self.rotation, z_index=self.z_index, debug=self.debug
         )
         for component in self._components.values():
             for comp in component:

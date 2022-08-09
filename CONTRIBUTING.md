@@ -108,14 +108,12 @@ class Foo:
     Args:
         bar: The bar argument.
         baz: The baz argument.
-
-    Attributes:
-        bar (int): The bar attribute.
-        baz (str): The baz attribute.
     """
-    def __init__(self, bar, baz):
-        self.bar = bar
-        self.baz = baz
+    def __init__(self, bar: int, baz: str):
+        self.bar: int = bar
+        """The bar attribute."""
+        self.baz: str = baz
+        """The baz attribute."""
 
     @property
     def foo(self) -> float:
