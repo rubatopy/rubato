@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError, Input
 
 if TYPE_CHECKING:
     from . import Scene
@@ -65,7 +65,7 @@ class Game(metaclass=_GameProperties):
     @property
     def current(cls) -> Scene: # test: skip
         """
-        The current scene. Get-only.
+        The current scene. (getonly)
 
         Returns:
             The current scene.
@@ -170,6 +170,9 @@ class Game(metaclass=_GameProperties):
             # Event handling
             if Radio.handle():
                 cls.quit()
+
+            # Register controllers
+            Input.update_controllers()
 
             # process delayed calls
             Time.process_calls()

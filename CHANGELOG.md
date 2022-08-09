@@ -3,7 +3,8 @@
 ## [Unreleased]
 
 ### Key Features
--   Made `Vector` a C class
+-   Made `Vector` a C class, improving overall Rubato performance.
+-   Controller support!
 
 ### Breaking Changes
 -   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
@@ -13,6 +14,8 @@
 
 ### Added
 -   `Group.all_gameobjects()` to get, recursively, all the game objects belonging to a group and its children.
+-   Multiple `Event` types for controller events. Controllers are registered automatically by Rubato for event listening.
+-   Assorted `Input` methods for querying the state of a controller.
 
 ### Changed
 -   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`

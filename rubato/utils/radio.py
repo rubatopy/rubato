@@ -34,6 +34,14 @@ class Events:
     """Fired when a mouse button is released"""
     MOUSEDOWN = "MOUSEDOWN"
     """Fired when a mouse button is pressed"""
+    JOYAXISMOTION = "JOYAXISMOTION"
+    """Fired when a controller joystick axis is moved"""
+    JOYHATMOTION = "JOYHATMOTION"
+    """Fired when a controller hat button is changed"""
+    JOYBUTTONDOWN = "JOYBUTTONDOWN"
+    """Fired when a controller button is pressed"""
+    JOYBUTTONUP = "JOYBUTTONUP"
+    """Fired when a controller button is released"""
     ZOOM = "ZOOM"
     """Fired when the camera is zoomed"""
     EXIT = "EXIT"
@@ -131,6 +139,42 @@ class Radio:
                         "which": event.button.which,
                         "windowID": event.button.windowID,
                         "timestamp": event.button.timestamp,
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYAXISMOTION:
+                cls.broadcast(
+                    Events.JOYAXISMOTION,
+                    {
+                        "controller": event.jaxis.which,
+                        "axis": event.jaxis.axis,
+                        "value": event.jaxis.value,
+                        "centered": Input.axis_centered(event.jaxis.value),
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYBUTTONDOWN:
+                cls.broadcast(
+                    Events.JOYBUTTONDOWN,
+                    {
+                        "controller": event.jbutton.which,
+                        "button": event.jbutton.button
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYBUTTONUP:
+                cls.broadcast(
+                    Events.JOYBUTTONUP,
+                    {
+                        "controller": event.jbutton.which,
+                        "button": event.jbutton.button
+                    },
+                )
+            elif event.type == sdl2.SDL_JOYHATMOTION:
+                cls.broadcast(
+                    Events.JOYHATMOTION,
+                    {
+                        "controller": event.jhat.which,
+                        "hat": event.jhat.hat,
+                        "value": event.jhat.value,
+                        "name": Input.translate_hat(event.jhat.value),
                     },
                 )
 
