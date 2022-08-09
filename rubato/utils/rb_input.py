@@ -11,10 +11,173 @@ from . import Vector, Display, deprecated, Math, InitError
 # THIS IS A STATIC CLASS
 class Input:
     """
-    The input class, handling keyboard and mouse getter and setter functionality
+    The input class, handling keyboard, mouse, and controller functionality.
 
     Go :doc:`here <key-names>` for a list of all the available keys.
     """
+    # CONTROLLER METHODS
+
+    _controllers: list[sdl2.SDL_Joystick] = []
+
+    @classmethod
+    @property
+    def controllers(cls) -> int:
+        """
+        The number of controllers currently registered. (getonly)
+
+        If non-zero, the controllers are registered from 0 to n-1 where n is the number of controllers.
+        This number index is passed to events that are propagated when controllers are inputted to.
+
+        Returns:
+            int: The total number of controllers.
+        """
+        return len(cls._controllers)
+
+    @classmethod
+    def update_controllers(cls) -> None:
+        """
+        Register controllers if needed. Called automatically.
+        """
+        conts = sdl2.SDL_NumJoysticks()
+        length = len(cls._controllers)
+        if conts > length:
+            if length == 0:
+                sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
+            for i in range(length, conts):
+                cls._controllers.append(sdl2.SDL_JoystickOpen(i))
+
+    @classmethod
+    def controller_name(cls, controller: int) -> str:
+        """
+        Get the name of the controller at the given index.
+
+        Args:
+            index (int): The index of the controller to get the name of.
+
+        Raises:
+            IndexError: If the index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            str: The name of the controller. If controller is less than 0, returns an empty string.
+        """
+        if controller < 0:
+            return ""
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickNameForIndex(controller)
+
+    @classmethod
+    def controller_axis(cls, controller: int, axis: int) -> int:
+        """
+        Get the value of a given joystick axis on a controller.
+
+        Args:
+            controller (int): The index of the controller.
+            axis (int): The index of the joystick axis.
+
+        Raises:
+            IndexError: The given controller index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            int: The value of the axis. If controller is less than 0, returns 0.
+        """
+        if controller < 0:
+            return 0
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickGetAxis(cls._controllers[controller], axis)
+
+    @classmethod
+    def axis_centered(cls, val: int) -> bool:
+        """
+        Check whether a given axis value is within the 10% bounds of deadzone considered the "center".
+
+        Args:
+            val (int): The value of the axis.
+
+        Returns:
+            bool: Whether the axis is centered.
+        """
+        return -3200 < val < 3200
+
+    @classmethod
+    def controller_button(cls, controller: int, button: int) -> bool:
+        """
+        Get whether a given button on a controller is pressed.
+
+        Args:
+            controller (int): The index of the controller.
+            button (int): The index of the button.
+
+        Raises:
+            IndexError: The given controller index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            bool: Whether the button is pressed. If controller is less than 0, returns False.
+        """
+        if controller < 0:
+            return False
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickGetButton(cls._controllers[controller], button) == 1
+
+    @classmethod
+    def controller_hat(cls, controller: int, hat: int) -> int:
+        """
+        Get the value of a given hat on a controller.
+
+        Args:
+            controller (int): The index of the controller.
+            hat (int): The index of the hat.
+
+        Raises:
+            IndexError: The given controller index is out of range.
+                Note that no error is thrown if controller is negative.
+
+        Returns:
+            int: The value of the hat, which you can translate with `translate_hat()`.
+                If controller is less than 0, returns 0.
+        """
+        if controller < 0:
+            return 0
+        if controller >= len(cls._controllers):
+            raise IndexError(f"Index {controller} out of range.")
+        return sdl2.SDL_JoystickGetHat(cls._controllers[controller], hat)
+
+    @classmethod
+    def translate_hat(cls, val: int) -> str:
+        """
+        Translate a hat value to a string.
+
+        Args:
+            val (int): The hat value.
+
+        Returns:
+            str: The string representation of the hat value.
+        """
+        if val & sdl2.SDL_HAT_CENTERED:
+            return "center"
+        elif val & sdl2.SDL_HAT_UP:
+            return "up"
+        elif val & sdl2.SDL_HAT_RIGHT:
+            return "right"
+        elif val & sdl2.SDL_HAT_DOWN:
+            return "down"
+        elif val & sdl2.SDL_HAT_LEFT:
+            return "left"
+        elif val & sdl2.SDL_HAT_RIGHTUP:
+            return "right up"
+        elif val & sdl2.SDL_HAT_RIGHTDOWN:
+            return "right down"
+        elif val & sdl2.SDL_HAT_LEFTUP:
+            return "left up"
+        elif val & sdl2.SDL_HAT_LEFTDOWN:
+            return "left down"
+        return "unknown"
+
     # KEYBOARD METHODS
 
     _mods: dict[str, int] = {

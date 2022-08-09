@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, Input
 
 if TYPE_CHECKING:
     from . import Scene
@@ -61,22 +61,6 @@ class Game():
     _scenes: dict[str, Scene] = {}
     _scene_id : int = 0
     _current: str = ""
-
-    _controllers: int = 0
-
-    @classmethod
-    @property
-    def controllers(cls) -> int:
-        """
-        The number of controllers currently registered. (getonly)
-
-        If non-zero, the controllers are registered from 0 to n-1 where n is the number of controllers.
-        This number index is passed to events that are propagated when controllers are inputted to.
-
-        Returns:
-            int: The total number of controllers.
-        """
-        return cls._controllers
 
     @classmethod
     @property
@@ -188,14 +172,8 @@ class Game():
             if Radio.handle():
                 cls.quit()
 
-            # Register controllers if needed
-            conts = sdl2.SDL_NumJoysticks()
-            if conts > cls._controllers:
-                if cls._controllers == 0:
-                    sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
-                for i in range(cls._controllers, conts):
-                    sdl2.SDL_JoystickOpen(i)
-                cls._controllers = conts
+            # Register controllers
+            Input.update_controllers()
 
             # process delayed calls
             Time.process_calls()

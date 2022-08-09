@@ -148,7 +148,7 @@ class Radio:
                         "controller": event.jaxis.which,
                         "axis": event.jaxis.axis,
                         "value": event.jaxis.value,
-                        "centered": -3200 < event.jaxis.value < 3200,
+                        "centered": Input.axis_centered(event.jaxis.value),
                     },
                 )
             elif event.type == sdl2.SDL_JOYBUTTONDOWN:
@@ -168,33 +168,13 @@ class Radio:
                     },
                 )
             elif event.type == sdl2.SDL_JOYHATMOTION:
-                if event.jhat.value & sdl2.SDL_HAT_CENTERED:
-                    name = "center"
-                elif event.jhat.value & sdl2.SDL_HAT_UP:
-                    name = "up"
-                elif event.jhat.value & sdl2.SDL_HAT_RIGHT:
-                    name = "right"
-                elif event.jhat.value & sdl2.SDL_HAT_DOWN:
-                    name = "down"
-                elif event.jhat.value & sdl2.SDL_HAT_LEFT:
-                    name = "left"
-                elif event.jhat.value & sdl2.SDL_HAT_RIGHTUP:
-                    name = "right up"
-                elif event.jhat.value & sdl2.SDL_HAT_RIGHTDOWN:
-                    name = "right down"
-                elif event.jhat.value & sdl2.SDL_HAT_LEFTUP:
-                    name = "left up"
-                elif event.jhat.value & sdl2.SDL_HAT_LEFTDOWN:
-                    name = "left down"
-                else:
-                    name = "unknown"
                 cls.broadcast(
                     Events.JOYHATMOTION,
                     {
                         "controller": event.jhat.which,
                         "hat": event.jhat.hat,
                         "value": event.jhat.value,
-                        "name": name,
+                        "name": Input.translate_hat(event.jhat.value),
                     },
                 )
 
