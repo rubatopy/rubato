@@ -189,12 +189,13 @@ class Game():
                 cls.quit()
 
             # Register controllers if needed
-            if sdl2.SDL_NumJoysticks() > cls._controllers:
+            conts = sdl2.SDL_NumJoysticks()
+            if conts > cls._controllers:
                 if not cls._controllers:
                     sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
                 for i in range(cls._controllers, sdl2.SDL_NumJoysticks()):
                     sdl2.SDL_JoystickOpen(i)
-                cls._controllers = sdl2.SDL_NumJoysticks()
+                cls._controllers = conts
 
             # process delayed calls
             Time.process_calls()
