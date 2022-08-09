@@ -6,54 +6,50 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, Input
+from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError, Input
 
 if TYPE_CHECKING:
     from . import Scene
 
-class _State: # pylint: disable=missing-class-docstring
+class _GameProperties(type): # pylint: disable=missing-class-docstring
+    @property
+    def state(cls) -> int: # test: skip
+        return cls._state
 
-    def __get__(self, *_):
-        return Game._state
+    @state.setter
+    def state(cls, new: int): # test: skip
+        cls._state = new
 
-    def __set__(self, _, new):
-        if new in [Game.RUNNING, Game.STOPPED, Game.PAUSED]:
-            raise ValueError("Invalid game state. Must be one of Game.RUNNING, Game.STOPPED, Game.PAUSED.")
-
-        Game._state = new
-
-        if Game._state == Game.STOPPED:
+        if cls._state == Game.STOPPED:
             sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
+
 # THIS IS A STATIC CLASS
-class Game():
+class Game(metaclass=_GameProperties):
     """
     The main game class.
+
+    Attributes:
+        name (str): The title of the game window.
+        debug (bool): Whether to use debug-mode.
+        show_fps (bool): Whether to show fps.
+        debug_font (Font): What font to draw debug text in.
+        state (int): The state of the game. The game states are::
+
+            Game.RUNNING
+            Game.STOPPED
+            Game.PAUSED
     """
     RUNNING = 1
     STOPPED = 2
     PAUSED = 3
 
     name: str = ""
-    """The title of the game window."""
 
     debug: bool = False
-    """Whether to use debug-mode."""
     show_fps: bool = False
-    """Whether to show fps."""
     debug_font: Font
-    """What font to draw debug text in."""
 
-    state = type("int", (_State,), {})()
-    """
-    int: The state of the game.
-
-    The game states are::
-
-        Game.RUNNING
-        Game.STOPPED
-        Game.PAUSED
-    """
     _state: int = STOPPED
 
     _initialized = False
@@ -62,22 +58,8 @@ class Game():
     _scene_id : int = 0
     _current: str = ""
 
-    @classmethod
-    @property
-    def camera(cls) -> Camera: # test: skip
-        """
-        A shortcut getter allowing easy access to the current camera.
-        This is a get-only property.
-
-        Note:
-            Returns a pointer to the current camera object.
-            This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
-
-        Returns:
-            Camera: The current scene's camera
-        """
-        return cls.current.camera
+    def __init__(self) -> None:
+        raise InitError(self)
 
     @classmethod
     @property
@@ -123,6 +105,23 @@ class Game():
 
         cls._scenes[scene.name] = scene
         cls._scene_id += 1
+
+    @classmethod
+    @property
+    def camera(cls) -> Camera: # test: skip
+        """
+        A shortcut getter allowing easy access to the current camera.
+        This is a get-only property.
+
+        Note:
+            Returns a pointer to the current camera object.
+            This is so you can access/change the current camera properties faster, but you'd still need to
+            use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
+
+        Returns:
+            Camera: The current scene's camera
+        """
+        return cls.current.camera
 
     @classmethod
     def quit(cls): # test: skip
