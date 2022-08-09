@@ -121,7 +121,6 @@ class Display(metaclass=_DisplayProperties):
         return 0
 
     @classmethod
-    @property
     def has_x_border(cls) -> bool:
         """Whether or not the window has a black border on the left or right side."""
         render_rat = cls.res.y / cls.res.x
@@ -130,7 +129,6 @@ class Display(metaclass=_DisplayProperties):
         return render_rat > window_rat
 
     @classmethod
-    @property
     def has_y_border(cls) -> bool:
         """Whether or not the window has a black border on the top or bottom."""
         render_rat = cls.res.y / cls.res.x

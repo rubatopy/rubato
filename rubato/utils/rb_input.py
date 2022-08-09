@@ -390,9 +390,9 @@ class Input:
 
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
-        if Display.has_x_border:
+        if Display.has_x_border():
             x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
-        elif Display.has_y_border:
+        elif Display.has_y_border():
             y_window.value = Math.clamp(y_window.value, size, Display.window_size.y - size)
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
