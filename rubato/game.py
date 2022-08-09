@@ -195,15 +195,16 @@ class Game(metaclass=GameProperties):
             if Radio.handle():
                 cls.quit()
 
-            # process delayed calls
-            Time.process_calls()
-
+            # Register controllers if needed
             if sdl2.SDL_NumJoysticks() > cls._controllers:
                 if not cls._controllers:
                     sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
                 for i in range(cls._controllers, sdl2.SDL_NumJoysticks()):
                     sdl2.SDL_JoystickOpen(i)
                 cls._controllers = sdl2.SDL_NumJoysticks()
+
+            # process delayed calls
+            Time.process_calls()
 
             cls.update()
 
