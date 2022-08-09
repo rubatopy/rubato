@@ -124,7 +124,9 @@ ___________
 
 Hitbox
 -------
-.. automodule:: rubato.struct.gameobject.physics.hitbox Hitbox
+Various hitbox components that enable collisions
+
+.. autoclass:: rubato.struct.gameobject.physics.hitbox.Hitbox
 
 .. _rect:
 
@@ -230,7 +232,9 @@ Math
 
 Noise
 ------
-.. automodule:: rubato.utils.noise Noise
+A utility for generating simple smooth noise in your projects.
+
+.. autoclass:: rubato.utils.noise.Noise
 
 
 .. _time:
