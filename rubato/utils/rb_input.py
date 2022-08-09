@@ -36,15 +36,29 @@ class Input:
     @classmethod
     def update_controllers(cls) -> None:
         """
-        Register controllers if needed. Called automatically.
+        Register or deregister controllers as needed. Called automatically.
         """
         conts = sdl2.SDL_NumJoysticks()
         length = len(cls._controllers)
-        if conts > length:
+
+        if conts == length:
+            return
+
+        elif conts > length:
             if length == 0:
                 sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
             for i in range(length, conts):
                 cls._controllers.append(sdl2.SDL_JoystickOpen(i))
+            return
+
+        for i in range(length):
+            sdl2.SDL_JoystickClose(cls._controllers[i])
+        cls._controllers = []
+        if conts > 0:
+            for i in range(conts):
+                cls._controllers.append(sdl2.SDL_JoystickOpen(i))
+        else:
+            sdl2.SDL_JoystickEventState(sdl2.SDL_DISABLE)
 
     @classmethod
     def controller_name(cls, controller: int) -> str:
