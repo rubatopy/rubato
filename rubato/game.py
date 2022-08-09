@@ -11,35 +11,58 @@ from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdE
 if TYPE_CHECKING:
     from . import Scene
 
-class GameProperties(type):
-    """
-    Defines static property methods for Game.
+class _State: # pylint: disable=missing-class-docstring
 
-    Warning:
-        This is only a metaclass for the class below it, so you wont be able to access this class.
-        To use the property methods here, simply access them as you would any other Game property.
-    """
+    def __get__(self, *_):
+        return Game._state
 
-    @property
-    def state(cls) -> int: # test: skip
-        """
-        The state of the game.
+    def __set__(self, _, new):
+        if new in [Game.RUNNING, Game.STOPPED, Game.PAUSED]:
+            raise ValueError("Invalid game state. Must be one of Game.RUNNING, Game.STOPPED, Game.PAUSED.")
 
-        The game states are::
+        Game._state = new
 
-            Game.RUNNING
-            Game.STOPPED
-            Game.PAUSED
-        """
-        return cls._state
-
-    @state.setter
-    def state(cls, new: int): # test: skip
-        cls._state = new
-
-        if cls._state == Game.STOPPED:
+        if Game._state == Game.STOPPED:
             sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
+# THIS IS A STATIC CLASS
+class Game():
+    """
+    The main game class.
+    """
+    RUNNING = 1
+    STOPPED = 2
+    PAUSED = 3
+
+    name: str = ""
+    """The title of the game window."""
+
+    debug: bool = False
+    """Whether to use debug-mode."""
+    show_fps: bool = False
+    """Whether to show fps."""
+    debug_font: Font
+    """What font to draw debug text in."""
+
+    state = type("int", (_State), {})()
+    """
+    int: The state of the game.
+
+    The game states are::
+
+        Game.RUNNING
+        Game.STOPPED
+        Game.PAUSED
+    """
+    _state: int = STOPPED
+
+    _initialized = False
+
+    _scenes: dict[str, Scene] = {}
+    _scene_id : int = 0
+    _current: str = ""
+
+    @classmethod
     @property
     def camera(cls) -> Camera: # test: skip
         """
@@ -55,36 +78,6 @@ class GameProperties(type):
             Camera: The current scene's camera
         """
         return cls.current.camera
-
-
-# THIS IS A STATIC CLASS
-class Game(metaclass=GameProperties):
-    """
-    The main game class.
-
-    Attributes:
-        name (str): The title of the game window.
-        debug (bool): Whether to use debug-mode.
-        show_fps (bool): Whether to show fps.
-        debug_font (Font): What font to draw debug text in.
-    """
-    RUNNING = 1
-    STOPPED = 2
-    PAUSED = 3
-
-    name: str = ""
-
-    debug: bool = False
-    show_fps: bool = False
-    debug_font: Font
-
-    _state: int = STOPPED
-
-    _initialized = False
-
-    _scenes: dict[str, Scene] = {}
-    _scene_id : int = 0
-    _current: str = ""
 
     @classmethod
     @property
