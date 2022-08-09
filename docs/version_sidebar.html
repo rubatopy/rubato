@@ -120,7 +120,7 @@
         });
 
         function setDestination(vTag, a) {
-            let ideal = `/${vTag}/${window.location.pathname.split("/").slice(2).join("/")}`;
+            let ideal = `/${vTag}/${window.location.pathname.split("/").slice(2).join("/").slice(0, -1)}${window.location.hash}`;
 
             reader = new XMLHttpRequest();
             reader.open("get", ideal, false);
