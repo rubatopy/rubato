@@ -19,7 +19,6 @@ This page describes all user-accessible API components to the rubato project.
 Game
 ****
 .. automodule:: rubato.game
-    :members:
 
 ***************************
 Scenes and Their Management
@@ -39,14 +38,12 @@ we won't be using Groups as we don't need this functionality here.
 Scene
 =====
 .. automodule:: rubato.struct.scene
-    :members:
 
 .. _camera:
 
 Camera
 ------
 .. automodule:: rubato.utils.camera
-    :members:
 
 
 .. _group:
@@ -54,7 +51,6 @@ Camera
 Group
 =====
 .. automodule:: rubato.struct.group
-    :members:
 
 **************************
 Game Object and Components
@@ -72,7 +68,6 @@ Game Object's position.
 Game Object
 ============
 .. automodule:: rubato.struct.gameobject.game_object
-    :members:
 
 .. _components:
 
@@ -81,92 +76,79 @@ Components
 The default Component class.
 
 .. automodule:: rubato.struct.gameobject.component
-    :members:
 
 .. _image:
 
 Image
 ---------
 .. automodule:: rubato.struct.gameobject.sprites.image
-    :members:
 
 .. _raster:
 
 Raster
 ---------
 .. automodule:: rubato.struct.gameobject.raster
-    :members:
 
 .. _text:
 
 Text
 ---------
 .. automodule:: rubato.struct.gameobject.ui.text
-    :members:
 
 .. _button:
 
 Button
 ---------
 .. automodule:: rubato.struct.gameobject.ui.button
-    :members:
 
 .. _slider_:
 
 Slider
 ---------
 .. automodule:: rubato.struct.gameobject.ui.slider
-    :members:
 
 .. _animation:
 
 Animation
 ---------
 .. automodule:: rubato.struct.gameobject.sprites.animation
-    :members:
 
 .. _spritesheet:
 
 Spritesheet
 ___________
 .. automodule:: rubato.struct.gameobject.sprites.spritesheet
-    :members:
 
 
 .. _hitbox:
 
 Hitbox
 -------
-.. automodule:: rubato.struct.gameobject.physics.hitbox
-    :members: Hitbox
+.. automodule:: rubato.struct.gameobject.physics.hitbox Hitbox
 
 .. _rect:
 
 Rectangle
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Rectangle
-    :members:
 
 .. _poly:
 
 Polygon
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Polygon
-    :members:
 
 .. _circle:
 
 Circle
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Circle
-    :members:
 
 .. _rigidbody:
 
 RigidBody
 ---------
 .. automodule:: rubato.struct.gameobject.physics.rigidbody
-    :members:
 
 *******
 Physics
@@ -183,14 +165,12 @@ functions yourself.
 Engine
 =======
 .. autoclass:: rubato.struct.gameobject.physics.engine.Engine
-    :members:
 
 .. _manifold:
 
 Manifold
 ==========
 .. autoclass:: rubato.struct.gameobject.physics.engine.Manifold
-    :members:
 
 ********************
 Hardware Interaction
@@ -204,21 +184,18 @@ or playing a sound.
 Display
 =======
 .. automodule:: rubato.utils.display
-    :members:
 
 .. _input:
 
 Input
 =====
 .. automodule:: rubato.utils.rb_input
-    :members:
 
 .. _sound:
 
 Sound
 =====
 .. automodule:: rubato.utils.sound
-    :members:
 
 *********
 Utilities
@@ -230,35 +207,30 @@ These classes are utility classes that are used to make certain tasks easier.
 Sprite
 ======
 .. automodule:: rubato.struct.sprite
-    :members:
 
 .. _draw:
 
 Draw
 ====
 .. automodule:: rubato.utils.draw
-    :members:
 
 .. _vector:
 
 Vector
 ======
 .. automodule:: rubato.utils.vector
-    :members:
 
 .. _math:
 
 Math
 ====
 .. automodule:: rubato.utils.rb_math
-    :members:
 
 .. _noise:
 
 Noise
 ------
-.. automodule:: rubato.utils.noise
-    :members: Noise
+.. automodule:: rubato.utils.noise Noise
 
 
 .. _time:
@@ -266,7 +238,6 @@ Noise
 Time
 ====
 .. automodule:: rubato.utils.rb_time
-    :members:
 
 .. _color:
 
@@ -274,7 +245,6 @@ Color
 =====
 
 .. automodule:: rubato.utils.color
-    :members:
     :undoc-members:
 
 .. _colordef:
@@ -303,7 +273,6 @@ Debug
 =====
 
 .. automodule:: rubato.utils.debug
-    :members:
     :undoc-members:
 
 .. _debugdef:
@@ -313,7 +282,6 @@ Debug
 Font
 ====
 .. automodule:: rubato.utils.font
-    :members:
     :undoc-members:
 
 .. _radio:
@@ -321,17 +289,14 @@ Font
 Radio
 =====
 .. automodule:: rubato.utils.radio
-    :members:
 
 .. _errors:
 
 Errors
 ======
 .. automodule:: rubato.utils.error
-    :members:
 
 *************
 Miscellaneous
 *************
 .. automodule:: rubato.misc
-    :members:
