@@ -1,12 +1,12 @@
 # distutils: sources = PixelEditor.cpp
-# distutils: include_dirs = SDL2/lib
+# distutils: include_dirs = SDL2/include/
 # distutils: language = c++
 
-# To build: cythonize -i test.py
+# To build: cythonize -i test.py -3
 
 import rubato as rb
 import sdl2, cython
-# from cython.cimports.cPixelEditor import setPixelRGB
+from cython.cimports.cPixelEditor import setPixelRGB
 
 rb.init()
 
@@ -20,6 +20,7 @@ raster = rb.Raster(
 )
 
 # raster._raster.pixels is an int
+
 
 setPixelRGB(raster._raster.pixels, raster._raster.w, 0, 0, 0, 0, 0)
 
