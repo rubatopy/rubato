@@ -1,5 +1,6 @@
 """A Raster is a grid of pixels that you can draw shapes onto or edit individual pixels."""
-import sdl2, sdl2.ext, sdl2.sdlgfx
+from typing import Dict, Tuple
+import sdl2, sdl2.ext, sdl2.sdlgfx, cython
 
 from . import Component
 from ... import Display, Vector, Color, Radio, Draw, Camera
@@ -105,11 +106,7 @@ class Raster(Component):
             pos: The position to draw the point.
             color: The color of the point. Defaults to black.
         """
-        sdl2.ext.fill(
-            self._raster,
-            sdl2.ext.rgba_to_color(color.rgba32),
-            (pos.x, pos.y, 1, 1),
-        )
+        raise NotImplementedError()
 
     def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, width: int = 1):
         """
@@ -121,12 +118,7 @@ class Raster(Component):
             color: The color of the line. Defaults to black.
             width: The width of the line. Defaults to 1.
         """
-        sdl2.ext.line(
-            self._raster,
-            sdl2.ext.rgba_to_color(color.rgba32),
-            (start.x, start.y, end.x, end.y),
-            width,
-        )
+        raise NotImplementedError()
 
     def draw_rect(self, top_left: Vector, bottom_right: Vector, color: Color = Color.black, width: int = 1):
         """
@@ -137,13 +129,9 @@ class Raster(Component):
             color: The color of the rectangle. Defaults to black.
             width: Width of the rectangle border. Defaults to 1.
         """
-        # TODO: maybe add a fill option? SDL_FillRect?
-        self.draw_line(top_left, Vector(bottom_right.x, top_left.y), color, width)
-        self.draw_line(Vector(bottom_right.x, top_left.y), bottom_right, color, width)
-        self.draw_line(bottom_right, Vector(top_left.x, bottom_right.y), color, width)
-        self.draw_line(Vector(top_left.x, bottom_right.y), top_left, color, width)
+        raise NotImplementedError()
 
-    def get_pixel(self, pos: Vector) -> Color:
+    def get_pixel(self, x: int, y: int):
         """
         Gets the color of a pixel on the image.
 
@@ -153,18 +141,9 @@ class Raster(Component):
         Returns:
             Color: The color of the pixel.
         """
-        # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
-        # Same as
-        # print(self._raster.format.BytesPerPixel)
-        return Color(
-            self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4 + 1],
-            self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4 + 2],
-            self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4 + 3],
-            self._raster.contents.pixels[pos.y * self._raster.pitch + pos.x * 4]
-        )
+        raise NotImplementedError()
 
-    def get_pixel_tuple(self, pos: tuple[int | float, int | float]) \
-            -> tuple[int | float, int | float, int | float, int | float]:
+    def get_pixel_tuple(self, x: int, y: int) -> Tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the image.
 
@@ -174,16 +153,9 @@ class Raster(Component):
         Returns:
             The color of the pixel.
         """
-        # The 4 is required because the pixel is a 32 bit value but the pixels are stored as 8 bit values
-        # Same as self.raster.format.contents.BytesPerPixel
-        # print(self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4])
-        # THIS IS NOT WORKING, but if we are able to access the pixels like in normal sdl2, it should be fine
-        return (
-            self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4],
-            self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4 + 1],
-            self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4 + 2],
-            self._raster.pixels[pos[1] * self._raster.pitch + pos[0] * 4 + 3]
-        )
+        r, g, b, a = 0, 0, 0, 0
+        p = self._raster.pixels + y * self._raster.pitch + x * 4
+        sdl2.SDL_GetRGBA(p, self._raster.format, r, g, b, a)
 
     def set_pixel(self, pos: Vector, color: Color):
         """
@@ -193,6 +165,7 @@ class Raster(Component):
             pos: The position of the pixel.
             color: The color of the pixel.
         """
+        raise NotImplementedError()
 
     def switch_color(self, color: Color, new_color: Color):
         """
@@ -202,12 +175,7 @@ class Raster(Component):
             color: The color to switch.
             new_color: The new color to switch to.
         """
-        for x in range(self.get_size().x):
-            for y in range(self.get_size().y):
-                if self.get_pixel(Vector(x, y)) == color:
-                    new_color.a = self.get_pixel_tuple((x, y))[0]  # Preserve the alpha value.
-                    self.set_pixel(Vector(x, y), new_color)
-                self.set_pixel(Vector(x, y), color)  # Set the color of the pixel.
+        raise NotImplementedError()
 
     def set_colorkey(self, color: Color):
         """
@@ -237,7 +205,8 @@ class Raster(Component):
             self._texture = sdl2.ext.Texture(Display.renderer, self._drawn)
 
     def draw(self, camera: Camera):
-        if self.hidden: return
+        if self.hidden:
+            return
 
         if self._changed or self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
@@ -246,9 +215,8 @@ class Raster(Component):
 
         Draw.push(
             self.true_z,
-            lambda: Display.update(
-                self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)
-            ),
+            lambda: Display.
+            update(self._texture, camera.transform(self.gameobj.pos + self.offset - Vector(*self._texture.size) / 2)),
         )
 
     # TODO when we make raster actually work make sure to add a clone function

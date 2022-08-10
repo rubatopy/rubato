@@ -7,6 +7,7 @@ Attention:
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
+import cython
 
 from ... import Vector, Camera
 
@@ -14,6 +15,7 @@ if TYPE_CHECKING:
     from .. import GameObject
 
 
+@cython.cclass
 class Component:
     """
     A component adds functionality to the game object it is attached to. Note that this is a template class and should

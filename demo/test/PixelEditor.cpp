@@ -1,6 +1,6 @@
 #pragma once
 #include <cstring>
-#include <../../rubato/static/dlls/windows/SDL2/SDL.h>
+#include <SDL2/include/SDL.h>
 
 SDL_Surface* FAKE = SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, SDL_PIXELFORMAT_RGBA32);
 //Sets the pixel at x, y to the color specified, must be locked b4 unlocked after
