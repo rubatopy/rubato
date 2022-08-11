@@ -16,7 +16,6 @@ class Image(Component):
     Args:
         rel_path: The relative path to the image. Defaults to "".
         scale: The scale of the image. Defaults to Vector(1, 1).
-        anti_aliasing: Whether or not to use anti-aliasing. Defaults to False.
         flipx: Whether or not to flip the image horizontally. Defaults to False.
         flipy: Whether or not to flip the image vertically. Defaults to False.
         offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
@@ -28,7 +27,6 @@ class Image(Component):
         self,
         rel_path: str,
         scale: Vector = Vector(1, 1),
-        anti_aliasing: bool = False,
         flipx: bool = False,
         flipy: bool = False,
         offset: Vector = Vector(0, 0),
@@ -44,7 +42,6 @@ class Image(Component):
 
         self.singular = False
 
-        self._aa: bool = anti_aliasing
         self._flipx: bool = flipx
         self._flipy: bool = flipy
         self._scale: Vector = scale
@@ -107,16 +104,6 @@ class Image(Component):
         self._flipy = new
         self._changed = True
 
-    @property
-    def aa(self) -> bool:
-        """Whether or not the image is anti-aliased."""
-        return self._aa
-
-    @aa.setter
-    def aa(self, new: bool):
-        self._aa = new
-        self._changed = True
-
     def get_rect(self) -> Rectangle:
         """
         Generates the rectangular bounding box of the image.
@@ -177,8 +164,6 @@ class Image(Component):
             self._changed = False
             self._update_sprite()
 
-        self._sprite.update()
-
     def draw(self, camera: Camera):
         if self.hidden:
             return
@@ -203,7 +188,6 @@ class Image(Component):
             "",
             offset=self.offset,
             scale=self.scale,
-            anti_aliasing=self.aa,
             flipx=self.flipx,
             flipy=self.flipy,
             rot_offset=self.rot_offset,

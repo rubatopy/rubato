@@ -3,29 +3,37 @@
 ## [Unreleased]
 
 ### Key Features
+
 -   Made `Vector` a C class, improving overall Rubato performance.
 -   Controller support!
 
 ### Breaking Changes
+
 -   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
     Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are implicitly cast to floats
     when used in Vector.
 -   Rename `Vector.to_int()` to `Vector.rounded()`. It now rounds a vector instead of doing an int cast
 
 ### Added
+
 -   `Group.all_gameobjects()` to get, recursively, all the game objects belonging to a group and its children.
 -   Multiple `Event` types for controller events. Controllers are registered automatically by Rubato for event listening.
 -   Assorted `Input` methods for querying the state of a controller.
 
 ### Changed
+
 -   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 -   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
 -   Default drawing/debug colors from green to cyan.
+-   Made rendering of images faster
 
 ### Removed
+
 -   `Game.name`, which did not do anything... yikes.
+-   Anti aliasing from `Sprite`, `Image`, and `Animation`
 
 ### Fixed
+
 -   Deeply nested groups not colliding with ancestors
 -   Hitboxes outside the boundaries not making use of QTrees properly
 

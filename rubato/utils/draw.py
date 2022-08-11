@@ -373,7 +373,14 @@ class Draw:
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
-    def queue_texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+    def queue_texture(
+        cls,
+        texture: sdl2.ext.Texture,
+        pos: Vector = Vector(),
+        z_index: int = Math.INF,
+        scale: Vector = Vector(1, 1),
+        angle: float = 0,
+    ):
         """
         Draws an texture onto the renderer at the end of the frame.
 
@@ -381,19 +388,28 @@ class Draw:
             texture: The texture to draw.
             pos: The position of the texture. Defaults to Vector(0, 0).
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            scale: The scale of the texture. Defaults to Vector(1, 1).
+            angle: The clockwise rotation of the texture. Defaults to 0.
         """
-        cls.push(z_index, lambda: cls.texture(texture, pos))
+        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle))
 
     @staticmethod
-    def texture(texture: sdl2.ext.Texture, pos: Vector = Vector()):
+    def texture(
+        texture: sdl2.ext.Texture,
+        pos: Vector = Vector(),
+        scale: Vector = Vector(1, 1),
+        angle: float = 0,
+    ):
         """
         Draws an SDL Texture onto the renderer immediately.
 
         Args:
             texture: The texture to draw.
             pos: The position to draw the texture at. Defaults to Vector().
+            scale: The scale of the texture. Defaults to Vector(1, 1).
+            angle: The clockwise rotation of the texture. Defaults to 0.
         """
-        Display.update(texture, pos)
+        Display.update(texture, pos, scale, angle)
 
     @classmethod
     def queue_sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
@@ -419,6 +435,4 @@ class Draw:
         if sprite.image == "":
             return
 
-        sprite.update()
-
-        Draw.texture(sprite.tx, pos)
+        Draw.texture(sprite.tx, pos, sprite.scale, sprite.rotation)

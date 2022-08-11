@@ -91,7 +91,7 @@ class Animation(Component):
         self.animation_frames_left = len(self._states[self.current_state]) - (1 + self._current_frame)
 
     @property
-    def image(self) -> sdl2.surface.SDL_Surface:
+    def image(self) -> sdl2.SDL_Surface:
         """The current SDL Surface holding the image."""
         return self._states[self.current_state][self.current_frame].image
 
@@ -110,7 +110,6 @@ class Animation(Component):
 
         sprite.scale = calculated_scale
         # pylint: disable=protected-access
-        sprite._update_rotozoom()
         return sprite
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
@@ -236,12 +235,6 @@ class Animation(Component):
                 y += 1
 
         self.add(state_name, state)
-
-    def update(self):
-        if self.hidden:
-            return
-
-        self.anim_frame.update()
 
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""

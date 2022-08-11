@@ -3,7 +3,7 @@ A sprite is a class that handles rendering of images.
 """
 from __future__ import annotations
 
-import sdl2, sdl2.ext, sdl2.sdlgfx
+import sdl2, sdl2.ext
 
 from .. import get_path, Display, Vector, Game
 
@@ -14,24 +14,20 @@ class Sprite:
 
     Args:
         rel_path: The relative path to the image.
-        pos: The position to draw the image at. Defaults to Vector(0, 0).
         rotation: The rotation of the image. Defaults to 0.
         scale: The scale of the image. Defaults to Vector(1, 1).
-        aa: Whether anti aliasing is turned on. Defaults to True.
     """
 
     def __init__(
         self,
         rel_path: str,
-        pos: Vector = Vector(),
         rotation: float = 0,
         scale: Vector = Vector(1, 1),
-        aa: bool = True,
     ):
         self.image: sdl2.SDL_Surface | str = ""
         """The image that is rendered. This is an SDL_Surface or a string in the surface hasn't been set yet."""
-        self._original: sdl2.SDL_Surface | str = ""
         self.tx: sdl2.ext.Texture | str = ""
+        """The generated sprite texture. This is an empty string if it hasn't been set yet."""
 
         if rel_path != "":
             try:
@@ -42,60 +38,16 @@ class Sprite:
                 fname = rel_path.replace("\\", "/").split("/")[-1]
                 raise TypeError(f"{fname} is not a valid image file") from e
 
-            self._original = Display.clone_surface(self.image)
-            self.tx = sdl2.ext.Texture(Display.renderer, self.image)
+            self.generate_tx()
 
-        self.pos = pos
-        self._rotation = rotation
-        self._scale = scale
-        self._aa = aa
-
-        self._changed = True
-        self._last_camera_zoom = 1
-
-    @property
-    def rotation(self) -> float:
-        """The rotation of the sprite."""
-        return self._rotation
-
-    @rotation.setter
-    def rotation(self, new: float):
-        self._rotation = new
-        self._changed = True
-
-    @property
-    def scale(self) -> Vector:
+        self.rotation = rotation
+        """The clockwise rotation of the sprite."""
+        self.scale = scale
         """The scale of the sprite."""
-        return self._scale
 
-    @scale.setter
-    def scale(self, new: Vector):
-        self._scale = new
-        self._changed = True
-
-    @property
-    def aa(self) -> bool:
-        """Whether anti-aliasing is enabled."""
-        return self._aa
-
-    @aa.setter
-    def aa(self, new: bool):
-        self._aa = new
-        self._changed = True
-
-    def _update_rotozoom(self):
-        self._last_camera_zoom = Game.camera.zoom
-        self._changed = False
-        self.image = sdl2.sdlgfx.rotozoomSurfaceXY(
-            self._original,
-            -self.rotation,
-            # It seems that rotation is counterclockwise, even though we assume clockwise until now.
-            # Requires further investigation but is a fix for now.
-            self.scale.x * self._last_camera_zoom,
-            self.scale.y * self._last_camera_zoom,
-            int(self.aa),
-        ).contents
-        self.tx = sdl2.ext.Texture(Display.renderer, self.image)
+    def true_scale(self):
+        """Gets the scale of the sprite in accordance to camera zoom."""
+        return self.scale * Game.camera.zoom
 
     def get_size(self) -> Vector:
         """
@@ -104,10 +56,9 @@ class Sprite:
         Returns:
             The size of the image
         """
-        self._update_rotozoom()
-        if self.image.w == self._original.w and self.image.h == self._original.h:
-            return Vector(self.image.w, self.image.h) * self.scale
-        return Vector(self.image.w, self.image.h)
+        tx_size = self.tx.size
+        true_scale = self.true_scale()
+        return Vector(tx_size[0] * true_scale.x, tx_size[1] * true_scale.y)
 
     def get_size_original(self) -> Vector:
         """
@@ -118,19 +69,16 @@ class Sprite:
         """
         return Vector(self._original.w, self._original.h)
 
-    def update(self):
-        """Updates the rotozoom of the sprite if any changes were made."""
-        if self._changed or self._last_camera_zoom != Game.camera.zoom:
-            self._update_rotozoom()
+    def generate_tx(self):
+        """Regenerates the texture from the surface."""
+        self.tx = sdl2.ext.Texture(Display.renderer, self.image)
 
     def delete(self):
         """Deletes the sprite"""
         self.tx.destroy()
         sdl2.SDL_FreeSurface(self.image)
-        sdl2.SDL_FreeSurface(self._original)
         self.image = None
         self.tx = None
-        self._original = None
 
     def clone(self):
         """
@@ -138,14 +86,11 @@ class Sprite:
         """
         s = Sprite(
             "",
-            self.pos,
             self.rotation,
             self.scale,
-            self.aa,
         )
         # pylint: disable=protected-access
         if self.image != "":
             s.image = Display.clone_surface(self.image)
-            s._original = Display.clone_surface(self._original)
-        s._changed = True
+            s.generate_tx()
         return s
