@@ -1,7 +1,4 @@
 #include "SDL2/include/SDL.h"
-#include <iostream>
-using namespace std;
-
 
 SDL_Surface* FAKE = SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, SDL_PIXELFORMAT_RGBA32);
 //Sets the pixel at x, y to the color specified, must be locked b4 unlocked after
@@ -13,7 +10,7 @@ void setPixelRGB(int _pixels, int width, int x, int y, int _r, int _g, int _b) {
 }
 
 //Sets the pixel at x, y to the color specified using the alpha channel
-void setPixelRGB(int _pixels, int width, int x, int y, int _r, int _g, int _b, int _a) {
+void setPixelRGBA(int _pixels, int width, int x, int y, int _r, int _g, int _b, int _a) {
 	Uint32* pixels = (Uint32*)((size_t)_pixels);
 	Uint32* pixel = pixels + (y*width) + x;
 	Uint8 r = _r, g = _g, b = _b, a = _a;
@@ -33,7 +30,7 @@ void setPixelRGBASafe(int _pixels, int width, int height, int x, int y, int _r, 
 	if (x < 0 || y < 0 || x > width || y > height) {
 		return;
 	}
-	setPixelRGB(_pixels, width, x, y, _r, _g, _b, _a);
+	setPixelRGBA(_pixels, width, x, y, _r, _g, _b, _a);
 }
 //Sets the pixel at x, y to the color specified, uses a Uint32 for the color
 void setPixel(int _pixels, int width, int x, int y, int _pixel) {
@@ -64,8 +61,4 @@ int* getPixel(SDL_Surface* surf, int x, int y) {
 	colors[2] = b;
 	colors[3] = a;
 	return colors;
-}
-inline void ctest(){
-	cout << SDL_INIT_TIMER;
-	SDL_Surface* FAKE = SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, SDL_PIXELFORMAT_RGBA32);
 }

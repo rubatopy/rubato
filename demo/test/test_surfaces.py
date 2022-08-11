@@ -6,7 +6,7 @@
 
 import rubato as rb
 import cython
-from cython.cimports.cPixelEditor import ctest, setPixelRGB
+from cython.cimports.cPixelEditor import setPixelRGB
 
 rb.init()
 
@@ -24,8 +24,8 @@ raster = rb.Raster(
 
 @cython.cfunc
 def test():
-    ctest()
-    # setPixelRGB(raster._raster.pixels, raster._raster.w, 0, 0, 0, 0, 0)
+    setPixelRGB(int(raster._raster.pixels), raster._raster.w, 10, 10, *(0, 0, 0))
+    # setPixelRGB(100, 20, 10, 10, 0, 0, 0)
 
 
 test()
