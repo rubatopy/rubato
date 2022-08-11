@@ -1,5 +1,6 @@
-#pragma once
-#include <SDL2/SDL.h>
+#include "SDL2/include/SDL.h"
+#include <iostream>
+using namespace std;
 
 
 SDL_Surface* FAKE = SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, SDL_PIXELFORMAT_RGBA32);
@@ -63,4 +64,8 @@ int* getPixel(SDL_Surface* surf, int x, int y) {
 	colors[2] = b;
 	colors[3] = a;
 	return colors;
+}
+inline void ctest(){
+	cout << SDL_INIT_TIMER;
+	SDL_Surface* FAKE = SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, SDL_PIXELFORMAT_RGBA32);
 }
