@@ -11,6 +11,7 @@ import sdl2.ext
 
 import cython
 from cython.cimports.cPixelEditor import setPixelRGB, getPixel, Bresenham # pyright: ignore
+
 from sdl2 import SDL_MapRGB
 
 # pylint: disable=all
@@ -39,6 +40,7 @@ def update():
 
         # setPixelRGB(surface.pixels, width, x, y, temp)
         Bresenham(surface.pixels, width, 0, 0, x-1, y-1, temp)
+
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs
