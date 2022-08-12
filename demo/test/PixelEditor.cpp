@@ -1,22 +1,22 @@
 #include <cstdint>
 #include <iostream>
-typedef uint32_t Uint32;
+#include <cstring>
 
 // Sets the pixel at x, y to the color specified, must be locked b4 unlocked after
-inline void setPixel(size_t _pixels, int width, int x, int y, size_t mapped) {
-	*((uint32_t*)(_pixels) + y*width + x) = (uint32_t) mapped;
+inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
+	((uint32_t*) _pixels)[y*width + x] = (uint32_t) color;
 }
 
 // Sets the pixel but clips at the edges of the surface.
-inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, size_t mapped) {
+inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, size_t color) {
 	if (x < width && y < height && x >= 0 && y >= 0) {
-		setPixel(_pixels, width, x, y, mapped);
+		setPixel(_pixels, width, x, y, color);
 	}
 }
 
 // Gets the pixel at x, y from the surface and returns it as a uint32_t
 inline int getPixel(size_t _pixels, int width, int x, int y) {
-	return (int) *((uint32_t*)(_pixels) + y*width + x);
+	return (int) ((uint32_t*) _pixels)[y*width + x];
 }
 
 // Gets the pixel but returns 0 if the pixel is outside the surface.
@@ -28,14 +28,14 @@ inline int getPixelSafe(size_t _pixels, int width, int height, int x, int y) {
 }
 
 
-inline void bresenham(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t mapped) {
+inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color) {
 	int dx = abs(x2 - x1);
 	int dy = abs(y2 - y1);
 	int sx = x1 < x2 ? 1 : -1;
 	int sy = y1 < y2 ? 1 : -1;
 	int err = dx - dy;
 	while (true) {
-		setPixelSafe(_pixels, width, height, x1, y1, mapped);
+		setPixelSafe(_pixels, width, height, x1, y1, color);
 		if (x1 == x2 && y1 == y2) {
 			break;
 		}
@@ -51,19 +51,19 @@ inline void bresenham(size_t _pixels, int width, int height, int x1, int y1, int
 	}
 }
 
-inline void midpointCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t mapped) {
+inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
     int y = 0;
     int E = -x;
     while (x >= y) {
-        setPixelSafe(_pixels, width, height, xc + x, yc + y, mapped);
-        setPixelSafe(_pixels, width, height, xc + y, yc + x, mapped);
-        setPixelSafe(_pixels, width, height, xc - y, yc + x, mapped);
-        setPixelSafe(_pixels, width, height, xc - x, yc + y, mapped);
-        setPixelSafe(_pixels, width, height, xc - x, yc - y, mapped);
-        setPixelSafe(_pixels, width, height, xc - y, yc - x, mapped);
-        setPixelSafe(_pixels, width, height, xc + y, yc - x, mapped);
-        setPixelSafe(_pixels, width, height, xc + x, yc - y, mapped);
+        setPixelSafe(_pixels, width, height, xc + x, yc + y, color);
+        setPixelSafe(_pixels, width, height, xc + y, yc + x, color);
+        setPixelSafe(_pixels, width, height, xc - y, yc + x, color);
+        setPixelSafe(_pixels, width, height, xc - x, yc + y, color);
+        setPixelSafe(_pixels, width, height, xc - x, yc - y, color);
+        setPixelSafe(_pixels, width, height, xc - y, yc - x, color);
+        setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
+        setPixelSafe(_pixels, width, height, xc + x, yc - y, color);
 
         E += 2 * y + 1;
         y++;
@@ -74,15 +74,15 @@ inline void midpointCircle(size_t _pixels, int width, int height, int xc, int yc
     }
 }
 
-inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t mapped) {
+inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
     int y = 0;
     int E = -x;
     while (x >= y) {
-        bresenham(_pixels, width, height, xc + x, yc + y, xc - x, yc + y, mapped);
-        bresenham(_pixels, width, height, xc - y, yc + x, xc + y, yc + x, mapped);
-        bresenham(_pixels, width, height, xc - x, yc - y, xc + x, yc - y, mapped);
-        bresenham(_pixels, width, height, xc - y, yc - x, xc + y, yc - x, mapped);
+        drawLine(_pixels, width, height, xc + x, yc + y, xc - x, yc + y, color);
+        drawLine(_pixels, width, height, xc - y, yc + x, xc + y, yc + x, color);
+        drawLine(_pixels, width, height, xc - x, yc - y, xc + x, yc - y, color);
+        drawLine(_pixels, width, height, xc - y, yc - x, xc + y, yc - x, color);
 
         E += 2 * y + 1;
         y++;
@@ -91,4 +91,17 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
             x--;
         }
     }
+}
+
+// Draw a rectangle with the specified color.
+inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
+	for (int i = y; i < h + y; i++) {
+		for (int j = x; j < w + x; j++) {
+			setPixelSafe(_pixels, width, height, j, i, color);
+		}
+	}
+}
+
+inline void clearPixels(size_t _pixels, int width, int height) {
+	memset((size_t*) _pixels, 0, width * height * 4);
 }

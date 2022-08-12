@@ -10,7 +10,7 @@ from rubato import *
 import sdl2.ext
 
 import cython
-from cython.cimports.cPixelEditor import setPixel, getPixel, bresenham, midpointCircle, fillCircle # pyright: ignore
+from cython.cimports.cPixelEditor import setPixel, getPixel, drawLine, drawCircle, fillCircle, fillRect, clearPixels # pyright: ignore
 
 from sdl2 import SDL_MapRGB
 
@@ -32,16 +32,16 @@ surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
         ).contents
 
 def update():
-    radius = 4
+    radius = 10
     if Input.mouse_pressed():
         x, y = Input.get_mouse_pos().tuple_int()  #TODO: make sure does not error OOB
-        temp = SDL_MapRGB(surface.format, 255, 255, 255)
-        # temp = cython.cast(cython.int, temp)
+        green = SDL_MapRGB(surface.format, 0, 255, 128)
+        red = SDL_MapRGB(surface.format, 255, 64, 64)
 
-        # setPixel(surface.pixels, width, x, y, temp)
-        fillCircle(surface.pixels, width, height, x, y, 10, temp)
-        radius += 1
+        clearPixels(surface.pixels, width, height)
+        fillRect(surface.pixels, width, height, 0, 0, x, y, green)
 
+        # test draw stuff here
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs
