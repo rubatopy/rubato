@@ -42,14 +42,14 @@ class Spritesheet:
                     0, self._sprite_size[0], self._sprite_size[1], 32, sdl2.SDL_PIXELFORMAT_RGBA8888
                 )
                 sdl2.SDL_BlitSurface(
-                    self._sheet.image,
+                    self._sheet.surf,
                     sdl2.SDL_Rect(x, y, self._sprite_size[0], self._sprite_size[1]),
                     sub,
                     sdl2.SDL_Rect(0, 0, self._sprite_size[0], self._sprite_size[1]),
                 )
 
                 sprite: Sprite = Sprite("")
-                sprite.image = sub.contents
+                sprite.surf = sub.contents
                 # pylint: disable=protected-access
                 sprite._original = sub.contents
                 sprite._changed = True

@@ -19,6 +19,8 @@
 -   `Group.all_gameobjects()` to get, recursively, all the game objects belonging to a group and its children.
 -   Multiple `Event` types for controller events. Controllers are registered automatically by Rubato for event listening.
 -   Assorted `Input` methods for querying the state of a controller.
+-   `Raster` renamed to `Surface`.
+-   `Raster` is now a component that holds a surface. It is analogous to `Image` for `Sprite`s.
 
 ### Changed
 
@@ -30,6 +32,8 @@
 ### Removed
 
 -   `Game.name`, which did not do anything... yikes.
+-   `Image.surface` is not accessible anymore.
+-   `flipx` and `flipy` are no longer available. Instead set the scale to be negative.
 
 ### Fixed
 

@@ -2,7 +2,7 @@
 The classes module holds all of the high-dependency modules relating to game objects.
 """
 from .sprite import Sprite
+from .surface import Surface
 from .gameobject import *
-from .raster import Raster
 from .group import Group
 from .scene import Scene

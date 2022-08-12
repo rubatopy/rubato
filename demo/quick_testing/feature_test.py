@@ -7,10 +7,13 @@ rb.init(res=rb.Vector(32, 32), window_size=rb.Vector(32, 32) * 10)
 
 s = rb.Scene()
 
-img = rb.Raster()
+img = rb.Sprite("../sprites/spaceship/spaceship.png")
 
-img.draw_point(rb.Vector(0, 0), rb.Color(255, 0, 0))
 
-s.add(rb.wrap(img, pos=rb.Vector(16, 16)))
+def draw():
+    rb.Draw.surf(img, rb.Vector(16, 16))
+
+
+rb.Game.draw = draw
 
 rb.begin()

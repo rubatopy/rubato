@@ -30,7 +30,7 @@ class WanderingImage(rb.Component):
         self.image = None
 
     def setup(self):
-        self.image: rb.Raster = rb.Raster(width=90, height=90)
+        self.image: rb.Surface = rb.Surface(width=90, height=90)
         self.gameobj.add(self.image)
         self.singular = False
 
