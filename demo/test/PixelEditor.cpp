@@ -92,6 +92,20 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
+// Fill a polygon with the specified color.
+inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
+	int* v_x = (int*) vx;
+	int* v_y = (int*) vy;
+	for (int i = 0; i < len; i++) {
+		drawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i+1) % len], v_y[(i+1) % len], color);
+	}
+}
+
+// Fill a polygon with the specified color.
+inline void fillPoly(size_t _pixels, size_t vx, size_t vy, int len, size_t color) {
+
+}
+
 // Draw a rectangle with the specified color.
 inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
 	for (int i = x; i < w + x; i++) {
