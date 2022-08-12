@@ -1,19 +1,19 @@
 """A place to test new WIP features"""  # pylint: disable=all
+import ctypes
 import rubato as rb
+import sdl2, sdl2.ext
 
-rb.init()
+rb.init(res=rb.Vector(32, 32), window_size=rb.Vector(32, 32) * 10)
 
-main = rb.Scene()
+s = rb.Scene()
 
-gameobj = rb.GameObject()
+img = rb.Sprite("../sprites/spaceship/spaceship.png")
 
-raster = rb.Raster(
-    width=32,
-    height=32,
-)
-print(raster.get_pixel(0, 0))
 
-gameobj.add(raster)
-main.add(gameobj)
+def draw():
+    rb.Draw.surf(img, rb.Vector(16, 16))
+
+
+rb.Game.draw = draw
 
 rb.begin()

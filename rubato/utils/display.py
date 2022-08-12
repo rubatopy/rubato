@@ -9,7 +9,7 @@ from typing import Literal
 import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
-from . import Vector, get_path, InitError
+from . import Vector, get_path, InitError, Math
 
 
 class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
@@ -181,15 +181,43 @@ class Display(metaclass=_DisplayProperties):
             sdl2.SDL_SetWindowFullscreen(cls.window.window, 0)
 
     @classmethod
-    def update(cls, tx: sdl2.ext.Texture, pos: Vector):
+    def update(
+        cls,
+        tx: sdl2.ext.Texture,
+        pos: Vector,
+        scale: Vector = Vector(1, 1),
+        angle: float = 0,
+        flipx: bool = False,
+        flipy: bool = False,
+    ):
         """
         Update the current screen.
 
         Args:
             tx: The texture to draw on the screen.
             pos: The position to draw the texture on.
+            scale: The scale of the texture. Defaults to Vector(1, 1).
+            angle: The clockwise rotation of the texture. Defaults to 0.
+            flipx: Whether to flip the texture horizontally. Defaults to False.
+            flipy: Whether to flip the texture vertically. Defaults to False.
         """
-        cls.renderer.copy(src=tx, dstrect=(pos.x, pos.y))
+        flipx |= Math.sign(scale.x) == -1
+        flipy |= Math.sign(scale.y) == -1
+
+        flip = sdl2.SDL_FLIP_NONE
+        if flipx:
+            flip |= sdl2.SDL_FLIP_HORIZONTAL
+        if flipy:
+            flip |= sdl2.SDL_FLIP_VERTICAL
+
+        x_dim = tx.size[0] * abs(scale.x)
+
+        cls.renderer.copy(
+            tx,
+            dstrect=(pos.x - (x_dim if flipx else 0), pos.y, x_dim, tx.size[1] * abs(scale.y)),
+            angle=angle,
+            flip=flip
+        )
 
     @classmethod
     def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:

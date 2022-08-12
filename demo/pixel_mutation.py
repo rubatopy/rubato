@@ -6,11 +6,7 @@ Draws a bunch or random pixels to a surface. Requires rubato 2.1.0 or later and 
 import numpy, random
 import rubato as rb
 
-rb.init(
-    name="Point drawing",
-    res=rb.Vector(300, 300),
-    window_size=rb.Vector(600, 600)
-)
+rb.init(name="Point drawing", res=rb.Vector(300, 300), window_size=rb.Vector(600, 600))
 main_scene = rb.Scene(background_color=rb.Color.black)
 
 
@@ -34,7 +30,7 @@ class WanderingImage(rb.Component):
         self.image = None
 
     def setup(self):
-        self.image: rb.Raster = rb.Raster(width=90, height=90)
+        self.image: rb.Surface = rb.Surface(width=90, height=90)
         self.gameobj.add(self.image)
         self.singular = False
 
@@ -42,15 +38,16 @@ class WanderingImage(rb.Component):
         ranx = random.random() * 2 - 1
         rany = random.random() * 2 - 1
         self.image.offset = self.image.offset.lerp(self.image.offset + rb.Vector(ranx, rany), rb.Time.delta_time * 50)
-        self.image.rot_offset += random.random() * rb.Time.delta_time * 50
+        self.image.rotation += random.random() * rb.Time.delta_time * 50
         self.image.scale += rb.Vector(ranx / 1000, rany / 1000)
 
         if rb.Input.key_pressed("k"):
             rb.Display.save_screenshot("pixel_mutation")
 
     def draw(self, camera):
-        self.image.raster = draw_on(self.image.raster)
-        self.image.set_colorkey(rb.Color.red)
+        for x in range(90):
+            for y in range(90):
+                self.image.draw_point(rb.Vector(x, y), rb.Color.random_default())
 
 
 go = rb.GameObject(pos=rb.Vector(150, 150),)
