@@ -39,7 +39,7 @@ def update():
         red = SDL_MapRGB(surface.format, 255, 64, 64)
 
         clearPixels(surface.pixels, width, height)
-        fillRect(surface.pixels, width, height, 0, 0, x, y, green)
+        drawLine(surface.pixels, width, height, 0, 0, x, y, green)
 
         # test draw stuff here
 

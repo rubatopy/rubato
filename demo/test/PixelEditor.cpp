@@ -1,5 +1,4 @@
 #include <cstdint>
-#include <iostream>
 #include <cstring>
 
 // Sets the pixel at x, y to the color specified, must be locked b4 unlocked after
@@ -29,10 +28,14 @@ inline int getPixelSafe(size_t _pixels, int width, int height, int x, int y) {
 
 
 inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color) {
-	int dx = abs(x2 - x1);
-	int dy = abs(y2 - y1);
-	int sx = x1 < x2 ? 1 : -1;
-	int sy = y1 < y2 ? 1 : -1;
+	bool x_l = x1 < x2;
+	bool y_l = y1 < y2;
+
+	int dx = x_l ? x2 - x1 : x1 - x2;
+	int dy = y_l ? y2 - y1 : y1 - y2;
+	int sx = x_l ? 1 : -1;
+	int sy = y_l ? 1 : -1;
+
 	int err = dx - dy;
 	while (true) {
 		setPixelSafe(_pixels, width, height, x1, y1, color);
