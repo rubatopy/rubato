@@ -30,7 +30,7 @@ inline void Bresenham(size_t _pixels, int width, int x1, int y1, int x2, int y2,
 	int sy = y1 < y2 ? 1 : -1;
 	int err = dx - dy;
 	while (true) {
-		setPixelRGB(_pixels, width, x1, y1, mapped);
+		setPixel(_pixels, width, x1, y1, mapped);
 		if (x1 == x2 && y1 == y2) {
 			break;
 		}
@@ -46,6 +46,25 @@ inline void Bresenham(size_t _pixels, int width, int x1, int y1, int x2, int y2,
 	}
 }
 
-inline void MidpointCircle(size_t _pixels, int width, int xc, int yc, int radius, size_t mapped) {
-
+inline void MidpointCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t mapped) {
+    int x = radius;
+    int y = 0;
+    int radiusError = 1 - x;
+    while (x >= y) {
+        setPixelSafe(_pixels, width, height, xc + x, yc + y, mapped);
+        setPixelSafe(_pixels, width, height, xc + y, yc + x, mapped);
+        setPixelSafe(_pixels, width, height, xc - y, yc + x, mapped);
+        setPixelSafe(_pixels, width, height, xc - x, yc + y, mapped);
+        setPixelSafe(_pixels, width, height, xc - x, yc - y, mapped);
+        setPixelSafe(_pixels, width, height, xc - y, yc - x, mapped);
+        setPixelSafe(_pixels, width, height, xc + y, yc - x, mapped);
+        setPixelSafe(_pixels, width, height, xc + x, yc - y, mapped);
+        if (radiusError < 0) {
+            radiusError += 2 * x + 1;
+        } else {
+            y++;
+            radiusError += 2 * (x - y) + 1;
+        }
+        x--;
+    }
 }
