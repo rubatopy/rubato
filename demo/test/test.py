@@ -10,7 +10,7 @@ from rubato import *
 import sdl2.ext
 
 import cython
-from cython.cimports.cPixelEditor import setPixelRGB, getPixel
+from cython.cimports.cPixelEditor import setPixel, getPixel # pyright: ignore
 from sdl2 import SDL_MapRGB
 
 # pylint: disable=all
@@ -18,7 +18,7 @@ from sdl2 import SDL_MapRGB
 width, height = 32, 32
 
 
-init(res=Vector(width, height))
+init(res=Vector(width, height), window_size=Vector(width, height)*4)
 mainS = Scene(background_color=Color(0,0,0))
 
 
@@ -33,14 +33,10 @@ surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
 
 def update():
     if Input.mouse_pressed():
-        x,y = Input.get_mouse_pos()  #TODO: make sure does not error OOB
-        x,y = int(x), int(y)
+        x, y = Input.get_mouse_pos().tuple_int()  #TODO: make sure does not error OOB
         temp = SDL_MapRGB(surface.format, 255, 255, 255)
-        # temp = cython.cast(cython.int, temp)
 
-        print(getPixel(surface.pixels, width, x, y), "start")
-        setPixelRGB(surface.pixels, width, x, y, temp)
-        print(getPixel(surface.pixels, width, x, y), "end")
+        setPixel(surface.pixels, width, x, y, temp)
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs
