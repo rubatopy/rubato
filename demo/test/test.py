@@ -10,7 +10,7 @@ from rubato import *
 import sdl2.ext
 
 import cython
-from cython.cimports.cPixelEditor import setPixel, getPixel, Bresenham # pyright: ignore
+from cython.cimports.cPixelEditor import setPixel, getPixel, Bresenham, MidpointCircle # pyright: ignore
 
 from sdl2 import SDL_MapRGB
 
@@ -39,7 +39,7 @@ def update():
         # temp = cython.cast(cython.int, temp)
 
         # setPixel(surface.pixels, width, x, y, temp)
-        Bresenham(surface.pixels, width, height, x, y, 4, temp)
+        MidpointCircle(surface.pixels, width, height, x, y, 4, temp)
 
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
