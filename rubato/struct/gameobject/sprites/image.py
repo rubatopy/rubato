@@ -6,7 +6,7 @@ import sdl2
 
 from .. import Component, Rectangle
 from ... import Sprite
-from .... import Vector, Display, Draw, Camera
+from .... import Vector, Draw, Camera
 
 
 class Image(Component):
@@ -40,6 +40,7 @@ class Image(Component):
         if rel_path == "":
             raise ValueError("Image rel_path cannot be an empty string.")
 
+        self._rel_path = rel_path
         self._sprite = Sprite(rel_path, aa=aa)
 
         self.singular = False
@@ -48,7 +49,7 @@ class Image(Component):
         self._flipy: bool = flipy
         self._scale: Vector = scale
         self._resize_scale: Vector = Vector(1, 1)  # This scale factor is changed when the image is resized.
-        self._rot = self.rot_offset
+        self._rot = rot_offset
 
         self._go_rotation = 0
         self._changed = True
@@ -61,7 +62,7 @@ class Image(Component):
     @image.setter
     def image(self, new: sdl2.SDL_Surface):
         self._sprite.image = new
-        self._changed = True
+        self._sprite.generate_tx()
 
     @property
     def scale(self) -> Vector:
@@ -192,7 +193,7 @@ class Image(Component):
             Image: The cloned image.
         """
         new = Image(
-            "",
+            rel_path=self._rel_path,
             offset=self.offset,
             scale=self.scale,
             flipx=self.flipx,
@@ -200,6 +201,4 @@ class Image(Component):
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
-        new.image = Display.clone_surface(self.image)
-        new.rot_offset = self.rot_offset
         return new

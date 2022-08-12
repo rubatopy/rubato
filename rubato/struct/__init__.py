@@ -3,5 +3,6 @@ The classes module holds all of the high-dependency modules relating to game obj
 """
 from .sprite import Sprite
 from .gameobject import *
+from .raster import Raster
 from .group import Group
 from .scene import Scene

@@ -6,11 +6,7 @@ Draws a bunch or random pixels to a surface. Requires rubato 2.1.0 or later and 
 import numpy, random
 import rubato as rb
 
-rb.init(
-    name="Point drawing",
-    res=rb.Vector(300, 300),
-    window_size=rb.Vector(600, 600)
-)
+rb.init(name="Point drawing", res=rb.Vector(300, 300), window_size=rb.Vector(600, 600))
 main_scene = rb.Scene(background_color=rb.Color.black)
 
 
@@ -49,8 +45,9 @@ class WanderingImage(rb.Component):
             rb.Display.save_screenshot("pixel_mutation")
 
     def draw(self, camera):
-        self.image.raster = draw_on(self.image.raster)
-        self.image.set_colorkey(rb.Color.red)
+        for x in range(90):
+            for y in range(90):
+                self.image.draw_point(rb.Vector(x, y), rb.Color.random_default())
 
 
 go = rb.GameObject(pos=rb.Vector(150, 150),)
