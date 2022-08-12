@@ -10,7 +10,7 @@ from rubato import *
 import sdl2.ext
 
 import cython
-from cython.cimports.cPixelEditor import setPixel, getPixel, drawLine, drawCircle, fillCircle, fillRect, clearPixels # pyright: ignore
+from cython.cimports.cPixelEditor import setPixel, getPixel, drawLine, drawCircle, fillCircle, drawRect, fillRect, clearPixels # pyright: ignore
 
 from sdl2 import SDL_MapRGB
 
@@ -39,6 +39,7 @@ def update():
         red = SDL_MapRGB(surface.format, 255, 64, 64)
 
         clearPixels(surface.pixels, width, height)
+        drawRect(surface.pixels, width, height, 1, 1, x, y, green)
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs

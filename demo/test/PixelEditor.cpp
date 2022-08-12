@@ -93,6 +93,18 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
 }
 
 // Draw a rectangle with the specified color.
+inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
+	for (int i = x; i < w + x; i++) {
+		setPixelSafe(_pixels, width, height, i, y, color);
+		setPixelSafe(_pixels, width, height, i, y + h - 1, color);
+	}
+	for (int i = y; i < h + y; i++) {
+		setPixelSafe(_pixels, width, height, x, i, color);
+		setPixelSafe(_pixels, width, height, x + w - 1, i, color);
+	}
+}
+
+// Fill a rectangle with the specified color.
 inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
 	for (int i = y; i < h + y; i++) {
 		for (int j = x; j < w + x; j++) {

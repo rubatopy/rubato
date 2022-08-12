@@ -2358,7 +2358,7 @@ static PyObject *__pyx_pw_4test_1update(PyObject *__pyx_self, CYTHON_UNUSED PyOb
 }
 
 static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
-  long __pyx_v_radius;
+  CYTHON_UNUSED long __pyx_v_radius;
   PyObject *__pyx_v_x = NULL;
   PyObject *__pyx_v_y = NULL;
   PyObject *__pyx_v_green = NULL;
@@ -2615,7 +2615,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
  *         red = SDL_MapRGB(surface.format, 255, 64, 64)
  * 
  *         clearPixels(surface.pixels, width, height)             # <<<<<<<<<<<<<<
- *         drawCircle(surface.pixels, width, height, x, y, radius, green)
+ *         drawRect(surface.pixels, width, height, 1, 1, x, y, green)
  * 
  */
     __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_surface); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
@@ -2638,9 +2638,9 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
     /* "test.py":42
  * 
  *         clearPixels(surface.pixels, width, height)
- *         drawCircle(surface.pixels, width, height, x, y, radius, green)             # <<<<<<<<<<<<<<
+ *         drawRect(surface.pixels, width, height, 1, 1, x, y, green)             # <<<<<<<<<<<<<<
  * 
- *         # test draw stuff here
+ *     texture = sdl2.ext.Texture(Display.renderer, surface)
  */
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_surface); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2660,7 +2660,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
     __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_x); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
     __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_y); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
     __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_v_green); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
-    drawCircle(__pyx_t_8, __pyx_t_9, __pyx_t_4, __pyx_t_10, __pyx_t_11, __pyx_v_radius, __pyx_t_12);
+    drawRect(__pyx_t_8, __pyx_t_9, __pyx_t_4, 1, 1, __pyx_t_10, __pyx_t_11, __pyx_t_12);
 
     /* "test.py":36
  * def update():
@@ -2671,27 +2671,27 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
  */
   }
 
-  /* "test.py":46
- *         # test draw stuff here
+  /* "test.py":44
+ *         drawRect(surface.pixels, width, height, 1, 1, x, y, green)
  * 
  *     texture = sdl2.ext.Texture(Display.renderer, surface)             # <<<<<<<<<<<<<<
  *     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sdl2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_sdl2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ext); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ext); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_Texture); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_Texture); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Display); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Display); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_renderer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_renderer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_surface); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_surface); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_13 = NULL;
   __pyx_t_11 = 0;
@@ -2711,28 +2711,28 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __pyx_v_texture = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "test.py":47
+  /* "test.py":45
  * 
  *     texture = sdl2.ext.Texture(Display.renderer, surface)
  *     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs             # <<<<<<<<<<<<<<
  * 
  * mainS.update = update
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Draw); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Draw); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_queue_texture); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_queue_texture); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Vector); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Vector); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -2752,7 +2752,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
     __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_11, 2+__pyx_t_11);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -3060,14 +3060,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "test.py":47
+  /* "test.py":45
  * 
  *     texture = sdl2.ext.Texture(Display.renderer, surface)
  *     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs             # <<<<<<<<<<<<<<
  * 
  * mainS.update = update
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -3589,7 +3589,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "test.py":15
- * from cython.cimports.cPixelEditor import setPixel, getPixel, drawLine, drawCircle, fillCircle, fillRect, clearPixels # pyright: ignore
+ * from cython.cimports.cPixelEditor import setPixel, getPixel, drawLine, drawCircle, fillCircle, drawRect, fillRect, clearPixels # pyright: ignore
  * 
  * from sdl2 import SDL_MapRGB             # <<<<<<<<<<<<<<
  * 
@@ -3810,28 +3810,28 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_update, __pyx_t_3) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "test.py":49
+  /* "test.py":47
  *     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs
  * 
  * mainS.update = update             # <<<<<<<<<<<<<<
  * begin()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_update); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_update); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_mainS); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_mainS); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_6, __pyx_n_s_update, __pyx_t_3) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_6, __pyx_n_s_update, __pyx_t_3) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "test.py":50
+  /* "test.py":48
  * 
  * mainS.update = update
  * begin()             # <<<<<<<<<<<<<<
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_begin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_begin); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
