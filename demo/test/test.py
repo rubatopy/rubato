@@ -10,7 +10,7 @@ from rubato import *
 import sdl2.ext
 
 import cython
-from cython.cimports.cPixelEditor import setPixel, getPixel, bresenham, midpointCircle # pyright: ignore
+from cython.cimports.cPixelEditor import setPixel, getPixel, bresenham, midpointCircle, fillCircle # pyright: ignore
 
 from sdl2 import SDL_MapRGB
 
@@ -39,7 +39,7 @@ def update():
         # temp = cython.cast(cython.int, temp)
 
         # setPixel(surface.pixels, width, x, y, temp)
-        midpointCircle(surface.pixels, width, height, x, y, 10, temp)
+        fillCircle(surface.pixels, width, height, x, y, 10, temp)
         radius += 1
 
 
