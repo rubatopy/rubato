@@ -49,7 +49,7 @@ inline void Bresenham(size_t _pixels, int width, int x1, int y1, int x2, int y2,
 inline void MidpointCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t mapped) {
     int x = radius;
     int y = 0;
-    int radiusError = 1 - x;
+    int E = -x;
     while (x >= y) {
         setPixelSafe(_pixels, width, height, xc + x, yc + y, mapped);
         setPixelSafe(_pixels, width, height, xc + y, yc + x, mapped);
@@ -59,12 +59,12 @@ inline void MidpointCircle(size_t _pixels, int width, int height, int xc, int yc
         setPixelSafe(_pixels, width, height, xc - y, yc - x, mapped);
         setPixelSafe(_pixels, width, height, xc + y, yc - x, mapped);
         setPixelSafe(_pixels, width, height, xc + x, yc - y, mapped);
-        if (radiusError < 0) {
-            radiusError += 2 * x + 1;
-        } else {
-            y++;
-            radiusError += 2 * (x - y) + 1;
+
+        E += 2 * y + 1;
+        y++;
+        if (E >= 0) {
+            E -= 2 * x + 1;
+            x--;
         }
-        x--;
     }
 }

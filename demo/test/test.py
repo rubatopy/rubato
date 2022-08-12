@@ -31,15 +31,16 @@ surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
             util.pixel_format,
         ).contents
 
-
 def update():
+    radius = 4
     if Input.mouse_pressed():
         x, y = Input.get_mouse_pos().tuple_int()  #TODO: make sure does not error OOB
         temp = SDL_MapRGB(surface.format, 255, 255, 255)
         # temp = cython.cast(cython.int, temp)
 
         # setPixel(surface.pixels, width, x, y, temp)
-        MidpointCircle(surface.pixels, width, height, x, y, 4, temp)
+        MidpointCircle(surface.pixels, width, height, x, y, 10, temp)
+        radius += 1
 
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
