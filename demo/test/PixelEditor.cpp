@@ -28,7 +28,7 @@ inline int getPixelSafe(size_t _pixels, int width, int height, int x, int y) {
 }
 
 
-inline void Bresenham(size_t _pixels, int width, int x1, int y1, int x2, int y2, size_t mapped) {
+inline void bresenham(size_t _pixels, int width, int x1, int y1, int x2, int y2, size_t mapped) {
 	int dx = abs(x2 - x1);
 	int dy = abs(y2 - y1);
 	int sx = x1 < x2 ? 1 : -1;
@@ -51,7 +51,7 @@ inline void Bresenham(size_t _pixels, int width, int x1, int y1, int x2, int y2,
 	}
 }
 
-inline void MidpointCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t mapped) {
+inline void midpointCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t mapped) {
     int x = radius;
     int y = 0;
     int E = -x;
