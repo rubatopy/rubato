@@ -1,25 +1,19 @@
-"""A Raster is a grid of pixels that you can draw shapes onto or edit individual pixels."""
+"""A Surface is a grid of pixels that you can draw shapes onto or edit individual pixels."""
 from __future__ import annotations
 import sdl2, sdl2.ext
 
-from . import Sprite
-from .. import Vector, Color
+from .. import Vector, Color, Display, Surf
 
 
-class Raster:
+class Surface(Surf):
     """
-    A raster.
+    A surface.
 
     Args:
-        width: The width of the raster in pixels. Once set this cannot be changed. Defaults to 32.
-        height: The height of the raster in pixels. Once set this cannot be changed. Defaults to 32.
-        scale: The scale of the raster. Defaults to Vector(1, 1).
-        flipx: Whether or not to flip the raster horizontally. Defaults to False.
-        flipy: Whether or not to flip the raster vertically. Defaults to False.
-        offset: The offset of the raster from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the raster. Defaults to 0.
+        width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
+        height: The height of the surface in pixels. Once set this cannot be changed. Defaults to 32.
+        scale: The scale of the surface. Defaults to Vector(1, 1).
         aa: Whether or not to use anti-aliasing. Defaults to False.
-        z_index: The z-index of the raster. Defaults to 0.
     """
 
     def __init__(
@@ -28,89 +22,25 @@ class Raster:
         height: int = 32,
         scale: Vector = Vector(1, 1),
         rotation: float = 0,
-        flipx: bool = False,
-        flipy: bool = False,
         aa: bool = False,
     ):
-        self._sprite = None
+        super().__init__(rotation, scale, aa)
 
-        self._sprite = Sprite("", aa=aa, rotation=rotation)
-        self._sprite.image = sdl2.SDL_CreateRGBSurfaceWithFormat(
-            0,
-            width,
-            height,
-            32,
-            sdl2.SDL_PIXELFORMAT_RGBA8888,
-        ).contents
-        self._sprite.generate_tx()
-        self._view = sdl2.ext.PixelView(self._sprite.image)
+        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, sdl2.SDL_PIXELFORMAT_RGBA8888)
 
-        self.singular = False
+        self.width: int = width
+        """(READ ONLY) The width of the surface in pixels."""
+        self.height: int = height
+        """(READ ONLY) The height of the surface in pixels."""
 
-        self._flipx: bool = flipx
-        self._flipy: bool = flipy
-        self._scale: Vector = scale
+    def clear(self, color: Color = Color.black):
+        """
+        Clears the surface.
 
-        self._go_rotation = 0
-        self._flip_changed = True
-
-    @property
-    def raster(self) -> sdl2.SDL_Surface:
-        """The SDL Surface of the raster."""
-        return self._sprite.raster
-
-    @raster.setter
-    def raster(self, new: sdl2.SDL_Surface):
-        self._sprite.raster = new
-        self._sprite.generate_tx()
-
-    @property
-    def scale(self) -> Vector:
-        """The scale of the raster."""
-        return self._scale
-
-    @scale.setter
-    def scale(self, new: Vector):
-        self._scale = new
-        self._sprite.scale = Vector((-new.x if self.flipx else new.x), (-new.y if self.flipy else new.y))
-
-    @property
-    def rotation(self) -> float:
-        """The rotation offset of the raster."""
-        return self._sprite.rotation
-
-    @rotation.setter
-    def rotation(self, new: float):
-        self._sprite.rotation = new
-
-    @property
-    def flipx(self) -> bool:
-        """Whether or not the raster is flipped horizontally."""
-        return self._flipx
-
-    @flipx.setter
-    def flipx(self, new: bool):
-        self._flipx = new
-        self._update_flip()
-
-    @property
-    def flipy(self) -> bool:
-        """Whether or not the raster is flipped vertically."""
-        return self._flipy
-
-    @flipy.setter
-    def flipy(self, new: bool):
-        self._flipy = new
-        self._update_flip()
-
-    @property
-    def aa(self) -> bool:
-        """Whether or not the raster is anti-aliased."""
-        return self._sprite.aa
-
-    @aa.setter
-    def aa(self, new: bool):
-        self._sprite.aa = new
+        Args:
+            color: The color to clear the surface with. Defaults to black.
+        """
+        pass
 
     def draw_point(self, pos: Vector, color: Color = Color.black):
         """
@@ -151,10 +81,10 @@ class Raster:
 
     def get_size(self) -> Vector:
         """
-        Gets the current size of the raster.
+        Gets the current size of the surface.
 
         Returns:
-            The size of the raster
+            The size of the surface
         """
         return self._sprite.get_size()
 
@@ -215,31 +145,24 @@ class Raster:
             color: Color to set as the colorkey.
         """
         sdl2.SDL_SetColorKey(
-            self._raster, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._raster.format, color.r, color.g, color.b)
+            self._surface, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._surface.format, color.r, color.g, color.b)
         )
 
-    def _update_flip(self):
-        self._flip_changed = False
-        self.scale = self.scale
-
-    def delete(self):
-        """Deletes the raster component"""
-        self._sprite.delete()
-        self._view = None
-
-    def clone(self) -> Raster:
+    def clone(self) -> Surface:
         """
-        Clones the current raster.
+        Clones the current surface.
 
         Returns:
-            The cloned raster.
+            The cloned surface.
         """
-        new = Raster(
+        new = Surface(
+            self.width,
+            self.height,
             scale=self.scale,
-            flipx=self.flipx,
-            flipy=self.flipy,
             rotation=self.rotation,
             aa=self.aa,
         )
-        new._sprite = self._sprite.clone()  # pylint: disable=protected-access
+        if self.surf:
+            new.surf = Display.clone_surface(self.surf)
+
         return new

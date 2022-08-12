@@ -9,7 +9,7 @@ import sdl2, sdl2.sdlgfx, sdl2.ext
 from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
-    from .. import Sprite, Raster
+    from .. import Surf
 
 
 @cython.cclass
@@ -412,50 +412,27 @@ class Draw:
         Display.update(texture, pos, scale, angle)
 
     @classmethod
-    def queue_sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
+    def queue_surf(cls, surf: Surf, pos: Vector = Vector(), z_index: int = 0):
         """
-        Draws an sprite onto the renderer at the end of the frame.
+        Draws an surf onto the renderer at the end of the frame.
 
         Args:
-            sprite: The sprite to draw.
-            pos: The position to draw the sprite at. Defaults to Vector(0, 0).
-            z_index: The z-index of the sprite. Defaults to 0.
+            surf: The surf to draw.
+            pos: The position to draw the surf at. Defaults to Vector(0, 0).
+            z_index: The z-index of the surf. Defaults to 0.
         """
-        cls.push(z_index, lambda: cls.sprite(sprite, pos))
+        cls.push(z_index, lambda: cls.surf(surf, pos))
 
     @staticmethod
-    def sprite(sprite: Sprite, pos: Vector = Vector()):
+    def surf(surf: Surf, pos: Vector = Vector()):
         """
-        Draws an sprite onto the renderer immediately.
+        Draws an surf onto the renderer immediately.
 
         Args:
-            sprite: The sprite to draw.
-            pos: The position to draw the sprite at. Defaults to Vector().
+            surf: The surf to draw.
+            pos: The position to draw the surf at. Defaults to Vector().
         """
-        if sprite.image == "":
+        if not surf.surf:
             return
 
-        Draw.texture(sprite.tx, pos, sprite.scale, sprite.rotation)
-
-    @classmethod
-    def queue_raster(cls, raster: Raster, pos: Vector = Vector(), z_index: int = 0):
-        """
-        Draws an raster onto the renderer at the end of the frame.
-
-        Args:
-            raster: The raster to draw.
-            pos: The position to draw the raster at. Defaults to Vector(0, 0).
-            z_index: The z-index of the raster. Defaults to 0.
-        """
-        cls.push(z_index, lambda: cls.raster(raster, pos))
-
-    @staticmethod
-    def raster(raster: Raster, pos: Vector = Vector()):
-        """
-        Draws an raster onto the renderer immediately.
-
-        Args:
-            raster: The raster to draw.
-            pos: The position to draw the raster at. Defaults to Vector().
-        """
-        Draw.sprite(raster._sprite, pos)  # pylint: disable=protected-access
+        Draw.texture(surf.tx, pos, surf.scale, surf.rotation)
