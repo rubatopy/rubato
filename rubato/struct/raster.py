@@ -2,13 +2,13 @@
 from __future__ import annotations
 import sdl2, sdl2.ext
 
-from . import Component, Sprite
-from .. import Vector, Draw, Camera, Color
+from . import Sprite
+from .. import Vector, Color
 
 
-class Raster(Component):
+class Raster:
     """
-    A component that handles rasters.
+    A raster.
 
     Args:
         width: The width of the raster in pixels. Once set this cannot be changed. Defaults to 32.
@@ -27,17 +27,14 @@ class Raster(Component):
         width: int = 32,
         height: int = 32,
         scale: Vector = Vector(1, 1),
+        rotation: float = 0,
         flipx: bool = False,
         flipy: bool = False,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
         aa: bool = False,
-        z_index: int = 0
     ):
         self._sprite = None
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
 
-        self._sprite = Sprite("", aa=aa)
+        self._sprite = Sprite("", aa=aa, rotation=rotation)
         self._sprite.image = sdl2.SDL_CreateRGBSurfaceWithFormat(
             0,
             width,
@@ -53,7 +50,6 @@ class Raster(Component):
         self._flipx: bool = flipx
         self._flipy: bool = flipy
         self._scale: Vector = scale
-        self._rot = rot_offset
 
         self._go_rotation = 0
         self._flip_changed = True
@@ -79,15 +75,13 @@ class Raster(Component):
         self._sprite.scale = Vector((-new.x if self.flipx else new.x), (-new.y if self.flipy else new.y))
 
     @property
-    def rot_offset(self) -> float:
+    def rotation(self) -> float:
         """The rotation offset of the raster."""
-        return self._rot
+        return self._sprite.rotation
 
-    @rot_offset.setter
-    def rot_offset(self, new: float):
-        self._rot = new
-        if self._sprite:
-            self._sprite.rotation = -self._go_rotation - new
+    @rotation.setter
+    def rotation(self, new: float):
+        self._sprite.rotation = new
 
     @property
     def flipx(self) -> bool:
@@ -97,7 +91,7 @@ class Raster(Component):
     @flipx.setter
     def flipx(self, new: bool):
         self._flipx = new
-        self._flip_changed = True
+        self._update_flip()
 
     @property
     def flipy(self) -> bool:
@@ -107,7 +101,7 @@ class Raster(Component):
     @flipy.setter
     def flipy(self, new: bool):
         self._flipy = new
-        self._flip_changed = True
+        self._update_flip()
 
     @property
     def aa(self) -> bool:
@@ -224,24 +218,9 @@ class Raster(Component):
             self._raster, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._raster.format, color.r, color.g, color.b)
         )
 
-    def update(self):
-        if self.gameobj is not None:
-            if self._go_rotation != self.gameobj.rotation:
-                self._go_rotation = self.gameobj.rotation
-                self.rot_offset = self.rot_offset
-
-            if self._flip_changed:
-                self._flip_changed = False
-                self.scale = self.scale
-
-    def draw(self, camera: Camera):
-        if self.hidden:
-            return
-
-        Draw.queue_sprite(
-            self._sprite, camera.transform(self.gameobj.pos + self.offset - Vector(*self._sprite.tx.size) / 2),
-            self.true_z
-        )
+    def _update_flip(self):
+        self._flip_changed = False
+        self.scale = self.scale
 
     def delete(self):
         """Deletes the raster component"""
@@ -256,12 +235,11 @@ class Raster(Component):
             The cloned raster.
         """
         new = Raster(
-            offset=self.offset,
             scale=self.scale,
             flipx=self.flipx,
             flipy=self.flipy,
-            rot_offset=self.rot_offset,
-            z_index=self.z_index,
+            rotation=self.rotation,
+            aa=self.aa,
         )
         new._sprite = self._sprite.clone()  # pylint: disable=protected-access
         return new

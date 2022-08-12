@@ -38,7 +38,7 @@ class WanderingImage(rb.Component):
         ranx = random.random() * 2 - 1
         rany = random.random() * 2 - 1
         self.image.offset = self.image.offset.lerp(self.image.offset + rb.Vector(ranx, rany), rb.Time.delta_time * 50)
-        self.image.rot_offset += random.random() * rb.Time.delta_time * 50
+        self.image.rotation += random.random() * rb.Time.delta_time * 50
         self.image.scale += rb.Vector(ranx / 1000, rany / 1000)
 
         if rb.Input.key_pressed("k"):

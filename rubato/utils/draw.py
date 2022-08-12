@@ -9,7 +9,7 @@ import sdl2, sdl2.sdlgfx, sdl2.ext
 from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
-    from .. import Sprite
+    from .. import Sprite, Raster
 
 
 @cython.cclass
@@ -436,3 +436,26 @@ class Draw:
             return
 
         Draw.texture(sprite.tx, pos, sprite.scale, sprite.rotation)
+
+    @classmethod
+    def queue_raster(cls, raster: Raster, pos: Vector = Vector(), z_index: int = 0):
+        """
+        Draws an raster onto the renderer at the end of the frame.
+
+        Args:
+            raster: The raster to draw.
+            pos: The position to draw the raster at. Defaults to Vector(0, 0).
+            z_index: The z-index of the raster. Defaults to 0.
+        """
+        cls.push(z_index, lambda: cls.raster(raster, pos))
+
+    @staticmethod
+    def raster(raster: Raster, pos: Vector = Vector()):
+        """
+        Draws an raster onto the renderer immediately.
+
+        Args:
+            raster: The raster to draw.
+            pos: The position to draw the raster at. Defaults to Vector().
+        """
+        Draw.sprite(raster._sprite, pos)  # pylint: disable=protected-access
