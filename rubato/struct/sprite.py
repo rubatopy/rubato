@@ -16,6 +16,7 @@ class Sprite:
         rel_path: The relative path to the image.
         rotation: The rotation of the image. Defaults to 0.
         scale: The scale of the image. Defaults to Vector(1, 1).
+        aa: Whether or not to use anti-aliasing. Defaults to False.
     """
 
     def __init__(
@@ -23,7 +24,14 @@ class Sprite:
         rel_path: str,
         rotation: float = 0,
         scale: Vector = Vector(1, 1),
+        aa: bool = False,
     ):
+        self.rotation = rotation
+        """The clockwise rotation of the sprite."""
+        self.scale = scale
+        """The scale of the sprite."""
+        self._aa = aa
+
         self.image: sdl2.SDL_Surface | str = ""
         """The image that is rendered. This is an SDL_Surface or a string in the surface hasn't been set yet."""
         self.tx: sdl2.ext.Texture | str = ""
@@ -40,10 +48,15 @@ class Sprite:
 
             self.generate_tx()
 
-        self.rotation = rotation
-        """The clockwise rotation of the sprite."""
-        self.scale = scale
-        """The scale of the sprite."""
+    @property
+    def aa(self):
+        """Whether or not to use anti-aliasing."""
+        return self._aa
+
+    @aa.setter
+    def aa(self, new: bool):
+        self._aa = new
+        self.generate_tx()
 
     def true_scale(self):
         """Gets the scale of the sprite in accordance to camera zoom."""
@@ -72,6 +85,7 @@ class Sprite:
     def generate_tx(self):
         """Regenerates the texture from the surface."""
         self.tx = sdl2.ext.Texture(Display.renderer, self.image)
+        self.tx.set_scale_mode("nearest" if not self.aa else "linear")
 
     def delete(self):
         """Deletes the sprite"""

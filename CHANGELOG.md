@@ -30,7 +30,6 @@
 ### Removed
 
 -   `Game.name`, which did not do anything... yikes.
--   Anti aliasing from `Sprite`, `Image`, and `Animation`
 
 ### Fixed
 

@@ -21,7 +21,7 @@ class Animation(Component):
     Args:
         scale: The scale of the animation. Defaults to Vector(1, 1).
         fps: The frames per second of the animation. Defaults to 24.
-        anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
+        aa: Whether to use anti-aliasing on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
         offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
@@ -33,7 +33,7 @@ class Animation(Component):
         self,
         scale: Vector = Vector(1, 1),
         fps: int = 24,
-        anti_aliasing: bool = False,
+        aa: bool = False,
         flipx: bool = False,
         flipy: bool = False,
         offset: Vector = Vector(),
@@ -60,7 +60,7 @@ class Animation(Component):
         """Whether the animation should loop."""
         self.scale: Vector = scale
         """The scale of the animation."""
-        self.aa: bool = anti_aliasing
+        self.aa: bool = aa
         """Whether or not to enable anti aliasing."""
         self.flipx: bool = flipx
         """Whether or not to flip the animation along the x axis."""
@@ -275,7 +275,7 @@ class Animation(Component):
         new = Animation(
             scale=self.scale,
             fps=self.fps,
-            anti_aliasing=self.aa,
+            aa=self.aa,
             flipx=self.flipx,
             flipy=self.flipy,
             offset=self.offset,

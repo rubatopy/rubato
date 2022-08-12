@@ -20,6 +20,7 @@ class Image(Component):
         flipy: Whether or not to flip the image vertically. Defaults to False.
         offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the image. Defaults to 0.
+        aa: Whether or not to use anti-aliasing. Defaults to False.
         z_index: The z-index of the image. Defaults to 0.
     """
 
@@ -31,6 +32,7 @@ class Image(Component):
         flipy: bool = False,
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
+        aa: bool = False,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
@@ -38,7 +40,7 @@ class Image(Component):
         if rel_path == "":
             raise ValueError("Image rel_path cannot be an empty string.")
 
-        self._sprite = Sprite(rel_path)
+        self._sprite = Sprite(rel_path, aa=aa)
 
         self.singular = False
 
@@ -47,8 +49,6 @@ class Image(Component):
         self._scale: Vector = scale
         self._resize_scale: Vector = Vector(1, 1)  # This scale factor is changed when the image is resized.
         self._rot = self.rot_offset
-
-        self._original = Display.clone_surface(self._sprite.image)
 
         self._go_rotation = 0
         self._changed = True
@@ -61,7 +61,6 @@ class Image(Component):
     @image.setter
     def image(self, new: sdl2.SDL_Surface):
         self._sprite.image = new
-        self._original = Display.clone_surface(new)
         self._changed = True
 
     @property
@@ -104,6 +103,15 @@ class Image(Component):
         self._flipy = new
         self._changed = True
 
+    @property
+    def aa(self) -> bool:
+        """Whether or not the image is anti-aliased."""
+        return self._sprite.aa
+
+    @aa.setter
+    def aa(self, new: bool):
+        self._sprite.aa = new
+
     def get_rect(self) -> Rectangle:
         """
         Generates the rectangular bounding box of the image.
@@ -134,7 +142,6 @@ class Image(Component):
     def _update_sprite(self):
         if self.gameobj:
             self._sprite.rotation = -self.gameobj.rotation - self.rot_offset
-            self._sprite.aa = self.aa
             self._sprite.scale = Vector(
                 (-self.scale.x if self.flipx else self.scale.x) * self._resize_scale.x,
                 (-self.scale.y if self.flipy else self.scale.y) * self._resize_scale.y
