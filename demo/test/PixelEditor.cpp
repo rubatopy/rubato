@@ -16,10 +16,15 @@ inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, si
 
 // Gets the pixel at x, y from the surface and returns it as a uint32_t
 inline int getPixel(size_t _pixels, int width, int x, int y) {
-	uint32_t* pixels = (uint32_t*)(_pixels);
-	uint32_t* pixel_p = pixels + (y*width) + x;
-	uint32_t pixel = *pixel_p;
-	return (int) pixel;
+	return (int) *((uint32_t*)(_pixels) + y*width + x);
+}
+
+// Gets the pixel but returns 0 if the pixel is outside the surface.
+inline int getPixelSafe(size_t _pixels, int width, int height, int x, int y) {
+	if (x < width && y < height && x >= 0 && y >= 0) {
+		return getPixel(_pixels, width, x, y);
+	}
+	return 0;
 }
 
 
