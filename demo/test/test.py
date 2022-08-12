@@ -39,9 +39,6 @@ def update():
         red = SDL_MapRGB(surface.format, 255, 64, 64)
 
         clearPixels(surface.pixels, width, height)
-        drawLine(surface.pixels, width, height, 0, 0, x, y, green)
-
-        # test draw stuff here
 
     texture = sdl2.ext.Texture(Display.renderer, surface)
     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs

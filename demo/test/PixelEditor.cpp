@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <cstring>
 
-// Sets the pixel at x, y to the color specified, must be locked b4 unlocked after
+// Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
 	((uint32_t*) _pixels)[y*width + x] = (uint32_t) color;
 }
@@ -13,7 +13,7 @@ inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, si
 	}
 }
 
-// Gets the pixel at x, y from the surface and returns it as a uint32_t
+// Gets the pixel at x, y from the surface and returns it as an int.
 inline int getPixel(size_t _pixels, int width, int x, int y) {
 	return (int) ((uint32_t*) _pixels)[y*width + x];
 }
@@ -68,11 +68,9 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
         setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
         setPixelSafe(_pixels, width, height, xc + x, yc - y, color);
 
-        E += 2 * y + 1;
-        y++;
+        E += 2 * (y++) + 1;
         if (E >= 0) {
-            E -= 2 * x + 1;
-            x--;
+            E -= 2 * (x--) + 1;
         }
     }
 }
@@ -87,11 +85,9 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
         drawLine(_pixels, width, height, xc - x, yc - y, xc + x, yc - y, color);
         drawLine(_pixels, width, height, xc - y, yc - x, xc + y, yc - x, color);
 
-        E += 2 * y + 1;
-        y++;
+        E += 2 * (y++) + 1;
         if (E >= 0) {
-            E -= 2 * x + 1;
-            x--;
+            E -= 2 * (x--) + 1;
         }
     }
 }
