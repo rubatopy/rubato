@@ -2352,8 +2352,9 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
   size_t __pyx_t_8;
   int __pyx_t_9;
   int __pyx_t_10;
-  size_t __pyx_t_11;
-  PyObject *__pyx_t_12 = NULL;
+  int __pyx_t_11;
+  size_t __pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2506,7 +2507,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
  *         x, y = Input.get_mouse_pos().tuple_int()  #TODO: make sure does not error OOB
  *         temp = SDL_MapRGB(surface.format, 255, 255, 255)             # <<<<<<<<<<<<<<
  * 
- *         setPixel(surface.pixels, width, x, y, temp)
+ *         setPixelSafe(surface.pixels, width, height, x, y, temp)
  */
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_SDL_MapRGB); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2542,7 +2543,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
     /* "test.py":39
  *         temp = SDL_MapRGB(surface.format, 255, 255, 255)
  * 
- *         setPixel(surface.pixels, width, x, y, temp)             # <<<<<<<<<<<<<<
+ *         setPixelSafe(surface.pixels, width, height, x, y, temp)             # <<<<<<<<<<<<<<
  * 
  *     texture = sdl2.ext.Texture(Display.renderer, surface)
  */
@@ -2557,10 +2558,14 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_x); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
-    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_y); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
-    __pyx_t_11 = __Pyx_PyInt_As_size_t(__pyx_v_temp); if (unlikely((__pyx_t_11 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
-    setPixel(__pyx_t_8, __pyx_t_4, __pyx_t_9, __pyx_t_10, __pyx_t_11);
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_height); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_v_x); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_y); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyInt_As_size_t(__pyx_v_temp); if (unlikely((__pyx_t_12 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
+    setPixelSafe(__pyx_t_8, __pyx_t_4, __pyx_t_9, __pyx_t_10, __pyx_t_11, __pyx_t_12);
 
     /* "test.py":35
  * 
@@ -2572,7 +2577,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
   }
 
   /* "test.py":41
- *         setPixel(surface.pixels, width, x, y, temp)
+ *         setPixelSafe(surface.pixels, width, height, x, y, temp)
  * 
  *     texture = sdl2.ext.Texture(Display.renderer, surface)             # <<<<<<<<<<<<<<
  *     Draw.queue_texture(texture, Vector(0,0))  #TODO: mention topleft indocs
@@ -2593,22 +2598,22 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_surface); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_12 = NULL;
-  __pyx_t_10 = 0;
+  __pyx_t_13 = NULL;
+  __pyx_t_11 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_12)) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_1);
+    if (likely(__pyx_t_13)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_12);
+      __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_1, function);
-      __pyx_t_10 = 1;
+      __pyx_t_11 = 1;
     }
   }
   {
-    PyObject *__pyx_callargs[3] = {__pyx_t_12, __pyx_t_6, __pyx_t_2};
-    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_10, 2+__pyx_t_10);
-    __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+    PyObject *__pyx_callargs[3] = {__pyx_t_13, __pyx_t_6, __pyx_t_2};
+    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_1, __pyx_callargs+1-__pyx_t_11, 2+__pyx_t_11);
+    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L1_error)
@@ -2636,7 +2641,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
-  __pyx_t_10 = 0;
+  __pyx_t_11 = 0;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_2);
     if (likely(__pyx_t_1)) {
@@ -2644,12 +2649,12 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
-      __pyx_t_10 = 1;
+      __pyx_t_11 = 1;
     }
   }
   {
     PyObject *__pyx_callargs[3] = {__pyx_t_1, __pyx_v_texture, __pyx_t_6};
-    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_10, 2+__pyx_t_10);
+    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+1-__pyx_t_11, 2+__pyx_t_11);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
@@ -2674,7 +2679,7 @@ static PyObject *__pyx_pf_4test_update(CYTHON_UNUSED PyObject *__pyx_self) {
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_XDECREF(__pyx_t_13);
   __Pyx_AddTraceback("test.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3481,7 +3486,7 @@ if (!__Pyx_RefNanny) {
 
   /* "test.py":14
  * import cython
- * from cython.cimports.cPixelEditor import setPixel, getPixel # pyright: ignore
+ * from cython.cimports.cPixelEditor import setPixelSafe, getPixel # pyright: ignore
  * from sdl2 import SDL_MapRGB             # <<<<<<<<<<<<<<
  * 
  * # pylint: disable=all
