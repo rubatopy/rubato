@@ -86,7 +86,8 @@ class Display(metaclass=_DisplayProperties):
 
     window: sdl2.ext.Window = None
     renderer: sdl2.ext.Renderer = None
-    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents.format.contents
+    pixel_format = sdl2.SDL_PIXELFORMAT_RGBA8888
+    format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, pixel_format).contents.format.contents
     _saved_window_size: Vector | None = None
     _saved_window_pos: Vector | None = None
 

@@ -27,7 +27,7 @@ class Surface(Surf):
     ):
         super().__init__(rotation, scale, aa)
 
-        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents
+        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, Display.pixel_format).contents
 
         self.width: int = width
         """(READ ONLY) The width of the surface in pixels."""

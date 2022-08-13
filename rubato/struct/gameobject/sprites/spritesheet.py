@@ -6,7 +6,7 @@ import os
 
 from . import Animation
 from ... import Sprite
-from .... import Vector, get_path
+from .... import Vector, get_path, Display
 
 
 class Spritesheet:
@@ -39,7 +39,7 @@ class Spritesheet:
             self._sprites.append([])
             for x in range(0, self._grid[0] * self._sprite_size[0], self._sprite_size[0]):
                 sub = sdl2.SDL_CreateRGBSurfaceWithFormat(
-                    0, self._sprite_size[0], self._sprite_size[1], 32, sdl2.SDL_PIXELFORMAT_RGBA8888
+                    0, self._sprite_size[0], self._sprite_size[1], 32, Display.pixel_format
                 )
                 sdl2.SDL_BlitSurface(
                     self._sheet.surf,
