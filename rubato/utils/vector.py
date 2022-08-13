@@ -238,8 +238,8 @@ class Vector:
         return self.x, self.y
 
     def tuple_int(self) -> tuple[int, int]:
-        """Returns a tuple with rounded values."""
-        return round(self.x), round(self.y)
+        """Returns a tuple with int-cast values."""
+        return int(self.x), int(self.y)
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""

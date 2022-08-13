@@ -2,7 +2,6 @@
 """Loader for PixelEditor.cpp"""
 from cython.cimports.rubato.c_src import cPixelEditor as PE  # pyright: ignore
 from cython.cimports.cpython import array  # pyright: ignore
-import array  # pylint: disable=reimported
 
 from .. import Vector
 
@@ -102,8 +101,8 @@ def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color:
     for (x, y) in points:
         vxt.append(x)
         vyt.append(y)
-    vx: array.array = array.array('i', (*vxt,))
-    vy: array.array = array.array('i', (*vyt,))
+    vx: array.array = array.array('i', vxt)
+    vy: array.array = array.array('i', vyt)
     PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
 
 def clear_pixels(pixels: int, width: int, height: int):

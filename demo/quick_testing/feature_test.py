@@ -25,8 +25,7 @@ print(rb.Color.red)
 
 def update():
     if rb.Input.mouse_pressed():
-        x, y = rb.Input.get_mouse_pos().tuple_int()
-        img.draw_point(rb.Vector(x, y), rb.Color.yellow)
+        img.draw_point(rb.Input.get_mouse_pos(), rb.Color.yellow)
 
 
 def draw():
