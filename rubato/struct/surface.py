@@ -49,7 +49,8 @@ class Surface(Surf):
             pos: The position to draw the point.
             color: The color of the point. Defaults to black.
         """
-        PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, pos.x, pos.y, color.rgba32)
+        x, y = pos.tuple_int()
+        PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32)
         self.uptodate = False
 
     def draw_line(self, start: Vector, end: Vector, color: Color = Color.black):
@@ -62,14 +63,16 @@ class Surface(Surf):
             color: The color of the line. Defaults to black.
             width: The width of the line. Defaults to 1.
         """
+        sx, sy = start.tuple_int()
+        ex, ey = end.tuple_int()
         PixelEditor.draw_line(
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
-            start.x,
-            start.y,
-            end.x,
-            end.y,
+            sx,
+            sy,
+            ex,
+            ey,
             color.rgba32,
         )
         self.uptodate = False
@@ -84,15 +87,17 @@ class Surface(Surf):
             border: The border color of the rectangle. Defaults to black.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
         """
+        x, y = top_left.tuple_int()
+        w, h = dims.tuple_int()
         if fill is not None:
             PixelEditor.fill_rect(
                 self.surf.pixels,
                 self.surf.w,
                 self.surf.h,
-                top_left.x,
-                top_left.y,
-                dims.x,
-                dims.y,
+                x,
+                y,
+                w,
+                h,
                 fill.rgba32,
             )
 
@@ -100,10 +105,10 @@ class Surface(Surf):
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
-            top_left.x,
-            top_left.y,
-            dims.x,
-            dims.y,
+            x,
+            y,
+            w,
+            h,
             border.rgba32,
         )
         self.uptodate = False
@@ -118,13 +123,14 @@ class Surface(Surf):
             border: The border color of the circle. Defaults to black.
             fill: The fill color of the circle. Set to None for no fill. Defaults to None.
         """
+        x, y = center.tuple_int()
         if fill is not None:
             PixelEditor.fill_circle(
                 self.surf.pixels,
                 self.surf.w,
                 self.surf.h,
-                center.x,
-                center.y,
+                x,
+                y,
                 radius,
                 fill.rgba32,
             )
@@ -132,8 +138,8 @@ class Surface(Surf):
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
-            center.x,
-            center.y,
+            x,
+            y,
             radius,
             border.rgba32,
         )
