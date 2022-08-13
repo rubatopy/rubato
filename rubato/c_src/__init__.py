@@ -1,3 +1,3 @@
 """The init for c_src"""
 
-from .pixel_editor import PixelEditor
+from . import pixel_editor as PixelEditor
