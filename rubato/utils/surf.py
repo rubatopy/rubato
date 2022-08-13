@@ -49,7 +49,8 @@ class Surf:
     @aa.setter
     def aa(self, new: bool):
         self._aa = new
-        self.tx.set_scale_mode("nearest" if not self.aa else "linear")
+        if self.tx is not None:
+            self.tx.set_scale_mode("nearest" if not self.aa else "linear")
 
     def get_size(self) -> Vector:
         """
@@ -58,7 +59,7 @@ class Surf:
         Returns:
             The size of the image
         """
-        return Vector(self.tx.size[0] * self.scale.x, self.tx.size[1] * self.scale.y)
+        return Vector(self.surf.w * self.scale.x, self.surf.h * self.scale.y)
 
     def generate_tx(self):
         """Regenerates the texture from the surface."""

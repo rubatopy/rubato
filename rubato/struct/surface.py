@@ -162,15 +162,6 @@ class Surface(Surf):
         )
         self.uptodate = False
 
-    def get_size(self) -> Vector:
-        """
-        Gets the current size of the surface.
-
-        Returns:
-            The size of the surface
-        """
-        return self._sprite.get_size()
-
     def get_pixel(self, pos: Vector) -> Color:
         """
         Gets the color of a pixel on the image.
