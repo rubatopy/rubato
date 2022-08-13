@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 *.c
+*.cpp
+!rubato/c_src/**/*.cpp
 
 # Distribution / packaging
 .Python

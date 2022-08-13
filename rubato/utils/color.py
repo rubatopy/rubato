@@ -2,6 +2,7 @@
 This color module contains the Color class, which is used to represent colors in the game.
 """
 from __future__ import annotations
+import ctypes
 from random import randint, choice
 import sdl2
 
@@ -215,17 +216,11 @@ class Color:
             rgba32: The RGBA32 representation as an int.
 
         Returns:
-            Color: The color object from the RGBA32.
+            The color object from the RGBA32.
         """
-        if rgba32 == 0:
-            return cls(0, 0, 0, 0)
-        rgba_str = format(rgba32, "#034b")
-        new = cls()
-        new.r = int(rgba_str[2:10], 2)
-        new.g = int(rgba_str[10:18], 2)
-        new.b = int(rgba_str[18:26], 2)
-        new.a = int(rgba_str[26:34], 2)
-        return new
+        r, g, b, a = ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0)
+        sdl2.SDL_GetRGBA(rgba32, Display.format, ctypes.byref(r), ctypes.byref(g), ctypes.byref(b), ctypes.byref(a))
+        return cls(r.value, g.value, b.value, a.value)
 
     @classmethod
     def from_hex(cls, h: str) -> Color:

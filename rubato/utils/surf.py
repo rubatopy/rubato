@@ -22,6 +22,11 @@ class Surf:
         self._surf: sdl2.SDL_Surface | None = None
         self.tx: sdl2.ext.Texture | None = None
         """(READ ONLY) The generated sprite texture."""
+        self.uptodate: bool = False
+        """
+        Whether or not the texture is up to date with the surface.
+        Can be set to False to trigger a texture regeneration at the next draw cycle.
+        """
 
     @property
     def surf(self) -> sdl2.SDL_Surface | None:
@@ -34,7 +39,7 @@ class Surf:
         Sets the surface to be rendered.
         """
         self._surf = new
-        self.generate_tx()
+        self.uptodate = False
 
     @property
     def aa(self):
@@ -58,6 +63,7 @@ class Surf:
     def generate_tx(self):
         """Regenerates the texture from the surface."""
         self.tx = sdl2.ext.Texture(Display.renderer, self.surf)
+        self.uptodate = True
 
     def delete(self):
         """Deletes the sprite"""

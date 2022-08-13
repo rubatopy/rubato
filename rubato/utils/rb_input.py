@@ -2,6 +2,7 @@
 The Input module is the way you collect input from the user.
 """
 import ctypes
+import math
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
@@ -254,10 +255,7 @@ class Input:
                 else:
                     key1, key2 = key, key
 
-                if not (
-                    state[cls.scancode_from_name(key1)] or
-                    state[cls.scancode_from_name(key2)]
-                ):
+                if not (state[cls.scancode_from_name(key1)] or state[cls.scancode_from_name(key2)]):
                     return False
         return True
 
@@ -405,9 +403,9 @@ class Input:
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
         if Display.has_x_border():
-            x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
+            x_window.value = math.floor(Math.clamp(x_window.value, size, Display.window_size.x - size))
         elif Display.has_y_border():
-            y_window.value = Math.clamp(y_window.value, size, Display.window_size.y - size)
+            y_window.value = math.floor(Math.clamp(y_window.value, size, Display.window_size.y - size))
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
         return Vector(x_render.value, y_render.value)

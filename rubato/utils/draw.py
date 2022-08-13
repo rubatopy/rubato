@@ -434,5 +434,7 @@ class Draw:
         """
         if not surf.surf:
             return
+        if not surf.uptodate:
+            surf.generate_tx()
 
         Draw.texture(surf.tx, pos, surf.scale, surf.rotation)

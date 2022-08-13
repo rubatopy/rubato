@@ -2,6 +2,7 @@
 from __future__ import annotations
 import sdl2, sdl2.ext
 
+from ..c_src import PixelEditor
 from .. import Vector, Color, Display, Surf
 
 
@@ -26,21 +27,19 @@ class Surface(Surf):
     ):
         super().__init__(rotation, scale, aa)
 
-        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, sdl2.SDL_PIXELFORMAT_RGBA8888)
+        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, sdl2.SDL_PIXELFORMAT_RGBA8888).contents
 
         self.width: int = width
         """(READ ONLY) The width of the surface in pixels."""
         self.height: int = height
         """(READ ONLY) The height of the surface in pixels."""
 
-    def clear(self, color: Color = Color.black):
+    def clear(self):
         """
         Clears the surface.
-
-        Args:
-            color: The color to clear the surface with. Defaults to black.
         """
-        pass
+        PixelEditor.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
+        self.uptodate = False
 
     def draw_point(self, pos: Vector, color: Color = Color.black):
         """
@@ -50,9 +49,10 @@ class Surface(Surf):
             pos: The position to draw the point.
             color: The color of the point. Defaults to black.
         """
-        pass
+        PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, pos.x, pos.y, color.rgba32)
+        self.uptodate = False
 
-    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, width: int = 1):
+    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black):
         """
         Draws a line on the image.
 
@@ -62,22 +62,41 @@ class Surface(Surf):
             color: The color of the line. Defaults to black.
             width: The width of the line. Defaults to 1.
         """
-        pass
+        PixelEditor.draw_line(
+            self.surf.pixels,
+            self.surf.w,
+            self.surf.h,
+            start.x,
+            start.y,
+            end.x,
+            end.y,
+            color.rgba32,
+        )
+        self.uptodate = False
 
-    def draw_rect(self, top_left: Vector, bottom_right: Vector, color: Color = Color.black, width: int = 1):
+    def draw_rect(self, top_left: Vector, dims: Vector, color: Color = Color.black):
         """
         Draws a rectangle border on the image.
         Args:
             top_left: The top left corner of the rectangle.
-            bottom_right: The bottom right corner of the rectangle.
+            dims: The dimensions of the rectangle.
             color: The color of the rectangle. Defaults to black.
-            width: Width of the rectangle border. Defaults to 1.
         """
-        # TODO: maybe add a fill option? SDL_FillRect?
-        self.draw_line(top_left, Vector(bottom_right.x, top_left.y), color, width)
-        self.draw_line(Vector(bottom_right.x, top_left.y), bottom_right, color, width)
-        self.draw_line(bottom_right, Vector(top_left.x, bottom_right.y), color, width)
-        self.draw_line(Vector(top_left.x, bottom_right.y), top_left, color, width)
+        PixelEditor.draw_rect(
+            self.surf.pixels,
+            self.surf.w,
+            self.surf.h,
+            top_left.x,
+            top_left.y,
+            dims.x - 2,
+            dims.y - 2,
+            color.rgba32,
+        )
+
+        self.uptodate = False
+
+    def draw_circle(self, center: Vector, radius: int, color: Color = Color.black):
+        pass
 
     def get_size(self) -> Vector:
         """
@@ -96,12 +115,15 @@ class Surface(Surf):
             pos: The position of the pixel.
 
         Returns:
-            Color: The color of the pixel.
+            The color of the pixel.
         """
-        pass
+        x, y = pos.tuple_int()
+        if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
+            return Color.from_rgba32(PixelEditor.get_pixel(self.surf.pixels, self.surf.w, x, y))
+        else:
+            raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
-    def get_pixel_tuple(self, pos: tuple[int | float, int | float]) \
-            -> tuple[int | float, int | float, int | float, int | float]:
+    def get_pixel_tuple(self, pos: Vector) -> tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the image.
 
@@ -111,17 +133,7 @@ class Surface(Surf):
         Returns:
             The color of the pixel.
         """
-        pass
-
-    def set_pixel(self, pos: Vector, color: Color):
-        """
-        Sets the color of a pixel on the image.
-
-        Args:
-            pos: The position of the pixel.
-            color: The color of the pixel.
-        """
-        pass
+        return self.get_pixel(pos).to_tuple()
 
     def switch_color(self, color: Color, new_color: Color):
         """
@@ -135,8 +147,9 @@ class Surface(Surf):
             for y in range(self.get_size().y):
                 if self.get_pixel(Vector(x, y)) == color:
                     new_color.a = self.get_pixel_tuple((x, y))[0]  # Preserve the alpha value.
-                    self.set_pixel(Vector(x, y), new_color)
-                self.set_pixel(Vector(x, y), color)  # Set the color of the pixel.
+                    self.draw_point(Vector(x, y), new_color)
+                self.draw_point(Vector(x, y), color)  # Set the color of the pixel.
+        self.uptodate = False
 
     def set_colorkey(self, color: Color):
         """
@@ -144,9 +157,8 @@ class Surface(Surf):
         Args:
             color: Color to set as the colorkey.
         """
-        sdl2.SDL_SetColorKey(
-            self._surface, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._surface.format, color.r, color.g, color.b)
-        )
+        sdl2.SDL_SetColorKey(self.surf, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self.surf.format, color.r, color.g, color.b))
+        self.uptodate = False
 
     def clone(self) -> Surface:
         """
