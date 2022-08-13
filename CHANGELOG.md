@@ -12,7 +12,6 @@
 -   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
     Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are implicitly cast to floats
     when used in Vector.
--   Rename `Vector.to_int()` to `Vector.rounded()`. It now rounds a vector instead of doing an int cast
 
 ### Added
 
@@ -34,6 +33,7 @@
 -   `Game.name`, which did not do anything... yikes.
 -   `Image.surface` is not accessible anymore.
 -   `flipx` and `flipy` are no longer available. Instead set the scale to be negative.
+-   `Vector.to_int()`. Use `Vector.floor()` or `Vector.round()` instead.
 
 ### Fixed
 

@@ -1,7 +1,6 @@
 """
 This module houses all the utils
 """
-from .dev_var import *
 from .path import *
 from .error import *
 from .rb_math import Math

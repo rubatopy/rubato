@@ -237,12 +237,12 @@ class Polygon(Hitbox):
         list_of_points: list[tuple] = []
 
         if self.color:
-            list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
+            list_of_points = [camera.transform(v).round() for v in self.real_verts()]
             Draw.queue_poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             if not list_of_points:
-                list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
+                list_of_points = [camera.transform(v).round() for v in self.real_verts()]
             Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
 
     @classmethod
@@ -339,7 +339,7 @@ class Rectangle(Hitbox):
     def top_left(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / 2, self.height / 2)
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -361,7 +361,7 @@ class Rectangle(Hitbox):
     def bottom_left(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / 2, self.height / -2)
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -383,7 +383,7 @@ class Rectangle(Hitbox):
     def top_right(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new + Vector(self.width / -2, self.height / 2)
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -405,7 +405,7 @@ class Rectangle(Hitbox):
     def bottom_right(self, new: Vector):
         if self.gameobj:
             self.gameobj.pos = new - Vector(self.width / 2, self.height / 2)
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -427,7 +427,7 @@ class Rectangle(Hitbox):
     def top(self, new: float):
         if self.gameobj:
             self.gameobj.pos.y = new - self.height / 2
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -449,7 +449,7 @@ class Rectangle(Hitbox):
     def left(self, new: float):
         if self.gameobj:
             self.gameobj.pos.x = new + self.width / 2
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -471,7 +471,7 @@ class Rectangle(Hitbox):
     def bottom(self, new: float):
         if self.gameobj:
             self.gameobj.pos.y = new - self.height / 2
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -493,7 +493,7 @@ class Rectangle(Hitbox):
     def right(self, new: float):
         if self.gameobj:
             self.gameobj.pos.x = new - self.height / 2
-            self.gameobj.pos = self.gameobj.pos.rounded()
+            self.gameobj.pos = self.gameobj.pos.round()
         else:
             raise Error("Tried to set rect property before game object assignment.")
 
@@ -582,12 +582,12 @@ class Rectangle(Hitbox):
         list_of_points: list[tuple] = []
 
         if self.color:
-            list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
+            list_of_points = [camera.transform(v).round() for v in self.real_verts()]
             Draw.queue_poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
 
         if self.debug or Game.debug:
             if not list_of_points:
-                list_of_points = [camera.transform(v).rounded() for v in self.real_verts()]
+                list_of_points = [camera.transform(v).round() for v in self.real_verts()]
             Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
 
     def clone(self) -> Rectangle:
