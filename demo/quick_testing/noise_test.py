@@ -30,7 +30,7 @@ def draw():
         radius = Math.lerp(100, 120, (Noise.noise2(sample_offset.x, sample_offset.y) + 1) / 2)
         x = radius * math.cos(angle)
         y = radius * math.sin(angle)
-        points.append((Vector(x, y) + draw_offset).rounded())
+        points.append((Vector(x, y) + draw_offset).round())
 
         angle += math.radians(degrees)
 

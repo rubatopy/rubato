@@ -231,11 +231,7 @@ class Vector:
 
         return out
 
-    def rounded(self) -> Vector:
-        """Returns a new vector with values that are rounded."""
-        return Vector(round(self.x), round(self.y))
-
-    def to_tuple(self) -> tuple[int, int]:
+    def to_tuple(self) -> tuple[float, float]:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
