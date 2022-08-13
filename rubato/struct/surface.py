@@ -162,6 +162,23 @@ class Surface(Surf):
         )
         self.uptodate = False
 
+    def fill_poly(self, points: list[Vector | tuple[int, int]], border: Color = Color.black):
+        """
+        Draws a polygon on the image.
+
+        Args:
+            points: The points of the polygon.
+            border: The border color of the polygon. Defaults to black.
+        """
+        PixelEditor.fill_poly(
+            self.surf.pixels,
+            self.surf.w,
+            self.surf.h,
+            points,
+            border.rgba32,
+        )
+        self.uptodate = False
+
     def get_pixel(self, pos: Vector) -> Color:
         """
         Gets the color of a pixel on the image.

@@ -105,6 +105,25 @@ def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color:
     vy: array.array = array.array('i', vyt)
     PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
 
+def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int):
+    """
+    Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
+    by this function.
+
+    C Header:
+    ```c
+    void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
+    ```
+    """
+    vxt = []
+    vyt = []
+    for (x, y) in points:
+        vxt.append(x)
+        vyt.append(y)
+    vx: array.array = array.array('i', vxt)
+    vy: array.array = array.array('i', vyt)
+    PE.fillPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
+
 def clear_pixels(pixels: int, width: int, height: int):
     """
     C Header:

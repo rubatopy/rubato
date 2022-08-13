@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <cstring>
+#include <limits.h>
 
 // Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
@@ -102,8 +103,11 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 }
 
 // Fill a polygon with the specified color.
-inline void fillPoly(size_t _pixels, size_t vx, size_t vy, int len, size_t color) {
+inline void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
+	//int* v_x = (int*) vx;
+	//int* v_y = (int*) vy;
 
+	// yamm i literally dont know how to get this to work please help me im begging you
 }
 
 // Draw a rectangle with the specified color.
