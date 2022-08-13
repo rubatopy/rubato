@@ -1,7 +1,12 @@
 # distutils: language = c++
 """Loader for PixelEditor.cpp"""
-from cython.cimports.rubato.c_src import cPixelEditor as PE  # pyright: ignore
-from cython.cimports.cpython import array  # pyright: ignore
+import cython
+if cython.compiled:
+    from cython.cimports.rubato.c_src import cPixelEditor as PE  # pyright: ignore
+    from cython.cimports.cpython import array  # pyright: ignore
+else:
+    PE = None
+    import array
 
 from .. import Vector
 
