@@ -178,9 +178,8 @@ class Polygon(Hitbox):
             z_index=z_index
         )
         self._verts: list[Vector] = verts
-        r = int(self.radius * 2)
-        self._image: Surface = Surface(r, r)
-        self._debug_image: Surface = Surface(r, r)
+        self._image: Surface = Surface()
+        self._debug_image: Surface = Surface()
 
     @property
     def verts(self) -> list[Vector]:
@@ -289,10 +288,12 @@ class Polygon(Hitbox):
             self._image = Surface(r, r)
             self._debug_image = Surface(r, r)
 
+        verts = [v + self.radius for v in self.verts]
+
         if self.color is not None:
-            self._image.draw_poly(self.verts, self.color)
+            self._image.draw_poly(verts, self.color)
             # TODO add fill poly
-        self._debug_image.draw_poly(self.verts, Color.debug)
+        self._debug_image.draw_poly(verts, Color.debug)
 
     @classmethod
     def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:

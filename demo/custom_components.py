@@ -69,8 +69,10 @@ main_scene.add(
     )
 )
 
+
 def update():
     poly.color = rb.Color.red if poly.contains_pt(rb.world_mouse()) else rb.Color.green
+
 
 rb.Game.update = update
 

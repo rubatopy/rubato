@@ -63,7 +63,7 @@ class Color:
         """The alpha value."""
 
     @property
-    def rgba32(self):
+    def rgba32(self) -> int:
         """The RGBA32 representation of the color."""
         return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
 
