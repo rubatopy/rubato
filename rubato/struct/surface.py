@@ -74,15 +74,28 @@ class Surface(Surf):
         )
         self.uptodate = False
 
-    def draw_rect(self, top_left: Vector, dims: Vector, color: Color = Color.black):
+    def draw_rect(self, top_left: Vector, dims: Vector, border: Color = Color.black, fill: Color | None = None):
         """
         Draws a rectangle on the image.
 
         Args:
             top_left: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
-            color: The color of the rectangle. Defaults to black.
+            border: The border color of the rectangle. Defaults to black.
+            fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
         """
+        if fill is not None:
+            PixelEditor.fill_rect(
+                self.surf.pixels,
+                self.surf.w,
+                self.surf.h,
+                top_left.x,
+                top_left.y,
+                dims.x,
+                dims.y,
+                fill.rgba32,
+            )
+
         PixelEditor.draw_rect(
             self.surf.pixels,
             self.surf.w,
@@ -91,20 +104,30 @@ class Surface(Surf):
             top_left.y,
             dims.x,
             dims.y,
-            color.rgba32,
+            border.rgba32,
         )
-
         self.uptodate = False
 
-    def draw_circle(self, center: Vector, radius: int, color: Color = Color.black):
+    def draw_circle(self, center: Vector, radius: int, border: Color = Color.black, fill: Color | None = None):
         """
         Draws a circle on the image.
 
         Args:
             center: The center of the circle.
             radius: The radius of the circle.
-            color: The color of the circle. Defaults to black.
+            border: The border color of the circle. Defaults to black.
+            fill: The fill color of the circle. Set to None for no fill. Defaults to None.
         """
+        if fill is not None:
+            PixelEditor.fill_circle(
+                self.surf.pixels,
+                self.surf.w,
+                self.surf.h,
+                center.x,
+                center.y,
+                radius,
+                fill.rgba32,
+            )
         PixelEditor.draw_circle(
             self.surf.pixels,
             self.surf.w,
@@ -112,24 +135,24 @@ class Surface(Surf):
             center.x,
             center.y,
             radius,
-            color.rgba32,
+            border.rgba32,
         )
         self.uptodate = False
 
-    def draw_poly(self, points: list[Vector | tuple[int, int]], color: Color = Color.black):
+    def draw_poly(self, points: list[Vector | tuple[int, int]], border: Color = Color.black):
         """
         Draws a polygon on the image.
 
         Args:
             points: The points of the polygon.
-            color: The color of the polygon. Defaults to black.
+            border: The border color of the polygon. Defaults to black.
         """
         PixelEditor.draw_poly(
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
             points,
-            color.rgba32,
+            border.rgba32,
         )
         self.uptodate = False
 
