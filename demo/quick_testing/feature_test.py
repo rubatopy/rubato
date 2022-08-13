@@ -15,7 +15,7 @@ img.draw_rect(rb.Vector(1, 1), rb.Vector(30, 30), rb.Color.purple, rb.Color.gree
 img.draw_rect(rb.Vector(0, 0), rb.Vector(32, 32), rb.Color.red)
 img.draw_circle(rb.Vector(16, 16), 7, rb.Color.red, rb.Color.yellow)
 img.draw_line(rb.Vector(4, 3), rb.Vector(28, 27), rb.Color.blue)
-img.draw_line(rb.Vector(4, 4), rb.Vector(28, 28), rb.Color.red)
+img.draw_line(rb.Vector(4, 4), rb.Vector(28, 28), rb.Color(32,32,32,128))
 img.fill_poly([(16, 0), (0, 16), (32, 16)], rb.Color.gray)
 
 print(img.get_pixel(rb.Vector(4, 4)))
@@ -25,7 +25,7 @@ print(rb.Color.red)
 
 def update():
     if rb.Input.mouse_pressed():
-        img.draw_point(rb.Input.get_mouse_pos(), rb.Color.yellow)
+        img.draw_point(rb.Input.get_mouse_pos(), rb.Color(32, 32, 32))
 
 
 def draw():

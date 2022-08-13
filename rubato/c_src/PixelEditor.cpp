@@ -2,9 +2,24 @@
 #include <cstring>
 #include <limits.h>
 
+// TODO: antialiasing and thickness
+
 // Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
-	((uint32_t*) _pixels)[y*width + x] = (uint32_t) color;
+	int off = y*width + x;
+	uint32_t finish = (uint32_t) color;
+	uint32_t* pixels = (uint32_t*) _pixels;
+	uint8_t alpha = finish & 0x000000FF;
+	if (alpha == 0xFF) {
+		pixels[off] = finish;
+	} else {
+		// TODO: color blending
+
+		// rOut = (rA * aA / 255) + (rB * aB * (255 - aA) / (255*255))
+		// gOut = (gA * aA / 255) + (gB * aB * (255 - aA) / (255*255))
+		// bOut = (bA * aA / 255) + (bB * aB * (255 - aA) / (255*255))
+		// aOut = aA + (aB * (255 - aA) / 255)
+	}
 }
 
 // Sets the pixel but clips at the edges of the surface.
@@ -107,7 +122,7 @@ inline void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 	//int* v_x = (int*) vx;
 	//int* v_y = (int*) vy;
 
-	// yamm i literally dont know how to get this to work please help me im begging you
+	// TODO: fill polygon
 }
 
 // Draw a rectangle with the specified color.
