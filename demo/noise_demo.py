@@ -21,9 +21,9 @@ true_random = True
 
 rb.Noise.seed = randint(-100, 100)
 
-saved = []
+surface = rb.Surface(int(rb.Display.res.x), int(rb.Display.res.y))
+
 for x in range(int(rb.Display.res.x)):
-    saved.append([])
     for y in range(int(rb.Display.res.y)):
         if true_random:
             noise = random.random() * 2 - 1
@@ -31,13 +31,11 @@ for x in range(int(rb.Display.res.x)):
             noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = rb.Color(gray, gray, gray)
-        saved[x].append((rb.Vector(x, y), color))
+        surface.draw_point(rb.Vector(x, y), color)
 
 
 def draw():
-    for i in range(int(rb.Display.res.x)):
-        for j in range(int(rb.Display.res.y)):
-            rb.Draw.queue_point(saved[i][j][0], color=saved[i][j][1])
+    rb.Draw.surf(surface, rb.Vector(0, 0))
 
 
 main_scene.draw = draw
