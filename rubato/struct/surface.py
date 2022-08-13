@@ -77,14 +77,14 @@ class Surface(Surf):
         )
         self.uptodate = False
 
-    def draw_rect(self, top_left: Vector, dims: Vector, border: Color = Color.black, fill: Color | None = None):
+    def draw_rect(self, top_left: Vector, dims: Vector, border: Color | None = None, fill: Color | None = None):
         """
         Draws a rectangle on the image.
 
         Args:
             top_left: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
-            border: The border color of the rectangle. Defaults to black.
+            border: The border color of the rectangle. Defaults to None.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
         """
         x, y = top_left.tuple_int()
@@ -101,26 +101,27 @@ class Surface(Surf):
                 fill.rgba32,
             )
 
-        PixelEditor.draw_rect(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
-            x,
-            y,
-            w,
-            h,
-            border.rgba32,
-        )
+        if border is not None:
+            PixelEditor.draw_rect(
+                self.surf.pixels,
+                self.surf.w,
+                self.surf.h,
+                x,
+                y,
+                w,
+                h,
+                border.rgba32,
+            )
         self.uptodate = False
 
-    def draw_circle(self, center: Vector, radius: int, border: Color = Color.black, fill: Color | None = None):
+    def draw_circle(self, center: Vector, radius: int, border: Color | None = None, fill: Color | None = None):
         """
         Draws a circle on the image.
 
         Args:
             center: The center of the circle.
             radius: The radius of the circle.
-            border: The border color of the circle. Defaults to black.
+            border: The border color of the circle. Defaults to None.
             fill: The fill color of the circle. Set to None for no fill. Defaults to None.
         """
         x, y = center.tuple_int()
@@ -134,49 +135,45 @@ class Surface(Surf):
                 radius,
                 fill.rgba32,
             )
-        PixelEditor.draw_circle(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
-            x,
-            y,
-            radius,
-            border.rgba32,
-        )
+
+        if border is not None:
+            PixelEditor.draw_circle(
+                self.surf.pixels,
+                self.surf.w,
+                self.surf.h,
+                x,
+                y,
+                radius,
+                border.rgba32,
+            )
         self.uptodate = False
 
-    def draw_poly(self, points: list[Vector | tuple[int, int]], border: Color = Color.black):
+    def draw_poly(self, points: list[Vector], border: Color | None = None, fill: Color | None = None):
         """
         Draws a polygon on the image.
 
         Args:
             points: The points of the polygon.
-            border: The border color of the polygon. Defaults to black.
+            border: The border color of the polygon. Defaults to None.
+            fill: The fill color of the polygon. Set to None for no fill. Defaults to None.
         """
-        PixelEditor.draw_poly(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
-            points,
-            border.rgba32,
-        )
-        self.uptodate = False
+        if fill is not None:
+            PixelEditor.fill_poly(
+                self.surf.pixels,
+                self.surf.w,
+                self.surf.h,
+                points,
+                border.rgba32,
+            )
 
-    def fill_poly(self, points: list[Vector | tuple[int, int]], border: Color = Color.black):
-        """
-        Draws a polygon on the image.
-
-        Args:
-            points: The points of the polygon.
-            border: The border color of the polygon. Defaults to black.
-        """
-        PixelEditor.fill_poly(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
-            points,
-            border.rgba32,
-        )
+        if border is not None:
+            PixelEditor.draw_poly(
+                self.surf.pixels,
+                self.surf.w,
+                self.surf.h,
+                points,
+                border.rgba32,
+            )
         self.uptodate = False
 
     def get_pixel(self, pos: Vector) -> Color:

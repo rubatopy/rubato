@@ -2,8 +2,6 @@
 #include <cstring>
 #include <limits.h>
 
-// TODO: antialiasing and thickness
-
 // Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
 	int off = y*width + x;
@@ -13,12 +11,15 @@ inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
 	if (alpha == 0xFF) {
 		pixels[off] = finish;
 	} else {
-		// TODO: color blending
+		uint32_t old = pixels[off] >> 8;
+		uint32_t fin = finish >> 8;
 
-		// rOut = (rA * aA / 255) + (rB * aB * (255 - aA) / (255*255))
-		// gOut = (gA * aA / 255) + (gB * aB * (255 - aA) / (255*255))
-		// bOut = (bA * aA / 255) + (bB * aB * (255 - aA) / (255*255))
-		// aOut = aA + (aB * (255 - aA) / 255)
+		uint32_t rb1 = ((0x100 - alpha) * (old & 0xFF00FF)) >> 8;
+		uint32_t rb2 = (alpha * (fin & 0xFF00FF)) >> 8;
+		uint32_t g1  = ((0x100 - alpha) * (old & 0x00FF00)) >> 8;
+		uint32_t g2  = (alpha * (fin & 0x00FF00)) >> 8;
+
+		pixels[off] = ((((rb1 | rb2) & 0xFF00FF) + ((g1 | g2) & 0x00FF00)) << 8) + 0xFF;
 	}
 }
 
@@ -122,7 +123,7 @@ inline void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 	//int* v_x = (int*) vx;
 	//int* v_y = (int*) vy;
 
-	// TODO: fill polygon
+	// yamm i literally dont know how to get this to work please help me im begging you
 }
 
 // Draw a rectangle with the specified color.
@@ -147,5 +148,5 @@ inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w,
 }
 
 inline void clearPixels(size_t _pixels, int width, int height) {
-	memset((size_t*) _pixels, 0, width * height * 4);
+	memset((size_t*) _pixels, 0xFF, width * height * 4);
 }

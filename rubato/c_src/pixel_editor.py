@@ -129,7 +129,8 @@ def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color:
     """
     vxt = []
     vyt = []
-    for (x, y) in points:
+    for v in points:
+        x, y = v.tuple_int()
         vxt.append(x)
         vyt.append(y)
     vx: array.array = array.array('i', vxt)
