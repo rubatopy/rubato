@@ -54,12 +54,21 @@ class Surf:
 
     def get_size(self) -> Vector:
         """
-        Gets the current size of the image.
+        Gets the current size of the image. (Scaled)
 
         Returns:
             The size of the image
         """
         return Vector(self.surf.w * self.scale.x, self.surf.h * self.scale.y)
+
+    def get_size_raw(self) -> Vector:
+        """
+        Gets the current size of the image. (Unscaled)
+
+        Returns:
+            The size of the image
+        """
+        return Vector(self.surf.w, self.surf.h)
 
     def generate_tx(self):
         """Regenerates the texture from the surface."""

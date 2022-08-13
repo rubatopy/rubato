@@ -4,8 +4,11 @@ A game object is a basic element that holds components, postion, and z_index.
 from __future__ import annotations
 from typing import Optional, Type, TypeVar
 
+from rubato.utils.color import Color
+
 from . import Hitbox, Polygon, Circle, Rectangle, Component
-from ... import Game, Vector, Display, DuplicateComponentError, Draw, ImplementationError, Camera
+from .. import Surface
+from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera
 
 T = TypeVar("T")
 
@@ -43,6 +46,11 @@ class GameObject:
         self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
         """The rotation of the game object in degrees."""
+        self._debug_cross: Surface = Surface(10, 10)
+        self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
+        self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
+        self._debug_cross.draw_line(Vector(0, 4), Vector(9, 4), Color.debug)
+        self._debug_cross.draw_line(Vector(0, 5), Vector(9, 5), Color.debug)
 
     def add(self, *components: Component) -> GameObject:
         """
@@ -167,15 +175,11 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            scale = int(camera.scale(10))
+            scale = int(camera.scale(2))
+            self._debug_cross.rotation = self.rotation
+            self._debug_cross.scale = Vector(scale, scale)
 
-            rot_x = Vector(scale, 0).rotate(self.rotation)
-            rot_y = rot_x.perpendicular()
-
-            real_pos = camera.transform(self.pos)
-
-            Draw.queue_line(real_pos + rot_x, real_pos - rot_x, width=2 * max(1, Display.display_ratio.y))
-            Draw.queue_line(real_pos + rot_y, real_pos - rot_y, width=2 * max(1, Display.display_ratio.y))
+            Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
 
     def update(self):
         all_comps = list(self._components.values())

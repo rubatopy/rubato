@@ -7,12 +7,13 @@ from random import randint
 import rubato as rb
 
 # Controls the number of objects in the simulation
-num_objs = 70
+num_objs = 75
 
 # Initializes rubato
 rb.init(name="rubato physics demo", res=rb.Vector(1200, 1200))
 
 rb.Game.show_fps = True
+# rb.Game.debug = True
 
 main_scene = rb.Scene()  # Create our scene
 

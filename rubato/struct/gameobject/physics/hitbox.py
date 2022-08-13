@@ -4,7 +4,8 @@ from typing import Callable
 import math
 
 from .. import Component
-from .... import Display, Vector, Color, Error, SideError, Game, Draw, Math, Camera, Input
+from ... import Surface
+from .... import Vector, Color, Error, SideError, Game, Draw, Math, Camera, Input
 
 
 class Hitbox(Component):
@@ -49,19 +50,39 @@ class Hitbox(Component):
         """The on_collide function to call when a collision happens with this hitbox."""
         self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
         """The on_exit function to call when a collision ends with this hitbox."""
-        self.color: Color = color
-        """The color to fill this hitbox with."""
         self.singular: bool = False
         """Whether this hitbox is singular or not."""
         self.tag: str = tag
         """The tag of the hitbox (can be used to identify hitboxes in collision callbacks)"""
         self.colliding: set[Hitbox] = set()
         """An unordered set of hitboxes that the Hitbox is currently colliding with."""
+        self._color: Color = color
+        self._image: Surface = Surface(scale=scale)
+        self._debug_image: Surface = Surface(scale=scale)
+        self.up_to_date: bool = False
+        """Whether the hitbox image is up to date or not."""
+
+    @property
+    def color(self) -> Color:
+        """The color to fill this hitbox with."""
+        return self._color
+
+    @color.setter
+    def color(self, new: Color):
+        self._color = new
+        self.up_to_date = False
 
     @property
     def pos(self) -> Vector:
         """The getter method for the position of the hitbox's center"""
         return self.gameobj.pos + self.offset
+
+    def regenerate_image(self):
+        """
+        Regenerates the image of the hitbox.
+        """
+        self._image.clear()
+        self._debug_image.clear()
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         """
@@ -80,6 +101,26 @@ class Hitbox(Component):
             The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
         """
         return self.gameobj.pos, self.gameobj.pos
+
+    def draw(self, camera: Camera):
+        if self.hidden:
+            return
+
+        if not self.up_to_date:
+            self.regenerate_image()
+            self.up_to_date = True
+
+        if self._color:
+            self._image.scale = Vector(self.scale, self.scale)
+            self._image.rotation = self.gameobj.rotation + self.rot_offset
+
+            Draw.queue_surf(self._image, self.pos, self.true_z, camera)
+
+        if self.debug or Game.debug:
+            self._debug_image.scale = Vector(self.scale, self.scale)
+            self._debug_image.rotation = self.gameobj.rotation + self.rot_offset
+
+            Draw.queue_surf(self._debug_image, self.pos, camera=camera)
 
 
 class Polygon(Hitbox):
@@ -108,9 +149,6 @@ class Polygon(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
-
-    Attributes:
-        verts (list[Vector]): A list of the vertices in the Polygon, in anticlockwise direction.
     """
 
     def __init__(
@@ -139,7 +177,20 @@ class Polygon(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self.verts: list[Vector] = verts
+        self._verts: list[Vector] = verts
+        r = int(self.radius * 2)
+        self._image: Surface = Surface(r, r)
+        self._debug_image: Surface = Surface(r, r)
+
+    @property
+    def verts(self) -> list[Vector]:
+        """A list of the vertices in the Polygon, in anticlockwise direction."""
+        return self._verts
+
+    @verts.setter
+    def verts(self, new: list[Vector]):
+        self._verts = new
+        self.up_to_date = False
 
     @property
     def radius(self) -> float:
@@ -156,7 +207,7 @@ class Polygon(Hitbox):
         """Clones the Polygon"""
         return Polygon(
             verts=self.verts,
-            color=self.color,
+            color=self._color,
             tag=self.tag,
             debug=self.debug,
             trigger=self.trigger,
@@ -230,20 +281,18 @@ class Polygon(Hitbox):
     def __str__(self):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
-    def draw(self, camera: Camera):
-        if self.hidden:
-            return
+    def regenerate_image(self):
+        super().regenerate_image()
 
-        list_of_points: list[tuple] = []
+        r = int(self.radius * 2)
+        if r != self._image.surf.w:
+            self._image = Surface(r, r)
+            self._debug_image = Surface(r, r)
 
-        if self.color:
-            list_of_points = [camera.transform(v).round() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
-
-        if self.debug or Game.debug:
-            if not list_of_points:
-                list_of_points = [camera.transform(v).round() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
+        if self.color is not None:
+            self._image.draw_poly(self.verts, self.color)
+            # TODO add fill poly
+        self._debug_image.draw_poly(self.verts, Color.debug)
 
     @classmethod
     def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
@@ -285,10 +334,6 @@ class Rectangle(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
-
-    Attributes:
-        width (int): The width of the rectangle.
-        height (int): The height of the rectangle.
     """
 
     def __init__(
@@ -318,8 +363,30 @@ class Rectangle(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self.width: int = int(width)
-        self.height: int = int(height)
+        self._width: int = int(width)
+        self._height: int = int(height)
+        self._image = Surface(self.width, self.height)
+        self._debug_image = Surface(self.width, self.height)
+
+    @property
+    def width(self) -> int:
+        """The width of the rectangle."""
+        return self._width
+
+    @width.setter
+    def width(self, new: int):
+        self._width = new
+        self.up_to_date = False
+
+    @property
+    def height(self) -> int:
+        """The width of the rectangle."""
+        return self._height
+
+    @height.setter
+    def height(self, new: int):
+        self._height = new
+        self.up_to_date = False
 
     @property
     def top_left(self):
@@ -574,21 +641,17 @@ class Rectangle(Hitbox):
         """
         return [self.gameobj.pos + v for v in self.transformed_verts()]
 
-    def draw(self, camera: Camera):
-        """Will draw the rectangle to the screen. Won't draw if color = None."""
-        if self.hidden:
-            return
+    def regenerate_image(self):
+        super().regenerate_image()
 
-        list_of_points: list[tuple] = []
+        if self.width != self._image.surf.w or self.height != self._image.surf.h:
+            self._image = Surface(self.width, self.height)
+            self._debug_image = Surface(self.width, self.height)
 
-        if self.color:
-            list_of_points = [camera.transform(v).round() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, self.color, fill=self.color, z_index=self.true_z)
+        if self.color is not None:
+            self._image.draw_rect(Vector(0, 0), Vector(self.width, self.height), self.color, self.color)
 
-        if self.debug or Game.debug:
-            if not list_of_points:
-                list_of_points = [camera.transform(v).round() for v in self.real_verts()]
-            Draw.queue_poly(list_of_points, Color.cyan, 2 * Display.display_ratio.x)
+        self._debug_image.draw_rect(Vector(0, 0), Vector(self.width, self.height), Color.debug, None)
 
     def clone(self) -> Rectangle:
         return Rectangle(
@@ -599,7 +662,7 @@ class Rectangle(Hitbox):
             scale=self.scale,
             on_collide=self.on_collide,
             on_exit=self.on_exit,
-            color=self.color,
+            color=self._color,
             tag=self.tag,
             width=self.width,
             height=self.height,
@@ -623,9 +686,6 @@ class Circle(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
-
-    Attributes:
-        radius (int): The radius of the circle.
 
     Note:
         If color is unassigned, the circle will not be drawn. And will act like a circular hitbox.
@@ -657,7 +717,20 @@ class Circle(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self.radius = radius
+        self._radius = radius
+        r = int(self.radius * 2)
+        self._image = Surface(r, r)
+        self._debug_image = Surface(r, r)
+
+    @property
+    def radius(self) -> int | float:
+        """The radius of the circle."""
+        return self._radius
+
+    @radius.setter
+    def radius(self, value: int | float):
+        self._radius = value
+        self.up_to_date = False
 
     @property
     def center(self) -> Vector:
@@ -696,24 +769,17 @@ class Circle(Hitbox):
         r = self.transformed_radius()
         return (pt - self.gameobj.pos).mag_sq <= r * r
 
-    def draw(self, camera: Camera):
-        """Will draw the circle to the screen. Won't draw if color = None."""
-        if self.hidden:
-            return
+    def regenerate_image(self):
+        super().regenerate_image()
 
-        relative_pos: Vector = None
-        scaled_rad: float = 0
+        r = int(self.radius * 2)
+        if self._image.surf.w != r:
+            self._image = Surface(r, r)
+            self._debug_image = Surface(r, r)
 
-        if self.color:
-            relative_pos = camera.transform(self.pos)
-            scaled_rad = camera.scale(self.radius)
-            Draw.queue_circle(relative_pos, int(scaled_rad), self.color, fill=self.color, z_index=self.true_z)
-
-        if self.debug or Game.debug:
-            if not relative_pos:
-                relative_pos = camera.transform(self.pos)
-                scaled_rad = camera.scale(self.radius)
-            Draw.queue_circle(relative_pos, int(scaled_rad), Color.cyan, 2 * Display.display_ratio.x)
+        if self.color is not None:
+            self._image.draw_circle(Vector(self.radius, self.radius), int(self.radius), self.color, self.color)
+        self._debug_image.draw_circle(Vector(self.radius, self.radius), int(self.radius), Color.debug, None)
 
     def clone(self) -> Circle:
         return Circle(
@@ -724,7 +790,7 @@ class Circle(Hitbox):
             scale=self.scale,
             on_collide=self.on_collide,
             on_exit=self.on_exit,
-            color=self.color,
+            color=self._color,
             tag=self.tag,
             radius=self.radius,
             z_index=self.z_index,

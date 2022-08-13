@@ -77,9 +77,7 @@ class BaseImage(Component):
             self._go_rotation = self.gameobj.rotation
             self.surf.rotation = self.gameobj.rotation + self.rot_offset
 
-        Draw.queue_surf(
-            self.surf, camera.transform(self.gameobj.pos + self.offset - Vector(*self.surf.tx.size) / 2), self.true_z
-        )
+        Draw.queue_surf(self.surf, self.gameobj.pos + self.offset, self.true_z, camera)
 
     def delete(self):
         """Deletes the raster component"""

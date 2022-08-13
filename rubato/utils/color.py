@@ -427,6 +427,14 @@ class Color:
         """
         return Color(*Color._color_defaults["lime"])
 
+    @classmethod
+    @property
+    def debug(cls) -> Color:
+        """
+        The default debug color. Color(0, 255, 0)
+        """
+        return Color(0, 255, 0)
+
     def __str__(self):
         return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
 

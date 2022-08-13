@@ -9,7 +9,7 @@ import sdl2, sdl2.sdlgfx, sdl2.ext
 from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
-    from .. import Surf
+    from .. import Surf, Camera
 
 
 @cython.cclass
@@ -412,7 +412,7 @@ class Draw:
         Display.update(texture, pos, scale, angle)
 
     @classmethod
-    def queue_surf(cls, surf: Surf, pos: Vector = Vector(), z_index: int = 0):
+    def queue_surf(cls, surf: Surf, pos: Vector = Vector(), z_index: int = Math.INF, camera: Camera | None = None):
         """
         Draws an surf onto the renderer at the end of the frame.
 
@@ -420,21 +420,28 @@ class Draw:
             surf: The surf to draw.
             pos: The position to draw the surf at. Defaults to Vector(0, 0).
             z_index: The z-index of the surf. Defaults to 0.
+            camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.surf(surf, pos))
+        cls.push(z_index, lambda: cls.surf(surf, pos, camera))
 
     @staticmethod
-    def surf(surf: Surf, pos: Vector = Vector()):
+    def surf(surf: Surf, pos: Vector = Vector(), camera: Camera | None = None):
         """
         Draws an surf onto the renderer immediately.
 
         Args:
             surf: The surf to draw.
             pos: The position to draw the surf at. Defaults to Vector().
+            camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
         if not surf.surf:
             return
         if not surf.uptodate:
             surf.generate_tx()
+
+        if camera is None:
+            pos -= surf.get_size() / 2
+        else:
+            pos = camera.transform(pos - (surf.get_size() / 2))
 
         Draw.texture(surf.tx, pos, surf.scale, surf.rotation)

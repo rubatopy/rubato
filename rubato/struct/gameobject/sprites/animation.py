@@ -247,10 +247,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_surf(
-            self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
-            self.true_z
-        )
+        Draw.queue_surf(self.anim_frame, self.gameobj.pos + self.offset, self.true_z, camera)
 
     def anim_tick(self):
         """An animation processing tick."""
