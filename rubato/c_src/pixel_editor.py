@@ -109,8 +109,13 @@ class PixelEditor:
         void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
         ```
         """
-        vx: array.array = array.array('i', (int(p[0]) for p in points))
-        vy: array.array = array.array('i', (int(p[1] for p in points)))
+        vxt = []
+        vyt = []
+        for (x, y) in points:
+            vxt.append(x)
+            vyt.append(y)
+        vx: array.array = array.array('i', (*vxt,))
+        vy: array.array = array.array('i', (*vyt,))
         PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
 
     @staticmethod

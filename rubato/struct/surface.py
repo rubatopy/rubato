@@ -76,7 +76,8 @@ class Surface(Surf):
 
     def draw_rect(self, top_left: Vector, dims: Vector, color: Color = Color.black):
         """
-        Draws a rectangle border on the image.
+        Draws a rectangle on the image.
+
         Args:
             top_left: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
@@ -88,15 +89,49 @@ class Surface(Surf):
             self.surf.h,
             top_left.x,
             top_left.y,
-            dims.x - 2,
-            dims.y - 2,
+            dims.x,
+            dims.y,
             color.rgba32,
         )
 
         self.uptodate = False
 
     def draw_circle(self, center: Vector, radius: int, color: Color = Color.black):
-        pass
+        """
+        Draws a circle on the image.
+
+        Args:
+            center: The center of the circle.
+            radius: The radius of the circle.
+            color: The color of the circle. Defaults to black.
+        """
+        PixelEditor.draw_circle(
+            self.surf.pixels,
+            self.surf.w,
+            self.surf.h,
+            center.x,
+            center.y,
+            radius,
+            color.rgba32,
+        )
+        self.uptodate = False
+
+    def draw_poly(self, points: list[Vector | tuple[int, int]], color: Color = Color.black):
+        """
+        Draws a polygon on the image.
+
+        Args:
+            points: The points of the polygon.
+            color: The color of the polygon. Defaults to black.
+        """
+        PixelEditor.draw_poly(
+            self.surf.pixels,
+            self.surf.w,
+            self.surf.h,
+            points,
+            color.rgba32,
+        )
+        self.uptodate = False
 
     def get_size(self) -> Vector:
         """
