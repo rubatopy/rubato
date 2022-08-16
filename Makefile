@@ -50,6 +50,7 @@ docs-clear:
 build:
 	@python setup.py build_ext --inplace
 
+
 watch:
 	@bash ./watchBuild.sh
 
@@ -70,7 +71,6 @@ delete-c:
 
 delete-build: delete-bin delete-c
 	@rm -rf build
-
 
 pypi-build:
 	@rm -rf dist

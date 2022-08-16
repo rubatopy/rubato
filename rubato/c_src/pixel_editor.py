@@ -50,14 +50,17 @@ def get_pixel_safe(pixels: int, width: int, height: int, x: int, y: int):
     return PE.getPixelSafe(pixels, width, height, x, y)
 
 
-def draw_line(pixels: int, width: int, height: int, x1: int, y1: int, x2: int, y2: int, color: int):
+def draw_line(pixels: int, width: int, height: int, x1: int, y1: int, x2: int, y2: int, color: int, thickness: int = 1):
     """
     C Header:
     ```c
     void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color)
     ```
     """
-    PE.drawLine(pixels, width, height, x1, y1, x2, y2, color)
+    if thickness == 1:
+        PE.drawLine(pixels, width, height, x1, y1, x2, y2, color)
+    else:
+        PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, thickness)
 
 
 def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, thickness: int = 1):
@@ -83,14 +86,17 @@ def fill_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: 
     PE.fillCircle(pixels, width, height, xc, yc, radius, color)
 
 
-def draw_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: int, color: int):
+def draw_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: int, color: int, thickness: int = 1):
     """
     C Header:
     ```c
     void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color)
     ```
     """
-    PE.drawRect(pixels, width, height, x, y, w, h, color)
+    if thickness == 1:
+        PE.drawRect(pixels, width, height, x, y, w, h, color)
+    else:
+        PE.drawRect(pixels, width, height, x, y, w, h, color, thickness)
 
 
 def fill_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: int, color: int):
@@ -103,7 +109,7 @@ def fill_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: i
     PE.fillRect(pixels, width, height, x, y, w, h, color)
 
 
-def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color: int):
+def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color: int, thickness: int = 1):
     """
     Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
     by this function.
@@ -121,7 +127,7 @@ def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color:
         vyt.append(y)
     vx: array.array = array.array('i', vxt)
     vy: array.array = array.array('i', vyt)
-    PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
+    PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color, thickness)
 
 
 def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int):
