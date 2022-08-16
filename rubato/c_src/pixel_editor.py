@@ -123,13 +123,7 @@ def fill_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: i
 
 
 def draw_poly(
-    pixels: int,
-    width: int,
-    height: int,
-    points: list[Vector],
-    color: int,
-    thickness: int = 1,
-    aa: bool = False
+    pixels: int, width: int, height: int, points: list[Vector], color: int, thickness: int = 1, aa: bool = False
 ):
     """
     Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
@@ -186,8 +180,14 @@ def clear_pixels(pixels: int, width: int, height: int):
     """
     PE.clearPixels(pixels, width, height)
 
+
 import math
-def draw_antialiased_circle(pixels: int, width: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int, thickness: int = 1):
+
+
+def draw_antialiased_circle(
+    pixels: int, width: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int, thickness: int = 1
+):
+    # TODO move to c
     def _draw_point(x: int, y: int, alpha: int):
         set_pixel(pixels, width, xc + x, yc + y, color & 0xFFFFFF00 | alpha)
         set_pixel(pixels, width, xc + x, yc - y, color & 0xFFFFFF00 | alpha)

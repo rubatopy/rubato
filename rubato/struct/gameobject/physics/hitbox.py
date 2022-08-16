@@ -291,7 +291,7 @@ class Polygon(Hitbox):
         verts = [v + self.radius for v in self.verts]
 
         if self.color is not None:
-            self._image.draw_poly(verts, fill=self.color)
+            self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
     @classmethod

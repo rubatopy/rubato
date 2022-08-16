@@ -63,5 +63,10 @@
     "C_Cpp.vcFormat.newLine.beforeOpenBrace.namespace": "sameLine",
     "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "sameLine",
     "C_Cpp.vcFormat.space.afterCastCloseParenthesis": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "todo-tree.tree.showBadges": true,
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules",
+        "**/static"
+    ]
 }
