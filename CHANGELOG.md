@@ -27,6 +27,7 @@
 -   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
 -   Default drawing/debug colors from green to cyan.
 -   Made rendering of images faster
+-   `Color.rgba32` is no longer a property is a method instead.
 
 ### Removed
 

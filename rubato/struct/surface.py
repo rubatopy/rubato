@@ -50,7 +50,7 @@ class Surface(Surf):
             color: The color of the point. Defaults to black.
         """
         x, y = pos.tuple_int()
-        PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32)
+        PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32())
         self.uptodate = False
 
     def draw_line(self, start: Vector, end: Vector, color: Color = Color.black):
@@ -73,7 +73,7 @@ class Surface(Surf):
             sy,
             ex,
             ey,
-            color.rgba32,
+            color.rgba32(),
         )
         self.uptodate = False
 
@@ -98,7 +98,7 @@ class Surface(Surf):
                 y,
                 w,
                 h,
-                fill.rgba32,
+                fill.rgba32(),
             )
 
         if border is not None:
@@ -110,7 +110,7 @@ class Surface(Surf):
                 y,
                 w,
                 h,
-                border.rgba32,
+                border.rgba32(),
             )
         self.uptodate = False
 
@@ -133,7 +133,7 @@ class Surface(Surf):
                 x,
                 y,
                 radius,
-                fill.rgba32,
+                fill.rgba32(),
             )
 
         if border is not None:
@@ -144,7 +144,7 @@ class Surface(Surf):
                 x,
                 y,
                 radius,
-                border.rgba32,
+                border.rgba32(),
             )
         self.uptodate = False
 
@@ -163,7 +163,7 @@ class Surface(Surf):
                 self.surf.w,
                 self.surf.h,
                 points,
-                border.rgba32,
+                border.rgba32(),
             )
 
         if border is not None:
@@ -172,7 +172,7 @@ class Surface(Surf):
                 self.surf.w,
                 self.surf.h,
                 points,
-                border.rgba32,
+                border.rgba32(),
             )
         self.uptodate = False
 

@@ -29,7 +29,7 @@ This demo will show how to change specific image pixels.
         for x in range(pixels.shape[0]):
             for y in range(pixels.shape[1]):
                 random.shuffle((new := list(rb.Color.color_defaults.values())))
-                pixels[x][y] = rb.Color(*(new[0])).rgba32
+                pixels[x][y] = rb.Color(*(new[0])).rgba32()
         return surf
 
     image.image = draw_on(image.image)
