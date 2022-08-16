@@ -9,8 +9,8 @@ inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
     uint32_t a_mask = 0x000000FF;
 
     int off = y * width + x;
-    uint32_t src = (uint32_t)color;
-    uint32_t* pixels = (uint32_t*)_pixels;
+    uint32_t src = (uint32_t) color;
+    uint32_t* pixels = (uint32_t*) _pixels;
     uint8_t src_a = src & a_mask;
 
     if (src_a == 0xFF) {
@@ -43,7 +43,7 @@ inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, si
 
 // Gets the pixel at x, y from the surface and returns it as an int.
 inline int getPixel(size_t _pixels, int width, int x, int y) {
-    return (int)((uint32_t*)_pixels)[y * width + x];
+    return (int) ((uint32_t*) _pixels)[y * width + x];
 }
 
 // Gets the pixel but returns 0 if the pixel is outside the surface.
@@ -78,6 +78,69 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
         if (e2 < dx) {
             err += dx;
             y1 += sy;
+        }
+    }
+}
+
+inline float fpart(float x) {
+    return x - floor(x);
+}
+
+inline float rfpart(float x) {
+    return 1 - fpart(x);
+}
+
+// Draws an antialiased line from (x1, y1) to (x2, y2) with the specified color.
+inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color) {
+    uint32_t color_u = (uint32_t) color;
+    uint32_t colorRGB = color_u & 0xFFFFFF00;
+    uint8_t colorA = color_u & 0x000000FF;
+
+    bool steep = abs(y1 - y0) > abs(x1 - x0);
+    if (steep) {
+        int temp = x0;
+        x0 = y0;
+        y0 = temp;
+        temp = x1;
+        x1 = y1;
+        y1 = temp;
+    }
+    if (x0 > x1) {
+        int temp = x0;
+        x0 = x1;
+        x1 = temp;
+        temp = y0;
+        y0 = y1;
+        y1 = temp;
+    }
+
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    float gradient = 1;
+    if (dx != 0) {
+        gradient = (float) dy / (float) dx;
+    }
+
+    float intery = y0 + gradient;
+
+    if (steep) {
+        setPixelSafe(_pixels, width, height, y0, x0, color);
+        setPixelSafe(_pixels, width, height, y1, x1, color);
+
+        for (int x = x0 + 1; x < x1; x++) {
+            setPixelSafe(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA));
+            setPixelSafe(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA));
+            intery += gradient;
+        }
+    } else {
+        setPixelSafe(_pixels, width, height, x0, y0, color);
+        setPixelSafe(_pixels, width, height, x1, y1, color);
+
+        for (int x = x0 + 1; x < x1; x++) {
+            setPixelSafe(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA));
+            setPixelSafe(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA));
+            intery += gradient;
         }
     }
 }
@@ -192,19 +255,28 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
 
 // Fill a polygon with the specified color.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, int thickness = 1) {
-    int* v_x = (int*)vx;
-    int* v_y = (int*)vy;
+    int* v_x = (int*) vx;
+    int* v_y = (int*) vy;
     for (int i = 0; i < len; i++) {
         drawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, thickness);
     }
 }
 
+// Fill an antialiased polygon with the specified color.
+inline void aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
+    int* v_x = (int*) vx;
+    int* v_y = (int*) vy;
+    for (int i = 0; i < len; i++) {
+        aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color);
+    }
+}
+
 // Fill a polygon with the specified color.
 inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
-    int* v_x = (int*)vx;
-    int* v_y = (int*)vy;
-    int* v_x_min = (int*)malloc(sizeof(int) * height); // max height
-    int* v_x_max = (int*)malloc(sizeof(int) * height); // max height
+    int* v_x = (int*) vx;
+    int* v_y = (int*) vy;
+    int* v_x_min = (int*) malloc(sizeof(int) * height); // max height
+    int* v_x_max = (int*) malloc(sizeof(int) * height); // max height
 
     for (int i = 0; i < height; i++) {
         v_x_min[i] = width + 1;
@@ -304,5 +376,5 @@ inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w,
 }
 
 inline void clearPixels(size_t _pixels, int width, int height) {
-    memset((size_t*)_pixels, 0, width * height * 4);
+    memset((size_t*) _pixels, 0, width * height * 4);
 }
