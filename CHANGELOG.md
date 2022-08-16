@@ -20,6 +20,8 @@
 -   Assorted `Input` methods for querying the state of a controller.
 -   `Raster` renamed to `Surface`.
 -   `Raster` is now a component that holds a surface. It is analogous to `Image` for `Sprite`s.
+-   Polygon filling algorithm for convex shapes
+-   Line and circle/filling algorithms.
 
 ### Changed
 
@@ -33,7 +35,7 @@
 
 -   `Game.name`, which did not do anything... yikes.
 -   `Image.surface` is not accessible anymore.
--   `flipx` and `flipy` are no longer available. Instead set the scale to be negative.
+-   `flipx` and `flipy` are no longer available. Instead, set the scale to be negative.
 -   `Vector.to_int()`. Use `Vector.floor()` or `Vector.round()` instead.
 
 ### Fixed

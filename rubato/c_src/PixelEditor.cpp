@@ -77,17 +77,48 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     int E = -x;
     while (x >= y) {
         setPixelSafe(_pixels, width, height, xc + x, yc + y, color);
+        setPixelSafe(_pixels, width, height, xc - x, yc - y, color);
         setPixelSafe(_pixels, width, height, xc + y, yc + x, color);
         setPixelSafe(_pixels, width, height, xc - y, yc + x, color);
-        setPixelSafe(_pixels, width, height, xc - x, yc + y, color);
-        setPixelSafe(_pixels, width, height, xc - x, yc - y, color);
-        setPixelSafe(_pixels, width, height, xc - y, yc - x, color);
-        setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
         setPixelSafe(_pixels, width, height, xc + x, yc - y, color);
+        setPixelSafe(_pixels, width, height, xc - x, yc + y, color);
+        setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
+        setPixelSafe(_pixels, width, height, xc - y, yc - x, color);
 
         E += 2 * (y++) + 1;
         if (E >= 0) {
             E -= 2 * (x--) + 1;
+        }
+    }
+}
+
+inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, int thickness) {
+    int xSmall = radius - thickness;
+    int ySmall = 0;
+    int E = -xSmall;
+    int xLarge = radius + thickness;
+    int yLarge = 0;
+    int * xMinSmall = (int *) malloc(sizeof(int) * height);
+    int * xMaxSmall = (int *) malloc(sizeof(int) * height);
+    int * xMinLarge = (int *) malloc(sizeof(int) * height);
+    int * xMaxLarge = (int *) malloc(sizeof(int) * height);
+    while (xSmall >= ySmall) {
+        setPixelSafe(_pixels, width, height, xc + xSmall, yc + ySmall, color);
+        setPixelSafe(_pixels, width, height, xc - xSmall, yc - ySmall, color);
+        setPixelSafe(_pixels, width, height, xc + ySmall, yc + xSmall, color);
+        setPixelSafe(_pixels, width, height, xc - ySmall, yc + xSmall, color);
+        setPixelSafe(_pixels, width, height, xc + xSmall, yc - ySmall, color);
+        setPixelSafe(_pixels, width, height, xc - xSmall, yc + ySmall, color);
+        setPixelSafe(_pixels, width, height, xc + ySmall, yc - xSmall, color);
+        setPixelSafe(_pixels, width, height, xc - ySmall, yc - xSmall, color);
+
+
+
+        E += 2 * (ySmall++) + 1;
+        yLarge++
+        if (E >= 0) {
+            E -= 2 * (xSmall--) + 1;
+            xLarge--;
         }
     }
 }

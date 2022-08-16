@@ -60,14 +60,17 @@ def draw_line(pixels: int, width: int, height: int, x1: int, y1: int, x2: int, y
     PE.drawLine(pixels, width, height, x1, y1, x2, y2, color)
 
 
-def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int):
+def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, thickness: int = 1):
     """
     C Header:
     ```c
     void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color)
     ```
     """
-    PE.drawCircle(pixels, width, height, xc, yc, radius, color)
+    if thickness == 1:
+        PE.drawCircle(pixels, width, height, xc, yc, radius, color)
+    else:
+        PE.drawCircle(pixels, width, height, xc, yc, radius, color, thickness)
 
 
 def fill_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int):
