@@ -161,3 +161,41 @@ def clear_pixels(pixels: int, width: int, height: int):
     ```
     """
     PE.clearPixels(pixels, width, height)
+
+import math
+def draw_antialiased_circle(pixels: int, width: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int, thickness: int = 1):
+    def _draw_point(x: int, y: int, alpha: int):
+        set_pixel(pixels, width, xc + x, yc + y, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc + x, yc - y, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc - x, yc + y, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc - x, yc - y, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc - y, yc - x, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc - y, yc + x, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc + y, yc - x, color & 0xFFFFFF00 | alpha)
+        set_pixel(pixels, width, xc + y, yc + x, color & 0xFFFFFF00 | alpha)
+
+    i = 0
+    j = outer_radius
+    last_fade_amount = 0
+    fade_amount = 0
+
+    MAX_OPAQUE = base_aa
+
+    while i < j:
+        height = math.sqrt(max(outer_radius * outer_radius - i * i, 0))
+        fade_amount = MAX_OPAQUE * (math.ceil(height) - height)
+
+        if fade_amount < last_fade_amount:
+            # Opaqueness reset so drop down a row.
+            j -= 1
+        last_fade_amount = fade_amount
+
+        # The API needs integers, so convert here now we've checked if
+        # it dropped.
+        fade_amount_i = int(fade_amount)
+
+        # We're fading out the current j row, and fading in the next one down.
+        _draw_point(i, j, int(MAX_OPAQUE) - fade_amount_i)
+        _draw_point(i, j - 1, fade_amount_i)
+
+        i += 1
