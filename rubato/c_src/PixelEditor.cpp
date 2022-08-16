@@ -109,17 +109,65 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     int E = -x;
     while (x >= y) {
         setPixelSafe(_pixels, width, height, xc + x, yc + y, color);
+        setPixelSafe(_pixels, width, height, xc - x, yc - y, color);
         setPixelSafe(_pixels, width, height, xc + y, yc + x, color);
         setPixelSafe(_pixels, width, height, xc - y, yc + x, color);
-        setPixelSafe(_pixels, width, height, xc - x, yc + y, color);
-        setPixelSafe(_pixels, width, height, xc - x, yc - y, color);
-        setPixelSafe(_pixels, width, height, xc - y, yc - x, color);
-        setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
         setPixelSafe(_pixels, width, height, xc + x, yc - y, color);
+        setPixelSafe(_pixels, width, height, xc - x, yc + y, color);
+        setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
+        setPixelSafe(_pixels, width, height, xc - y, yc - x, color);
 
         E += 2 * (y++) + 1;
         if (E >= 0) {
             E -= 2 * (x--) + 1;
+        }
+    }
+}
+
+inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, int thickness) {
+    int inner, outer;
+    if (thickness % 2 == 0){
+        outer = radius + (thickness / 2) - 1;
+        inner = radius - (thickness / 2);
+    }
+    else {
+        outer = radius + (thickness / 2);
+        inner = radius - (thickness / 2);
+    }
+    int xo = outer;
+    int xi = inner;
+    int y = 0;
+    int erro = 1 - xo;
+    int erri = 1 - xi;
+
+    while(xo >= y) {
+        drawLine(_pixels, width, height, xc + xi, yc + y, xc + xo, yc + y, color);
+        drawLine(_pixels, width, height, xc + y, yc + xi, xc + y, yc + xo, color);
+        drawLine(_pixels, width, height, xc - xo, yc + y, xc - xi, yc + y, color);
+        drawLine(_pixels, width, height, xc - y, yc + xi, xc - y, yc + xo, color);
+        drawLine(_pixels, width, height, xc - xo, yc - y, xc - xi, yc - y, color);
+        drawLine(_pixels, width, height, xc - y, yc - xo, xc - y, yc - xi, color);
+        drawLine(_pixels, width, height, xc + xi, yc - y, xc + xo, yc - y, color);
+        drawLine(_pixels, width, height, xc + y, yc - xo, xc + y, yc - xi, color);
+
+        y++;
+
+        if (erro < 0) {
+            erro += 2 * y + 1;
+        } else {
+            xo--;
+            erro += 2 * (y - xo + 1);
+        }
+
+        if (y > inner) {
+            xi = y;
+        } else {
+            if (erri < 0) {
+                erri += 2 * y + 1;
+            } else {
+                xi--;
+                erri += 2 * (y - xi + 1);
+            }
         }
     }
 }
@@ -152,11 +200,66 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 }
 
 // Fill a polygon with the specified color.
-inline void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
-    // int* v_x = (int*) vx;
-    // int* v_y = (int*) vy;
+inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
+    int* v_x = (int*) vx;
+	int* v_y = (int*) vy;
+	int* v_x_min = (int*) malloc(sizeof(int) * height); // max height
+	int* v_x_max = (int*) malloc(sizeof(int) * height); // max height
 
-    // yamm i literally dont know how to get this to work please help me im begging you
+	for (int i = 0; i < height; i++) {
+        v_x_min[i] = width+1;
+        v_x_max[i] = -1;
+    }
+
+
+    // line algo
+    for (int i = 0; i < len; i++){
+        int x1 = v_x[i], y1 = v_y[i], x2 = v_x[(i+1) % len], y2 = v_y[(i+1) % len];
+        bool x_l = x1 < x2;
+        bool y_l = y1 < y2;
+
+        int dx = x_l ? x2 - x1 : x1 - x2;
+        int dy = y_l ? y2 - y1 : y1 - y2;
+        int sx = x_l ? 1 : -1;
+        int sy = y_l ? 1 : -1;
+
+        int err = dx - dy;
+        while (true) {
+
+            // logic for min and max
+            if (x1 < v_x_min[y1]) {
+                v_x_min[y1] = x1;
+            }
+            if (x1 > v_x_max[y1]) {
+                v_x_max[y1] = x1;
+            }
+            // end
+
+
+            if (x1 == x2 && y1 == y2) {
+                break;
+            }
+            int e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x1 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y1 += sy;
+            }
+        }
+    }
+
+    // draw lines across to fill
+    for (int i = 0; i < height; i++) {
+        if (v_x_max[i] == -1) {
+            continue;
+        }
+        drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color);
+    }
+    free(v_x_min);
+    free(v_x_max);
 }
 
 // Draw a rectangle with the specified color.

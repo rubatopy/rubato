@@ -2,15 +2,20 @@
 import rubato as rb
 from rubato import Vector as V
 import sdl2, sdl2.ext
+from rubato.c_src import pixel_editor as pe
 
-rb.init(res=V(32, 32), window_size=V(32, 32) * 20)
+
+width, height = 32, 32
+
+rb.init(res=V(width, height), window_size=V(width, height) * 20)
 s = rb.Scene()
 
-img = rb.Surface(32, 32)
+img = rb.Surface(width, height)
 
 sdl2.ext.fill(img.surf, sdl2.ext.Color(0, 0, 0))
 
 img.clear()
+
 img.draw_rect(V(1, 1), V(30, 30), rb.Color.purple, 3, rb.Color.green)
 img.draw_rect(V(0, 0), V(32, 32), rb.Color.red)
 img.draw_circle(V(16, 16), 7, rb.Color.red, rb.Color.yellow)
@@ -20,9 +25,14 @@ img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], rb.Color.gray, 3)
 img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], rb.Color.blue)
 img.draw_rect(V(2, 2), V(18, 12), fill=rb.Color(0, 0, 256, 64))
 
-print(img.get_pixel(V(4, 4)))
-print(img.get_pixel_tuple(V(0, 0)))
-print(rb.Color.red)
+# print(img.get_pixel(V(4, 4)))
+# print(img.get_pixel_tuple(V(0, 0)))
+# print(rb.Color.red)
+
+polygon = rb.Polygon([V(0, 16), V(31, 16), V(16, 0)], rb.Color.gray)
+pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.red.rgba32(), 4)
+pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.green.rgba32())
+pe.draw_line(img.surf.pixels, width, height, 15,15, 15+10, 15, rb.Color.blue.rgba32())
 
 
 def update():

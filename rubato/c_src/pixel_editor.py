@@ -63,14 +63,17 @@ def draw_line(pixels: int, width: int, height: int, x1: int, y1: int, x2: int, y
         PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, thickness)
 
 
-def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int):
+def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, thickness: int = 1):
     """
     C Header:
     ```c
     void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color)
     ```
     """
-    PE.drawCircle(pixels, width, height, xc, yc, radius, color)
+    if thickness == 1:
+        PE.drawCircle(pixels, width, height, xc, yc, radius, color)
+    else:
+        PE.drawCircle(pixels, width, height, xc, yc, radius, color, thickness)
 
 
 def fill_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int):
@@ -136,6 +139,8 @@ def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color:
     ```c
     void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
     ```
+    Warning:
+        This only works for convex polygons. (for now)
     """
     vxt = []
     vyt = []
@@ -145,7 +150,7 @@ def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color:
         vyt.append(y)
     vx: array.array = array.array('i', vxt)
     vy: array.array = array.array('i', vyt)
-    PE.fillPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
+    PE.fillPolyConvex(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
 
 
 def clear_pixels(pixels: int, width: int, height: int):
