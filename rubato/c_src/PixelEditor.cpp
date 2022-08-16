@@ -98,8 +98,8 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
  * @param x1 The x-coordinate of the second point.
  * @param y1 The y-coordinate of the second point.
  * @param color The color of the line.
- * @param top Whether the top part of the aa line should be drawn.
- * @param bottom Whether the bottom part of the aa line should be drawn.
+ * @param top Whether the top part of the aa line should be drawn. (or the left side if vertical)
+ * @param bottom Whether the bottom part of the aa line should be drawn. (or the right side if vertical)
 */
 inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color, bool top = true, bool bottom = true) {
     auto fpart = [](float x) { return (float) (x - floor(x)); };
@@ -141,20 +141,24 @@ inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, in
         setPixelSafe(_pixels, width, height, y0, x0, color);
         setPixelSafe(_pixels, width, height, y1, x1, color);
 
-        bool removeTop = !top && gradient < 0;
+        bool drawLeft = (gradient > 0 && top) || (gradient < 0 && bottom);
+        bool drawRight = (gradient > 0 && bottom) || (gradient < 0 && top);
 
         for (int x = x0 + 1; x < x1; x++) {
-            setPixelSafe(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA)); // left pixel
-            setPixelSafe(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA)); // right pixel
+            if (drawLeft) setPixelSafe(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA)); // left pixel
+            if (drawRight) setPixelSafe(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA)); // right pixel
             intery += gradient;
         }
     } else {
         setPixelSafe(_pixels, width, height, x0, y0, color);
         setPixelSafe(_pixels, width, height, x1, y1, color);
 
+        bool drawTop = (gradient > 0 && top) || (gradient < 0 && bottom);
+        bool drawBottom = (gradient > 0 && bottom) || (gradient < 0 && top);
+
         for (int x = x0 + 1; x < x1; x++) {
-            setPixelSafe(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA)); // top pixel
-            setPixelSafe(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA)); // bottom pixel
+            if (drawTop) setPixelSafe(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA)); // top pixel
+            if (drawBottom) setPixelSafe(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA)); // bottom pixel
             intery += gradient;
         }
     }
@@ -281,8 +285,40 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 inline void aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
+
+    int cy = 0;
+    int cx = 0;
     for (int i = 0; i < len; i++) {
-        aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color);
+        cx += v_x[i];
+        cy += v_y[i];
+    }
+    cx /= len;
+    cy /= len;
+
+    for (int i = 0; i < len; i++) {
+        bool top, bottom;
+        double dx = v_x[(i + 1) % len] - v_x[i];
+        double slope;
+        if (dx == 0) {
+            if (v_x[i] < cx) {
+                top = true;
+                bottom = false;
+            } else {
+                top = false;
+                bottom = true;
+            }
+        } else {
+            slope = (double) (v_y[(i + 1) % len] - v_y[i]) / (double) (v_x[(i + 1) % len] - v_x[i]);
+            if (v_x[i] < cx) {
+                top = (slope > 0);
+                bottom = (slope < 0);
+            } else {
+                top = (slope < 0);
+                bottom = (slope > 0);
+            }
+        }
+
+        aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, top, bottom);
     }
 }
 
