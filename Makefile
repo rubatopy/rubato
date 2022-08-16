@@ -28,7 +28,7 @@ lint:
 	@echo "Linting Code"
 	@pylint rubato
 
-demos:
+demos: build
 	@cd demo && ./_run_all.sh
 
 SPHINXBUILD   ?= sphinx

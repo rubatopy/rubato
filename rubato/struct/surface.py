@@ -115,7 +115,14 @@ class Surface(Surf):
             )
         self.uptodate = False
 
-    def draw_circle(self, center: Vector, radius: int, border: Color | None = None, fill: Color | None = None):
+    def draw_circle(
+        self,
+        center: Vector,
+        radius: int,
+        border: Color | None = None,
+        border_thickness: int = 1,
+        fill: Color | None = None
+    ):
         """
         Draws a circle on the image.
 
@@ -139,13 +146,7 @@ class Surface(Surf):
 
         if border is not None:
             PixelEditor.draw_circle(
-                self.surf.pixels,
-                self.surf.w,
-                self.surf.h,
-                x,
-                y,
-                radius,
-                border.rgba32(),
+                self.surf.pixels, self.surf.w, self.surf.h, x, y, radius, border.rgba32(), border_thickness
             )
         self.uptodate = False
 
@@ -172,7 +173,7 @@ class Surface(Surf):
                 self.surf.w,
                 self.surf.h,
                 points,
-                border.rgba32(),
+                fill.rgba32(),
             )
 
         if border is not None:

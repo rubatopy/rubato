@@ -291,9 +291,8 @@ class Polygon(Hitbox):
         verts = [v + self.radius for v in self.verts]
 
         if self.color is not None:
-            self._image.draw_poly(verts, self.color)
-            # TODO add fill poly
-        self._debug_image.draw_poly(verts, Color.debug)
+            self._image.draw_poly(verts, fill=self.color)
+        self._debug_image.draw_poly(verts, Color.debug, 2)
 
     @classmethod
     def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
@@ -650,9 +649,9 @@ class Rectangle(Hitbox):
             self._debug_image = Surface(self.width, self.height)
 
         if self.color is not None:
-            self._image.draw_rect(Vector(0, 0), Vector(self.width, self.height), self.color, self.color)
+            self._image.draw_rect(Vector(0, 0), Vector(self.width, self.height), fill=self.color)
 
-        self._debug_image.draw_rect(Vector(0, 0), Vector(self.width, self.height), Color.debug, None)
+        self._debug_image.draw_rect(Vector(0, 0), Vector(self.width, self.height), Color.debug, 2)
 
     def clone(self) -> Rectangle:
         return Rectangle(
@@ -779,8 +778,8 @@ class Circle(Hitbox):
             self._debug_image = Surface(r, r)
 
         if self.color is not None:
-            self._image.draw_circle(Vector(self.radius, self.radius), int(self.radius), self.color, self.color)
-        self._debug_image.draw_circle(Vector(self.radius, self.radius), int(self.radius), Color.debug, None)
+            self._image.draw_circle(Vector(self.radius, self.radius), int(self.radius), fill=self.color)
+        self._debug_image.draw_circle(Vector(self.radius, self.radius), int(self.radius), Color.debug, 2)
 
     def clone(self) -> Circle:
         return Circle(
