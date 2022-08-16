@@ -158,7 +158,9 @@ class Surface(Surf):
             )
         self.uptodate = False
 
-    def draw_poly(self, points: list[Vector], border: Color | None = None, fill: Color | None = None):
+    def draw_poly(
+        self, points: list[Vector], border: Color | None = None, border_thickness: int = 1, fill: Color | None = None
+    ):
         """
         Draws a polygon on the image.
 
@@ -183,6 +185,7 @@ class Surface(Surf):
                 self.surf.h,
                 points,
                 border.rgba32(),
+                border_thickness,
             )
         self.uptodate = False
 

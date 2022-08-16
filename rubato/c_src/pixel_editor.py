@@ -106,7 +106,7 @@ def fill_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: i
     PE.fillRect(pixels, width, height, x, y, w, h, color)
 
 
-def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color: int):
+def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color: int, thickness: int = 1):
     """
     Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
     by this function.
@@ -124,7 +124,7 @@ def draw_poly(pixels: int, width: int, height: int, points: list[Vector], color:
         vyt.append(y)
     vx: array.array = array.array('i', vxt)
     vy: array.array = array.array('i', vyt)
-    PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
+    PE.drawPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color, thickness)
 
 
 def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int):
