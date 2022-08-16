@@ -1,4 +1,4 @@
-"""A place to test new WIP features"""  # pylint: disable=all
+"""A file to test all events"""  # pylint: disable=all
 import rubato as rb
 
 rb.init()
