@@ -4,22 +4,31 @@
 
 // Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
+	uint32_t a_mask = 0x000000FF;
+
 	int off = y*width + x;
-	uint32_t finish = (uint32_t) color;
+	uint32_t src = (uint32_t) color;
 	uint32_t* pixels = (uint32_t*) _pixels;
-	uint8_t alpha = finish & 0x000000FF;
-	if (alpha == 0xFF) {
-		pixels[off] = finish;
+	uint8_t src_a = src & a_mask;
+
+	if (src_a == 0xFF) {
+		pixels[off] = src;
 	} else {
-		uint32_t old = pixels[off] >> 8;
-		uint32_t fin = finish >> 8;
+		uint32_t r_mask = 0xFF000000;
+		uint32_t g_mask = 0x00FF0000;
+		uint32_t b_mask = 0x0000FF00;
 
-		uint32_t rb1 = ((0x100 - alpha) * (old & 0xFF00FF)) >> 8;
-		uint32_t rb2 = (alpha * (fin & 0xFF00FF)) >> 8;
-		uint32_t g1  = ((0x100 - alpha) * (old & 0x00FF00)) >> 8;
-		uint32_t g2  = (alpha * (fin & 0x00FF00)) >> 8;
+		uint32_t dest = pixels[off];
+		uint8_t dest_a = pixels[off] & a_mask;
+		uint8_t one_minus = 0xFF - src_a;
 
-		pixels[off] = ((((rb1 | rb2) & 0xFF00FF) + ((g1 | g2) & 0x00FF00)) << 8) + 0xFF;
+		uint8_t red = ((((src & r_mask) >> 24) * src_a) >> 8) | ((((dest & r_mask) >> 24) * one_minus) >> 8);
+		uint8_t green = ((((src & g_mask) >> 16) * src_a) >> 8) | ((((dest & g_mask) >> 16) * one_minus) >> 8);
+		uint8_t blue = ((((src & b_mask) >> 8) * src_a) >> 8) | ((((dest & b_mask) >> 8) * one_minus) >> 8);
+
+		uint8_t alpha = src_a | ((dest_a * one_minus) >> 8);
+
+		pixels[off] = (red << 24) | (green << 16) | (blue << 8) | alpha;
 	}
 }
 
@@ -69,6 +78,10 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
 			y1 += sy;
 		}
 	}
+}
+
+inline void aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color) {
+	
 }
 
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
@@ -148,5 +161,5 @@ inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w,
 }
 
 inline void clearPixels(size_t _pixels, int width, int height) {
-	memset((size_t*) _pixels, 0xFF, width * height * 4);
+	memset((size_t*) _pixels, 0, width * height * 4);
 }
