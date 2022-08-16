@@ -27,7 +27,9 @@ img.clear()
 
 polygon = rb.Polygon([V(0, 16), V(31, 16), V(16, 0)], rb.Color.gray)
 from rubato.c_src import pixel_editor as pe
-pe.fill_poly(img.surf.pixels, width, height, polygon.verts, rb.Color.red.rgba32())
+pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.red.rgba32(), 4)
+pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.green.rgba32())
+pe.draw_line(img.surf.pixels, width, height, 15,15, 15+10, 15, rb.Color.blue.rgba32())
 
 
 def update():
