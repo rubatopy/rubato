@@ -2,6 +2,8 @@
 import rubato as rb
 from rubato import Vector as V
 import sdl2, sdl2.ext
+from rubato.c_src import pixel_editor as pe
+
 
 width, height = 32, 32
 
@@ -28,7 +30,6 @@ img.draw_rect(V(2, 2), V(18, 12), fill=rb.Color(0, 0, 256, 64))
 # print(rb.Color.red)
 
 polygon = rb.Polygon([V(0, 16), V(31, 16), V(16, 0)], rb.Color.gray)
-from rubato.c_src import pixel_editor as pe
 pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.red.rgba32(), 4)
 pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.green.rgba32())
 pe.draw_line(img.surf.pixels, width, height, 15,15, 15+10, 15, rb.Color.blue.rgba32())
