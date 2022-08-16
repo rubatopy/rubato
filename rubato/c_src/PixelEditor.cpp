@@ -119,11 +119,64 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 }
 
 // Fill a polygon with the specified color.
-inline void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
-	//int* v_x = (int*) vx;
-	//int* v_y = (int*) vy;
+inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
+    int* v_x = (int*) vx;
+	int* v_y = (int*) vy;
+	int* v_x_min = (int*) malloc(sizeof(int) * height); // max height
+	int* v_x_max = (int*) malloc(sizeof(int) * height); // max height
 
-	// yamm i literally dont know how to get this to work please help me im begging you
+	for (int i = 0; i < height; i++) {
+        v_x_min[i] = width+1;
+        v_x_max[i] = -1;
+    }
+
+
+    // line algo
+    for (int i = 0; i < len; i++){
+        int x1 = v_x[i], y1 = v_y[i], x2 = v_x[(i+1) % len], y2 = v_y[(i+1) % len];
+        bool x_l = x1 < x2;
+        bool y_l = y1 < y2;
+
+        int dx = x_l ? x2 - x1 : x1 - x2;
+        int dy = y_l ? y2 - y1 : y1 - y2;
+        int sx = x_l ? 1 : -1;
+        int sy = y_l ? 1 : -1;
+
+        int err = dx - dy;
+        while (true) {
+
+            // logic for min and max
+            if (x1 < v_x_min[y1]) {
+                v_x_min[y1] = x1;
+            }
+            if (x1 > v_x_max[y1]) {
+                v_x_max[y1] = x1;
+            }
+            // end
+
+
+            if (x1 == x2 && y1 == y2) {
+                break;
+            }
+            int e2 = 2 * err;
+            if (e2 > -dy) {
+                err -= dy;
+                x1 += sx;
+            }
+            if (e2 < dx) {
+                err += dx;
+                y1 += sy;
+            }
+        }
+    }
+
+    // draw lines across to fill
+    for (int i = 0; i < height; i++) {
+        if (v_x_max[i] == -1) {
+            continue;
+        }
+        drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color);
+    }
 }
 
 // Draw a rectangle with the specified color.

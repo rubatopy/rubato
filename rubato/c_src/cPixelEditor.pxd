@@ -11,6 +11,6 @@ cdef extern from "PixelEditor.cpp":
     void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color)
     void fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color)
     void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
-    void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
+    void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
 
     void clearPixels(size_t _pixels, int width, int height)

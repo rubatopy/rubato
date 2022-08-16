@@ -130,6 +130,8 @@ def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color:
     ```c
     void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
     ```
+    Warning:
+        This only works for convex polygons. (for now)
     """
     vxt = []
     vyt = []
@@ -139,7 +141,7 @@ def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color:
         vyt.append(y)
     vx: array.array = array.array('i', vxt)
     vy: array.array = array.array('i', vyt)
-    PE.fillPoly(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
+    PE.fillPolyConvex(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color)
 
 
 def clear_pixels(pixels: int, width: int, height: int):
