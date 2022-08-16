@@ -8,17 +8,19 @@ COLUMN_LIMIT = 120
 DEDENT_CLOSING_BRACKETS = true
 
 [tool.coverage.run]
-omit=[
-    "rubato/tests/*",
-    "rubato/static/*",
-    "rubato/__pyinstaller/*",
-]
+plugins = ["Cython.Coverage"]
 
 [tool.coverage.report]
+show_missing = true
 exclude_lines=[
     "if TYPE_CHECKING:",
     "if sys.platform",
     "# test: skip",
+]
+omit=[
+    "rubato/tests/*",
+    "rubato/static/*",
+    "rubato/__pyinstaller/*",
 ]
 
 [tool.pytest.ini_options]

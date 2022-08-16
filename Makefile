@@ -3,22 +3,25 @@
 
 all: test lint demos
 
-test: build
+build-test:
+	@python setup.py build_ext --force --inplace --define CYTHON_TRACE
+
+test: build-test
 	@pytest --cov=rubato --cov-report term-missing tests -s
 
-test-rub: build
+test-rub: build-test
 	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
 
-test-sdl: build
+test-sdl: build-test
 	@pytest -m "sdl or rub" --cov=rubato --cov-report term-missing tests -s
 
-test-no-rub: build
+test-no-rub: build-test
 	@pytest -m "not rub" --cov=rubato --cov-report term-missing tests
 
-test-no-sdl: build
+test-no-sdl: build-test
 	@pytest -m "not sdl and not rub" --cov=rubato --cov-report term-missing tests -s
 
-test-indiv: build
+test-indiv: build-test
 	@pytest tests -k "$(test)"
 
 lint:

@@ -38,7 +38,7 @@ def test_eq_withother(color):
 
 
 def test_rgba32(color):
-    assert color.rgba32 == 0x007FFFFF
+    assert color.rgba32() == 0x007FFFFF
 
 
 def test_darker(color):

@@ -2,6 +2,7 @@
 #include <cstring>
 #include <limits.h>
 #include <math.h>
+#include <cstdlib>
 
 // Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
@@ -126,11 +127,10 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
 
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, int thickness) {
     int inner, outer;
-    if (thickness % 2 == 0){
+    if (thickness % 2 == 0) {
         outer = radius + (thickness / 2) - 1;
         inner = radius - (thickness / 2);
-    }
-    else {
+    } else {
         outer = radius + (thickness / 2);
         inner = radius - (thickness / 2);
     }
@@ -140,7 +140,7 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     int erro = 1 - xo;
     int erri = 1 - xi;
 
-    while(xo >= y) {
+    while (xo >= y) {
         drawLine(_pixels, width, height, xc + xi, yc + y, xc + xo, yc + y, color);
         drawLine(_pixels, width, height, xc + y, yc + xi, xc + y, yc + xo, color);
         drawLine(_pixels, width, height, xc - xo, yc + y, xc - xi, yc + y, color);
@@ -201,20 +201,20 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 
 // Fill a polygon with the specified color.
 inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
-    int* v_x = (int*) vx;
-	int* v_y = (int*) vy;
-	int* v_x_min = (int*) malloc(sizeof(int) * height); // max height
-	int* v_x_max = (int*) malloc(sizeof(int) * height); // max height
+    int* v_x = (int*)vx;
+    int* v_y = (int*)vy;
+    int* v_x_min = (int*)malloc(sizeof(int) * height); // max height
+    int* v_x_max = (int*)malloc(sizeof(int) * height); // max height
 
-	for (int i = 0; i < height; i++) {
-        v_x_min[i] = width+1;
+    for (int i = 0; i < height; i++) {
+        v_x_min[i] = width + 1;
         v_x_max[i] = -1;
     }
 
 
     // line algo
-    for (int i = 0; i < len; i++){
-        int x1 = v_x[i], y1 = v_y[i], x2 = v_x[(i+1) % len], y2 = v_y[(i+1) % len];
+    for (int i = 0; i < len; i++) {
+        int x1 = v_x[i], y1 = v_y[i], x2 = v_x[(i + 1) % len], y2 = v_y[(i + 1) % len];
         bool x_l = x1 < x2;
         bool y_l = y1 < y2;
 
