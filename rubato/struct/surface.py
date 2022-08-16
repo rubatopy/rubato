@@ -53,7 +53,7 @@ class Surface(Surf):
         PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32())
         self.uptodate = False
 
-    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, thickness: int = 1):
+    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, thickness: int = 1, aa: bool = False):
         """
         Draws a line on the image.
 
@@ -62,20 +62,11 @@ class Surface(Surf):
             end: The end of the line.
             color: The color of the line. Defaults to black.
             thickness: The thickness of the line. Defaults to 1.
+            aa: Whether or not to use anti-aliasing. Defaults to False.
         """
         sx, sy = start.tuple_int()
         ex, ey = end.tuple_int()
-        PixelEditor.draw_line(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
-            sx,
-            sy,
-            ex,
-            ey,
-            color.rgba32(),
-            thickness,
-        )
+        PixelEditor.draw_line(self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), thickness, aa)
         self.uptodate = False
 
     def draw_rect(
@@ -159,7 +150,12 @@ class Surface(Surf):
         self.uptodate = False
 
     def draw_poly(
-        self, points: list[Vector], border: Color | None = None, border_thickness: int = 1, fill: Color | None = None
+        self,
+        points: list[Vector],
+        border: Color | None = None,
+        border_thickness: int = 1,
+        fill: Color | None = None,
+        aa: bool = False
     ):
         """
         Draws a polygon on the image.
@@ -168,6 +164,7 @@ class Surface(Surf):
             points: The points of the polygon.
             border: The border color of the polygon. Defaults to None.
             fill: The fill color of the polygon. Set to None for no fill. Defaults to None.
+            aa: Whether or not to use anti-aliasing. Defaults to False.
         """
         if fill is not None:
             PixelEditor.fill_poly(
@@ -180,12 +177,7 @@ class Surface(Surf):
 
         if border is not None:
             PixelEditor.draw_poly(
-                self.surf.pixels,
-                self.surf.w,
-                self.surf.h,
-                points,
-                border.rgba32(),
-                border_thickness,
+                self.surf.pixels, self.surf.w, self.surf.h, points, border.rgba32(), border_thickness, aa
             )
         self.uptodate = False
 
