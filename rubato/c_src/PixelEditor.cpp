@@ -1,89 +1,108 @@
 #include <cstdint>
 #include <cstring>
 #include <limits.h>
+#include <math.h>
 
 // Sets the pixel at x, y to the color specified.
 inline void setPixel(size_t _pixels, int width, int x, int y, size_t color) {
-	uint32_t a_mask = 0x000000FF;
+    uint32_t a_mask = 0x000000FF;
 
-	int off = y*width + x;
-	uint32_t src = (uint32_t) color;
-	uint32_t* pixels = (uint32_t*) _pixels;
-	uint8_t src_a = src & a_mask;
+    int off = y * width + x;
+    uint32_t src = (uint32_t)color;
+    uint32_t* pixels = (uint32_t*)_pixels;
+    uint8_t src_a = src & a_mask;
 
-	if (src_a == 0xFF) {
-		pixels[off] = src;
-	} else {
-		uint32_t r_mask = 0xFF000000;
-		uint32_t g_mask = 0x00FF0000;
-		uint32_t b_mask = 0x0000FF00;
+    if (src_a == 0xFF) {
+        pixels[off] = src;
+    } else {
+        uint32_t r_mask = 0xFF000000;
+        uint32_t g_mask = 0x00FF0000;
+        uint32_t b_mask = 0x0000FF00;
 
-		uint32_t dest = pixels[off];
-		uint8_t dest_a = pixels[off] & a_mask;
-		uint8_t one_minus = 0xFF - src_a;
+        uint32_t dest = pixels[off];
+        uint8_t dest_a = pixels[off] & a_mask;
+        uint8_t one_minus = 0xFF - src_a;
 
-		uint8_t red = ((((src & r_mask) >> 24) * src_a) >> 8) | ((((dest & r_mask) >> 24) * one_minus) >> 8);
-		uint8_t green = ((((src & g_mask) >> 16) * src_a) >> 8) | ((((dest & g_mask) >> 16) * one_minus) >> 8);
-		uint8_t blue = ((((src & b_mask) >> 8) * src_a) >> 8) | ((((dest & b_mask) >> 8) * one_minus) >> 8);
+        uint8_t red = ((((src & r_mask) >> 24) * src_a) >> 8) | ((((dest & r_mask) >> 24) * one_minus) >> 8);
+        uint8_t green = ((((src & g_mask) >> 16) * src_a) >> 8) | ((((dest & g_mask) >> 16) * one_minus) >> 8);
+        uint8_t blue = ((((src & b_mask) >> 8) * src_a) >> 8) | ((((dest & b_mask) >> 8) * one_minus) >> 8);
 
-		uint8_t alpha = src_a | ((dest_a * one_minus) >> 8);
+        uint8_t alpha = src_a | ((dest_a * one_minus) >> 8);
 
-		pixels[off] = (red << 24) | (green << 16) | (blue << 8) | alpha;
-	}
+        pixels[off] = (red << 24) | (green << 16) | (blue << 8) | alpha;
+    }
 }
 
 // Sets the pixel but clips at the edges of the surface.
 inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, size_t color) {
-	if (x < width && y < height && x >= 0 && y >= 0) {
-		setPixel(_pixels, width, x, y, color);
-	}
+    if (x < width && y < height && x >= 0 && y >= 0) {
+        setPixel(_pixels, width, x, y, color);
+    }
 }
 
 // Gets the pixel at x, y from the surface and returns it as an int.
 inline int getPixel(size_t _pixels, int width, int x, int y) {
-	return (int) ((uint32_t*) _pixels)[y*width + x];
+    return (int)((uint32_t*)_pixels)[y * width + x];
 }
 
 // Gets the pixel but returns 0 if the pixel is outside the surface.
 inline int getPixelSafe(size_t _pixels, int width, int height, int x, int y) {
-	if (x < width && y < height && x >= 0 && y >= 0) {
-		return getPixel(_pixels, width, x, y);
-	}
-	return 0;
+    if (x < width && y < height && x >= 0 && y >= 0) {
+        return getPixel(_pixels, width, x, y);
+    }
+    return 0;
 }
 
-
+// Draws a line from (x1, y1) to (x2, y2) with the specified color.
 inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color) {
-	bool x_l = x1 < x2;
-	bool y_l = y1 < y2;
+    bool x_l = x1 < x2;
+    bool y_l = y1 < y2;
 
-	int dx = x_l ? x2 - x1 : x1 - x2;
-	int dy = y_l ? y2 - y1 : y1 - y2;
-	int sx = x_l ? 1 : -1;
-	int sy = y_l ? 1 : -1;
+    int dx = x_l ? x2 - x1 : x1 - x2;
+    int dy = y_l ? y2 - y1 : y1 - y2;
+    int sx = x_l ? 1 : -1;
+    int sy = y_l ? 1 : -1;
 
-	int err = dx - dy;
-	while (true) {
-		setPixelSafe(_pixels, width, height, x1, y1, color);
-		if (x1 == x2 && y1 == y2) {
-			break;
-		}
-		int e2 = 2 * err;
-		if (e2 > -dy) {
-			err -= dy;
-			x1 += sx;
-		}
-		if (e2 < dx) {
-			err += dx;
-			y1 += sy;
-		}
-	}
+    int err = dx - dy;
+    while (true) {
+        setPixelSafe(_pixels, width, height, x1, y1, color);
+        if (x1 == x2 && y1 == y2) {
+            break;
+        }
+        int e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
+    }
 }
 
-inline void aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color) {
-	
+// Draws a line from (x1, y1) to (x2, y2) with the specified color and thickness.
+inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, int thickness) {
+    if (thickness == 1) {
+        drawLine(_pixels, width, height, x1, y1, x2, y2, color);
+        return;
+    }
+    int s, f;
+    if (thickness % 2 == 0) {
+        s = -thickness / 2;
+        f = thickness / 2;
+    } else {
+        s = -(thickness - 1) / 2;
+        f = ((thickness - 1) / 2) + 1;
+    }
+    for (int x = s; x < f; x++) {
+        for (int y = s; y < f; y++) {
+            drawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color);
+        }
+    }
 }
 
+// Draws a circle with the specified color.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
     int y = 0;
@@ -105,6 +124,7 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
+// Fills a circle with the specified color.
 inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
     int y = 0;
@@ -124,42 +144,64 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
 
 // Fill a polygon with the specified color.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
-	int* v_x = (int*) vx;
-	int* v_y = (int*) vy;
-	for (int i = 0; i < len; i++) {
-		drawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i+1) % len], v_y[(i+1) % len], color);
-	}
+    int* v_x = (int*)vx;
+    int* v_y = (int*)vy;
+    for (int i = 0; i < len; i++) {
+        drawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color);
+    }
 }
 
 // Fill a polygon with the specified color.
 inline void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color) {
-	//int* v_x = (int*) vx;
-	//int* v_y = (int*) vy;
+    // int* v_x = (int*) vx;
+    // int* v_y = (int*) vy;
 
-	// yamm i literally dont know how to get this to work please help me im begging you
+    // yamm i literally dont know how to get this to work please help me im begging you
 }
 
 // Draw a rectangle with the specified color.
 inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
-	for (int i = x; i < w + x; i++) {
-		setPixelSafe(_pixels, width, height, i, y, color);
-		setPixelSafe(_pixels, width, height, i, y + h - 1, color);
-	}
-	for (int i = y; i < h + y; i++) {
-		setPixelSafe(_pixels, width, height, x, i, color);
-		setPixelSafe(_pixels, width, height, x + w - 1, i, color);
-	}
+    for (int i = x; i < w + x; i++) {
+        setPixelSafe(_pixels, width, height, i, y, color);
+        setPixelSafe(_pixels, width, height, i, y + h - 1, color);
+    }
+    for (int i = y; i < h + y; i++) {
+        setPixelSafe(_pixels, width, height, x, i, color);
+        setPixelSafe(_pixels, width, height, x + w - 1, i, color);
+    }
+}
+
+// Draws a rectangle with the specified color and thickness.
+inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, int thickness) {
+    if (thickness == 1) {
+        drawRect(_pixels, width, height, x, y, w, h, color);
+        return;
+    } else {
+        int s, f;
+        if (thickness % 2 == 0) {
+            s = -thickness / 2;
+            f = thickness / 2;
+        } else {
+            s = -(thickness - 1) / 2;
+            f = ((thickness - 1) / 2) + 1;
+        }
+        for (int x = s; x < f; x++) {
+            for (int y = s; y < f; y++) {
+                drawRect(_pixels, width, height, x + x, y + y, w - x, h - y, color);
+            }
+        }
+    }
 }
 
 // Fill a rectangle with the specified color.
 inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
-	for (int i = y; i < h + y; i++) {
-		for (int j = x; j < w + x; j++) {
-			setPixelSafe(_pixels, width, height, j, i, color);
-		}
-	}
+    for (int i = y; i < h + y; i++) {
+        for (int j = x; j < w + x; j++) {
+            setPixelSafe(_pixels, width, height, j, i, color);
+        }
+    }
 }
 
 inline void clearPixels(size_t _pixels, int width, int height) {
-	memset((size_t*) _pixels, 0, width * height * 4);
+    memset((size_t*)_pixels, 0, width * height * 4);
 }

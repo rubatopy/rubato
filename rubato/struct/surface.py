@@ -53,7 +53,7 @@ class Surface(Surf):
         PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32())
         self.uptodate = False
 
-    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black):
+    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, thickness: int = 1):
         """
         Draws a line on the image.
 
@@ -61,7 +61,7 @@ class Surface(Surf):
             start: The start of the line.
             end: The end of the line.
             color: The color of the line. Defaults to black.
-            width: The width of the line. Defaults to 1.
+            thickness: The thickness of the line. Defaults to 1.
         """
         sx, sy = start.tuple_int()
         ex, ey = end.tuple_int()
@@ -74,10 +74,18 @@ class Surface(Surf):
             ex,
             ey,
             color.rgba32(),
+            thickness,
         )
         self.uptodate = False
 
-    def draw_rect(self, top_left: Vector, dims: Vector, border: Color | None = None, fill: Color | None = None):
+    def draw_rect(
+        self,
+        top_left: Vector,
+        dims: Vector,
+        border: Color | None = None,
+        border_thickness: int = 1,
+        fill: Color | None = None
+    ):
         """
         Draws a rectangle on the image.
 
@@ -85,6 +93,7 @@ class Surface(Surf):
             top_left: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
             border: The border color of the rectangle. Defaults to None.
+            border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
         """
         x, y = top_left.tuple_int()
@@ -111,6 +120,7 @@ class Surface(Surf):
                 w,
                 h,
                 border.rgba32(),
+                border_thickness,
             )
         self.uptodate = False
 

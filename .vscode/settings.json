@@ -49,6 +49,9 @@
         "main"
     ],
     "files.associations": {
-        "cstdint": "c"
+        "cstdint": "c",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "random": "cpp"
     }
 }

@@ -1,5 +1,5 @@
 """Setup File"""
-from setuptools import setup
+from setuptools import Extension, setup
 from Cython.Build import cythonize
 import os
 
@@ -20,12 +20,15 @@ def package_files(directory):
 setup(
     version=version,
     package_data={"rubato": package_files("rubato/static")},
-    ext_modules=cythonize(
-        "rubato/**/*.py",
-        exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
-        compiler_directives={
-            "embedsignature": True,
-            "language_level": 3,
-        },
-    ),
+    ext_modules=[
+        *cythonize(
+            "rubato/**/*.py",
+            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
+            compiler_directives={
+                "embedsignature": True,
+                "language_level": 3,
+            },
+        ),
+        Extension("rubato.c_src.pixel_editor", ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"]),
+    ]
 )
