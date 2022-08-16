@@ -173,26 +173,22 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
 
 // Draws a rectangle with the specified color and thickness.
 inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, int thickness) {
-    drawRect(_pixels, width, height, x, y, w, h, color);
-
-    // if (thickness == 1) {
-    //     drawRect(_pixels, width, height, x, y, w, h, color);
-    //     return;
-    // } else {
-    //     int s, f;
-    //     if (thickness % 2 == 0) {
-    //         s = -thickness / 2;
-    //         f = thickness / 2;
-    //     } else {
-    //         s = -(thickness - 1) / 2;
-    //         f = ((thickness - 1) / 2) + 1;
-    //     }
-    //     for (int x = s; x < f; x++) {
-    //         for (int y = s; y < f; y++) {
-    //             drawRect(_pixels, width, height, x + x, y + y, w - x, h - y, color);
-    //         }
-    //     }
-    // }
+    if (thickness == 1) {
+        drawRect(_pixels, width, height, x, y, w, h, color);
+        return;
+    } else {
+        int s, f;
+        if (thickness % 2 == 0) {
+            s = -thickness / 2;
+            f = thickness / 2;
+        } else {
+            s = -(thickness - 1) / 2;
+            f = ((thickness - 1) / 2) + 1;
+        }
+        for (int i = s; i < f; i++) {
+            drawRect(_pixels, width, height, x + i, y + i, w - (2 * i), h - (2 * i), color);
+        }
+    }
 }
 
 // Fill a rectangle with the specified color.

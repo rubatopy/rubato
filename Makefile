@@ -50,8 +50,6 @@ docs-clear:
 build:
 	@python setup.py build_ext --inplace
 
-force-build: delete-build
-	@python setup.py build_ext --inplace
 
 watch:
 	@bash ./watchBuild.sh
