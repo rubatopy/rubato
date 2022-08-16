@@ -34,6 +34,8 @@ class Events:
     """Fired when a mouse button is released"""
     MOUSEDOWN = "MOUSEDOWN"
     """Fired when a mouse button is pressed"""
+    MOUSEWHEEL = "MOUSEWHEEL"
+    """Fired when the mouse wheel is scrolled"""
     JOYAXISMOTION = "JOYAXISMOTION"
     """Fired when a controller joystick axis is moved"""
     JOYHATMOTION = "JOYHATMOTION"
@@ -139,6 +141,20 @@ class Radio:
                         "which": event.button.which,
                         "windowID": event.button.windowID,
                         "timestamp": event.button.timestamp,
+                    },
+                )
+            elif event.type == sdl2.SDL_MOUSEWHEEL:
+                cls.broadcast(
+                    Events.MOUSEWHEEL,
+                    {
+                        "x": event.wheel.x,
+                        "y": event.wheel.y,
+                        "direction": event.wheel.direction,
+                        "precise x": event.wheel.preciseX,
+                        "precise y": event.wheel.preciseY,
+                        "which": event.wheel.which,
+                        "timestamp": event.wheel.timestamp,
+                        "windowID": event.wheel.windowID,
                     },
                 )
             elif event.type == sdl2.SDL_JOYAXISMOTION:

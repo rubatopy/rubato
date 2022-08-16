@@ -203,7 +203,7 @@ class Game:
                 if delay > 0:
                     sdl2.SDL_Delay(int(delay))
 
-            # dont allow updates to occur more than once in a millisecond
+            # don't allow updates to occur more than once in a millisecond
             # this will likely never occur but is a failsafe
             while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
                 sdl2.SDL_Delay(1)
