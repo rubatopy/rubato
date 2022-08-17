@@ -28,7 +28,7 @@ img.draw_rect(V(2, 2), V(18, 12), fill=rb.Color(0, 0, 255, 128))
 # print(img.get_pixel_tuple(V(0, 0)))
 # print(rb.Color.red)
 
-# pe.draw_antialiased_circle(img.surf.pixels, width, 255, 15, 15, 10, rb.Color.blue.rgba32(), 4)
+pe.draw_antialiased_circle(img.surf.pixels, width, 255, 15, 15, 10, rb.Color.blue.rgba32())
 # polygon = rb.Polygon([V(0, 16), V(31, 16), V(16, 0)], rb.Color.gray)
 # pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.red.rgba32(), 4)
 # pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.green.rgba32())

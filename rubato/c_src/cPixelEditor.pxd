@@ -19,3 +19,4 @@ cdef extern from "PixelEditor.cpp":
     void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, int thickness)
 
     void clearPixels(size_t _pixels, int width, int height)
+    void drawCircleAA(size_t _pixels, int width, int height, int xc, int yc, int radius, int color)
