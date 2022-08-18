@@ -40,14 +40,6 @@ img.draw_poly([V(16, 0), V(0, 16), V(31, 16)], border=rb.Color.black, aa=True)
 # pe.draw_line(img.surf.pixels, width, height, 15, 15, 15 + 10, 15, rb.Color.blue.rgba32())
 
 
-def scroll(data):
-    if data["key"] == "a":
-        print("You pressed the 'a' key!")
-
-
-rb.Radio.listen("KEYDOWN", scroll)
-
-
 def update():
     if rb.Input.mouse_pressed():
         img.draw_point(rb.Input.get_mouse_pos(), rb.Color(32, 32, 32))

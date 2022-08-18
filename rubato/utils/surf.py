@@ -5,7 +5,7 @@ from . import Vector, Display
 
 
 class Surf:
-    """This is a low-level surface manager. By itself, it doesn't do much."""
+    """This is a low-level surface manager. By itself, it doesn't do much. Should not be used by user."""
 
     def __init__(
         self,
@@ -43,7 +43,7 @@ class Surf:
 
     @property
     def aa(self):
-        """Whether or not to use anti-aliasing."""
+        """Whether to use anti-aliasing."""
         return self._aa
 
     @aa.setter

@@ -10,7 +10,7 @@ from .. import get_path, Vector, Surf, Display
 
 class Sprite(Surf):
     """
-    A sprite is a class that handles rendering of images independent of Game Objects.
+    A sprite is a class that handles rendering of images from your file system independent of Game Objects.
 
     Args:
         rel_path: The relative path to the image.
