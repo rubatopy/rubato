@@ -60,6 +60,7 @@ watch:
 setup:
 	@git submodule update --init --recursive
 	@pip install --editable .[dev]
+	@pip install --editable .[docs]
 	@pre-commit install -f
 	@pre-commit run --all-files
 	@python setup.py build_ext --inplace
