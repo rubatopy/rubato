@@ -27,7 +27,7 @@ test-indiv: build-test
 lint: delete-bin
 	@echo "Linting Code"
 	@-pylint rubato 
-	@[ -d build ] && make build
+	@-[ -d build ] && make build
 
 demos: build
 	@cd demo && ./_run_all.sh
