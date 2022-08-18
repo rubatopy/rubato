@@ -4,8 +4,6 @@
 #include <math.h>
 #include <cstdlib>
 
-#define elif else if
-
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if (x < width && y < height && x >= 0 && y >= 0) {
@@ -80,14 +78,6 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
 
 /** Draws an antialiased line from (x10, y10) to (x1, y1) with the specified color.
  *
- * @param _pixels The pixels of the surface.
- * @param width The width of the surface.
- * @param height The height of the surface.
- * @param x0 The x-coordinate of the first point.
- * @param y0 The y-coordinate of the first point.
- * @param x1 The x-coordinate of the second point.
- * @param y1 The y-coordinate of the second point.
- * @param color The color of the line.
  * @param top Whether the top part of the aa line should be drawn. (or the left side if vertical)
  * @param bottom Whether the bottom part of the aa line should be drawn. (or the right side if vertical)
 */
@@ -131,8 +121,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, i
         setPixel(_pixels, width, height, y0, x0, color);
         setPixel(_pixels, width, height, y1, x1, color);
 
-        bool drawLeft = (gradient > 0 && bottom) || (gradient < 0 && top);
-        bool drawRight = (gradient > 0 && top) || (gradient < 0 && bottom);
+        bool drawLeft = (gradient > 0 && bottom) || (gradient < 0 && top) || dy == 0 || dx == 0;
+        bool drawRight = (gradient > 0 && top) || (gradient < 0 && bottom) || dy == 0 || dx == 0;
 
         for (int x = x0 + 1; x < x1; x++) {
             if (drawLeft) setPixel(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA)); // left pixel
@@ -143,8 +133,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, i
         setPixel(_pixels, width, height, x0, y0, color);
         setPixel(_pixels, width, height, x1, y1, color);
 
-        bool drawTop = (gradient > 0 && top) || (gradient < 0 && bottom);
-        bool drawBottom = (gradient > 0 && bottom) || (gradient < 0 && top);
+        bool drawTop = (gradient > 0 && top) || (gradient < 0 && bottom) || dy == 0 || dx == 0;
+        bool drawBottom = (gradient > 0 && bottom) || (gradient < 0 && top) || dy == 0 || dx == 0;
 
         for (int x = x0 + 1; x < x1; x++) {
             if (drawTop) setPixel(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA)); // top pixel
@@ -175,10 +165,10 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
     }
 }
 
-// This is the drawLine accesible from python.
+// This is the drawLine accessible from python.
 inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
     if (aa) _aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color); // when included -> , blending, thickness);
-    elif(thickness == -1)
+    else if (thickness != -1)
         _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending, thickness);
     else
         _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending);
@@ -301,7 +291,6 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
 
 // Circle functction accesiible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
-
     if (aa) {
         _drawCircleAA(_pixels, width, height, xc, yc, radius, color);
     } else {
@@ -337,7 +326,7 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
     for (int i = 0; i < len; i++) {
-        drawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, thickness);
+        drawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color);
     }
 }
 
