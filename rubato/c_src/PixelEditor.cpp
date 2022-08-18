@@ -4,6 +4,8 @@
 #include <math.h>
 #include <cstdlib>
 
+#include <iostream> // get rid of this
+
 #define elif else if
 
 // Sets the pixel at x, y to the color specified. Clips at the edges.
@@ -91,7 +93,7 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
  * @param top Whether the top part of the aa line should be drawn. (or the left side if vertical)
  * @param bottom Whether the bottom part of the aa line should be drawn. (or the right side if vertical)
 */
-inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color, bool top = true, bool bottom = true) {
+inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color, bool top = true, bool bottom = true) {
     auto fpart = [](float x) { return (float) (x - floor(x)); };
     auto rfpart = [fpart](float x) { return 1 - fpart(x); };
 
@@ -177,7 +179,7 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
 
 // This is the drawLine accesible from python.
 inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
-    if (aa) aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color); // when included -> , blending, thickness);
+    if (aa) _aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color); // when included -> , blending, thickness);
     elif(thickness == -1)
         _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending, thickness);
     else
@@ -185,7 +187,7 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
 }
 
 // Draws a circle with the specified color.
-inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
+inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
     int y = 0;
     int E = -x;
@@ -206,7 +208,7 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
-inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, int thickness) {
+inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, int thickness) {
     int inner, outer;
     if (thickness % 2 == 0) {
         outer = radius + (thickness / 2) - 1;
@@ -253,6 +255,66 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
+inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
+
+    uint32_t aMask = 0x000000FF;
+    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
+        setPixel(pixels, width, _height, xc + x, yc + y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + x, yc - y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - x, yc + y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - x, yc - y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - y, yc - x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - y, yc + x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + y, yc - x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + y, yc + x, color & ~aMask | alpha);
+    };
+    auto max = [](int a, int b) {
+        return a > b ? a : b;
+    };
+    int i = 0;
+    int j = outer_radius;
+    int last_fade_amount = 0;
+    int fade_amount = 0;
+
+    int MAX_OPAQUE = color & aMask;
+    int height;
+
+    while (i < j) {
+        height = sqrt(max(outer_radius * outer_radius - i * i, 0));
+        fade_amount = MAX_OPAQUE * (ceil(height) - height);
+
+        if (fade_amount < last_fade_amount) {
+            // Opaqueness reset so drop down a row.
+            j -= 1;
+        }
+        last_fade_amount = fade_amount;
+
+        // The API needs integers, so convert here now we've checked if
+        // it dropped.
+        int fade_amount_i = fade_amount;
+
+        // We're fading out the current j row, and fading in the next one down.
+        _draw_point(i, j, MAX_OPAQUE - fade_amount_i);
+        _draw_point(i, j - 1, fade_amount_i);
+
+        i += 1;
+    }
+}
+
+// Circle functction accesiible from python.
+inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
+    std::cout << "called";
+    if (aa) {
+        _drawCircleAA(_pixels, width, height, xc, yc, radius, color);
+    } else {
+        if (thickness == -1) {
+            _drawCircle(_pixels, width, height, xc, yc, radius, color);
+        } else {
+            _drawCircle(_pixels, width, height, xc, yc, radius, color, thickness);
+        }
+    }
+}
+
 // Fills a circle with the specified color.
 inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
@@ -270,6 +332,7 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
         }
     }
 }
+
 
 // Fill a polygon with the specified color.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, int thickness = 1) {
@@ -325,7 +388,7 @@ inline void aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* vy
             }
         }
 
-        aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, top, bottom);
+        _aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, top, bottom);
     }
 }
 
@@ -435,50 +498,4 @@ inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w,
 
 inline void clearPixels(size_t _pixels, int width, int height) {
     memset((size_t*) _pixels, 0, width * height * 4);
-}
-
-inline void drawCircleAA(int pixels, int width, int _height, int base_aa, int xc, int yc, int outer_radius, int color) {
-
-    uint32_t aMask = 0x000000FF;
-    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc + x, yc - y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - x, yc + y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - x, yc - y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - y, yc - x, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - y, yc + x, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc + y, yc - x, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc + y, yc + x, color & ~aMask | alpha);
-    };
-    auto max = [](int a, int b) {
-        return a > b ? a : b;
-    };
-    int i = 0;
-    int j = outer_radius;
-    int last_fade_amount = 0;
-    int fade_amount = 0;
-
-    int MAX_OPAQUE = base_aa;
-    int height;
-
-    while (i < j) {
-        height = sqrt(max(outer_radius * outer_radius - i * i, 0));
-        fade_amount = MAX_OPAQUE * (ceil(height) - height);
-
-        if (fade_amount < last_fade_amount) {
-            // Opaqueness reset so drop down a row.
-            j -= 1;
-        }
-        last_fade_amount = fade_amount;
-
-        // The API needs integers, so convert here now we've checked if
-        // it dropped.
-        int fade_amount_i = fade_amount;
-
-        // We're fading out the current j row, and fading in the next one down.
-        _draw_point(i, j, MAX_OPAQUE - fade_amount_i);
-        _draw_point(i, j - 1, fade_amount_i);
-
-        i += 1;
-    }
 }

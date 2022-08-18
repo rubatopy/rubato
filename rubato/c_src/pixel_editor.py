@@ -45,24 +45,23 @@ def draw_line(
     """
     C Header:
     ```c
-    void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color)
+    void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa,
+    bool blending, int thickness)
     ```
     """
     PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
 
 
-
-def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, thickness: int = 1):
+def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, aa: bool = False,
+               blending: bool = False, thickness: int = -1):
     """
     C Header:
     ```c
-    void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color)
+    void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color,
+    bool aa, bool blending, int thickness)
     ```
     """
-    if thickness == 1:
-        PE.drawCircle(pixels, width, height, xc, yc, radius, color)
-    else:
-        PE.drawCircle(pixels, width, height, xc, yc, radius, color, thickness)
+    PE.drawCircle(pixels, width, height, xc, yc, radius, color, aa, blending, thickness)
 
 
 def fill_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int):
@@ -156,6 +155,3 @@ def clear_pixels(pixels: int, width: int, height: int):
     """
     PE.clearPixels(pixels, width, height)
 
-
-def draw_antialiased_circle(pixels: int, width: int, height: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int):
-    PE.drawCircleAA(pixels, width, height, base_aa, xc, yc, outer_radius, color)
