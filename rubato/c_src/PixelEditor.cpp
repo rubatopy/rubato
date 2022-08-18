@@ -21,8 +21,9 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
 
             uint32_t base = pixels[off];
 
-            uint8_t baseA = pixels[off] & aMask;
+            uint8_t baseA = base & aMask;
             uint8_t addedA = added & aMask;
+            uint8_t invAddedA = 0xFF - addedA;
 
             uint8_t addedRed = (added & rMask) >> 24;
             uint8_t addedGreen = (added & gMask) >> 16;
@@ -32,13 +33,11 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
             uint8_t baseGreen = (base & gMask) >> 16;
             uint8_t baseBlue = (base & bMask) >> 8;
 
-            uint8_t oMinusAddA = 0xFF - addedA;
+            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
 
-            uint8_t newA = 0xFF - ((oMinusAddA * (0xFF - baseA)) >> 8);
-
-            uint8_t newRed = (addedRed * addedA / newA) + (baseRed * ((baseA * oMinusAddA) >> 8) / newA);
-            uint8_t newGreen = (addedGreen * addedA / newA) + (baseGreen * ((baseA * oMinusAddA) >> 8) / newA);
-            uint8_t newBlue = (addedBlue * addedA / newA) + (baseBlue * ((baseA * oMinusAddA) >> 8) / newA);
+            uint8_t newRed = (addedRed * addedA / newA) + (baseRed * ((baseA * invAddedA) >> 8) / newA);
+            uint8_t newGreen = (addedGreen * addedA / newA) + (baseGreen * ((baseA * invAddedA) >> 8) / newA);
+            uint8_t newBlue = (addedBlue * addedA / newA) + (baseBlue * ((baseA * invAddedA) >> 8) / newA);
 
             pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | newA;
         }
