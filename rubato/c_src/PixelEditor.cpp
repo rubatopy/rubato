@@ -80,11 +80,17 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
     }
 }
 
-/** Draws an antialiased line from (x10, y10) to (x1, y1) with the specified color.
+/** Draws an antialiased line from (x0, y0) to (x1, y1) with the specified color.
  *
- * @param top Whether the top part of the aa line should be drawn. (or the left side if vertical)
- * @param bottom Whether the bottom part of the aa line should be drawn. (or the right side if vertical)
-*/
+ * @param _pixels The pixels to draw on.
+ * @param width The width of the surface.
+ * @param height The height of the surface.
+ * @param x0 The x coordinate of the first point.
+ * @param y0 The y coordinate of the first point.
+ * @param x1 The x coordinate of the second point.
+ * @param y1 The y coordinate of the second point.
+ * @param color The color to draw with.
+ */
 inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color) {
     auto fpart = [](float x) { return (float) (x - floor(x)); };
     auto rfpart = [fpart](float x) { return 1 - fpart(x); };
@@ -243,31 +249,35 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
 
-    uint32_t aMask = 0x000000FF;
-    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc + x, yc - y, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc - x, yc + y, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc - x, yc - y, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc - y, yc - x, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc - y, yc + x, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc + y, yc - x, (color & ~aMask) | alpha);
-        setPixel(pixels, width, _height, xc + y, yc + x, (color & ~aMask) | alpha);
+    uint32_t color_u = (uint32_t) color;
+    uint32_t colorRGB = color_u & 0xFFFFFF00;
+    uint8_t colorA = color_u & 0x000000FF;
+
+    auto _draw_point = [pixels, width, _height, xc, yc, colorRGB, colorA](int x, int y, uint8_t alpha) {
+        uint32_t blend = colorRGB | ((alpha * colorA) >> 8);
+        setPixel(pixels, width, _height, xc + x, yc + y, blend);
+        setPixel(pixels, width, _height, xc + x, yc - y, blend);
+        setPixel(pixels, width, _height, xc - x, yc + y, blend);
+        setPixel(pixels, width, _height, xc - x, yc - y, blend);
+        setPixel(pixels, width, _height, xc - y, yc - x, blend);
+        setPixel(pixels, width, _height, xc - y, yc + x, blend);
+        setPixel(pixels, width, _height, xc + y, yc - x, blend);
+        setPixel(pixels, width, _height, xc + y, yc + x, blend);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
     };
+
     int i = 0;
     int j = outer_radius;
-    int last_fade_amount = 0;
-    int fade_amount = 0;
-
-    int MAX_OPAQUE = color & aMask;
     int height;
+
+    uint8_t last_fade_amount = 0;
+    uint8_t fade_amount = 0;
 
     while (i < j) {
         height = sqrt(max(outer_radius * outer_radius - i * i, 0));
-        fade_amount = MAX_OPAQUE * (ceil(height) - height);
+        fade_amount = colorA * (ceil(height) - height);
 
         if (fade_amount < last_fade_amount) {
             // Opaqueness reset so drop down a row.
@@ -275,13 +285,9 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
         }
         last_fade_amount = fade_amount;
 
-        // The API needs integers, so convert here now we've checked if
-        // it dropped.
-        int fade_amount_i = fade_amount;
-
         // We're fading out the current j row, and fading in the next one down.
-        _draw_point(i, j, MAX_OPAQUE - fade_amount_i);
-        _draw_point(i, j - 1, fade_amount_i);
+        _draw_point(i, j, colorA - fade_amount);
+        _draw_point(i, j - 1, fade_amount);
 
         i += 1;
     }

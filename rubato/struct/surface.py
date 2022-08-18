@@ -122,7 +122,9 @@ class Surface(Surf):
         radius: int,
         border: Color | None = None,
         border_thickness: int = 1,
-        fill: Color | None = None
+        fill: Color | None = None,
+        aa: bool = False,
+        blend: bool = False,
     ):
         """
         Draws a circle on the image.
@@ -132,6 +134,8 @@ class Surface(Surf):
             radius: The radius of the circle.
             border: The border color of the circle. Defaults to None.
             fill: The fill color of the circle. Set to None for no fill. Defaults to None.
+            aa: Whether or not to use anti-aliasing. Defaults to False.
+            blend: Whether or not to use blending. Defaults to False.
         """
         x, y = center.tuple_int()
         if fill is not None:
@@ -147,7 +151,7 @@ class Surface(Surf):
 
         if border is not None:
             PixelEditor.draw_circle(
-                self.surf.pixels, self.surf.w, self.surf.h, x, y, radius, border.rgba32(), border_thickness
+                self.surf.pixels, self.surf.w, self.surf.h, x, y, radius, border.rgba32(), aa, blend, border_thickness
             )
         self.uptodate = False
 

@@ -18,7 +18,7 @@ img.clear()
 
 # img.draw_rect(V(1, 1), V(30, 30), rb.Color.purple, 3, rb.Color.green)
 # img.draw_rect(V(0, 0), V(32, 32), rb.Color.red)
-# img.draw_circle(V(16, 16), 7, rb.Color.red, rb.Color.yellow)
+img.draw_circle(V(16, 16), 7, rb.Color.red, aa=True)
 # img.draw_line(V(4, 3), V(28, 27), rb.Color.blue, 3)
 # img.draw_line(V(4, 4), V(28, 28), rb.Color(32, 32, 32, 128), 5)
 # img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], rb.Color.gray, 3)
@@ -29,7 +29,7 @@ img.clear()
 #     img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32(), aa=True, bottom=False
 # )
 # pe.draw_line(img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32())
-img.draw_poly([V(15, 0), V(0, 16), V(32, 16)], border=rb.Color.black, fill=rb.Color.gray, aa=True)
+# img.draw_poly([V(15, 0), V(0, 16), V(32, 16)], border=rb.Color.black, fill=rb.Color.gray, aa=True)
 # print(img.get_pixel(V(4, 4)))
 # print(img.get_pixel_tuple(V(0, 0)))
 # print(rb.Color.red)
@@ -46,7 +46,7 @@ def update():
         img.draw_point(rb.Input.get_mouse_pos(), rb.Color(32, 32, 32))
 
 
-s.add(rb.wrap(raster, ))
+s.add(rb.wrap(raster,))
 rb.Game.update = update
 
 rb.begin()
