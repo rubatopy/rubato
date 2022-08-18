@@ -249,35 +249,31 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
 
-    uint32_t color_u = (uint32_t) color;
-    uint32_t colorRGB = color_u & 0xFFFFFF00;
-    uint8_t colorA = color_u & 0x000000FF;
-
-    auto _draw_point = [pixels, width, _height, xc, yc, colorRGB, colorA](int x, int y, uint8_t alpha) {
-        uint32_t blend = colorRGB | ((alpha * colorA) >> 8);
-        setPixel(pixels, width, _height, xc + x, yc + y, blend);
-        setPixel(pixels, width, _height, xc + x, yc - y, blend);
-        setPixel(pixels, width, _height, xc - x, yc + y, blend);
-        setPixel(pixels, width, _height, xc - x, yc - y, blend);
-        setPixel(pixels, width, _height, xc - y, yc - x, blend);
-        setPixel(pixels, width, _height, xc - y, yc + x, blend);
-        setPixel(pixels, width, _height, xc + y, yc - x, blend);
-        setPixel(pixels, width, _height, xc + y, yc + x, blend);
+    uint32_t aMask = 0x000000FF;
+    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
+        setPixel(pixels, width, _height, xc + x, yc + y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc + x, yc - y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - x, yc + y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - x, yc - y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - y, yc - x, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - y, yc + x, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc + y, yc - x, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc + y, yc + x, (color & ~aMask) | alpha);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
     };
-
     int i = 0;
     int j = outer_radius;
-    int height;
+    int last_fade_amount = 0;
+    int fade_amount = 0;
 
-    uint8_t last_fade_amount = 0;
-    uint8_t fade_amount = 0;
+    int MAX_OPAQUE = color & aMask;
+    int height;
 
     while (i < j) {
         height = sqrt(max(outer_radius * outer_radius - i * i, 0));
-        fade_amount = colorA * (ceil(height) - height);
+        fade_amount = MAX_OPAQUE * (ceil(height) - height);
 
         if (fade_amount < last_fade_amount) {
             // Opaqueness reset so drop down a row.
@@ -285,9 +281,13 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
         }
         last_fade_amount = fade_amount;
 
+        // The API needs integers, so convert here now we've checked if
+        // it dropped.
+        int fade_amount_i = fade_amount;
+
         // We're fading out the current j row, and fading in the next one down.
-        _draw_point(i, j, colorA - fade_amount);
-        _draw_point(i, j - 1, fade_amount);
+        _draw_point(i, j, MAX_OPAQUE - fade_amount_i);
+        _draw_point(i, j - 1, fade_amount_i);
 
         i += 1;
     }
