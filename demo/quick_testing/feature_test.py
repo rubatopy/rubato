@@ -29,7 +29,7 @@ img.clear()
 #     img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32(), aa=True, bottom=False
 # )
 # pe.draw_line(img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32())
-img.draw_poly([V(16, 0), V(0, 16), V(31, 16)], border=rb.Color.black, aa=True)
+img.draw_poly([V(15, 0), V(0, 16), V(32, 16)], border=rb.Color.black, fill=rb.Color.gray, aa=True)
 # print(img.get_pixel(V(4, 4)))
 # print(img.get_pixel_tuple(V(0, 0)))
 # print(rb.Color.red)
