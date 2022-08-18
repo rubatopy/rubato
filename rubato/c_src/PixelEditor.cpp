@@ -245,14 +245,14 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
 
     uint32_t aMask = 0x000000FF;
     auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc + x, yc - y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - x, yc + y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - x, yc - y, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - y, yc - x, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc - y, yc + x, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc + y, yc - x, color & ~aMask | alpha);
-        setPixel(pixels, width, _height, xc + y, yc + x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + x, yc + y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc + x, yc - y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - x, yc + y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - x, yc - y, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - y, yc - x, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc - y, yc + x, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc + y, yc - x, (color & ~aMask) | alpha);
+        setPixel(pixels, width, _height, xc + y, yc + x, (color & ~aMask) | alpha);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
