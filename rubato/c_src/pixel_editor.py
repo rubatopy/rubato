@@ -29,6 +29,7 @@ def get_pixel(pixels: int, width: int, height: int, x: int, y: int):
     """
     return PE.getPixel(pixels, width, height, x, y)
 
+
 def draw_line(
     pixels: int,
     width: int,
@@ -52,8 +53,18 @@ def draw_line(
     PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
 
 
-def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, aa: bool = False,
-               blending: bool = False, thickness: int = -1):
+def draw_circle(
+    pixels: int,
+    width: int,
+    height: int,
+    xc: int,
+    yc: int,
+    radius: int,
+    color: int,
+    aa: bool = False,
+    blending: bool = False,
+    thickness: int = -1
+):
     """
     C Header:
     ```c
@@ -154,4 +165,3 @@ def clear_pixels(pixels: int, width: int, height: int):
     ```
     """
     PE.clearPixels(pixels, width, height)
-
