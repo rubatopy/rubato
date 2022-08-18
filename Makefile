@@ -24,9 +24,10 @@ test-no-sdl: build-test
 test-indiv: build-test
 	@pytest tests -k "$(test)"
 
-lint:
+lint: delete-bin
 	@echo "Linting Code"
-	@pylint rubato
+	@-pylint rubato 
+	@[ -d build ] && make build
 
 demos: build
 	@cd demo && ./_run_all.sh
