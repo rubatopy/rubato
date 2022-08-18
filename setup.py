@@ -30,8 +30,9 @@ setup(
             },
         ),
         Extension(
-            "rubato.c_src.pixel_editor", ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
-            extra_compile_args=["-std=c++14"]
+            "rubato.c_src.pixel_editor",
+            ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
+            extra_compile_args=["-std=c++14"],
         ),
     ]
 )

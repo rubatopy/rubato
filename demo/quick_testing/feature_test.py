@@ -21,14 +21,18 @@ img.clear()
 # img.draw_line(V(4, 3), V(28, 27), rb.Color.blue, 3)
 # img.draw_line(V(4, 4), V(28, 28), rb.Color(32, 32, 32, 128), 5)
 # img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], rb.Color.gray, 3)
-# img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], rb.Color.blue)
-img.draw_rect(V(2, 2), V(18, 12), fill=rb.Color(0, 0, 255, 128))
-
+# img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], border=rb.Color.blue, aa=True)
+# img.draw_rect(V(2, 2), V(18, 12), fill=rb.Color(0, 0, 255, 128))
+# img.draw_line(V(4, 4), V(25, 28), rb.Color(32, 32, 32, 255), aa=True)
+pe.draw_line(
+    img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32(), aa=True, bottom=False
+)
+pe.draw_line(img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32())
 # print(img.get_pixel(V(4, 4)))
 # print(img.get_pixel_tuple(V(0, 0)))
 # print(rb.Color.red)
 
-pe.draw_antialiased_circle(img.surf.pixels, width, 255, 15, 15, 10, rb.Color.blue.rgba32())
+# pe.draw_antialiased_circle(img.surf.pixels, width, 255, 15, 15, 10, rb.Color.blue.rgba32())
 # polygon = rb.Polygon([V(0, 16), V(31, 16), V(16, 0)], rb.Color.gray)
 # pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.red.rgba32(), 4)
 # pe.draw_circle(img.surf.pixels, width, height, 15, 15, 10, rb.Color.green.rgba32())

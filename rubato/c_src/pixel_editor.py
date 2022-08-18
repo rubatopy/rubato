@@ -60,7 +60,9 @@ def draw_line(
     y2: int,
     color: int,
     thickness: int = 1,
-    aa: bool = False
+    aa: bool = False,
+    top: bool = True,
+    bottom: bool = True,
 ):
     """
     C Header:
@@ -69,7 +71,7 @@ def draw_line(
     ```
     """
     if aa:
-        PE.aaDrawLine(pixels, width, height, x1, y1, x2, y2, color)
+        PE.aaDrawLine(pixels, width, height, x1, y1, x2, y2, color, top, bottom)
     elif thickness == 1:
         PE.drawLine(pixels, width, height, x1, y1, x2, y2, color)
     else:

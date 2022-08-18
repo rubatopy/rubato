@@ -130,8 +130,8 @@ inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, in
         setPixel(_pixels, width, height, y0, x0, color);
         setPixel(_pixels, width, height, y1, x1, color);
 
-        bool drawLeft = (gradient > 0 && top) || (gradient < 0 && bottom);
-        bool drawRight = (gradient > 0 && bottom) || (gradient < 0 && top);
+        bool drawLeft = (gradient > 0 && bottom) || (gradient < 0 && top);
+        bool drawRight = (gradient > 0 && top) || (gradient < 0 && bottom);
 
         for (int x = x0 + 1; x < x1; x++) {
             if (drawLeft) setPixel(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA)); // left pixel
@@ -298,7 +298,15 @@ inline void aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* vy
             }
         } else {
             slope = (double) (v_y[(i + 1) % len] - v_y[i]) / (double) (v_x[(i + 1) % len] - v_x[i]);
-            if (v_x[i] < cx) {
+            if (slope == 0) {
+                if (v_y[i] < cy) {
+                    top = true;
+                    bottom = false;
+                } else {
+                    top = false;
+                    bottom = true;
+                }
+            } else if (v_x[i] < cx) {
                 top = (slope > 0);
                 bottom = (slope < 0);
             } else {
