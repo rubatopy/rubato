@@ -313,7 +313,7 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
-// Fills a circle with the specified color.
+// Fills a circle with the specified color. Called from python. #TODO: move into the main circle function.
 inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
     int x = radius;
     int y = 0;
@@ -454,7 +454,7 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
 }
 
 // Draw a rectangle with the specified color.
-inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
+inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
     for (int i = x; i < w + x; i++) {
         setPixel(_pixels, width, height, i, y, color);
         setPixel(_pixels, width, height, i, y + h - 1, color);
@@ -466,9 +466,9 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
 }
 
 // Draws a rectangle with the specified color and thickness.
-inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, int thickness) {
+inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, int thickness) {
     if (thickness == 1) {
-        drawRect(_pixels, width, height, x, y, w, h, color);
+        _drawRect(_pixels, width, height, x, y, w, h, color);
         return;
     } else {
         int s, f;
@@ -480,9 +480,14 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
             f = ((thickness - 1) / 2) + 1;
         }
         for (int i = s; i < f; i++) {
-            drawRect(_pixels, width, height, x + i, y + i, w - (2 * i), h - (2 * i), color);
+            _drawRect(_pixels, width, height, x + i, y + i, w - (2 * i), h - (2 * i), color);
         }
     }
+}
+
+// Rectangle function called from python. #TODO: add fill to here
+inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, int thickness = 1) {
+    _drawRect(_pixels, width, height, x, y, w, h, color, thickness);
 }
 
 // Fill a rectangle with the specified color.
