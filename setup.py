@@ -21,6 +21,12 @@ setup(
     version=version,
     package_data={"rubato": package_files("rubato/static")},
     ext_modules=[
+        Extension(
+            "rubato.c_src.pixel_editor",
+            ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
+            extra_compile_args=["-std=c++14"],
+            extra_link_args=["-std=c++14"],
+        ),
         *cythonize(
             "rubato/**/*.py",
             exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
@@ -28,11 +34,6 @@ setup(
                 "embedsignature": True,
                 "language_level": 3,
             },
-        ),
-        Extension(
-            "rubato.c_src.pixel_editor",
-            ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
-            extra_compile_args=["-std=c++14"],
         ),
     ]
 )
