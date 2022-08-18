@@ -4,8 +4,6 @@
 #include <math.h>
 #include <cstdlib>
 
-#include <iostream> // get rid of this
-
 #define elif else if
 
 // Sets the pixel at x, y to the color specified. Clips at the edges.
@@ -303,7 +301,7 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
 
 // Circle functction accesiible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
-    std::cout << "called";
+
     if (aa) {
         _drawCircleAA(_pixels, width, height, xc, yc, radius, color);
     } else {
