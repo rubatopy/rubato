@@ -10,45 +10,24 @@ else:
     import array
 
 
-def set_pixel(pixels: int, width: int, x: int, y: int, color: int):
+def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = False):
     """
     C Header:
     ```c
     void setPixel(size_t _pixels, int width, int x, int y, size_t color)
     ```
     """
-    PE.setPixel(pixels, width, x, y, color)
+    PE.setPixel(pixels, width, height, x, y, color, blending)
 
 
-def set_pixel_safe(pixels: int, width: int, height: int, x: int, y: int, color: int):
-    """
-    C Header:
-    ```c
-    void setPixelSafe(size_t _pixels, int width, int height, int x, int y, size_t color)
-    ```
-    """
-    PE.setPixelSafe(pixels, width, height, x, y, color)
-
-
-def get_pixel(pixels: int, width: int, x: int, y: int):
+def get_pixel(pixels: int, width: int, height: int, x: int, y: int):
     """
     C Header:
     ```c
     size_t getPixel(size_t _pixels, int width, int x, int y)
     ```
     """
-    return PE.getPixel(pixels, width, x, y)
-
-
-def get_pixel_safe(pixels: int, width: int, height: int, x: int, y: int):
-    """
-    C Header:
-    ```c
-    int getPixelSafe(size_t _pixels, int width, int height, int x, int y)
-    ```
-    """
-    return PE.getPixelSafe(pixels, width, height, x, y)
-
+    return PE.getPixel(pixels, width, height, x, y)
 
 def draw_line(
     pixels: int,
@@ -59,10 +38,9 @@ def draw_line(
     x2: int,
     y2: int,
     color: int,
-    thickness: int = 1,
     aa: bool = False,
-    top: bool = True,
-    bottom: bool = True,
+    blending: bool = False,
+    thickness: int = 1,
 ):
     """
     C Header:
@@ -70,12 +48,8 @@ def draw_line(
     void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color)
     ```
     """
-    if aa:
-        PE.aaDrawLine(pixels, width, height, x1, y1, x2, y2, color, top, bottom)
-    elif thickness == 1:
-        PE.drawLine(pixels, width, height, x1, y1, x2, y2, color)
-    else:
-        PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, thickness)
+    PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
+
 
 
 def draw_circle(pixels: int, width: int, height: int, xc: int, yc: int, radius: int, color: int, thickness: int = 1):
@@ -183,5 +157,5 @@ def clear_pixels(pixels: int, width: int, height: int):
     PE.clearPixels(pixels, width, height)
 
 
-def draw_antialiased_circle(pixels: int, width: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int):
-    PE.drawCircleAA(pixels, width, base_aa, xc, yc, outer_radius, color)
+def draw_antialiased_circle(pixels: int, width: int, height: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int):
+    PE.drawCircleAA(pixels, width, height, base_aa, xc, yc, outer_radius, color)

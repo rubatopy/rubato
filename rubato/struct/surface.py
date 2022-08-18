@@ -50,7 +50,7 @@ class Surface(Surf):
             color: The color of the point. Defaults to black.
         """
         x, y = pos.tuple_int()
-        PixelEditor.set_pixel_safe(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32())
+        PixelEditor.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32())
         self.uptodate = False
 
     def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, thickness: int = 1, aa: bool = False):

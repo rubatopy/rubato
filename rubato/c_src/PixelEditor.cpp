@@ -4,6 +4,7 @@
 #include <math.h>
 #include <cstdlib>
 
+#define elif else if
 
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
@@ -50,7 +51,7 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
 }
 
 // Draws a line from (x1, y1) to (x2, y2) with the specified color.
-inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa = false, bool blending = false, int thickness = 1) {
+inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending = false) {
     bool x_l = x1 < x2;
     bool y_l = y1 < y2;
 
@@ -154,9 +155,9 @@ inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, in
 }
 
 // Draws a line from (x1, y1) to (x2, y2) with the specified color and thickness.
-inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, int thickness) {
+inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending, int thickness) {
     if (thickness == 1) {
-        drawLine(_pixels, width, height, x1, y1, x2, y2, color);
+        _drawLine(_pixels, width, height, x1, y1, x2, y2, color);
         return;
     }
     int s, f;
@@ -169,9 +170,18 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
     }
     for (int x = s; x < f; x++) {
         for (int y = s; y < f; y++) {
-            drawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color);
+            _drawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color);
         }
     }
+}
+
+// This is the drawLine accesible from python.
+inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
+    if (aa) aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color); // when included -> , blending, thickness);
+    elif(thickness == -1)
+        _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending, thickness);
+    else
+        _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending);
 }
 
 // Draws a circle with the specified color.
@@ -427,18 +437,18 @@ inline void clearPixels(size_t _pixels, int width, int height) {
     memset((size_t*) _pixels, 0, width * height * 4);
 }
 
-inline void drawCircleAA(int pixels, int width, int base_aa, int xc, int yc, int outer_radius, int color) {
+inline void drawCircleAA(int pixels, int width, int _height, int base_aa, int xc, int yc, int outer_radius, int color) {
 
     uint32_t aMask = 0x000000FF;
-    auto _draw_point = [pixels, width, xc, yc, color, aMask](int x, int y, int alpha) {
-        setPixel(pixels, width, xc + x, yc + y, color & ~aMask | alpha);
-        setPixel(pixels, width, xc + x, yc - y, color & ~aMask | alpha);
-        setPixel(pixels, width, xc - x, yc + y, color & ~aMask | alpha);
-        setPixel(pixels, width, xc - x, yc - y, color & ~aMask | alpha);
-        setPixel(pixels, width, xc - y, yc - x, color & ~aMask | alpha);
-        setPixel(pixels, width, xc - y, yc + x, color & ~aMask | alpha);
-        setPixel(pixels, width, xc + y, yc - x, color & ~aMask | alpha);
-        setPixel(pixels, width, xc + y, yc + x, color & ~aMask | alpha);
+    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
+        setPixel(pixels, width, _height, xc + x, yc + y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + x, yc - y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - x, yc + y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - x, yc - y, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - y, yc - x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc - y, yc + x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + y, yc - x, color & ~aMask | alpha);
+        setPixel(pixels, width, _height, xc + y, yc + x, color & ~aMask | alpha);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;

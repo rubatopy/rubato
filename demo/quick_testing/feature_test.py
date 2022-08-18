@@ -24,9 +24,9 @@ img.clear()
 # img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], border=rb.Color.blue, aa=True)
 # img.draw_rect(V(2, 2), V(18, 12), fill=rb.Color(0, 0, 255, 128))
 # img.draw_line(V(4, 4), V(25, 28), rb.Color(32, 32, 32, 255), aa=True)
-pe.draw_line(
-    img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32(), aa=True, bottom=False
-)
+# pe.draw_line(
+#     img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32(), aa=True, bottom=False
+# )
 pe.draw_line(img.surf.pixels, img.surf.w, img.surf.h, 4, 24, 15, 0, rb.Color(32, 32, 32, 255).rgba32())
 # print(img.get_pixel(V(4, 4)))
 # print(img.get_pixel_tuple(V(0, 0)))
