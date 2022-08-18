@@ -5,59 +5,48 @@
 #include <cstdlib>
 
 
-
-// Sets the pixel at x, y to the color specified.
-inline void setPixel(size_t _pixels, int width, int x, int y, size_t color, bool blending = false) {
-    uint32_t rMask = 0xFF000000;
-    uint32_t gMask = 0x00FF0000;
-    uint32_t bMask = 0x0000FF00;
-    uint32_t aMask = 0x000000FF;
-    int off = y * width + x;
-    uint32_t added = (uint32_t) color;
-    uint32_t* pixels = (uint32_t*) _pixels;
-
-    if (!blending) {
-        pixels[off] = added;
-    } else {
-        uint32_t base = pixels[off];
-        double baseA = (pixels[off] & aMask) / 255.0;
-        double addedA = (added & aMask) / 255.0;
-
-        uint8_t addedRed = ((added & rMask) >> 24);
-        uint8_t addedGreen = ((added & gMask) >> 16);
-        uint8_t addedBlue = ((added & bMask) >> 8);
-
-        uint8_t baseRed = ((base & rMask) >> 24);
-        uint8_t baseGreen = ((base & gMask) >> 16);
-        uint8_t baseBlue = ((base & bMask) >> 8);
-
-        double newA = 1 - (1 - addedA) * (1 - baseA);
-        uint8_t newRed = round((addedRed * addedA / newA) + (baseRed * baseA * (1 - addedA) / newA));
-        uint8_t newGreen = round((addedGreen * addedA / newA) + (baseGreen * baseA * (1 - addedA) / newA));
-        uint8_t newBlue = round((addedBlue * addedA / newA) + (baseBlue * baseA * (1 - addedA) / newA));
-
-        pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | (uint8_t) (newA * 255);
-    }
-}
-
-// Sets the pixel but clips at the edges of the surface.
-inline void setPixelSafe(size_t _pixels, int width, int height, int x, int y, size_t color) {
+// Sets the pixel at x, y to the color specified. Clips at the edges.
+inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if (x < width && y < height && x >= 0 && y >= 0) {
-        setPixel(_pixels, width, x, y, color);
-    }
-}
+        uint32_t rMask = 0xFF000000;
+        uint32_t gMask = 0x00FF0000;
+        uint32_t bMask = 0x0000FF00;
+        uint32_t aMask = 0x000000FF;
+        int off = y * width + x;
+        uint32_t added = (uint32_t) color;
+        uint32_t* pixels = (uint32_t*) _pixels;
 
-// Gets the pixel at x, y from the surface and returns it as an int.
-inline int getPixel(size_t _pixels, int width, int x, int y) {
-    return (int) ((uint32_t*) _pixels)[y * width + x];
+        if (!blending) {
+            pixels[off] = added;
+        } else {
+            uint32_t base = pixels[off];
+            double baseA = (pixels[off] & aMask) / 255.0;
+            double addedA = (added & aMask) / 255.0;
+
+            uint8_t addedRed = ((added & rMask) >> 24);
+            uint8_t addedGreen = ((added & gMask) >> 16);
+            uint8_t addedBlue = ((added & bMask) >> 8);
+
+            uint8_t baseRed = ((base & rMask) >> 24);
+            uint8_t baseGreen = ((base & gMask) >> 16);
+            uint8_t baseBlue = ((base & bMask) >> 8);
+
+            double newA = 1 - (1 - addedA) * (1 - baseA);
+            uint8_t newRed = round((addedRed * addedA / newA) + (baseRed * baseA * (1 - addedA) / newA));
+            uint8_t newGreen = round((addedGreen * addedA / newA) + (baseGreen * baseA * (1 - addedA) / newA));
+            uint8_t newBlue = round((addedBlue * addedA / newA) + (baseBlue * baseA * (1 - addedA) / newA));
+
+            pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | (uint8_t) (newA * 255);
+        }
+    }
 }
 
 // Gets the pixel but returns 0 if the pixel is outside the surface.
-inline int getPixelSafe(size_t _pixels, int width, int height, int x, int y) {
+inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
     if (x < width && y < height && x >= 0 && y >= 0) {
-        return getPixel(_pixels, width, x, y);
+        return (int) ((uint32_t*) _pixels)[y * width + x];
     }
-    return 0;
+    return NULL;
 }
 
 // Draws a line from (x1, y1) to (x2, y2) with the specified color.
@@ -72,7 +61,7 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
 
     int err = dx - dy;
     while (true) {
-        setPixelSafe(_pixels, width, height, x1, y1, color);
+        setPixel(_pixels, width, height, x1, y1, color);
         if (x1 == x2 && y1 == y2) {
             break;
         }
@@ -138,27 +127,27 @@ inline void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, in
     float intery = y0 + gradient;
 
     if (steep) {
-        setPixelSafe(_pixels, width, height, y0, x0, color);
-        setPixelSafe(_pixels, width, height, y1, x1, color);
+        setPixel(_pixels, width, height, y0, x0, color);
+        setPixel(_pixels, width, height, y1, x1, color);
 
         bool drawLeft = (gradient > 0 && top) || (gradient < 0 && bottom);
         bool drawRight = (gradient > 0 && bottom) || (gradient < 0 && top);
 
         for (int x = x0 + 1; x < x1; x++) {
-            if (drawLeft) setPixelSafe(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA)); // left pixel
-            if (drawRight) setPixelSafe(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA)); // right pixel
+            if (drawLeft) setPixel(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA)); // left pixel
+            if (drawRight) setPixel(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA)); // right pixel
             intery += gradient;
         }
     } else {
-        setPixelSafe(_pixels, width, height, x0, y0, color);
-        setPixelSafe(_pixels, width, height, x1, y1, color);
+        setPixel(_pixels, width, height, x0, y0, color);
+        setPixel(_pixels, width, height, x1, y1, color);
 
         bool drawTop = (gradient > 0 && top) || (gradient < 0 && bottom);
         bool drawBottom = (gradient > 0 && bottom) || (gradient < 0 && top);
 
         for (int x = x0 + 1; x < x1; x++) {
-            if (drawTop) setPixelSafe(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA)); // top pixel
-            if (drawBottom) setPixelSafe(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA)); // bottom pixel
+            if (drawTop) setPixel(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA)); // top pixel
+            if (drawBottom) setPixel(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA)); // bottom pixel
             intery += gradient;
         }
     }
@@ -191,14 +180,14 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     int y = 0;
     int E = -x;
     while (x >= y) {
-        setPixelSafe(_pixels, width, height, xc + x, yc + y, color);
-        setPixelSafe(_pixels, width, height, xc - x, yc - y, color);
-        setPixelSafe(_pixels, width, height, xc + y, yc + x, color);
-        setPixelSafe(_pixels, width, height, xc - y, yc + x, color);
-        setPixelSafe(_pixels, width, height, xc + x, yc - y, color);
-        setPixelSafe(_pixels, width, height, xc - x, yc + y, color);
-        setPixelSafe(_pixels, width, height, xc + y, yc - x, color);
-        setPixelSafe(_pixels, width, height, xc - y, yc - x, color);
+        setPixel(_pixels, width, height, xc + x, yc + y, color);
+        setPixel(_pixels, width, height, xc - x, yc - y, color);
+        setPixel(_pixels, width, height, xc + y, yc + x, color);
+        setPixel(_pixels, width, height, xc - y, yc + x, color);
+        setPixel(_pixels, width, height, xc + x, yc - y, color);
+        setPixel(_pixels, width, height, xc - x, yc + y, color);
+        setPixel(_pixels, width, height, xc + y, yc - x, color);
+        setPixel(_pixels, width, height, xc - y, yc - x, color);
 
         E += 2 * (y++) + 1;
         if (E >= 0) {
@@ -388,12 +377,12 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
 // Draw a rectangle with the specified color.
 inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
     for (int i = x; i < w + x; i++) {
-        setPixelSafe(_pixels, width, height, i, y, color);
-        setPixelSafe(_pixels, width, height, i, y + h - 1, color);
+        setPixel(_pixels, width, height, i, y, color);
+        setPixel(_pixels, width, height, i, y + h - 1, color);
     }
     for (int i = y; i < h + y; i++) {
-        setPixelSafe(_pixels, width, height, x, i, color);
-        setPixelSafe(_pixels, width, height, x + w - 1, i, color);
+        setPixel(_pixels, width, height, x, i, color);
+        setPixel(_pixels, width, height, x + w - 1, i, color);
     }
 }
 
@@ -421,7 +410,7 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
 inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
     for (int i = y; i < h + y; i++) {
         for (int j = x; j < w + x; j++) {
-            setPixelSafe(_pixels, width, height, j, i, color);
+            setPixel(_pixels, width, height, j, i, color);
         }
     }
 }

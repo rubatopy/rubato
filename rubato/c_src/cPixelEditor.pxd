@@ -1,9 +1,7 @@
 cdef extern from "PixelEditor.cpp":
 
-    void setPixel(size_t _pixels, int width, int x, int y, size_t color)
-    void setPixelSafe(size_t _pixels, int width, int height, int x, int y, size_t color)
-    int getPixel(size_t _pixels, int width, int x, int y)
-    int getPixelSafe(size_t _pixels, int width, int height, int x, int y)
+    void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color)
+    int getPixel(size_t _pixels, int width, int height, int x, int y)
 
     void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color)
     void aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color)

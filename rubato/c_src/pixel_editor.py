@@ -1,6 +1,6 @@
 # distutils: language = c++
 """Loader for PixelEditor.cpp"""
-import cython, math
+import cython
 from .. import Vector
 if cython.compiled:
     from cython.cimports.rubato.c_src import cPixelEditor as PE  # pyright: ignore
@@ -179,9 +179,6 @@ def clear_pixels(pixels: int, width: int, height: int):
     ```
     """
     PE.clearPixels(pixels, width, height)
-
-
-
 
 
 def draw_antialiased_circle(pixels: int, width: int, base_aa: int, xc: int, yc: int, outer_radius: int, color: int):

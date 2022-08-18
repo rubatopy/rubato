@@ -29,6 +29,9 @@ setup(
                 "language_level": 3,
             },
         ),
-        Extension("rubato.c_src.pixel_editor", ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"]),
+        Extension(
+            "rubato.c_src.pixel_editor", ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
+            extra_compile_args=["-std=c++14"]
+        ),
     ]
 )
