@@ -199,8 +199,7 @@ class Surface(Surf):
         """
         x, y = pos.tuple_int()
         if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
-            print("hi")
-            return Color.from_rgba32(PixelEditor.get_pixel(self.surf.pixels, self.surf.w, x, y))
+            return Color.from_rgba32(PixelEditor.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
