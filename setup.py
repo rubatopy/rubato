@@ -29,7 +29,7 @@ setup(
         ),
         *cythonize(
             "rubato/**/*.py",
-            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
+            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*", "rubato/c_src/**/*"],
             compiler_directives={
                 "embedsignature": True,
                 "language_level": 3,
