@@ -433,7 +433,7 @@ inline void clearPixels(size_t _pixels, int width, int height) {
 inline void drawCircleAA(int pixels, int width, int base_aa, int xc, int yc, int outer_radius, int color) {
 
     uint32_t aMask = 0x000000FF;
-    auto _draw_point = [pixels, width, xc, yc, color](int x, int y, int alpha) {
+    auto _draw_point = [pixels, width, xc, yc, color, aMask](int x, int y, int alpha) {
         setPixel(pixels, width, xc + x, yc + y, color & ~aMask | alpha);
         setPixel(pixels, width, xc + x, yc - y, color & ~aMask | alpha);
         setPixel(pixels, width, xc - x, yc + y, color & ~aMask | alpha);
