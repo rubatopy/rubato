@@ -6,7 +6,7 @@ from .... import Vector, Camera, Draw, Surf, Color
 
 
 class BaseImage(Component):
-    """A base image component. Does nothing on it's own"""
+    """A base image component. Does nothing on its own. Hidden from the user."""
 
     def __init__(
         self,
