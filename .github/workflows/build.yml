@@ -93,4 +93,4 @@ jobs:
                   pip install `grep -v '^\[' rubato.egg-info/requires.txt`
 
             - name: Analysing the code with pylint
-              run: pylint rubato
+              run: make build && make lint
