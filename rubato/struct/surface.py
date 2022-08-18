@@ -41,16 +41,17 @@ class Surface(Surf):
         PixelEditor.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
-    def draw_point(self, pos: Vector, color: Color = Color.black):
+    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = False):
         """
         Draws a point on the image.
 
         Args:
             pos: The position to draw the point.
             color: The color of the point. Defaults to black.
+            blending: Whether or not to use blending. Defaults to False.
         """
         x, y = pos.tuple_int()
-        PixelEditor.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32())
+        PixelEditor.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
     def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, thickness: int = 1, aa: bool = False):
