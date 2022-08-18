@@ -9,7 +9,8 @@ width, height = 32, 32
 rb.init(res=V(width, height), window_size=V(width, height) * 20)
 s = rb.Scene()
 
-img = rb.Surface(width, height)
+raster = rb.Raster(width, height, offset=V(width / 2, height / 2))
+img = raster.surf
 
 sdl2.ext.fill(img.surf, sdl2.ext.Color(0, 0, 0))
 
@@ -45,11 +46,7 @@ def update():
         img.draw_point(rb.Input.get_mouse_pos(), rb.Color(32, 32, 32))
 
 
-def draw():
-    rb.Draw.surf(img, V(width / 2, height / 2))
-
-
-rb.Game.draw = draw
+s.add(rb.wrap(raster, ))
 rb.Game.update = update
 
 rb.begin()
