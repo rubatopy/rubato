@@ -49,7 +49,7 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
     if (x < width && y < height && x >= 0 && y >= 0) {
         return (int) ((uint32_t*) _pixels)[y * width + x];
     }
-    return NULL;
+    return 0;
 }
 
 // Draws a line from (x1, y1) to (x2, y2) with the specified color.
