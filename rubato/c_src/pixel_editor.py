@@ -92,10 +92,8 @@ def draw_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: i
     void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color)
     ```
     """
-    if thickness == 1:
-        PE.drawRect(pixels, width, height, x, y, w, h, color)
-    else:
-        PE.drawRect(pixels, width, height, x, y, w, h, color, thickness)
+
+    PE.drawRect(pixels, width, height, x, y, w, h, color, thickness)
 
 
 def fill_rect(pixels: int, width: int, height: int, x: int, y: int, w: int, h: int, color: int):
