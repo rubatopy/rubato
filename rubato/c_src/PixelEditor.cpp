@@ -248,10 +248,10 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
     }
 }
 
-inline void _drawCircleAA(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
+inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
 
     uint32_t aMask = 0x000000FF;
-    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
+    auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, uint8_t alpha) {
         setPixel(pixels, width, _height, xc + x, yc + y, (color & ~aMask) | alpha);
         setPixel(pixels, width, _height, xc + x, yc - y, (color & ~aMask) | alpha);
         setPixel(pixels, width, _height, xc - x, yc + y, (color & ~aMask) | alpha);
@@ -264,15 +264,20 @@ inline void _drawCircleAA(size_t pixels, int width, int _height, int xc, int yc,
     auto max = [](int a, int b) {
         return a > b ? a : b;
     };
+
     int i = 0;
     int j = outer_radius;
-    int last_fade_amount = 0;
-    int fade_amount = 0;
+    double height;
 
-    int MAX_OPAQUE = color & aMask;
-    int height;
+    int sq_r = outer_radius * outer_radius;
+
+    uint8_t last_fade_amount = 0;
+    uint8_t fade_amount = 0;
+
+    uint8_t MAX_OPAQUE = ((uint8_t) color) & aMask;
+
     while (i < j) {
-        height = sqrt(max(outer_radius * outer_radius - i * i, 0));
+        height = sqrt(max(sq_r - i * i, 0));
         fade_amount = MAX_OPAQUE * (ceil(height) - height);
 
         if (fade_amount < last_fade_amount) {
@@ -281,13 +286,9 @@ inline void _drawCircleAA(size_t pixels, int width, int _height, int xc, int yc,
         }
         last_fade_amount = fade_amount;
 
-        // The API needs integers, so convert here now we've checked if
-        // it dropped.
-        int fade_amount_i = fade_amount;
-
         // We're fading out the current j row, and fading in the next one down.
-        _draw_point(i, j, MAX_OPAQUE - fade_amount_i);
-        _draw_point(i, j - 1, fade_amount_i);
+        _draw_point(i, j, MAX_OPAQUE - fade_amount);
+        _draw_point(i, j - 1, fade_amount);
 
         i += 1;
     }
@@ -296,7 +297,7 @@ inline void _drawCircleAA(size_t pixels, int width, int _height, int xc, int yc,
 // Circle function accesiible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
     if (aa) {
-        _drawCircleAA(_pixels, width, height, xc, yc, radius, color);
+        _aaDrawCircle(_pixels, width, height, xc, yc, radius, color);
     } else {
         if (thickness != -1) {
             _drawCircle(_pixels, width, height, xc, yc, radius, color);
