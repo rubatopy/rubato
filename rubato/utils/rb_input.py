@@ -479,7 +479,7 @@ class Input:
             angle: The angle of the rectangle in degrees. Defaults to 0.
 
         Returns:
-            bool: Whether or not the mouse is in the defined rectangle.
+            bool: Whether the mouse is in the defined rectangle.
         """
 
         mo = Input.get_mouse_pos()  # mouse

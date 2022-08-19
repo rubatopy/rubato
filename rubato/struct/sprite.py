@@ -16,7 +16,7 @@ class Sprite(Surf):
         rel_path: The relative path to the image.
         rotation: The rotation of the image. Defaults to 0.
         scale: The scale of the image. Defaults to Vector(1, 1).
-        aa: Whether or not to use anti-aliasing. Defaults to False.
+        aa: Whether to use anti-aliasing. Defaults to False.
     """
 
     def __init__(

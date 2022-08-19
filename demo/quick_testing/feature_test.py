@@ -9,6 +9,11 @@ width, height = 32, 32
 rb.init(res=V(width, height), window_size=V(width, height) * 20)
 s = rb.Scene()
 
+raster2 = rb.Raster(width, height, offset=V(width / 2, height / 2))
+img2 = raster2.surf
+
+# img2.draw_rect(V(0, 0), V(width, height), fill=rb.Color.black)
+
 raster = rb.Raster(width, height, offset=V(width / 2, height / 2))
 img = raster.surf
 
@@ -18,8 +23,8 @@ img.clear()
 
 # img.draw_rect(V(1, 1), V(30, 30), rb.Color.purple, 3, rb.Color.green)
 # img.draw_rect(V(0, 0), V(32, 32), rb.Color.red)
-img.draw_circle(V(16, 16), 7, rb.Color.red, aa=True)
-# img.draw_line(V(4, 3), V(28, 27), rb.Color.blue, 3)
+# img.draw_circle(V(16, 16), 7, rb.Color.blue, fill=rb.Color.red, aa=True, blending=True)
+img.draw_line(V(4, 3), V(28, 27), rb.Color.blue, aa=True, thickness=3, blending=True)
 # img.draw_line(V(4, 4), V(28, 28), rb.Color(32, 32, 32, 128), 5)
 # img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], rb.Color.gray, 3)
 # img.draw_poly([V(16, 0), V(0, 16), V(32, 16)], border=rb.Color.blue, aa=True)
@@ -46,6 +51,7 @@ def update():
         img.draw_point(rb.Input.get_mouse_pos(), rb.Color(32, 32, 32))
 
 
+s.add(rb.wrap(raster2,))
 s.add(rb.wrap(raster,))
 rb.Game.update = update
 

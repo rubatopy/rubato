@@ -14,7 +14,7 @@ class Surface(Surf):
         width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         height: The height of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         scale: The scale of the surface. Defaults to Vector(1, 1).
-        aa: Whether or not to use anti-aliasing. Defaults to False.
+        aa: Whether to use anti-aliasing. Defaults to False.
     """
 
     def __init__(
@@ -48,13 +48,21 @@ class Surface(Surf):
         Args:
             pos: The position to draw the point.
             color: The color of the point. Defaults to black.
-            blending: Whether or not to use blending. Defaults to False.
+            blending: Whether to use blending. Defaults to False.
         """
         x, y = pos.tuple_int()
         PixelEditor.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
-    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black, thickness: int = 1, aa: bool = False):
+    def draw_line(
+        self,
+        start: Vector,
+        end: Vector,
+        color: Color = Color.black,
+        aa: bool = False,
+        thickness: int = 1,
+        blending: bool = False
+    ):
         """
         Draws a line on the image.
 
@@ -62,12 +70,15 @@ class Surface(Surf):
             start: The start of the line.
             end: The end of the line.
             color: The color of the line. Defaults to black.
+            aa: Whether to use anti-aliasing. Defaults to False.
             thickness: The thickness of the line. Defaults to 1.
-            aa: Whether or not to use anti-aliasing. Defaults to False.
+            blending: Whether to use blending. Defaults to False.
         """
         sx, sy = start.tuple_int()
         ex, ey = end.tuple_int()
-        PixelEditor.draw_line(self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), thickness, aa)
+        PixelEditor.draw_line(
+            self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
+        )
         self.uptodate = False
 
     def draw_rect(
@@ -76,7 +87,8 @@ class Surface(Surf):
         dims: Vector,
         border: Color | None = None,
         border_thickness: int = 1,
-        fill: Color | None = None
+        fill: Color | None = None,
+        blending: bool = False
     ):
         """
         Draws a rectangle on the image.
@@ -87,6 +99,7 @@ class Surface(Surf):
             border: The border color of the rectangle. Defaults to None.
             border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
+            blending: Whether to use blending. Defaults to False.
         """
         x, y = top_left.tuple_int()
         w, h = dims.tuple_int()
@@ -100,6 +113,7 @@ class Surface(Surf):
                 w,
                 h,
                 fill.rgba32(),
+                blending,
             )
 
         if border is not None:
@@ -112,6 +126,7 @@ class Surface(Surf):
                 w,
                 h,
                 border.rgba32(),
+                blending,
                 border_thickness,
             )
         self.uptodate = False
@@ -124,7 +139,7 @@ class Surface(Surf):
         border_thickness: int = 1,
         fill: Color | None = None,
         aa: bool = False,
-        blend: bool = False,
+        blending: bool = False,
     ):
         """
         Draws a circle on the image.
@@ -133,25 +148,27 @@ class Surface(Surf):
             center: The center of the circle.
             radius: The radius of the circle.
             border: The border color of the circle. Defaults to None.
+            border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the circle. Set to None for no fill. Defaults to None.
-            aa: Whether or not to use anti-aliasing. Defaults to False.
-            blend: Whether or not to use blending. Defaults to False.
+            aa: Whether to use anti-aliasing. Defaults to False.
+            blending: Whether to use blending. Defaults to False.
         """
         x, y = center.tuple_int()
         if fill is not None:
-            PixelEditor.fill_circle(
+            PixelEditor.fill_circle(self.surf.pixels, self.surf.w, self.surf.h, x, y, radius, fill.rgba32(), blending)
+
+        if border is not None:
+            PixelEditor.draw_circle(
                 self.surf.pixels,
                 self.surf.w,
                 self.surf.h,
                 x,
                 y,
                 radius,
-                fill.rgba32(),
-            )
-
-        if border is not None:
-            PixelEditor.draw_circle(
-                self.surf.pixels, self.surf.w, self.surf.h, x, y, radius, border.rgba32(), aa, blend, border_thickness
+                border.rgba32(),
+                aa,
+                blending,
+                border_thickness,
             )
         self.uptodate = False
 
@@ -161,7 +178,8 @@ class Surface(Surf):
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
-        aa: bool = False
+        aa: bool = False,
+        blending: bool = False,
     ):
         """
         Draws a polygon on the image.
@@ -169,8 +187,10 @@ class Surface(Surf):
         Args:
             points: The points of the polygon.
             border: The border color of the polygon. Defaults to None.
+            border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the polygon. Set to None for no fill. Defaults to None.
-            aa: Whether or not to use anti-aliasing. Defaults to False.
+            aa: Whether to use anti-aliasing. Defaults to False.
+            blending: Whether to use blending. Defaults to False.
         """
         if fill is not None:
             PixelEditor.fill_poly(
@@ -179,11 +199,12 @@ class Surface(Surf):
                 self.surf.h,
                 points,
                 fill.rgba32(),
+                blending,
             )
 
         if border is not None:
             PixelEditor.draw_poly(
-                self.surf.pixels, self.surf.w, self.surf.h, points, border.rgba32(), border_thickness, aa
+                self.surf.pixels, self.surf.w, self.surf.h, points, border.rgba32(), aa, blending, border_thickness
             )
         self.uptodate = False
 

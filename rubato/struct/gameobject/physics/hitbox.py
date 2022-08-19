@@ -16,8 +16,8 @@ class Hitbox(Component):
     Args:
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
-        debug: Whether or not to draw the hitbox. Defaults to False.
-        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        debug: Whether to draw the hitbox. Defaults to False.
+        trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
@@ -141,8 +141,8 @@ class Polygon(Hitbox):
         verts: The vertices of the polygon. Defaults to [].
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
-        debug: Whether or not to draw the hitbox. Defaults to False.
-        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        debug: Whether to draw the hitbox. Defaults to False.
+        trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
@@ -273,7 +273,7 @@ class Polygon(Hitbox):
             pt (Vector): The point to check, in game-world coordinates..
 
         Returns:
-            bool: Whether or not the point is inside the Polygon.
+            bool: Whether the point is inside the Polygon.
         """
         return Input.pt_in_poly(pt, self.real_verts())
 
@@ -326,8 +326,8 @@ class Rectangle(Hitbox):
         height: The height of the rectangle. Defaults to 10.
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
-        debug: Whether or not to draw the hitbox. Defaults to False.
-        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        debug: Whether to draw the hitbox. Defaults to False.
+        trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
@@ -577,7 +577,7 @@ class Rectangle(Hitbox):
             pt (Vector): The point to check, in game-world coordinates.
 
         Returns:
-            bool: Whether or not the point is inside the Rectangle.
+            bool: Whether the point is inside the Rectangle.
         """
         return Input.pt_in_poly(pt, self.real_verts())
 
@@ -678,8 +678,8 @@ class Circle(Hitbox):
         radius: The radius of the circle. Defaults to 10.
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
-        debug: Whether or not to draw the hitbox. Defaults to False.
-        trigger: Whether or not the hitbox is a trigger. Defaults to False.
+        debug: Whether to draw the hitbox. Defaults to False.
+        trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
@@ -764,7 +764,7 @@ class Circle(Hitbox):
             pt (Vector): The point to check, in game-world coordinates..
 
         Returns:
-            bool: Whether or not the point is inside the Circle.
+            bool: Whether the point is inside the Circle.
         """
         r = self.transformed_radius()
         return (pt - self.gameobj.pos).mag_sq <= r * r

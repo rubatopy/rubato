@@ -124,7 +124,7 @@ class Display(metaclass=_DisplayProperties):
 
     @classmethod
     def has_x_border(cls) -> bool:
-        """Whether or not the window has a black border on the left or right side."""
+        """Whether the window has a black border on the left or right side."""
         render_rat = cls.res.y / cls.res.x
         window_rat = cls.window_size.y / cls.window_size.x
 
@@ -132,7 +132,7 @@ class Display(metaclass=_DisplayProperties):
 
     @classmethod
     def has_y_border(cls) -> bool:
-        """Whether or not the window has a black border on the top or bottom."""
+        """Whether the window has a black border on the top or bottom."""
         render_rat = cls.res.y / cls.res.x
         window_rat = cls.window_size.y / cls.window_size.x
 
@@ -160,7 +160,7 @@ class Display(metaclass=_DisplayProperties):
         Set the window to fullscreen.
 
         Args:
-            on: Whether or not to set the window to fullscreen.
+            on: Whether to set the window to fullscreen.
             mode: The type of fullscreen to use. Can be either "desktop" or "exclusive".
         """
         if on:

@@ -61,11 +61,11 @@ class Animation(Component):
         self.scale: Vector = scale
         """The scale of the animation."""
         self.aa: bool = aa
-        """Whether or not to enable anti aliasing."""
+        """Whether to enable anti aliasing."""
         self.flipx: bool = flipx
-        """Whether or not to flip the animation along the x axis."""
+        """Whether to flip the animation along the x axis."""
         self.flipy: bool = flipy
-        """Whether or not to flip the animation along the y axis."""
+        """Whether to flip the animation along the y axis."""
 
         self._time_step = 1000 / self._fps
         self._time_count = 0

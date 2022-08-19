@@ -36,7 +36,7 @@ class BaseImage(Component):
 
     @property
     def aa(self) -> bool:
-        """Whether or not the raster is anti-aliased."""
+        """Whether the raster is anti-aliased."""
         return self.surf.aa
 
     @aa.setter
@@ -242,7 +242,7 @@ class Image(BaseImage):
         scale: The scale of the image. Defaults to Vector(1, 1).
         offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the image. Defaults to 0.
-        aa: Whether or not to use anti-aliasing. Defaults to False.
+        aa: Whether to use anti-aliasing. Defaults to False.
         z_index: The z-index of the image. Defaults to 0.
     """
 

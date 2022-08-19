@@ -24,7 +24,7 @@ class Surf:
         """(READ ONLY) The generated sprite texture."""
         self.uptodate: bool = False
         """
-        Whether or not the texture is up to date with the surface.
+        Whether the texture is up to date with the surface.
         Can be set to False to trigger a texture regeneration at the next draw cycle.
         """
 
