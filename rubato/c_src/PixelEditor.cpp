@@ -418,8 +418,8 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
 inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
-    int* v_x_min = (int*) malloc(sizeof(int) * height); // max height
-    int* v_x_max = (int*) malloc(sizeof(int) * height); // max height
+    int* v_x_min = new int[height];
+    int* v_x_max = new int[height];
 
     for (int i = 0; i < height; i++) {
         v_x_min[i] = width + 1;
@@ -442,10 +442,10 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
         while (true) {
 
             // logic for min and max
-            if (x1 < v_x_min[y1]) {
+            if (0 <= y1 && y1 < height && x1 < v_x_min[y1]) {
                 v_x_min[y1] = x1;
             }
-            if (x1 > v_x_max[y1]) {
+            if (0 <= y1 && y1 < height && x1 > v_x_max[y1]) {
                 v_x_max[y1] = x1;
             }
             // end
@@ -473,8 +473,8 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
         }
         _drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color, blending);
     }
-    free(v_x_min);
-    free(v_x_max);
+    delete[] v_x_min;
+    delete[] v_x_max;
 }
 
 /***********************************************************************************************************************
