@@ -35,7 +35,7 @@ for x in range(int(rb.Display.res.x)):
 
 
 def draw():
-    rb.Draw.surf(surface, rb.Vector(0, 0))
+    rb.Draw.surf(surface, rb.Vector(240, 135))
 
 
 main_scene.draw = draw
