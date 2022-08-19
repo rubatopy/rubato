@@ -301,7 +301,7 @@ class Polygon(Hitbox):
         self.regenerate_verts()
 
         if self.color is not None:
-            self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True, blending=True)
+            self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
     @deprecated(Vector.poly)
@@ -729,9 +729,9 @@ class Circle(Hitbox):
             z_index=z_index
         )
         self._radius = radius
-        r = int(self.radius * 2)
-        self._image = Surface(r, r)
-        self._debug_image = Surface(r, r)
+        size = int(radius) * 2
+        self._image = Surface(size, size)
+        self._debug_image = Surface(size, size)
 
     @property
     def radius(self) -> int | float:
@@ -783,21 +783,17 @@ class Circle(Hitbox):
     def regenerate_image(self):
         super().regenerate_image()
 
-        r = int(self.radius * 2)
-        if self._image.surf.w != r:
-            self._image = Surface(r, r)
-            self._debug_image = Surface(r, r)
+        int_r = int(self.radius)
+        center = Vector(int_r, int_r)
+        size = int_r * 2 + 1
+
+        if self._image.surf.w != size:
+            self._image = Surface(size, size)
+            self._debug_image = Surface(size, size)
 
         if self.color is not None:
-            self._image.draw_circle(
-                Vector(self.radius, self.radius),
-                int(self.radius),
-                border=self.color,
-                fill=self.color,
-                aa=True,
-                blending=True
-            )
-        self._debug_image.draw_circle(Vector(self.radius, self.radius), int(self.radius), Color.debug, 2)
+            self._image.draw_circle(center, int_r, border=self.color, fill=self.color, aa=True)
+        self._debug_image.draw_circle(center, int_r, Color.debug, 2)
 
     def clone(self) -> Circle:
         return Circle(
