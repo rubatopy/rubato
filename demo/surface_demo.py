@@ -35,18 +35,18 @@ col += 1
 circle_d = (V(width / 2, height / 2), (width // 2) - 2)
 
 shapes[col].draw_circle(*circle_d, main_c)
-shapes[gridx + col].draw_circle(*circle_d, main_c, 3, second_c)
-shapes[2 * gridx + col].draw_circle(*circle_d, main_c, aa=True)
-shapes[3 * gridx + col].draw_circle(*circle_d, main_c, fill=second_c, aa=True, blending=True)
+shapes[gridx + col].draw_circle(*circle_d, main_c, aa=True)
+shapes[2 * gridx + col].draw_circle(*circle_d, main_c, 3, second_c)
+shapes[3 * gridx + col].draw_circle(*circle_d, main_c, 2, second_c, True)
 
 col += 1
 
 points = [v + V(width / 2, height / 2) for v in V.poly(6, (width / 2) - 2)]
 
 shapes[col].draw_poly(points, main_c)
-shapes[gridx + col].draw_poly(points, main_c, 3, second_c)
-shapes[2 * gridx + col].draw_poly(points, main_c, aa=True)
-shapes[3 * gridx + col].draw_poly(points, main_c, fill=second_c, aa=True, blending=True)
+shapes[gridx + col].draw_poly(points, main_c, aa=True)
+shapes[2 * gridx + col].draw_poly(points, main_c, 3, second_c)
+shapes[3 * gridx + col].draw_poly(points, main_c, 2, second_c, True)
 
 
 def update():

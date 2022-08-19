@@ -238,6 +238,10 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 // Draws an circle with the specified color and thickness.
 inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool blending, int thickness) {
+    if (thickness == 1) {
+        _drawCircle(_pixels, width, height, xc, yc, radius, color, blending);
+        return;
+    }
     int inner, outer;
     if (thickness % 2 == 0) {
         outer = radius + (thickness / 2) - 1;
@@ -331,16 +335,30 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
     }
 }
 
+inline void _aaDrawCircle(size_t _pixels, int width, int height, int xc, int yc, int outer_radius, size_t color, bool blending, int thickness) {
+    if (thickness == 1) {
+        _aaDrawCircle(_pixels, width, height, xc, yc, outer_radius, color, blending);
+        return;
+    }
+    int inner, outer;
+    if (thickness % 2 == 0) {
+        outer = outer_radius + (thickness / 2) - 1;
+        inner = outer_radius - (thickness / 2);
+    } else {
+        outer = outer_radius + (thickness / 2);
+        inner = outer_radius - (thickness / 2);
+    }
+    _drawCircle(_pixels, width, height, xc, yc, outer_radius, color, blending, thickness);
+    _aaDrawCircle(_pixels, width, height, xc, yc, inner, color, blending);
+    _aaDrawCircle(_pixels, width, height, xc, yc, outer, color, blending);
+}
+
 // Circle function accessible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa, bool blending, int thickness) {
     if (aa) {
-        _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blending);
+        _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
     } else {
-        if (thickness > 1) {
-            _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
-        } else {
-            _drawCircle(_pixels, width, height, xc, yc, radius, color, blending);
-        }
+        _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
     }
 }
 
@@ -378,19 +396,19 @@ inline void _drawPoly(size_t _pixels, int width, int height, void* vx, void* vy,
 }
 
 // Fill an antialiased polygon with the specified color.
-inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
+inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending, int thickness) {
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
 
     for (int i = 0; i < len; i++) {
-        _aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, blending);
+        _aaDrawLine(_pixels, width, height, v_x[i], v_y[i], v_x[(i + 1) % len], v_y[(i + 1) % len], color, blending, thickness);
     }
 }
 
 // Polygon function accessible from python.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool aa, bool blending, int thickness) {
     if (aa) {
-        _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blending);
+        _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
     } else {
         _drawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
     }

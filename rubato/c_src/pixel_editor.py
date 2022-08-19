@@ -113,22 +113,6 @@ def draw_poly(
     blending: bool = True,
     thickness: int = 1,
 ):
-    """
-    Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
-    by this function.
-
-    C Header:
-    ```c
-    void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
-    ```
-    """
-    if (aa and thickness > 1):
-        warn(
-            "Anti-aliasing and thickness > 1 not supported for polygons. Anti-aliasing takes priority",
-            Warning,
-            stacklevel=0
-        )
-
     vxt = []
     vyt = []
     for v in points:
@@ -143,17 +127,6 @@ def draw_poly(
 
 
 def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int, blending: bool = True):
-    """
-    Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
-    by this function.
-
-    C Header:
-    ```c
-    void fillPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
-    ```
-    Warning:
-        This only works for convex polygons. (for now)
-    """
     vxt = []
     vyt = []
     for v in points:
