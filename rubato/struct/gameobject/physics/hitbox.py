@@ -5,7 +5,7 @@ import math
 
 from .. import Component
 from ... import Surface
-from .... import Vector, Color, Error, SideError, Game, Draw, Math, Camera, Input
+from .... import Vector, Color, Error, SideError, Game, Draw, Math, Camera, Input, deprecated
 
 
 class Hitbox(Component):
@@ -77,6 +77,10 @@ class Hitbox(Component):
         """The getter method for the position of the hitbox's center"""
         return self.gameobj.pos + self.offset
 
+    @property
+    def rot(self) -> float:
+        return self.gameobj.rotation + self.rot_offset
+
     def regenerate_image(self):
         """
         Regenerates the image of the hitbox.
@@ -112,13 +116,13 @@ class Hitbox(Component):
 
         if self._color:
             self._image.scale = Vector(self.scale, self.scale)
-            self._image.rotation = self.gameobj.rotation + self.rot_offset
+            self._image.rotation = self.rot
 
             Draw.queue_surf(self._image, self.pos, self.true_z, camera)
 
         if self.debug or Game.debug:
             self._debug_image.scale = Vector(self.scale, self.scale)
-            self._debug_image.rotation = self.gameobj.rotation + self.rot_offset
+            self._debug_image.rotation = self.rot
 
             Draw.queue_surf(self._debug_image, self.pos, camera=camera)
 
@@ -180,6 +184,8 @@ class Polygon(Hitbox):
         self._verts: list[Vector] = verts
         self._image: Surface = Surface()
         self._debug_image: Surface = Surface()
+
+        self.regenerate_verts()
 
     @property
     def verts(self) -> list[Vector]:
@@ -255,7 +261,7 @@ class Polygon(Hitbox):
 
     def translated_verts(self) -> list[Vector]:
         """Offsets each vertex with the Polygon's offset"""
-        return [v * self.scale + self.offset for v in self.verts]
+        return self._translated_verts
 
     def transformed_verts(self) -> list[Vector]:
         """Maps each vertex with the Polygon's scale and rotation"""
@@ -280,6 +286,9 @@ class Polygon(Hitbox):
     def __str__(self):
         return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
 
+    def regenerate_verts(self):
+        self._translated_verts = [vert * self.scale + self.offset for vert in self.verts]
+
     def regenerate_image(self):
         super().regenerate_image()
 
@@ -289,11 +298,13 @@ class Polygon(Hitbox):
             self._debug_image = Surface(r, r)
 
         verts = [v + self.radius for v in self.verts]
+        self.regenerate_verts()
 
         if self.color is not None:
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
+    @deprecated(Vector.poly)
     @classmethod
     def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
         """
