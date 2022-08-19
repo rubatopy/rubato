@@ -30,6 +30,7 @@
 -   Default drawing/debug colors from green to cyan.
 -   Made rendering of images faster
 -   `Color.rgba32` is no longer a property is a method instead.
+-   `Polygon.generate_polygon` to `Vector.poly`. `generate_polygon` is deprecated and will be removed in a future update.
 
 ### Removed
 

@@ -61,7 +61,7 @@ player.add(PlayerController("Bob"))
 main_scene.add(
     rb.wrap(
         poly := rb.Polygon(
-            rb.Polygon.generate_polygon(5, 50),
+            rb.Vector.poly(5, 50),
             color=rb.Color.green,
         ),
         pos=rb.Display.center + rb.Vector(-30),
