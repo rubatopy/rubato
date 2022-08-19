@@ -353,17 +353,8 @@ inline void _aaDrawCircle(size_t _pixels, int width, int height, int xc, int yc,
     _aaDrawCircle(_pixels, width, height, xc, yc, outer, color, blending);
 }
 
-// Circle function accessible from python.
-inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa, bool blending, int thickness) {
-    if (aa) {
-        _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
-    } else {
-        _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
-    }
-}
-
-// Fills a circle with the specified color. Called from python. #TODO: move into the main circle function.
-inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool blending) {
+// Fills a circle with the specified color.
+inline void _fillCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool blending) {
     int x = radius;
     int y = 0;
     int E = -x;
@@ -379,6 +370,24 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
         }
     }
 }
+
+// Circle function accessible from python.
+inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness) {
+    if (fillColor != 0) {
+        _fillCircle(_pixels, width, height, xc, yc, radius, fillColor, blending);
+    }
+    if (borderColor != 0) {
+        if (aa) {
+            _aaDrawCircle(_pixels, width, height, xc, yc, radius, borderColor, blending, thickness);
+        } else {
+            _drawCircle(_pixels, width, height, xc, yc, radius, borderColor, blending, thickness);
+        }
+    } else if (aa) {
+        _aaDrawCircle(_pixels, width, height, xc, yc, radius, fillColor, blending);
+    }
+}
+
+
 
 /***********************************************************************************************************************
 
@@ -405,17 +414,8 @@ inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* v
     }
 }
 
-// Polygon function accessible from python.
-inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool aa, bool blending, int thickness) {
-    if (aa) {
-        _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
-    } else {
-        _drawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
-    }
-}
-
 // Fill a polygon with the specified color.
-inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
+inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
     int* v_x_min = new int[height];
@@ -477,6 +477,23 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
     delete[] v_x_max;
 }
 
+
+// Polygon function accessible from python.
+inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness) {
+    if (fillColor != 0) {
+        _fillPolyConvex(_pixels, width, height, vx, vy, len, fillColor, blending);
+    }
+    if (borderColor != 0) {
+        if (aa) {
+            _aaDrawPoly(_pixels, width, height, vx, vy, len, borderColor, blending, thickness);
+        } else {
+            _drawPoly(_pixels, width, height, vx, vy, len, borderColor, blending, thickness);
+        }
+    } else if (aa) {
+        _aaDrawPoly(_pixels, width, height, vx, vy, len, fillColor, blending, 1);
+    }
+}
+
 /***********************************************************************************************************************
 
 RECTANGLE FUNCTIONS
@@ -515,16 +532,22 @@ inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w
     }
 }
 
-// Rectangle function called from python. #TODO: add fill to here
-inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending, int thickness) {
-    _drawRect(_pixels, width, height, x, y, w, h, color, blending, thickness);
-}
-
 // Fill a rectangle with the specified color.
-inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending) {
+inline void _fillRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending) {
     for (int i = y; i < h + y; i++) {
         for (int j = x; j < w + x; j++) {
             setPixel(_pixels, width, height, j, i, color, blending);
         }
     }
 }
+
+// Rectangle function called from python.
+inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t borderColor, size_t fillColor, bool blending, int thickness) {
+    if (fillColor != 0) {
+        _fillRect(_pixels, width, height, x, y, w, h, fillColor, blending);
+    }
+    if (borderColor != 0) {
+        _drawRect(_pixels, width, height, x, y, w, h, borderColor, blending, thickness);
+    }
+}
+

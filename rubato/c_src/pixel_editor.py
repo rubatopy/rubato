@@ -1,4 +1,5 @@
 # distutils: language = c++
+# cython: language_level = 3
 """Loader for PixelEditor.cpp"""
 import cython
 from .. import Vector
@@ -45,25 +46,13 @@ def draw_circle(
     xc: int,
     yc: int,
     radius: int,
-    color: int,
+    border_color: int,
+    fill_color: int,
     aa: bool = False,
     blending: bool = True,
     thickness: int = 1
 ):
-    PE.drawCircle(pixels, width, height, xc, yc, radius, color, aa, blending, thickness)
-
-
-def fill_circle(
-    pixels: int,
-    width: int,
-    height: int,
-    xc: int,
-    yc: int,
-    radius: int,
-    color: int,
-    blending: bool = True,
-):
-    PE.fillCircle(pixels, width, height, xc, yc, radius, color, blending)
+    PE.drawCircle(pixels, width, height, xc, yc, radius, border_color, fill_color, aa, blending, thickness)
 
 
 def draw_rect(
@@ -74,25 +63,12 @@ def draw_rect(
     y: int,
     w: int,
     h: int,
-    color: int,
+    border_color: int,
+    fill_color: int,
     blending: bool = True,
     thickness: int = 1,
 ):
-    PE.drawRect(pixels, width, height, x, y, w, h, color, blending, thickness)
-
-
-def fill_rect(
-    pixels: int,
-    width: int,
-    height: int,
-    x: int,
-    y: int,
-    w: int,
-    h: int,
-    color: int,
-    blending: bool = True,
-):
-    PE.fillRect(pixels, width, height, x, y, w, h, color, blending)
+    PE.drawRect(pixels, width, height, x, y, w, h, border_color, fill_color, blending, thickness)
 
 
 def draw_poly(
@@ -100,7 +76,8 @@ def draw_poly(
     width: int,
     height: int,
     points: list[Vector],
-    color: int,
+    border_color: int,
+    fill_color: int,
     aa: bool = False,
     blending: bool = True,
     thickness: int = 1,
@@ -114,17 +91,15 @@ def draw_poly(
     vx: array.array = array.array("i", vxt)
     vy: array.array = array.array("i", vyt)
     PE.drawPoly(
-        pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color, aa, blending, thickness
+        pixels,
+        width,
+        height,
+        vx.data.as_voidptr,
+        vy.data.as_voidptr,
+        len(points),
+        border_color,
+        fill_color,
+        aa,
+        blending,
+        thickness,
     )
-
-
-def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int, blending: bool = True):
-    vxt = []
-    vyt = []
-    for v in points:
-        x, y = v.tuple_int()
-        vxt.append(x)
-        vyt.append(y)
-    vx: array.array = array.array("i", vxt)
-    vy: array.array = array.array("i", vyt)
-    PE.fillPolyConvex(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color, blending)
