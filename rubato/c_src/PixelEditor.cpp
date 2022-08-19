@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <math.h>
 #include <cstdlib>
+#include <iostream>
 
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
@@ -247,7 +248,7 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
     }
 }
 
-inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
+inline void _drawCircleAA(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
 
     uint32_t aMask = 0x000000FF;
     auto _draw_point = [pixels, width, _height, xc, yc, color, aMask](int x, int y, int alpha) {
@@ -270,7 +271,6 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
 
     int MAX_OPAQUE = color & aMask;
     int height;
-
     while (i < j) {
         height = sqrt(max(outer_radius * outer_radius - i * i, 0));
         fade_amount = MAX_OPAQUE * (ceil(height) - height);
@@ -293,12 +293,12 @@ inline void _drawCircleAA(int pixels, int width, int _height, int xc, int yc, in
     }
 }
 
-// Circle functction accesiible from python.
+// Circle function accesiible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
     if (aa) {
         _drawCircleAA(_pixels, width, height, xc, yc, radius, color);
     } else {
-        if (thickness == -1) {
+        if (thickness != -1) {
             _drawCircle(_pixels, width, height, xc, yc, radius, color);
         } else {
             _drawCircle(_pixels, width, height, xc, yc, radius, color, thickness);
