@@ -43,7 +43,7 @@ class Surface(Surf):
 
     def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = False):
         """
-        Draws a point on the image.
+        Draws a point on the surface.
 
         Args:
             pos: The position to draw the point.
@@ -64,7 +64,7 @@ class Surface(Surf):
         blending: bool = False
     ):
         """
-        Draws a line on the image.
+        Draws a line on the surface.
 
         Args:
             start: The start of the line.
@@ -91,7 +91,7 @@ class Surface(Surf):
         blending: bool = False
     ):
         """
-        Draws a rectangle on the image.
+        Draws a rectangle on the surface.
 
         Args:
             top_left: The top left corner of the rectangle.
@@ -142,7 +142,7 @@ class Surface(Surf):
         blending: bool = False,
     ):
         """
-        Draws a circle on the image.
+        Draws a circle on the surface.
 
         Args:
             center: The center of the circle.
@@ -182,7 +182,7 @@ class Surface(Surf):
         blending: bool = False,
     ):
         """
-        Draws a polygon on the image.
+        Draws a polygon on the surface.
 
         Args:
             points: The points of the polygon.
@@ -210,7 +210,7 @@ class Surface(Surf):
 
     def get_pixel(self, pos: Vector) -> Color:
         """
-        Gets the color of a pixel on the image.
+        Gets the color of a pixel on the surface.
 
         Args:
             pos: The position of the pixel.
@@ -226,7 +226,7 @@ class Surface(Surf):
 
     def get_pixel_tuple(self, pos: Vector) -> tuple[int, int, int, int]:
         """
-        Gets the color of a pixel on the image.
+        Gets the color of a pixel on the surface.
 
         Args:
             pos: The position of the pixel.
@@ -238,7 +238,7 @@ class Surface(Surf):
 
     def switch_color(self, color: Color, new_color: Color):
         """
-        Switches a color in the image.
+        Switches a color in the surface.
 
         Args:
             color: The color to switch.
@@ -254,7 +254,7 @@ class Surface(Surf):
 
     def set_colorkey(self, color: Color):
         """
-        Sets the colorkey of the image.
+        Sets the colorkey of the surface.
         Args:
             color: Color to set as the colorkey.
         """

@@ -85,7 +85,7 @@ class BaseImage(Component):
 
 
 class Raster(BaseImage):
-    """A raster is a component that contains a surface."""
+    """A raster is a component that contains a image."""
 
     def __init__(
         self,
@@ -102,21 +102,30 @@ class Raster(BaseImage):
 
     def clear(self):
         """
-        Clears the surface.
+        Clears the image.
         """
         self.surf.clear()
 
-    def draw_point(self, pos: Vector, color: Color = Color.black):
+    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = False):
         """
         Draws a point on the image.
 
         Args:
             pos: The position to draw the point.
             color: The color of the point. Defaults to black.
+            blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_point(pos, color)
+        self.surf.draw_point(pos, color, blending)
 
-    def draw_line(self, start: Vector, end: Vector, color: Color = Color.black):
+    def draw_line(
+        self,
+        start: Vector,
+        end: Vector,
+        color: Color = Color.black,
+        aa: bool = False,
+        thickness: int = 1,
+        blending: bool = False
+    ):
         """
         Draws a line on the image.
 
@@ -124,9 +133,11 @@ class Raster(BaseImage):
             start: The start of the line.
             end: The end of the line.
             color: The color of the line. Defaults to black.
-            width: The width of the line. Defaults to 1.
+            aa: Whether to use anti-aliasing. Defaults to False.
+            thickness: The thickness of the line. Defaults to 1.
+            blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_line(start, end, color)
+        self.surf.draw_line(start, end, color, aa, thickness, blending)
 
     def draw_rect(self, top_left: Vector, dims: Vector, border: Color = Color.black, fill: Color | None = None):
         """
@@ -140,31 +151,55 @@ class Raster(BaseImage):
         """
         self.surf.draw_rect(top_left, dims, border, fill)
 
-    def draw_circle(self, center: Vector, radius: int, border: Color = Color.black, fill: Color | None = None):
+    def draw_circle(
+        self,
+        center: Vector,
+        radius: int,
+        border: Color | None = None,
+        border_thickness: int = 1,
+        fill: Color | None = None,
+        aa: bool = False,
+        blending: bool = False,
+    ):
         """
         Draws a circle on the image.
 
         Args:
             center: The center of the circle.
             radius: The radius of the circle.
-            border: The border color of the circle. Defaults to black.
+            border: The border color of the circle. Defaults to None.
+            border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the circle. Set to None for no fill. Defaults to None.
+            aa: Whether to use anti-aliasing. Defaults to False.
+            blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_circle(center, radius, border, fill)
+        self.surf.draw_circle(center, radius, border, border_thickness, fill, aa, blending)
 
-    def draw_poly(self, points: list[Vector | tuple[int, int]], border: Color = Color.black):
+    def draw_poly(
+        self,
+        points: list[Vector],
+        border: Color | None = None,
+        border_thickness: int = 1,
+        fill: Color | None = None,
+        aa: bool = False,
+        blending: bool = False,
+    ):
         """
         Draws a polygon on the image.
 
         Args:
             points: The points of the polygon.
-            border: The border color of the polygon. Defaults to black.
+            border: The border color of the polygon. Defaults to None.
+            border_thickness: The thickness of the border. Defaults to 1.
+            fill: The fill color of the polygon. Set to None for no fill. Defaults to None.
+            aa: Whether to use anti-aliasing. Defaults to False.
+            blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_poly(points, border)
+        self.surf.draw_poly(points, border, border_thickness, fill, aa, blending)
 
     def get_size(self) -> Vector:
         """
-        Gets the current size of the surface.
+        Gets the current size of the image.
 
         Returns:
             The size of the surface
