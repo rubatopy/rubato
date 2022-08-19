@@ -1,6 +1,7 @@
 # distutils: language = c++
 """Loader for PixelEditor.cpp"""
 import cython
+from warnings import warn
 from .. import Vector
 if cython.compiled:
     from cython.cimports.rubato.c_src import cPixelEditor as PE  # pyright: ignore
@@ -35,6 +36,13 @@ def draw_line(
     blending: bool = False,
     thickness: int = 1,
 ):
+    if (aa and thickness > 1):
+        warn(
+            "Anti-aliasing and thickness > 1 not supported for lines. Anti-aliasing takes priority",
+            Warning,
+            stacklevel=0
+        )
+
     PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
 
 
@@ -50,6 +58,13 @@ def draw_circle(
     blending: bool = False,
     thickness: int = 1
 ):
+    if (aa and thickness > 1):
+        warn(
+            "Anti-aliasing and thickness > 1 not supported for circles. Anti-aliasing takes priority",
+            Warning,
+            stacklevel=0
+        )
+
     PE.drawCircle(pixels, width, height, xc, yc, radius, color, aa, blending, thickness)
 
 
@@ -114,14 +129,21 @@ def draw_poly(
     void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color)
     ```
     """
+    if (aa and thickness > 1):
+        warn(
+            "Anti-aliasing and thickness > 1 not supported for polygons. Anti-aliasing takes priority",
+            Warning,
+            stacklevel=0
+        )
+
     vxt = []
     vyt = []
     for v in points:
         x, y = v.tuple_int()
         vxt.append(x)
         vyt.append(y)
-    vx: array.array = array.array('i', vxt)
-    vy: array.array = array.array('i', vyt)
+    vx: array.array = array.array("i", vxt)
+    vy: array.array = array.array("i", vyt)
     PE.drawPoly(
         pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color, aa, blending, thickness
     )
@@ -145,6 +167,6 @@ def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color:
         x, y = v.tuple_int()
         vxt.append(x)
         vyt.append(y)
-    vx: array.array = array.array('i', vxt)
-    vy: array.array = array.array('i', vyt)
+    vx: array.array = array.array("i", vxt)
+    vy: array.array = array.array("i", vyt)
     PE.fillPolyConvex(pixels, width, height, vx.data.as_voidptr, vy.data.as_voidptr, len(points), color, blending)
