@@ -1,4 +1,4 @@
-from rubato import init, begin, Vector as V, Draw, Surface, Color as C, Game, Display
+from rubato import init, begin, Draw, Surface, Game, Vector as V, Color as C
 
 width, height = 32, 32
 gridx, gridy = 4, 4
