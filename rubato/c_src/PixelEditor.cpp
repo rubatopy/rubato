@@ -121,8 +121,8 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
 
 // Draws an antialiased line from (x0, y0) to (x1, y1) with the specified color.
 inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color) {
-    auto fpart = [](float x) { return (float) (x - floor(x)); };
-    auto rfpart = [fpart](float x) { return 1 - fpart(x); };
+    auto fpart = [](double x) { return (double) (x - floor(x)); };
+    auto rfpart = [fpart](double x) { return 1 - fpart(x); };
 
     uint32_t color_u = (uint32_t) color;
     uint32_t colorRGB = color_u & 0xFFFFFF00;
@@ -149,12 +149,12 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, i
     int dx = x1 - x0;
     int dy = y1 - y0;
 
-    float gradient = 1;
+    double gradient = 1;
     if (dx != 0) {
-        gradient = (float) dy / (float) dx;
+        gradient = (double) dy / (double) dx;
     }
 
-    float intery = y0 + gradient;
+    double intery = y0 + gradient;
 
     if (steep) {
         setPixel(_pixels, width, height, y0, x0, color);
