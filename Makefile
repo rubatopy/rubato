@@ -3,11 +3,12 @@
 
 all: test lint demos
 
-build-test:
-	@python setup.py build_ext --force --inplace --define CYTHON_TRACE
+build-test: delete-build
+	@export CFLAGS=-DCYTHON_TRACE=1
+	@export TEST_MODE=1 && python setup.py build_ext --force --inplace --define CYTHON_TRACE
 
 test: build-test
-	@pytest --cov=rubato --cov-report term-missing tests -s
+	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests 
 
 test-rub: build-test
 	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
@@ -54,6 +55,7 @@ docs-clear:
 build:
 	@python setup.py build_ext --inplace
 
+rebuild: delete-build build
 
 watch:
 	@bash ./watchBuild.sh

@@ -8,6 +8,11 @@ if "RUBATO_VERSION" in os.environ:
 else:
     version = "0.0.0"
 
+if "TEST_MODE" in os.environ:
+    linetrace = os.environ["TEST_MODE"] == "1"
+else:
+    linetrace = False
+
 
 def package_files(directory):
     paths = []
@@ -32,6 +37,7 @@ setup(
             compiler_directives={
                 "embedsignature": True,
                 "language_level": 3,
+                "linetrace": linetrace,
             },
         ),
     ]
