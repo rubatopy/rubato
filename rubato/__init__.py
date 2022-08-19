@@ -85,10 +85,11 @@ def init(
     else:
         flags |= sdl2.SDL_WINDOW_SHOWN
 
-    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
+    window_pos, change_pos = (window_pos.tuple_int(), True) if window_pos else (None, False)
+
     size = res//2 if not window_size else window_size
 
-    Display.window = sdl2.ext.Window(name, size.tuple_int(), window_pos.tuple_int() if window_pos else None, flags)
+    Display.window = sdl2.ext.Window(name, size.tuple_int(), window_pos, flags)
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.tuple_int()
