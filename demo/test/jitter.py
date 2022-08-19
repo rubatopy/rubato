@@ -5,7 +5,9 @@ rb.init(res=Vector(500, 500), window_size=Vector(900, 600))
 
 player_img = rb.Image("art/Player1.png")
 
+
 class PlayerController(rb.Component):
+
     def __init__(self, speed):
 
         super().__init__()  # you must call super().__init__()
@@ -14,7 +16,7 @@ class PlayerController(rb.Component):
         self.speed = speed
 
     @property
-    def pos(self):  # TODO: explain next class properly
+    def pos(self):
         return self.gameobj.pos
 
     @pos.setter
@@ -57,15 +59,17 @@ class PlayerController(rb.Component):
         if self.gameobj.pos.y > (rb.Display.res * 1.2).y:
             self.gameobj.pos.y = (rb.Display.res * 1.2).y
 
+
 main_scene = rb.Scene()
 player = rb.GameObject(pos=rb.Display.center)
 player.add(PlayerController(100))
-main_scene.add(player,
-               rb.wrap(rb.Rectangle(20, 20, rb.Color.red), pos=rb.Display.center))
+main_scene.add(player, rb.wrap(rb.Rectangle(20, 20, rb.Color.red), pos=rb.Display.center))
+
 
 def camera_follow():
     target = player.pos.clamp(rb.Display.center, rb.Display.res * 1.2 - rb.Display.center)
     rb.Game.camera.pos = rb.Game.camera.pos.lerp(target, .35)
+
 
 main_scene.update = camera_follow
 
