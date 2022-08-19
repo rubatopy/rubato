@@ -432,7 +432,7 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
         if (v_x_max[i] == -1) {
             continue;
         }
-        drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color, blending = blending);
+        _drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color, blending);
     }
     free(v_x_min);
     free(v_x_max);
