@@ -5,6 +5,12 @@
 #include <cstdlib>
 #include <iostream>
 
+/***********************************************************************************************************************
+
+PIXEL FUNCTIONS
+
+***********************************************************************************************************************/
+
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if (x < width && y < height && x >= 0 && y >= 0) {
@@ -53,6 +59,17 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
     return 0;
 }
 
+inline void clearPixels(size_t _pixels, int width, int height) {
+    memset((size_t*) _pixels, 0, width * height * 4);
+}
+
+
+/***********************************************************************************************************************
+
+LINE FUNCTIONS
+
+***********************************************************************************************************************/
+
 // Draws a line from (x1, y1) to (x2, y2) with the specified color.
 inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending = false) {
     bool x_l = x1 < x2;
@@ -81,17 +98,28 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
     }
 }
 
-/** Draws an antialiased line from (x0, y0) to (x1, y1) with the specified color.
- *
- * @param _pixels The pixels to draw on.
- * @param width The width of the surface.
- * @param height The height of the surface.
- * @param x0 The x coordinate of the first point.
- * @param y0 The y coordinate of the first point.
- * @param x1 The x coordinate of the second point.
- * @param y1 The y coordinate of the second point.
- * @param color The color to draw with.
- */
+// Draws a line from (x1, y1) to (x2, y2) with the specified color and thickness.
+inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending, int thickness) {
+    if (thickness == 1) {
+        _drawLine(_pixels, width, height, x1, y1, x2, y2, color);
+        return;
+    }
+    int s, f;
+    if (thickness % 2 == 0) {
+        s = -thickness / 2;
+        f = thickness / 2;
+    } else {
+        s = -(thickness - 1) / 2;
+        f = ((thickness - 1) / 2) + 1;
+    }
+    for (int x = s; x < f; x++) {
+        for (int y = s; y < f; y++) {
+            _drawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color);
+        }
+    }
+}
+
+// Draws an antialiased line from (x0, y0) to (x1, y1) with the specified color.
 inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color) {
     auto fpart = [](float x) { return (float) (x - floor(x)); };
     auto rfpart = [fpart](float x) { return 1 - fpart(x); };
@@ -149,27 +177,6 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, i
     }
 }
 
-// Draws a line from (x1, y1) to (x2, y2) with the specified color and thickness.
-inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending, int thickness) {
-    if (thickness == 1) {
-        _drawLine(_pixels, width, height, x1, y1, x2, y2, color);
-        return;
-    }
-    int s, f;
-    if (thickness % 2 == 0) {
-        s = -thickness / 2;
-        f = thickness / 2;
-    } else {
-        s = -(thickness - 1) / 2;
-        f = ((thickness - 1) / 2) + 1;
-    }
-    for (int x = s; x < f; x++) {
-        for (int y = s; y < f; y++) {
-            _drawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color);
-        }
-    }
-}
-
 // This is the drawLine accessible from python.
 inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
     if (aa) _aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color); // when included -> , blending, thickness);
@@ -178,6 +185,12 @@ inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int 
     else
         _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending);
 }
+
+/***********************************************************************************************************************
+
+CIRCLE FUNCTIONS
+
+***********************************************************************************************************************/
 
 // Draws a circle with the specified color.
 inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color) {
@@ -201,6 +214,7 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
     }
 }
 
+// Draws an circle with the specified color and thickness.
 inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, int thickness) {
     int inner, outer;
     if (thickness % 2 == 0) {
@@ -248,6 +262,7 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
     }
 }
 
+// Draws an anti-aliased circle with the specified color.
 inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color) {
 
     uint32_t aMask = 0x000000FF;
@@ -294,7 +309,7 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
     }
 }
 
-// Circle function accesiible from python.
+// Circle function accessible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = -1) {
     if (aa) {
         _aaDrawCircle(_pixels, width, height, xc, yc, radius, color);
@@ -325,6 +340,11 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
+/***********************************************************************************************************************
+
+POLYGON FUNCTIONS
+
+***********************************************************************************************************************/
 
 // Fill a polygon with the specified color.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, int thickness = 1) {
@@ -408,6 +428,12 @@ inline void fillPolyConvex(size_t _pixels, int width, int height, void* vx, void
     free(v_x_max);
 }
 
+/***********************************************************************************************************************
+
+RECTANGLE FUNCTIONS
+
+***********************************************************************************************************************/
+
 // Draw a rectangle with the specified color.
 inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color) {
     for (int i = x; i < w + x; i++) {
@@ -452,8 +478,4 @@ inline void fillRect(size_t _pixels, int width, int height, int x, int y, int w,
             setPixel(_pixels, width, height, j, i, color);
         }
     }
-}
-
-inline void clearPixels(size_t _pixels, int width, int height) {
-    memset((size_t*) _pixels, 0, width * height * 4);
 }
