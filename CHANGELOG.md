@@ -6,12 +6,17 @@
 
 -   Made `Vector` a C class, improving overall Rubato performance.
 -   Controller support!
+-   `Surface` support! This is a class that lets you easily draw to a screen. The drawing is cached and is therefore
+    very fast.
+-   Increased performance by using `Surface` instead of `Draw` (3-4x improvement).
 
 ### Breaking Changes
 
 -   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
     Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are implicitly cast to floats
     when used in Vector.
+-   `Color.rgba32` is no longer a property is a method instead.
+-   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 
 ### Added
 
@@ -25,17 +30,15 @@
 
 ### Changed
 
--   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 -   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
 -   Default drawing/debug colors from green to cyan.
 -   Made rendering of images faster
--   `Color.rgba32` is no longer a property is a method instead.
 -   `Polygon.generate_polygon` to `Vector.poly`. `generate_polygon` is deprecated and will be removed in a future update.
 
 ### Removed
 
 -   `Game.name`, which did not do anything... yikes.
--   `Image.surface` is not accessible anymore.
+-   `Image.surface` is not accessible anymore. Instead use `Image.surf.surf`.
 -   `flipx` and `flipy` are no longer available. Instead, set the scale to be negative.
 -   `Vector.to_int()`. Use `Vector.floor()` or `Vector.round()` instead.
 
