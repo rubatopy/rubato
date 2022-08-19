@@ -51,13 +51,6 @@ def draw_circle(
     blending: bool = True,
     thickness: int = 1
 ):
-    if (aa and thickness > 1):
-        warn(
-            "Anti-aliasing and thickness > 1 not supported for circles. Anti-aliasing takes priority",
-            Warning,
-            stacklevel=0
-        )
-
     PE.drawCircle(pixels, width, height, xc, yc, radius, color, aa, blending, thickness)
 
 
