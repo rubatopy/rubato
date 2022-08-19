@@ -25,7 +25,6 @@ setup(
             "rubato.c_src.pixel_editor",
             ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
             extra_compile_args=["-std=c++14"],
-            extra_link_args=["-std=c++14"],
         ),
         *cythonize(
             "rubato/**/*.py",

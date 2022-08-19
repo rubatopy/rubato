@@ -5,7 +5,7 @@ from rubato import Vector as V
 width, height = 256, 256
 off = int(width / 8)
 
-rb.init(res=V(width, height), window_size=V(width, height) * 20)
+rb.init(res=V(width, height), window_size=V(width, height) * 2)
 s = rb.Scene()
 
 raster = rb.Raster(width, height, offset=V(width / 2, height / 2))
@@ -15,7 +15,7 @@ raster2 = rb.Raster(width, height, offset=V(width / 2, height / 2))
 def update():
     raster.surf.clear()
     raster.surf.draw_poly(
-        [v + rb.world_mouse().floor() for v in rb.Vector.poly(8, off)], rb.Color.blue, aa=True, blending=True
+        [v + rb.world_mouse().floor() for v in rb.Vector.poly(8, off)], rb.Color.blue, fill=rb.Color.red, aa=True
     )
     if rb.Input.mouse_pressed():
         raster2.merge(raster)

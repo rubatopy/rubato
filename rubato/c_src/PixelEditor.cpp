@@ -162,8 +162,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
         setPixel(_pixels, width, height, y2, x2, color, blending);
 
         for (int x = x1 + 1; x < x2; x++) {
-            setPixel(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
-            setPixel(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, (int) floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, (int) floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
             intery += gradient;
         }
     } else {
@@ -171,8 +171,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
         setPixel(_pixels, width, height, x2, y2, color, blending);
 
         for (int x = x1 + 1; x < x2; x++) {
-            setPixel(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
-            setPixel(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, x, (int) floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, x, (int) floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
             intery += gradient;
         }
     }
@@ -289,14 +289,14 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
 
     uint32_t aMask = 0x000000FF;
     auto _draw_point = [pixels, width, _height, xc, yc, color, aMask, blending](int x, int y, uint8_t alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc + x, yc - y, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc - x, yc + y, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc - x, yc - y, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc - y, yc - x, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc - y, yc + x, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc + y, yc - x, (color & ~aMask) | alpha, blending);
-        setPixel(pixels, width, _height, xc + y, yc + x, (color & ~aMask) | alpha, blending);
+        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & ~aMask) | alpha), blending);
+        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & ~aMask) | alpha), blending);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
@@ -315,7 +315,7 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
 
     while (i < j) {
         height = sqrt(max(sq_r - i * i, 0));
-        fade_amount = MAX_OPAQUE * (ceil(height) - height);
+        fade_amount = (uint8_t) (MAX_OPAQUE * (ceil(height) - height));
 
         if (fade_amount < last_fade_amount) {
             // Opaqueness reset so drop down a row.
