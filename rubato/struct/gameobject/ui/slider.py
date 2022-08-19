@@ -7,7 +7,7 @@ from .. import Component
 from .... import Input, Vector, Math, Draw, Color, Camera
 
 
-# NEEDS TO ME MADE GOOD
+# UNFINISHED
 class Slider(Component):
     """
     A Slider component. Still needs to be added to a :func:`GameObject <rubato.struct.game_object.GameObject>`.
