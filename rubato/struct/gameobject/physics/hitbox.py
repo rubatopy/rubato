@@ -59,7 +59,7 @@ class Hitbox(Component):
         self._color: Color = color
         self._image: Surface = Surface(scale=scale)
         self._debug_image: Surface = Surface(scale=scale)
-        self.up_to_date: bool = False
+        self.uptodate: bool = False
         """Whether the hitbox image is up to date or not."""
 
     @property
@@ -70,7 +70,7 @@ class Hitbox(Component):
     @color.setter
     def color(self, new: Color):
         self._color = new
-        self.up_to_date = False
+        self.uptodate = False
 
     @property
     def pos(self) -> Vector:
@@ -110,9 +110,9 @@ class Hitbox(Component):
         if self.hidden:
             return
 
-        if not self.up_to_date:
+        if not self.uptodate:
             self.regenerate_image()
-            self.up_to_date = True
+            self.uptodate = True
 
         if self._color:
             self._image.scale = Vector(self.scale, self.scale)
@@ -195,7 +195,7 @@ class Polygon(Hitbox):
     @verts.setter
     def verts(self, new: list[Vector]):
         self._verts = new
-        self.up_to_date = False
+        self.uptodate = False
 
     @property
     def radius(self) -> float:
@@ -387,7 +387,7 @@ class Rectangle(Hitbox):
     @width.setter
     def width(self, new: int):
         self._width = new
-        self.up_to_date = False
+        self.uptodate = False
 
     @property
     def height(self) -> int:
@@ -397,7 +397,7 @@ class Rectangle(Hitbox):
     @height.setter
     def height(self, new: int):
         self._height = new
-        self.up_to_date = False
+        self.uptodate = False
 
     @property
     def top_left(self):
@@ -741,7 +741,7 @@ class Circle(Hitbox):
     @radius.setter
     def radius(self, value: int | float):
         self._radius = value
-        self.up_to_date = False
+        self.uptodate = False
 
     @property
     def center(self) -> Vector:
