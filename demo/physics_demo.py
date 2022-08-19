@@ -10,7 +10,7 @@ import rubato as rb
 num_objs = 75
 
 # Initializes rubato
-rb.init(name="rubato physics demo", res=rb.Vector(1200, 1200))
+rb.init(name="rubato physics demo", res=rb.Vector(1980, 1980), window_size=rb.Vector(660, 660))
 
 rb.Game.show_fps = True
 # rb.Game.debug = True
@@ -18,7 +18,7 @@ rb.Game.show_fps = True
 main_scene = rb.Scene()  # Create our scene
 
 # Create our four walls
-top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -30)).add(
+top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -50)).add(
     rb.Rectangle(
         width=rb.Display.res.x + 175,
         height=rb.Display.res.y // 10,
@@ -26,7 +26,7 @@ top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -30)).add(
     )
 )
 
-bottom = rb.GameObject(pos=rb.Display.bottom_center + rb.Vector(0, 30)).add(
+bottom = rb.GameObject(pos=rb.Display.bottom_center + rb.Vector(0, 50)).add(
     rb.Rectangle(
         width=rb.Display.res.x + 175,
         height=rb.Display.res.y // 10,
@@ -34,7 +34,7 @@ bottom = rb.GameObject(pos=rb.Display.bottom_center + rb.Vector(0, 30)).add(
     )
 )
 
-left = rb.GameObject(pos=rb.Display.center_left + rb.Vector(-30, 0)).add(
+left = rb.GameObject(pos=rb.Display.center_left + rb.Vector(-50, 0)).add(
     rb.Rectangle(
         width=rb.Display.res.x // 10,
         height=rb.Display.res.y + 175,
@@ -42,7 +42,7 @@ left = rb.GameObject(pos=rb.Display.center_left + rb.Vector(-30, 0)).add(
     )
 )
 
-right = rb.GameObject(pos=rb.Display.center_right + rb.Vector(30, 0)).add(
+right = rb.GameObject(pos=rb.Display.center_right + rb.Vector(50, 0)).add(
     rb.Rectangle(
         width=rb.Display.res.x // 10,
         height=rb.Display.res.y + 175,
