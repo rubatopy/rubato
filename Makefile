@@ -7,7 +7,7 @@ build-test:
 	@python setup.py build_ext --force --inplace --define CYTHON_TRACE
 
 test: build-test
-	@pytest --cov=rubato --cov-report term-missing tests -s
+	@pytest --cov=rubato --cov-report term-missing tests
 
 test-rub: build-test
 	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
