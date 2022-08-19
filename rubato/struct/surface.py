@@ -41,7 +41,7 @@ class Surface(Surf):
         PixelEditor.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
-    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = False):
+    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
 
@@ -61,7 +61,7 @@ class Surface(Surf):
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
-        blending: bool = False
+        blending: bool = True
     ):
         """
         Draws a line on the surface.
@@ -88,7 +88,7 @@ class Surface(Surf):
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
-        blending: bool = False
+        blending: bool = True
     ):
         """
         Draws a rectangle on the surface.
@@ -139,7 +139,7 @@ class Surface(Surf):
         border_thickness: int = 1,
         fill: Color | None = None,
         aa: bool = False,
-        blending: bool = False,
+        blending: bool = True,
     ):
         """
         Draws a circle on the surface.
@@ -179,7 +179,7 @@ class Surface(Surf):
         border_thickness: int = 1,
         fill: Color | None = None,
         aa: bool = False,
-        blending: bool = False,
+        blending: bool = True,
     ):
         """
         Draws a polygon on the surface.

@@ -1,4 +1,4 @@
-from rubato import init, begin, Vector as V, Draw, Surface, Color as C, Game
+from rubato import init, begin, Vector as V, Draw, Surface, Color as C, Game, Display
 
 width, height = 32, 32
 gridx, gridy = 4, 4
@@ -17,16 +17,16 @@ col = 0
 line_p = (V(4, 6), V(width - 8, height - 12))
 
 shapes[col].draw_line(*line_p, main_c)
-shapes[gridx + col].draw_line(*line_p, main_c, thickness=3)
-shapes[2 * gridx + col].draw_line(*line_p, main_c, True)
-shapes[3 * gridx + col].draw_line(*line_p, main_c, True, blending=True)
+shapes[gridx + col].draw_line(*line_p, main_c, True)
+shapes[2 * gridx + col].draw_line(*line_p, main_c, thickness=3)
+shapes[3 * gridx + col].draw_line(*line_p, main_c, True, 2, True)
 
 col += 1
 
 rect_d = (V(4, 4), V(width - 8, height - 8))
 
 shapes[col].draw_rect(*rect_d, main_c)
-shapes[gridx + col].draw_rect(*rect_d, main_c, 3)
+shapes[gridx + col].draw_rect(*rect_d, main_c)
 shapes[2 * gridx + col].draw_rect(*rect_d, main_c, 3, second_c)
 shapes[3 * gridx + col].draw_rect(*rect_d, main_c, 2, second_c, True)
 

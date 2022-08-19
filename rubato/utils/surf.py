@@ -70,6 +70,15 @@ class Surf:
         """
         return Vector(self.surf.w, self.surf.h)
 
+    def merge(self, other: Surf):
+        """
+        Merges another surface into this one.
+
+        other: The surface to merge into this one.
+        """
+        sdl2.SDL_BlitSurface(other.surf, None, self.surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
+        self.uptodate = False
+
     def generate_tx(self):
         """Regenerates the texture from the surface."""
         self.tx = sdl2.ext.Texture(Display.renderer, self.surf)

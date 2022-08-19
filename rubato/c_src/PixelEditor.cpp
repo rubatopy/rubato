@@ -120,8 +120,8 @@ inline void _drawLine(size_t _pixels, int width, int height, int x1, int y1, int
     }
 }
 
-// Draws an antialiased line from (x0, y0) to (x1, y1) with the specified color.
-inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, int x1, int y1, size_t color, bool blending = false) {
+// Draws an antialiased line from (x1, y1) to (x2, y2) with the specified color.
+inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending) {
     auto fpart = [](double x) { return (double) (x - floor(x)); };
     auto rfpart = [fpart](double x) { return 1 - fpart(x); };
 
@@ -129,48 +129,48 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, i
     uint32_t colorRGB = color_u & 0xFFFFFF00;
     uint8_t colorA = color_u & 0x000000FF;
 
-    bool steep = abs(y1 - y0) > abs(x1 - x0);
+    bool steep = abs(y2 - y1) > abs(x2 - x1);
     if (steep) {
-        int temp = x0;
-        x0 = y0;
-        y0 = temp;
-        temp = x1;
+        int temp = x1;
         x1 = y1;
         y1 = temp;
+        temp = x2;
+        x2 = y2;
+        y2 = temp;
     }
-    if (x0 > x1) {
-        int temp = x0;
-        x0 = x1;
-        x1 = temp;
-        temp = y0;
-        y0 = y1;
-        y1 = temp;
+    if (x1 > x2) {
+        int temp = x1;
+        x1 = x2;
+        x2 = temp;
+        temp = y1;
+        y1 = y2;
+        y2 = temp;
     }
 
-    int dx = x1 - x0;
-    int dy = y1 - y0;
+    int dx = x2 - x1;
+    int dy = y2 - y1;
 
     double gradient = 1;
     if (dx != 0) {
         gradient = (double) dy / (double) dx;
     }
 
-    double intery = y0 + gradient;
+    double intery = y1 + gradient;
 
     if (steep) {
-        setPixel(_pixels, width, height, y0, x0, color, blending);
         setPixel(_pixels, width, height, y1, x1, color, blending);
+        setPixel(_pixels, width, height, y2, x2, color, blending);
 
-        for (int x = x0 + 1; x < x1; x++) {
+        for (int x = x1 + 1; x < x2; x++) {
             setPixel(_pixels, width, height, floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
             setPixel(_pixels, width, height, floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
             intery += gradient;
         }
     } else {
-        setPixel(_pixels, width, height, x0, y0, color, blending);
         setPixel(_pixels, width, height, x1, y1, color, blending);
+        setPixel(_pixels, width, height, x2, y2, color, blending);
 
-        for (int x = x0 + 1; x < x1; x++) {
+        for (int x = x1 + 1; x < x2; x++) {
             setPixel(_pixels, width, height, x, floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
             setPixel(_pixels, width, height, x, floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
             intery += gradient;
@@ -178,13 +178,34 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x0, int y0, i
     }
 }
 
+inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool blending, int thickness) {
+    if (thickness == 1) {
+        _aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color, blending);
+        return;
+    }
+    int s, f;
+    if (thickness % 2 == 0) {
+        s = -thickness / 2;
+        f = thickness / 2;
+    } else {
+        s = -(thickness - 1) / 2;
+        f = ((thickness - 1) / 2) + 1;
+    }
+    for (int x = s; x < f; x++) {
+        for (int y = s; y < f; y++) {
+            if (x == s || y == s || x == f - 1 || y == f - 1) {
+                _aaDrawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color, blending);
+            } else {
+                _drawLine(_pixels, width, height, x1 + x, y1 + y, x2 + x, y2 + y, color, blending);
+            }
+        }
+    }
+}
+
 // This is the drawLine accessible from python.
-inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa = false, bool blending = false, int thickness = 1) {
-    if (aa) _aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color, blending); // when included -> thickness);
-    else if (thickness > 1) {
-        _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending, thickness);
-    } else
-        _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending);
+inline void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa, bool blending, int thickness) {
+    if (aa) _aaDrawLine(_pixels, width, height, x1, y1, x2, y2, color, blending, thickness);
+    else _drawLine(_pixels, width, height, x1, y1, x2, y2, color, blending, thickness);
 }
 
 /***********************************************************************************************************************
@@ -311,7 +332,7 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
 }
 
 // Circle function accessible from python.
-inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa = false, bool blending = false, int thickness = 1) {
+inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool aa, bool blending, int thickness) {
     if (aa) {
         _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blending);
     } else {
@@ -329,10 +350,10 @@ inline void fillCircle(size_t _pixels, int width, int height, int xc, int yc, in
     int y = 0;
     int E = -x;
     while (x >= y) {
-        drawLine(_pixels, width, height, xc + x, yc + y, xc - x, yc + y, color, false, blending);
-        drawLine(_pixels, width, height, xc - y, yc + x, xc + y, yc + x, color, false, blending);
-        drawLine(_pixels, width, height, xc - x, yc - y, xc + x, yc - y, color, false, blending);
-        drawLine(_pixels, width, height, xc - y, yc - x, xc + y, yc - x, color, false, blending);
+        _drawLine(_pixels, width, height, xc + x, yc + y, xc - x, yc + y, color, blending);
+        _drawLine(_pixels, width, height, xc - y, yc + x, xc + y, yc + x, color, blending);
+        _drawLine(_pixels, width, height, xc - x, yc - y, xc + x, yc - y, color, blending);
+        _drawLine(_pixels, width, height, xc - y, yc - x, xc + y, yc - x, color, blending);
 
         E += 2 * (y++) + 1;
         if (E >= 0) {
@@ -367,7 +388,7 @@ inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* v
 }
 
 // Polygon function accessible from python.
-inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool aa = false, bool blending = false, int thickness = 1) {
+inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool aa, bool blending, int thickness) {
     if (aa) {
         _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blending);
     } else {
@@ -477,12 +498,8 @@ inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w
 }
 
 // Rectangle function called from python. #TODO: add fill to here
-inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending = false, int thickness = 1) {
-    if (thickness > 1) {
-        _drawRect(_pixels, width, height, x, y, w, h, color, blending, thickness);
-    } else {
-        _drawRect(_pixels, width, height, x, y, w, h, color, blending);
-    }
+inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending, int thickness) {
+    _drawRect(_pixels, width, height, x, y, w, h, color, blending, thickness);
 }
 
 // Fill a rectangle with the specified color.

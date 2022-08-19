@@ -11,7 +11,7 @@ else:
     import array
 
 
-def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = False):
+def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = True):
     PE.setPixel(pixels, width, height, x, y, color, blending)
 
 
@@ -33,16 +33,9 @@ def draw_line(
     y2: int,
     color: int,
     aa: bool = False,
-    blending: bool = False,
+    blending: bool = True,
     thickness: int = 1,
 ):
-    if (aa and thickness > 1):
-        warn(
-            "Anti-aliasing and thickness > 1 not supported for lines. Anti-aliasing takes priority",
-            Warning,
-            stacklevel=0
-        )
-
     PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
 
 
@@ -55,7 +48,7 @@ def draw_circle(
     radius: int,
     color: int,
     aa: bool = False,
-    blending: bool = False,
+    blending: bool = True,
     thickness: int = 1
 ):
     if (aa and thickness > 1):
@@ -76,7 +69,7 @@ def fill_circle(
     yc: int,
     radius: int,
     color: int,
-    blending: bool = False,
+    blending: bool = True,
 ):
     PE.fillCircle(pixels, width, height, xc, yc, radius, color, blending)
 
@@ -90,7 +83,7 @@ def draw_rect(
     w: int,
     h: int,
     color: int,
-    blending: bool = False,
+    blending: bool = True,
     thickness: int = 1,
 ):
     PE.drawRect(pixels, width, height, x, y, w, h, color, blending, thickness)
@@ -105,7 +98,7 @@ def fill_rect(
     w: int,
     h: int,
     color: int,
-    blending: bool = False,
+    blending: bool = True,
 ):
     PE.fillRect(pixels, width, height, x, y, w, h, color, blending)
 
@@ -117,7 +110,7 @@ def draw_poly(
     points: list[Vector],
     color: int,
     aa: bool = False,
-    blending: bool = False,
+    blending: bool = True,
     thickness: int = 1,
 ):
     """
@@ -149,7 +142,7 @@ def draw_poly(
     )
 
 
-def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int, blending: bool = False):
+def fill_poly(pixels: int, width: int, height: int, points: list[Vector], color: int, blending: bool = True):
     """
     Points can be a list of tuples or a list of Vectors. The conversion to void pointers is handled
     by this function.

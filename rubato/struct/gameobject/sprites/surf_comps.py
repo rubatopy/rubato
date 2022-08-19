@@ -61,6 +61,12 @@ class BaseImage(Component):
         """
         return self.surf.get_size()
 
+    def merge(self, other: BaseImage):
+        """
+        Merges the surface of another component into this one.
+        """
+        self.surf.merge(other.surf)
+
     def update(self):
         if self.hidden:
             return
@@ -106,7 +112,7 @@ class Raster(BaseImage):
         """
         self.surf.clear()
 
-    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = False):
+    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the image.
 
@@ -124,7 +130,7 @@ class Raster(BaseImage):
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
-        blending: bool = False
+        blending: bool = True
     ):
         """
         Draws a line on the image.
@@ -159,7 +165,7 @@ class Raster(BaseImage):
         border_thickness: int = 1,
         fill: Color | None = None,
         aa: bool = False,
-        blending: bool = False,
+        blending: bool = True,
     ):
         """
         Draws a circle on the image.
@@ -182,7 +188,7 @@ class Raster(BaseImage):
         border_thickness: int = 1,
         fill: Color | None = None,
         aa: bool = False,
-        blending: bool = False,
+        blending: bool = True,
     ):
         """
         Draws a polygon on the image.
