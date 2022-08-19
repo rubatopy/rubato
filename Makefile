@@ -47,7 +47,7 @@ docs-test: docs-clear delete-build
 	@cd docs && python -m $(SPHINXBUILD) -b $(BUILDER) "$(SOURCEDIR)" "$(LIVEBUILDDIR)"
 
 docs-live: docs-clear delete-bin
-	@bash -c "trap 'make build;echo ctrl+c to exit' SIGINT; (cd docs && sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato)"
+	@bash -c "trap 'make build;echo -e \"\033[0;34mctrl+c to exit \033[0m\"' SIGINT; (cd docs && sphinx-autobuild "$(SOURCEDIR)" "$(LIVEBUILDDIR)" -b $(BUILDER) $(O) --watch ../rubato)"
 
 docs-clear:
 	@cd docs && rm -rf build
