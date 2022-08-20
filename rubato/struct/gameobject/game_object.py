@@ -4,11 +4,9 @@ A game object is a basic element that holds components, postion, and z_index.
 from __future__ import annotations
 from typing import Optional, Type, TypeVar
 
-from rubato.utils.color import Color
-
 from . import Hitbox, Polygon, Circle, Rectangle, Component
 from .. import Surface
-from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera
+from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
 
 T = TypeVar("T")
 
