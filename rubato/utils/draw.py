@@ -9,7 +9,7 @@ import sdl2, sdl2.sdlgfx, sdl2.ext
 from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
-    from .. import Sprite
+    from .. import Surf, Camera
 
 
 @cython.cclass
@@ -373,7 +373,14 @@ class Draw:
         Display.update(tx, pos + (align - 1) * Vector(*tx.size) / 2)
 
     @classmethod
-    def queue_texture(cls, texture: sdl2.ext.Texture, pos: Vector = Vector(), z_index: int = Math.INF):
+    def queue_texture(
+        cls,
+        texture: sdl2.ext.Texture,
+        pos: Vector = Vector(),
+        z_index: int = Math.INF,
+        scale: Vector = Vector(1, 1),
+        angle: float = 0,
+    ):
         """
         Draws an texture onto the renderer at the end of the frame.
 
@@ -381,44 +388,60 @@ class Draw:
             texture: The texture to draw.
             pos: The position of the texture. Defaults to Vector(0, 0).
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            scale: The scale of the texture. Defaults to Vector(1, 1).
+            angle: The clockwise rotation of the texture. Defaults to 0.
         """
-        cls.push(z_index, lambda: cls.texture(texture, pos))
+        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle))
 
     @staticmethod
-    def texture(texture: sdl2.ext.Texture, pos: Vector = Vector()):
+    def texture(
+        texture: sdl2.ext.Texture,
+        pos: Vector = Vector(),
+        scale: Vector = Vector(1, 1),
+        angle: float = 0,
+    ):
         """
         Draws an SDL Texture onto the renderer immediately.
 
         Args:
             texture: The texture to draw.
             pos: The position to draw the texture at. Defaults to Vector().
+            scale: The scale of the texture. Defaults to Vector(1, 1).
+            angle: The clockwise rotation of the texture. Defaults to 0.
         """
-        Display.update(texture, pos)
+        Display.update(texture, pos, scale, angle)
 
     @classmethod
-    def queue_sprite(cls, sprite: Sprite, pos: Vector = Vector(), z_index: int = 0):
+    def queue_surf(cls, surf: Surf, pos: Vector = Vector(), z_index: int = Math.INF, camera: Camera | None = None):
         """
-        Draws an sprite onto the renderer at the end of the frame.
+        Draws an surf onto the renderer at the end of the frame.
 
         Args:
-            sprite: The sprite to draw.
-            pos: The position to draw the sprite at. Defaults to Vector(0, 0).
-            z_index: The z-index of the sprite. Defaults to 0.
+            surf: The surf to draw.
+            pos: The position to draw the surf at. Defaults to Vector(0, 0).
+            z_index: The z-index of the surf. Defaults to 0.
+            camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.sprite(sprite, pos))
+        cls.push(z_index, lambda: cls.surf(surf, pos, camera))
 
     @staticmethod
-    def sprite(sprite: Sprite, pos: Vector = Vector()):
+    def surf(surf: Surf, pos: Vector = Vector(), camera: Camera | None = None):
         """
-        Draws an sprite onto the renderer immediately.
+        Draws an surf onto the renderer immediately.
 
         Args:
-            sprite: The sprite to draw.
-            pos: The position to draw the sprite at. Defaults to Vector().
+            surf: The surf to draw.
+            pos: The position to draw the surf at. Defaults to Vector().
+            camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        if sprite.image == "":
+        if not surf.surf:
             return
+        if not surf.uptodate:
+            surf.generate_tx()
 
-        sprite.update()
+        if camera is None:
+            pos -= surf.get_size() / 2
+        else:
+            pos = camera.transform(pos - (surf.get_size() / 2))
 
-        Draw.texture(sprite.tx, pos)
+        Draw.texture(surf.tx, pos, surf.scale, surf.rotation)

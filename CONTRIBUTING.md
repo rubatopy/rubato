@@ -51,6 +51,7 @@ make demos # runs all demos for 3 seconds
 make docs-live # builds the documentation locally
 make docs-clear # clears the built docs
 make build # builds the project
+make rebuild # rebuilds the project (clears the build directory then builds)
 make watch # builds the project as you make changes
 make delete-bin # deletes the binary files
 make delete-c # deletes the c files

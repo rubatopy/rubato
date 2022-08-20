@@ -1,3 +1,11 @@
 {
-    "recommendations": ["magicstack.magicpython", "esbenp.prettier-vscode", "ms-python.vscode-pylance", "ms-python.python", "njpwerner.autodocstring"]
+    "recommendations": [
+        "magicstack.magicpython",
+        "esbenp.prettier-vscode",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "njpwerner.autodocstring",
+        "ms-vscode.cpptools",
+        "guyskk.language-cython"
+    ]
 }

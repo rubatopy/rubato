@@ -6,7 +6,7 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, raise_operator_error
+from . import Math, SideError, raise_operator_error
 
 
 @cython.cclass
@@ -231,19 +231,15 @@ class Vector:
 
         return out
 
-    def rounded(self) -> Vector:
-        """Returns a new vector with values that are rounded."""
-        return Vector(round(self.x), round(self.y))
-
-    def to_tuple(self) -> tuple[int, int]:
+    def to_tuple(self) -> tuple[float, float]:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
         return self.x, self.y
 
     def tuple_int(self) -> tuple[int, int]:
-        """Returns a tuple with rounded values."""
-        return round(self.x), round(self.y)
+        """Returns a tuple with int-cast values."""
+        return int(self.x), int(self.y)
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""
@@ -427,6 +423,27 @@ class Vector:
             Random vector inside the unit circle.
         """
         return cls.from_radial(1, random.random() * 360)
+
+    @classmethod
+    def poly(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
+        """
+        Returns a list of vectors representing a polygon with the given number of sides and radius.
+
+        Args:
+            num_sides (int): The number of sides of the polygon.
+            radius (float | int, optional): The radius of the polygon. Defaults to 1.
+
+        Raises:
+            SideError: If num_sides is less than 3.
+
+        Returns:
+            list[Vector]: The list of vectors representing the polygon.
+        """
+        if num_sides < 3:
+            raise SideError("Can't create a polygon with less than three sides.")
+
+        rotangle = 360 / num_sides
+        return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
 
     @staticmethod
     def zero():

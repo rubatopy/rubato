@@ -41,7 +41,6 @@ class Text(Component):
         self._anchor: Vector = anchor
         self._justify: str = justify
         self._width: int = width
-        self._stored_rot: int = 0
 
         if not self._font:
             self._font = Font()
@@ -150,12 +149,10 @@ class Text(Component):
     def generate_surface(self):
         """(Re)generates the surface of the text."""
         self._tx = sdl2.ext.Texture(
-            Display.renderer,
-            self._font.generate_surface(
+            Display.renderer, self._font.generate_surface(
                 self._text,
                 self._justify,
                 self._width,
-                int((self.gameobj.rotation if self.gameobj else 0) + self.rot_offset),
             )
         )
 
@@ -163,20 +160,17 @@ class Text(Component):
         if self.hidden:
             return
 
-        if self.gameobj.rotation != self._stored_rot:
-            self._stored_rot = self.gameobj.rotation + self.rot_offset
-            self.generate_surface()
-
         Draw.queue_texture(
             self._tx,
             camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
-            self.true_z
+            self.true_z,
+            angle=int((self.gameobj.rotation if self.gameobj else 0) + self.rot_offset),
         )
 
     def delete(self):
         """Deletes the text component."""
         self._tx.destroy()
-        self._font.close()
+        self._font._font.close()  # pylint: disable=protected-access
         self._tx = None
         self._font = None
 

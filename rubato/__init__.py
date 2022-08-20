@@ -62,7 +62,7 @@ def init(
             Defaults to "off".
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 60.
-        hidden: Whether or not the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
+        hidden: Whether the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
@@ -85,10 +85,11 @@ def init(
     else:
         flags |= sdl2.SDL_WINDOW_SHOWN
 
-    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
+    window_pos, change_pos = (window_pos.tuple_int(), True) if window_pos else (None, False)
+
     size = res//2 if not window_size else window_size
 
-    Display.window = sdl2.ext.Window(name, size.tuple_int(), window_pos.tuple_int() if window_pos else None, flags)
+    Display.window = sdl2.ext.Window(name, size.tuple_int(), window_pos, flags)
 
     Display.renderer = sdl2.ext.Renderer(
         Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.tuple_int()

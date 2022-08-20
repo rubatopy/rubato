@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 *.c
+*.cpp
+!rubato/c_src/**/*.cpp
+**pixel_editor.cpp
 
 # Distribution / packaging
 .Python

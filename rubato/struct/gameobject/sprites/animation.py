@@ -21,7 +21,7 @@ class Animation(Component):
     Args:
         scale: The scale of the animation. Defaults to Vector(1, 1).
         fps: The frames per second of the animation. Defaults to 24.
-        anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
+        af: Whether to use anisotropic filtering on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
         offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
@@ -33,7 +33,7 @@ class Animation(Component):
         self,
         scale: Vector = Vector(1, 1),
         fps: int = 24,
-        anti_aliasing: bool = False,
+        af: bool = False,
         flipx: bool = False,
         flipy: bool = False,
         offset: Vector = Vector(),
@@ -60,12 +60,12 @@ class Animation(Component):
         """Whether the animation should loop."""
         self.scale: Vector = scale
         """The scale of the animation."""
-        self.aa: bool = anti_aliasing
-        """Whether or not to enable anti aliasing."""
+        self.af: bool = af
+        """Whether to enable anisotropic filtering."""
         self.flipx: bool = flipx
-        """Whether or not to flip the animation along the x axis."""
+        """Whether to flip the animation along the x axis."""
         self.flipy: bool = flipy
-        """Whether or not to flip the animation along the y axis."""
+        """Whether to flip the animation along the y axis."""
 
         self._time_step = 1000 / self._fps
         self._time_count = 0
@@ -91,7 +91,7 @@ class Animation(Component):
         self.animation_frames_left = len(self._states[self.current_state]) - (1 + self._current_frame)
 
     @property
-    def image(self) -> sdl2.surface.SDL_Surface:
+    def image(self) -> sdl2.SDL_Surface:
         """The current SDL Surface holding the image."""
         return self._states[self.current_state][self.current_frame].image
 
@@ -99,7 +99,7 @@ class Animation(Component):
     def anim_frame(self) -> Sprite:
         """The current animation frame."""
         sprite = self._states[self.current_state][self.current_frame]
-        sprite.aa = self.aa
+        sprite.af = self.af
         sprite.rotation = self.gameobj.rotation + self.rot_offset
 
         calculated_scale = self.scale.clone()
@@ -109,8 +109,6 @@ class Animation(Component):
             calculated_scale.y *= -1
 
         sprite.scale = calculated_scale
-        # pylint: disable=protected-access
-        sprite._update_rotozoom()
         return sprite
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
@@ -237,12 +235,6 @@ class Animation(Component):
 
         self.add(state_name, state)
 
-    def update(self):
-        if self.hidden:
-            return
-
-        self.anim_frame.update()
-
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
         if self.hidden:
@@ -254,10 +246,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_sprite(
-            self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
-            self.true_z
-        )
+        Draw.queue_surf(self.anim_frame, self.gameobj.pos + self.offset, self.true_z, camera)
 
     def anim_tick(self):
         """An animation processing tick."""
@@ -282,7 +271,7 @@ class Animation(Component):
         new = Animation(
             scale=self.scale,
             fps=self.fps,
-            anti_aliasing=self.aa,
+            af=self.af,
             flipx=self.flipx,
             flipy=self.flipy,
             offset=self.offset,

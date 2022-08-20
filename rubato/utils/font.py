@@ -1,6 +1,6 @@
 """The font module for text rendering"""
 from typing import Literal
-import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlgfx
+import sdl2, sdl2.sdlttf, sdl2.ext
 from importlib.resources import files
 
 from . import Color, Vector
@@ -77,9 +77,7 @@ class Font:
         self._color = new
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
-    def generate_surface(
-        self, text: str, align: Vector = Vector(0, 0), width: int | float = 0, rot: int | float = 0
-    ) -> sdl2.SDL_Surface:
+    def generate_surface(self, text: str, align: Vector = Vector(0, 0), width: int | float = 0) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
 
@@ -97,10 +95,7 @@ class Font:
             sdl2.SDL_Surface: The surface containing the text.
         """
         try:
-
-            return sdl2.sdlgfx.rotozoomSurface(
-                self._font.render_text(text, width=None if width <= 0 else int(width), align=align), rot, 1, 1
-            )
+            return self._font.render_text(text, width=None if width <= 0 else int(width), align=align)
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e
         except OSError as e:

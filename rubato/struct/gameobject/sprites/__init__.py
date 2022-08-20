@@ -1,4 +1,4 @@
 """Holds all image-related components."""
-from .image import Image
+from .surf_comps import Image, Raster
 from .animation import Animation
 from .spritesheet import Spritesheet
