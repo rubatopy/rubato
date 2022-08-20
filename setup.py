@@ -27,8 +27,8 @@ setup(
     package_data={"rubato": package_files("rubato/static")},
     ext_modules=[
         Extension(
-            "rubato.c_src.pixel_editor",
-            ["rubato/c_src/pixel_editor.py", "rubato/c_src/PixelEditor.cpp"],
+            "rubato.c_src.c_draw",
+            ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
             extra_compile_args=["-std=c++14"],
         ),
         *cythonize(

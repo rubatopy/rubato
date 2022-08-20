@@ -71,7 +71,7 @@ delete-bin:
 	@cd rubato && find . -name "*.so" -type f -delete
 
 delete-c:
-	@cd rubato && find . -name "*.cpp" -not -name "PixelEditor.cpp" -type f -delete
+	@cd rubato && find . -name "*.cpp" -not -name "cdraw.cpp" -type f -delete
 	@cd rubato && find . -name "*.c" -type f -delete
 
 delete-build: delete-bin delete-c

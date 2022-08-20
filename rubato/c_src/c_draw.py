@@ -1,26 +1,26 @@
 # distutils: language = c++
 # cython: language_level = 3
-"""Loader for PixelEditor.cpp"""
+"""Loader for cdraw.cpp"""
 import cython
 from .. import Vector
 if cython.compiled:
-    from cython.cimports.rubato.c_src import cPixelEditor as PE  # pyright: ignore
+    from cython.cimports.rubato.c_src import cdraw  # pyright: ignore
     from cython.cimports.cpython import array  # pyright: ignore
 else:
-    PE = None
+    cdraw = None
     import array
 
 
 def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = True):
-    PE.setPixel(pixels, width, height, x, y, color, blending)
+    cdraw.setPixel(pixels, width, height, x, y, color, blending)
 
 
 def get_pixel(pixels: int, width: int, height: int, x: int, y: int):
-    return PE.getPixel(pixels, width, height, x, y)
+    return cdraw.getPixel(pixels, width, height, x, y)
 
 
 def clear_pixels(pixels: int, width: int, height: int):
-    PE.clearPixels(pixels, width, height)
+    cdraw.clearPixels(pixels, width, height)
 
 
 def draw_line(
@@ -36,7 +36,7 @@ def draw_line(
     blending: bool = True,
     thickness: int = 1,
 ):
-    PE.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
+    cdraw.drawLine(pixels, width, height, x1, y1, x2, y2, color, aa, blending, thickness)
 
 
 def draw_circle(
@@ -52,7 +52,7 @@ def draw_circle(
     blending: bool = True,
     thickness: int = 1
 ):
-    PE.drawCircle(pixels, width, height, xc, yc, radius, border_color, fill_color, aa, blending, thickness)
+    cdraw.drawCircle(pixels, width, height, xc, yc, radius, border_color, fill_color, aa, blending, thickness)
 
 
 def draw_rect(
@@ -68,7 +68,7 @@ def draw_rect(
     blending: bool = True,
     thickness: int = 1,
 ):
-    PE.drawRect(pixels, width, height, x, y, w, h, border_color, fill_color, blending, thickness)
+    cdraw.drawRect(pixels, width, height, x, y, w, h, border_color, fill_color, blending, thickness)
 
 
 def draw_poly(
@@ -90,7 +90,7 @@ def draw_poly(
         vyt.append(y)
     vx: array.array = array.array("i", vxt)
     vy: array.array = array.array("i", vyt)
-    PE.drawPoly(
+    cdraw.drawPoly(
         pixels,
         width,
         height,

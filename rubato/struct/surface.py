@@ -2,7 +2,7 @@
 from __future__ import annotations
 import sdl2, sdl2.ext
 
-from ..c_src import PixelEditor
+from ..c_src import c_draw
 from .. import Vector, Color, Display, Surf
 
 
@@ -38,7 +38,7 @@ class Surface(Surf):
         """
         Clears the surface.
         """
-        PixelEditor.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
+        c_draw.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
     def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = True):
@@ -51,7 +51,7 @@ class Surface(Surf):
             blending: Whether to use blending. Defaults to False.
         """
         x, y = pos.tuple_int()
-        PixelEditor.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
+        c_draw.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
     def draw_line(
@@ -76,7 +76,7 @@ class Surface(Surf):
         """
         sx, sy = start.tuple_int()
         ex, ey = end.tuple_int()
-        PixelEditor.draw_line(
+        c_draw.draw_line(
             self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
         self.uptodate = False
@@ -103,7 +103,7 @@ class Surface(Surf):
         """
         x, y = top_left.tuple_int()
         w, h = dims.tuple_int()
-        PixelEditor.draw_rect(
+        c_draw.draw_rect(
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
@@ -141,7 +141,7 @@ class Surface(Surf):
             blending: Whether to use blending. Defaults to False.
         """
         x, y = center.tuple_int()
-        PixelEditor.draw_circle(
+        c_draw.draw_circle(
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
@@ -176,7 +176,7 @@ class Surface(Surf):
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        PixelEditor.draw_poly(
+        c_draw.draw_poly(
             self.surf.pixels,
             self.surf.w,
             self.surf.h,
@@ -201,7 +201,7 @@ class Surface(Surf):
         """
         x, y = pos.tuple_int()
         if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
-            return Color.from_rgba32(PixelEditor.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
+            return Color.from_rgba32(c_draw.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
