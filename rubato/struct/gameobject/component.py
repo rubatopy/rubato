@@ -6,7 +6,7 @@ Attention:
     ``clone()`` method.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 import cython
 
 from ... import Vector, Camera
@@ -28,7 +28,7 @@ class Component:
     """
 
     def __init__(self, offset: Vector = Vector(), rot_offset: float = 0, z_index: int = 0):
-        self.gameobj: Optional[GameObject] = None
+        self.gameobj: GameObject | None = None
         """The game object this component is attached to."""
         self.singular: bool = False
         """Whether multiple components of the same type are allowed on a game object."""

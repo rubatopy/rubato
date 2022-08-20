@@ -13,11 +13,11 @@ class BaseImage(Component):
         scale: Vector = Vector(1, 1),
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
-        aa: bool = False,
+        af: bool = False,
         z_index: int = 0,
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
-        self.surf: Surf = Surf(rot_offset, scale, aa)
+        self.surf: Surf = Surf(rot_offset, scale, af)
 
         self.singular = False
 
@@ -35,13 +35,13 @@ class BaseImage(Component):
         self.surf.scale = new
 
     @property
-    def aa(self) -> bool:
-        """Whether the raster is anti-aliased."""
-        return self.surf.aa
+    def af(self) -> bool:
+        """Whether to use anisotropic filtering."""
+        return self.surf.af
 
-    @aa.setter
-    def aa(self, new: bool):
-        self.surf.aa = new
+    @af.setter
+    def af(self, new: bool):
+        self.surf.af = new
 
     def get_rect(self) -> Rectangle:
         """
@@ -61,9 +61,12 @@ class BaseImage(Component):
         """
         return self.surf.get_size()
 
-    def merge(self, other: BaseImage):
+    def merge(self, other: Raster | Image):
         """
         Merges the surface of another component into this one.
+
+        Args:
+            other: The other component to merge into this one.
         """
         self.surf.merge(other.surf)
 
@@ -100,11 +103,11 @@ class Raster(BaseImage):
         scale: Vector = Vector(1, 1),
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
-        aa: bool = False,
+        af: bool = False,
         z_index: int = 0,
     ):
-        super().__init__(scale, offset, rot_offset, aa, z_index)
-        self.surf: Surface = Surface(width, height, scale, rot_offset, aa)
+        super().__init__(scale, offset, rot_offset, af, z_index)
+        self.surf: Surface = Surface(width, height, scale, rot_offset, af)
 
     def clear(self):
         """
@@ -267,7 +270,7 @@ class Raster(BaseImage):
             self.scale,
             self.offset,
             self.rot_offset,
-            self.aa,
+            self.af,
             self.z_index,
         )
         r.surf = self.surf.clone()
@@ -283,7 +286,7 @@ class Image(BaseImage):
         scale: The scale of the image. Defaults to Vector(1, 1).
         offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the image. Defaults to 0.
-        aa: Whether to use anti-aliasing. Defaults to False.
+        af: Whether to use anisotropic filtering. Defaults to False.
         z_index: The z-index of the image. Defaults to 0.
     """
 
@@ -293,13 +296,13 @@ class Image(BaseImage):
         scale: Vector = Vector(1, 1),
         offset: Vector = Vector(0, 0),
         rot_offset: float = 0,
-        aa: bool = False,
+        af: bool = False,
         z_index: int = 0
     ):
-        super().__init__(scale, offset, rot_offset, aa, z_index)
-        self.surf: Sprite = Sprite(rel_path, scale=scale, rotation=rot_offset, aa=aa)
+        super().__init__(scale, offset, rot_offset, af, z_index)
+        self.surf: Sprite = Sprite(rel_path, scale=scale, rotation=rot_offset, af=af)
 
     def clone(self) -> Image:
-        img = Image("", self.scale, self.offset, self.rot_offset, self.aa, self.z_index)
+        img = Image("", self.scale, self.offset, self.rot_offset, self.af, self.z_index)
         img.surf = self.surf.clone()
         return img

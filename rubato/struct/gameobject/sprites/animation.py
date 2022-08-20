@@ -21,7 +21,7 @@ class Animation(Component):
     Args:
         scale: The scale of the animation. Defaults to Vector(1, 1).
         fps: The frames per second of the animation. Defaults to 24.
-        aa: Whether to use anti-aliasing on the animation. Defaults to False.
+        af: Whether to use anisotropic filtering on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
         offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
@@ -33,7 +33,7 @@ class Animation(Component):
         self,
         scale: Vector = Vector(1, 1),
         fps: int = 24,
-        aa: bool = False,
+        af: bool = False,
         flipx: bool = False,
         flipy: bool = False,
         offset: Vector = Vector(),
@@ -60,8 +60,8 @@ class Animation(Component):
         """Whether the animation should loop."""
         self.scale: Vector = scale
         """The scale of the animation."""
-        self.aa: bool = aa
-        """Whether to enable anti aliasing."""
+        self.af: bool = af
+        """Whether to enable anisotropic filtering."""
         self.flipx: bool = flipx
         """Whether to flip the animation along the x axis."""
         self.flipy: bool = flipy
@@ -99,7 +99,7 @@ class Animation(Component):
     def anim_frame(self) -> Sprite:
         """The current animation frame."""
         sprite = self._states[self.current_state][self.current_frame]
-        sprite.aa = self.aa
+        sprite.af = self.af
         sprite.rotation = self.gameobj.rotation + self.rot_offset
 
         calculated_scale = self.scale.clone()
@@ -109,7 +109,6 @@ class Animation(Component):
             calculated_scale.y *= -1
 
         sprite.scale = calculated_scale
-        # pylint: disable=protected-access
         return sprite
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
@@ -272,7 +271,7 @@ class Animation(Component):
         new = Animation(
             scale=self.scale,
             fps=self.fps,
-            aa=self.aa,
+            af=self.af,
             flipx=self.flipx,
             flipy=self.flipy,
             offset=self.offset,

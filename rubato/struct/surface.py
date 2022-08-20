@@ -14,7 +14,7 @@ class Surface(Surf):
         width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         height: The height of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         scale: The scale of the surface. Defaults to Vector(1, 1).
-        aa: Whether to use anti-aliasing. Defaults to False.
+        af: Whether to use anisotropic filtering. Defaults to False.
     """
 
     def __init__(
@@ -23,9 +23,9 @@ class Surface(Surf):
         height: int = 32,
         scale: Vector = Vector(1, 1),
         rotation: float = 0,
-        aa: bool = False,
+        af: bool = False,
     ):
-        super().__init__(rotation, scale, aa)
+        super().__init__(rotation, scale, af)
 
         self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, Display.pixel_format).contents
 
@@ -254,7 +254,7 @@ class Surface(Surf):
             self.height,
             scale=self.scale,
             rotation=self.rotation,
-            aa=self.aa,
+            af=self.af,
         )
         if self.surf:
             new.surf = Display.clone_surface(self.surf)

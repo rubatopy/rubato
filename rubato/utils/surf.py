@@ -11,13 +11,13 @@ class Surf:
         self,
         rotation: float = 0,
         scale: Vector = Vector(1, 1),
-        aa: bool = False,
+        af: bool = False,
     ):
         self.rotation = rotation
         """The clockwise rotation of the sprite."""
         self.scale = scale
         """The scale of the sprite."""
-        self._aa = aa
+        self._af = af
 
         self._surf: sdl2.SDL_Surface | None = None
         self.tx: sdl2.ext.Texture | None = None
@@ -42,15 +42,15 @@ class Surf:
         self.uptodate = False
 
     @property
-    def aa(self):
-        """Whether to use anti-aliasing."""
-        return self._aa
+    def af(self):
+        """Whether to use anisotropic filtering."""
+        return self._af
 
-    @aa.setter
-    def aa(self, new: bool):
-        self._aa = new
+    @af.setter
+    def af(self, new: bool):
+        self._af = new
         if self.tx is not None:
-            self.tx.set_scale_mode("nearest" if not self.aa else "linear")
+            self.tx.set_scale_mode("nearest" if not self.af else "linear")
 
     def get_size(self) -> Vector:
         """
@@ -98,7 +98,7 @@ class Surf:
         s = Surf(
             self.rotation,
             self.scale,
-            self.aa,
+            self.af,
         )
         s.surf = Display.clone_surface(self.surf)
         return s
