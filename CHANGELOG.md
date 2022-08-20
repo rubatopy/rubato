@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [v3.1.0] - August 19, 2022
 
 ### Key Features
 
@@ -306,6 +306,7 @@
 -   Rigidbody implementation
 
 [unreleased]: https://github.com/rubatopy/rubato/
+[v3.1.0]: https://github.com/rubatopy/rubato/tree/v3.1.0
 [v3.0.0]: https://github.com/rubatopy/rubato/tree/v3.0.0
 [v2.2.0]: https://github.com/rubatopy/rubato/tree/v2.2.0
 [v2.1.1]: https://github.com/rubatopy/rubato/tree/v2.1.1
