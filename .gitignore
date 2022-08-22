@@ -7,9 +7,7 @@ __pycache__/
 *.so
 *.c
 *.cpp
-!rubato/c_src/**/*.cpp
-**rubato/c_src/c_draw.cpp
-**rubato/c_src/__init__.cpp
+!rubato/c_src/cdraw.cpp
 
 # Distribution / packaging
 .Python
