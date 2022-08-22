@@ -22,8 +22,6 @@ def package_files(directory):
     return paths
 
 
-# os.environ["CFLAGS"] = "-std=c++14 -Wno-constant-logical-operand"
-
 setup(
     version=version,
     package_data={"rubato": package_files("rubato/static")},
