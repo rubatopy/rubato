@@ -36,7 +36,7 @@ class Vector:
     def magnitude(self, value: float | int):
         if self.x == self.y == 0:
             return
-        ratio = value * math.sqrt((self.x * self.x + self.y * self.y)**-1)
+        ratio = value / math.sqrt(self.x * self.x + self.y * self.y)
         self.x *= ratio
         self.y *= ratio
 

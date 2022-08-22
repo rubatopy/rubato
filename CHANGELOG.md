@@ -6,11 +6,20 @@
 
 ### Added
 
+-   `gameobject.remove_ind` method to remove an individual component from a game object with a given index.
+    Use this to remove components from a game object which holds multiple instances of the same type of component.
+
 ### Changed
+
+-   Modified the internal workings of `gameobject`s components data structure to more more flexibly handle inputs.
+    (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
 
 ### Removed
 
 ### Fixed
+
+-   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
+    You can still replicate this functionality by passing `Hitbox` into the component getter.
 
 ## [v3.1.0] - August 19, 2022
 

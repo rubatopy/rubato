@@ -8,7 +8,7 @@ build-test: delete-build
 	@export TEST_MODE=1 && python setup.py build_ext --force --inplace --define CYTHON_TRACE
 
 test: build-test
-	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests 
+	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests
 
 test-rub: build-test
 	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
