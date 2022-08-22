@@ -93,7 +93,7 @@ class GameObject:
             comp_type: The type of the component to remove.
 
         Raises:
-            Warning: The component was not in the game object and nothing was removed.
+            IndexError: The component was not in the game object and nothing was removed.
         """
         self.remove_ind(comp_type, 0)
 
@@ -106,20 +106,18 @@ class GameObject:
             ind: The index of the component to remove.
 
         Raises:
-            Warning: The component was not in the game object and nothing was removed.
-            Warning: The index is out of bounds.
+            IndexError: The component was not in the game object and nothing was removed or the index was out of bounds.
         """
-        if comp_type in self._components:
-            if ind < len(self._components[comp_type]):
-                del self._components[comp_type][ind]
-                if not self._components[comp_type]:
-                    del self._components[comp_type]
-            else:
-                raise Warning(
-                    f"Index {ind} larger than the # of components of type '{comp_type}' in game object '{self.name}'."
-                )
-        else:
-            raise Warning(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                if ind < len(val):
+                    del val[ind]
+                    return
+                else:
+                    ind -= len(val)
+        raise IndexError(
+            f"There are no components of type '{comp_type}' in game object '{self.name}' or the index is out of bounds."
+        )
 
     def remove_all(self, comp_type: Type[T]):
         """
@@ -129,12 +127,15 @@ class GameObject:
             comp_type: The type of the component to remove.
 
         Raises:
-            Warning: The components were not in the game object and nothing was removed.
+            IndexError: The components were not in the game object and nothing was removed.
         """
-        if comp_type in self._components:
-            del self._components[comp_type]
-        else:
-            raise Warning(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
+        deleted = False
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                del val
+                deleted = True
+        if not deleted:
+            raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def get(self, comp_type: Type[T]) -> Optional[T]:
         """

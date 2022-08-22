@@ -11,7 +11,7 @@
 
 ### Changed
 
--   Modified the internal workings of `gameobject`s components dictionary and getters to more more flexibly handle inputs.
+-   Modified the internal workings of `gameobject`s components data structure to more more flexibly handle inputs.
     (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
 
 ### Removed
