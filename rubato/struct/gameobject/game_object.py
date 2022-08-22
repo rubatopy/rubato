@@ -4,7 +4,7 @@ A game object is a basic element that holds components, postion, and z_index.
 from __future__ import annotations
 from typing import Optional, Type, TypeVar
 
-from . import Hitbox, Polygon, Circle, Rectangle, Component
+from . import Component
 from .. import Surface
 from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
 
@@ -58,7 +58,8 @@ class GameObject:
             components (Component): The component(s) to add.
 
         Raises:
-            DuplicateComponentError: Raised when there is already a component of the same type on the game object.
+            DuplicateComponentError: Raised when there is already a component of the same type in the game object.
+                Note that this error is only raised if the component type's 'singular' attribute is True.
 
         Returns:
             GameObject: This GameObject.
@@ -69,16 +70,13 @@ class GameObject:
             try:
                 if component.singular and comp_type in self._components:
                     raise DuplicateComponentError(
-                        f"There is already a component of type {comp_type} on the game object {self.name}"
+                        f"There is already a component of type '{comp_type}' in the game object '{self.name}'"
                     )
             except AttributeError as err:
                 raise ImplementationError(
-                    "The component does not have a singular attribute. You most likely overrode the"
+                    "The component does not have the attribute 'singular'. You most likely overrode the"
                     "__init__ method of the component without calling super().__init__()."
                 ) from err
-
-            if isinstance(component, Hitbox):
-                comp_type = Hitbox
 
             if comp_type not in self._components:
                 self._components[comp_type] = []
@@ -89,7 +87,7 @@ class GameObject:
 
     def remove(self, comp_type: Type[T]):
         """
-        Removes a component from the game object.
+        Removes the first instance of a component from the game object.
 
         Args:
             comp_type: The type of the component to remove.
@@ -97,14 +95,31 @@ class GameObject:
         Raises:
             Warning: The component was not in the game object and nothing was removed.
         """
+        self.remove_ind(comp_type, 0)
+
+    def remove_ind(self, comp_type: Type[T], ind: int):
+        """
+        Removes a component from the game object.
+
+        Args:
+            comp_type: The Type of component to remove
+            ind: The index of the component to remove.
+
+        Raises:
+            Warning: The component was not in the game object and nothing was removed.
+            Warning: The index is out of bounds.
+        """
         if comp_type in self._components:
-            del self._components[comp_type][0]
-            if not self._components[comp_type]:
-                del self._components[comp_type]
+            if ind < len(self._components[comp_type]):
+                del self._components[comp_type][ind]
+                if not self._components[comp_type]:
+                    del self._components[comp_type]
+            else:
+                raise Warning(
+                    f"Index {ind} larger than the # of components of type '{comp_type}' in game object '{self.name}'."
+                )
         else:
-            raise Warning(
-                f"The component of type {comp_type} is not in the game object {self.name} and was not removed."
-            )
+            raise Warning(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def remove_all(self, comp_type: Type[T]):
         """
@@ -119,9 +134,7 @@ class GameObject:
         if comp_type in self._components:
             del self._components[comp_type]
         else:
-            raise Warning(
-                f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
-            )
+            raise Warning(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def get(self, comp_type: Type[T]) -> Optional[T]:
         """
@@ -133,10 +146,9 @@ class GameObject:
         Returns:
             The component if it was found or None if it wasn't.
         """
-        if comp_type in self._components:
-            return self._components.get(comp_type, [None])[0]
-        if comp_type in (Rectangle, Polygon, Circle):
-            return self._components.get(Hitbox, [None])[0]
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                return val[0]
         return None
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
@@ -150,11 +162,11 @@ class GameObject:
             A list containing all the components of that type. If no components were found, the
                 list is empty.
         """
-        if comp_type in self._components:
-            return self._components.get(comp_type, [])
-        if comp_type in (Rectangle, Polygon, Circle):
-            return self._components.get(Hitbox, [])
-        return []
+        fin = []
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                fin.extend(val)
+        return fin
 
     def delete(self):
         """

@@ -100,11 +100,10 @@ class Group:
         Called automatically by rubato as long as the group is added to a scene.
         """
         if self.active:
-            all_hts = []
-
             for group in self.groups:
                 group.fixed_update()
 
+            all_hts = []
             for game_obj in self.game_objects:
                 game_obj.fixed_update()
                 hts = game_obj.get_all(Hitbox)
@@ -113,9 +112,7 @@ class Group:
 
             qtree = QTree(all_hts)
 
-            all_gos = self.all_gameobjects()
-
-            for go in all_gos:
+            for go in self.all_gameobjects():
                 hts = go.get_all(Hitbox)
                 if hts:
                     qtree.collide(hts, qtree.calc_bb(hts))

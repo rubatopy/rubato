@@ -3,10 +3,14 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "extra_compile_args": [
+            "-std=c++14"
+        ],
         "language": "c++",
         "name": "rubato.c_src.c_draw",
         "sources": [
-            "rubato\\c_src\\c_draw.py"
+            "rubato/c_src/c_draw.py",
+            "rubato/c_src/cdraw.cpp"
         ]
     },
     "module_name": "rubato.c_src.c_draw"
@@ -1305,12 +1309,12 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "rubato\\\\c_src\\\\c_draw.py",
-  ".venv\\\\lib\\\\site-packages\\\\Cython\\\\Includes\\\\cpython\\\\contextvars.pxd",
-  ".venv\\\\lib\\\\site-packages\\\\Cython\\\\Includes\\\\cpython\\\\array.pxd",
-  ".venv\\\\lib\\\\site-packages\\\\Cython\\\\Includes\\\\cpython\\\\type.pxd",
-  ".venv\\\\lib\\\\site-packages\\\\Cython\\\\Includes\\\\cpython\\\\bool.pxd",
-  ".venv\\\\lib\\\\site-packages\\\\Cython\\\\Includes\\\\cpython\\\\complex.pxd",
+  "rubato/c_src/c_draw.py",
+  "contextvars.pxd",
+  "array.pxd",
+  "type.pxd",
+  "bool.pxd",
+  "complex.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* #### Code section: numeric_typedefs ### */
@@ -2303,7 +2307,7 @@ static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_rubato_c_src_c_draw[] = "rubato.c_src.c_draw";
 static const char __pyx_k_Loader_for_cdraw_cpp[] = "Loader for cdraw.cpp";
-static const char __pyx_k_rubato_c_src_c_draw_py[] = "rubato\\c_src\\c_draw.py";
+static const char __pyx_k_rubato_c_src_c_draw_py[] = "rubato/c_src/c_draw.py";
 #if !CYTHON_USE_MODULE_STATE
 static PyObject *__pyx_n_s_;
 static PyObject *__pyx_n_s_MemoryError;
@@ -2785,8 +2789,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_set_pixel, "set_pixel(int pixels: int, int width: int, int height: int, int x: int, int y: int, int color: int, blending: bool = True)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_1set_pixel = {"set_pixel", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_1set_pixel, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_set_pixel};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_1set_pixel = {"set_pixel", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_1set_pixel, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_1set_pixel(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -3006,8 +3009,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_2get_pixel, "get_pixel(int pixels: int, int width: int, int height: int, int x: int, int y: int)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_3get_pixel = {"get_pixel", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_3get_pixel, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_2get_pixel};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_3get_pixel = {"get_pixel", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_3get_pixel, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_3get_pixel(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -3199,8 +3201,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_4clear_pixels, "clear_pixels(int pixels: int, int width: int, int height: int)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_5clear_pixels = {"clear_pixels", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_5clear_pixels, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_4clear_pixels};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_5clear_pixels = {"clear_pixels", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_5clear_pixels, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_5clear_pixels(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -3418,8 +3419,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_6draw_line, "draw_line(int pixels: int, int width: int, int height: int, int x1: int, int y1: int, int x2: int, int y2: int, int color: int, aa: bool = False, blending: bool = True, int thickness: int = 1)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_7draw_line = {"draw_line", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_7draw_line, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_6draw_line};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_7draw_line = {"draw_line", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_7draw_line, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_7draw_line(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -3764,8 +3764,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_8draw_circle, "draw_circle(int pixels: int, int width: int, int height: int, int xc: int, int yc: int, int radius: int, int border_color: int, int fill_color: int, aa: bool = False, blending: bool = True, int thickness: int = 1)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_9draw_circle = {"draw_circle", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_9draw_circle, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_8draw_circle};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_9draw_circle = {"draw_circle", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_9draw_circle, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_9draw_circle(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -4107,8 +4106,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_10draw_rect, "draw_rect(int pixels: int, int width: int, int height: int, int x: int, int y: int, int w: int, int h: int, int border_color: int, int fill_color: int, blending: bool = True, int thickness: int = 1)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_11draw_rect = {"draw_rect", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_11draw_rect, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_10draw_rect};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_11draw_rect = {"draw_rect", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_11draw_rect, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_11draw_rect(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -4452,8 +4450,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_6rubato_5c_src_6c_draw_12draw_poly, "draw_poly(int pixels: int, int width: int, int height: int, points: list[Vector], int border_color: int, int fill_color: int, aa: bool = False, blending: bool = True, int thickness: int = 1)");
-static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_13draw_poly = {"draw_poly", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_13draw_poly, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6rubato_5c_src_6c_draw_12draw_poly};
+static PyMethodDef __pyx_mdef_6rubato_5c_src_6c_draw_13draw_poly = {"draw_poly", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6rubato_5c_src_6c_draw_13draw_poly, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
 static PyObject *__pyx_pw_6rubato_5c_src_6c_draw_13draw_poly(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds

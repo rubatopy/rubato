@@ -10,6 +10,9 @@ build-test: delete-build
 test: build-test
 	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests 
 
+silicon-test:
+	@export CYTHONIZE_CDRAW=1 && make test
+
 test-rub: build-test
 	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
 

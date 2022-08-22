@@ -13,6 +13,11 @@ if "TEST_MODE" in os.environ:
 else:
     linetrace = False
 
+if "CYTHONIZE_CDRAW" in os.environ:
+    cdraw = os.environ["CYTHONIZE_CDRAW"] == "1"
+else:
+    cdraw = False
+
 
 def package_files(directory):
     paths = []
@@ -33,7 +38,7 @@ setup(
         ),
         *cythonize(
             "rubato/**/*.py",
-            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
+            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"] + (["rubato/c_src/**/*"] if cdraw else []),
             compiler_directives={
                 "embedsignature": True,
                 "language_level": 3,
