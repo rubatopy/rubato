@@ -41,6 +41,7 @@ This will run all the tests. There are also more make targets for specific tests
 make all # Run all tests and linting
 make # same as make all
 make test # Run all tests
+make silicon-test # Run all tests, but build with the CYTHONIZE_CDRAW compiler option. Use this if `make test` raises compiler errors.
 make test-rub # Run tests that need Rubato initialized
 make test-sdl # Run tests that need SDL
 make test-no-rub # Run tests that don't need Rubato initialized
