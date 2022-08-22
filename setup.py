@@ -22,26 +22,28 @@ def package_files(directory):
     return paths
 
 
-os.environ["CFLAGS"] = "-std=c++14 -Wno-constant-logical-operand"
+# os.environ["CFLAGS"] = "-std=c++14 -Wno-constant-logical-operand"
 
 setup(
     version=version,
     package_data={"rubato": package_files("rubato/static")},
     ext_modules=[
-        Extension(
-            "rubato.c_src.c_draw",
-            ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
-            language="c++",
+        *cythonize(
+            Extension(
+                "rubato.c_src.c_draw",
+                ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
+                extra_compile_args=["-std=c++14"],
+                language="c++",
+            )
         ),
         *cythonize(
             "rubato/**/*.py",
-            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
+            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*", "rubato/c_src/**/*"],
             compiler_directives={
                 "embedsignature": True,
                 "language_level": 3,
                 "linetrace": linetrace,
             },
-            language="c++",
         ),
     ]
 )
