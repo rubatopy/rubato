@@ -13,11 +13,6 @@ if "TEST_MODE" in os.environ:
 else:
     linetrace = False
 
-if "CYTHONIZE_CDRAW" in os.environ:
-    cdraw = os.environ["CYTHONIZE_CDRAW"] == "1"
-else:
-    cdraw = False
-
 
 def package_files(directory):
     paths = []
@@ -27,6 +22,8 @@ def package_files(directory):
     return paths
 
 
+os.environ["CFLAGS"] = "-std=c++14 -Wno-constant-logical-operand"
+
 setup(
     version=version,
     package_data={"rubato": package_files("rubato/static")},
@@ -34,16 +31,17 @@ setup(
         Extension(
             "rubato.c_src.c_draw",
             ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
-            extra_compile_args=["-std=c++14"],
+            language="c++",
         ),
         *cythonize(
             "rubato/**/*.py",
-            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"] + (["rubato/c_src/**/*"] if cdraw else []),
+            exclude=["rubato/__pyinstaller/**/*", "rubato/static/**/*"],
             compiler_directives={
                 "embedsignature": True,
                 "language_level": 3,
                 "linetrace": linetrace,
             },
+            language="c++",
         ),
     ]
 )

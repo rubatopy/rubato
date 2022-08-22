@@ -8,7 +8,8 @@ __pycache__/
 *.c
 *.cpp
 !rubato/c_src/**/*.cpp
-**c_draw.cpp
+**rubato/c_src/c_draw.cpp
+**rubato/c_src/__init__.cpp
 
 # Distribution / packaging
 .Python
