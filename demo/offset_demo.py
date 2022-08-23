@@ -8,7 +8,7 @@ speed = 2
 rb.init(res=V(width, height), window_size=V(width, height) * 2)
 s = rb.Scene()
 
-rect = rb.Polygon(V.poly(4, width / 4), rb.Color.blue, debug=True, offset=V(0, 0))
+rect = rb.Polygon(V.poly(5, width // 6), rb.Color.blue, debug=True, offset=V(48, 0))
 go = rb.wrap(rect, pos=rb.Display.center, debug=True)
 
 dropper = rb.Rectangle(20, 20, rb.Color.red, debug=True)
@@ -21,18 +21,8 @@ text = rb.Text("Hello World", font)
 
 
 def update():
-    if rb.Input.key_pressed("q"):
-        go.rotation -= speed
-    elif rb.Input.key_pressed("e"):
-        go.rotation += speed
-    elif rb.Input.key_pressed("a"):
-        rect.offset.x -= speed
-    elif rb.Input.key_pressed("d"):
-        rect.offset.x += speed
-    elif rb.Input.key_pressed("z"):
-        rect.rot_offset -= speed
-    elif rb.Input.key_pressed("x"):
-        rect.rot_offset += speed
+    # go.rotation += speed
+    # rect.rot_offset += speed
 
     text.text = f"go.rotation: {go.rotation:.2f}\nrect.offset.x: {rect.offset.x:.2f}\nrect.rot_offset: {rect.rot_offset:.2f}"
 
