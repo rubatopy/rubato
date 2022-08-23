@@ -176,6 +176,9 @@ class Polygon(Hitbox):
         self._image: Surface = Surface()
         self._debug_image: Surface = Surface()
 
+        self._old_offset = self.offset.clone()
+        self._old_rot_offset = self.rot_offset
+
         self.regenerate_verts()
 
     @property
@@ -295,6 +298,9 @@ class Polygon(Hitbox):
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
+    def update(self):
+        self.uptodate |= self.offset != self._old_offset or self.rot_offset != self._old_rot_offset
+
     @deprecated(Vector.poly)
     @classmethod
     def generate_polygon(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
@@ -319,7 +325,7 @@ class Polygon(Hitbox):
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
 
 
-class Rectangle(Hitbox):
+class Rectangle(Polygon):
     """
     A rectangle implementation of the Hitbox subclass.
 
@@ -353,6 +359,9 @@ class Rectangle(Hitbox):
         rot_offset: float = 0,
         z_index: int = 0
     ):
+        self._width: int = int(width)
+        self._height: int = int(height)
+
         super().__init__(
             offset=offset,
             rot_offset=rot_offset,
@@ -365,10 +374,6 @@ class Rectangle(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self._width: int = int(width)
-        self._height: int = int(height)
-        self._image = Surface(self.width, self.height)
-        self._debug_image = Surface(self.width, self.height)
 
     @property
     def width(self) -> int:
@@ -606,42 +611,10 @@ class Rectangle(Hitbox):
             (self.offset + dim).rotate(self.gameobj.rotation) + self.gameobj.pos
         )
 
-    def vertices(self) -> list[Vector]:
-        """
-        Generates a list of the rectangle's vertices with no transformations applied.
-
-        Returns:
-            list[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
-        """
+    def regenerate_verts(self):
         x, y = self.width / 2, self.height / 2
-        return [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
-
-    def translated_verts(self) -> list[Vector]:
-        """
-        Offsets each vertex with the Polygon's offset. Top left, top right, bottom right, bottom left.
-
-        Returns:
-            list[Vector]: The list of vertices.
-        """
-        return [v * self.scale + self.offset for v in self.vertices()]
-
-    def transformed_verts(self) -> list[Vector]:
-        """
-        Generates a list of the rectangle's vertices, scaled and rotated.
-
-        Returns:
-            list[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
-        """
-        return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
-
-    def real_verts(self) -> list[Vector]:
-        """
-        Generates a list of the rectangle's vertices, relative to its position.
-
-        Returns:
-            list[Vector]: The list of vertices. Top left, top right, bottom right, bottom left.
-        """
-        return [self.gameobj.pos + v for v in self.transformed_verts()]
+        self._verts = [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
+        super().regenerate_verts()
 
     def regenerate_image(self):
         super().regenerate_image()
@@ -788,7 +761,7 @@ class Circle(Hitbox):
 
     def clone(self) -> Circle:
         return Circle(
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             debug=self.debug,
             trigger=self.trigger,

@@ -57,6 +57,13 @@ build:
 
 rebuild: delete-build build
 
+# Ensures that rubato is built before running a python file.
+# You must pass the file and filedir to this command.
+# filedir is relative to the root of the project.
+# example: make run filedir=demo file=physics_demo.py
+run: build
+	@cd $(filedir) && python $(file)
+
 watch:
 	@bash ./watchBuild.sh
 

@@ -26,7 +26,7 @@
 
 -   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
     You can still replicate this functionality by passing `Hitbox` into the component getter.
--   Offsetting components now gives expected behavior.
+-   Offsetting components now gives expected behavior. Physics also respects this.
 
 ## [v3.1.0] - August 19, 2022
 
