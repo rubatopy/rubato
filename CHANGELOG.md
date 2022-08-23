@@ -4,10 +4,16 @@
 
 ### Breaking Changes
 
+-   `Component.true_z` is now a function instead of a property method. This is to match with our new property method
+    convention.
+
 ### Added
 
 -   `gameobject.remove_ind` method to remove an individual component from a game object with a given index.
     Use this to remove components from a game object which holds multiple instances of the same type of component.
+-   `Component.true_pos()` and `Component.true_rotation()` methods to get the position and rotation of a component in
+    world space. These functions correctly apply the gameobjects position and rotation to the component while respecting
+    offsets.
 
 ### Changed
 
@@ -20,6 +26,7 @@
 
 -   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
     You can still replicate this functionality by passing `Hitbox` into the component getter.
+-   Offsetting components now gives expected behavior.
 
 ## [v3.1.0] - August 19, 2022
 
