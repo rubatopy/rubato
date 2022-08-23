@@ -11,7 +11,7 @@ s = rb.Scene()
 rect = rb.Polygon(V.poly(5, width // 6), rb.Color.blue, debug=True, offset=V(48, 0))
 go = rb.wrap(rect, pos=rb.Display.center, debug=True)
 
-dropper = rb.Rectangle(20, 20, rb.Color.red, debug=True)
+dropper = rb.Polygon(V.poly(4, 20), rb.Color.red, debug=True, rot_offset=45)
 rigidbody = rb.RigidBody(gravity=V(0, 100))
 extra = rb.wrap([dropper, rigidbody])
 

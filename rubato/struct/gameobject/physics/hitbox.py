@@ -88,15 +88,6 @@ class Hitbox(Component):
         """
         return self.gameobj.pos, self.gameobj.pos
 
-    def get_obb(self) -> tuple[Vector, Vector]:
-        """
-        Gets the top left and bottom right corners of the oriented bounding box in world coordinates.
-
-        Returns:
-            The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
-        """
-        return self.gameobj.pos, self.gameobj.pos
-
     def draw(self, camera: Camera):
         if self.hidden:
             return
@@ -234,31 +225,12 @@ class Polygon(Hitbox):
 
         return Vector(left, top), Vector(right, bottom)
 
-    def get_obb(self) -> tuple[Vector, Vector]:
-        verts = self.translated_verts()
-        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
-
-        for vert in verts:
-            if vert.y > bottom:
-                bottom = vert.y
-            elif vert.y < top:
-                top = vert.y
-            if vert.x > right:
-                right = vert.x
-            elif vert.x < left:
-                left = vert.x
-
-        return (
-            Vector(left, top).rotate(self.gameobj.rotation) + self.gameobj.pos,
-            Vector(right, bottom).rotate(self.gameobj.rotation) + self.gameobj.pos
-        )
-
     def translated_verts(self) -> list[Vector]:
         """Offsets each vertex with the Polygon's offset"""
         return self._translated_verts
 
     def transformed_verts(self) -> list[Vector]:
-        """Maps each vertex with the Polygon's scale and rotation"""
+        """Maps each translated vertex with the Game Object's rotation"""
         return [v.rotate(self.gameobj.rotation) for v in self.translated_verts()]
 
     def real_verts(self) -> list[Vector]:
@@ -281,10 +253,11 @@ class Polygon(Hitbox):
         return f"{[str(v) for v in self.verts]}, {self.true_pos()}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def regenerate_verts(self):
-        self._translated_verts = [vert * self.scale + self.offset for vert in self.verts]
+        self._translated_verts = [(vert * self.scale).rotate(self.rot_offset) + self.offset for vert in self.verts]
 
     def regenerate_image(self):
         super().regenerate_image()
+        self.regenerate_verts()
 
         r = int(self.radius * 2)
         if r != self._image.surf.w:
@@ -292,11 +265,13 @@ class Polygon(Hitbox):
             self._debug_image = Surface(r, r)
 
         verts = [v + self.radius for v in self.verts]
-        self.regenerate_verts()
 
         if self.color is not None:
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
+
+        self._old_offset = self.offset.clone()
+        self._old_rot_offset = self.rot_offset
 
     def update(self):
         self.uptodate |= self.offset != self._old_offset or self.rot_offset != self._old_rot_offset
@@ -325,7 +300,7 @@ class Polygon(Hitbox):
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
 
 
-class Rectangle(Polygon):
+class Rectangle(Hitbox):
     """
     A rectangle implementation of the Hitbox subclass.
 
@@ -588,34 +563,6 @@ class Rectangle(Polygon):
         """
         return Input.pt_in_poly(pt, self.real_verts())
 
-    def get_aabb(self) -> tuple[Vector, Vector]:
-        verts = self.real_verts()
-        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
-
-        for vert in verts:
-            if vert.y > bottom:
-                bottom = vert.y
-            elif vert.y < top:
-                top = vert.y
-            if vert.x > right:
-                right = vert.x
-            elif vert.x < left:
-                left = vert.x
-
-        return Vector(left, top), Vector(right, bottom)
-
-    def get_obb(self) -> tuple[Vector, Vector]:
-        dim = Vector(self.width / 2, self.height / 2)
-        return (
-            (self.offset - dim).rotate(self.gameobj.rotation) + self.gameobj.pos,
-            (self.offset + dim).rotate(self.gameobj.rotation) + self.gameobj.pos
-        )
-
-    def regenerate_verts(self):
-        x, y = self.width / 2, self.height / 2
-        self._verts = [Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y)]
-        super().regenerate_verts()
-
     def regenerate_image(self):
         super().regenerate_image()
 
@@ -721,11 +668,6 @@ class Circle(Hitbox):
     def get_aabb(self) -> tuple[Vector, Vector]:
         offset = self.transformed_radius()
         return self.true_pos() - offset, self.true_pos() + offset
-
-    def get_obb(self) -> tuple[Vector, Vector]:
-        r = self.transformed_radius()
-        offset = Vector(r, r).rotate(self.gameobj.rotation)
-        return self.gameobj.pos - offset, self.gameobj.pos + offset
 
     def transformed_radius(self) -> int | float:
         """Gets the true radius of the circle"""

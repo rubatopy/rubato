@@ -22,6 +22,8 @@
 
 ### Removed
 
+-   `hitbox.get_obb` because it wasn't working properly. Use `hitbox.get_aabb` instead.
+
 ### Fixed
 
 -   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
