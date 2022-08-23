@@ -8,7 +8,7 @@ speed = 2
 rb.init(res=V(width, height), window_size=V(width, height) * 2)
 s = rb.Scene()
 
-rect = rb.Polygon(V.poly(5, width // 6), rb.Color.blue, debug=True, offset=V(48, 0))
+rect = rb.Polygon(V.poly(5, width // 6), rb.Color.blue, offset=V(48, 0))
 go = rb.wrap(rect, pos=rb.Display.center, debug=True)
 
 dropper = rb.Polygon(V.poly(4, 20), rb.Color.red, debug=True, rot_offset=45)

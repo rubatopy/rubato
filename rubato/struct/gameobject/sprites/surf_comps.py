@@ -1,6 +1,6 @@
 """A module that contains a component wrappers for Surface and Sprite."""
 from __future__ import annotations
-from .. import Component, Rectangle
+from .. import Component
 from ... import Surface, Sprite
 from .... import Vector, Camera, Draw, Surf, Color
 
@@ -40,15 +40,6 @@ class BaseImage(Component):
     @af.setter
     def af(self, new: bool):
         self.surf.af = new
-
-    def get_rect(self) -> Rectangle:
-        """
-        Generates the rectangular bounding box of the raster.
-
-        Returns:
-            The Rectangle hitbox that bounds the raster.
-        """
-        return Rectangle(offset=self.offset, width=self.get_size().x, height=self.get_size().y)
 
     def get_size(self) -> Vector:
         """

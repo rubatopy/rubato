@@ -445,6 +445,22 @@ class Vector:
         rotangle = 360 / num_sides
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
 
+    @classmethod
+    def rect(cls, width: float | int, height: float | int) -> list[Vector]:
+        """
+        Returns a list of vectors representing a rectangle with the given width and height.
+
+        Args:
+            width (float | int): The width of the rectangle.
+            height (float | int): The height of the rectangle.
+
+        Returns:
+            list[Vector]: The list of vectors representing the rectangle.
+        """
+        w = width / 2
+        h = height / 2
+        return [Vector(-w, -h), Vector(-w, h), Vector(w, h), Vector(w, -h)]
+
     @staticmethod
     def zero():
         """A zeroed Vector"""

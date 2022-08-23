@@ -1,17 +1,16 @@
 """Various hitbox components that enable collisions"""
 from __future__ import annotations
 from typing import Callable
-import math
 
 from .. import Component
 from ... import Surface
-from .... import Vector, Color, Error, SideError, Game, Draw, Math, Camera, Input, deprecated
+from .... import Vector, Color, SideError, Game, Draw, Math, Camera, Input, deprecated
 
 
 class Hitbox(Component):
     """
     A hitbox superclass. Do not use this class to attach hitboxes to your game objects.
-    Instead, use Polygon, Rectangle, or Circle, which inherit Hitbox properties.
+    Instead, use Polygon or Circle, which inherit Hitbox properties.
 
     Args:
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
@@ -56,21 +55,20 @@ class Hitbox(Component):
         """The tag of the hitbox (can be used to identify hitboxes in collision callbacks)"""
         self.colliding: set[Hitbox] = set()
         """An unordered set of hitboxes that the Hitbox is currently colliding with."""
-        self._color: Color = color
-        self._image: Surface = Surface(scale=scale)
-        self._debug_image: Surface = Surface(scale=scale)
+        self.color: Color = color
+        """The color to fill the hitbox with."""
+        self._image: Surface = Surface()
+        self._debug_image: Surface = Surface()
         self.uptodate: bool = False
         """Whether the hitbox image is up to date or not."""
+        self._reset_old()
 
-    @property
-    def color(self) -> Color:
-        """The color to fill this hitbox with."""
-        return self._color
+    def _reset_old(self):
+        self._old_scale = self.scale
+        self._old_color = self.color.clone() if self.color else None
 
-    @color.setter
-    def color(self, new: Color):
-        self._color = new
-        self.uptodate = False
+    def update(self):
+        self.uptodate |= self.scale != self._old_scale or self.color != self._old_color
 
     def regenerate_image(self):
         """
@@ -94,16 +92,15 @@ class Hitbox(Component):
 
         if not self.uptodate:
             self.regenerate_image()
+            self._reset_old()
             self.uptodate = True
 
-        if self._color:
-            self._image.scale = Vector(self.scale, self.scale)
+        if self.color:
             self._image.rotation = self.true_rotation()
 
             Draw.queue_surf(self._image, self.true_pos(), self.true_z(), camera)
 
         if self.debug or Game.debug:
-            self._debug_image.scale = Vector(self.scale, self.scale)
             self._debug_image.rotation = self.true_rotation()
 
             Draw.queue_surf(self._debug_image, self.true_pos(), camera=camera)
@@ -164,11 +161,6 @@ class Polygon(Hitbox):
             z_index=z_index
         )
         self._verts: list[Vector] = verts
-        self._image: Surface = Surface()
-        self._debug_image: Surface = Surface()
-
-        self._old_offset = self.offset.clone()
-        self._old_rot_offset = self.rot_offset
 
         self.regenerate_verts()
 
@@ -197,14 +189,14 @@ class Polygon(Hitbox):
         """Clones the Polygon"""
         return Polygon(
             verts=self.verts,
-            color=self._color,
+            color=self.color.clone(),
             tag=self.tag,
             debug=self.debug,
             trigger=self.trigger,
             scale=self.scale,
             on_collide=self.on_collide,
             on_exit=self.on_exit,
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
@@ -259,22 +251,16 @@ class Polygon(Hitbox):
         super().regenerate_image()
         self.regenerate_verts()
 
-        r = int(self.radius * 2)
+        r = int(self.radius * self.scale * 2)
         if r != self._image.surf.w:
             self._image = Surface(r, r)
             self._debug_image = Surface(r, r)
 
-        verts = [v + self.radius for v in self.verts]
+        verts = [v + r // 2 for v in self.verts]
 
         if self.color is not None:
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
-
-        self._old_offset = self.offset.clone()
-        self._old_rot_offset = self.rot_offset
-
-    def update(self):
-        self.uptodate |= self.offset != self._old_offset or self.rot_offset != self._old_rot_offset
 
     @deprecated(Vector.poly)
     @classmethod
@@ -298,298 +284,6 @@ class Polygon(Hitbox):
 
         rotangle = 360 / num_sides
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
-
-
-class Rectangle(Hitbox):
-    """
-    A rectangle implementation of the Hitbox subclass.
-
-    Args:
-        width: The width of the rectangle. Defaults to 10.
-        height: The height of the rectangle. Defaults to 10.
-        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
-        tag: A string to tag the hitbox. Defaults to "".
-        debug: Whether to draw the hitbox. Defaults to False.
-        trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to 1.
-        on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
-        on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
-        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the hitbox. Defaults to 0.
-        z_index: The z-index of the hitbox. Defaults to 0.
-    """
-
-    def __init__(
-        self,
-        width: int | float = 10,
-        height: int | float = 10,
-        color: Color | None = None,
-        tag: str = "",
-        debug: bool = False,
-        trigger: bool = False,
-        scale: int | float = 1,
-        on_collide: Callable | None = None,
-        on_exit: Callable | None = None,
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
-        z_index: int = 0
-    ):
-        self._width: int = int(width)
-        self._height: int = int(height)
-
-        super().__init__(
-            offset=offset,
-            rot_offset=rot_offset,
-            debug=debug,
-            trigger=trigger,
-            scale=scale,
-            on_collide=on_collide,
-            on_exit=on_exit,
-            color=color,
-            tag=tag,
-            z_index=z_index
-        )
-
-    @property
-    def width(self) -> int:
-        """The width of the rectangle."""
-        return self._width
-
-    @width.setter
-    def width(self, new: int):
-        self._width = new
-        self.uptodate = False
-
-    @property
-    def height(self) -> int:
-        """The width of the rectangle."""
-        return self._height
-
-    @height.setter
-    def height(self, new: int):
-        self._height = new
-        self.uptodate = False
-
-    @property
-    def top_left(self):
-        """
-        The top left corner of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return self.true_pos() - Vector(self.width / 2, self.height / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @top_left.setter
-    def top_left(self, new: Vector):
-        if self.gameobj:
-            self.gameobj.pos = new + Vector(self.width / 2, self.height / 2)
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def bottom_left(self):
-        """
-        The bottom left corner of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return self.true_pos() - Vector(self.width / 2, self.height / -2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @bottom_left.setter
-    def bottom_left(self, new: Vector):
-        if self.gameobj:
-            self.gameobj.pos = new + Vector(self.width / 2, self.height / -2)
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def top_right(self):
-        """
-        The top right corner of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return self.true_pos() - Vector(self.width / -2, self.height / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @top_right.setter
-    def top_right(self, new: Vector):
-        if self.gameobj:
-            self.gameobj.pos = new + Vector(self.width / -2, self.height / 2)
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def bottom_right(self):
-        """
-        The bottom right corner of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return self.true_pos() + Vector(self.width / 2, self.height / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @bottom_right.setter
-    def bottom_right(self, new: Vector):
-        if self.gameobj:
-            self.gameobj.pos = new - Vector(self.width / 2, self.height / 2)
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def top(self):
-        """
-        The top side of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return math.floor(self.true_pos().y + self.height / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @top.setter
-    def top(self, new: float):
-        if self.gameobj:
-            self.gameobj.pos.y = new - self.height / 2
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def left(self):
-        """
-        The bottom side of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return math.floor(self.true_pos().x - self.width / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @left.setter
-    def left(self, new: float):
-        if self.gameobj:
-            self.gameobj.pos.x = new + self.width / 2
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def bottom(self):
-        """
-        The bottom side of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return math.ceil(self.true_pos().y + self.height / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @bottom.setter
-    def bottom(self, new: float):
-        if self.gameobj:
-            self.gameobj.pos.y = new - self.height / 2
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def right(self):
-        """
-        The right side of the rectangle.
-
-        Note:
-            This can only be accessed and set after the Rectangle has been
-            added to a Game Object.
-        """
-        if self.gameobj:
-            return math.ceil(self.true_pos().x + self.height / 2)
-        else:
-            raise Error("Tried to get rect property before game object assignment.")
-
-    @right.setter
-    def right(self, new: float):
-        if self.gameobj:
-            self.gameobj.pos.x = new - self.height / 2
-            self.gameobj.pos = self.gameobj.pos.round()
-        else:
-            raise Error("Tried to set rect property before game object assignment.")
-
-    @property
-    def radius(self) -> float:
-        """The radius of the rectangle."""
-        return round(math.sqrt(self.width**2 + self.height**2) / 2, 10)
-
-    def contains_pt(self, pt: Vector) -> bool:
-        """
-        Checks if a point is inside the Rectangle.
-
-        Args:
-            pt (Vector): The point to check, in game-world coordinates.
-
-        Returns:
-            bool: Whether the point is inside the Rectangle.
-        """
-        return Input.pt_in_poly(pt, self.real_verts())
-
-    def regenerate_image(self):
-        super().regenerate_image()
-
-        if self.width != self._image.surf.w or self.height != self._image.surf.h:
-            self._image = Surface(self.width, self.height)
-            self._debug_image = Surface(self.width, self.height)
-
-        if self.color is not None:
-            self._image.draw_rect(Vector(0, 0), Vector(self.width, self.height), fill=self.color)
-
-        self._debug_image.draw_rect(Vector(0, 0), Vector(self.width, self.height), Color.debug, 2)
-
-    def clone(self) -> Rectangle:
-        return Rectangle(
-            offset=self.offset,
-            rot_offset=self.rot_offset,
-            debug=self.debug,
-            trigger=self.trigger,
-            scale=self.scale,
-            on_collide=self.on_collide,
-            on_exit=self.on_exit,
-            color=self._color,
-            tag=self.tag,
-            width=self.width,
-            height=self.height,
-            z_index=self.z_index,
-        )
 
 
 class Circle(Hitbox):
@@ -640,9 +334,6 @@ class Circle(Hitbox):
             z_index=z_index
         )
         self._radius = radius
-        size = int(radius) * 2
-        self._image = Surface(size, size)
-        self._debug_image = Surface(size, size)
 
     @property
     def radius(self) -> int | float:
@@ -657,17 +348,12 @@ class Circle(Hitbox):
     @property
     def center(self) -> Vector:
         """The center of the circle. Equivalent to true_pos. Setting to this will change the Gameobject position."""
-        # this is required to make the center property setter work and not have two behaviours in different classes.
         return self.true_pos()
-
-    @center.setter
-    def center(self, new: Vector):
-        """Sets the center of the circle."""
-        self.gameobj.pos = new
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         offset = self.transformed_radius()
-        return self.true_pos() - offset, self.true_pos() + offset
+        true_pos = self.true_pos()
+        return true_pos - offset, true_pos + offset
 
     def transformed_radius(self) -> int | float:
         """Gets the true radius of the circle"""
@@ -684,12 +370,12 @@ class Circle(Hitbox):
             bool: Whether the point is inside the Circle.
         """
         r = self.transformed_radius()
-        return (pt - self.gameobj.pos).mag_sq <= r * r
+        return (pt - self.true_pos()).mag_sq <= r * r
 
     def regenerate_image(self):
         super().regenerate_image()
 
-        int_r = int(self.radius)
+        int_r = int(self.radius * self.scale)
         center = Vector(int_r, int_r)
         size = int_r * 2 + 1
 
@@ -710,7 +396,7 @@ class Circle(Hitbox):
             scale=self.scale,
             on_collide=self.on_collide,
             on_exit=self.on_exit,
-            color=self._color,
+            color=self.color.clone(),
             tag=self.tag,
             radius=self.radius,
             z_index=self.z_index,
