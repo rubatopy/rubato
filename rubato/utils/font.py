@@ -3,7 +3,7 @@ from typing import Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
 from importlib.resources import files
 
-from . import Color, Vector
+from . import Color
 
 
 class Font:
@@ -77,13 +77,13 @@ class Font:
         self._color = new
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
-    def generate_surface(self, text: str, align: Vector = Vector(0, 0), width: int | float = 0) -> sdl2.SDL_Surface:
+    def generate_surface(self, text: str, align: str, width: int | float = 0) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
 
         Args:
             text: The text to render.
-            align: The alignment to use. Defaults to Vector(0, 0).
+            align: The alignment to use.
             width: The maximum width to use. Defaults to -1.
             rot: The rotation of the text in degrees. Defaults to 0.
 
@@ -92,7 +92,7 @@ class Font:
             ValueError: The size of the text is too large for the font.
 
         Returns:
-            sdl2.SDL_Surface: The surface containing the text.
+            The surface containing the text.
         """
         try:
             return self._font.render_text(text, width=None if width <= 0 else int(width), align=align)

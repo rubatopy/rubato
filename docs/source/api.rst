@@ -204,16 +204,22 @@ Utilities
 *********
 These classes are utility classes that are used to make certain tasks easier.
 
+.. _surf:
+
+Surf
+====
+.. automodule:: rubato.utils.surf
+
 .. _sprite:
 
 Sprite
-======
+------
 .. automodule:: rubato.struct.sprite
 
 .. _surface:
 
 Surface
-=======
+-------
 .. automodule:: rubato.struct.surface
     
 

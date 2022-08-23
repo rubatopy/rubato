@@ -3,7 +3,7 @@ from __future__ import annotations
 import sdl2, sdl2.ext
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display, Surf
+from .. import Vector, Color, Display, Surf, VectorLike
 
 
 class Surface(Surf):
@@ -13,7 +13,7 @@ class Surface(Surf):
     Args:
         width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         height: The height of the surface in pixels. Once set this cannot be changed. Defaults to 32.
-        scale: The scale of the surface. Defaults to Vector(1, 1).
+        scale: The scale of the surface. Defaults to (1, 1).
         af: Whether to use anisotropic filtering. Defaults to False.
     """
 
@@ -21,7 +21,7 @@ class Surface(Surf):
         self,
         width: int = 32,
         height: int = 32,
-        scale: Vector = Vector(1, 1),
+        scale: VectorLike = (1, 1),
         rotation: float = 0,
         af: bool = False,
     ):
@@ -41,7 +41,7 @@ class Surface(Surf):
         c_draw.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
-    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = True):
+    def draw_point(self, pos: VectorLike, color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
 
@@ -50,14 +50,15 @@ class Surface(Surf):
             color: The color of the point. Defaults to black.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = pos.tuple_int()
+        Vector.raise_vector_like(pos, "pos")
+        x, y = (int(pos[0]), int(pos[1]))
         c_draw.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
     def draw_line(
         self,
-        start: Vector,
-        end: Vector,
+        start: VectorLike,
+        end: VectorLike,
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
@@ -74,8 +75,10 @@ class Surface(Surf):
             thickness: The thickness of the line. Defaults to 1.
             blending: Whether to use blending. Defaults to False.
         """
-        sx, sy = start.tuple_int()
-        ex, ey = end.tuple_int()
+        Vector.raise_vector_like(start, "start")
+        Vector.raise_vector_like(end, "end")
+        sx, sy = (int(start[0]), int(start[1]))
+        ex, ey = (int(end[0]), int(end[1]))
         c_draw.draw_line(
             self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
@@ -83,8 +86,8 @@ class Surface(Surf):
 
     def draw_rect(
         self,
-        top_left: Vector,
-        dims: Vector,
+        top_left: VectorLike,
+        dims: VectorLike,
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -101,8 +104,10 @@ class Surface(Surf):
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = top_left.tuple_int()
-        w, h = dims.tuple_int()
+        Vector.raise_vector_like(top_left, "top_left")
+        Vector.raise_vector_like(dims, "dims")
+        x, y = (int(top_left[0]), int(top_left[1]))
+        w, h = (int(dims[0]), int(dims[1]))
         c_draw.draw_rect(
             self.surf.pixels,
             self.surf.w,
@@ -120,7 +125,7 @@ class Surface(Surf):
 
     def draw_circle(
         self,
-        center: Vector,
+        center: VectorLike,
         radius: int,
         border: Color | None = None,
         border_thickness: int = 1,
@@ -140,7 +145,8 @@ class Surface(Surf):
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = center.tuple_int()
+        Vector.raise_vector_like(center, "center")
+        x, y = (int(center[0]), int(center[1]))
         c_draw.draw_circle(
             self.surf.pixels,
             self.surf.w,
@@ -158,7 +164,7 @@ class Surface(Surf):
 
     def draw_poly(
         self,
-        points: list[Vector],
+        points: list[VectorLike],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -189,7 +195,7 @@ class Surface(Surf):
         )
         self.uptodate = False
 
-    def get_pixel(self, pos: Vector) -> Color:
+    def get_pixel(self, pos: VectorLike) -> Color:
         """
         Gets the color of a pixel on the surface.
 
@@ -199,13 +205,14 @@ class Surface(Surf):
         Returns:
             The color of the pixel.
         """
-        x, y = pos.tuple_int()
+        Vector.raise_vector_like(pos, "pos")
+        x, y = (int(pos[0]), int(pos[1]))
         if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
             return Color.from_rgba32(c_draw.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
-    def get_pixel_tuple(self, pos: Vector) -> tuple[int, int, int, int]:
+    def get_pixel_tuple(self, pos: VectorLike) -> tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the surface.
 
@@ -252,7 +259,7 @@ class Surface(Surf):
         new = Surface(
             self.width,
             self.height,
-            scale=self.scale,
+            scale=self.scale.clone(),
             rotation=self.rotation,
             af=self.af,
         )

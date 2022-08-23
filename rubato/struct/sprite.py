@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import sdl2, sdl2.ext
 
-from .. import get_path, Vector, Surf, Display
+from .. import get_path, Surf, Display, VectorLike
 
 
 class Sprite(Surf):
@@ -15,7 +15,7 @@ class Sprite(Surf):
     Args:
         rel_path: The relative path to the image.
         rotation: The rotation of the image. Defaults to 0.
-        scale: The scale of the image. Defaults to Vector(1, 1).
+        scale: The scale of the image. Defaults to (1, 1).
         af: Whether to use anisotropic filtering. Defaults to False.
     """
 
@@ -23,7 +23,7 @@ class Sprite(Surf):
         self,
         rel_path: str,
         rotation: float = 0,
-        scale: Vector = Vector(1, 1),
+        scale: VectorLike = (1, 1),
         af: bool = False,
     ):
         super().__init__(rotation=rotation, scale=scale, af=af)
@@ -39,6 +39,6 @@ class Sprite(Surf):
             self.generate_tx()
 
     def clone(self) -> Sprite:
-        s = Sprite("", self.rotation, self.scale, self.af)
+        s = Sprite("", self.rotation, self.scale.clone(), self.af)
         s.surf = Display.clone_surface(self.surf)
         return s

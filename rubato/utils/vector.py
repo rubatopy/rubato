@@ -698,6 +698,55 @@ class Vector:
     def __len__(self) -> int:
         return 2
 
+    @staticmethod
+    def is_vector_like(obj: VectorLike, none_accepted: bool = False) -> bool:
+        """
+        Checks if the object is a VectorLike.
+
+        Args:
+            obj: The object to check.
+            none_accepted: Whether None is accepted.
+        """
+        if none_accepted and obj is None:
+            return True
+        if isinstance(obj, Vector):
+            return True
+        if isinstance(obj, (tuple, list)):
+            return len(obj) == 2 and isinstance(obj[0], (int, float)) and isinstance(obj[1], (int, float))
+        return False
+
+    @staticmethod
+    def raise_vector_like(obj: VectorLike, name: str, none_accepted: bool = False) -> None:
+        """
+        Raises a TypeError if the object is not a VectorLike.
+
+        Args:
+            obj: The object to check.
+            name: The name of the object.
+            none_accepted: Whether None is accepted.
+        """
+        if Vector.is_vector_like(obj, none_accepted):
+            return
+        raise TypeError(f"{name} is not a VectorLike" + (" or None" if none_accepted else ""))
+
+    @staticmethod
+    def make_vector(obj: VectorLike) -> Vector:
+        """
+        Makes a Vector from a VectorLike.
+
+        Args:
+            obj: The object to make a Vector from.
+        """
+        Vector.raise_vector_like(obj, str(obj))
+        if isinstance(obj, Vector):
+            return obj
+        if isinstance(obj, (tuple, list)):
+            return Vector(obj[0], obj[1])
+        raise TypeError(f"{obj} is not a VectorLike")
+
+
+VectorLike = Vector | tuple[float, float] | list[float, float]
+"""A type alias for Vector-like objects"""
 
 # Developer notes:
 # Angles are north degrees (clockwise from the +y-axis).

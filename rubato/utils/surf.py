@@ -1,21 +1,34 @@
 """Low level surface manager."""
 from __future__ import annotations
 import sdl2, sdl2.ext
-from . import Vector, Display
+
+from . import Vector, Display, VectorLike
 
 
 class Surf:
-    """This is a low-level surface manager. By itself, it doesn't do much. Should not be used by user."""
+    """
+    This is a low-level surface manager.
+    By itself, it doesn't do much.
+
+    Attention:
+        Should not be used. Instead use 
+        :func:`Surface <rubato.struct.surface.Surface>` or :func:`Sprite <rubato.struct.sprite.Sprite>`.
+
+    Args:
+        rotation: The clockwise rotation of the sprite.
+        scale: The scale of the sprite.
+        af: Whether the sprite should use anisotropic filtering.
+    """
 
     def __init__(
         self,
         rotation: float = 0,
-        scale: Vector = Vector(1, 1),
+        scale: VectorLike = (1, 1),
         af: bool = False,
     ):
-        self.rotation = rotation
+        self.rotation: float = rotation
         """The clockwise rotation of the sprite."""
-        self.scale = scale
+        self.scale: Vector = Vector.make_vector(scale)
         """The scale of the sprite."""
         self._af = af
 
