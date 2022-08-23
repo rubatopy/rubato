@@ -21,8 +21,8 @@ text = rb.Text("Hello World", font)
 
 
 def update():
-    # go.rotation += speed
-    # rect.rot_offset += speed
+    go.rotation += speed
+    rect.rot_offset += speed
 
     text.text = f"go.rotation: {go.rotation:.2f}\nrect.offset.x: {rect.offset.x:.2f}\nrect.rot_offset: {rect.rot_offset:.2f}"
 

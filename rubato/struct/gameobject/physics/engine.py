@@ -246,31 +246,30 @@ class Engine:
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
-        pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b)
+        a_verts = shape_a.translated_verts()
+        b_verts = shape_b.translated_verts()
+
+        pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
         if pen_a is None:
             return
 
-        pen_b, face_b = Engine.axis_least_penetration(shape_b, shape_a)
+        pen_b, face_b = Engine.axis_least_penetration(shape_b, shape_a, b_verts, a_verts)
         if pen_b is None:
             return
 
         if pen_b < pen_a:
             man = Manifold(shape_a, shape_b, abs(pen_a))
 
-            ref_verts = shape_a.translated_verts()
-
-            v1 = ref_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
-            v2 = ref_verts[(face_a + 1) % len(ref_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
             man = Manifold(shape_a, shape_b, abs(pen_b))
 
-            ref_verts = shape_b.translated_verts()
-
-            v1 = ref_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
-            v2 = ref_verts[(face_b + 1) % len(ref_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -278,11 +277,8 @@ class Engine:
         return man
 
     @staticmethod
-    def axis_least_penetration(a: Polygon, b: Polygon) -> float:
+    def axis_least_penetration(a: Polygon, b: Polygon, a_verts: list[Vector], b_verts: list[Vector]) -> float:
         """Finds the axis of least penetration between two possibly colliding polygons."""
-        a_verts = a.translated_verts()
-        b_verts = b.translated_verts()
-
         best_dist = -Math.INF
         best_ind = 0
 
