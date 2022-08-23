@@ -194,7 +194,7 @@ class Engine:
     @staticmethod
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
-        verts = polygon.translated_verts()
+        verts = polygon.offset_verts()
         circle_rad = circle.true_radius()
         circle_pos = circle.true_pos()
         poly_pos = polygon.true_pos()
@@ -246,8 +246,8 @@ class Engine:
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
-        a_verts = shape_a.translated_verts()
-        b_verts = shape_b.translated_verts()
+        a_verts = shape_a.offset_verts()
+        b_verts = shape_b.offset_verts()
 
         pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
         if pen_a is None:

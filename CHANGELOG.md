@@ -4,31 +4,36 @@
 
 ### Breaking Changes
 
--   `Component.true_z` is now a function instead of a property method. This is to match with our new property method
+-   `Component.true_z()` is now a function instead of a property method. This is to match with our new property method
     convention.
 
 ### Added
 
--   `gameobject.remove_ind` method to remove an individual component from a game object with a given index.
+-   `gameobject.remove_ind()` method to remove an individual component from a game object with a given index.
     Use this to remove components from a game object which holds multiple instances of the same type of component.
 -   `Component.true_pos()` and `Component.true_rotation()` methods to get the position and rotation of a component in
     world space. These functions correctly apply the gameobjects position and rotation to the component while respecting
     offsets.
+-   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
 
 ### Changed
 
 -   Modified the internal workings of `gameobject`s components data structure to more more flexibly handle inputs.
     (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
+-   Renamed `vector.distance_between()` to `vector.dist_to()`.
+-   Renamed `polygon.translated_verts()` to `polygon.offset_verts()`.
+-   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
 
 ### Removed
 
--   `hitbox.get_obb` because it wasn't working properly. Use `hitbox.get_aabb` instead.
+-   `hitbox.get_obb()` because it wasn't working properly. Use `hitbox.get_aabb()` instead.
+-   `Polygon.transformed_verts()` because it was unused in the engine.
 
 ### Fixed
 
 -   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
     You can still replicate this functionality by passing `Hitbox` into the component getter.
--   Offsetting components now gives expected behavior. Physics also respects this.
+-   Offsets (including rotational) not working properly. Physics has also been refactored to handle scaling properly.
 
 ## [v3.1.0] - August 19, 2022
 

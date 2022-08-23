@@ -351,7 +351,7 @@ class Vector:
         base = (other - self).normalized()
         return base
 
-    def distance_between(self, other: Vector) -> float:
+    def dist_to(self, other: Vector) -> float:
         """
         Finds the pythagorean distance between two vectors.
 
@@ -459,7 +459,7 @@ class Vector:
         """
         w = width / 2
         h = height / 2
-        return [Vector(-w, -h), Vector(-w, h), Vector(w, h), Vector(w, -h)]
+        return [Vector(-w, -h), Vector(w, -h), Vector(w, h), Vector(-w, h)]
 
     @staticmethod
     def zero():
