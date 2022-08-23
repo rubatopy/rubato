@@ -72,15 +72,6 @@ class Hitbox(Component):
         self._color = new
         self.uptodate = False
 
-    @property
-    def pos(self) -> Vector:
-        """The getter method for the position of the hitbox's center"""
-        return self.gameobj.pos + self.offset
-
-    @property
-    def rot(self) -> float:
-        return self.gameobj.rotation + self.rot_offset
-
     def regenerate_image(self):
         """
         Regenerates the image of the hitbox.
@@ -116,15 +107,15 @@ class Hitbox(Component):
 
         if self._color:
             self._image.scale = Vector(self.scale, self.scale)
-            self._image.rotation = self.rot
+            self._image.rotation = self.true_rotation()
 
-            Draw.queue_surf(self._image, self.pos, self.true_z, camera)
+            Draw.queue_surf(self._image, self.true_pos(), self.true_z(), camera)
 
         if self.debug or Game.debug:
             self._debug_image.scale = Vector(self.scale, self.scale)
-            self._debug_image.rotation = self.rot
+            self._debug_image.rotation = self.true_rotation()
 
-            Draw.queue_surf(self._debug_image, self.pos, camera=camera)
+            Draw.queue_surf(self._debug_image, self.true_pos(), camera=camera)
 
 
 class Polygon(Hitbox):
@@ -284,7 +275,7 @@ class Polygon(Hitbox):
         return Input.pt_in_poly(pt, self.real_verts())
 
     def __str__(self):
-        return f"{[str(v) for v in self.verts]}, {self.pos}, " + f"{self.scale}, {self.gameobj.rotation}"
+        return f"{[str(v) for v in self.verts]}, {self.true_pos()}, " + f"{self.scale}, {self.gameobj.rotation}"
 
     def regenerate_verts(self):
         self._translated_verts = [vert * self.scale + self.offset for vert in self.verts]
@@ -409,7 +400,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos - Vector(self.width / 2, self.height / 2)
+            return self.true_pos() - Vector(self.width / 2, self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -431,7 +422,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos - Vector(self.width / 2, self.height / -2)
+            return self.true_pos() - Vector(self.width / 2, self.height / -2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -453,7 +444,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos - Vector(self.width / -2, self.height / 2)
+            return self.true_pos() - Vector(self.width / -2, self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -475,7 +466,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return self.pos + Vector(self.width / 2, self.height / 2)
+            return self.true_pos() + Vector(self.width / 2, self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -497,7 +488,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return math.floor(self.pos.y + self.height / 2)
+            return math.floor(self.true_pos().y + self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -519,7 +510,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return math.floor(self.pos.x - self.width / 2)
+            return math.floor(self.true_pos().x - self.width / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -541,7 +532,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return math.ceil(self.pos.y + self.height / 2)
+            return math.ceil(self.true_pos().y + self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -563,7 +554,7 @@ class Rectangle(Hitbox):
             added to a Game Object.
         """
         if self.gameobj:
-            return math.ceil(self.pos.x + self.height / 2)
+            return math.ceil(self.true_pos().x + self.height / 2)
         else:
             raise Error("Tried to get rect property before game object assignment.")
 
@@ -745,9 +736,9 @@ class Circle(Hitbox):
 
     @property
     def center(self) -> Vector:
-        """The center of the circle. Equivalent to pos"""
+        """The center of the circle. Equivalent to true_pos. Setting to this will change the Gameobject position."""
         # this is required to make the center property setter work and not have two behaviours in different classes.
-        return self.pos
+        return self.true_pos()
 
     @center.setter
     def center(self, new: Vector):
@@ -756,7 +747,7 @@ class Circle(Hitbox):
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         offset = self.transformed_radius()
-        return self.pos - offset, self.pos + offset
+        return self.true_pos() - offset, self.true_pos() + offset
 
     def get_obb(self) -> tuple[Vector, Vector]:
         r = self.transformed_radius()

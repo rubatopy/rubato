@@ -169,7 +169,7 @@ class Engine:
     def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
         """Checks for overlap between two circles"""
         t_rad = circle_a.radius + circle_b.radius
-        d_x, d_y = circle_a.pos.x - circle_b.pos.x, circle_a.pos.y - circle_b.pos.y
+        d_x, d_y = circle_a.true_pos().x - circle_b.true_pos().x, circle_a.true_pos().y - circle_b.true_pos().y
         dist = d_x * d_x + d_y * d_y
 
         if dist > t_rad * t_rad:
@@ -190,7 +190,7 @@ class Engine:
     def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
         verts = polygon.translated_verts()
-        center = (circle.pos - polygon.pos).rotate(-polygon.gameobj.rotation)
+        center = (circle.true_pos() - polygon.true_pos()).rotate(-polygon.gameobj.rotation)
 
         separation = -Math.INF
         face_normal = 0
@@ -250,8 +250,8 @@ class Engine:
 
             ref_verts = shape_a.translated_verts()
 
-            v1 = ref_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.pos
-            v2 = ref_verts[(face_a + 1) % len(ref_verts)].rotate(shape_a.gameobj.rotation) + shape_a.pos
+            v1 = ref_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.true_pos()
+            v2 = ref_verts[(face_a + 1) % len(ref_verts)].rotate(shape_a.gameobj.rotation) + shape_a.true_pos()
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
@@ -260,8 +260,8 @@ class Engine:
 
             ref_verts = shape_b.translated_verts()
 
-            v1 = ref_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.pos
-            v2 = ref_verts[(face_b + 1) % len(ref_verts)].rotate(shape_b.gameobj.rotation) + shape_b.pos
+            v1 = ref_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.true_pos()
+            v2 = ref_verts[(face_b + 1) % len(ref_verts)].rotate(shape_b.gameobj.rotation) + shape_b.true_pos()
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -280,7 +280,7 @@ class Engine:
         for i in range(len(a_verts)):
             n = Engine.get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
             s = Engine.get_support(b_verts, -n)
-            v = (a_verts[i].rotate(a.gameobj.rotation) + a.pos - b.pos).rotate(-b.gameobj.rotation)
+            v = (a_verts[i].rotate(a.gameobj.rotation) + a.true_pos() - b.true_pos()).rotate(-b.gameobj.rotation)
             d = n.dot(s - v)
 
             if d > best_dist:

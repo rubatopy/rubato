@@ -65,7 +65,7 @@ class Font:
     @size.setter
     def size(self, new: int):
         self._size = new
-        sdl2.sdlttf.TTF_SetFontSize(self._font, new)
+        sdl2.sdlttf.TTF_SetFontSize(self._font.get_ttf_font(), new)
 
     @property
     def color(self) -> Color:

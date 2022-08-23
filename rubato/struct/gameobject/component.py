@@ -43,10 +43,17 @@ class Component:
         self.hidden = False
         """Whether the component should not draw."""
 
-    @property
-    def true_z(self):
-        """The z_index of the component offset by its parent gameobject z_index."""
+    def true_z(self) -> int:
+        """Returns the z_index of the component offset by its parent gameobject z_index."""
         return self.z_index + self.gameobj.z_index
+
+    def true_pos(self) -> Vector:
+        """Returns the world position of the component."""
+        return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
+
+    def true_rotation(self) -> float:
+        """Returns the rotation of the component offset by its parent gameobject rotation."""
+        return self.gameobj.rotation + self.rot_offset
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""

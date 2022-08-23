@@ -100,7 +100,7 @@ class Animation(Component):
         """The current animation frame."""
         sprite = self._states[self.current_state][self.current_frame]
         sprite.af = self.af
-        sprite.rotation = self.gameobj.rotation + self.rot_offset
+        sprite.rotation = self.true_rotation()
 
         calculated_scale = self.scale.clone()
         if self.flipx:
@@ -246,7 +246,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_surf(self.anim_frame, self.gameobj.pos + self.offset, self.true_z, camera)
+        Draw.queue_surf(self.anim_frame, self.true_pos(), self.true_z(), camera)
 
     def anim_tick(self):
         """An animation processing tick."""

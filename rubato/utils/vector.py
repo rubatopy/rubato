@@ -225,7 +225,7 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = math.radians(-angle)
+        radians = math.radians(angle)
         c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
