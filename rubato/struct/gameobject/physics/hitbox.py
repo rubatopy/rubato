@@ -351,11 +351,11 @@ class Circle(Hitbox):
         return self.true_pos()
 
     def get_aabb(self) -> tuple[Vector, Vector]:
-        offset = self.transformed_radius()
+        offset = self.true_radius()
         true_pos = self.true_pos()
         return true_pos - offset, true_pos + offset
 
-    def transformed_radius(self) -> int | float:
+    def true_radius(self) -> int | float:
         """Gets the true radius of the circle"""
         return self.radius * self.scale
 
@@ -369,7 +369,7 @@ class Circle(Hitbox):
         Returns:
             bool: Whether the point is inside the Circle.
         """
-        r = self.transformed_radius()
+        r = self.true_radius()
         return (pt - self.true_pos()).mag_sq <= r * r
 
     def regenerate_image(self):
