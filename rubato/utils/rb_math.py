@@ -8,7 +8,7 @@ from . import InitError
 # THIS IS A STATIC CLASS
 class Math:
     """
-    A more complete math class.s
+    Adds additonal functionality to the math module that is commonly used in game development.
     """
     INF: int = 2147483647
     """The max value of a 32-bit integer."""
