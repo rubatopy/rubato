@@ -139,4 +139,4 @@ class Font:
         """
         Clones the font.
         """
-        return Font(self._font_path, self._size, self._styles, self._color)
+        return Font(self._font_path, self._size, self._styles, self._color.clone())
