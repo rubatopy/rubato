@@ -4,17 +4,18 @@
 
 ### Breaking Changes
 
--   `Component.true_z()` is now a function instead of a property method. This is to match with our new property method
+-   `component.true_z()` is now a function instead of a property method. This is to match with our new property method
     convention.
 
 ### Added
 
 -   `gameobject.remove_ind()` method to remove an individual component from a game object with a given index.
     Use this to remove components from a game object which holds multiple instances of the same type of component.
--   `Component.true_pos()` and `Component.true_rotation()` methods to get the position and rotation of a component in
+-   `component.true_pos()` and `component.true_rotation()` methods to get the position and rotation of a component in
     world space. These functions correctly apply the gameobjects position and rotation to the component while respecting
     offsets.
 -   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
+-   `color.clone()`.
 
 ### Changed
 
@@ -28,7 +29,7 @@
 ### Removed
 
 -   `hitbox.get_obb()` because it wasn't working properly. Use `hitbox.get_aabb()` instead.
--   `Polygon.transformed_verts()` because it was unused in the engine.
+-   `polygon.transformed_verts()` because it was unused in the engine.
 
 ### Fixed
 
