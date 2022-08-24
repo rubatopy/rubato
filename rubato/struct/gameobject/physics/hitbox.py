@@ -227,7 +227,6 @@ class Polygon(Hitbox):
     def redraw(self):
         super().redraw()
         self.regen()
-        print("ran")
 
         r = int(self.radius * self.scale * 2)
         if r != self._image.surf.w:
