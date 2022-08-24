@@ -86,7 +86,7 @@ def draw_poly(
     vyt = []
     for v in points:
         Vector.raise_vector_like(v, "points")
-        x, y = (int(v[0]), int(v[1]))
+        x, y = int(v[0]), int(v[1])
         vxt.append(x)
         vyt.append(y)
     vx: array.array = array.array("i", vxt)

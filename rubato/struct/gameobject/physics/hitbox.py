@@ -82,7 +82,7 @@ class Hitbox(Component):
         Returns:
             Whether the point is inside the Hitbox.
         """
-        return False
+        pass
 
     def redraw(self):
         """
