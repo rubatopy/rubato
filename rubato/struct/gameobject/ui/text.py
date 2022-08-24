@@ -4,7 +4,7 @@ from typing import Literal
 import sdl2, sdl2.ext
 
 from .. import Component
-from .... import Display, Vector, Color, Font, Draw, Camera
+from .... import Display, Vector, VectorLike, Color, Font, Draw, Camera
 
 
 class Text(Component):
@@ -29,21 +29,35 @@ class Text(Component):
         text: str = "",
         font: Font = Font(),
         justify: Literal["left", "center", "right"] = "left",
-        anchor: Vector = Vector(0, 0),
+        anchor: VectorLike = (0, 0),
         width: int = 0,
-        offset: Vector = Vector(),
+        offset: VectorLike = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
-        self._font: Font = font
-        self._anchor: Vector = anchor
+        self.font_object: Font = font
+        self.anchor: Vector = Vector.make_vector(anchor)
+        """
+        The anchor vector of the text.
+
+        This controls the position of the text relative to the game object. Is a vector where the x value
+        controls the x anchor and the y value controls the y anchor. The values for each can be either -1, 0 or 1. This
+        offset the text around the game object center.
+
+        Example:
+            An anchor of ``Vector(0, 0)`` will center the text on the game object. An anchor of ``Vector(1, 1)`` will
+            move the text so that it's top left corner is at the game object's center.
+
+        Warning:
+            Previously was called align.
+        """
         self._justify: str = justify
         self._width: int = width
 
-        if not self._font:
-            self._font = Font()
+        if not self.font_object:
+            self.font_object = Font()
 
         self.generate_surface()
 
@@ -75,28 +89,6 @@ class Text(Component):
             raise ValueError(f"Justification {new} is not left, center or right.")
 
     @property
-    def anchor(self) -> Vector:
-        """
-        The anchor vector of the text.
-
-        This controls the position of the text relative to the game object. Is a vector where the x value
-        controls the x anchor and the y value controls the y anchor. The values for each can be either -1, 0 or 1. This
-        offset the text around the game object center.
-
-        Example:
-            An anchor of ``Vector(0, 0)`` will center the text on the game object. An anchor of ``Vector(1, 1)`` will
-            move the text so that it's top left corner is at the game object's center.
-
-        Warning:
-            Previously was called align.
-        """
-        return self._anchor
-
-    @anchor.setter
-    def anchor(self, new: Vector):
-        self._anchor = new
-
-    @property
     def width(self) -> int:
         """The maximum width of the text. Will automatically wrap the text. Use -1 to disable wrapping."""
         return self._width
@@ -107,11 +99,6 @@ class Text(Component):
         self.generate_surface()
 
     @property
-    def font_object(self) -> Font:
-        """The font object of the text."""
-        return self._font
-
-    @property
     def font_size(self) -> int:
         """
         The font size.
@@ -119,37 +106,37 @@ class Text(Component):
         Warning:
             Don't set this too high or font smoothing may misbehave on some systems.
         """
-        return self._font.size
+        return self.font_object.size
 
     @font_size.setter
     def font_size(self, size: int):
-        self._font.size = size
+        self.font_object.size = size
         self.generate_surface()
 
     @property
     def font_color(self) -> Color:
         """The font color."""
-        return self._font.color
+        return self.font_object.color
 
     @font_color.setter
     def font_color(self, color: Color):
-        self._font.color = color
+        self.font_object.color = color
         self.generate_surface()
 
     def add_style(self, style: str):
         """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
-        self._font.add_style(style)
+        self.font_object.add_style(style)
         self.generate_surface()
 
     def remove_style(self, style: str):
         """Remove a style from a font."""
-        self._font.remove_style(style)
+        self.font_object.remove_style(style)
         self.generate_surface()
 
     def generate_surface(self):
         """(Re)generates the surface of the text."""
         self._tx = sdl2.ext.Texture(
-            Display.renderer, self._font.generate_surface(
+            Display.renderer, self.font_object.generate_surface(
                 self._text,
                 self._justify,
                 self._width,
@@ -162,7 +149,7 @@ class Text(Component):
 
         Draw.queue_texture(
             self._tx,
-            camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
+            camera.transform(self.gameobj.pos + (self.anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
             self.true_z(),
             angle=int((self.gameobj.rotation if self.gameobj else 0) + self.rot_offset),
         )
@@ -170,19 +157,19 @@ class Text(Component):
     def delete(self):
         """Deletes the text component."""
         self._tx.destroy()
-        self._font._font.close()  # pylint: disable=protected-access
+        self.font_object._font.close()  # pylint: disable=protected-access
         self._tx = None
-        self._font = None
+        self.font_object = None
 
     def clone(self) -> Text:
         """Clones the text component."""
         return Text(
             text=self._text,
-            font=self._font,
-            anchor=self._anchor,
+            font=self.font_object.clone(),
+            anchor=self.anchor.clone(),
             justify=self._justify,
             width=self._width,
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )

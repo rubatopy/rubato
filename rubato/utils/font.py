@@ -134,3 +134,9 @@ class Font:
             s |= Font._text_styles[style]
 
         sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
+
+    def clone(self):
+        """
+        Clones the font.
+        """
+        return Font(self._font_path, self._size, self._styles, self._color)

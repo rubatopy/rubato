@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import cython
 
-from ... import Vector, Camera
+from ... import Vector, Camera, VectorLike
 
 if TYPE_CHECKING:
     from .. import GameObject
@@ -22,17 +22,17 @@ class Component:
     not be used directly. Instead create another class and extend from this one.
 
     Args:
-        offset: The offset of the component from the game object. Defaults to Vector(0, 0).
+        offset: The offset of the component from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the component from the game object. Defaults to 0.
         z_index: The vertical offset of where to draw the component. Defaults to 0.
     """
 
-    def __init__(self, offset: Vector = Vector(), rot_offset: float = 0, z_index: int = 0):
+    def __init__(self, offset: VectorLike = (0, 0), rot_offset: float = 0, z_index: int = 0):
         self.gameobj: GameObject | None = None
         """The game object this component is attached to."""
         self.singular: bool = False
         """Whether multiple components of the same type are allowed on a game object."""
-        self.offset: Vector = offset
+        self.offset: Vector = Vector.make_vector(offset)
         """The offset from the center of the game object that the hitbox should be placed."""
         self.rot_offset: float = rot_offset
         """The rotational offset from the game object's rotation."""
@@ -87,7 +87,7 @@ class Component:
 
     def clone(self) -> Component:
         """Clones the component."""
-        new = Component(offset=self.offset, rot_offset=self.rot_offset, z_index=self.z_index)
+        new = Component(offset=self.offset.clone(), rot_offset=self.rot_offset, z_index=self.z_index)
         new.gameobj = self.gameobj
         new.singular = self.singular
         return new

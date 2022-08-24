@@ -6,7 +6,7 @@ import os
 
 from . import Animation
 from ... import Sprite
-from .... import Vector, get_path, Display
+from .... import Vector, VectorLike, get_path, Display
 
 
 class Spritesheet:
@@ -15,7 +15,7 @@ class Spritesheet:
 
     Args:
         rel_path: The relative path to the spritesheet.
-        sprite_size: The size of each sprite in the spritesheet. Defaults to Vector(32, 32).
+        sprite_size: The size of each sprite in the spritesheet. Defaults to (32, 32).
         grid_size: The size of the grid of sprites in the spritesheet. Set to None to automatically determine the
             grid size. Defaults to None.
 
@@ -23,15 +23,17 @@ class Spritesheet:
         IndexError: If user does not load the entire sheet.
     """
 
-    def __init__(self, rel_path: str, sprite_size: Vector = Vector(32, 32), grid_size: Vector | None = None):
-        self._sprite_size: tuple[int, int] = sprite_size.tuple_int()
+    def __init__(self, rel_path: str, sprite_size: VectorLike = (32, 32), grid_size: VectorLike | None = None):
+        Vector.raise_vector_like(sprite_size, "sprite_size")
+        Vector.raise_vector_like(grid_size, "grid_size", True)
+        self._sprite_size: tuple[int, int] = (int(sprite_size[0]), int(sprite_size[1]))
         self._sheet = Sprite(rel_path=rel_path)
         self._sprites: list[list[Sprite]] = []
 
         if not grid_size:
             self._grid: tuple[int, int] = (self._sheet.get_size() / self._sprite_size).tuple_int()
         else:
-            self._grid: tuple[int, int] = grid_size.tuple_int()
+            self._grid: tuple[int, int] = (int(grid_size[0]), int(grid_size[1]))
             if Vector(*self._sprite_size) * self._grid != self._sheet.get_size():
                 raise IndexError("Sprite and grid size do not match given spritesheet size.")
 
@@ -105,7 +107,7 @@ class Spritesheet:
         return self.sprites[y][x].clone()
 
     @staticmethod
-    def from_folder(rel_path: str, sprite_size: Vector, default_state=None, recursive: bool = True) -> Animation:
+    def from_folder(rel_path: str, sprite_size: VectorLike, default_state=None, recursive: bool = True) -> Animation:
         """
         Creates an Animation from a folder of spritesheets.
         Directory must be comprised solely of spritesheets.
@@ -120,6 +122,8 @@ class Spritesheet:
         Returns:
             Animation: the animation loaded from the folder of spritesheets
         """
+        Vector.raise_vector_like(sprite_size, "sprite_size")
+
         anim = Animation()
 
         path = get_path(rel_path)

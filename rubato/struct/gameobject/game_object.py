@@ -6,9 +6,9 @@ from typing import Optional, Type, TypeVar
 
 from . import Component
 from .. import Surface
-from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
+from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color, VectorLike
 
-T = TypeVar("T")
+T = TypeVar("T", bound=Component)
 
 
 class GameObject:
@@ -17,7 +17,7 @@ class GameObject:
 
     Args:
         name: The name of the game object. Defaults to "".
-        pos: The position of the game object. Defaults to Vector(0, 0).
+        pos: The position of the game object. Defaults to (0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
         debug: Whether to draw the center of the game object. Defaults to False.
@@ -26,7 +26,7 @@ class GameObject:
     def __init__(
         self,
         name: str = "",
-        pos: Vector = Vector(),
+        pos: VectorLike = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
         debug: bool = False,
@@ -35,7 +35,7 @@ class GameObject:
         """
         The name of the game object. Will default to: "Game Object {number in group}"
         """
-        self.pos: Vector = pos
+        self.pos: Vector = Vector.make_vector(pos)
         """The current position of the game object."""
         self.debug: bool = debug
         """Whether to draw a debug crosshair for the game object."""
