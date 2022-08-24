@@ -104,6 +104,7 @@ class Hitbox(Component):
 
     def update(self):
         if self.scale != self._old_scale:
+            reset = True
             self.uptodate = False
 
         if not self.uptodate or self.rot_offset != self._old_rot_offset or self.offset != self._old_offset:
@@ -115,8 +116,11 @@ class Hitbox(Component):
             self.redraw()
             self._old_color = self.color.clone() if self.color is not None else None
 
-        self._old_scale = self.scale
-        self.uptodate = True
+        if not self.uptodate:
+            self.uptodate = True
+
+        if reset:
+            self._old_scale = self.scale
 
     def draw(self, camera: Camera):
         if self.hidden:
