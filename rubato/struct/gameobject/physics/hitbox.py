@@ -43,7 +43,8 @@ class Hitbox(Component):
         """Whether to draw a green outline around the hitbox or not."""
         self.trigger: bool = trigger
         """Whether this hitbox is just a trigger or not."""
-        self._scale: int | float = scale
+        self.scale: int | float = scale
+        """The scale of the hitbox."""
         self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
         """The on_collide function to call when a collision happens with this hitbox."""
         self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
@@ -54,33 +55,16 @@ class Hitbox(Component):
         """The tag of the hitbox (can be used to identify hitboxes in collision callbacks)"""
         self.colliding: set[Hitbox] = set()
         """An unordered set of hitboxes that the Hitbox is currently colliding with."""
-        self._color: Color = color
+        self.color: Color = color
+        """The color of the hitbox."""
         self._image: Surface = Surface()
         self._debug_image: Surface = Surface()
         self.uptodate: bool = False
         """Whether the hitbox image is up to date or not."""
         self._old_rot_offset: float = self.rot_offset
         self._old_offset: Vector = self.offset.clone()
-
-    @property
-    def scale(self):
-        """The scale of the hitbox."""
-        return self._scale
-
-    @scale.setter
-    def scale(self, value: int | float):
-        self._scale = value
-        self.uptodate = False
-
-    @property
-    def color(self):
-        """The color of the hitbox."""
-        return self._color
-
-    @color.setter
-    def color(self, value: Color):
-        self._color = value
-        self.uptodate = False
+        self._old_scale: int | float = self.scale
+        self._old_color: Color = self.color.clone() if self.color is not None else None
 
     def regen(self):
         """
@@ -119,14 +103,20 @@ class Hitbox(Component):
         return self.gameobj.pos, self.gameobj.pos
 
     def update(self):
+        if self.scale != self._old_scale:
+            self.uptodate = False
+
         if not self.uptodate or self.rot_offset != self._old_rot_offset or self.offset != self._old_offset:
             self.regen()
             self._old_rot_offset = self.rot_offset
             self._old_offset = self.offset.clone()
 
-        if not self.uptodate:
+        if not self.uptodate or self.color != self._old_color:
             self.redraw()
-            self.uptodate = True
+            self._old_color = self.color.clone() if self.color is not None else None
+
+        self._old_scale = self.scale
+        self.uptodate = True
 
     def draw(self, camera: Camera):
         if self.hidden:
