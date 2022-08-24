@@ -163,7 +163,7 @@ class Text(Component):
         Draw.queue_texture(
             self._tx,
             camera.transform(self.gameobj.pos + (self._anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
-            self.true_z,
+            self.true_z(),
             angle=int((self.gameobj.rotation if self.gameobj else 0) + self.rot_offset),
         )
 

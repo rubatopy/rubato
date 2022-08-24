@@ -434,6 +434,12 @@ class Color:
         """
         return Color(0, 255, 0)
 
+    def clone(self) -> Color:
+        """
+        Returns a copy of the color.
+        """
+        return Color(self.r, self.g, self.b, self.a)
+
     def __str__(self):
         return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
 

@@ -97,8 +97,8 @@ def test_clamp(v1, v34):
 
 
 def test_rotate(v1):
-    assert v1.rotate(90) == Vector(1, -1)
-    assert v1.rotate(45) == Vector(1.4142135624, 0)
+    assert v1.rotate(90) == Vector(-1, 1)
+    assert v1.rotate(45) == Vector(0, 1.4142135624)
 
 
 def test_clone(v1, v34):
@@ -144,9 +144,9 @@ def test_dir_to(v1, v34):
     assert v34.dir_to(v1) == Vector(-0.5547001962, -0.8320502943)
 
 
-def test_distance_between(v1, v34):
-    assert v1.distance_between(v34) == 3.605551275463989
-    assert v34.distance_between(v1) == 3.605551275463989
+def test_dist_to(v1, v34):
+    assert v1.dist_to(v34) == 3.605551275463989
+    assert v34.dist_to(v1) == 3.605551275463989
 
 
 def test_from_radial():
@@ -221,7 +221,7 @@ def test_math(v1, v34):
     assert v34**v34 == Vector(27, 256)
     # pylint: disable=expression-not-assigned
     with pytest.raises(TypeError):
-        v1 ** set()
+        v1**set()
 
     vc = v34.clone()
     vc *= 4
@@ -239,7 +239,7 @@ def test_math(v1, v34):
     assert v1 / 2 == Vector(0.5, 0.5)
     assert 2 / v1 == Vector(2, 2)
     assert v1 / v34 == Vector(1 / 3, 1 / 4)
-    assert (2,3) / v1 == Vector(2, 3)
+    assert (2, 3) / v1 == Vector(2, 3)
     # pylint: disable=expression-not-assigned
     with pytest.raises(TypeError):
         v1 / set()
@@ -252,7 +252,7 @@ def test_math(v1, v34):
     assert v1 // 2 == Vector(0, 0)
     assert 2 // v1 == Vector(2, 2)
     assert v1 // v34 == Vector(0, 0)
-    assert (2,3) // v1 == Vector(2, 3)
+    assert (2, 3) // v1 == Vector(2, 3)
     # pylint: disable=expression-not-assigned
     with pytest.raises(TypeError):
         v1 // set()
@@ -275,7 +275,7 @@ def test_math(v1, v34):
     assert v1 - v34 == Vector(-2, -3)
     assert 2 - v1 == Vector(1, 1)
     assert v1 - 2 == Vector(-1, -1)
-    assert (0,1) - v1 == Vector(-1, 0)
+    assert (0, 1) - v1 == Vector(-1, 0)
     # pylint: disable=expression-not-assigned
     with pytest.raises(TypeError):
         v1 - set()
@@ -287,7 +287,7 @@ def test_math(v1, v34):
     assert vc == Vector(0, 0)
     assert v34 % 2 == Vector(1, 0)
     assert 5 % v34 == Vector(2, 1)
-    assert (5,6) % v34 == Vector(2, 2)
+    assert (5, 6) % v34 == Vector(2, 2)
     # pylint: disable=expression-not-assigned
     with pytest.raises(TypeError):
         v1 % set()

@@ -4,22 +4,42 @@
 
 ### Breaking Changes
 
+-   `Polygon`s MUST take in a list of vectors in clockwise order instead of counter-clockwise as was before. Generator methods
+    automatically reflect this change but if you are passing in your own lists, make sure to reflect this change.
+-   `component.true_z()` is now a function instead of a property method. This is to match with our new property method
+    convention.
+
 ### Added
 
--   `gameobject.remove_ind` method to remove an individual component from a game object with a given index.
+-   `gameobject.remove_ind()` method to remove an individual component from a game object with a given index.
     Use this to remove components from a game object which holds multiple instances of the same type of component.
+-   `component.true_pos()` and `component.true_rotation()` methods to get the position and rotation of a component in
+    world space. These functions correctly apply the gameobjects position and rotation to the component while respecting
+    offsets.
+-   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
+-   `color.clone()`.
 
 ### Changed
 
 -   Modified the internal workings of `gameobject`s components data structure to more more flexibly handle inputs.
     (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
+-   Renamed `vector.distance_between()` to `vector.dist_to()`.
+-   Renamed `polygon.translated_verts()` to `polygon.offset_verts()`.
+-   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
+-   Rewrote `Rectangle` from the ground-up.
 
 ### Removed
+
+-   `hitbox.get_obb()` because it wasn't working properly. Use `hitbox.get_aabb()` instead.
+-   `polygon.transformed_verts()` because it was unused in the engine.
 
 ### Fixed
 
 -   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
     You can still replicate this functionality by passing `Hitbox` into the component getter.
+-   Offsets (including rotational) not working properly. Physics has also been refactored to handle scaling properly.
+-   `Rectangle` side getters and setters, which were not utilizing offsets properly. They now work with the AABB of the
+    rectangle.
 
 ## [v3.1.0] - August 19, 2022
 

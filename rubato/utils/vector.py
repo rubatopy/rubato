@@ -6,7 +6,7 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, SideError, raise_operator_error
+from . import Math, SideError, raise_operator_error, deprecated
 
 
 @cython.cclass
@@ -225,7 +225,7 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = math.radians(-angle)
+        radians = math.radians(angle)
         c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
@@ -351,7 +351,7 @@ class Vector:
         base = (other - self).normalized()
         return base
 
-    def distance_between(self, other: Vector) -> float:
+    def dist_to(self, other: Vector) -> float:
         """
         Finds the pythagorean distance between two vectors.
 
@@ -361,7 +361,11 @@ class Vector:
         Returns:
             float: The distance.
         """
-        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
+        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
+
+    @deprecated(dist_to)
+    def distance_between(self, other: Vector) -> float:
+        return self.dist_to(other)
 
     @staticmethod
     def from_radial(magnitude: float | int, angle: float | int) -> Vector:
@@ -444,6 +448,22 @@ class Vector:
 
         rotangle = 360 / num_sides
         return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
+
+    @classmethod
+    def rect(cls, width: float | int, height: float | int) -> list[Vector]:
+        """
+        Returns a list of vectors representing a rectangle with the given width and height.
+
+        Args:
+            width (float | int): The width of the rectangle.
+            height (float | int): The height of the rectangle.
+
+        Returns:
+            list[Vector]: The list of vectors representing the rectangle.
+        """
+        w = width / 2
+        h = height / 2
+        return [Vector(-w, -h), Vector(w, -h), Vector(w, h), Vector(-w, h)]
 
     @staticmethod
     def zero():
