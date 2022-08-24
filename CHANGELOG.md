@@ -29,6 +29,7 @@
 -   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
 -   Rewrote `Rectangle` from the ground-up.
 -   Window is now shown when begin is called. Not when init is called.
+-   `init()` resets rubato.
 
 ### Removed
 

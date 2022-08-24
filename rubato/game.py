@@ -211,15 +211,16 @@ class Game:
             # clock the time the update call took
             Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
 
-    # @classmethod
-    # def reset(cls):
-    #     """
-    #     Resets the game to its initial state.
-    #     """
-    #     cls._initialized = False
-    #     sdl2.SDL_Quit()
-    #     for scene in cls._scenes.values():
-    #         # scene
+    @classmethod
+    def reset(cls):
+        """
+        Resets the game to its initial state.
+        """
+        cls._initialized = False
+        sdl2.SDL_Quit()
+        cls._scenes = {}
+        cls._scene_id = 0
+        cls._current = ""
 
     @staticmethod
     def update():  # test: skip
