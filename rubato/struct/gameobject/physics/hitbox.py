@@ -59,6 +59,8 @@ class Hitbox(Component):
         self._debug_image: Surface = Surface()
         self.uptodate: bool = False
         """Whether the hitbox image is up to date or not."""
+        self._old_rot_offset: float = self.rot_offset
+        self._old_offset: Vector = self.offset.clone()
 
     @property
     def scale(self):
@@ -80,6 +82,12 @@ class Hitbox(Component):
         self._color = value
         self.uptodate = False
 
+    def regen(self):
+        """
+        Regenerates internal hitbox information.
+        """
+        pass
+
     def redraw(self):
         """
         Regenerates the image of the hitbox.
@@ -92,17 +100,25 @@ class Hitbox(Component):
         Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
 
         Returns:
-            The top left and bottom right corners of the bounding box as Vectors in a list. [top left, bottom right]
+            tuple[Vector, Vector]:
+                The top left and bottom right corners of the bounding box as Vectors as a tuple.
+                (top left, bottom right)
         """
         return self.gameobj.pos, self.gameobj.pos
 
-    def draw(self, camera: Camera):
-        if self.hidden:
-            return
+    def update(self):
+        if not self.uptodate or self.rot_offset != self._old_rot_offset or self.offset != self._old_offset:
+            self.regen()
+            self._old_rot_offset = self.rot_offset
+            self._old_offset = self.offset.clone()
 
         if not self.uptodate:
             self.redraw()
             self.uptodate = True
+
+    def draw(self, camera: Camera):
+        if self.hidden:
+            return
 
         if self.color:
             self._image.rotation = self.true_rotation()
@@ -117,18 +133,16 @@ class Hitbox(Component):
 
 class Polygon(Hitbox):
     """
-    A polygon Hitbox implementation. Supports an arbitrary number of custom vertices, as long as the polygon is convex.
+    A Polygonal Hitbox component.
 
     Danger:
         If creating vertices by hand, make sure you generate them in a CLOCKWISE direction.
         Otherwise, polygons may not behave or draw properly.
-        We recommend using Vector.poly() to generate regular vertices for regular polygons.
+        We recommend using Vector.poly() to generate the vertex list for regular polygons.
 
     Warning:
-        rubato does not currently support concave polygons explicitly.
-        Creating concave polygons will result in undesired collision behavior.
-        However, you can still use concave polygons in your projects:
-        Simply break them up into multiple convex Polygon hitboxes and add them individually to a gameobject.
+        rubato does not currently support concave polygons.
+        Creating concave polygons will result in undesired behavior.
 
     Args:
         verts: The vertices of the polygon. Defaults to [].
@@ -186,7 +200,7 @@ class Polygon(Hitbox):
 
     @property
     def radius(self) -> float:
-        """The radius of the Polygon"""
+        """The radius of the Polygon. (getonly)"""
         verts = self.offset_verts()
         max_dist = -Math.INF
         for vert in verts:
@@ -222,11 +236,11 @@ class Polygon(Hitbox):
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):
+        super().regen()
         self._offset_verts = [(vert * self.scale).rotate(self.rot_offset) + self.offset for vert in self.verts]
 
     def redraw(self):
         super().redraw()
-        self.regen()
 
         r = int(self.radius * self.scale * 2)
         if r != self._image.surf.w:
@@ -254,7 +268,7 @@ class Polygon(Hitbox):
     def clone(self) -> Polygon:
         """Clones the Polygon"""
         return Polygon(
-            verts=self.verts,
+            verts=[v.clone() for v in self.verts],
             color=self.color.clone(),
             tag=self.tag,
             debug=self.debug,
@@ -268,12 +282,13 @@ class Polygon(Hitbox):
         )
 
 
-class Circle(Hitbox):
+class Rectangle(Hitbox):
     """
-    A circle Hitbox subclass defined by a position, radius, and scale.
+    A Rectangular Hitbox component.
 
     Args:
-        radius: The radius of the circle. Defaults to 10.
+        width: The width of the rectangle. Defaults to 0.
+        height: The height of the rectangle. Defaults to 0.
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
         debug: Whether to draw the hitbox. Defaults to False.
@@ -284,14 +299,173 @@ class Circle(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
-
-    Note:
-        If color is unassigned, the circle will not be drawn. And will act like a circular hitbox.
     """
 
     def __init__(
         self,
-        radius: int | float = 10,
+        width: int | float = 0,
+        height: int | float = 0,
+        color: Color | None = None,
+        tag: str = "",
+        debug: bool = False,
+        trigger: bool = False,
+        scale: int | float = 1,
+        on_collide: Callable | None = None,
+        on_exit: Callable | None = None,
+        offset: Vector = Vector(0, 0),
+        rot_offset: float = 0,
+        z_index: int = 0
+    ):
+        super().__init__(
+            offset=offset,
+            rot_offset=rot_offset,
+            debug=debug,
+            trigger=trigger,
+            scale=scale,
+            on_collide=on_collide,
+            on_exit=on_exit,
+            color=color,
+            tag=tag,
+            z_index=z_index
+        )
+        self._width: int | float = width
+        self._height: int | float = height
+        self._verts: list[Vector] = []
+
+        self.regen()
+
+    @property
+    def width(self) -> int | float:
+        """The width of the Rectangle."""
+        return self._width
+
+    @width.setter
+    def width(self, value: int | float):
+        self._width = value
+        self.uptodate = False
+
+    @property
+    def height(self) -> int | float:
+        """The height of the Rectangle."""
+        return self._height
+
+    @height.setter
+    def height(self, value: int | float):
+        self._height = value
+        self.uptodate = False
+
+    @property
+    def verts(self) -> list[Vector]:
+        """The list of Rectangle vertices. (getonly)"""
+        return self._verts
+
+    @property
+    def radius(self) -> float:
+        """The radius of the Rectangle. (getonly)"""
+        verts = self.offset_verts()
+        max_dist = -Math.INF
+        for vert in verts:
+            dist = vert.dist_to(self.offset)
+            if dist > max_dist:
+                max_dist = dist
+        return round(max_dist, 10)
+
+    def get_aabb(self) -> tuple[Vector, Vector]:
+        verts = self.true_verts()
+        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+
+        for vert in verts:
+            if vert.y > bottom:
+                bottom = vert.y
+            elif vert.y < top:
+                top = vert.y
+            if vert.x > right:
+                right = vert.x
+            elif vert.x < left:
+                left = vert.x
+
+        return Vector(left, top), Vector(right, bottom)
+
+    def offset_verts(self) -> list[Vector]:
+        """The list of rectangle vertices offset by the Rectangles's offsets."""
+        return self._offset_verts
+
+    def true_verts(self) -> list[Vector]:
+        """
+        Returns a list of the Rectangle's vertices in world coordinates. Accounts for gameobject position and rotation.
+        """
+        return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
+
+    def regen(self):
+        super().regen()
+        w = self.width / 2
+        h = self.height / 2
+        self._verts = [Vector(-w, -h), Vector(w, -h), Vector(w, h), Vector(-w, h)]
+        self._offset_verts = [(vert * self.scale).rotate(self.rot_offset) + self.offset for vert in self._verts]
+
+    def redraw(self):
+        super().redraw()
+
+        w = int(self.width * self.scale)
+        h = int(self.height * self.scale)
+        if w != self._image.surf.w or h != self._image.surf.h:
+            self._image = Surface(w, h)
+            self._debug_image = Surface(w, h)
+
+        if self.color is not None:
+            self._image.draw_rect(Vector(0, 0), Vector(w, h), fill=self.color)
+        self._debug_image.draw_rect(Vector(0, 0), Vector(w, h), Color.debug, 2)
+
+    def contains_pt(self, pt: Vector) -> bool:
+        """
+        Checks if a point is inside the Rectangle.
+
+        Args:
+            pt (Vector): The point to check, in game-world coordinates..
+
+        Returns:
+            bool: Whether the point is inside the Rectangle.
+        """
+        return Input.pt_in_poly(pt, self.true_verts())
+
+    def clone(self) -> Rectangle:
+        return Rectangle(
+            offset=self.offset.clone(),
+            rot_offset=self.rot_offset,
+            debug=self.debug,
+            trigger=self.trigger,
+            scale=self.scale,
+            on_collide=self.on_collide,
+            on_exit=self.on_exit,
+            color=self.color.clone(),
+            tag=self.tag,
+            width=self.width,
+            height=self.height,
+            z_index=self.z_index,
+        )
+
+
+class Circle(Hitbox):
+    """
+    A Circular Hitbox component.
+
+    Args:
+        radius: The radius of the circle. Defaults to 0.
+        color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
+        tag: A string to tag the hitbox. Defaults to "".
+        debug: Whether to draw the hitbox. Defaults to False.
+        trigger: Whether the hitbox is a trigger. Defaults to False.
+        scale: The scale of the hitbox. Defaults to 1.
+        on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
+        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        z_index: The z-index of the hitbox. Defaults to 0.
+    """
+
+    def __init__(
+        self,
+        radius: int | float = 0,
         color: Color | None = None,
         tag: str = "",
         debug: bool = False,
@@ -333,6 +507,14 @@ class Circle(Hitbox):
         return self.true_pos()
 
     def get_aabb(self) -> tuple[Vector, Vector]:
+        """
+        Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
+
+        Returns:
+            tuple[Vector, Vector]:
+                The top left and bottom right corners of the bounding box as Vectors as a tuple.
+                (top left, bottom right)
+        """
         offset = self.true_radius()
         true_pos = self.true_pos()
         return true_pos - offset, true_pos + offset

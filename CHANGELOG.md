@@ -23,6 +23,7 @@
 -   Renamed `vector.distance_between()` to `vector.dist_to()`.
 -   Renamed `polygon.translated_verts()` to `polygon.offset_verts()`.
 -   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
+-   Rewrote `Rectangle` from the ground-up.
 
 ### Removed
 

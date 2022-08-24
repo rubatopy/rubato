@@ -7,7 +7,7 @@ from . import RigidBody, Circle
 from .... import Math, Vector, InitError
 
 if TYPE_CHECKING:
-    from . import Hitbox, Polygon
+    from . import Hitbox, Polygon, Rectangle
 
 
 # THIS IS A STATIC CLASS
@@ -192,7 +192,7 @@ class Engine:
         return Manifold(circle_a, circle_b, pen, norm)
 
     @staticmethod
-    def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
+    def circle_polygon_test(circle: Circle, polygon: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
         verts = polygon.offset_verts()
         circle_rad = circle.true_radius()
@@ -244,7 +244,7 @@ class Engine:
             return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
+    def polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
         a_verts = shape_a.offset_verts()
         b_verts = shape_b.offset_verts()
@@ -277,7 +277,9 @@ class Engine:
         return man
 
     @staticmethod
-    def axis_least_penetration(a: Polygon, b: Polygon, a_verts: list[Vector], b_verts: list[Vector]) -> float:
+    def axis_least_penetration(
+        a: Polygon | Rectangle, b: Polygon | Rectangle, a_verts: list[Vector], b_verts: list[Vector]
+    ) -> float:
         """Finds the axis of least penetration between two possibly colliding polygons."""
         best_dist = -Math.INF
         best_ind = 0
