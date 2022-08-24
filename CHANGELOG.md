@@ -35,6 +35,8 @@
 -   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
     You can still replicate this functionality by passing `Hitbox` into the component getter.
 -   Offsets (including rotational) not working properly. Physics has also been refactored to handle scaling properly.
+-   `Rectangle` side getters and setters, which were not utilizing offsets properly. They now work with the AABB of the
+    rectangle.
 
 ## [v3.1.0] - August 19, 2022
 

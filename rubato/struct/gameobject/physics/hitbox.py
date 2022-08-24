@@ -370,6 +370,106 @@ class Rectangle(Hitbox):
                 max_dist = dist
         return round(max_dist, 10)
 
+    @property
+    def top_left(self):
+        """
+        The top left corner of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        return self.get_aabb()[0]
+
+    @top_left.setter
+    def top_left(self, new: Vector):
+        self.gameobj.pos += new - self.get_aabb()[0]
+
+    @property
+    def bottom_left(self):
+        """
+        The bottom left corner of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        aabb = self.get_aabb()
+        return Vector(aabb[0].x, aabb[1].y)
+
+    @bottom_left.setter
+    def bottom_left(self, new: Vector):
+        aabb = self.get_aabb()
+        self.gameobj.pos += new - Vector(aabb[0].x, aabb[1].y)
+
+    @property
+    def top_right(self):
+        """
+        The top right corner of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        aabb = self.get_aabb()
+        return Vector(aabb[1].x, aabb[0].y)
+
+    @top_right.setter
+    def top_right(self, new: Vector):
+        aabb = self.get_aabb()
+        self.gameobj.pos += new - Vector(aabb[1].x, aabb[0].y)
+
+    @property
+    def bottom_right(self):
+        """
+        The bottom right corner of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        return self.get_aabb()[1]
+
+    @bottom_right.setter
+    def bottom_right(self, new: Vector):
+        self.gameobj.pos += new - self.get_aabb()[1]
+
+    @property
+    def top(self):
+        """
+        The y value of the top side of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        return self.get_aabb()[0].y
+
+    @top.setter
+    def top(self, new: float):
+        self.gameobj.pos.y += new - self.get_aabb()[0].y
+
+    @property
+    def left(self):
+        """
+        The x value of the left side of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        return self.get_aabb()[0].x
+
+    @left.setter
+    def left(self, new: float):
+        self.gameobj.pos.x += new - self.get_aabb()[0].x
+
+    @property
+    def bottom(self):
+        """
+        The y value of the bottom side of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        return self.get_aabb()[1].y
+
+    @bottom.setter
+    def bottom(self, new: float):
+        self.gameobj.pos.y += new - self.get_aabb()[1].y
+
+    @property
+    def right(self):
+        """
+        The x value of the right side of the AABB surrounding the rectangle.
+        Setting to this value changes the gameobject's position, not the hitbox offset.
+        """
+        return self.get_aabb()[1].x
+
+    @right.setter
+    def right(self, new: float):
+        self.gameobj.pos.x += new - self.get_aabb()[1].x
+
     def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.true_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
