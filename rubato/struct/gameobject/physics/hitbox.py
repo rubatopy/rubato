@@ -88,6 +88,18 @@ class Hitbox(Component):
         """
         pass
 
+    def contains_pt(self, pt: Vector) -> bool:
+        """
+        Checks if a point is inside the Hitbox.
+
+        Args:
+            pt (Vector): The point to check, in game-world coordinates.
+
+        Returns:
+            bool: Whether the point is inside the Hitbox.
+        """
+        pass
+
     def redraw(self):
         """
         Regenerates the image of the hitbox.
@@ -236,7 +248,6 @@ class Polygon(Hitbox):
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):
-        super().regen()
         self._offset_verts = [(vert * self.scale).rotate(self.rot_offset) + self.offset for vert in self.verts]
 
     def redraw(self):
@@ -254,15 +265,6 @@ class Polygon(Hitbox):
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
     def contains_pt(self, pt: Vector) -> bool:
-        """
-        Checks if a point is inside the Polygon.
-
-        Args:
-            pt (Vector): The point to check, in game-world coordinates..
-
-        Returns:
-            bool: Whether the point is inside the Polygon.
-        """
         return Input.pt_in_poly(pt, self.true_verts())
 
     def clone(self) -> Polygon:
@@ -497,7 +499,6 @@ class Rectangle(Hitbox):
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):
-        super().regen()
         w = self.width / 2
         h = self.height / 2
         self._verts = [Vector(-w, -h), Vector(w, -h), Vector(w, h), Vector(-w, h)]
@@ -517,15 +518,6 @@ class Rectangle(Hitbox):
         self._debug_image.draw_rect(Vector(0, 0), Vector(w, h), Color.debug, 2)
 
     def contains_pt(self, pt: Vector) -> bool:
-        """
-        Checks if a point is inside the Rectangle.
-
-        Args:
-            pt (Vector): The point to check, in game-world coordinates..
-
-        Returns:
-            bool: Whether the point is inside the Rectangle.
-        """
         return Input.pt_in_poly(pt, self.true_verts())
 
     def clone(self) -> Rectangle:
@@ -607,14 +599,6 @@ class Circle(Hitbox):
         return self.true_pos()
 
     def get_aabb(self) -> tuple[Vector, Vector]:
-        """
-        Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
-
-        Returns:
-            tuple[Vector, Vector]:
-                The top left and bottom right corners of the bounding box as Vectors as a tuple.
-                (top left, bottom right)
-        """
         offset = self.true_radius()
         true_pos = self.true_pos()
         return true_pos - offset, true_pos + offset
@@ -639,15 +623,6 @@ class Circle(Hitbox):
         self._debug_image.draw_circle(center, int_r, Color.debug, 2)
 
     def contains_pt(self, pt: Vector) -> bool:
-        """
-        Checks if a point is inside the Circle.
-
-        Args:
-            pt (Vector): The point to check, in game-world coordinates..
-
-        Returns:
-            bool: Whether the point is inside the Circle.
-        """
         r = self.true_radius()
         return (pt - self.true_pos()).mag_sq <= r * r
 
