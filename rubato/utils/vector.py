@@ -361,7 +361,7 @@ class Vector:
         Returns:
             float: The distance.
         """
-        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
+        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 
     @deprecated(dist_to)
     def distance_between(self, other: Vector) -> float:

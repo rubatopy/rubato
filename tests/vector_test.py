@@ -144,9 +144,9 @@ def test_dir_to(v1, v34):
     assert v34.dir_to(v1) == Vector(-0.5547001962, -0.8320502943)
 
 
-def test_distance_between(v1, v34):
-    assert v1.distance_between(v34) == 3.605551275463989
-    assert v34.distance_between(v1) == 3.605551275463989
+def test_dist_to(v1, v34):
+    assert v1.dist_to(v34) == 3.605551275463989
+    assert v34.dist_to(v1) == 3.605551275463989
 
 
 def test_from_radial():
