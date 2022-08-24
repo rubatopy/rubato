@@ -6,7 +6,7 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, SideError, raise_operator_error
+from . import Math, SideError, raise_operator_error, deprecated
 
 
 @cython.cclass
@@ -362,6 +362,10 @@ class Vector:
             float: The distance.
         """
         return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
+
+    @deprecated(dist_to)
+    def distance_between(self, other: Vector) -> float:
+        return self.dist_to(other)
 
     @staticmethod
     def from_radial(magnitude: float | int, angle: float | int) -> Vector:
