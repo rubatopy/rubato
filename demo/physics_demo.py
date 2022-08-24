@@ -1,7 +1,5 @@
 """
 A physics demo for rubato
-
-This code simulates a ball pit with no gravity. This file only depends on rubato 2.1.0 or later.
 """
 from random import randint
 import rubato as rb
