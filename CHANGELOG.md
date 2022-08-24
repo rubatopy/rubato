@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+-   `Polygon`s MUST take in a list of vectors in clockwise order instead of counter-clockwise as was before. Generator methods
+    automatically reflect this change but if you are passing in your own lists, make sure to reflect this change.
 -   `component.true_z()` is now a function instead of a property method. This is to match with our new property method
     convention.
 
