@@ -51,7 +51,7 @@ class Surface(Surf):
             blending: Whether to use blending. Defaults to False.
         """
         Vector.raise_vector_like(pos, "pos")
-        x, y = (int(pos[0]), int(pos[1]))
+        x, y = int(pos[0]), int(pos[1])
         c_draw.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
@@ -77,8 +77,8 @@ class Surface(Surf):
         """
         Vector.raise_vector_like(start, "start")
         Vector.raise_vector_like(end, "end")
-        sx, sy = (int(start[0]), int(start[1]))
-        ex, ey = (int(end[0]), int(end[1]))
+        sx, sy = int(start[0]), int(start[1])
+        ex, ey = int(end[0]), int(end[1])
         c_draw.draw_line(
             self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
@@ -106,8 +106,8 @@ class Surface(Surf):
         """
         Vector.raise_vector_like(top_left, "top_left")
         Vector.raise_vector_like(dims, "dims")
-        x, y = (int(top_left[0]), int(top_left[1]))
-        w, h = (int(dims[0]), int(dims[1]))
+        x, y = int(top_left[0]), int(top_left[1])
+        w, h = int(dims[0]), int(dims[1])
         c_draw.draw_rect(
             self.surf.pixels,
             self.surf.w,
@@ -146,7 +146,7 @@ class Surface(Surf):
             blending: Whether to use blending. Defaults to False.
         """
         Vector.raise_vector_like(center, "center")
-        x, y = (int(center[0]), int(center[1]))
+        x, y = int(center[0]), int(center[1])
         c_draw.draw_circle(
             self.surf.pixels,
             self.surf.w,
@@ -206,7 +206,7 @@ class Surface(Surf):
             The color of the pixel.
         """
         Vector.raise_vector_like(pos, "pos")
-        x, y = (int(pos[0]), int(pos[1]))
+        x, y = int(pos[0]), int(pos[1])
         if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
             return Color.from_rgba32(c_draw.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
         else:

@@ -226,8 +226,8 @@ class Animation(Component):
         Vector.raise_vector_like(from_coord, "from_coord")
         Vector.raise_vector_like(to_coord, "to_coord")
         state = []
-        x, y = (int(from_coord[0]), int(from_coord[1]))
-        to_x, to_y = (int(to_coord[0]), int(to_coord[1]))
+        x, y = int(from_coord[0]), int(from_coord[1])
+        to_x, to_y = int(to_coord[0]), int(to_coord[1])
         while True:
             state.append(spritesheet.get(x, y))
             if y == to_y and x == to_x:
