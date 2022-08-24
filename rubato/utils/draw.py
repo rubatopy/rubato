@@ -453,8 +453,7 @@ class Draw:
         if not surf.uptodate:
             surf.generate_tx()
 
-        pos[0] -= surf.get_size()[0] / 2
-        pos[1] -= surf.get_size()[1] / 2
+        pos = (pos[0] - surf.get_size()[0] / 2, pos[1] - surf.get_size()[1] / 2)
 
         if camera is not None:
             pos = camera.transform(pos)
