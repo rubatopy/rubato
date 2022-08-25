@@ -94,9 +94,9 @@ class BaseImage(Component):
 class Raster(BaseImage):
     """
     A raster is a component that contains a surface.
-    
+
     Args:
-        width: The width of the Raster. Defaults to 32. 
+        width: The width of the Raster. Defaults to 32.
         height: The height of the Raster. Defaults to 32.
         scale: The scale of the Raster. Defaults to (1, 1).
         offset: The offset of the Raster. Defaults to (0, 0).
