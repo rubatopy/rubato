@@ -64,10 +64,6 @@ def init(
         physics_fps: The physics simulation's frames per second. Defaults to 60.
         hidden: Whether the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
     """
-    Vector.test_vectorlike(res, "res")
-    Vector.test_vectorlike(window_size, "window_size", True)
-    Vector.test_vectorlike(window_pos, "window_pos", True)
-
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     Game._initialized = True # pylint: disable=protected-access

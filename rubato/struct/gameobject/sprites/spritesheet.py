@@ -24,8 +24,6 @@ class Spritesheet:
     """
 
     def __init__(self, rel_path: str, sprite_size: VectorLike = (32, 32), grid_size: VectorLike | None = None):
-        Vector.test_vectorlike(sprite_size, "sprite_size")
-        Vector.test_vectorlike(grid_size, "grid_size", True)
         self._sprite_size: tuple[int, int] = (int(sprite_size[0]), int(sprite_size[1]))
         self._sheet = Sprite(rel_path=rel_path)
         self._sprites: list[list[Sprite]] = []
@@ -122,8 +120,6 @@ class Spritesheet:
         Returns:
             Animation: the animation loaded from the folder of spritesheets
         """
-        Vector.test_vectorlike(sprite_size, "sprite_size")
-
         anim = Animation()
 
         path = get_path(rel_path)

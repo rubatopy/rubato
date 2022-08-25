@@ -28,7 +28,7 @@ class Surf:
     ):
         self.rotation: float = rotation
         """The clockwise rotation of the sprite."""
-        self.scale: Vector = Vector.from_vectorlike(scale)
+        self.scale: Vector = Vector.create(scale)
         """The scale of the sprite."""
         self._af = af
 

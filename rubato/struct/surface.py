@@ -50,7 +50,6 @@ class Surface(Surf):
             color: The color of the point. Defaults to black.
             blending: Whether to use blending. Defaults to False.
         """
-        Vector.test_vectorlike(pos, "pos")
         x, y = int(pos[0]), int(pos[1])
         c_draw.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
@@ -75,8 +74,6 @@ class Surface(Surf):
             thickness: The thickness of the line. Defaults to 1.
             blending: Whether to use blending. Defaults to False.
         """
-        Vector.test_vectorlike(start, "start")
-        Vector.test_vectorlike(end, "end")
         sx, sy = int(start[0]), int(start[1])
         ex, ey = int(end[0]), int(end[1])
         c_draw.draw_line(
@@ -104,8 +101,6 @@ class Surface(Surf):
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
             blending: Whether to use blending. Defaults to False.
         """
-        Vector.test_vectorlike(top_left, "top_left")
-        Vector.test_vectorlike(dims, "dims")
         x, y = int(top_left[0]), int(top_left[1])
         w, h = int(dims[0]), int(dims[1])
         c_draw.draw_rect(
@@ -145,7 +140,6 @@ class Surface(Surf):
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        Vector.test_vectorlike(center, "center")
         x, y = int(center[0]), int(center[1])
         c_draw.draw_circle(
             self.surf.pixels,
@@ -205,7 +199,6 @@ class Surface(Surf):
         Returns:
             The color of the pixel.
         """
-        Vector.test_vectorlike(pos, "pos")
         x, y = int(pos[0]), int(pos[1])
         if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
             return Color.from_rgba32(c_draw.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))

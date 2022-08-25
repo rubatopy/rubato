@@ -18,7 +18,7 @@
     offsets.
 -   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
 -   `color.clone()`.
--   `VectorLike`. Now you can use tuples and lists were Vectors were before.
+-   Functions that required Vectors before now accept appropriately-sized lists and tuples.
 
 ### Changed
 

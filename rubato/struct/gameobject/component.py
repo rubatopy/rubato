@@ -32,7 +32,7 @@ class Component:
         """The game object this component is attached to."""
         self.singular: bool = False
         """Whether multiple components of the same type are allowed on a game object."""
-        self.offset: Vector = Vector.from_vectorlike(offset)
+        self.offset: Vector = Vector.create(offset)
         """The offset from the center of the game object that the hitbox should be placed."""
         self.rot_offset: float = rot_offset
         """The rotational offset from the game object's rotation."""

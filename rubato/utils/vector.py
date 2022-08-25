@@ -699,49 +699,20 @@ class Vector:
         return 2
 
     @staticmethod
-    def is_vectorlike(obj: VectorLike, none_accepted: bool = False) -> bool:
+    def create(obj: VectorLike) -> Vector:
         """
-        Checks if the object is a VectorLike.
-
-        Args:
-            obj: The object to check.
-            none_accepted: Whether None is accepted.
-        """
-        if none_accepted and obj is None:
-            return True
-        if isinstance(obj, Vector):
-            return True
-        if isinstance(obj, (tuple, list)):
-            return len(obj) == 2 and isinstance(obj[0], (int, float)) and isinstance(obj[1], (int, float))
-        return False
-
-    @staticmethod
-    def test_vectorlike(obj: VectorLike, name: str, allow_none: bool = False) -> None:
-        """
-        Raises a TypeError if the object is not a VectorLike.
-
-        Args:
-            obj: The object to check.
-            name: The name of the object.
-            allow_none: Whether None is accepted.
-        """
-        if not Vector.is_vectorlike(obj, allow_none):
-            raise TypeError(f"{name} is not a VectorLike" + (" or None" if allow_none else ""))
-
-    @staticmethod
-    def from_vectorlike(obj: VectorLike) -> Vector:
-        """
-        Makes a Vector from a VectorLike.
+        Makes a Vector from a Vector-like object.
 
         Args:
             obj: The object to make a Vector from.
         """
         if isinstance(obj, Vector):
             return obj
-        if isinstance(obj, (tuple, list)) and len(obj) == 2 and \
-            isinstance(obj[0], (int, float)) and isinstance(obj[1], (int, float)):
-            return Vector(obj[0], obj[1])
-        raise TypeError(f"{obj} is not a VectorLike")
+        if isinstance(obj, (tuple, list)) and len(obj) == 2:
+            item_zero, item_one = obj[0], obj[1]
+            if isinstance(item_zero, (int, float)) and isinstance(item_one, (int, float)):
+                return Vector(item_zero, item_one)
+        raise TypeError(f"{obj} is not like a Vector.")
 
 
 VectorLike = Vector | tuple[float, float] | list[float, float]

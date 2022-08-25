@@ -87,7 +87,6 @@ class Draw:
             pos: The position of the point.
             color: The color to use for the pixel. Defaults to Color.cyan.
         """
-        Vector.test_vectorlike(pos, "pos")
         sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos[0]), round(pos[1]), *color.to_tuple())
 
     @classmethod
@@ -122,8 +121,6 @@ class Draw:
             color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
         """
-        Vector.test_vectorlike(p1, "p1")
-        Vector.test_vectorlike(p2, "p2")
         sdl2.sdlgfx.thickLineRGBA(
             Display.renderer.sdlrenderer, round(p1[0]), round(p1[1]), round(p2[0]), round(p2[1]), round(width), color.r,
             color.g, color.b, color.a
@@ -178,7 +175,7 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
         """
-        center = Vector.from_vectorlike(center)
+        center = Vector.create(center)
         x, y = width // 2, height // 2
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
@@ -225,7 +222,6 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
-        Vector.test_vectorlike(center, "center")
         if fill:
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
@@ -287,9 +283,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
-        x_coords, y_coords = zip(
-            *(Vector.test_vectorlike(coord, "points") is None and (int(coord[0]), int(coord[1])) for coord in points)
-        )
+        x_coords, y_coords = zip(*((int(coord[0]), int(coord[1])) for coord in points))
 
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)
@@ -378,9 +372,6 @@ class Draw:
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
         """
-        Vector.test_vectorlike(pos, "pos")
-        Vector.test_vectorlike(align, "align")
-
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
         Display.update(tx, (pos[0] + (align[0] - 1) * tx.size[0] / 2, pos[1] + (align[1] - 1) * tx.size[1] / 2))
         tx.destroy()
@@ -447,7 +438,6 @@ class Draw:
             pos: The position to draw the surf at. Defaults to (0, 0).
             camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        Vector.test_vectorlike(pos, "pos")
         if not surf.surf:
             return
         if not surf.uptodate:

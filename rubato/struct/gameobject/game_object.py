@@ -35,7 +35,7 @@ class GameObject:
         """
         The name of the game object. Will default to: "Game Object {number in group}"
         """
-        self.pos: Vector = Vector.from_vectorlike(pos)
+        self.pos: Vector = Vector.create(pos)
         """The current position of the game object."""
         self.debug: bool = debug
         """Whether to draw a debug crosshair for the game object."""
@@ -186,7 +186,7 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            scale = int(camera.scale(2))
+            scale = int(camera.zoom * 2)
             self._debug_cross.rotation = self.rotation
             self._debug_cross.scale = Vector(scale, scale)
 
