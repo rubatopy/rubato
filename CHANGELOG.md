@@ -19,6 +19,7 @@
 -   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
 -   `color.clone()`.
 -   Functions that required Vectors before now accept appropriately-sized tuples.
+-   `Events.MOUSEWHEEL` and `Events.SCROLL` (which are the same), propagating mouse scroll events.
 
 ### Changed
 
@@ -29,6 +30,7 @@
 -   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
 -   Rewrote `Rectangle` from the ground-up.
 -   Window is now shown when begin is called. Not when init is called.
+-   `mouse_button` key passed in mouse press events renamed to `button`
 
 ### Removed
 

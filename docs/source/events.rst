@@ -54,20 +54,37 @@ There are 2 key events that are broadcast.
 
     "MOUSEUP" # Fired when a mouse button is released
     "MOUSEDOWN" # Fired when a mouse button is pressed
+    "MOUSEWHEEL" # Fired when the mouse wheel is scrolled
 
 Each event gives a dictionary with the following information:
 
 .. code-block:: python
 
     {
-        "mouse_button": str,
-        "x": event.button.x,
-        "y": event.button.y,
-        "clicks": event.button.clicks,
-        "which": event.button.which,
-        "windowID": event.button.windowID,
-        "timestamp": event.button.timestamp,
+        "button": str,
+        "x": int,
+        "y": int,
+        "clicks": int,
+        "which": int,
+        "windowID": int,
+        "timestamp": int,
     }
+
+The mouse wheel event has the following information:
+Note: y is regular scroll up (positive) and down (negative), and x is horizontal scroll left (negative) and right (positive). X scrolling can come from a some computer mice, and trackpads.
+
+.. code-block:: python
+
+    {
+        "x": int,
+        "y": int,
+        "precise x": float,
+        "precise y": float,
+        "which": int,
+        "windowID": int,
+        "timestamp": int,
+    }
+
 
 *************
 Window Events
