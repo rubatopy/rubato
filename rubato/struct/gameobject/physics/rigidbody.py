@@ -112,10 +112,8 @@ class RigidBody(Component):
         Args:
             force: The force to add.
         """
-        accel = (force[0] * self.inv_mass, force[1] * self.inv_mass)
-
-        self.velocity.x += accel[0] * Time.fixed_delta
-        self.velocity.y += accel[1] * Time.fixed_delta
+        self.velocity.x += force[0] * self.inv_mass * Time.fixed_delta
+        self.velocity.y += force[1] * self.inv_mass * Time.fixed_delta
 
     def add_impulse(self, impulse: Vector | tuple[float, float]):
         """
