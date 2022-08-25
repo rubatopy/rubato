@@ -59,6 +59,7 @@ def test_init(monkeypatch):
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.png")))
     set_icon.reset_mock()
     sdl2.SDL_Quit()
+    rubato.Game._initialized = False  # pylint: disable=protected-access
     rubato.init(
         name="Untitled Game",
         window_size=rubato.Vector(360, 360),
