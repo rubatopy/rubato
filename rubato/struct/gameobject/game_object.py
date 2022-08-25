@@ -186,9 +186,7 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            scale = int(camera.zoom * 2)
             self._debug_cross.rotation = self.rotation
-            self._debug_cross.scale = Vector(scale, scale)
 
             Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
 
