@@ -8,7 +8,7 @@ import rubato as rb
 num_obj = 60
 
 # Initializes rubato
-rb.init(name="rubato physics demo", res=rb.Vector(1980, 1980), window_size=rb.Vector(660, 660))
+rb.init(name="rubato physics demo", res=(1980, 1980), window_size=(660, 660))
 
 rb.Game.show_fps = True
 # rb.Game.debug = True
@@ -61,13 +61,13 @@ for _ in range(num_obj // 2):
                     mass=0.1,
                     bounciness=1,
                     friction=0.2,
-                    gravity=rb.Vector(0, 50),
-                    velocity=rb.Vector(randint(-100, 100), randint(-100, 100)),
+                    gravity=(0, 50),
+                    velocity=(randint(-100, 100), randint(-100, 100)),
                 )
             ],
-            pos=rb.Vector(
-                randint(rb.Display.res.x / 20, 19 * rb.Display.res.x / 20),
-                randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
+            pos=(
+                randint(rb.Display.res.x / 20,
+                        19 * rb.Display.res.x / 20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
             )
         )
     )
@@ -80,13 +80,13 @@ for _ in range(num_obj // 2):
                     mass=0.1,
                     bounciness=1,
                     friction=0.2,
-                    gravity=rb.Vector(0, 50),
-                    velocity=rb.Vector(randint(-100, 100), randint(-100, 100)),
+                    gravity=(0, 50),
+                    velocity=(randint(-100, 100), randint(-100, 100)),
                 )
             ],
-            pos=rb.Vector(
-                randint(rb.Display.res.x / 20, 19 * rb.Display.res.x / 20),
-                randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
+            pos=(
+                randint(rb.Display.res.x / 20,
+                        19 * rb.Display.res.x / 20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
             )
         )
     )

@@ -25,24 +25,24 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
         return Vector(*cls.window.size)
 
     @window_size.setter
-    def window_size(cls, new: Vector):
-        cls.window.size = new.tuple_int()
+    def window_size(cls, new: Vector | tuple[float, float]):
+        cls.window.size = (int(new[0]), int(new[1]))
 
     @property
     def res(cls) -> Vector:
         return Vector(*cls.renderer.logical_size)
 
     @res.setter
-    def res(cls, new: Vector):
-        cls.renderer.logical_size = new.tuple_int()
+    def res(cls, new: Vector | tuple[float, float]):
+        cls.renderer.logical_size = (int(new[0]), int(new[1]))
 
     @property
     def window_pos(cls) -> Vector:
         return Vector(*cls.window.position)
 
     @window_pos.setter
-    def window_pos(cls, new: Vector):
-        cls.window.position = new.tuple_int()
+    def window_pos(cls, new: Vector | tuple[float, float]):
+        cls.window.position = (int(new[0]), int(new[1]))
 
     @property
     def window_name(cls):
@@ -185,8 +185,8 @@ class Display(metaclass=_DisplayProperties):
     def update(
         cls,
         tx: sdl2.ext.Texture,
-        pos: Vector,
-        scale: Vector = Vector(1, 1),
+        pos: Vector | tuple[float, float],
+        scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
         flipx: bool = False,
         flipy: bool = False,
@@ -202,8 +202,8 @@ class Display(metaclass=_DisplayProperties):
             flipx: Whether to flip the texture horizontally. Defaults to False.
             flipy: Whether to flip the texture vertically. Defaults to False.
         """
-        flipx |= Math.sign(scale.x) == -1
-        flipy |= Math.sign(scale.y) == -1
+        flipx |= Math.sign(scale[0]) == -1
+        flipy |= Math.sign(scale[1]) == -1
 
         flip = sdl2.SDL_FLIP_NONE
         if flipx:
@@ -211,11 +211,11 @@ class Display(metaclass=_DisplayProperties):
         if flipy:
             flip |= sdl2.SDL_FLIP_VERTICAL
 
-        x_dim = tx.size[0] * abs(scale.x)
+        x_dim = tx.size[0] * abs(scale[0])
 
         cls.renderer.copy(
             tx,
-            dstrect=(pos.x - (x_dim if flipx else 0), pos.y, x_dim, tx.size[1] * abs(scale.y)),
+            dstrect=(pos[0] - (x_dim if flipx else 0), pos[1], x_dim, tx.size[1] * abs(scale[1])),
             angle=angle,
             flip=flip
         )

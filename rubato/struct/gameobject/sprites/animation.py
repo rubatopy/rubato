@@ -4,11 +4,12 @@ This is the animation component module for game objects.
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from os import path, walk
+from warnings import warn
 import sdl2
 
 from .. import Component
 from ... import Sprite
-from .... import Vector, Time, get_path, Draw, Camera
+from .... import Vector, Time, get_path, Draw, Camera, deprecated_no_replacement
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -19,24 +20,24 @@ class Animation(Component):
     Animations are a series of images that update automatically in accordance with parameters.
 
     Args:
-        scale: The scale of the animation. Defaults to Vector(1, 1).
+        scale: The scale of the animation. Defaults to (1, 1).
         fps: The frames per second of the animation. Defaults to 24.
         af: Whether to use anisotropic filtering on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
-        offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
+        offset: The offset of the animation from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
         z_index: The z-index of the animation. Defaults to 0.
     """
 
     def __init__(
         self,
-        scale: Vector = Vector(1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         fps: int = 24,
         af: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        offset: Vector = Vector(),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -58,7 +59,7 @@ class Animation(Component):
         """The current frame of the animation."""
         self.loop: bool = True
         """Whether the animation should loop."""
-        self.scale: Vector = scale
+        self.scale: Vector = Vector.create(scale)
         """The scale of the animation."""
         self.af: bool = af
         """Whether to enable anisotropic filtering."""
@@ -133,16 +134,18 @@ class Animation(Component):
             else:
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
 
-    def resize(self, new_size: Vector):
+    @deprecated_no_replacement
+    def resize(self, new_size: Vector):  # pylint: disable=unused-argument
         """
         Resize the Animation to a given size in pixels.
 
         Args:
             new_size: The new size of the Animation in pixels.
         """
-        for value in self._states.values():
-            for anim_frame in value:
-                anim_frame.resize(new_size)
+        warn("Resizing isn't supported anymore. Use the scale property instead.")
+        # for value in self._states.values():
+        #     for anim_frame in value:
+        #         anim_frame.resize(new_size)
 
     def reset(self):
         """Reset the animation state back to the first frame."""
@@ -199,7 +202,11 @@ class Animation(Component):
         self.add(state_name, ret_list)
 
     def add_spritesheet(
-        self, state_name: str, spritesheet: Spritesheet, from_coord: Vector = Vector(), to_coord: Vector = Vector()
+        self,
+        state_name: str,
+        spritesheet: Spritesheet,
+        from_coord: Vector | tuple[float, float] = (0, 0),
+        to_coord: Vector | tuple[float, float] = (0, 0)
     ):
         """
         Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.
@@ -207,8 +214,9 @@ class Animation(Component):
         Args:
             state_name: The key used to reference this state.
             spritesheet: The spritesheet to use.
-            from_coord: The grid coordinate of the first frame. Defaults to Vector().
-            to_coord: The grid coordinate of the last coord. Defaults to Vector().
+            from_coord: The grid coordinate of the first frame. Defaults to (0, 0).
+            to_coord: The grid coordinate of the last coord. Defaults to (0, 0).
+
         Example:
             .. code-block:: python
 
@@ -220,8 +228,8 @@ class Animation(Component):
                 # This will just load from the start to the end of the spritesheet.
         """
         state = []
-        x, y = from_coord.tuple_int()
-        to_x, to_y = to_coord.tuple_int()
+        x, y = int(from_coord[0]), int(from_coord[1])
+        to_x, to_y = int(to_coord[0]), int(to_coord[1])
         while True:
             state.append(spritesheet.get(x, y))
             if y == to_y and x == to_x:
@@ -269,12 +277,12 @@ class Animation(Component):
     def clone(self) -> Animation:
         """Clones the animation."""
         new = Animation(
-            scale=self.scale,
+            scale=self.scale.clone(),
             fps=self.fps,
             af=self.af,
             flipx=self.flipx,
             flipy=self.flipy,
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )

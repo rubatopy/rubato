@@ -1,24 +1,36 @@
 """A module that contains a component wrappers for Surface and Sprite."""
 from __future__ import annotations
 from .. import Component, Rectangle
-from ... import Surface, Sprite
-from .... import Vector, Camera, Draw, Surf, Color
+from ... import Surface
+from .... import Vector, Camera, Draw, Color
 
 
-class BaseImage(Component):
-    """A base image component. Does nothing on its own. Hidden from the user."""
+class Raster(Component):
+    """
+    A raster is a component that contains a surface.
+
+    Args:
+        width: The width of the Raster. Defaults to 32.
+        height: The height of the Raster. Defaults to 32.
+        scale: The scale of the Raster. Defaults to (1, 1).
+        offset: The offset of the Raster. Defaults to (0, 0).
+        rot_offset: The rotation offset of the Raster. Defaults to 0.
+        af: Whether to use anisotropic filtering. Defaults to False.
+        z_index: The z-index of the Raster. Defaults to 0.
+    """
 
     def __init__(
         self,
-        scale: Vector = Vector(1, 1),
-        offset: Vector = Vector(0, 0),
+        width: int = 32,
+        height: int = 32,
+        scale: Vector | tuple[float, float] = (1, 1),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         af: bool = False,
         z_index: int = 0,
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
-        self.surf: Surf = Surf(rot_offset, scale, af)
-
+        super().__init__(offset, rot_offset, z_index)
+        self.surf: Surface = Surface(width, height, scale, rot_offset, af)
         self.singular = False
 
         self._go_rotation = 0
@@ -51,16 +63,7 @@ class BaseImage(Component):
         size = self.get_size()
         return Rectangle(offset=self.offset, width=size.x, height=size.y)
 
-    def get_size(self) -> Vector:
-        """
-        Gets the current size of the raster.
-
-        Returns:
-            The size of the raster
-        """
-        return self.surf.get_size()
-
-    def merge(self, other: Raster | Image):
+    def merge(self, other: Raster):
         """
         Merges the surface of another component into this one.
 
@@ -90,30 +93,13 @@ class BaseImage(Component):
         """Deletes the raster component"""
         self.surf.delete()
 
-
-class Raster(BaseImage):
-    """A raster is a component that contains a image."""
-
-    def __init__(
-        self,
-        width: int = 32,
-        height: int = 32,
-        scale: Vector = Vector(1, 1),
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
-        af: bool = False,
-        z_index: int = 0,
-    ):
-        super().__init__(scale, offset, rot_offset, af, z_index)
-        self.surf: Surface = Surface(width, height, scale, rot_offset, af)
-
     def clear(self):
         """
         Clears the image.
         """
         self.surf.clear()
 
-    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = True):
+    def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the image.
 
@@ -126,8 +112,8 @@ class Raster(BaseImage):
 
     def draw_line(
         self,
-        start: Vector,
-        end: Vector,
+        start: Vector | tuple[float, float],
+        end: Vector | tuple[float, float],
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
@@ -146,7 +132,13 @@ class Raster(BaseImage):
         """
         self.surf.draw_line(start, end, color, aa, thickness, blending)
 
-    def draw_rect(self, top_left: Vector, dims: Vector, border: Color = Color.black, fill: Color | None = None):
+    def draw_rect(
+        self,
+        top_left: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
+        border: Color = Color.black,
+        fill: Color | None = None
+    ):
         """
         Draws a rectangle on the image.
 
@@ -160,7 +152,7 @@ class Raster(BaseImage):
 
     def draw_circle(
         self,
-        center: Vector,
+        center: Vector | tuple[float, float],
         radius: int,
         border: Color | None = None,
         border_thickness: int = 1,
@@ -184,7 +176,7 @@ class Raster(BaseImage):
 
     def draw_poly(
         self,
-        points: list[Vector],
+        points: list[Vector | tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -213,7 +205,7 @@ class Raster(BaseImage):
         """
         return self.surf.get_size()
 
-    def get_pixel(self, pos: Vector) -> Color:
+    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """
         Gets the color of a pixel on the image.
 
@@ -225,7 +217,7 @@ class Raster(BaseImage):
         """
         return self.surf.get_pixel(pos)
 
-    def get_pixel_tuple(self, pos: Vector) -> tuple[int, int, int, int]:
+    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the image.
 
@@ -266,41 +258,10 @@ class Raster(BaseImage):
             self.surf.width,
             self.surf.height,
             self.scale,
-            self.offset,
+            self.offset.clone(),
             self.rot_offset,
             self.af,
             self.z_index,
         )
         r.surf = self.surf.clone()
         return r
-
-
-class Image(BaseImage):
-    """
-    A component that handles Images.
-
-    Args:
-        rel_path: The relative path to the image. Defaults to "".
-        scale: The scale of the image. Defaults to Vector(1, 1).
-        offset: The offset of the image from the gameobject. Defaults to Vector(0, 0).
-        rot_offset: The rotation offset of the image. Defaults to 0.
-        af: Whether to use anisotropic filtering. Defaults to False.
-        z_index: The z-index of the image. Defaults to 0.
-    """
-
-    def __init__(
-        self,
-        rel_path: str = "",
-        scale: Vector = Vector(1, 1),
-        offset: Vector = Vector(0, 0),
-        rot_offset: float = 0,
-        af: bool = False,
-        z_index: int = 0
-    ):
-        super().__init__(scale, offset, rot_offset, af, z_index)
-        self.surf: Sprite = Sprite(rel_path, scale=scale, rotation=rot_offset, af=af)
-
-    def clone(self) -> Image:
-        img = Image("", self.scale, self.offset, self.rot_offset, self.af, self.z_index)
-        img.surf = self.surf.clone()
-        return img

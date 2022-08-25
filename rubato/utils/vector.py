@@ -698,7 +698,18 @@ class Vector:
     def __len__(self) -> int:
         return 2
 
+    @staticmethod
+    def create(obj: Vector | tuple[float, float]) -> Vector:
+        """
+        Makes a Vector from a Vector-like object.
 
-# Developer notes:
-# Angles are north degrees (clockwise from the +y-axis).
-# We do not use the built-in Math conversion functions, because they will just bloat our stack.
+        Args:
+            obj: The object to make a Vector from.
+        """
+        if isinstance(obj, Vector):
+            return obj
+        if isinstance(obj, (tuple, list)) and len(obj) == 2:
+            item_zero, item_one = obj[0], obj[1]
+            if isinstance(item_zero, (int, float)) and isinstance(item_one, (int, float)):
+                return Vector(item_zero, item_one)
+        raise TypeError(f"{obj} is not like a Vector.")

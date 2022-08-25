@@ -8,7 +8,7 @@ from . import Component
 from .. import Surface
 from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
 
-T = TypeVar("T")
+T = TypeVar("T", bound=Component)
 
 
 class GameObject:
@@ -17,7 +17,7 @@ class GameObject:
 
     Args:
         name: The name of the game object. Defaults to "".
-        pos: The position of the game object. Defaults to Vector(0, 0).
+        pos: The position of the game object. Defaults to (0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
         debug: Whether to draw the center of the game object. Defaults to False.
@@ -26,7 +26,7 @@ class GameObject:
     def __init__(
         self,
         name: str = "",
-        pos: Vector = Vector(),
+        pos: Vector | tuple[float, float] = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
         debug: bool = False,
@@ -35,7 +35,7 @@ class GameObject:
         """
         The name of the game object. Will default to: "Game Object {number in group}"
         """
-        self.pos: Vector = pos
+        self.pos: Vector = Vector.create(pos)
         """The current position of the game object."""
         self.debug: bool = debug
         """Whether to draw a debug crosshair for the game object."""
@@ -186,9 +186,7 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            scale = int(camera.scale(2))
             self._debug_cross.rotation = self.rotation
-            self._debug_cross.scale = Vector(scale, scale)
 
             Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
 
@@ -208,7 +206,11 @@ class GameObject:
         Clones the game object.
         """
         new_obj = GameObject(
-            name=f"{self.name} (clone)", pos=self.pos, rotation=self.rotation, z_index=self.z_index, debug=self.debug
+            name=f"{self.name} (clone)",
+            pos=self.pos.clone(),
+            rotation=self.rotation,
+            z_index=self.z_index,
+            debug=self.debug
         )
         for component in self._components.values():
             for comp in component:

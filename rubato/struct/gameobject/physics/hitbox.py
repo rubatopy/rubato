@@ -20,7 +20,7 @@ class Hitbox(Component):
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
-        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
     """
@@ -34,7 +34,7 @@ class Hitbox(Component):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: Vector = Vector(0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -72,15 +72,15 @@ class Hitbox(Component):
         """
         pass
 
-    def contains_pt(self, pt: Vector) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:  # pylint: disable=unused-argument
         """
         Checks if a point is inside the Hitbox.
 
         Args:
-            pt (Vector): The point to check, in game-world coordinates.
+            pt: The point to check, in game-world coordinates.
 
         Returns:
-            bool: Whether the point is inside the Hitbox.
+            Whether the point is inside the Hitbox.
         """
         pass
 
@@ -159,14 +159,14 @@ class Polygon(Hitbox):
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
-        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
     """
 
     def __init__(
         self,
-        verts: list[Vector] = [],
+        verts: list[Vector | tuple[float, float]] = [],
         color: Color | None = None,
         tag: str = "",
         debug: bool = False,
@@ -174,7 +174,7 @@ class Polygon(Hitbox):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: Vector = Vector(0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -190,7 +190,7 @@ class Polygon(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self._verts: list[Vector] = verts
+        self._verts: list[Vector] = [Vector.create(v) for v in verts]
 
         self.regen()
 
@@ -258,7 +258,7 @@ class Polygon(Hitbox):
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
-    def contains_pt(self, pt: Vector) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
 
     def clone(self) -> Polygon:
@@ -292,7 +292,7 @@ class Rectangle(Hitbox):
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
-        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
     """
@@ -308,7 +308,7 @@ class Rectangle(Hitbox):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: Vector = Vector(0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -508,10 +508,10 @@ class Rectangle(Hitbox):
             self._debug_image = Surface(w, h)
 
         if self.color is not None:
-            self._image.draw_rect(Vector(0, 0), Vector(w, h), fill=self.color)
-        self._debug_image.draw_rect(Vector(0, 0), Vector(w, h), Color.debug, 2)
+            self._image.draw_rect((0, 0), (w, h), fill=self.color)
+        self._debug_image.draw_rect((0, 0), (w, h), Color.debug, 2)
 
-    def contains_pt(self, pt: Vector) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
 
     def clone(self) -> Rectangle:
@@ -544,7 +544,7 @@ class Circle(Hitbox):
         scale: The scale of the hitbox. Defaults to 1.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
-        offset: The offset of the hitbox from the gameobject. Defaults to Vector(0, 0).
+        offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
     """
@@ -559,7 +559,7 @@ class Circle(Hitbox):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: Vector = Vector(0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -605,7 +605,7 @@ class Circle(Hitbox):
         super().redraw()
 
         int_r = int(self.radius * self.scale)
-        center = Vector(int_r, int_r)
+        center = (int_r, int_r)
         size = int_r * 2 + 1
 
         if self._image.surf.w != size:
@@ -616,7 +616,7 @@ class Circle(Hitbox):
             self._image.draw_circle(center, int_r, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_circle(center, int_r, Color.debug, 2)
 
-    def contains_pt(self, pt: Vector) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         r = self.true_radius()
         return (pt - self.true_pos()).mag_sq <= r * r
 

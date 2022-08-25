@@ -75,7 +75,7 @@ def draw_poly(
     pixels: int,
     width: int,
     height: int,
-    points: list[Vector],
+    points: list[Vector | tuple[float, float]],
     border_color: int,
     fill_color: int,
     aa: bool = False,
@@ -85,7 +85,7 @@ def draw_poly(
     vxt = []
     vyt = []
     for v in points:
-        x, y = v.tuple_int()
+        x, y = int(v[0]), int(v[1])
         vxt.append(x)
         vyt.append(y)
     vx: array.array = array.array("i", vxt)

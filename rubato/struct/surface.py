@@ -3,17 +3,18 @@ from __future__ import annotations
 import sdl2, sdl2.ext
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display, Surf
+from .. import Vector, Color, Display
 
 
-class Surface(Surf):
+class Surface:
     """
     A surface.
 
     Args:
         width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         height: The height of the surface in pixels. Once set this cannot be changed. Defaults to 32.
-        scale: The scale of the surface. Defaults to Vector(1, 1).
+        scale: The scale of the surface. Defaults to (1, 1).
+        rotation: The clockwise rotation of the sprite.
         af: Whether to use anisotropic filtering. Defaults to False.
     """
 
@@ -21,18 +22,96 @@ class Surface(Surf):
         self,
         width: int = 32,
         height: int = 32,
-        scale: Vector = Vector(1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         rotation: float = 0,
         af: bool = False,
     ):
-        super().__init__(rotation, scale, af)
+        self.rotation: float = rotation
+        """The clockwise rotation of the sprite."""
+        self.scale: Vector = Vector.create(scale)
+        """The scale of the sprite."""
+        self._af = af
 
-        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, Display.pixel_format).contents
+        self._surf: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
+            0, width, height, 32, Display.pixel_format
+        ).contents
+
+        self.tx: sdl2.ext.Texture | None = None
+        """(READ ONLY) The generated sprite texture."""
+        self.uptodate: bool = False
+        """
+        Whether the texture is up to date with the surface.
+        Can be set to False to trigger a texture regeneration at the next draw cycle.
+        """
 
         self.width: int = width
         """(READ ONLY) The width of the surface in pixels."""
         self.height: int = height
         """(READ ONLY) The height of the surface in pixels."""
+
+    @property
+    def surf(self) -> sdl2.SDL_Surface | None:
+        """The surface that is rendered."""
+        return self._surf
+
+    @surf.setter
+    def surf(self, new: sdl2.SDL_Surface):
+        """
+        Sets the surface to be rendered.
+        """
+        self._surf = new
+        self.uptodate = False
+
+    @property
+    def af(self):
+        """Whether to use anisotropic filtering."""
+        return self._af
+
+    @af.setter
+    def af(self, new: bool):
+        self._af = new
+        if self.tx is not None:
+            self.tx.set_scale_mode("nearest" if not self.af else "linear")
+
+    def get_size(self) -> Vector:
+        """
+        Gets the current size of the image. (Scaled)
+
+        Returns:
+            The size of the image
+        """
+        return Vector(self.surf.w * self.scale.x, self.surf.h * self.scale.y)
+
+    def get_size_raw(self) -> Vector:
+        """
+        Gets the current size of the image. (Unscaled)
+
+        Returns:
+            The size of the image
+        """
+        return Vector(self.surf.w, self.surf.h)
+
+    def merge(self, other: Surface):
+        """
+        Merges another surface into this one.
+
+        Args:
+            other: The surface to merge into this one.
+        """
+        sdl2.SDL_BlitSurface(other.surf, None, self.surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
+        self.uptodate = False
+
+    def generate_tx(self):
+        """Regenerates the texture from the surface."""
+        self.tx = sdl2.ext.Texture(Display.renderer, self.surf)
+        self.uptodate = True
+
+    def delete(self):
+        """Deletes the sprite"""
+        self.tx.destroy()
+        sdl2.SDL_FreeSurface(self.surf)
+        self.surf = None
+        self.tx = None
 
     def clear(self):
         """
@@ -41,7 +120,7 @@ class Surface(Surf):
         c_draw.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
-    def draw_point(self, pos: Vector, color: Color = Color.black, blending: bool = True):
+    def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
 
@@ -50,14 +129,14 @@ class Surface(Surf):
             color: The color of the point. Defaults to black.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = pos.tuple_int()
+        x, y = int(pos[0]), int(pos[1])
         c_draw.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
     def draw_line(
         self,
-        start: Vector,
-        end: Vector,
+        start: Vector | tuple[float, float],
+        end: Vector | tuple[float, float],
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
@@ -74,8 +153,8 @@ class Surface(Surf):
             thickness: The thickness of the line. Defaults to 1.
             blending: Whether to use blending. Defaults to False.
         """
-        sx, sy = start.tuple_int()
-        ex, ey = end.tuple_int()
+        sx, sy = int(start[0]), int(start[1])
+        ex, ey = int(end[0]), int(end[1])
         c_draw.draw_line(
             self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
@@ -83,8 +162,8 @@ class Surface(Surf):
 
     def draw_rect(
         self,
-        top_left: Vector,
-        dims: Vector,
+        top_left: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -101,8 +180,8 @@ class Surface(Surf):
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = top_left.tuple_int()
-        w, h = dims.tuple_int()
+        x, y = int(top_left[0]), int(top_left[1])
+        w, h = int(dims[0]), int(dims[1])
         c_draw.draw_rect(
             self.surf.pixels,
             self.surf.w,
@@ -120,7 +199,7 @@ class Surface(Surf):
 
     def draw_circle(
         self,
-        center: Vector,
+        center: Vector | tuple[float, float],
         radius: int,
         border: Color | None = None,
         border_thickness: int = 1,
@@ -140,7 +219,7 @@ class Surface(Surf):
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = center.tuple_int()
+        x, y = int(center[0]), int(center[1])
         c_draw.draw_circle(
             self.surf.pixels,
             self.surf.w,
@@ -158,7 +237,7 @@ class Surface(Surf):
 
     def draw_poly(
         self,
-        points: list[Vector],
+        points: list[Vector | tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -189,7 +268,7 @@ class Surface(Surf):
         )
         self.uptodate = False
 
-    def get_pixel(self, pos: Vector) -> Color:
+    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """
         Gets the color of a pixel on the surface.
 
@@ -199,13 +278,13 @@ class Surface(Surf):
         Returns:
             The color of the pixel.
         """
-        x, y = pos.tuple_int()
+        x, y = int(pos[0]), int(pos[1])
         if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
             return Color.from_rgba32(c_draw.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
-    def get_pixel_tuple(self, pos: Vector) -> tuple[int, int, int, int]:
+    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the surface.
 
@@ -252,7 +331,7 @@ class Surface(Surf):
         new = Surface(
             self.width,
             self.height,
-            scale=self.scale,
+            scale=self.scale.clone(),
             rotation=self.rotation,
             af=self.af,
         )

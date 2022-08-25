@@ -41,6 +41,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx_sitemap",
     "sphinx_design",
+    "sphinx.ext.intersphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -63,6 +64,8 @@ html_sidebars = {
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+smartquotes = False
+
 add_module_names = False
 
 # Auto Class Config
@@ -78,6 +81,14 @@ autodoc_default_options = {
     "inherited-members": True,
 }
 
+# Type Hint Config
+always_document_param_types = True
+set_type_checking_flag = False
+
+intersphinx_mapping = {
+    "python": ("http://docs.python.org/3", None),
+    "pysdl2": ("https://pysdl2.readthedocs.io/en/0.9.13/", None),
+}
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -150,5 +161,8 @@ napoleon_use_admonition_for_references = True
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
-napoleon_preprocess_types = True
+napoleon_preprocess_types = False
 napoleon_attr_annotations = True
+napoleon_type_aliases = {
+    "Scene": "rubato.struct.scene.Scene",
+}

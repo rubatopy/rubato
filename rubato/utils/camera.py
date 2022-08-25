@@ -18,8 +18,8 @@ class Camera:
         z_index: The z-index of the camera.
     """
 
-    def __init__(self, pos: Vector = None, zoom: float = 1, z_index: int = Math.INF):
-        self.pos: Vector = pos if pos else Display.center
+    def __init__(self, pos: Vector | tuple[float, float] = None, zoom: float = 1, z_index: int = Math.INF):
+        self.pos: Vector = Vector.create(pos) if pos else Display.center
         """The current position of the camera. Center based i.e. where the camera is looking at."""
         self._zoom = zoom
         self.z_index: int = z_index
@@ -35,38 +35,32 @@ class Camera:
         self._zoom = Math.clamp(new, 0.01, Math.INF)
         Radio.broadcast(Events.ZOOM, {"camera": self})
 
-    def transform(self, point: Vector) -> Vector:
+    def transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
         World space coordinates to Screen space coordinates.
 
         Args:
-            point (Vector): The point to transform (world space).
+            point: The point to transform (world space).
 
         Returns:
-            Vector: The translated coordinates.
+            The translated coordinates.
         """
-        return (point - self.pos) * self.zoom + Display.center
+        return Vector(
+            (point[0] - self.pos.x) * self.zoom + Display.center.x,
+            (point[1] - self.pos.y) * self.zoom + Display.center.y
+        )
 
-    def i_transform(self, point: Vector) -> Vector:
+    def i_transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
         Inverts the transform process, screen space coordinates to world space coordinates.
 
         Args:
-            point (Vector): The point to transform (screen space).
+            point: The point to transform (screen space).
 
         Returns:
-            Vector: The translated coordinates.
+            The translated coordinates.
         """
-        return (point - Display.center) / self.zoom + self.pos
-
-    def scale(self, dimension):
-        """
-        Scales a given dimension by the camera zoom.
-
-        Args:
-            dimension (Any): The dimension to scale. Can be a scalar or a Vector.
-
-        Returns:
-            Any: The scaled dimension.
-        """
-        return dimension * self.zoom
+        return Vector(
+            (point[0] - Display.center.x) / self.zoom + self.pos.x,
+            (point[1] - Display.center.y) / self.zoom + self.pos.y
+        )

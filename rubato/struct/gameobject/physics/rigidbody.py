@@ -15,15 +15,15 @@ class RigidBody(Component):
 
     Args:
         mass: The mass of the rigidbody. Defaults to -1.
-        gravity: The gravity of the rigidbody. Defaults to Vector(0, 0).
+        gravity: The gravity of the rigidbody. Defaults to (0, 0).
         friction: The friction of the rigidbody. Defaults to 0.
         static: Whether the rigidbody is static. Defaults to False.
         bounciness: The bounciness of the rigidbody. Defaults to 0.
-        max_speed: The maximum speed of the rigidbody. Defaults to Vector(INF, INF).
-        velocity: The velocity of the rigidbody. Defaults to Vector(0, 0).
+        max_speed: The maximum speed of the rigidbody. Defaults to (INF, INF).
+        velocity: The velocity of the rigidbody. Defaults to (0, 0).
         ang_vel: The angular velocity of the rigidbody. Defaults to 0.
         pos_correction: The positional correction of the rigidbody. Defaults to 0.25.
-        offset: The offset of the rigidbody from the gameobject. Defaults to Vector(0, 0).
+        offset: The offset of the rigidbody from the gameobject. Defaults to (0, 0).
         rot_offset: The offset of the rigidbody's rotation from the gameobject. Defaults to 0.
         z_index: The z-index of the rigidbody. Defaults to 0.
     """
@@ -31,15 +31,15 @@ class RigidBody(Component):
     def __init__(
         self,
         mass: float = 1,
-        gravity: Vector = Vector(),
+        gravity: Vector | tuple[float, float] = (0, 0),
         friction: float = 0,
         static: bool = False,
         bounciness: float = 0,
-        max_speed: Vector = Vector(Math.INF, Math.INF),
-        velocity: Vector = Vector(),
+        max_speed: Vector | tuple[float, float] = (Math.INF, Math.INF),
+        velocity: Vector | tuple[float, float] = (0, 0),
         ang_vel: float = 0,
         pos_correction: float = 0.25,
-        offset: Vector = Vector(),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -48,17 +48,17 @@ class RigidBody(Component):
         self.static: bool = static
         """Whether the rigidbody is static (as in, it does not move)."""
 
-        self.gravity: Vector = gravity
+        self.gravity: Vector = Vector.create(gravity)
         """The acceleration of the gravity that should be applied."""
         self.friction: float = friction
         """The friction coefficient of the Rigidbody (usually a value between 0 and 1)."""
-        self.max_speed: Vector = max_speed
+        self.max_speed: Vector = Vector.create(max_speed)
         """The maximum speed of the Rigidbody."""
 
         self.pos_correction: float = pos_correction
         """The positional correction of the rigidbody."""
 
-        self.velocity: Vector = velocity
+        self.velocity: Vector = Vector.create(velocity)
         """The current velocity of the Rigidbody."""
         self.ang_vel: float = ang_vel
         """The current angular velocity of the Rigidbody."""
@@ -105,35 +105,35 @@ class RigidBody(Component):
         self.gameobj.pos += self.velocity * Time.fixed_delta
         self.gameobj.rotation += self.ang_vel * Time.fixed_delta
 
-    def add_force(self, force: Vector):
+    def add_force(self, force: Vector | tuple[float, float]):
         """
         Applies a force to the Rigidbody.
 
         Args:
-            force (Vector): The force to add.
+            force: The force to add.
         """
-        accel = force * self.inv_mass
+        self.velocity.x += force[0] * self.inv_mass * Time.fixed_delta
+        self.velocity.y += force[1] * self.inv_mass * Time.fixed_delta
 
-        self.velocity += accel * Time.fixed_delta
-
-    def add_impulse(self, impulse: Vector):
+    def add_impulse(self, impulse: Vector | tuple[float, float]):
         """
         Applies an impulse to the rigidbody.
 
         Args:
-            impulse (Vector): _description_
+            impulse: The impulse to add.
         """
-        self.velocity += impulse * Time.fixed_delta
+        self.velocity.x += impulse[0] * Time.fixed_delta
+        self.velocity.y += impulse[1] * Time.fixed_delta
 
-    def add_cont_force(self, force: Vector, time: int):
+    def add_cont_force(self, force: Vector | tuple[float, float], time: int):
         """
         Add a continuous force to the Rigidbody.
         A continuous force is a force that is continuously applied over a time period.
         (the force is added every frame for a specific duration).
 
         Args:
-            force (Vector): The force to add.
-            time (int): The time in seconds that the force should be added.
+            force: The force to add.
+            time: The time in seconds that the force should be added.
         """
         if time <= 0:
             return
@@ -141,15 +141,15 @@ class RigidBody(Component):
             self.add_force(force)
             Time.delayed_frames(1, lambda: self.add_cont_force(force, time - (1000 * Time.delta_time)))
 
-    def add_cont_impulse(self, impulse: Vector, time: int):
+    def add_cont_impulse(self, impulse: Vector | tuple[float, float], time: int):
         """
         Add a continuous impulse to the Rigidbody.
         A continuous impulse is a impulse that is continuously applied over a time period.
         (the impulse is added every frame for a specific duration).
 
         Args:
-            impulse (Vector): The impulse to add.
-            time (int): The time in seconds that the impulse should be added.
+            impulse: The impulse to add.
+            time: The time in seconds that the impulse should be added.
         """
         if time <= 0:
             return
@@ -165,15 +165,15 @@ class RigidBody(Component):
     def clone(self) -> RigidBody:
         return RigidBody(
             mass=self.mass,
-            gravity=self.gravity,
+            gravity=self.gravity.clone(),
             friction=self.friction,
             static=self.static,
             bounciness=self.bounciness,
-            max_speed=self.max_speed,
-            velocity=self.velocity,
+            max_speed=self.max_speed.clone(),
+            velocity=self.velocity.clone(),
             ang_vel=self.ang_vel,
             pos_correction=self.pos_correction,
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             z_index=self.z_index
         )
