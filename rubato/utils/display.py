@@ -82,12 +82,15 @@ class Display(metaclass=_DisplayProperties):
                 :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
         window_pos (Vector): The current position of the window in terms of screen pixels.
         window_name (str): The name of the window.
+        hidden (bool): Whether the window is currently hidden.
     """
 
     window: sdl2.ext.Window = None
     renderer: sdl2.ext.Renderer = None
     pixel_format = sdl2.SDL_PIXELFORMAT_RGBA8888
     format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, pixel_format).contents.format.contents
+    hidden: bool = True
+
     _saved_window_size: Vector | None = None
     _saved_window_pos: Vector | None = None
 
@@ -306,6 +309,22 @@ class Display(metaclass=_DisplayProperties):
 
         finally:
             sdl2.SDL_FreeSurface(render_surface)
+
+    @classmethod
+    def show_window(cls):
+        """
+        Show the window.
+        """
+        Display.hidden = False
+        cls.window.open()
+
+    @classmethod
+    def hide_window(cls):
+        """
+        Hide the window.
+        """
+        Display.hidden = True
+        cls.window.hide()
 
     @classmethod
     @property
