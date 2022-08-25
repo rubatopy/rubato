@@ -88,6 +88,5 @@ class Component:
     def clone(self) -> Component:
         """Clones the component."""
         new = Component(offset=self.offset.clone(), rot_offset=self.rot_offset, z_index=self.z_index)
-        new.gameobj = self.gameobj
         new.singular = self.singular
         return new
