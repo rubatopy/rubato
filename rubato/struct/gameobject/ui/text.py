@@ -38,7 +38,7 @@ class Text(Component):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
         self._text: str = text
         self.font_object: Font = font
-        self.anchor: Vector = Vector.make_vector(anchor)
+        self.anchor: Vector = Vector.from_vectorlike(anchor)
         """
         The anchor vector of the text.
 

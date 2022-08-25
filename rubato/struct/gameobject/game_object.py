@@ -35,7 +35,7 @@ class GameObject:
         """
         The name of the game object. Will default to: "Game Object {number in group}"
         """
-        self.pos: Vector = Vector.make_vector(pos)
+        self.pos: Vector = Vector.from_vectorlike(pos)
         """The current position of the game object."""
         self.debug: bool = debug
         """Whether to draw a debug crosshair for the game object."""

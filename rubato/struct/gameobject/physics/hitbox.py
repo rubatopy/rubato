@@ -190,7 +190,7 @@ class Polygon(Hitbox):
             tag=tag,
             z_index=z_index
         )
-        self._verts: list[Vector] = [Vector.make_vector(v) for v in verts]
+        self._verts: list[Vector] = [Vector.from_vectorlike(v) for v in verts]
 
         self.regen()
 
@@ -618,7 +618,7 @@ class Circle(Hitbox):
 
     def contains_pt(self, pt: VectorLike) -> bool:
         r = self.true_radius()
-        return (Vector.make_vector(pt) - self.true_pos()).mag_sq <= r * r
+        return (Vector.from_vectorlike(pt) - self.true_pos()).mag_sq <= r * r
 
     def clone(self) -> Circle:
         return Circle(

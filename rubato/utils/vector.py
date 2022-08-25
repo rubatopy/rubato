@@ -699,7 +699,7 @@ class Vector:
         return 2
 
     @staticmethod
-    def is_vector_like(obj: VectorLike, none_accepted: bool = False) -> bool:
+    def is_vectorlike(obj: VectorLike, none_accepted: bool = False) -> bool:
         """
         Checks if the object is a VectorLike.
 
@@ -716,31 +716,30 @@ class Vector:
         return False
 
     @staticmethod
-    def raise_vector_like(obj: VectorLike, name: str, none_accepted: bool = False) -> None:
+    def test_vectorlike(obj: VectorLike, name: str, allow_none: bool = False) -> None:
         """
         Raises a TypeError if the object is not a VectorLike.
 
         Args:
             obj: The object to check.
             name: The name of the object.
-            none_accepted: Whether None is accepted.
+            allow_none: Whether None is accepted.
         """
-        if Vector.is_vector_like(obj, none_accepted):
-            return
-        raise TypeError(f"{name} is not a VectorLike" + (" or None" if none_accepted else ""))
+        if not Vector.is_vectorlike(obj, allow_none):
+            raise TypeError(f"{name} is not a VectorLike" + (" or None" if allow_none else ""))
 
     @staticmethod
-    def make_vector(obj: VectorLike) -> Vector:
+    def from_vectorlike(obj: VectorLike) -> Vector:
         """
         Makes a Vector from a VectorLike.
 
         Args:
             obj: The object to make a Vector from.
         """
-        Vector.raise_vector_like(obj, str(obj))
         if isinstance(obj, Vector):
             return obj
-        if isinstance(obj, (tuple, list)):
+        if isinstance(obj, (tuple, list)) and len(obj) == 2 and \
+            isinstance(obj[0], (int, float)) and isinstance(obj[1], (int, float)):
             return Vector(obj[0], obj[1])
         raise TypeError(f"{obj} is not a VectorLike")
 

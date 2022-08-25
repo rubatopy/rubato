@@ -37,7 +37,7 @@ def wrap(
     Returns:
         The wrapped GameObject.
     """
-    Vector.raise_vector_like(pos, "pos")
+    Vector.test_vectorlike(pos, "pos")
 
     go = GameObject(name=name, pos=Vector(*pos), rotation=rotation, z_index=z_index, debug=debug)
     if isinstance(comp, Component):

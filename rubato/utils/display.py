@@ -26,7 +26,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
 
     @window_size.setter
     def window_size(cls, new: VectorLike):
-        Vector.raise_vector_like(new, "new")
+        Vector.test_vectorlike(new, "new")
         cls.window.size = (int(new[0]), int(new[1]))
 
     @property
@@ -35,7 +35,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
 
     @res.setter
     def res(cls, new: VectorLike):
-        Vector.raise_vector_like(new, "new")
+        Vector.test_vectorlike(new, "new")
         cls.renderer.logical_size = (int(new[0]), int(new[1]))
 
     @property
@@ -44,7 +44,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
 
     @window_pos.setter
     def window_pos(cls, new: VectorLike):
-        Vector.raise_vector_like(new, "new")
+        Vector.test_vectorlike(new, "new")
         cls.window.position = (int(new[0]), int(new[1]))
 
     @property
@@ -205,8 +205,8 @@ class Display(metaclass=_DisplayProperties):
             flipx: Whether to flip the texture horizontally. Defaults to False.
             flipy: Whether to flip the texture vertically. Defaults to False.
         """
-        Vector.raise_vector_like(pos, "pos")
-        Vector.raise_vector_like(scale, "scale")
+        Vector.test_vectorlike(pos, "pos")
+        Vector.test_vectorlike(scale, "scale")
 
         flipx |= Math.sign(scale[0]) == -1
         flipy |= Math.sign(scale[1]) == -1

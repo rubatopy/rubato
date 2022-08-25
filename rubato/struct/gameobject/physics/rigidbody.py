@@ -48,17 +48,17 @@ class RigidBody(Component):
         self.static: bool = static
         """Whether the rigidbody is static (as in, it does not move)."""
 
-        self.gravity: Vector = Vector.make_vector(gravity)
+        self.gravity: Vector = Vector.from_vectorlike(gravity)
         """The acceleration of the gravity that should be applied."""
         self.friction: float = friction
         """The friction coefficient of the Rigidbody (usually a value between 0 and 1)."""
-        self.max_speed: Vector = Vector.make_vector(max_speed)
+        self.max_speed: Vector = Vector.from_vectorlike(max_speed)
         """The maximum speed of the Rigidbody."""
 
         self.pos_correction: float = pos_correction
         """The positional correction of the rigidbody."""
 
-        self.velocity: Vector = Vector.make_vector(velocity)
+        self.velocity: Vector = Vector.from_vectorlike(velocity)
         """The current velocity of the Rigidbody."""
         self.ang_vel: float = ang_vel
         """The current angular velocity of the Rigidbody."""
@@ -112,7 +112,7 @@ class RigidBody(Component):
         Args:
             force: The force to add.
         """
-        Vector.raise_vector_like(force)
+        Vector.test_vectorlike(force)
         accel = (force[0] * self.inv_mass, force[1] * self.inv_mass)
 
         self.velocity.x += accel[0] * Time.fixed_delta
@@ -125,7 +125,7 @@ class RigidBody(Component):
         Args:
             impulse: The impulse to add.
         """
-        Vector.raise_vector_like(impulse)
+        Vector.test_vectorlike(impulse)
         self.velocity.x += impulse[0] * Time.fixed_delta
         self.velocity.y += impulse[1] * Time.fixed_delta
 

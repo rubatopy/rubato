@@ -59,7 +59,7 @@ class Animation(Component):
         """The current frame of the animation."""
         self.loop: bool = True
         """Whether the animation should loop."""
-        self.scale: Vector = Vector.make_vector(scale)
+        self.scale: Vector = Vector.from_vectorlike(scale)
         """The scale of the animation."""
         self.af: bool = af
         """Whether to enable anisotropic filtering."""
@@ -223,8 +223,8 @@ class Animation(Component):
                 animation.add_spritesheet("idle", spritesheet, to_coord=spritesheet.end)
                 # This will just load from the start to the end of the spritesheet.
         """
-        Vector.raise_vector_like(from_coord, "from_coord")
-        Vector.raise_vector_like(to_coord, "to_coord")
+        Vector.test_vectorlike(from_coord, "from_coord")
+        Vector.test_vectorlike(to_coord, "to_coord")
         state = []
         x, y = int(from_coord[0]), int(from_coord[1])
         to_x, to_y = int(to_coord[0]), int(to_coord[1])

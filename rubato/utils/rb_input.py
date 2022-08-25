@@ -430,7 +430,7 @@ class Input:
         Args:
             v: The position to set the mouse to.
         """
-        Vector.raise_vector_like(v, "v")
+        Vector.test_vectorlike(v, "v")
         sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v[0]), c_int(v[1]))
 
     @classmethod
@@ -466,10 +466,10 @@ class Input:
         Returns:
             bool: Whether the point is inside the polygon.
         """
-        Vector.raise_vector_like(pt, "pt")
+        Vector.test_vectorlike(pt, "pt")
         last, now, odd = verts[-1], verts[0], False
         for now in verts:
-            Vector.raise_vector_like(now, "verts")
+            Vector.test_vectorlike(now, "verts")
             if ((now[1] > pt[1]) != (last[1] > pt[1])) and \
                 (pt[0] < (last[0] - now[0]) * (pt[1] - now[1]) / (last[1] - now[1]) + now[0]):
                 odd = not odd
@@ -491,8 +491,8 @@ class Input:
         Returns:
             bool: Whether the mouse is in the defined rectangle.
         """
-        center = Vector.make_vector(center)
-        dims = Vector.make_vector(dims)
+        center = Vector.from_vectorlike(center)
+        dims = Vector.from_vectorlike(dims)
 
         mo = Input.get_mouse_pos()  # mouse
 

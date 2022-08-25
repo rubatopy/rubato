@@ -19,7 +19,7 @@ class Camera:
     """
 
     def __init__(self, pos: VectorLike = None, zoom: float = 1, z_index: int = Math.INF):
-        self.pos: Vector = Vector.make_vector(pos) if pos else Display.center
+        self.pos: Vector = Vector.from_vectorlike(pos) if pos else Display.center
         """The current position of the camera. Center based i.e. where the camera is looking at."""
         self._zoom = zoom
         self.z_index: int = z_index
@@ -45,7 +45,7 @@ class Camera:
         Returns:
             The translated coordinates.
         """
-        Vector.raise_vector_like(point, "point")
+        Vector.test_vectorlike(point, "point")
         return Vector(
             (point[0] - self.pos.x) * self.zoom + Display.center.x,
             (point[1] - self.pos.y) * self.zoom + Display.center.y
@@ -61,7 +61,7 @@ class Camera:
         Returns:
             The translated coordinates.
         """
-        Vector.raise_vector_like(point, "point")
+        Vector.test_vectorlike(point, "point")
         return Vector(
             (point[0] - Display.center.x) / self.zoom + self.pos.x,
             (point[1] - Display.center.y) / self.zoom + self.pos.y
@@ -77,7 +77,7 @@ class Camera:
         Returns:
             The scaled dimension.
         """
-        if Vector.is_vector_like(dimension):
+        if Vector.is_vectorlike(dimension):
             return Vector(dimension[0] * self.zoom, dimension[1] * self.zoom)
         else:
             return dimension * self.zoom
