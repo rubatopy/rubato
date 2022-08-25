@@ -37,7 +37,7 @@ def wrap(
     Returns:
         The wrapped GameObject.
     """
-    go = GameObject(name=name, pos=Vector(*pos), rotation=rotation, z_index=z_index, debug=debug)
+    go = GameObject(name=name, pos=Vector.create(pos), rotation=rotation, z_index=z_index, debug=debug)
     if isinstance(comp, Component):
         go.add(comp)
     elif isinstance(comp, list):
