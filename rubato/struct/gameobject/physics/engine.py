@@ -7,7 +7,7 @@ from . import RigidBody, Circle
 from .... import Math, Vector, InitError
 
 if TYPE_CHECKING:
-    from . import Hitbox, Polygon
+    from . import Hitbox, Polygon, Rectangle
 
 
 # THIS IS A STATIC CLASS
@@ -168,8 +168,13 @@ class Engine:
     @staticmethod
     def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
         """Checks for overlap between two circles"""
-        t_rad = circle_a.radius + circle_b.radius
-        d_x, d_y = circle_a.pos.x - circle_b.pos.x, circle_a.pos.y - circle_b.pos.y
+        a_rad = circle_a.true_radius()
+        b_rad = circle_b.true_radius()
+        a_pos = circle_a.true_pos()
+        b_pos = circle_b.true_pos()
+
+        t_rad = a_rad + b_rad
+        d_x, d_y = a_pos.x - b_pos.x, a_pos.y - b_pos.y
         dist = d_x * d_x + d_y * d_y
 
         if dist > t_rad * t_rad:
@@ -178,7 +183,7 @@ class Engine:
         dist = math.sqrt(dist)
 
         if dist == 0:
-            pen = circle_a.radius
+            pen = a_rad
             norm = Vector(1, 0)
         else:
             pen = t_rad - dist
@@ -187,10 +192,14 @@ class Engine:
         return Manifold(circle_a, circle_b, pen, norm)
 
     @staticmethod
-    def circle_polygon_test(circle: Circle, polygon: Polygon) -> Optional[Manifold]:
+    def circle_polygon_test(circle: Circle, polygon: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
-        verts = polygon.translated_verts()
-        center = (circle.pos - polygon.pos).rotate(-polygon.gameobj.rotation)
+        verts = polygon.offset_verts()
+        circle_rad = circle.true_radius()
+        circle_pos = circle.true_pos()
+        poly_pos = polygon.true_pos()
+
+        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)
 
         separation = -Math.INF
         face_normal = 0
@@ -198,7 +207,7 @@ class Engine:
         for i in range(len(verts)):
             s = Engine.get_normal(verts, i).dot(center - verts[i])
 
-            if s > circle.radius:
+            if s > circle_rad:
                 return
 
             if s > separation:
@@ -207,61 +216,60 @@ class Engine:
 
         if separation <= 0:
             norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
-            return Manifold(circle, polygon, circle.radius, norm)
+            return Manifold(circle, polygon, circle_rad, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
 
         dot_1 = (center - v1).dot(v2 - v1)
         dot_2 = (center - v2).dot(v1 - v2)
-        pen = circle.radius - separation
+        pen = circle_rad - separation
 
         if dot_1 <= 0:
             offs = center - v1
-            if offs.mag_sq > circle.radius * circle.radius:
+            if offs.mag_sq > circle_rad * circle_rad:
                 return
 
             return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         elif dot_2 <= 0:
             offs = center - v2
-            if offs.mag_sq > circle.radius * circle.radius:
+            if offs.mag_sq > circle_rad * circle_rad:
                 return
 
             return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         else:
             norm = Engine.get_normal(verts, face_normal)
-            if norm.dot(center - v1) > circle.radius:
+            if norm.dot(center - v1) > circle_rad:
                 return
 
             return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Polygon, shape_b: Polygon) -> Optional[Manifold]:
+    def polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
-        pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b)
+        a_verts = shape_a.offset_verts()
+        b_verts = shape_b.offset_verts()
+
+        pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
         if pen_a is None:
             return
 
-        pen_b, face_b = Engine.axis_least_penetration(shape_b, shape_a)
+        pen_b, face_b = Engine.axis_least_penetration(shape_b, shape_a, b_verts, a_verts)
         if pen_b is None:
             return
 
         if pen_b < pen_a:
             man = Manifold(shape_a, shape_b, abs(pen_a))
 
-            ref_verts = shape_a.translated_verts()
-
-            v1 = ref_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.pos
-            v2 = ref_verts[(face_a + 1) % len(ref_verts)].rotate(shape_a.gameobj.rotation) + shape_a.pos
+            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
             man = Manifold(shape_a, shape_b, abs(pen_b))
 
-            ref_verts = shape_b.translated_verts()
-
-            v1 = ref_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.pos
-            v2 = ref_verts[(face_b + 1) % len(ref_verts)].rotate(shape_b.gameobj.rotation) + shape_b.pos
+            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -269,18 +277,17 @@ class Engine:
         return man
 
     @staticmethod
-    def axis_least_penetration(a: Polygon, b: Polygon) -> float:
+    def axis_least_penetration(
+        a: Polygon | Rectangle, b: Polygon | Rectangle, a_verts: list[Vector], b_verts: list[Vector]
+    ) -> float:
         """Finds the axis of least penetration between two possibly colliding polygons."""
-        a_verts = a.translated_verts()
-        b_verts = b.translated_verts()
-
         best_dist = -Math.INF
         best_ind = 0
 
         for i in range(len(a_verts)):
             n = Engine.get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
             s = Engine.get_support(b_verts, -n)
-            v = (a_verts[i].rotate(a.gameobj.rotation) + a.pos - b.pos).rotate(-b.gameobj.rotation)
+            v = (a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos - b.gameobj.pos).rotate(-b.gameobj.rotation)
             d = n.dot(s - v)
 
             if d > best_dist:

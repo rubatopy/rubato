@@ -2,6 +2,7 @@
 The Input module is the way you collect input from the user.
 """
 import ctypes
+import math
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
@@ -254,10 +255,7 @@ class Input:
                 else:
                     key1, key2 = key, key
 
-                if not (
-                    state[cls.scancode_from_name(key1)] or
-                    state[cls.scancode_from_name(key2)]
-                ):
+                if not (state[cls.scancode_from_name(key1)] or state[cls.scancode_from_name(key2)]):
                     return False
         return True
 
@@ -397,7 +395,7 @@ class Input:
         The current position of the mouse, in screen-coordinates.
 
         Returns:
-            Vector: A Vector representing position.
+            A Vector representing position.
         """
         x_window, y_window = c_int(0), c_int(0)
         sdl2.SDL_GetMouseState(ctypes.byref(x_window), ctypes.byref(y_window))
@@ -405,9 +403,9 @@ class Input:
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
         if Display.has_x_border():
-            x_window.value = Math.clamp(x_window.value, size, Display.window_size.x - size)
+            x_window.value = math.floor(Math.clamp(x_window.value, size, Display.window_size.x - size))
         elif Display.has_y_border():
-            y_window.value = Math.clamp(y_window.value, size, Display.window_size.y - size)
+            y_window.value = math.floor(Math.clamp(y_window.value, size, Display.window_size.y - size))
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
         return Vector(x_render.value, y_render.value)
@@ -416,6 +414,7 @@ class Input:
     def get_mouse_abs_pos() -> Vector:
         """
         The current absolute position of the mouse. ie. screen coordinates.
+
         Returns:
             A Vector representing position.
         """
@@ -424,8 +423,14 @@ class Input:
         return Vector(x_window.value, y_window.value)
 
     @staticmethod
-    def set_mouse_pos(v: Vector):
-        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v.x), c_int(v.y))
+    def set_mouse_pos(v: Vector | tuple[float, float]):
+        """
+        Sets the position of the mouse.
+
+        Args:
+            v: The position to set the mouse to.
+        """
+        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v[0]), c_int(v[1]))
 
     @classmethod
     def mouse_is_visible(cls) -> bool:
@@ -449,40 +454,47 @@ class Input:
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @staticmethod
-    def pt_in_poly(pt: Vector, verts: list[Vector]) -> bool:
+    def pt_in_poly(pt: Vector | tuple[float, float], verts: list[Vector | tuple[float, float]]) -> bool:
         """
         Checks if a point is inside a polygon.
 
         Args:
-            pt (Vector): The point to check.
-            verts (list[Vector]): The polygon representation as a list of Vectors (vertices)
+            pt: The point to check.
+            verts: The polygon representation as a list of Vector | tuple[float, float]s (vertices)
 
         Returns:
             bool: Whether the point is inside the polygon.
         """
         last, now, odd = verts[-1], verts[0], False
         for now in verts:
-            if ((now.y > pt.y) != (last.y > pt.y)) and \
-                (pt.x < (last.x - now.x) * (pt.y - now.y) / (last.y - now.y) + now.x):
+            if ((now[1] > pt[1]) != (last[1] > pt[1])) and \
+                (pt[0] < (last[0] - now[0]) * (pt[1] - now[1]) / (last[1] - now[1]) + now[0]):
                 odd = not odd
             last = now
 
         return odd
 
     @classmethod
-    def mouse_in(cls, center: Vector, dims: Vector = Vector(1, 1), angle: float = 0) -> bool:
+    def mouse_in(
+        cls,
+        center: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float] = (1, 1),
+        angle: float = 0
+    ) -> bool:
         """
         Checks if the mouse is inside a rectangle defined by its center
         and dimensions
 
         Args:
             center: The center of the rectangle.
-            dims: The dimensions of the rectangle. Defaults to Vector(1, 1).
+            dims: The dimensions of the rectangle. Defaults to (1, 1).
             angle: The angle of the rectangle in degrees. Defaults to 0.
 
         Returns:
-            bool: Whether or not the mouse is in the defined rectangle.
+            bool: Whether the mouse is in the defined rectangle.
         """
+        center = Vector.create(center)
+        dims = Vector.create(dims)
 
         mo = Input.get_mouse_pos()  # mouse
 

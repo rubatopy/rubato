@@ -6,7 +6,7 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, raise_operator_error
+from . import Math, SideError, raise_operator_error, deprecated
 
 
 @cython.cclass
@@ -36,7 +36,7 @@ class Vector:
     def magnitude(self, value: float | int):
         if self.x == self.y == 0:
             return
-        ratio = value * math.sqrt((self.x * self.x + self.y * self.y)**-1)
+        ratio = value / math.sqrt(self.x * self.x + self.y * self.y)
         self.x *= ratio
         self.y *= ratio
 
@@ -225,25 +225,21 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = math.radians(-angle)
+        radians = math.radians(angle)
         c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
         return out
 
-    def rounded(self) -> Vector:
-        """Returns a new vector with values that are rounded."""
-        return Vector(round(self.x), round(self.y))
-
-    def to_tuple(self) -> tuple[int, int]:
+    def to_tuple(self) -> tuple[float, float]:
         """
         Returns the x and y coordinates of the vector as a tuple.
         """
         return self.x, self.y
 
     def tuple_int(self) -> tuple[int, int]:
-        """Returns a tuple with rounded values."""
-        return round(self.x), round(self.y)
+        """Returns a tuple with int-cast values."""
+        return int(self.x), int(self.y)
 
     def clone(self) -> Vector:
         """Returns a copy of the vector."""
@@ -355,7 +351,7 @@ class Vector:
         base = (other - self).normalized()
         return base
 
-    def distance_between(self, other: Vector) -> float:
+    def dist_to(self, other: Vector) -> float:
         """
         Finds the pythagorean distance between two vectors.
 
@@ -365,7 +361,11 @@ class Vector:
         Returns:
             float: The distance.
         """
-        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5
+        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
+
+    @deprecated(dist_to)
+    def distance_between(self, other: Vector) -> float:
+        return self.dist_to(other)
 
     @staticmethod
     def from_radial(magnitude: float | int, angle: float | int) -> Vector:
@@ -427,6 +427,43 @@ class Vector:
             Random vector inside the unit circle.
         """
         return cls.from_radial(1, random.random() * 360)
+
+    @classmethod
+    def poly(cls, num_sides: int, radius: float | int = 1) -> list[Vector]:
+        """
+        Returns a list of vectors representing a polygon with the given number of sides and radius.
+
+        Args:
+            num_sides (int): The number of sides of the polygon.
+            radius (float | int, optional): The radius of the polygon. Defaults to 1.
+
+        Raises:
+            SideError: If num_sides is less than 3.
+
+        Returns:
+            list[Vector]: The list of vectors representing the polygon.
+        """
+        if num_sides < 3:
+            raise SideError("Can't create a polygon with less than three sides.")
+
+        rotangle = 360 / num_sides
+        return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
+
+    @classmethod
+    def rect(cls, width: float | int, height: float | int) -> list[Vector]:
+        """
+        Returns a list of vectors representing a rectangle with the given width and height.
+
+        Args:
+            width (float | int): The width of the rectangle.
+            height (float | int): The height of the rectangle.
+
+        Returns:
+            list[Vector]: The list of vectors representing the rectangle.
+        """
+        w = width / 2
+        h = height / 2
+        return [Vector(-w, -h), Vector(w, -h), Vector(w, h), Vector(-w, h)]
 
     @staticmethod
     def zero():
@@ -661,7 +698,18 @@ class Vector:
     def __len__(self) -> int:
         return 2
 
+    @staticmethod
+    def create(obj: Vector | tuple[float, float]) -> Vector:
+        """
+        Makes a Vector from a Vector-like object.
 
-# Developer notes:
-# Angles are north degrees (clockwise from the +y-axis).
-# We do not use the built-in Math conversion functions, because they will just bloat our stack.
+        Args:
+            obj: The object to make a Vector from.
+        """
+        if isinstance(obj, Vector):
+            return obj
+        if isinstance(obj, (tuple, list)) and len(obj) == 2:
+            item_zero, item_one = obj[0], obj[1]
+            if isinstance(item_zero, (int, float)) and isinstance(item_one, (int, float)):
+                return Vector(item_zero, item_one)
+        raise TypeError(f"{obj} is not like a Vector.")

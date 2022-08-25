@@ -2,30 +2,93 @@
 
 ## [Unreleased]
 
+### Breaking Changes
+
+-   `Polygon`s MUST take in a list of vectors in clockwise order instead of counter-clockwise as was before. Generator methods
+    automatically reflect this change but if you are passing in your own lists, make sure to reflect this change.
+-   `component.true_z()` is now a function instead of a property method. This is to match with our new property method
+    convention.
+
+### Added
+
+-   `gameobject.remove_ind()` method to remove an individual component from a game object with a given index.
+    Use this to remove components from a game object which holds multiple instances of the same type of component.
+-   `component.true_pos()` and `component.true_rotation()` methods to get the position and rotation of a component in
+    world space. These functions correctly apply the gameobjects position and rotation to the component while respecting
+    offsets.
+-   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
+-   `color.clone()`.
+-   Functions that required Vectors before now accept appropriately-sized tuples.
+
+### Changed
+
+-   Modified the internal workings of `gameobject`s components data structure to more more flexibly handle inputs.
+    (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
+-   Renamed `vector.distance_between()` to `vector.dist_to()`.
+-   Renamed `polygon.translated_verts()` to `polygon.offset_verts()`.
+-   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
+-   Rewrote `Rectangle` from the ground-up.
+-   Window is now shown when begin is called. Not when init is called.
+
+### Removed
+
+-   `hitbox.get_obb()` because it wasn't working properly. Use `hitbox.get_aabb()` instead.
+-   `polygon.transformed_verts()` because it was unused in the engine.
+-   `camera.scale()`. Simply multiply by the zoom instead.
+-   `Surf`, moving its functionality to `Surface` and updating `Raster` and `Image` accordingly.
+
+### Fixed
+
+-   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
+    You can still replicate this functionality by passing `Hitbox` into the component getter.
+-   Offsets (including rotational) not working properly. Physics has also been refactored to handle scaling properly.
+-   `Rectangle` side getters and setters, which were not utilizing offsets properly. They now work with the AABB of the
+    rectangle.
+
+## [v3.1.0] - August 19, 2022
+
 ### Key Features
+
 -   Made `Vector` a C class, improving overall Rubato performance.
 -   Controller support!
+-   `Surface` support! This is a class that lets you easily draw to a screen. The drawing is cached and is therefore
+    very fast.
+-   Increased performance by using `Surface` instead of `Draw` (3-4x improvement).
 
 ### Breaking Changes
+
 -   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
     Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are implicitly cast to floats
     when used in Vector.
--   Rename `Vector.to_int()` to `Vector.rounded()`. It now rounds a vector instead of doing an int cast
+-   `Color.rgba32` is no longer a property is a method instead.
+-   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 
 ### Added
+
 -   `Group.all_gameobjects()` to get, recursively, all the game objects belonging to a group and its children.
 -   Multiple `Event` types for controller events. Controllers are registered automatically by Rubato for event listening.
 -   Assorted `Input` methods for querying the state of a controller.
+-   `Raster` renamed to `Surface`.
+-   `Raster` is now a component that holds a surface. It is analogous to `Image` for `Sprite`s.
+-   Polygon filling algorithm for convex shapes
+-   Line and circle/filling algorithms.
 
 ### Changed
--   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
+
 -   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
 -   Default drawing/debug colors from green to cyan.
+-   Made rendering of images faster
+-   `Polygon.generate_polygon` to `Vector.poly`. `generate_polygon` is deprecated and will be removed in a future update.
 
 ### Removed
+
 -   `Game.name`, which did not do anything... yikes.
+-   `Image.surface` is not accessible anymore. Instead use `Image.surf.surf`.
+-   `flipx` and `flipy` are no longer available. Instead, set the scale to be negative.
+-   `Vector.to_int()`. Use `Vector.floor()` or `Vector.round()` instead.
 
 ### Fixed
+
 -   Deeply nested groups not colliding with ancestors
 -   Hitboxes outside the boundaries not making use of QTrees properly
 
@@ -288,6 +351,7 @@
 -   Rigidbody implementation
 
 [unreleased]: https://github.com/rubatopy/rubato/
+[v3.1.0]: https://github.com/rubatopy/rubato/tree/v3.1.0
 [v3.0.0]: https://github.com/rubatopy/rubato/tree/v3.0.0
 [v2.2.0]: https://github.com/rubatopy/rubato/tree/v2.2.0
 [v2.1.1]: https://github.com/rubatopy/rubato/tree/v2.1.1

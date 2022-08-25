@@ -4,10 +4,11 @@ A game object is a basic element that holds components, postion, and z_index.
 from __future__ import annotations
 from typing import Optional, Type, TypeVar
 
-from . import Hitbox, Polygon, Circle, Rectangle, Component
-from ... import Game, Vector, Display, DuplicateComponentError, Draw, ImplementationError, Camera
+from . import Component
+from .. import Surface
+from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
 
-T = TypeVar("T")
+T = TypeVar("T", bound=Component)
 
 
 class GameObject:
@@ -16,16 +17,16 @@ class GameObject:
 
     Args:
         name: The name of the game object. Defaults to "".
-        pos: The position of the game object. Defaults to Vector(0, 0).
+        pos: The position of the game object. Defaults to (0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
-        debug: Whether or not to draw the center of the game object. Defaults to False.
+        debug: Whether to draw the center of the game object. Defaults to False.
     """
 
     def __init__(
         self,
         name: str = "",
-        pos: Vector = Vector(),
+        pos: Vector | tuple[float, float] = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
         debug: bool = False,
@@ -34,15 +35,20 @@ class GameObject:
         """
         The name of the game object. Will default to: "Game Object {number in group}"
         """
-        self.pos: Vector = pos
+        self.pos: Vector = Vector.create(pos)
         """The current position of the game object."""
         self.debug: bool = debug
-        """Whether or not to draw a debug crosshair for the game object."""
+        """Whether to draw a debug crosshair for the game object."""
         self.z_index: int = z_index
         """The z_index of the game object."""
         self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
         """The rotation of the game object in degrees."""
+        self._debug_cross: Surface = Surface(10, 10)
+        self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
+        self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
+        self._debug_cross.draw_line(Vector(0, 4), Vector(9, 4), Color.debug)
+        self._debug_cross.draw_line(Vector(0, 5), Vector(9, 5), Color.debug)
 
     def add(self, *components: Component) -> GameObject:
         """
@@ -52,7 +58,8 @@ class GameObject:
             components (Component): The component(s) to add.
 
         Raises:
-            DuplicateComponentError: Raised when there is already a component of the same type on the game object.
+            DuplicateComponentError: Raised when there is already a component of the same type in the game object.
+                Note that this error is only raised if the component type's 'singular' attribute is True.
 
         Returns:
             GameObject: This GameObject.
@@ -63,16 +70,13 @@ class GameObject:
             try:
                 if component.singular and comp_type in self._components:
                     raise DuplicateComponentError(
-                        f"There is already a component of type {comp_type} on the game object {self.name}"
+                        f"There is already a component of type '{comp_type}' in the game object '{self.name}'"
                     )
             except AttributeError as err:
                 raise ImplementationError(
-                    "The component does not have a singular attribute. You most likely overrode the"
+                    "The component does not have the attribute 'singular'. You most likely overrode the"
                     "__init__ method of the component without calling super().__init__()."
                 ) from err
-
-            if isinstance(component, Hitbox):
-                comp_type = Hitbox
 
             if comp_type not in self._components:
                 self._components[comp_type] = []
@@ -83,22 +87,37 @@ class GameObject:
 
     def remove(self, comp_type: Type[T]):
         """
-        Removes a component from the game object.
+        Removes the first instance of a component from the game object.
 
         Args:
             comp_type: The type of the component to remove.
 
         Raises:
-            Warning: The component was not in the game object and nothing was removed.
+            IndexError: The component was not in the game object and nothing was removed.
         """
-        if comp_type in self._components:
-            del self._components[comp_type][0]
-            if not self._components[comp_type]:
-                del self._components[comp_type]
-        else:
-            raise Warning(
-                f"The component of type {comp_type} is not in the game object {self.name} and was not removed."
-            )
+        self.remove_ind(comp_type, 0)
+
+    def remove_ind(self, comp_type: Type[T], ind: int):
+        """
+        Removes a component from the game object.
+
+        Args:
+            comp_type: The Type of component to remove
+            ind: The index of the component to remove.
+
+        Raises:
+            IndexError: The component was not in the game object and nothing was removed or the index was out of bounds.
+        """
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                if ind < len(val):
+                    del val[ind]
+                    return
+                else:
+                    ind -= len(val)
+        raise IndexError(
+            f"There are no components of type '{comp_type}' in game object '{self.name}' or the index is out of bounds."
+        )
 
     def remove_all(self, comp_type: Type[T]):
         """
@@ -108,14 +127,15 @@ class GameObject:
             comp_type: The type of the component to remove.
 
         Raises:
-            Warning: The components were not in the game object and nothing was removed.
+            IndexError: The components were not in the game object and nothing was removed.
         """
-        if comp_type in self._components:
-            del self._components[comp_type]
-        else:
-            raise Warning(
-                f"The components of type {comp_type} are not in the game object {self.name} and were not removed."
-            )
+        deleted = False
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                del val
+                deleted = True
+        if not deleted:
+            raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def get(self, comp_type: Type[T]) -> Optional[T]:
         """
@@ -127,10 +147,9 @@ class GameObject:
         Returns:
             The component if it was found or None if it wasn't.
         """
-        if comp_type in self._components:
-            return self._components.get(comp_type, [None])[0]
-        if comp_type in (Rectangle, Polygon, Circle):
-            return self._components.get(Hitbox, [None])[0]
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                return val[0]
         return None
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
@@ -144,11 +163,11 @@ class GameObject:
             A list containing all the components of that type. If no components were found, the
                 list is empty.
         """
-        if comp_type in self._components:
-            return self._components.get(comp_type, [])
-        if comp_type in (Rectangle, Polygon, Circle):
-            return self._components.get(Hitbox, [])
-        return []
+        fin = []
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                fin.extend(val)
+        return fin
 
     def delete(self):
         """
@@ -167,15 +186,9 @@ class GameObject:
                 comp.draw(camera)
 
         if self.debug or Game.debug:
-            scale = int(camera.scale(10))
+            self._debug_cross.rotation = self.rotation
 
-            rot_x = Vector(scale, 0).rotate(self.rotation)
-            rot_y = rot_x.perpendicular()
-
-            real_pos = camera.transform(self.pos)
-
-            Draw.queue_line(real_pos + rot_x, real_pos - rot_x, width=2 * max(1, Display.display_ratio.y))
-            Draw.queue_line(real_pos + rot_y, real_pos - rot_y, width=2 * max(1, Display.display_ratio.y))
+            Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
 
     def update(self):
         all_comps = list(self._components.values())
@@ -193,7 +206,11 @@ class GameObject:
         Clones the game object.
         """
         new_obj = GameObject(
-            name=f"{self.name} (clone)", pos=self.pos, rotation=self.rotation, z_index=self.z_index, debug=self.debug
+            name=f"{self.name} (clone)",
+            pos=self.pos.clone(),
+            rotation=self.rotation,
+            z_index=self.z_index,
+            debug=self.debug
         )
         for component in self._components.values():
             for comp in component:

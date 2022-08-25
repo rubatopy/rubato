@@ -40,7 +40,7 @@ class Game:
     _initialized = False
 
     _scenes: dict[str, Scene] = {}
-    _scene_id : int = 0
+    _scene_id: int = 0
     _current: str = ""
 
     def __init__(self) -> None:
@@ -48,7 +48,7 @@ class Game:
 
     @classmethod
     @property
-    def current(cls) -> Scene: # test: skip
+    def current(cls) -> Scene:  # test: skip
         """
         The current scene. (getonly)
 
@@ -58,7 +58,7 @@ class Game:
         return cls._scenes.get(cls._current)
 
     @classmethod
-    def set_scene(cls, scene_id: str): # test: skip
+    def set_scene(cls, scene_id: str):  # test: skip
         """
         Changes the current scene. Takes effect on the next frame.
 
@@ -68,7 +68,7 @@ class Game:
         cls._current = scene_id
 
     @classmethod
-    def _add(cls, scene: Scene): # test: skip
+    def _add(cls, scene: Scene):  # test: skip
         """
         Add a scene to the game. Also set the current scene if this is the first added scene.
 
@@ -79,7 +79,7 @@ class Game:
             IdError: The given scene id is already used.
         """
         if scene.name is None:
-            scene._id = "scene" + str(cls._scene_id) # pylint: disable=protected-access
+            scene._id = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
 
         if scene.name in cls._scenes:
             raise IdError(f"A scene with name '{scene.name}' has already been added.")
@@ -92,7 +92,7 @@ class Game:
 
     @classmethod
     @property
-    def camera(cls) -> Camera: # test: skip
+    def camera(cls) -> Camera:  # test: skip
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -108,7 +108,7 @@ class Game:
         return cls.current.camera
 
     @classmethod
-    def quit(cls): # test: skip
+    def quit(cls):  # test: skip
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
         cls.state = cls.STOPPED
@@ -118,7 +118,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls): # test: skip
+    def start(cls):  # test: skip
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -140,7 +140,7 @@ class Game:
             sys.stdout.flush()
 
     @classmethod
-    def loop(cls): # test: skip
+    def loop(cls):  # test: skip
         """
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
@@ -167,7 +167,7 @@ class Game:
             cls.update()
 
             curr = cls.current
-            if curr: # pylint: disable=using-constant-test
+            if curr:  # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
                     curr.private_paused_update()
@@ -212,11 +212,11 @@ class Game:
             Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
 
     @staticmethod
-    def update(): # test: skip
+    def update():  # test: skip
         """An overrideable method for updating the game. Called once per frame, before the current scene updates."""
         pass
 
     @staticmethod
-    def draw(): # test: skip
+    def draw():  # test: skip
         """An overrideable method for drawing the game. Called once per frame, after the current scene draws."""
         pass

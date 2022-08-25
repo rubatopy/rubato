@@ -1,9 +1,9 @@
 """The font module for text rendering"""
 from typing import Literal
-import sdl2, sdl2.sdlttf, sdl2.ext, sdl2.sdlgfx
+import sdl2, sdl2.sdlttf, sdl2.ext
 from importlib.resources import files
 
-from . import Color, Vector
+from . import Color
 
 
 class Font:
@@ -65,7 +65,7 @@ class Font:
     @size.setter
     def size(self, new: int):
         self._size = new
-        sdl2.sdlttf.TTF_SetFontSize(self._font, new)
+        sdl2.sdlttf.TTF_SetFontSize(self._font.get_ttf_font(), new)
 
     @property
     def color(self) -> Color:
@@ -77,15 +77,13 @@ class Font:
         self._color = new
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
 
-    def generate_surface(
-        self, text: str, align: Vector = Vector(0, 0), width: int | float = 0, rot: int | float = 0
-    ) -> sdl2.SDL_Surface:
+    def generate_surface(self, text: str, align: str, width: int | float = 0) -> sdl2.SDL_Surface:
         """
         Generate the surface containing the text.
 
         Args:
             text: The text to render.
-            align: The alignment to use. Defaults to Vector(0, 0).
+            align: The alignment to use.
             width: The maximum width to use. Defaults to -1.
             rot: The rotation of the text in degrees. Defaults to 0.
 
@@ -94,13 +92,10 @@ class Font:
             ValueError: The size of the text is too large for the font.
 
         Returns:
-            sdl2.SDL_Surface: The surface containing the text.
+            The surface containing the text.
         """
         try:
-
-            return sdl2.sdlgfx.rotozoomSurface(
-                self._font.render_text(text, width=None if width <= 0 else int(width), align=align), rot, 1, 1
-            )
+            return self._font.render_text(text, width=None if width <= 0 else int(width), align=align)
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e
         except OSError as e:
@@ -139,3 +134,9 @@ class Font:
             s |= Font._text_styles[style]
 
         sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
+
+    def clone(self):
+        """
+        Clones the font.
+        """
+        return Font(self._font_path, self._size, self._styles, self._color.clone())

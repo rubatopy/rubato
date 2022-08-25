@@ -4,11 +4,12 @@ This is the animation component module for game objects.
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from os import path, walk
+from warnings import warn
 import sdl2
 
 from .. import Component
 from ... import Sprite
-from .... import Vector, Time, get_path, Draw, Camera
+from .... import Vector, Time, get_path, Draw, Camera, deprecated_no_replacement
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -19,24 +20,24 @@ class Animation(Component):
     Animations are a series of images that update automatically in accordance with parameters.
 
     Args:
-        scale: The scale of the animation. Defaults to Vector(1, 1).
+        scale: The scale of the animation. Defaults to (1, 1).
         fps: The frames per second of the animation. Defaults to 24.
-        anti_aliasing: Whether to use anti-aliasing on the animation. Defaults to False.
+        af: Whether to use anisotropic filtering on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
-        offset: The offset of the animation from the game object. Defaults to Vector(0, 0).
+        offset: The offset of the animation from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
         z_index: The z-index of the animation. Defaults to 0.
     """
 
     def __init__(
         self,
-        scale: Vector = Vector(1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         fps: int = 24,
-        anti_aliasing: bool = False,
+        af: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        offset: Vector = Vector(),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -58,14 +59,14 @@ class Animation(Component):
         """The current frame of the animation."""
         self.loop: bool = True
         """Whether the animation should loop."""
-        self.scale: Vector = scale
+        self.scale: Vector = Vector.create(scale)
         """The scale of the animation."""
-        self.aa: bool = anti_aliasing
-        """Whether or not to enable anti aliasing."""
+        self.af: bool = af
+        """Whether to enable anisotropic filtering."""
         self.flipx: bool = flipx
-        """Whether or not to flip the animation along the x axis."""
+        """Whether to flip the animation along the x axis."""
         self.flipy: bool = flipy
-        """Whether or not to flip the animation along the y axis."""
+        """Whether to flip the animation along the y axis."""
 
         self._time_step = 1000 / self._fps
         self._time_count = 0
@@ -91,7 +92,7 @@ class Animation(Component):
         self.animation_frames_left = len(self._states[self.current_state]) - (1 + self._current_frame)
 
     @property
-    def image(self) -> sdl2.surface.SDL_Surface:
+    def image(self) -> sdl2.SDL_Surface:
         """The current SDL Surface holding the image."""
         return self._states[self.current_state][self.current_frame].image
 
@@ -99,8 +100,8 @@ class Animation(Component):
     def anim_frame(self) -> Sprite:
         """The current animation frame."""
         sprite = self._states[self.current_state][self.current_frame]
-        sprite.aa = self.aa
-        sprite.rotation = self.gameobj.rotation + self.rot_offset
+        sprite.af = self.af
+        sprite.rotation = self.true_rotation()
 
         calculated_scale = self.scale.clone()
         if self.flipx:
@@ -109,8 +110,6 @@ class Animation(Component):
             calculated_scale.y *= -1
 
         sprite.scale = calculated_scale
-        # pylint: disable=protected-access
-        sprite._update_rotozoom()
         return sprite
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
@@ -135,16 +134,18 @@ class Animation(Component):
             else:
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
 
-    def resize(self, new_size: Vector):
+    @deprecated_no_replacement
+    def resize(self, new_size: Vector):  # pylint: disable=unused-argument
         """
         Resize the Animation to a given size in pixels.
 
         Args:
             new_size: The new size of the Animation in pixels.
         """
-        for value in self._states.values():
-            for anim_frame in value:
-                anim_frame.resize(new_size)
+        warn("Resizing isn't supported anymore. Use the scale property instead.")
+        # for value in self._states.values():
+        #     for anim_frame in value:
+        #         anim_frame.resize(new_size)
 
     def reset(self):
         """Reset the animation state back to the first frame."""
@@ -201,7 +202,11 @@ class Animation(Component):
         self.add(state_name, ret_list)
 
     def add_spritesheet(
-        self, state_name: str, spritesheet: Spritesheet, from_coord: Vector = Vector(), to_coord: Vector = Vector()
+        self,
+        state_name: str,
+        spritesheet: Spritesheet,
+        from_coord: Vector | tuple[float, float] = (0, 0),
+        to_coord: Vector | tuple[float, float] = (0, 0)
     ):
         """
         Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.
@@ -209,8 +214,9 @@ class Animation(Component):
         Args:
             state_name: The key used to reference this state.
             spritesheet: The spritesheet to use.
-            from_coord: The grid coordinate of the first frame. Defaults to Vector().
-            to_coord: The grid coordinate of the last coord. Defaults to Vector().
+            from_coord: The grid coordinate of the first frame. Defaults to (0, 0).
+            to_coord: The grid coordinate of the last coord. Defaults to (0, 0).
+
         Example:
             .. code-block:: python
 
@@ -222,8 +228,8 @@ class Animation(Component):
                 # This will just load from the start to the end of the spritesheet.
         """
         state = []
-        x, y = from_coord.tuple_int()
-        to_x, to_y = to_coord.tuple_int()
+        x, y = int(from_coord[0]), int(from_coord[1])
+        to_x, to_y = int(to_coord[0]), int(to_coord[1])
         while True:
             state.append(spritesheet.get(x, y))
             if y == to_y and x == to_x:
@@ -237,12 +243,6 @@ class Animation(Component):
 
         self.add(state_name, state)
 
-    def update(self):
-        if self.hidden:
-            return
-
-        self.anim_frame.update()
-
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
         if self.hidden:
@@ -254,10 +254,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_sprite(
-            self.anim_frame, camera.transform((self.gameobj.pos + self.offset) - self.anim_frame.get_size() / 2),
-            self.true_z
-        )
+        Draw.queue_surf(self.anim_frame, self.true_pos(), self.true_z(), camera)
 
     def anim_tick(self):
         """An animation processing tick."""
@@ -280,12 +277,12 @@ class Animation(Component):
     def clone(self) -> Animation:
         """Clones the animation."""
         new = Animation(
-            scale=self.scale,
+            scale=self.scale.clone(),
             fps=self.fps,
-            anti_aliasing=self.aa,
+            af=self.af,
             flipx=self.flipx,
             flipy=self.flipy,
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )

@@ -17,7 +17,7 @@ class Button(Component):
         onrelease: The function to call when the button is released. Defaults to lambda: None.
         onhover: The function to call when the mouse enters the button. Defaults to lambda: None.
         onexit: The function to call when the mouse exits the button. Defaults to lambda: None.
-        offset: The offset of the button from the game object. Defaults to Vector(0, 0).
+        offset: The offset of the button from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the button from the game object. Defaults to 0.
         z_index: The z-index of the button. Defaults to 0.
     """
@@ -30,7 +30,7 @@ class Button(Component):
         onrelease: Callable | None = None,
         onhover: Callable | None = None,
         onexit: Callable | None = None,
-        offset: Vector = Vector(),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -72,7 +72,7 @@ class Button(Component):
 
     def clone(self) -> Button:
         return Button(
-            offset=self.offset,
+            offset=self.offset.clone(),
             rot_offset=self.rot_offset,
             width=self.dims.x,
             height=self.dims.y,

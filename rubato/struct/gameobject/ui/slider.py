@@ -7,6 +7,7 @@ from .. import Component
 from .... import Input, Vector, Math, Draw, Color, Camera
 
 
+# UNFINISHED
 class Slider(Component):
     """
     A Slider component. Still needs to be added to a :func:`GameObject <rubato.struct.game_object.GameObject>`.
@@ -117,9 +118,3 @@ class Slider(Component):
 
         super().draw(camera)
         self.button.draw(camera)
-
-
-# TODO: force direction to unit vector
-# TODO: figure out slider projection.
-# TODO: Ask Martin abt rotation offset.
-# TODO: add a clone function.

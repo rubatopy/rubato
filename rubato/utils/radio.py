@@ -15,7 +15,7 @@ from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, Vector, InitError
+from . import Input, Display, InitError
 
 
 @cython.cclass
@@ -92,7 +92,7 @@ class Radio:
                             "old_height": Display.window_size.y
                         }
                     )
-                    Display.window_size = Vector(
+                    Display.window_size = (
                         event.window.data1,
                         event.window.data2,
                     )

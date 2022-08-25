@@ -38,9 +38,9 @@ from .misc import world_mouse, wrap
 
 def init(
     name: str = "Untitled Rubato App",
-    res: Vector = Vector(1080, 1080),
-    window_size: Vector | None = None,
-    window_pos: Vector | None = None,
+    res: Vector | tuple[float, float] = (1080, 1080),
+    window_size: Vector | tuple[float, float] | None = None,
+    window_pos: Vector | tuple[float, float] | None = None,
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
@@ -52,7 +52,7 @@ def init(
 
     Args:
         name: The title that appears at the top of the window. Defaults to "Untitled Rubato App".
-        res: The pixel resolution of the game, cast to int Vector. Defaults to Vector(1080, 1080).
+        res: The pixel resolution of the game, cast to int Vector. Defaults to (1080, 1080).
         window_size: The size of the window, cast to int Vector. When not set, defaults to half the resolution.
             This is usually the sweet spot between performance and image quality.
         window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
@@ -62,11 +62,11 @@ def init(
             Defaults to "off".
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 60.
-        hidden: Whether or not the window should be hidden. CANNOT BE CHANGED AFTER INIT CALL. Defaults to False.
+        hidden: Whether the window should be hidden. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
-    Game._initialized = True # pylint: disable=protected-access
+    Game._initialized = True  # pylint: disable=protected-access
 
     Time.target_fps = target_fps
     Time.capped = Time.target_fps != 0
@@ -77,21 +77,17 @@ def init(
 
     flags = (
         sdl2.SDL_WINDOW_RESIZABLE | sdl2.SDL_WINDOW_ALLOW_HIGHDPI | sdl2.SDL_WINDOW_MOUSE_FOCUS |
-        sdl2.SDL_WINDOW_INPUT_FOCUS
+        sdl2.SDL_WINDOW_INPUT_FOCUS | sdl2.SDL_WINDOW_HIDDEN
     )
 
-    if hidden:
-        flags |= sdl2.SDL_WINDOW_HIDDEN
-    else:
-        flags |= sdl2.SDL_WINDOW_SHOWN
+    window_pos, change_pos = ((int(window_pos[0]), int(window_pos[1])), True) if window_pos else (None, False)
 
-    window_pos, change_pos = (window_pos, True) if window_pos else (None, False)
-    size = res//2 if not window_size else window_size
+    size = (res[0] // 2, res[1] // 2) if not window_size else window_size
 
-    Display.window = sdl2.ext.Window(name, size.tuple_int(), window_pos.tuple_int() if window_pos else None, flags)
+    Display.window = sdl2.ext.Window(name, (int(size[0]), int(size[1])), window_pos, flags)
 
     Display.renderer = sdl2.ext.Renderer(
-        Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=res.tuple_int()
+        Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=(int(res[0]), int(res[1]))
     )
 
     if change_pos:
@@ -105,6 +101,8 @@ def init(
     if fullscreen != "off":
         Display.set_fullscreen(True, fullscreen)
 
+    Display.hidden = hidden
+
     Game.debug_font = Font(
         size=int(Display.res.y) >> 5 if Display.res.y > 0 else 1, font="PressStart", color=Color.cyan
     )
@@ -117,7 +115,9 @@ def begin():
     Raises:
         RuntimeError: rubato has not been initialized before calling.
     """
-    if Game._initialized: # pylint: disable=protected-access
+    if Game._initialized:  # pylint: disable=protected-access
+        if not Display.hidden:
+            Display.show_window()
         Game.start()
     else:
         raise RuntimeError(

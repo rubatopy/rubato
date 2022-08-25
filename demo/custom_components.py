@@ -61,7 +61,7 @@ player.add(PlayerController("Bob"))
 main_scene.add(
     rb.wrap(
         poly := rb.Polygon(
-            rb.Polygon.generate_polygon(5, 50),
+            rb.Vector.poly(5, 50),
             color=rb.Color.green,
         ),
         pos=rb.Display.center + rb.Vector(-30),
@@ -69,8 +69,10 @@ main_scene.add(
     )
 )
 
+
 def update():
     poly.color = rb.Color.red if poly.contains_pt(rb.world_mouse()) else rb.Color.green
+
 
 rb.Game.update = update
 
