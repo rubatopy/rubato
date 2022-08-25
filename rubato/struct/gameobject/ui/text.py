@@ -4,7 +4,7 @@ from typing import Literal
 import sdl2, sdl2.ext
 
 from .. import Component
-from .... import Display, Vector, VectorLike, Color, Font, Draw, Camera
+from .... import Display, Vector, Color, Font, Draw, Camera
 
 
 class Text(Component):
@@ -29,9 +29,9 @@ class Text(Component):
         text: str = "",
         font: Font = Font(),
         justify: Literal["left", "center", "right"] = "left",
-        anchor: VectorLike = (0, 0),
+        anchor: Vector | tuple[float, float] = (0, 0),
         width: int = 0,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):

@@ -6,7 +6,7 @@ from typing import Optional, Type, TypeVar
 
 from . import Component
 from .. import Surface
-from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color, VectorLike
+from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
 
 T = TypeVar("T", bound=Component)
 
@@ -26,7 +26,7 @@ class GameObject:
     def __init__(
         self,
         name: str = "",
-        pos: VectorLike = (0, 0),
+        pos: Vector | tuple[float, float] = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
         debug: bool = False,

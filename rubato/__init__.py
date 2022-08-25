@@ -38,9 +38,9 @@ from .misc import world_mouse, wrap
 
 def init(
     name: str = "Untitled Rubato App",
-    res: VectorLike = (1080, 1080),
-    window_size: VectorLike | None = None,
-    window_pos: VectorLike | None = None,
+    res: Vector | tuple[float, float] = (1080, 1080),
+    window_size: Vector | tuple[float, float] | None = None,
+    window_pos: Vector | tuple[float, float] | None = None,
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,

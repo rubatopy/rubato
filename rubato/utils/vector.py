@@ -699,7 +699,7 @@ class Vector:
         return 2
 
     @staticmethod
-    def create(obj: VectorLike) -> Vector:
+    def create(obj: Vector | tuple[float, float]) -> Vector:
         """
         Makes a Vector from a Vector-like object.
 
@@ -713,11 +713,3 @@ class Vector:
             if isinstance(item_zero, (int, float)) and isinstance(item_one, (int, float)):
                 return Vector(item_zero, item_one)
         raise TypeError(f"{obj} is not like a Vector.")
-
-
-VectorLike = Vector | tuple[float, float] | list[float, float]
-"""A type alias for Vector-like objects"""
-
-# Developer notes:
-# Angles are north degrees (clockwise from the +y-axis).
-# We do not use the built-in Math conversion functions, because they will just bloat our stack.

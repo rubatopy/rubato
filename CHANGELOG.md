@@ -18,7 +18,7 @@
     offsets.
 -   `Vector.poly()` and `Vector.rect()` methods to generate lists of vertices for regular polygons and rectangles.
 -   `color.clone()`.
--   Functions that required Vectors before now accept appropriately-sized lists and tuples.
+-   Functions that required Vectors before now accept appropriately-sized tuples.
 
 ### Changed
 
@@ -33,6 +33,7 @@
 
 -   `hitbox.get_obb()` because it wasn't working properly. Use `hitbox.get_aabb()` instead.
 -   `polygon.transformed_verts()` because it was unused in the engine.
+-   `camera.scale()`. Simply multiply by the zoom instead.
 
 ### Fixed
 

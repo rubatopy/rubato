@@ -6,7 +6,7 @@ import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math, InitError, Surf, Camera, VectorLike
+from . import Vector, Color, Font, Display, Math, InitError, Surf, Camera
 
 
 @cython.cclass
@@ -67,7 +67,7 @@ class Draw:
         cls._queue.clear()
 
     @classmethod
-    def queue_point(cls, pos: VectorLike, color: Color = Color.cyan, z_index: int = Math.INF):
+    def queue_point(cls, pos: Vector | tuple[float, float], color: Color = Color.cyan, z_index: int = Math.INF):
         """
         Draw a point onto the renderer at the end of the frame.
 
@@ -79,7 +79,7 @@ class Draw:
         cls.push(z_index, lambda: cls.point(pos, color))
 
     @staticmethod
-    def point(pos: VectorLike, color: Color = Color.cyan):
+    def point(pos: Vector | tuple[float, float], color: Color = Color.cyan):
         """
         Draw a point onto the renderer immediately.
 
@@ -92,8 +92,8 @@ class Draw:
     @classmethod
     def queue_line(
         cls,
-        p1: VectorLike,
-        p2: VectorLike,
+        p1: Vector | tuple[float, float],
+        p2: Vector | tuple[float, float],
         color: Color = Color.cyan,
         width: int | float = 1,
         z_index: int = Math.INF
@@ -111,7 +111,12 @@ class Draw:
         cls.push(z_index, lambda: cls.line(p1, p2, color, width))
 
     @staticmethod
-    def line(p1: VectorLike, p2: VectorLike, color: Color = Color.cyan, width: int | float = 1):
+    def line(
+        p1: Vector | tuple[float, float],
+        p2: Vector | tuple[float, float],
+        color: Color = Color.cyan,
+        width: int | float = 1
+    ):
         """
         Draw a line onto the renderer immediately.
 
@@ -129,7 +134,7 @@ class Draw:
     @classmethod
     def queue_rect(
         cls,
-        center: VectorLike,
+        center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
         border: Color = Color.clear,
@@ -155,7 +160,7 @@ class Draw:
 
     @staticmethod
     def rect(
-        center: VectorLike,
+        center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
         border: Color = Color.clear,
@@ -184,7 +189,7 @@ class Draw:
     @classmethod
     def queue_circle(
         cls,
-        center: VectorLike,
+        center: Vector | tuple[float, float],
         radius: int = 4,
         border: Color = Color.clear,
         border_thickness: int | float = 1,
@@ -206,7 +211,7 @@ class Draw:
 
     @staticmethod
     def circle(
-        center: VectorLike,
+        center: Vector | tuple[float, float],
         radius: int | float = 4,
         border: Color = Color.clear,
         border_thickness: int | float = 1,
@@ -249,7 +254,7 @@ class Draw:
     @classmethod
     def queue_poly(
         cls,
-        points: list[VectorLike],
+        points: list[Vector | tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -269,7 +274,7 @@ class Draw:
 
     @staticmethod
     def poly(
-        points: list[VectorLike],
+        points: list[Vector | tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None
@@ -332,9 +337,9 @@ class Draw:
         cls,
         text: str,
         font: Font,
-        pos: VectorLike = (0, 0),
+        pos: Vector | tuple[float, float] = (0, 0),
         justify: str = "left",
-        align: VectorLike = (0, 0),
+        align: Vector | tuple[float, float] = (0, 0),
         width: int | float = 0,
         z_index: int = Math.INF
     ):
@@ -356,9 +361,9 @@ class Draw:
     def text(
         text: str,
         font: Font,
-        pos: VectorLike = (0, 0),
+        pos: Vector | tuple[float, float] = (0, 0),
         justify: str = "left",
-        align: VectorLike = (0, 0),
+        align: Vector | tuple[float, float] = (0, 0),
         width: int | float = 0
     ):
         """
@@ -380,9 +385,9 @@ class Draw:
     def queue_texture(
         cls,
         texture: sdl2.ext.Texture,
-        pos: VectorLike = (0, 0),
+        pos: Vector | tuple[float, float] = (0, 0),
         z_index: int = Math.INF,
-        scale: VectorLike = (1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
     ):
         """
@@ -400,8 +405,8 @@ class Draw:
     @staticmethod
     def texture(
         texture: sdl2.ext.Texture,
-        pos: VectorLike = (0, 0),
-        scale: VectorLike = (1, 1),
+        pos: Vector | tuple[float, float] = (0, 0),
+        scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
     ):
         """
@@ -416,7 +421,13 @@ class Draw:
         Display.update(texture, pos, scale, angle)
 
     @classmethod
-    def queue_surf(cls, surf: Surf, pos: VectorLike = (0, 0), z_index: int = Math.INF, camera: Camera | None = None):
+    def queue_surf(
+        cls,
+        surf: Surf,
+        pos: Vector | tuple[float, float] = (0, 0),
+        z_index: int = Math.INF,
+        camera: Camera | None = None
+    ):
         """
         Draws an surf onto the renderer at the end of the frame.
 
@@ -429,7 +440,7 @@ class Draw:
         cls.push(z_index, lambda: cls.surf(surf, pos, camera))
 
     @staticmethod
-    def surf(surf: Surf, pos: VectorLike = (0, 0), camera: Camera | None = None):
+    def surf(surf: Surf, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
         """
         Draws an surf onto the renderer immediately.
 

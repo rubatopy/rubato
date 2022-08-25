@@ -5,7 +5,7 @@ Items only render if their z-index is not more than that of the camera's.
 
 The current scene's camera can be accessed through :code:`Game.camera`.
 """
-from . import Vector, Display, Math, Radio, Events, VectorLike
+from . import Vector, Display, Math, Radio, Events
 
 
 class Camera:
@@ -18,7 +18,7 @@ class Camera:
         z_index: The z-index of the camera.
     """
 
-    def __init__(self, pos: VectorLike = None, zoom: float = 1, z_index: int = Math.INF):
+    def __init__(self, pos: Vector | tuple[float, float] = None, zoom: float = 1, z_index: int = Math.INF):
         self.pos: Vector = Vector.create(pos) if pos else Display.center
         """The current position of the camera. Center based i.e. where the camera is looking at."""
         self._zoom = zoom
@@ -35,7 +35,7 @@ class Camera:
         self._zoom = Math.clamp(new, 0.01, Math.INF)
         Radio.broadcast(Events.ZOOM, {"camera": self})
 
-    def transform(self, point: VectorLike) -> Vector:
+    def transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
         World space coordinates to Screen space coordinates.
 
@@ -50,7 +50,7 @@ class Camera:
             (point[1] - self.pos.y) * self.zoom + Display.center.y
         )
 
-    def i_transform(self, point: VectorLike) -> Vector:
+    def i_transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
         Inverts the transform process, screen space coordinates to world space coordinates.
 

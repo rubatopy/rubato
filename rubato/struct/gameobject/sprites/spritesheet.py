@@ -6,7 +6,7 @@ import os
 
 from . import Animation
 from ... import Sprite
-from .... import Vector, VectorLike, get_path, Display
+from .... import Vector, get_path, Display
 
 
 class Spritesheet:
@@ -23,7 +23,12 @@ class Spritesheet:
         IndexError: If user does not load the entire sheet.
     """
 
-    def __init__(self, rel_path: str, sprite_size: VectorLike = (32, 32), grid_size: VectorLike | None = None):
+    def __init__(
+        self,
+        rel_path: str,
+        sprite_size: Vector | tuple[float, float] = (32, 32),
+        grid_size: Vector | tuple[float, float] | None = None
+    ):
         self._sprite_size: tuple[int, int] = (int(sprite_size[0]), int(sprite_size[1]))
         self._sheet = Sprite(rel_path=rel_path)
         self._sprites: list[list[Sprite]] = []
@@ -105,7 +110,12 @@ class Spritesheet:
         return self.sprites[y][x].clone()
 
     @staticmethod
-    def from_folder(rel_path: str, sprite_size: VectorLike, default_state=None, recursive: bool = True) -> Animation:
+    def from_folder(
+        rel_path: str,
+        sprite_size: Vector | tuple[float, float],
+        default_state=None,
+        recursive: bool = True
+    ) -> Animation:
         """
         Creates an Animation from a folder of spritesheets.
         Directory must be comprised solely of spritesheets.

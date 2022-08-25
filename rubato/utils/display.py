@@ -9,7 +9,7 @@ from typing import Literal
 import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
-from . import Vector, get_path, InitError, Math, VectorLike
+from . import Vector, get_path, InitError, Math
 
 
 class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
@@ -25,7 +25,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
         return Vector(*cls.window.size)
 
     @window_size.setter
-    def window_size(cls, new: VectorLike):
+    def window_size(cls, new: Vector | tuple[float, float]):
         cls.window.size = (int(new[0]), int(new[1]))
 
     @property
@@ -33,7 +33,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
         return Vector(*cls.renderer.logical_size)
 
     @res.setter
-    def res(cls, new: VectorLike):
+    def res(cls, new: Vector | tuple[float, float]):
         cls.renderer.logical_size = (int(new[0]), int(new[1]))
 
     @property
@@ -41,7 +41,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
         return Vector(*cls.window.position)
 
     @window_pos.setter
-    def window_pos(cls, new: VectorLike):
+    def window_pos(cls, new: Vector | tuple[float, float]):
         cls.window.position = (int(new[0]), int(new[1]))
 
     @property
@@ -185,8 +185,8 @@ class Display(metaclass=_DisplayProperties):
     def update(
         cls,
         tx: sdl2.ext.Texture,
-        pos: VectorLike,
-        scale: VectorLike = (1, 1),
+        pos: Vector | tuple[float, float],
+        scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
         flipx: bool = False,
         flipy: bool = False,

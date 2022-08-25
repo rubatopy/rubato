@@ -5,7 +5,7 @@ from .path import *
 from .error import *
 from .rb_math import Math
 from .noise import Noise
-from .vector import Vector, VectorLike
+from .vector import Vector
 from .display import Display
 from .surf import Surf
 from .color import Color

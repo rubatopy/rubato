@@ -9,7 +9,7 @@ import sdl2
 
 from .. import Component
 from ... import Sprite
-from .... import Vector, Time, get_path, Draw, Camera, VectorLike, deprecated_no_replacement
+from .... import Vector, Time, get_path, Draw, Camera, deprecated_no_replacement
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -32,12 +32,12 @@ class Animation(Component):
 
     def __init__(
         self,
-        scale: VectorLike = (1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         fps: int = 24,
         af: bool = False,
         flipx: bool = False,
         flipy: bool = False,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -202,7 +202,11 @@ class Animation(Component):
         self.add(state_name, ret_list)
 
     def add_spritesheet(
-        self, state_name: str, spritesheet: Spritesheet, from_coord: VectorLike = (0, 0), to_coord: VectorLike = (0, 0)
+        self,
+        state_name: str,
+        spritesheet: Spritesheet,
+        from_coord: Vector | tuple[float, float] = (0, 0),
+        to_coord: Vector | tuple[float, float] = (0, 0)
     ):
         """
         Adds a state from a spritesheet. Will include all sprites from the from_coord to the to_coord.

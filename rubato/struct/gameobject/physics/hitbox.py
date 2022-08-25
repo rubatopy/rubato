@@ -4,7 +4,7 @@ from typing import Callable
 
 from .. import Component
 from ... import Surface
-from .... import Vector, VectorLike, Color, Game, Draw, Math, Camera, Input
+from .... import Vector, Color, Game, Draw, Math, Camera, Input
 
 
 class Hitbox(Component):
@@ -34,7 +34,7 @@ class Hitbox(Component):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -72,7 +72,7 @@ class Hitbox(Component):
         """
         pass
 
-    def contains_pt(self, pt: VectorLike) -> bool:  # pylint: disable=unused-argument
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:  # pylint: disable=unused-argument
         """
         Checks if a point is inside the Hitbox.
 
@@ -166,7 +166,7 @@ class Polygon(Hitbox):
 
     def __init__(
         self,
-        verts: list[VectorLike] = [],
+        verts: list[Vector | tuple[float, float]] = [],
         color: Color | None = None,
         tag: str = "",
         debug: bool = False,
@@ -174,7 +174,7 @@ class Polygon(Hitbox):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -258,7 +258,7 @@ class Polygon(Hitbox):
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_poly(verts, Color.debug, 2)
 
-    def contains_pt(self, pt: VectorLike) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
 
     def clone(self) -> Polygon:
@@ -308,7 +308,7 @@ class Rectangle(Hitbox):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -511,7 +511,7 @@ class Rectangle(Hitbox):
             self._image.draw_rect((0, 0), (w, h), fill=self.color)
         self._debug_image.draw_rect((0, 0), (w, h), Color.debug, 2)
 
-    def contains_pt(self, pt: VectorLike) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
 
     def clone(self) -> Rectangle:
@@ -559,7 +559,7 @@ class Circle(Hitbox):
         scale: int | float = 1,
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -616,7 +616,7 @@ class Circle(Hitbox):
             self._image.draw_circle(center, int_r, border=self.color, fill=self.color, aa=True)
         self._debug_image.draw_circle(center, int_r, Color.debug, 2)
 
-    def contains_pt(self, pt: VectorLike) -> bool:
+    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         r = self.true_radius()
         return (pt - self.true_pos()).mag_sq <= r * r
 

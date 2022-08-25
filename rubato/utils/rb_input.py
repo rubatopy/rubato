@@ -6,7 +6,7 @@ import math
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display, deprecated, Math, InitError, VectorLike
+from . import Vector, Display, deprecated, Math, InitError
 
 
 # THIS IS A STATIC CLASS
@@ -423,7 +423,7 @@ class Input:
         return Vector(x_window.value, y_window.value)
 
     @staticmethod
-    def set_mouse_pos(v: VectorLike):
+    def set_mouse_pos(v: Vector | tuple[float, float]):
         """
         Sets the position of the mouse.
 
@@ -454,13 +454,13 @@ class Input:
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @staticmethod
-    def pt_in_poly(pt: VectorLike, verts: list[VectorLike]) -> bool:
+    def pt_in_poly(pt: Vector | tuple[float, float], verts: list[Vector | tuple[float, float]]) -> bool:
         """
         Checks if a point is inside a polygon.
 
         Args:
             pt: The point to check.
-            verts: The polygon representation as a list of VectorLikes (vertices)
+            verts: The polygon representation as a list of Vector | tuple[float, float]s (vertices)
 
         Returns:
             bool: Whether the point is inside the polygon.
@@ -475,7 +475,12 @@ class Input:
         return odd
 
     @classmethod
-    def mouse_in(cls, center: VectorLike, dims: VectorLike = (1, 1), angle: float = 0) -> bool:
+    def mouse_in(
+        cls,
+        center: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float] = (1, 1),
+        angle: float = 0
+    ) -> bool:
         """
         Checks if the mouse is inside a rectangle defined by its center
         and dimensions

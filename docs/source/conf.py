@@ -76,8 +76,6 @@ autodoc_typehints_format = "short"
 autodoc_typehints = "signature"
 autodoc_preserve_defaults = True
 
-autodoc_type_aliases = {"VectorLike": "rubato.utils.vector.VectorLike"}
-
 autodoc_default_options = {
     "members": True,
     "inherited-members": True,
@@ -167,5 +165,4 @@ napoleon_preprocess_types = False
 napoleon_attr_annotations = True
 napoleon_type_aliases = {
     "Scene": "rubato.struct.scene.Scene",
-    "rubato.utils.vector.VectorLike": "VectorLike",
 }

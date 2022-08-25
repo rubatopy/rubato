@@ -2,7 +2,7 @@
 from __future__ import annotations
 import sdl2, sdl2.ext
 
-from . import Vector, Display, VectorLike
+from . import Vector, Display
 
 
 class Surf:
@@ -23,7 +23,7 @@ class Surf:
     def __init__(
         self,
         rotation: float = 0,
-        scale: VectorLike = (1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         af: bool = False,
     ):
         self.rotation: float = rotation

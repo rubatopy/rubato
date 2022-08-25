@@ -3,7 +3,7 @@ from __future__ import annotations
 import sdl2, sdl2.ext
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display, Surf, VectorLike
+from .. import Vector, Color, Display, Surf
 
 
 class Surface(Surf):
@@ -21,7 +21,7 @@ class Surface(Surf):
         self,
         width: int = 32,
         height: int = 32,
-        scale: VectorLike = (1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         rotation: float = 0,
         af: bool = False,
     ):
@@ -41,7 +41,7 @@ class Surface(Surf):
         c_draw.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
-    def draw_point(self, pos: VectorLike, color: Color = Color.black, blending: bool = True):
+    def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
 
@@ -56,8 +56,8 @@ class Surface(Surf):
 
     def draw_line(
         self,
-        start: VectorLike,
-        end: VectorLike,
+        start: Vector | tuple[float, float],
+        end: Vector | tuple[float, float],
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
@@ -83,8 +83,8 @@ class Surface(Surf):
 
     def draw_rect(
         self,
-        top_left: VectorLike,
-        dims: VectorLike,
+        top_left: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -120,7 +120,7 @@ class Surface(Surf):
 
     def draw_circle(
         self,
-        center: VectorLike,
+        center: Vector | tuple[float, float],
         radius: int,
         border: Color | None = None,
         border_thickness: int = 1,
@@ -158,7 +158,7 @@ class Surface(Surf):
 
     def draw_poly(
         self,
-        points: list[VectorLike],
+        points: list[Vector | tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -189,7 +189,7 @@ class Surface(Surf):
         )
         self.uptodate = False
 
-    def get_pixel(self, pos: VectorLike) -> Color:
+    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """
         Gets the color of a pixel on the surface.
 
@@ -205,7 +205,7 @@ class Surface(Surf):
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
-    def get_pixel_tuple(self, pos: VectorLike) -> tuple[int, int, int, int]:
+    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the surface.
 

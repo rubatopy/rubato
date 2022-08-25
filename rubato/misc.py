@@ -1,5 +1,5 @@
 """Miscellaneous helper functions for rubato developers."""
-from . import Vector, GameObject, Component, Game, Input, VectorLike
+from . import Vector, GameObject, Component, Game, Input
 
 
 def world_mouse() -> Vector:
@@ -15,7 +15,7 @@ def world_mouse() -> Vector:
 def wrap(
     comp: Component | list[Component],
     name: str = "",
-    pos: VectorLike = (0, 0),
+    pos: Vector | tuple[float, float] = (0, 0),
     rotation: float = 0,
     z_index: int = 0,
     debug: bool = False

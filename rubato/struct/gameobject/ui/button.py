@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Callable
 
 from .. import Component
-from .... import Input, Vector, VectorLike
+from .... import Input, Vector
 
 
 class Button(Component):
@@ -30,7 +30,7 @@ class Button(Component):
         onrelease: Callable | None = None,
         onhover: Callable | None = None,
         onexit: Callable | None = None,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):

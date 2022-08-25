@@ -2,7 +2,7 @@
 from __future__ import annotations
 from .. import Component, Rectangle
 from ... import Surface, Sprite
-from .... import Vector, VectorLike, Camera, Draw, Surf, Color
+from .... import Vector, Camera, Draw, Surf, Color
 
 
 class BaseImage(Component):
@@ -10,8 +10,8 @@ class BaseImage(Component):
 
     def __init__(
         self,
-        scale: VectorLike = (1, 1),
-        offset: VectorLike = (0, 0),
+        scale: Vector | tuple[float, float] = (1, 1),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         af: bool = False,
         z_index: int = 0,
@@ -109,8 +109,8 @@ class Raster(BaseImage):
         self,
         width: int = 32,
         height: int = 32,
-        scale: VectorLike = (1, 1),
-        offset: VectorLike = (0, 0),
+        scale: Vector | tuple[float, float] = (1, 1),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         af: bool = False,
         z_index: int = 0,
@@ -124,7 +124,7 @@ class Raster(BaseImage):
         """
         self.surf.clear()
 
-    def draw_point(self, pos: VectorLike, color: Color = Color.black, blending: bool = True):
+    def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the image.
 
@@ -137,8 +137,8 @@ class Raster(BaseImage):
 
     def draw_line(
         self,
-        start: VectorLike,
-        end: VectorLike,
+        start: Vector | tuple[float, float],
+        end: Vector | tuple[float, float],
         color: Color = Color.black,
         aa: bool = False,
         thickness: int = 1,
@@ -157,7 +157,13 @@ class Raster(BaseImage):
         """
         self.surf.draw_line(start, end, color, aa, thickness, blending)
 
-    def draw_rect(self, top_left: VectorLike, dims: VectorLike, border: Color = Color.black, fill: Color | None = None):
+    def draw_rect(
+        self,
+        top_left: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
+        border: Color = Color.black,
+        fill: Color | None = None
+    ):
         """
         Draws a rectangle on the image.
 
@@ -171,7 +177,7 @@ class Raster(BaseImage):
 
     def draw_circle(
         self,
-        center: VectorLike,
+        center: Vector | tuple[float, float],
         radius: int,
         border: Color | None = None,
         border_thickness: int = 1,
@@ -195,7 +201,7 @@ class Raster(BaseImage):
 
     def draw_poly(
         self,
-        points: list[VectorLike],
+        points: list[Vector | tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -224,7 +230,7 @@ class Raster(BaseImage):
         """
         return self.surf.get_size()
 
-    def get_pixel(self, pos: VectorLike) -> Color:
+    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """
         Gets the color of a pixel on the image.
 
@@ -236,7 +242,7 @@ class Raster(BaseImage):
         """
         return self.surf.get_pixel(pos)
 
-    def get_pixel_tuple(self, pos: VectorLike) -> tuple[int, int, int, int]:
+    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
         """
         Gets the color of a pixel on the image.
 
@@ -302,8 +308,8 @@ class Image(BaseImage):
     def __init__(
         self,
         rel_path: str = "",
-        scale: VectorLike = (1, 1),
-        offset: VectorLike = (0, 0),
+        scale: Vector | tuple[float, float] = (1, 1),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         af: bool = False,
         z_index: int = 0

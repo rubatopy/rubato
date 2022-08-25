@@ -5,7 +5,7 @@ have hitboxes and can collide and interact with other rigidbodies.
 from __future__ import annotations
 
 from .. import Component
-from .... import Vector, VectorLike, Time, Math
+from .... import Vector, Time, Math
 
 
 class RigidBody(Component):
@@ -31,15 +31,15 @@ class RigidBody(Component):
     def __init__(
         self,
         mass: float = 1,
-        gravity: VectorLike = (0, 0),
+        gravity: Vector | tuple[float, float] = (0, 0),
         friction: float = 0,
         static: bool = False,
         bounciness: float = 0,
-        max_speed: VectorLike = (Math.INF, Math.INF),
-        velocity: VectorLike = (0, 0),
+        max_speed: Vector | tuple[float, float] = (Math.INF, Math.INF),
+        velocity: Vector | tuple[float, float] = (0, 0),
         ang_vel: float = 0,
         pos_correction: float = 0.25,
-        offset: VectorLike = (0, 0),
+        offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0
     ):
@@ -105,7 +105,7 @@ class RigidBody(Component):
         self.gameobj.pos += self.velocity * Time.fixed_delta
         self.gameobj.rotation += self.ang_vel * Time.fixed_delta
 
-    def add_force(self, force: VectorLike):
+    def add_force(self, force: Vector | tuple[float, float]):
         """
         Applies a force to the Rigidbody.
 
@@ -117,7 +117,7 @@ class RigidBody(Component):
         self.velocity.x += accel[0] * Time.fixed_delta
         self.velocity.y += accel[1] * Time.fixed_delta
 
-    def add_impulse(self, impulse: VectorLike):
+    def add_impulse(self, impulse: Vector | tuple[float, float]):
         """
         Applies an impulse to the rigidbody.
 
@@ -127,7 +127,7 @@ class RigidBody(Component):
         self.velocity.x += impulse[0] * Time.fixed_delta
         self.velocity.y += impulse[1] * Time.fixed_delta
 
-    def add_cont_force(self, force: VectorLike, time: int):
+    def add_cont_force(self, force: Vector | tuple[float, float], time: int):
         """
         Add a continuous force to the Rigidbody.
         A continuous force is a force that is continuously applied over a time period.
@@ -143,7 +143,7 @@ class RigidBody(Component):
             self.add_force(force)
             Time.delayed_frames(1, lambda: self.add_cont_force(force, time - (1000 * Time.delta_time)))
 
-    def add_cont_impulse(self, impulse: VectorLike, time: int):
+    def add_cont_impulse(self, impulse: Vector | tuple[float, float], time: int):
         """
         Add a continuous impulse to the Rigidbody.
         A continuous impulse is a impulse that is continuously applied over a time period.

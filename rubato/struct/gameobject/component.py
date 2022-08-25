@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import cython
 
-from ... import Vector, Camera, VectorLike
+from ... import Vector, Camera
 
 if TYPE_CHECKING:
     from .. import GameObject
@@ -27,7 +27,7 @@ class Component:
         z_index: The vertical offset of where to draw the component. Defaults to 0.
     """
 
-    def __init__(self, offset: VectorLike = (0, 0), rot_offset: float = 0, z_index: int = 0):
+    def __init__(self, offset: Vector | tuple[float, float] = (0, 0), rot_offset: float = 0, z_index: int = 0):
         self.gameobj: GameObject | None = None
         """The game object this component is attached to."""
         self.singular: bool = False

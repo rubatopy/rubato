@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import sdl2, sdl2.ext
 
-from .. import get_path, Surf, Display, VectorLike
+from .. import get_path, Surf, Display, Vector
 
 
 class Sprite(Surf):
@@ -23,7 +23,7 @@ class Sprite(Surf):
         self,
         rel_path: str,
         rotation: float = 0,
-        scale: VectorLike = (1, 1),
+        scale: Vector | tuple[float, float] = (1, 1),
         af: bool = False,
     ):
         super().__init__(rotation=rotation, scale=scale, af=af)
