@@ -183,8 +183,7 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
         """
-        center = Vector.create(center)
-        x, y = width // 2, height // 2
+        x, y = width / 2, height / 2
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
         Draw.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
@@ -291,7 +290,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
-        x_coords, y_coords = zip(*((int(coord[0]), int(coord[1])) for coord in points))
+        x_coords, y_coords = zip(*((round(coord[0]), round(coord[1])) for coord in points))
 
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)
@@ -457,7 +456,9 @@ class Draw:
         if not surf.uptodate:
             surf.generate_tx()
 
-        pos = (pos[0] - surf.get_size()[0] / 2, pos[1] - surf.get_size()[1] / 2)
+        size = surf.get_size()
+
+        pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
 
         if camera is not None:
             pos = camera.transform(pos)
