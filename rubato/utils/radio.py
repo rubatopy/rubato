@@ -48,6 +48,8 @@ class Events:
     """Fired when the game is exiting"""
     RESIZE = "RESIZE"
     """Fired when the window is resized"""
+    RESET = "RESET"
+    """Fired when the game is reset"""
 
 
 # THIS IS A STATIC CLASS

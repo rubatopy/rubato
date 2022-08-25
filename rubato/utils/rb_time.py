@@ -146,6 +146,13 @@ class Time:
         heapq.heappush(cls._frame_queue, FramesTask(cls.frames + delay, func))
 
     @classmethod
+    def next_frame(cls, func: Callable):
+        """
+        Calls the function func at the next frame.
+        """
+        cls.delayed_frames(0, func)
+
+    @classmethod
     def scheduled_call(cls, interval: int, func: Callable):
         """
         Calls the function func at a scheduled interval.

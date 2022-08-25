@@ -4,6 +4,7 @@ from rubato import Vector as V
 
 width, height = 256, 256
 speed = 2
+reset = False
 
 rb.init(res=V(width, height), window_size=V(width, height) * 2)
 s = rb.Scene()
@@ -18,6 +19,7 @@ text = rb.Text("Hello World", font)
 
 
 def update():
+    global reset
     if rb.Input.key_pressed("q"):
         go.rotation -= speed
     elif rb.Input.key_pressed("e"):
@@ -32,6 +34,9 @@ def update():
         rect.rot_offset += speed
 
     text.text = f"go.rotation: {go.rotation:.2f}\nrect.offset.x: {rect.offset.x:.2f}\nrect.rot_offset: {rect.rot_offset:.2f}"
+
+    if rb.Input.key_pressed("escape"):
+        rb.init()
 
 
 s.add(go, rb.wrap(text, pos=V(50, 20)))

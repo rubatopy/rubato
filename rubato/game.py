@@ -215,12 +215,16 @@ class Game:
     def reset(cls):
         """
         Resets the game to its initial state.
+
+        Warning:
+            This cannot be called in a running game. If you wish to do so, call :func:`init() <rubato.init>`. This will
+            reset the game.
         """
         cls._initialized = False
-        sdl2.SDL_Quit()
         cls._scenes = {}
         cls._scene_id = 0
         cls._current = ""
+        sdl2.SDL_Quit()
 
     @staticmethod
     def update():  # test: skip

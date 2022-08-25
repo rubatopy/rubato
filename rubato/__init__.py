@@ -64,6 +64,20 @@ def init(
         physics_fps: The physics simulation's frames per second. Defaults to 60.
         hidden: Whether the window should be hidden. Defaults to False.
     """
+    if Game._initialized:  # pylint: disable=protected-access
+
+        def reseter():
+            Game.reset()
+            _init(name, res, window_size, window_pos, icon, fullscreen, target_fps, physics_fps, hidden)
+            if not Display.hidden:
+                Display.show_window()
+
+        Time.next_frame(0, reseter)
+    else:
+        _init(name, res, window_size, window_pos, icon, fullscreen, target_fps, physics_fps, hidden)
+
+
+def _init(name, res, window_size, window_pos, icon, fullscreen, target_fps, physics_fps, hidden):
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
     Game._initialized = True  # pylint: disable=protected-access
