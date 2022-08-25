@@ -1,4 +1,4 @@
-name: Publish Package
+name: Manually Publish to PyPi
 
 on:
     workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
                   pip install build twine
 
             - name: Build
-              run: python -m build
+              run: python -m build && rm -rf **/*.whl
 
             - name: Assign variable
               id: secret
