@@ -3,10 +3,10 @@ from __future__ import annotations
 import sdl2, sdl2.ext
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display, Surf
+from .. import Vector, Color, Display
 
 
-class Surface(Surf):
+class Surface:
     """
     A surface.
 
@@ -14,6 +14,7 @@ class Surface(Surf):
         width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         height: The height of the surface in pixels. Once set this cannot be changed. Defaults to 32.
         scale: The scale of the surface. Defaults to (1, 1).
+        rotation: The clockwise rotation of the sprite.
         af: Whether to use anisotropic filtering. Defaults to False.
     """
 
@@ -25,14 +26,92 @@ class Surface(Surf):
         rotation: float = 0,
         af: bool = False,
     ):
-        super().__init__(rotation, scale, af)
+        self.rotation: float = rotation
+        """The clockwise rotation of the sprite."""
+        self.scale: Vector = Vector.create(scale)
+        """The scale of the sprite."""
+        self._af = af
 
-        self.surf = sdl2.SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, Display.pixel_format).contents
+        self._surf: sdl2.SDL_Surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
+            0, width, height, 32, Display.pixel_format
+        ).contents
+
+        self.tx: sdl2.ext.Texture | None = None
+        """(READ ONLY) The generated sprite texture."""
+        self.uptodate: bool = False
+        """
+        Whether the texture is up to date with the surface.
+        Can be set to False to trigger a texture regeneration at the next draw cycle.
+        """
 
         self.width: int = width
         """(READ ONLY) The width of the surface in pixels."""
         self.height: int = height
         """(READ ONLY) The height of the surface in pixels."""
+
+    @property
+    def surf(self) -> sdl2.SDL_Surface | None:
+        """The surface that is rendered."""
+        return self._surf
+
+    @surf.setter
+    def surf(self, new: sdl2.SDL_Surface):
+        """
+        Sets the surface to be rendered.
+        """
+        self._surf = new
+        self.uptodate = False
+
+    @property
+    def af(self):
+        """Whether to use anisotropic filtering."""
+        return self._af
+
+    @af.setter
+    def af(self, new: bool):
+        self._af = new
+        if self.tx is not None:
+            self.tx.set_scale_mode("nearest" if not self.af else "linear")
+
+    def get_size(self) -> Vector:
+        """
+        Gets the current size of the image. (Scaled)
+
+        Returns:
+            The size of the image
+        """
+        return Vector(self.surf.w * self.scale.x, self.surf.h * self.scale.y)
+
+    def get_size_raw(self) -> Vector:
+        """
+        Gets the current size of the image. (Unscaled)
+
+        Returns:
+            The size of the image
+        """
+        return Vector(self.surf.w, self.surf.h)
+
+    def merge(self, other: Surface):
+        """
+        Merges another surface into this one.
+
+        Args:
+            other: The surface to merge into this one.
+        """
+        sdl2.SDL_BlitSurface(other.surf, None, self.surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
+        self.uptodate = False
+
+    def generate_tx(self):
+        """Regenerates the texture from the surface."""
+        self.tx = sdl2.ext.Texture(Display.renderer, self.surf)
+        self.uptodate = True
+
+    def delete(self):
+        """Deletes the sprite"""
+        self.tx.destroy()
+        sdl2.SDL_FreeSurface(self.surf)
+        self.surf = None
+        self.tx = None
 
     def clear(self):
         """

@@ -34,6 +34,7 @@
 -   `hitbox.get_obb()` because it wasn't working properly. Use `hitbox.get_aabb()` instead.
 -   `polygon.transformed_verts()` because it was unused in the engine.
 -   `camera.scale()`. Simply multiply by the zoom instead.
+-   `Surf` all the functionality is in `Surface` now.
 
 ### Fixed
 

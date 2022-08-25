@@ -5,10 +5,11 @@ from __future__ import annotations
 
 import sdl2, sdl2.ext
 
-from .. import get_path, Surf, Display, Vector
+from . import Surface
+from .. import get_path, Display, Vector
 
 
-class Sprite(Surf):
+class Sprite(Surface):
     """
     A sprite is a class that handles rendering of images from your file system independent of Game Objects.
 

@@ -2,23 +2,35 @@
 from __future__ import annotations
 from .. import Component, Rectangle
 from ... import Surface, Sprite
-from .... import Vector, Camera, Draw, Surf, Color
+from .... import Vector, Camera, Draw, Color
 
 
-class BaseImage(Component):
-    """A base image component. Does nothing on its own. Hidden from the user."""
+class Raster(Component):
+    """
+    A raster is a component that contains a surface.
+    
+    Args:
+        width: The width of the Raster. Defaults to 32. 
+        height: The height of the Raster. Defaults to 32.
+        scale: The scale of the Raster. Defaults to (1, 1).
+        offset: The offset of the Raster. Defaults to (0, 0).
+        rot_offset: The rotation offset of the Raster. Defaults to 0.
+        af: Whether to use anisotropic filtering. Defaults to False.
+        z_index: The z-index of the Raster. Defaults to 0.
+    """
 
     def __init__(
         self,
+        width: int = 32,
+        height: int = 32,
         scale: Vector | tuple[float, float] = (1, 1),
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         af: bool = False,
         z_index: int = 0,
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
-        self.surf: Surf = Surf(rot_offset, scale, af)
-
+        super().__init__(offset, rot_offset, z_index)
+        self.surf: Surface = Surface(width, height, scale, rot_offset, af)
         self.singular = False
 
         self._go_rotation = 0
@@ -51,15 +63,6 @@ class BaseImage(Component):
         size = self.get_size()
         return Rectangle(offset=self.offset, width=size.x, height=size.y)
 
-    def get_size(self) -> Vector:
-        """
-        Gets the current size of the raster.
-
-        Returns:
-            The size of the raster
-        """
-        return self.surf.get_size()
-
     def merge(self, other: Raster | Image):
         """
         Merges the surface of another component into this one.
@@ -89,34 +92,6 @@ class BaseImage(Component):
     def delete(self):
         """Deletes the raster component"""
         self.surf.delete()
-
-
-class Raster(BaseImage):
-    """
-    A raster is a component that contains a surface.
-    
-    Args:
-        width: The width of the Raster. Defaults to 32. 
-        height: The height of the Raster. Defaults to 32.
-        scale: The scale of the Raster. Defaults to (1, 1).
-        offset: The offset of the Raster. Defaults to (0, 0).
-        rot_offset: The rotation offset of the Raster. Defaults to 0.
-        af: Whether to use anisotropic filtering. Defaults to False.
-        z_index: The z-index of the Raster. Defaults to 0.
-    """
-
-    def __init__(
-        self,
-        width: int = 32,
-        height: int = 32,
-        scale: Vector | tuple[float, float] = (1, 1),
-        offset: Vector | tuple[float, float] = (0, 0),
-        rot_offset: float = 0,
-        af: bool = False,
-        z_index: int = 0,
-    ):
-        super().__init__(scale, offset, rot_offset, af, z_index)
-        self.surf: Surface = Surface(width, height, scale, rot_offset, af)
 
     def clear(self):
         """
@@ -292,7 +267,7 @@ class Raster(BaseImage):
         return r
 
 
-class Image(BaseImage):
+class Image(Raster):
     """
     A component that handles Images.
 
@@ -314,7 +289,7 @@ class Image(BaseImage):
         af: bool = False,
         z_index: int = 0
     ):
-        super().__init__(scale, offset, rot_offset, af, z_index)
+        super().__init__(0, 0, scale, offset, rot_offset, af, z_index)
         self.surf: Sprite = Sprite(rel_path, scale=scale, rotation=rot_offset, af=af)
 
     def clone(self) -> Image:

@@ -1,12 +1,15 @@
 """A static draw class for drawing things directly to the renderer."""
 from __future__ import annotations
 from ctypes import c_int16
-from typing import Optional, Callable
+from typing import TYPE_CHECKING, Optional, Callable
 import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math, InitError, Surf, Camera
+from . import Vector, Color, Font, Display, Math, InitError, Camera
+
+if TYPE_CHECKING:
+    from ..struct import Surface
 
 
 @cython.cclass
@@ -423,7 +426,7 @@ class Draw:
     @classmethod
     def queue_surf(
         cls,
-        surf: Surf,
+        surf: Surface,
         pos: Vector | tuple[float, float] = (0, 0),
         z_index: int = Math.INF,
         camera: Camera | None = None
@@ -432,7 +435,7 @@ class Draw:
         Draws an surf onto the renderer at the end of the frame.
 
         Args:
-            surf: The surf to draw.
+            surf: The surface to draw.
             pos: The position to draw the surf at. Defaults to (0, 0).
             z_index: The z-index of the surf. Defaults to 0.
             camera: The camera to use. Set to None to ignore the camera. Defaults to None.
@@ -440,12 +443,12 @@ class Draw:
         cls.push(z_index, lambda: cls.surf(surf, pos, camera))
 
     @staticmethod
-    def surf(surf: Surf, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
+    def surf(surf: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
         """
         Draws an surf onto the renderer immediately.
 
         Args:
-            surf: The surf to draw.
+            surf: The surface to draw.
             pos: The position to draw the surf at. Defaults to (0, 0).
             camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
