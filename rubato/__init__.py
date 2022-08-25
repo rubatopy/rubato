@@ -72,7 +72,7 @@ def init(
             if not Display.hidden:
                 Display.show_window()
 
-        Time.next_frame(0, reseter)
+        Time.next_frame(reseter)
     else:
         _init(name, res, window_size, window_pos, icon, fullscreen, target_fps, physics_fps, hidden)
 
