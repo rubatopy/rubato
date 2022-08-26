@@ -148,12 +148,12 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     process.assert_called()
     assert process.call_count == 3
     assert run_count == 3
-    scene_mock.private_paused_update.assert_called_once()
-    scene_mock.private_update.assert_called_once()
-    scene_mock.private_fixed_update.assert_called()
-    assert scene_mock.private_fixed_update.call_count == 2
-    scene_mock.private_draw.assert_called()
-    assert scene_mock.private_draw.call_count == 2
+    scene_mock._paused_update.assert_called_once()
+    scene_mock._update.assert_called_once()
+    scene_mock._fixed_update.assert_called()
+    assert scene_mock._fixed_update.call_count == 2
+    scene_mock._draw.assert_called()
+    assert scene_mock._draw.call_count == 2
     clear.assert_called_once()
     dump.assert_called()
     assert dump.call_count == 3
