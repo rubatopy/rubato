@@ -9,8 +9,10 @@ rb.init(res=V(width, height), window_size=V(width, height) * 2)
 s = rb.Scene()
 
 rect = rb.Rectangle(width / 2, height / 2, rb.Color.blue, debug=True)
+rect2 = rb.Rectangle(width / 4, height / 4, rb.Color.red, debug=True, offset=rb.Vector(5,5), rot_offset=40)
 
 go = rb.wrap(rect, pos=rb.Display.center, debug=True, name="fatty")
+go.add(rect2)
 print(rect, go)
 
 font = rb.Font()
@@ -19,7 +21,10 @@ text = rb.Text("Hello World", font)
 
 
 def update():
-    if rb.Input.key_pressed("q"):
+    if rb.Input.key_pressed("h"):
+        go.hidden = not go.hidden
+        print(f"hidden is {go.hidden}")
+    elif rb.Input.key_pressed("q"):
         go.rotation -= speed
     elif rb.Input.key_pressed("e"):
         go.rotation += speed
