@@ -21,6 +21,7 @@ class GameObject:
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
         debug: Whether to draw the center of the game object. Defaults to False.
+        active: Whether the group is active or not. Defaults to True.
     """
 
     def __init__(
@@ -30,6 +31,7 @@ class GameObject:
         rotation: float = 0,
         z_index: int = 0,
         debug: bool = False,
+        active: bool = True,
     ):
         self.name: str = name
         """
@@ -46,6 +48,8 @@ class GameObject:
         """The rotation of the game object in degrees."""
         self.hidden: bool = False
         """Whether the game object (its components) will be drawn that frame. Keeps debug outline."""
+        self.active: bool = active
+        """Whether the group is active or not. Note: gets rid of debug outline as well as removing draw and update."""
         self._debug_cross: Surface = Surface(10, 10)
         self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
         self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
@@ -183,26 +187,29 @@ class GameObject:
                 comp.delete()
 
     def draw(self, camera: Camera):
-        if not self.hidden:
-            for comps in self._components.values():
-                for comp in comps:
-                    comp.draw(camera)
+        if self.active:
+            if not self.hidden:
+                for comps in self._components.values():
+                    for comp in comps:
+                        comp.draw(camera)
 
-        if self.debug or Game.debug:
-            self._debug_cross.rotation = self.rotation
+            if self.debug or Game.debug:
+                self._debug_cross.rotation = self.rotation
 
-            Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
+                Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
 
     def update(self):
-        all_comps = list(self._components.values())
-        for comps in all_comps:
-            for comp in comps:
-                comp.private_update()
+        if self.active:
+            all_comps = list(self._components.values())
+            for comps in all_comps:
+                for comp in comps:
+                    comp.private_update()
 
     def fixed_update(self):
-        for comps in self._components.values():
-            for comp in comps:
-                comp.fixed_update()
+        if self.active:
+            for comps in self._components.values():
+                for comp in comps:
+                    comp.fixed_update()
 
     def clone(self) -> GameObject:
         """
