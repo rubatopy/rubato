@@ -191,6 +191,8 @@ class GameObject:
             if not self.hidden:
                 for comps in self._components.values():
                     for comp in comps:
+                        if comp.hidden:
+                            continue
                         comp.draw(camera)
 
             if self.debug or Game.debug:

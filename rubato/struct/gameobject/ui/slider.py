@@ -113,8 +113,6 @@ class Slider(Component):
 
     def draw(self, camera: Camera):
         """The draw function for buttons."""
-        if self.hidden:
-            return
 
         super().draw(camera)
         self.button.draw(camera)

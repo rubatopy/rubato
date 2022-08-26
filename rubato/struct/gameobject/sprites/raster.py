@@ -73,15 +73,11 @@ class Raster(Component):
         self.surf.merge(other.surf)
 
     def update(self):
-        if self.hidden:
-            return
 
         if self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
 
     def draw(self, camera: Camera):
-        if self.hidden:
-            return
 
         if self.gameobj.rotation != self._go_rotation:
             self._go_rotation = self.gameobj.rotation
