@@ -219,4 +219,4 @@ class GameObject:
         return new_obj
 
     def __repr__(self):
-        return f"rubato.GameObject called {self.name} at {hex(id(self))}"
+        return f"{self.name} rubato.GameObject with {len(self.get_all(Component))} components at {hex(id(self))}"
