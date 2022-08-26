@@ -14,10 +14,10 @@ if TYPE_CHECKING:
 
 @cython.cclass
 class DrawTask:
-    priority: cython.int = cython.declare(cython.int, visibility="public")
-    func: Callable = cython.declare(object, visibility="public")
+    priority: cython.int = cython.declare(cython.int, visibility="public")  # type: ignore
+    func: Callable = cython.declare(object, visibility="public")  # type: ignore
 
-    def __init__(self, priority: cython.int, func: Callable):
+    def __init__(self, priority: cython.int, func: Callable):  # type: ignore
         self.priority = priority
         self.func = func
 
@@ -32,7 +32,8 @@ class Draw:
 
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
-        """Clears the renderer and draws the background of the frame.
+        """
+        Clears the renderer and draws the background of the frame.
 
         Args:
             background_color: The background color. Defaults to white.
@@ -256,7 +257,7 @@ class Draw:
     @classmethod
     def queue_poly(
         cls,
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -276,7 +277,7 @@ class Draw:
 
     @staticmethod
     def poly(
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None

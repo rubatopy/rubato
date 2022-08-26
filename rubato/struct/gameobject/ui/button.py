@@ -54,14 +54,10 @@ class Button(Component):
 
     def update(self):
         """The update function for buttons."""
-        if not self.hover and Input.mouse_in(
-            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rot_offset
-        ):
+        if not self.hover and Input.mouse_in(self.true_pos(), self.dims, self.true_rotation()):
             self.hover = True
             self.onhover()
-        elif self.hover and not Input.mouse_in(
-            self.gameobj.pos + self.offset, self.dims, self.gameobj.rotation + self.rot_offset
-        ):
+        elif self.hover and not Input.mouse_in(self.true_pos(), self.dims, self.true_rotation()):
             self.hover = False
             self.onexit()
 
@@ -76,8 +72,8 @@ class Button(Component):
         return Button(
             offset=self.offset.clone(),
             rot_offset=self.rot_offset,
-            width=self.dims.x,
-            height=self.dims.y,
+            width=round(self.dims.x),
+            height=round(self.dims.y),
             onclick=self.onclick,
             onrelease=self.onrelease,
             onhover=self.onhover,

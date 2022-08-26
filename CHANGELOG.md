@@ -50,6 +50,7 @@
 -   `Rectangle` side getters and setters, which were not utilizing offsets properly. They now work with the AABB of the
     rectangle.
 -   `gameobject.active` not functioning properly.
+-   Bug fixing from bugs found through pyright.
 
 ## [v3.1.0] - August 19, 2022
 

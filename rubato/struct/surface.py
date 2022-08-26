@@ -36,7 +36,7 @@ class Surface:
             0, width, height, 32, Display.pixel_format
         ).contents
 
-        self.tx: sdl2.ext.Texture | None = None
+        self.tx: sdl2.ext.Texture
         """(READ ONLY) The generated sprite texture."""
         self.uptodate: bool = False
         """
@@ -50,7 +50,7 @@ class Surface:
         """(READ ONLY) The height of the surface in pixels."""
 
     @property
-    def surf(self) -> sdl2.SDL_Surface | None:
+    def surf(self) -> sdl2.SDL_Surface:
         """The surface that is rendered."""
         return self._surf
 
@@ -70,7 +70,7 @@ class Surface:
     @af.setter
     def af(self, new: bool):
         self._af = new
-        if self.tx is not None:
+        if hasattr(self, "tx"):
             self.tx.set_scale_mode("nearest" if not self.af else "linear")
 
     def get_size(self) -> Vector:
@@ -110,8 +110,6 @@ class Surface:
         """Deletes the sprite"""
         self.tx.destroy()
         sdl2.SDL_FreeSurface(self.surf)
-        self.surf = None
-        self.tx = None
 
     def clear(self):
         """
@@ -237,7 +235,7 @@ class Surface:
 
     def draw_poly(
         self,
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -304,8 +302,8 @@ class Surface:
             color: The color to switch.
             new_color: The new color to switch to.
         """
-        for x in range(self.get_size().x):
-            for y in range(self.get_size().y):
+        for x in range(round(self.get_size().x)):
+            for y in range(round(self.get_size().y)):
                 if self.get_pixel(Vector(x, y)) == color:
                     new_color.a = self.get_pixel_tuple((x, y))[0]  # Preserve the alpha value.
                     self.draw_point(Vector(x, y), new_color)

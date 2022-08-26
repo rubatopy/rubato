@@ -48,7 +48,7 @@ class Game:
 
     @classmethod
     @property
-    def current(cls) -> Scene:  # test: skip
+    def current(cls) -> Scene | None:  # test: skip
         """
         The current scene. (getonly)
 
@@ -68,7 +68,7 @@ class Game:
         cls._current = scene_id
 
     @classmethod
-    def _add(cls, scene: Scene):  # test: skip
+    def _add(cls, scene: Scene, name: str | None) -> str:  # test: skip
         """
         Add a scene to the game. Also set the current scene if this is the first added scene.
 
@@ -78,21 +78,23 @@ class Game:
         Raises:
             IdError: The given scene id is already used.
         """
-        if scene.name is None:
-            scene._id = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
+        if name is None:
+            name = "scene" + str(cls._scene_id)
 
-        if scene.name in cls._scenes:
-            raise IdError(f"A scene with name '{scene.name}' has already been added.")
+        if name in cls._scenes:
+            raise IdError(f"A scene with name '{name}' has already been added.")
 
         if not cls._scenes:
-            cls.set_scene(scene.name)
+            cls.set_scene(name)
 
-        cls._scenes[scene.name] = scene
+        cls._scenes[name] = scene
         cls._scene_id += 1
+
+        return name
 
     @classmethod
     @property
-    def camera(cls) -> Camera:  # test: skip
+    def camera(cls) -> Camera | None:  # test: skip
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -105,7 +107,7 @@ class Game:
         Returns:
             Camera: The current scene's camera
         """
-        return cls.current.camera
+        return cls.current.camera if cls.current else None  # pylint: disable=using-constant-test
 
     @classmethod
     def quit(cls):  # test: skip
@@ -170,20 +172,19 @@ class Game:
             if curr:  # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
-                    curr.private_paused_update()
+                    curr._paused_update()  # pylint: disable=protected-access
                 else:
                     # normal update
-                    curr.private_update()
+                    curr._update()  # pylint: disable=protected-access
 
                     # fixed update
                     Time.physics_counter += Time.delta_time
 
                     while Time.physics_counter >= Time.fixed_delta:
-                        if cls.state != Game.PAUSED:
-                            curr.private_fixed_update()
+                        curr._fixed_update()  # pylint: disable=protected-access
                         Time.physics_counter -= Time.fixed_delta
 
-                curr.private_draw()
+                curr._draw()  # pylint: disable=protected-access
             else:
                 Draw.clear()
 

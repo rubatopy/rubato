@@ -135,7 +135,7 @@ def removed(other_func=None):
 
         return new_func
 
-    wrapper.__name__ = other_func.__name__
+    wrapper.__name__ = other_func.__name__ if other_func else "[removed function]"
     wrapper.__doc__ = other_func.__doc__
     wrapper.__dict__.update(other_func.__dict__)
     return wrapper

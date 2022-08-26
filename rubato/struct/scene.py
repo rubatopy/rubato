@@ -21,7 +21,7 @@ class Scene:
 
     def __init__(
         self,
-        name: str | None = None,
+        name: str = "",
         background_color: Color = Color.white,
         border_color: Color = Color.black,
     ):
@@ -35,21 +35,20 @@ class Scene:
         self.camera = Camera()
         """The camera of this scene."""
         self._ui_cam = Camera()
-        self._id: str | None = name
         self.started = False
         self.border_color = border_color
         """The color of the border of the window."""
         self.background_color = background_color
         """The color of the background of the window."""
 
-        Game._add(self)
+        self.__id = Game._add(self, name)
 
     @property
-    def name(self) -> str:
+    def name(self):
         """
         The name of this scene. Read-only.
         """
-        return self._id
+        return self.__id
 
     def switch(self):
         """
@@ -95,60 +94,40 @@ class Scene:
         """
         self.ui.delete(item)
 
-    def clone(self) -> Scene:
-        """
-        Clones this scene.
+    def _setup(self):
+        self.started = True
+        self.setup()
 
-        Warning:
-            This is a relatively expensive operation as it clones every group in the scene.
-        """
-        new_scene = Scene(
-            name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
-        )
-        new_scene.root = self.root.clone()
-        new_scene.ui = self.ui.clone()
+    def _update(self):
+        if not self.started:
+            self._setup()
 
-    def private_draw(self):
+        self.update()
+        self.root.update()
+        self.ui.update()
+
+    def _paused_update(self):
+        if not self.started:
+            self._setup()
+
+        self.paused_update()
+
+    def _fixed_update(self):
+        self.fixed_update()
+        self.root.fixed_update()
+        self.ui.fixed_update()
+
+    def _draw(self):
         Draw.clear(self.background_color, self.border_color)
         self.draw()
         self.root.draw(self.camera)
         self.ui.draw(self._ui_cam)
         Draw.dump()
 
-    def private_update(self):
-        if not self.started:
-            self.private_setup()
-
-        self.update()
-        self.root.update()
-        self.ui.update()
-
-    def private_paused_update(self):
-        if not self.started:
-            self.private_setup()
-
-        self.paused_update()
-
-    def private_fixed_update(self):
-        self.fixed_update()
-        self.root.fixed_update()
-        self.ui.fixed_update()
-
-    def private_setup(self):
-        self.started = True
-        self.setup()
-
     def setup(self):
         """
         The start loop for this scene. It is run before the first frame.
         Is empty be default and can be overriden.
-        """
-        pass
-
-    def draw(self):
-        """
-        The draw loop for this scene. It is run once every frame.
-        Is empty by default an can beoverridden.
         """
         pass
 
@@ -175,3 +154,25 @@ class Scene:
         Is empty by default an can be overridden.
         """
         pass
+
+    def draw(self):
+        """
+        The draw loop for this scene. It is run once every frame.
+        Is empty by default an can beoverridden.
+        """
+        pass
+
+    def clone(self) -> Scene:
+        """
+        Clones this scene.
+
+        Warning:
+            This is a relatively expensive operation as it clones every group in the scene.
+        """
+        new_scene = Scene(
+            name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
+        )
+        new_scene.root = self.root.clone()
+        new_scene.ui = self.ui.clone()
+
+        return new_scene

@@ -65,7 +65,7 @@ def test_simplify():
     assert Math.simplify(2, 4) == (1, 2)
 
     with pytest.raises(TypeError):
-        Math.simplify(1, "4")
+        Math.simplify(1, "4")  # type: ignore # We are testing the type error
 
 
 def test_gen_primes():

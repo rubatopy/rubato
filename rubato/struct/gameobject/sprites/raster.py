@@ -75,11 +75,15 @@ class Raster(Component):
         self.surf.merge(other.surf)
 
     def update(self):
+        if self.gameobj is None:
+            return
 
         if self._go_rotation != self.gameobj.rotation:
             self._go_rotation = self.gameobj.rotation
 
     def draw(self, camera: Camera):
+        if self.gameobj is None:
+            return
 
         if self.gameobj.rotation != self._go_rotation:
             self._go_rotation = self.gameobj.rotation
@@ -135,7 +139,9 @@ class Raster(Component):
         top_left: Vector | tuple[float, float],
         dims: Vector | tuple[float, float],
         border: Color = Color.black,
-        fill: Color | None = None
+        border_thickness: int = 1,
+        fill: Color | None = None,
+        blending: bool = True,
     ):
         """
         Draws a rectangle on the image.
@@ -144,9 +150,11 @@ class Raster(Component):
             top_left: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
             border: The border color of the rectangle. Defaults to black.
+            border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
+            blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_rect(top_left, dims, border, fill)
+        self.surf.draw_rect(top_left, dims, border, border_thickness, fill, blending)
 
     def draw_circle(
         self,
@@ -174,7 +182,7 @@ class Raster(Component):
 
     def draw_poly(
         self,
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,

@@ -65,21 +65,13 @@ class RigidBody(Component):
         self.singular: bool = True
 
         if mass == 0 or self.static:
-            self._inv_mass = 0
+            self.inv_mass: float = 0
+            """The inverse mass of the Rigidbody."""
         else:
-            self._inv_mass: float = 1 / mass
+            self.inv_mass: float = 1 / mass
 
         self.bounciness: float = bounciness
         """How bouncy the rigidbody is (usually a value between 0 and 1)."""
-
-    @property
-    def inv_mass(self) -> float:
-        """The inverse mass of the Rigidbody."""
-        return self._inv_mass
-
-    @inv_mass.setter
-    def inv_mass(self, new: float):
-        self._inv_mass = new
 
     @property
     def mass(self) -> float:
@@ -98,8 +90,11 @@ class RigidBody(Component):
 
     def physics(self):
         """Applies general kinematic laws to the rigidbody."""
+        if self.gameobj is None:
+            return
+
         self.velocity += self.gravity * Time.fixed_delta
-        self.velocity.clamp(-self.max_speed, self.max_speed)
+        self.velocity.clamp(-self.max_speed, self.max_speed)  # pylint: disable=invalid-unary-operand-type
 
         self.gameobj.pos += self.velocity * Time.fixed_delta
         self.gameobj.rotation += self.ang_vel * Time.fixed_delta
@@ -124,7 +119,7 @@ class RigidBody(Component):
         self.velocity.x += impulse[0] * Time.fixed_delta
         self.velocity.y += impulse[1] * Time.fixed_delta
 
-    def add_cont_force(self, force: Vector | tuple[float, float], time: int):
+    def add_cont_force(self, force: Vector | tuple[float, float], time: float):
         """
         Add a continuous force to the Rigidbody.
         A continuous force is a force that is continuously applied over a time period.
@@ -140,7 +135,7 @@ class RigidBody(Component):
             self.add_force(force)
             Time.delayed_frames(1, lambda: self.add_cont_force(force, time - (1000 * Time.delta_time)))
 
-    def add_cont_impulse(self, impulse: Vector | tuple[float, float], time: int):
+    def add_cont_impulse(self, impulse: Vector | tuple[float, float], time: float):
         """
         Add a continuous impulse to the Rigidbody.
         A continuous impulse is a impulse that is continuously applied over a time period.

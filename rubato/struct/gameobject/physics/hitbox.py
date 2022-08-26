@@ -57,7 +57,7 @@ class Hitbox(Component):
         """The tag of the hitbox (can be used to identify hitboxes in collision callbacks)"""
         self.colliding: set[Hitbox] = set()
         """An unordered set of hitboxes that the Hitbox is currently colliding with."""
-        self.color: Color = color
+        self.color: Color | None = color
         """The color of the hitbox."""
         self._image: Surface = Surface()
         self._debug_image: Surface = Surface()
@@ -66,7 +66,7 @@ class Hitbox(Component):
         self._old_rot_offset: float = self.rot_offset
         self._old_offset: Vector = self.offset.clone()
         self._old_scale: int | float = self.scale
-        self._old_color: Color = self.color.clone() if self.color is not None else None
+        self._old_color: Color | None = self.color.clone() if self.color is not None else None
 
     def regen(self):
         """
@@ -74,7 +74,7 @@ class Hitbox(Component):
         """
         return
 
-    def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:  # pylint: disable=unused-argument
+    def contains_pt(self, pt: Vector | tuple[float, float]):  # pylint: disable=unused-argument
         """
         Checks if a point is inside the Hitbox.
 
@@ -102,10 +102,13 @@ class Hitbox(Component):
                 The top left and bottom right corners of the bounding box as Vectors as a tuple.
                 (top left, bottom right)
         """
+        if self.gameobj is None:
+            return Vector(), Vector()
         true_pos = self.true_pos()
         return true_pos, true_pos
 
     def update(self):
+        reset = False
         if self.scale != self._old_scale:
             reset = True
             self.uptodate = False
@@ -167,7 +170,7 @@ class Polygon(Hitbox):
 
     def __init__(
         self,
-        verts: list[Vector | tuple[float, float]] = [],
+        verts: list[Vector] | list[tuple[float, float]] = [],
         color: Color | None = None,
         tag: str = "",
         debug: bool = False,
@@ -242,6 +245,8 @@ class Polygon(Hitbox):
         """
         Returns a list of the Polygon's vertices in world coordinates. Accounts for gameobject position and rotation.
         """
+        if self.gameobj is None:
+            return self.offset_verts()
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):
@@ -268,7 +273,7 @@ class Polygon(Hitbox):
         """Clones the Polygon"""
         return Polygon(
             verts=[v.clone() for v in self.verts],
-            color=self.color.clone(),
+            color=self.color.clone() if self.color is not None else None,
             tag=self.tag,
             debug=self.debug,
             trigger=self.trigger,
@@ -382,6 +387,8 @@ class Rectangle(Hitbox):
 
     @top_left.setter
     def top_left(self, new: Vector):
+        if self.gameobj is None:
+            raise Exception("Cannot set top_left without a gameobject.")
         self.gameobj.pos += new - self.get_aabb()[0]
 
     @property
@@ -395,6 +402,8 @@ class Rectangle(Hitbox):
 
     @bottom_left.setter
     def bottom_left(self, new: Vector):
+        if self.gameobj is None:
+            raise Exception("Cannot set bottom_left without a gameobject.")
         aabb = self.get_aabb()
         self.gameobj.pos += new - Vector(aabb[0].x, aabb[1].y)
 
@@ -409,6 +418,8 @@ class Rectangle(Hitbox):
 
     @top_right.setter
     def top_right(self, new: Vector):
+        if self.gameobj is None:
+            raise Exception("Cannot set top_right without a gameobject.")
         aabb = self.get_aabb()
         self.gameobj.pos += new - Vector(aabb[1].x, aabb[0].y)
 
@@ -422,6 +433,8 @@ class Rectangle(Hitbox):
 
     @bottom_right.setter
     def bottom_right(self, new: Vector):
+        if self.gameobj is None:
+            raise Exception("Cannot set bottom_right without a gameobject.")
         self.gameobj.pos += new - self.get_aabb()[1]
 
     @property
@@ -434,6 +447,8 @@ class Rectangle(Hitbox):
 
     @top.setter
     def top(self, new: float):
+        if self.gameobj is None:
+            raise Exception("Cannot set top without a gameobject.")
         self.gameobj.pos.y += new - self.get_aabb()[0].y
 
     @property
@@ -446,6 +461,8 @@ class Rectangle(Hitbox):
 
     @left.setter
     def left(self, new: float):
+        if self.gameobj is None:
+            raise Exception("Cannot set left without a gameobject.")
         self.gameobj.pos.x += new - self.get_aabb()[0].x
 
     @property
@@ -458,6 +475,8 @@ class Rectangle(Hitbox):
 
     @bottom.setter
     def bottom(self, new: float):
+        if self.gameobj is None:
+            raise Exception("Cannot set bottom without a gameobject.")
         self.gameobj.pos.y += new - self.get_aabb()[1].y
 
     @property
@@ -470,6 +489,8 @@ class Rectangle(Hitbox):
 
     @right.setter
     def right(self, new: float):
+        if self.gameobj is None:
+            raise Exception("Cannot set right without a gameobject.")
         self.gameobj.pos.x += new - self.get_aabb()[1].x
 
     def get_aabb(self) -> tuple[Vector, Vector]:
@@ -496,6 +517,8 @@ class Rectangle(Hitbox):
         """
         Returns a list of the Rectangle's vertices in world coordinates. Accounts for gameobject position and rotation.
         """
+        if self.gameobj is None:
+            return self.offset_verts()
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):
@@ -529,7 +552,7 @@ class Rectangle(Hitbox):
             scale=self.scale,
             on_collide=self.on_collide,
             on_exit=self.on_exit,
-            color=self.color.clone(),
+            color=self.color.clone() if self.color is not None else None,
             tag=self.tag,
             width=self.width,
             height=self.height,
@@ -638,7 +661,7 @@ class Circle(Hitbox):
             scale=self.scale,
             on_collide=self.on_collide,
             on_exit=self.on_exit,
-            color=self.color.clone(),
+            color=self.color.clone() if self.color is not None else None,
             tag=self.tag,
             radius=self.radius,
             z_index=self.z_index,

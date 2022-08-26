@@ -51,7 +51,7 @@ class Animation(Component):
         self._states: dict[str, list[Sprite]] = {}
         self._freeze: int = -1
 
-        self.default_state: str = None
+        self.default_state: str = ""
         """The key of the default state."""
         self.current_state: str = ""
         """The key of the current state."""
@@ -96,7 +96,7 @@ class Animation(Component):
     @property
     def image(self) -> sdl2.SDL_Surface:
         """The current SDL Surface holding the image."""
-        return self._states[self.current_state][self.current_frame].image
+        return self._states[self.current_state][self.current_frame].surf
 
     @property
     def anim_frame(self) -> Sprite:

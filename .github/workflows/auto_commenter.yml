@@ -22,8 +22,6 @@ jobs:
                         - [ ] Documentation is up to date
                         - [ ] Relevent tutorials are up to date
                         - [ ] Changelog is up to date
-                        - [ ] Test coverage is at 100%
-                        - [ ] All checks are passing
                         - [ ] That the new code actually works
 
                       Once all this is done, you can be sure that the PR is ready to be merged. 🎉

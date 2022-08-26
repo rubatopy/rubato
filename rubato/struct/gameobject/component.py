@@ -52,25 +52,31 @@ class Component:
 
     def true_z(self) -> int:
         """Returns the z_index of the component offset by its parent gameobject z_index."""
-        return self.z_index + self.gameobj.z_index
+        return self.z_index + (self.gameobj.z_index if self.gameobj else 0)
 
     def true_pos(self) -> Vector:
         """Returns the world position of the component."""
-        return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
+        if self.gameobj:
+            return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
+        return self.offset
 
     def true_rotation(self) -> float:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
-        return self.gameobj.rotation + self.rot_offset
+        return self.rot_offset + (self.gameobj.rotation if self.gameobj else 0)
 
-    def private_update(self):
+    def _setup(self):
+        self.started = True
+        self.setup()
+
+    def _update(self):
         if not self.started:
-            self.private_setup()
+            self._setup()
 
         self.update()
 
-    def private_setup(self):
-        self.started = True
-        self.setup()
+    def setup(self):
+        """The setup function template for a component subclass."""
+        pass
 
     def update(self):
         """The update function template for a component subclass."""
@@ -78,10 +84,6 @@ class Component:
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""
-        pass
-
-    def setup(self):
-        """The setup function template for a component subclass."""
         pass
 
     def fixed_update(self):
@@ -101,4 +103,7 @@ class Component:
         return new
 
     def __repr__(self):
-        return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
+        if self.gameobj is not None:
+            return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
+        else:
+            return f"{type(self).__name__} with no game object at {hex(id(self))}"

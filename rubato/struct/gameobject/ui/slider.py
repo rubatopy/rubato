@@ -6,6 +6,8 @@ from . import Button
 from .. import Component
 from .... import Input, Vector, Math, Draw, Color, Camera
 
+# pyright: reportOptionalMemberAccess=false, reportGeneralTypeIssues=false
+
 
 # UNFINISHED
 class Slider(Component):

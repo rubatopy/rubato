@@ -18,7 +18,7 @@ class Camera:
         z_index: The z-index of the camera.
     """
 
-    def __init__(self, pos: Vector | tuple[float, float] = None, zoom: float = 1, z_index: int = Math.INF):
+    def __init__(self, pos: Vector | tuple[float, float] | None = None, zoom: float = 1, z_index: int = Math.INF):
         self.pos: Vector = Vector.create(pos) if pos else Display.center
         """The current position of the camera. Center based i.e. where the camera is looking at."""
         self._zoom = zoom

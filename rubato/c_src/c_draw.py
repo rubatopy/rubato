@@ -1,13 +1,14 @@
 # distutils: language = c++
 # cython: language_level = 3
 """Loader for cdraw.cpp"""
-import cython
 from .. import Vector
+import cython
+from typing import Any
 if cython.compiled:
-    from cython.cimports.rubato.c_src import cdraw  # pyright: ignore
-    from cython.cimports.cpython import array  # pyright: ignore
+    from cython.cimports.rubato.c_src import cdraw  # type: ignore
+    from cython.cimports.cpython import array  # type: ignore
 else:
-    cdraw = None
+    cdraw: Any
     import array
 
 
@@ -75,7 +76,7 @@ def draw_poly(
     pixels: int,
     width: int,
     height: int,
-    points: list[Vector | tuple[float, float]],
+    points: list[Vector] | list[tuple[float, float]],
     border_color: int,
     fill_color: int,
     aa: bool = False,
@@ -94,8 +95,8 @@ def draw_poly(
         pixels,
         width,
         height,
-        vx.data.as_voidptr,
-        vy.data.as_voidptr,
+        vx.data.as_voidptr,  # type: ignore
+        vy.data.as_voidptr,  # type: ignore
         len(points),
         border_color,
         fill_color,
