@@ -15,16 +15,24 @@ go = rb.wrap(rect, pos=rb.Display.center, debug=True, name="fatty")
 go.add(rect2)
 print(rect, go)
 
+group = rb.Group()
+go2 = go.clone()
+go2.pos += rb.Vector.one() * 30
+group.add(go, go2)
+
 font = rb.Font()
 font.size = 10
 text = rb.Text("Hello World", font)
-
-
-def update():
-    if rb.Input.key_pressed("h"):
+def switch(data):
+    if data["key"] == "h":
         go.hidden = not go.hidden
-        print(f"hidden is {go.hidden}")
-    elif rb.Input.key_pressed("q"):
+    elif data["key"] == "i":
+        rect2.hidden = not rect2.hidden
+    elif data["key"] == "o":
+        group.hidden = not group.hidden
+rb.Radio.listen(rb.Events.KEYDOWN, switch)
+def update():
+    if rb.Input.key_pressed("q"):
         go.rotation -= speed
     elif rb.Input.key_pressed("e"):
         go.rotation += speed
@@ -40,7 +48,7 @@ def update():
     text.text = f"go.rotation: {go.rotation:.2f}\nrect.offset.x: {rect.offset.x:.2f}\nrect.rot_offset: {rect.rot_offset:.2f}"
 
 
-s.add(go, rb.wrap(text, pos=V(50, 20)))
+s.add(group, rb.wrap(text, pos=V(50, 20)))
 s.fixed_update = update
 
 rb.begin()
