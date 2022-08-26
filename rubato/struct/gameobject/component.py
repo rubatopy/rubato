@@ -62,23 +62,23 @@ class Component:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
         return self.gameobj.rotation + self.rot_offset
 
-    def draw(self, camera: Camera):
-        """The draw function template for a component subclass."""
-        pass
-
     def private_update(self):
         if not self.started:
             self.private_setup()
 
         self.update()
 
+    def private_setup(self):
+        self.started = True
+        self.setup()
+
     def update(self):
         """The update function template for a component subclass."""
         pass
 
-    def private_setup(self):
-        self.started = True
-        self.setup()
+    def draw(self, camera: Camera):
+        """The draw function template for a component subclass."""
+        pass
 
     def setup(self):
         """The setup function template for a component subclass."""

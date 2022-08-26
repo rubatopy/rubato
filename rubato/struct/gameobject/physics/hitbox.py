@@ -72,7 +72,7 @@ class Hitbox(Component):
         """
         Regenerates internal hitbox information.
         """
-        pass
+        return
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:  # pylint: disable=unused-argument
         """
@@ -84,7 +84,7 @@ class Hitbox(Component):
         Returns:
             Whether the point is inside the Hitbox.
         """
-        pass
+        return False
 
     def redraw(self):
         """
@@ -102,7 +102,8 @@ class Hitbox(Component):
                 The top left and bottom right corners of the bounding box as Vectors as a tuple.
                 (top left, bottom right)
         """
-        pass
+        true_pos = self.true_pos()
+        return true_pos, true_pos
 
     def update(self):
         if self.scale != self._old_scale:
