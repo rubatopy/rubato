@@ -217,3 +217,6 @@ class GameObject:
                 new_obj.add(comp.clone())
 
         return new_obj
+
+    def __repr__(self):
+        return f"{self.name} rubato.GameObject with {len(self.get_all(Component))} components at {hex(id(self))}"
