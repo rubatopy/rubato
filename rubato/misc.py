@@ -19,7 +19,7 @@ def wrap(
     comp: Component | list[Component],
     name: str = "",
     pos: Vector | tuple[float, float] = (0, 0),
-    rotation: float = 0,
+    rotation: float = 0,  # test: skip
     z_index: int = 0,
     debug: bool = False,
     active: bool = True,

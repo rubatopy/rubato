@@ -17,12 +17,12 @@ import os, sys
 
 # Sets the sdl path to the proper rubato sdl directory, from now on all sdl imports will be relative to this directory.
 if sys.platform.startswith("darwin"):
-    if os.uname().machine == "arm64":  # type: ignore
-        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/silicon")
+    if os.uname().machine == "arm64":  # type: ignore # test: skip
+        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/silicon")  # test: skip
     else:
-        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/intel")
+        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/intel")  # test: skip
 if sys.platform.startswith("win32"):
-    os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/windows")
+    os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/windows")  # test: skip
 
 simplefilter("ignore", UserWarning)
 
@@ -45,7 +45,7 @@ def init(
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
     physics_fps: int = Time.physics_fps,
-    hidden: bool = False,
+    hidden: bool = False  # test: skip
 ):
     """
     Initializes rubato.

@@ -8,27 +8,31 @@ pre-commit:
 	@make lint
 	@echo "Building Rubato..."
 	@make build-test >/dev/null
-	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests
+	@pytest --cov=rubato tests
 	@cd demo && ./_run_all.sh
 
 build-test: delete-build
 	@export CFLAGS=-DCYTHON_TRACE=1
 	@export TEST_MODE=1 && python setup.py build_ext --force --inplace --define CYTHON_TRACE
 
+quick-test:
+	@export TEST_MODE=1 && python setup.py build_ext --inplace --define CYTHON_TRACE
+	@pytest --cov=rubato tests
+
 test: build-test
-	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests
+	@pytest --cov=rubato tests
 
 test-rub: build-test
-	@pytest -m "rub" --cov=rubato --cov-report term-missing tests -s
+	@pytest -m "rub" --cov=rubato tests -s
 
 test-sdl: build-test
-	@pytest -m "sdl or rub" --cov=rubato --cov-report term-missing tests -s
+	@pytest -m "sdl or rub" --cov=rubato tests -s
 
 test-no-rub: build-test
-	@pytest -m "not rub" --cov=rubato --cov-report term-missing tests
+	@pytest -m "not rub" --cov=rubato tests
 
 test-no-sdl: build-test
-	@pytest -m "not sdl and not rub" --cov=rubato --cov-report term-missing tests -s
+	@pytest -m "not sdl and not rub" --cov=rubato tests -s
 
 test-indiv: build-test
 	@pytest tests -k "$(test)"

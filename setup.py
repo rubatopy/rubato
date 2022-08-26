@@ -41,6 +41,7 @@ setup(
                 "embedsignature": True,
                 "language_level": 3,
                 "linetrace": linetrace,
+                "emit_code_comments": True,
             },
         ),
     ]

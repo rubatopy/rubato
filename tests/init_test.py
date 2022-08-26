@@ -29,6 +29,7 @@ def test_begin_init(monkeypatch, rub):
     assert rubato.Game.state == rubato.Game.STOPPED
     loop = Mock()
     monkeypatch.setattr(rubato.Game, "start", loop)
+    rubato.Display.hidden = False
     rubato.begin()
     loop.assert_called_once()  # This code is reachable because of the monkeypatch
 
@@ -67,5 +68,6 @@ def test_init(monkeypatch):
         physics_fps=30,
         icon=str(files("rubato.static.png").joinpath("logo_filled.ico")),
         hidden=True,
+        fullscreen="desktop",
     )
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.ico")))

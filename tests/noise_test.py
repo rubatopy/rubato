@@ -1,6 +1,12 @@
 """Test the noise class"""
 import pytest
+from rubato.utils.error import InitError
 from rubato.utils.noise import Noise
+
+
+def test_init():
+    with pytest.raises(InitError):
+        Noise()
 
 
 @pytest.mark.parametrize(

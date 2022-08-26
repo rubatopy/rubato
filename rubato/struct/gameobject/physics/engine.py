@@ -72,7 +72,6 @@ class Engine:
         col.normal *= -1
 
         # RESOLUTION STEP
-
         contact_vel = rv.dot(col.normal)
 
         inv_inert = 1 / (inv_mass_a + inv_mass_b)

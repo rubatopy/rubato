@@ -59,7 +59,8 @@ class Time:
     _schedule_queue: list[ScheduledTask] = []
 
     delta_time: float = 0.001
-    fixed_delta: float = 0
+    """The number of seconds between the last frame and the current frame."""
+    fixed_delta: float = 0.1
     """The number of seconds since the last fixed update."""
     normal_delta: float = 0
     fps = 60

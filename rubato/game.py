@@ -74,6 +74,7 @@ class Game:
 
         Args:
             scene: The scene to add.
+            name: The name of the scene. If None, a unique name is generated.
 
         Raises:
             IdError: The given scene id is already used.
@@ -110,7 +111,7 @@ class Game:
         return cls.current.camera if cls.current else None  # pylint: disable=using-constant-test
 
     @classmethod
-    def quit(cls):  # test: skip
+    def quit(cls):
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
         cls.state = cls.STOPPED
@@ -120,7 +121,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls):  # test: skip
+    def start(cls):
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -142,7 +143,7 @@ class Game:
             sys.stdout.flush()
 
     @classmethod
-    def loop(cls):  # test: skip
+    def loop(cls):
         """
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
@@ -210,7 +211,7 @@ class Game:
                 sdl2.SDL_Delay(1)
 
             # clock the time the update call took
-            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
+            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable=comparison-with-callable
 
     @staticmethod
     def update():  # test: skip
