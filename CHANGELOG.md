@@ -20,7 +20,7 @@
 -   `color.clone()`.
 -   Functions that required Vectors before now accept appropriately-sized tuples.
 -   `Events.MOUSEWHEEL` and `Events.SCROLL` (which are the same), propagating mouse scroll events.
--   `GameObject`s and `Group`s can now be hidden. In order to make their components or gos respectively not draw.
+-   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
 -   `Component`s hidden properly implmented and does not stop update anymore.
 
