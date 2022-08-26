@@ -54,17 +54,17 @@ class Component:
 
     def true_pos(self) -> Vector:
         """Returns the world position of the component."""
-        return (self.gameobj.pos if self.gameobj else 0) + self.offset.rotate(
-            (self.gameobj.rotation if self.gameobj else 0)
-        )
+        if self.gameobj:
+            return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
+        return self.offset
 
     def true_rotation(self) -> float:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
-        return (self.gameobj.rotation if self.gameobj else 0) + self.rot_offset
+        return self.rot_offset + (self.gameobj.rotation if self.gameobj else 0)
 
-    def draw(self, camera: Camera):
-        """The draw function template for a component subclass."""
-        pass
+    def _setup(self):
+        self.started = True
+        self.setup()
 
     def _update(self):
         if not self.started:
@@ -80,12 +80,13 @@ class Component:
         self.started = True
         self.setup()
         
-    def draw(self, camera: Camera):
-        """The draw function template for a component subclass."""
-        pass
-
     def setup(self):
         """The setup function template for a component subclass."""
+        pass
+
+        
+    def draw(self, camera: Camera):
+        """The draw function template for a component subclass."""
         pass
 
     def fixed_update(self):

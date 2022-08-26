@@ -68,7 +68,7 @@ class Game:
         cls._current = scene_id
 
     @classmethod
-    def _add(cls, scene: Scene):  # test: skip
+    def _add(cls, scene: Scene, name: str | None) -> str:  # test: skip
         """
         Add a scene to the game. Also set the current scene if this is the first added scene.
 
@@ -81,14 +81,16 @@ class Game:
         if scene.name == "":
             scene.name = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
 
-        if scene.name in cls._scenes:
-            raise IdError(f"A scene with name '{scene.name}' has already been added.")
+        if name in cls._scenes:
+            raise IdError(f"A scene with name '{name}' has already been added.")
 
         if not cls._scenes:
-            cls.set_scene(scene.name)
+            cls.set_scene(name)
 
-        cls._scenes[scene.name] = scene
+        cls._scenes[name] = scene
         cls._scene_id += 1
+
+        return name
 
     @classmethod
     @property

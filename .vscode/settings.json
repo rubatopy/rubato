@@ -106,5 +106,6 @@
     "python.analysis.completeFunctionParens": true,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
-    "autoDocstring.customTemplatePath": "autodocstringtemplate.mustache"
+    "autoDocstring.customTemplatePath": "autodocstringtemplate.mustache",
+    "python.analysis.typeCheckingMode": "basic"
 }

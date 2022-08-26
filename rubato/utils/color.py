@@ -12,6 +12,8 @@ from . import Math, Display
 class Color:
     """
     An RGBA color.
+    Note that although the constructor accepts both integers and floats of any value,
+    they are clamped to the range 0 to 255 and int-cast.
 
     Args:
         r: The red value. Defaults to 0.
@@ -88,7 +90,7 @@ class Color:
         Returns:
             Color: The resultant color.
         """
-        return Color(self.r + amount, self.g + amount, self.b + amount, self.a)
+        return Color(min(self.r + amount, 255), min(self.g + amount, 255), min(self.b + amount, 255), self.a)
 
     def mix(self, other: Color, t: float = 0.5, mode: str = "mix") -> Color:
         """
@@ -106,10 +108,8 @@ class Color:
             Color: The resultant color.
         """
         if mode == "linear":
-            return Color(
-                (1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g, (1 - t) * self.b + t * other.b,
-                (1 - t) * self.a + t * other.a
-            )
+            return Color((1 - t) * self.r + t * other.r, (1 - t) * self.g + t * other.g, (1 - t) * self.b + t * other.b,
+                         (1 - t) * self.a + t * other.a)
         if mode == "blend":
             alpha_a = (self.a / 255) * (1 - t)
             a = 1 - (1 - alpha_a) * (1 - (other.a / 255))
