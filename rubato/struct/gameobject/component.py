@@ -76,15 +76,10 @@ class Component:
         """The update function template for a component subclass."""
         pass
 
-    def _setup(self):
-        self.started = True
-        self.setup()
-        
     def setup(self):
         """The setup function template for a component subclass."""
         pass
 
-        
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""
         pass
