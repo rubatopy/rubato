@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class Component:
     """
     A component adds functionality to the game object it is attached to. Note that this is a template class and should
-    not be used directly. Instead create another class and extend from this one.
+    not be used directly. Instead, create another class and extend from this one.
 
     Args:
         offset: The offset of the component from the game object. Defaults to (0, 0).
@@ -92,3 +92,6 @@ class Component:
         new = Component(offset=self.offset.clone(), rot_offset=self.rot_offset, z_index=self.z_index)
         new.singular = self.singular
         return new
+
+    def __repr__(self):
+        return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
