@@ -21,7 +21,7 @@ class Scene:
 
     def __init__(
         self,
-        name: str | None = None,
+        name: str = "",
         background_color: Color = Color.white,
         border_color: Color = Color.black,
     ):
@@ -35,7 +35,10 @@ class Scene:
         self.camera = Camera()
         """The camera of this scene."""
         self._ui_cam = Camera()
-        self._id: str | None = name
+        self.name: str = name if name is not None else ""
+        """
+        The name of this scene. Read-only.
+        """
         self.started = False
         self.border_color = border_color
         """The color of the border of the window."""
@@ -43,13 +46,6 @@ class Scene:
         """The color of the background of the window."""
 
         Game._add(self)
-
-    @property
-    def name(self) -> str:
-        """
-        The name of this scene. Read-only.
-        """
-        return self._id
 
     def switch(self):
         """
@@ -107,6 +103,8 @@ class Scene:
         )
         new_scene.root = self.root.clone()
         new_scene.ui = self.ui.clone()
+
+        return new_scene
 
     def private_draw(self):
         Draw.clear(self.background_color, self.border_color)

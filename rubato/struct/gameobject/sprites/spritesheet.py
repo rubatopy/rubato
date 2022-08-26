@@ -55,9 +55,6 @@ class Spritesheet:
 
                 sprite: Sprite = Sprite("")
                 sprite.surf = sub.contents
-                # pylint: disable=protected-access
-                sprite._original = sub.contents
-                sprite._changed = True
 
                 self._sprites[y // self._sprite_size[1]].append(sprite)
 

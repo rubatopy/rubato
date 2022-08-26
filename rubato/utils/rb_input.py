@@ -332,12 +332,12 @@ class Input:
     # MOUSE FUNCTIONS
 
     @classmethod
-    def mouse_state(cls) -> tuple[bool]:
+    def mouse_state(cls) -> tuple[bool, bool, bool, bool, bool]:
         """
         Checks which mouse buttons are pressed.
 
         Returns:
-            tuple[bool]: A tuple with 5 booleans representing the state of each
+            A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
         info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
@@ -376,7 +376,7 @@ class Input:
             (info & sdl2.SDL_BUTTON_RMASK) != 0,
             (info & sdl2.SDL_BUTTON_X1MASK) != 0,
             (info & sdl2.SDL_BUTTON_X2MASK) != 0,
-        )
+        )  # type: ignore
 
     @classmethod
     @deprecated(mouse_pressed)
@@ -430,7 +430,7 @@ class Input:
         Args:
             v: The position to set the mouse to.
         """
-        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v[0]), c_int(v[1]))
+        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(round(v[0])), c_int(round(v[1])))
 
     @classmethod
     def mouse_is_visible(cls) -> bool:
@@ -454,7 +454,7 @@ class Input:
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @staticmethod
-    def pt_in_poly(pt: Vector | tuple[float, float], verts: list[Vector | tuple[float, float]]) -> bool:
+    def pt_in_poly(pt: Vector | tuple[float, float], verts: list[Vector] | list[tuple[float, float]]) -> bool:
         """
         Checks if a point is inside a polygon.
 
@@ -503,7 +503,7 @@ class Input:
             rb = (center + dims / 2).ceil()  # right bottom
             return lt.x <= mo.x <= rb.x and lt.y <= mo.y <= rb.y
         else:
-            lt = (-dims / 2).rotate(angle) + center  # left top
+            lt = (-dims / 2).rotate(angle) + center  # left top # pylint: disable=invalid-unary-operand-type
             rt = (Vector(dims.x, -dims.y) / 2).rotate(angle) + center  # right top
             rb = (dims / 2).rotate(angle) + center  # right bottom
             lb = (Vector(-dims.x, dims.y) / 2).rotate(angle) + center  # left bottom

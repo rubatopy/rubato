@@ -10,7 +10,8 @@ s = rb.Scene()
 
 rect = rb.Rectangle(width / 2, height / 2, rb.Color.blue, debug=True)
 
-go = rb.wrap(rect, pos=rb.Display.center, debug=True)
+go = rb.wrap(rect, pos=rb.Display.center, debug=True, name="fatty")
+print(rect, go)
 
 font = rb.Font()
 font.size = 10

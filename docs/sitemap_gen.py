@@ -7,7 +7,7 @@ from os import walk, environ
 url = environ.get("URL", "https://rubato.app/")
 root = ET.Element("urlset", {"xmlns": "http://www.sitemaps.org/schemas/sitemap/0.9"})
 
-ignored_dirs = ["temp"]
+ignored_dirs = [PurePath("temp")]
 ignored_files = ["404.html"]
 
 for path, dirs, files in walk("."):

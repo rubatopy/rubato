@@ -103,9 +103,9 @@
     "editor.formatOnSave": true,
     "todo-tree.tree.showBadges": true,
     "todo-tree.filtering.excludeGlobs": ["**/node_modules", "**/static"],
-    "python.analysis.diagnosticMode": "workspace",
     "python.analysis.completeFunctionParens": true,
-    "python.analysis.autoImportCompletions": true,
     "python.analysis.importFormat": "relative",
-    "python.analysis.typeCheckingMode": "basic"
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "autoDocstring.customTemplatePath": "autodocstringtemplate.mustache"
 }

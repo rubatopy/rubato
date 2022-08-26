@@ -2,10 +2,15 @@
 requires = ["setuptools ~= 63.2", "wheel ~= 0.37", "Cython ~= 3.0.0a11"]
 build-backend = "setuptools.build_meta"
 
+[tool.pyright]
+ignore=["demo/**/*"]
+
 [tool.yapf]
 based_on_style = "google"
 COLUMN_LIMIT = 120
 DEDENT_CLOSING_BRACKETS = true
+COALESCE_BRACKETS = true
+JOIN_MULTIPLE_LINES = true
 
 [tool.coverage.run]
 plugins = ["Cython.Coverage"]

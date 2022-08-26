@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class Component:
     """
     A component adds functionality to the game object it is attached to. Note that this is a template class and should
-    not be used directly. Instead create another class and extend from this one.
+    not be used directly. Instead, create another class and extend from this one.
 
     Args:
         offset: The offset of the component from the game object. Defaults to (0, 0).
@@ -45,15 +45,17 @@ class Component:
 
     def true_z(self) -> int:
         """Returns the z_index of the component offset by its parent gameobject z_index."""
-        return self.z_index + self.gameobj.z_index
+        return self.z_index + (self.gameobj.z_index if self.gameobj else 0)
 
     def true_pos(self) -> Vector:
         """Returns the world position of the component."""
-        return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
+        return (self.gameobj.pos if self.gameobj else 0) + self.offset.rotate(
+            (self.gameobj.rotation if self.gameobj else 0)
+        )
 
     def true_rotation(self) -> float:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
-        return self.gameobj.rotation + self.rot_offset
+        return (self.gameobj.rotation if self.gameobj else 0) + self.rot_offset
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""
@@ -90,3 +92,9 @@ class Component:
         new = Component(offset=self.offset.clone(), rot_offset=self.rot_offset, z_index=self.z_index)
         new.singular = self.singular
         return new
+
+    def __repr__(self):
+        if self.gameobj is not None:
+            return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
+        else:
+            return f"{type(self).__name__} with no game object at {hex(id(self))}"

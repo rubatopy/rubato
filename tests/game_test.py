@@ -22,7 +22,7 @@ def test_state():
 
 def test_camera():
     Scene()
-    assert Game.camera == Game.current.camera
+    assert Game.camera == Game.current.camera  # type: ignore
 
 
 def test_init():

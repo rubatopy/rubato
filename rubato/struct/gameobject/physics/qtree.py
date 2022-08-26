@@ -7,9 +7,11 @@ import Cython
 from . import Hitbox, Engine
 from .... import Vector
 
+
 @Cython.cclass
 class QTree:
     """The Quadtree itself."""
+
     def __init__(self, hbs: list[list[Hitbox]]):
         self.bbs: list[tuple[Vector, Vector]] = []
 
@@ -90,9 +92,11 @@ class QTree:
 
         return tl, br
 
+
 @Cython.cclass
 class STree:
     """A Subtree."""
+
     def __init__(self, top_left: Vector, bottom_right: Vector):
         self.top_left: Vector = top_left
         self.bottom_right: Vector = bottom_right
@@ -101,10 +105,10 @@ class STree:
 
         self.has_children: bool = False
 
-        self.northeast: STree = None
-        self.northwest: STree = None
-        self.southeast: STree = None
-        self.southwest: STree = None
+        self.northeast: STree
+        self.northwest: STree
+        self.southeast: STree
+        self.southwest: STree
 
     def insert(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]) -> bool:
         if (bb[0].x < self.top_left.x) or (bb[0].y < self.top_left.y) \
@@ -129,7 +133,7 @@ class STree:
 
         return True
 
-    def collide(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]) -> bool:
+    def collide(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]):
         if (bb[1].y < self.top_left.y) or (bb[1].x < self.top_left.x) \
             or (bb[0].y > self.bottom_right.y) or (bb[0].x > self.bottom_right.x):
             return

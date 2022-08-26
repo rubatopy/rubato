@@ -53,7 +53,7 @@ class Text(Component):
         Warning:
             Previously was called align.
         """
-        self._justify: str = justify
+        self._justify: Literal["left", "center", "right"] = justify
         self._width: int = width
 
         if not self.font_object:
@@ -72,7 +72,7 @@ class Text(Component):
         self.generate_surface()
 
     @property
-    def justify(self) -> str:
+    def justify(self) -> Literal["left", "center", "right"]:
         """
         The justification of the text.
 
@@ -81,7 +81,7 @@ class Text(Component):
         return self._justify
 
     @justify.setter
-    def justify(self, new: str):
+    def justify(self, new: Literal["left", "center", "right"]):
         if new in ["left", "center", "right"]:
             self._justify = new
             self.generate_surface()
@@ -149,17 +149,15 @@ class Text(Component):
 
         Draw.queue_texture(
             self._tx,
-            camera.transform(self.gameobj.pos + (self.anchor - 1) * Vector(*self._tx.size) / 2) + self.offset,
+            camera.transform(self.true_pos() + (self.anchor - 1) * Vector(*self._tx.size) / 2),
             self.true_z(),
-            angle=int((self.gameobj.rotation if self.gameobj else 0) + self.rot_offset),
+            angle=int(self.true_rotation()),
         )
 
     def delete(self):
         """Deletes the text component."""
         self._tx.destroy()
         self.font_object._font.close()  # pylint: disable=protected-access
-        self._tx = None
-        self.font_object = None
 
     def clone(self) -> Text:
         """Clones the text component."""

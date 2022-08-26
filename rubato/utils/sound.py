@@ -49,13 +49,13 @@ class Sound():
     active_channels: dict[int, Sound] = {}
     """A dictionary housing all the active sounds, stored by their name."""
 
-    def __init__(self, rel_path: str, sound_name: str = None):
+    def __init__(self, rel_path: str, sound_name: str = ""):
         self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))
         self.channels = 0
         self._paused = False
         self._volume = int(mixer.MIX_MAX_VOLUME / 2)
 
-        if not sound_name:
+        if sound_name == "":
             self.name = rel_path.split("/")[-1].split(".")[0]
         else:
             self.name = sound_name
@@ -87,7 +87,7 @@ class Sound():
         else:
             return self.PLAYING
 
-    def play(self, loops: int = 0, init_volume: int = None):
+    def play(self, loops: int = 0, init_volume: int = 128):
         """
         Plays a sound.
 

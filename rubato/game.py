@@ -78,8 +78,8 @@ class Game:
         Raises:
             IdError: The given scene id is already used.
         """
-        if scene.name is None:
-            scene._id = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
+        if scene.name == "":
+            scene.name = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
 
         if scene.name in cls._scenes:
             raise IdError(f"A scene with name '{scene.name}' has already been added.")
@@ -92,7 +92,7 @@ class Game:
 
     @classmethod
     @property
-    def camera(cls) -> Camera:
+    def camera(cls) -> Camera | None:  # test: skip
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -105,7 +105,7 @@ class Game:
         Returns:
             Camera: The current scene's camera
         """
-        return cls.current.camera
+        return cls.current.camera if cls.current else None  # pylint: disable=using-constant-test
 
     @classmethod
     def quit(cls):
