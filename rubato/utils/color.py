@@ -13,7 +13,7 @@ class Color:
     """
     An RGBA color.
     Note that although the constructor accepts both integers and floats of any value,
-        they are clamped to the range 0 to 255 and int-cast.
+    they are clamped to the range 0 to 255 and int-cast.
 
     Args:
         r: The red value. Defaults to 0.
