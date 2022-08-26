@@ -217,3 +217,6 @@ class GameObject:
                 new_obj.add(comp.clone())
 
         return new_obj
+
+    def __repr__(self):
+        return f"rubato.GameObject called {self.name} at {hex(id(self))}"
