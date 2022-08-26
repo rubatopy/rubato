@@ -126,8 +126,7 @@ class Hitbox(Component):
             self._old_scale = self.scale
 
     def draw(self, camera: Camera):
-        if self.hidden:
-            return
+
 
         if self.color:
             self._image.rotation = self.true_rotation()
