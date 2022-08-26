@@ -235,7 +235,7 @@ class Surface:
 
     def draw_poly(
         self,
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,

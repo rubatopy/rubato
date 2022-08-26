@@ -256,7 +256,7 @@ class Draw:
     @classmethod
     def queue_poly(
         cls,
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -276,7 +276,7 @@ class Draw:
 
     @staticmethod
     def poly(
-        points: list[Vector | tuple[float, float]],
+        points: list[Vector] | list[tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None

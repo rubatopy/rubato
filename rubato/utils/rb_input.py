@@ -454,7 +454,7 @@ class Input:
         sdl2.SDL_ShowCursor(sdl2.SDL_ENABLE if toggle else sdl2.SDL_DISABLE)
 
     @staticmethod
-    def pt_in_poly(pt: Vector | tuple[float, float], verts: list[Vector | tuple[float, float]]) -> bool:
+    def pt_in_poly(pt: Vector | tuple[float, float], verts: list[Vector] | list[tuple[float, float]]) -> bool:
         """
         Checks if a point is inside a polygon.
 

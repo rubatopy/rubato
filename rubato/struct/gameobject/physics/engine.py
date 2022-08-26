@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 import math
 
-from . import RigidBody, Circle
+from . import RigidBody, Circle, Polygon, Rectangle
 from .... import Math, Vector, InitError
 
 if TYPE_CHECKING:
-    from . import Hitbox, Polygon, Rectangle
+    from . import Hitbox
 
 
 # THIS IS A STATIC CLASS
@@ -30,8 +30,11 @@ class Engine:
         """
         # INITIALIZATION STEP
 
-        rb_a: RigidBody = col.shape_a.gameobj.get(RigidBody)
-        rb_b: RigidBody = col.shape_b.gameobj.get(RigidBody)
+        if col.shape_a.gameobj is None or col.shape_b.gameobj is None:
+            return
+
+        rb_a: RigidBody | None = col.shape_a.gameobj.get(RigidBody)
+        rb_b: RigidBody | None = col.shape_b.gameobj.get(RigidBody)
 
         a_none = rb_a is None
         b_none = rb_b is None
@@ -44,7 +47,7 @@ class Engine:
 
         # calculate friction coefficient
         if a_none:
-            mu = rb_b.friction * rb_b.friction
+            mu = rb_b.friction * rb_b.friction  # type: ignore # we know this is ok because we checked above
         elif b_none:
             mu = rb_a.friction * rb_a.friction
         else:
@@ -66,7 +69,7 @@ class Engine:
         col.normal *= -1
 
         # RESOLUTION STEP
-        rv = (0 if b_none else rb_b.velocity) - (0 if a_none else rb_a.velocity)
+        rv: Vector = (0 if b_none else rb_b.velocity) - (0 if a_none else rb_a.velocity)  # type: ignore
 
         contact_vel = rv.dot(col.normal)
 
@@ -99,10 +102,10 @@ class Engine:
         correction = max(col.penetration - 0.01, 0) * col.normal
 
         if not (a_none or rb_a.static):
-            rb_a.gameobj.pos -= correction * rb_a.pos_correction
+            rb_a.gameobj.pos -= correction * rb_a.pos_correction  # type: ignore
 
         if not (b_none or rb_b.static):
-            rb_b.gameobj.pos += correction * rb_b.pos_correction
+            rb_b.gameobj.pos += correction * rb_b.pos_correction  # type: ignore
 
     @staticmethod
     def overlap(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Optional[Manifold]:
@@ -117,6 +120,13 @@ class Engine:
         Returns:
             Returns a collision info object if overlap is detected or None if no collision is detected.
         """
+        if not isinstance(hitbox_a,
+                          Rectangle | Polygon | Circle) or not isinstance(hitbox_b, Rectangle | Polygon | Circle):
+            raise NotImplementedError("Engine.overlap() only supports Rectangle, Polygon, and Circle objects.")
+
+        if hitbox_a.gameobj is None or hitbox_b.gameobj is None:
+            return None
+
         if isinstance(hitbox_a, Circle):
             if isinstance(hitbox_b, Circle):
                 return Engine.circle_circle_test(hitbox_a, hitbox_b)
@@ -199,7 +209,7 @@ class Engine:
         circle_pos = circle.true_pos()
         poly_pos = polygon.true_pos()
 
-        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)
+        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)  # type: ignore
 
         separation = -Math.INF
         face_normal = 0
@@ -215,7 +225,7 @@ class Engine:
                 face_normal = i
 
         if separation <= 0:
-            norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
+            norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)  # type: ignore
             return Manifold(circle, polygon, circle_rad, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
@@ -229,19 +239,19 @@ class Engine:
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())  # type: ignore
         elif dot_2 <= 0:
             offs = center - v2
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())  # type: ignore
         else:
             norm = Engine.get_normal(verts, face_normal)
             if norm.dot(center - v1) > circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
+            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))  # type: ignore
 
     @staticmethod
     def polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
@@ -260,16 +270,18 @@ class Engine:
         if pen_b < pen_a:
             man = Manifold(shape_a, shape_b, abs(pen_a))
 
-            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
-            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos  # type: ignore
+            v2 = a_verts[(face_a + 1) %  # type: ignore
+                         len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos  # type: ignore
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
             man = Manifold(shape_a, shape_b, abs(pen_b))
 
-            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
-            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos  # type: ignore
+            v2 = b_verts[(face_b + 1) %  # type: ignore
+                         len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos  # type: ignore
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -279,15 +291,18 @@ class Engine:
     @staticmethod
     def axis_least_penetration(
         a: Polygon | Rectangle, b: Polygon | Rectangle, a_verts: list[Vector], b_verts: list[Vector]
-    ) -> float:
+    ) -> tuple[float, float] | tuple[None, None]:
         """Finds the axis of least penetration between two possibly colliding polygons."""
         best_dist = -Math.INF
         best_ind = 0
 
         for i in range(len(a_verts)):
-            n = Engine.get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
+            n = Engine.get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)  # type: ignore
             s = Engine.get_support(b_verts, -n)
-            v = (a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos - b.gameobj.pos).rotate(-b.gameobj.rotation)
+            v = (
+                a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos -  # type: ignore
+                b.gameobj.pos  # type: ignore
+            ).rotate(-b.gameobj.rotation)  # type: ignore
             d = n.dot(s - v)
 
             if d > best_dist:
@@ -299,7 +314,7 @@ class Engine:
         return best_dist, best_ind
 
     @staticmethod
-    def get_support(verts: list[Vector], direction: Vector) -> Vector:
+    def get_support(verts: list[Vector], direction: Vector) -> Vector | None:
         """Gets the furthest support vertex in a given direction."""
         best_proj = -Math.INF
         best_vert = None
@@ -334,14 +349,14 @@ class Manifold:
 
     def __init__(
         self,
-        shape_a: Optional[Hitbox],
-        shape_b: Optional[Hitbox],
+        shape_a: Hitbox,
+        shape_b: Hitbox,
         penetration: float = 0,
         normal: Vector = Vector(),
     ):
-        self.shape_a: Optional[Hitbox] = shape_a
+        self.shape_a: Hitbox = shape_a
         """A reference to the first shape."""
-        self.shape_b: Optional[Hitbox] = shape_b
+        self.shape_b: Hitbox = shape_b
         """A reference to the second shape."""
         self.penetration: float = penetration
         """The amount by which the colliders are intersecting."""

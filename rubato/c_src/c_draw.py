@@ -70,7 +70,7 @@ def draw_poly(
     pixels: int,
     width: int,
     height: int,
-    points: list[Vector | tuple[float, float]],
+    points: list[Vector] | list[tuple[float, float]],
     border_color: int,
     fill_color: int,
     aa: bool = False,
