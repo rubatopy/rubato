@@ -118,7 +118,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls):
+    def start(cls) -> None:
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -179,8 +179,7 @@ class Game:
                     Time.physics_counter += Time.delta_time
 
                     while Time.physics_counter >= Time.fixed_delta:
-                        if cls.state != Game.PAUSED:
-                            curr.private_fixed_update()
+                        curr.private_fixed_update()
                         Time.physics_counter -= Time.fixed_delta
 
                 curr.private_draw()
@@ -209,7 +208,7 @@ class Game:
                 sdl2.SDL_Delay(1)
 
             # clock the time the update call took
-            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable= comparison-with-callable
+            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable=comparison-with-callable
 
     @staticmethod
     def update():  # test: skip

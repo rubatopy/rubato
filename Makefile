@@ -8,7 +8,7 @@ pre-commit:
 	@make lint
 	@echo "Building Rubato..."
 	@make build-test >/dev/null
-	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests
+	@pytest --cov=rubato tests
 	@cd demo && ./_run_all.sh
 
 build-test: delete-build

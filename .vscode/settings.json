@@ -104,7 +104,6 @@
     "todo-tree.tree.showBadges": true,
     "todo-tree.filtering.excludeGlobs": ["**/node_modules", "**/static"],
     "python.analysis.completeFunctionParens": true,
-    "python.analysis.importFormat": "relative",
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "autoDocstring.customTemplatePath": "autodocstringtemplate.mustache"

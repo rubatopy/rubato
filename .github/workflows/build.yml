@@ -71,7 +71,7 @@ jobs:
                   git submodule update --init --recursive
 
             - name: Run Unit Tests
-              run: pytest --cov=rubato tests
+              run: make test
 
     lint:
         name: Lint Code
