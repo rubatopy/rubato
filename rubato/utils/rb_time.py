@@ -58,6 +58,8 @@ class Time:
     _task_queue: list[DelayedTask] = []
     _schedule_queue: list[ScheduledTask] = []
 
+    _next_queue: list[Callable] = []
+
     delta_time: float = 0.001
     """The number of seconds between the last frame and the current frame."""
     fixed_delta: float = 0.1
@@ -158,6 +160,16 @@ class Time:
         heapq.heappush(cls._schedule_queue, ScheduledTask(interval, func, interval + cls.now()))
 
     @classmethod
+    def next_frame(cls, func: Callable):
+        """
+        Calls the function func on the next frame.
+
+        Args:
+            func: The function to call.
+        """
+        cls._next_queue.append(func)
+
+    @classmethod
     def milli_to_sec(cls, milli: int) -> float:
         """
         Converts milliseconds to seconds.
@@ -189,6 +201,11 @@ class Time:
 
         cls._past_fps[cls._fps_index] = int(cls.fps)
         cls._fps_index = (cls._fps_index + 1) % cls._fps_history
+
+        if cls._next_queue:
+            for func in cls._next_queue:
+                func()
+            cls._next_queue.clear()
 
         while cls._frame_queue:
             if cls._frame_queue[0].delay <= cls.frames:
