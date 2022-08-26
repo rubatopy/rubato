@@ -94,4 +94,7 @@ class Component:
         return new
 
     def __repr__(self):
-        return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
+        if self.gameobj is not None:
+            return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
+        else:
+            return f"{type(self).__name__} with no game object at {hex(id(self))}"
