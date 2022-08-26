@@ -107,5 +107,6 @@
     "python.analysis.completeFunctionParens": true,
     "python.analysis.importFormat": "relative",
     "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true
+    "files.trimFinalNewlines": true,
+    "autoDocstring.customTemplatePath": "autodocstringtemplate.mustache"
 }

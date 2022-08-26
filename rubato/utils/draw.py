@@ -32,7 +32,8 @@ class Draw:
 
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
-        """Clears the renderer and draws the background of the frame.
+        """
+        Clears the renderer and draws the background of the frame.
 
         Args:
             background_color: The background color. Defaults to white.
