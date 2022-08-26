@@ -144,8 +144,6 @@ class Text(Component):
         )
 
     def draw(self, camera: Camera):
-        if self.hidden:
-            return
 
         Draw.queue_texture(
             self._tx,

@@ -245,8 +245,6 @@ class Animation(Component):
 
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
-        if self.hidden:
-            return
 
         self._time_count += 1000 * Time.delta_time
 
