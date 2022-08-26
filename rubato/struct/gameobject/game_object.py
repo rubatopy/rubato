@@ -149,7 +149,7 @@ class GameObject:
         """
         for key, val in self._components.items():
             if issubclass(key, comp_type):
-                return val[0] # type: ignore
+                return val[0]  # type: ignore
         return None
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
@@ -194,7 +194,7 @@ class GameObject:
         all_comps = list(self._components.values())
         for comps in all_comps:
             for comp in comps:
-                comp.private_update()
+                comp._update()  # pylint: disable=protected-access
 
     def fixed_update(self):
         for comps in self._components.values():

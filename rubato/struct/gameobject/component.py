@@ -61,9 +61,9 @@ class Component:
         """The draw function template for a component subclass."""
         pass
 
-    def private_update(self):
+    def _update(self):
         if not self.started:
-            self.private_setup()
+            self._setup()
 
         self.update()
 
@@ -71,7 +71,7 @@ class Component:
         """The update function template for a component subclass."""
         pass
 
-    def private_setup(self):
+    def _setup(self):
         self.started = True
         self.setup()
 
