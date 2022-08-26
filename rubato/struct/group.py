@@ -25,6 +25,8 @@ class Group:
         """A list of groups that are children of this group."""
         self.game_objects: list[GameObject] = []
         """A list of game objects that are children of this group."""
+        self.hidden: bool = False
+        """Whether the game objects and sub-groups in the group will draw, does not affect their hidden status."""
 
     def add(self, *items: GameObject | Group):
         """
@@ -133,7 +135,7 @@ class Group:
         return ret
 
     def draw(self, camera: Camera):
-        if self.active:
+        if self.active and not self.hidden:
             for group in self.groups:
                 group.draw(camera)
 
