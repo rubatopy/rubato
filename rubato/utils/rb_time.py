@@ -88,7 +88,7 @@ class Time:
     @classmethod
     @property
     def smooth_fps(cls) -> int:
-        """The average fps over the past 120 frames. This is a get-only property."""
+        """The average fps over the past 120 frames. (get-only)."""
         return int(sum(cls._past_fps) / cls._fps_history)
 
     @classmethod
@@ -99,9 +99,26 @@ class Time:
     @classmethod
     @property
     def frame_start(cls) -> int:
-        """The time since the start of the game, in milliseconds, taken at the start of the frame.
-        This is a get-only property."""
+        """
+        Time from the start of the game to the start of the current frame, in milliseconds. (get-only)
+        """
         return cls._frame_start
+
+    @classmethod
+    def _start_frame(cls):
+        cls._frame_start = cls.now()
+
+    @classmethod
+    def _end_frame(cls):
+        if cls.capped:
+            delay = cls.normal_delta - (1000 * cls.delta_time)
+            if delay > 0:
+                sdl2.SDL_Delay(int(delay))
+
+        while cls.now() == cls._frame_start:
+            sdl2.SDL_Delay(1)
+
+        cls.delta_time = (cls.now() - cls._frame_start) / 1000
 
     @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):
