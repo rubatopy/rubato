@@ -170,19 +170,19 @@ class Game:
             if curr:  # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
-                    curr.private_paused_update()
+                    curr._paused_update()  # pylint: disable=protected-access
                 else:
                     # normal update
-                    curr.private_update()
+                    curr._update()  # pylint: disable=protected-access
 
                     # fixed update
                     Time.physics_counter += Time.delta_time
 
                     while Time.physics_counter >= Time.fixed_delta:
-                        curr.private_fixed_update()
+                        curr._fixed_update()  # pylint: disable=protected-access
                         Time.physics_counter -= Time.fixed_delta
 
-                curr.private_draw()
+                curr._draw()  # pylint: disable=protected-access
             else:
                 Draw.clear()
 
