@@ -74,12 +74,13 @@ class Game:
 
         Args:
             scene: The scene to add.
+            name: The name of the scene. If None, a unique name is generated.
 
         Raises:
             IdError: The given scene id is already used.
         """
-        if scene.name == "":
-            scene.name = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
+        if name is None:
+            name = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
 
         if name in cls._scenes:
             raise IdError(f"A scene with name '{name}' has already been added.")

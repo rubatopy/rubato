@@ -29,7 +29,7 @@ def test_state():
 
 def test_camera():
     Scene()
-    assert Game.camera == Game.current.camera  # type: ignore
+    assert Game.camera == Game.current.camera  # type: ignore # pylint: disable=comparison-with-callable
 
 
 def test_init():
@@ -39,8 +39,8 @@ def test_init():
 
 def test__add():
     with pytest.raises(IdError):
-        Game._add(Scene(name="scene"))
-        Game._add(Scene(name="scene"))
+        Scene()
+        Scene(name="scene0")
 
 
 @pytest.mark.rub

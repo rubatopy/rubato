@@ -21,7 +21,7 @@ class Scene:
 
     def __init__(
         self,
-        name: str = "",
+        name: str | None = None,
         background_color: Color = Color.white,
         border_color: Color = Color.black,
     ):
@@ -122,7 +122,6 @@ class Scene:
         self.draw()
         self.root.draw(self.camera)
         self.ui.draw(self._ui_cam)
-        Draw.dump()
 
     def setup(self):
         """

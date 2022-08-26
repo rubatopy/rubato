@@ -17,6 +17,11 @@ def test_init(color):
     assert color.a == 255
 
 
+def test_clone(color):
+    clone = color.clone()
+    assert clone == color
+
+
 def test_str(color):
     assert str(color) == "Color(r=0, g=127, b=255, a=255)"
 
