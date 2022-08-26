@@ -64,9 +64,9 @@ class Time:
     """The number of seconds between the last frame and the current frame."""
     fixed_delta: float = 0.1
     """The number of seconds since the last fixed update."""
-    normal_delta: float = 0
+    _normal_delta: float = 0
     fps = 60
-    """The current fps of thi frame."""
+    """The fps estimate using the last frame."""
     _frame_start: int = 0
 
     physics_counter: float = 0
@@ -111,9 +111,9 @@ class Time:
     @classmethod
     def _end_frame(cls):
         if cls.capped:
-            delay = cls.normal_delta - (1000 * cls.delta_time)
+            delay = cls._normal_delta - cls.delta_time
             if delay > 0:
-                sdl2.SDL_Delay(int(delay))
+                sdl2.SDL_Delay(int(1000 * delay))
 
         while cls.now() == cls._frame_start:
             sdl2.SDL_Delay(1)

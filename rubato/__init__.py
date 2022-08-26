@@ -71,7 +71,7 @@ def init(
     Time.target_fps = target_fps
     Time.capped = Time.target_fps != 0
     if Time.capped:
-        Time.normal_delta = 1000 / target_fps
+        Time._normal_delta = 1 / target_fps  # pylint: disable=protected-access
     Time.physics_fps = physics_fps
     Time.fixed_delta = 1 / physics_fps
 

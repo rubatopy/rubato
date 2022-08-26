@@ -127,7 +127,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     monkeypatch.setattr(Display.renderer, "present", present)
 
     Time.capped = True
-    Time.normal_delta = 50000
+    Time._normal_delta = 50
 
     delay = Mock()
     monkeypatch.setattr(rubato.game.sdl2, "SDL_Delay", delay)

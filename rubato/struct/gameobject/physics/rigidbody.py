@@ -133,7 +133,7 @@ class RigidBody(Component):
             return
         else:
             self.add_force(force)
-            Time.delayed_frames(1, lambda: self.add_cont_force(force, time - (1000 * Time.delta_time)))
+            Time.next_frame(lambda: self.add_cont_force(force, time - Time.delta_time))
 
     def add_cont_impulse(self, impulse: Vector | tuple[float, float], time: float):
         """
@@ -149,7 +149,7 @@ class RigidBody(Component):
             return
         else:
             self.add_impulse(impulse)
-            Time.delayed_frames(1, lambda: self.add_cont_impulse(impulse, time - (1000 * Time.delta_time)))
+            Time.next_frame(lambda: self.add_cont_impulse(impulse, time - Time.delta_time))
 
     def fixed_update(self):
         """The physics loop for the rigidbody component."""
