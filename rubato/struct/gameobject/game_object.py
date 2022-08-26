@@ -12,6 +12,7 @@ from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError
 T = TypeVar("T", bound=Component)
 
 
+# DEV comment: changes to arguments of Game Object should be reflected in rubato.wrap().
 class GameObject:
     """
     An element describing a set of functionality grouped as a "thing", such as a player or a wall.
