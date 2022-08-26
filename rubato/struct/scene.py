@@ -91,27 +91,9 @@ class Scene:
         """
         self.ui.delete(item)
 
-    def clone(self) -> Scene:
-        """
-        Clones this scene.
-
-        Warning:
-            This is a relatively expensive operation as it clones every group in the scene.
-        """
-        new_scene = Scene(
-            name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
-        )
-        new_scene.root = self.root.clone()
-        new_scene.ui = self.ui.clone()
-
-        return new_scene
-
-    def _draw(self):
-        Draw.clear(self.background_color, self.border_color)
-        self.draw()
-        self.root.draw(self.camera)
-        self.ui.draw(self._ui_cam)
-        Draw.dump()
+    def _setup(self):
+        self.started = True
+        self.setup()
 
     def _update(self):
         if not self.started:
@@ -132,21 +114,17 @@ class Scene:
         self.root.fixed_update()
         self.ui.fixed_update()
 
-    def _setup(self):
-        self.started = True
-        self.setup()
+    def _draw(self):
+        Draw.clear(self.background_color, self.border_color)
+        self.draw()
+        self.root.draw(self.camera)
+        self.ui.draw(self._ui_cam)
+        Draw.dump()
 
     def setup(self):
         """
         The start loop for this scene. It is run before the first frame.
         Is empty be default and can be overriden.
-        """
-        pass
-
-    def draw(self):
-        """
-        The draw loop for this scene. It is run once every frame.
-        Is empty by default an can beoverridden.
         """
         pass
 
@@ -173,3 +151,25 @@ class Scene:
         Is empty by default an can be overridden.
         """
         pass
+
+    def draw(self):
+        """
+        The draw loop for this scene. It is run once every frame.
+        Is empty by default an can beoverridden.
+        """
+        pass
+
+    def clone(self) -> Scene:
+        """
+        Clones this scene.
+
+        Warning:
+            This is a relatively expensive operation as it clones every group in the scene.
+        """
+        new_scene = Scene(
+            name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
+        )
+        new_scene.root = self.root.clone()
+        new_scene.ui = self.ui.clone()
+
+        return new_scene

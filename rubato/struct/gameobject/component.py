@@ -64,9 +64,9 @@ class Component:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
         return (self.gameobj.rotation if self.gameobj else 0) + self.rot_offset
 
-    def draw(self, camera: Camera):
-        """The draw function template for a component subclass."""
-        pass
+    def _setup(self):
+        self.started = True
+        self.setup()
 
     def _update(self):
         if not self.started:
@@ -74,20 +74,16 @@ class Component:
 
         self.update()
 
+    def setup(self):
+        """The setup function template for a component subclass."""
+        pass
+
     def update(self):
         """The update function template for a component subclass."""
         pass
 
-    def _setup(self):
-        self.started = True
-        self.setup()
-        
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""
-        pass
-
-    def setup(self):
-        """The setup function template for a component subclass."""
         pass
 
     def fixed_update(self):
