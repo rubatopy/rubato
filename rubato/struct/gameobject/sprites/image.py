@@ -16,6 +16,7 @@ class Image(Raster):
         rot_offset: The rotation offset of the image. Defaults to 0.
         af: Whether to use anisotropic filtering. Defaults to False.
         z_index: The z-index of the image. Defaults to 0.
+        hidden: Whether the image is hidden or not. Defaults to False.
     """
 
     def __init__(
@@ -25,9 +26,10 @@ class Image(Raster):
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         af: bool = False,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False
     ):
-        super().__init__(0, 0, scale, offset, rot_offset, af, z_index)
+        super().__init__(0, 0, scale, offset, rot_offset, af, z_index, hidden)
         self.surf: Sprite = Sprite(rel_path, scale=scale, rotation=rot_offset, af=af)
 
     def clone(self) -> Image:

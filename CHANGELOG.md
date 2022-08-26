@@ -22,7 +22,7 @@
 -   `Events.MOUSEWHEEL` and `Events.SCROLL` (which are the same), propagating mouse scroll events.
 -   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
--   `Component`s hidden properly implmented and does not stop update anymore.
+-   Allowing passing in the hidden attribute into `Component` constructors.
 
 ### Changed
 
@@ -49,6 +49,7 @@
 -   Offsets (including rotational) not working properly. Physics has also been refactored to handle scaling properly.
 -   `Rectangle` side getters and setters, which were not utilizing offsets properly. They now work with the AABB of the
     rectangle.
+-   `gameobject.active` not functioning properly.
 
 ## [v3.1.0] - August 19, 2022
 

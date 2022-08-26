@@ -17,6 +17,7 @@ class Raster(Component):
         rot_offset: The rotation offset of the Raster. Defaults to 0.
         af: Whether to use anisotropic filtering. Defaults to False.
         z_index: The z-index of the Raster. Defaults to 0.
+        hidden: Whether to hide the Raster. Defaults to False.
     """
 
     def __init__(
@@ -28,8 +29,9 @@ class Raster(Component):
         rot_offset: float = 0,
         af: bool = False,
         z_index: int = 0,
+        hidden: bool = False,
     ):
-        super().__init__(offset, rot_offset, z_index)
+        super().__init__(offset, rot_offset, z_index, hidden)
         self.surf: Surface = Surface(width, height, scale, rot_offset, af)
         self.singular = False
 

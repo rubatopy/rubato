@@ -28,6 +28,7 @@ class Animation(Component):
         offset: The offset of the animation from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
         z_index: The z-index of the animation. Defaults to 0.
+        hidden: Whether the animation is hidden. Defaults to False.
     """
 
     def __init__(
@@ -39,9 +40,10 @@ class Animation(Component):
         flipy: bool = False,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False,
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index, hidden=hidden)
 
         self._fps: int = fps
         self.singular = False

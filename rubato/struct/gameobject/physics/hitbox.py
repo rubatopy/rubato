@@ -23,6 +23,7 @@ class Hitbox(Component):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        hidden: Whether the hitbox is hidden. Defaults to False.
     """
 
     def __init__(
@@ -36,9 +37,10 @@ class Hitbox(Component):
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False,
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index, hidden=hidden)
         self.debug: bool = debug
         """Whether to draw a green outline around the hitbox or not."""
         self.trigger: bool = trigger
@@ -124,7 +126,6 @@ class Hitbox(Component):
 
     def draw(self, camera: Camera):
 
-
         if self.color:
             self._image.rotation = self.true_rotation()
 
@@ -161,6 +162,7 @@ class Polygon(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        hidden: Whether the hitbox is hidden. Defaults to False.
     """
 
     def __init__(
@@ -175,7 +177,8 @@ class Polygon(Hitbox):
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False,
     ):
         super().__init__(
             offset=offset,
@@ -187,7 +190,8 @@ class Polygon(Hitbox):
             on_exit=on_exit,
             color=color,
             tag=tag,
-            z_index=z_index
+            z_index=z_index,
+            hidden=hidden,
         )
         self._verts: list[Vector] = [Vector.create(v) for v in verts]
 
@@ -294,6 +298,7 @@ class Rectangle(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        hidden: Whether the hitbox is hidden. Defaults to False.
     """
 
     def __init__(
@@ -309,7 +314,8 @@ class Rectangle(Hitbox):
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False
     ):
         super().__init__(
             offset=offset,
@@ -321,7 +327,8 @@ class Rectangle(Hitbox):
             on_exit=on_exit,
             color=color,
             tag=tag,
-            z_index=z_index
+            z_index=z_index,
+            hidden=hidden,
         )
         self._width: int | float = width
         self._height: int | float = height
@@ -546,6 +553,7 @@ class Circle(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        hidden: Whether the hitbox is hidden. Defaults to False.
     """
 
     def __init__(
@@ -560,7 +568,8 @@ class Circle(Hitbox):
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False,
     ):
         super().__init__(
             offset=offset,
@@ -572,7 +581,8 @@ class Circle(Hitbox):
             on_exit=on_exit,
             color=color,
             tag=tag,
-            z_index=z_index
+            z_index=z_index,
+            hidden=hidden,
         )
         self._radius = radius
 
