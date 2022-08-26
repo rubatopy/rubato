@@ -44,6 +44,8 @@ class GameObject:
         self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
         """The rotation of the game object in degrees."""
+        self.hidden: bool = False
+        """Whether the game object (its components) will be drawn that frame. Keeps debug outline."""
         self._debug_cross: Surface = Surface(10, 10)
         self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
         self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
@@ -181,9 +183,10 @@ class GameObject:
                 comp.delete()
 
     def draw(self, camera: Camera):
-        for comps in self._components.values():
-            for comp in comps:
-                comp.draw(camera)
+        if not self.hidden:
+            for comps in self._components.values():
+                for comp in comps:
+                    comp.draw(camera)
 
         if self.debug or Game.debug:
             self._debug_cross.rotation = self.rotation
