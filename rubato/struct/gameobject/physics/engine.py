@@ -47,10 +47,13 @@ class Engine:
 
         # calculate friction coefficient
         if a_none:
-            mu = rb_b.friction * rb_b.friction  # type: ignore # we know this is ok because we checked above
+            rv = rb_b.velocity  # type: ignore
+            mu = rb_b.friction * rb_b.friction  # type: ignore
         elif b_none:
+            rv = -rb_a.velocity
             mu = rb_a.friction * rb_a.friction
         else:
+            rv = rb_b.velocity - rb_a.velocity
             mu = (rb_a.friction * rb_a.friction + rb_b.friction * rb_b.friction) / 2
 
         # find inverse masses
@@ -69,7 +72,6 @@ class Engine:
         col.normal *= -1
 
         # RESOLUTION STEP
-        rv: Vector = (0 if b_none else rb_b.velocity) - (0 if a_none else rb_a.velocity)  # type: ignore
 
         contact_vel = rv.dot(col.normal)
 
@@ -102,16 +104,17 @@ class Engine:
         correction = max(col.penetration - 0.01, 0) * col.normal
 
         if not (a_none or rb_a.static):
-            rb_a.gameobj.pos -= correction * rb_a.pos_correction  # type: ignore
+            col.shape_a.gameobj.pos -= correction * rb_a.pos_correction
 
         if not (b_none or rb_b.static):
-            rb_b.gameobj.pos += correction * rb_b.pos_correction  # type: ignore
+            col.shape_b.gameobj.pos += correction * rb_b.pos_correction
 
     @staticmethod
     def overlap(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Optional[Manifold]:
         """
         Determines if there is overlap between two hitboxes.
         Returns a Manifold manifold if a collision occurs but does not resolve.
+        Note that this is only implemented for native rubato hitbox types (Rectangle, Polygon, Circle).
 
         Args:
             hitbox_a: The first hitbox to collide with.
@@ -122,28 +125,29 @@ class Engine:
         """
         if not isinstance(hitbox_a,
                           Rectangle | Polygon | Circle) or not isinstance(hitbox_b, Rectangle | Polygon | Circle):
-            raise NotImplementedError("Engine.overlap() only supports Rectangle, Polygon, and Circle objects.")
+            raise TypeError("Engine.overlap() only supports Rectangle, Polygon, and Circle objects.")
 
         if hitbox_a.gameobj is None or hitbox_b.gameobj is None:
             return None
 
         if isinstance(hitbox_a, Circle):
             if isinstance(hitbox_b, Circle):
-                return Engine.circle_circle_test(hitbox_a, hitbox_b)
+                return Engine._circle_circle_test(hitbox_a, hitbox_b)
 
-            return Engine.circle_polygon_test(hitbox_a, hitbox_b)
+            return Engine._circle_polygon_test(hitbox_a, hitbox_b)
 
         if isinstance(hitbox_b, Circle):
-            r = Engine.circle_polygon_test(hitbox_b, hitbox_a)
+            r = Engine._circle_polygon_test(hitbox_b, hitbox_a)
             return None if r is None else r.flip()
 
-        return Engine.polygon_polygon_test(hitbox_a, hitbox_b)
+        return Engine._polygon_polygon_test(hitbox_a, hitbox_b)
 
     @staticmethod
     def collide(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Optional[Manifold]:
         """
         Collides two hitboxes (if they overlap), calling their callbacks if they exist.
         Resolves the collision using Rigidbody impulse resolution if applicable.
+        Note that this is only implemented for native rubato hitbox types (Rectangle, Polygon, Circle).
 
         Args:
             hitbox_a: The first hitbox to collide with.
@@ -176,7 +180,7 @@ class Engine:
         hitbox_b.on_collide(col.flip())
 
     @staticmethod
-    def circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
+    def _circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
         """Checks for overlap between two circles"""
         a_rad = circle_a.true_radius()
         b_rad = circle_b.true_radius()
@@ -202,20 +206,23 @@ class Engine:
         return Manifold(circle_a, circle_b, pen, norm)
 
     @staticmethod
-    def circle_polygon_test(circle: Circle, polygon: Polygon | Rectangle) -> Optional[Manifold]:
+    def _circle_polygon_test(circle: Circle, polygon: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
+        if polygon.gameobj is None:
+            return None
+
         verts = polygon.offset_verts()
         circle_rad = circle.true_radius()
         circle_pos = circle.true_pos()
         poly_pos = polygon.true_pos()
 
-        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)  # type: ignore
+        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)
 
         separation = -Math.INF
         face_normal = 0
 
         for i in range(len(verts)):
-            s = Engine.get_normal(verts, i).dot(center - verts[i])
+            s = Engine._get_normal(verts, i).dot(center - verts[i])
 
             if s > circle_rad:
                 return
@@ -225,7 +232,7 @@ class Engine:
                 face_normal = i
 
         if separation <= 0:
-            norm = Engine.get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)  # type: ignore
+            norm = Engine._get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
             return Manifold(circle, polygon, circle_rad, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
@@ -239,49 +246,50 @@ class Engine:
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())  # type: ignore
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         elif dot_2 <= 0:
             offs = center - v2
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())  # type: ignore
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         else:
-            norm = Engine.get_normal(verts, face_normal)
+            norm = Engine._get_normal(verts, face_normal)
             if norm.dot(center - v1) > circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))  # type: ignore
+            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
 
     @staticmethod
-    def polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
+    def _polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
+        if shape_a.gameobj is None or shape_b.gameobj is None:
+            return None
+
         a_verts = shape_a.offset_verts()
         b_verts = shape_b.offset_verts()
 
-        pen_a, face_a = Engine.axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
-        if pen_a is None:
+        pen_a, face_a = Engine._axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
+        if pen_a is None or face_a is None:
             return
 
-        pen_b, face_b = Engine.axis_least_penetration(shape_b, shape_a, b_verts, a_verts)
-        if pen_b is None:
+        pen_b, face_b = Engine._axis_least_penetration(shape_b, shape_a, b_verts, a_verts)
+        if pen_b is None or face_b is None:
             return
 
         if pen_b < pen_a:
             man = Manifold(shape_a, shape_b, abs(pen_a))
 
-            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos  # type: ignore
-            v2 = a_verts[(face_a + 1) %  # type: ignore
-                         len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos  # type: ignore
+            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
             man = Manifold(shape_a, shape_b, abs(pen_b))
 
-            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos  # type: ignore
-            v2 = b_verts[(face_b + 1) %  # type: ignore
-                         len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos  # type: ignore
+            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -289,20 +297,20 @@ class Engine:
         return man
 
     @staticmethod
-    def axis_least_penetration(
+    def _axis_least_penetration(
         a: Polygon | Rectangle, b: Polygon | Rectangle, a_verts: list[Vector], b_verts: list[Vector]
-    ) -> tuple[float, float] | tuple[None, None]:
+    ) -> tuple[float, int] | tuple[None, None]:
         """Finds the axis of least penetration between two possibly colliding polygons."""
+        if a.gameobj is None or b.gameobj is None:
+            return None, None
+
         best_dist = -Math.INF
         best_ind = 0
 
         for i in range(len(a_verts)):
-            n = Engine.get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)  # type: ignore
-            s = Engine.get_support(b_verts, -n)
-            v = (
-                a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos -  # type: ignore
-                b.gameobj.pos  # type: ignore
-            ).rotate(-b.gameobj.rotation)  # type: ignore
+            n = Engine._get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
+            s = Engine._get_support(b_verts, -n)
+            v = (a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos - b.gameobj.pos).rotate(-b.gameobj.rotation)
             d = n.dot(s - v)
 
             if d > best_dist:
@@ -314,7 +322,7 @@ class Engine:
         return best_dist, best_ind
 
     @staticmethod
-    def get_support(verts: list[Vector], direction: Vector) -> Vector | None:
+    def _get_support(verts: list[Vector], direction: Vector) -> Vector | None:
         """Gets the furthest support vertex in a given direction."""
         best_proj = -Math.INF
         best_vert = None
@@ -329,7 +337,7 @@ class Engine:
         return best_vert
 
     @staticmethod
-    def get_normal(verts: list[Vector], index: int) -> Vector:
+    def _get_normal(verts: list[Vector], index: int) -> Vector:
         """Finds a vector perpendicular to a side"""
         face = (verts[(index + 1) % len(verts)] - verts[index]).perpendicular()
         face.magnitude = 1
