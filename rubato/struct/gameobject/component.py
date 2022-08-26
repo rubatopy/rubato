@@ -45,15 +45,17 @@ class Component:
 
     def true_z(self) -> int:
         """Returns the z_index of the component offset by its parent gameobject z_index."""
-        return self.z_index + self.gameobj.z_index
+        return self.z_index + (self.gameobj.z_index if self.gameobj else 0)
 
     def true_pos(self) -> Vector:
         """Returns the world position of the component."""
-        return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
+        return (self.gameobj.pos if self.gameobj else 0) + self.offset.rotate(
+            (self.gameobj.rotation if self.gameobj else 0)
+        )
 
     def true_rotation(self) -> float:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
-        return self.gameobj.rotation + self.rot_offset
+        return (self.gameobj.rotation if self.gameobj else 0) + self.rot_offset
 
     def draw(self, camera: Camera):
         """The draw function template for a component subclass."""

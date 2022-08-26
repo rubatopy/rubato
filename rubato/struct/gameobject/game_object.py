@@ -85,7 +85,7 @@ class GameObject:
 
         return self
 
-    def remove(self, comp_type: Type[T]):
+    def remove(self, comp_type: Type[Component]):
         """
         Removes the first instance of a component from the game object.
 
@@ -97,7 +97,7 @@ class GameObject:
         """
         self.remove_ind(comp_type, 0)
 
-    def remove_ind(self, comp_type: Type[T], ind: int):
+    def remove_ind(self, comp_type: Type[Component], ind: int):
         """
         Removes a component from the game object.
 
@@ -119,7 +119,7 @@ class GameObject:
             f"There are no components of type '{comp_type}' in game object '{self.name}' or the index is out of bounds."
         )
 
-    def remove_all(self, comp_type: Type[T]):
+    def remove_all(self, comp_type: Type[Component]):
         """
         Removes all components of a type from the game object.
 
@@ -149,7 +149,7 @@ class GameObject:
         """
         for key, val in self._components.items():
             if issubclass(key, comp_type):
-                return val[0]
+                return val[0] # type: ignore
         return None
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
