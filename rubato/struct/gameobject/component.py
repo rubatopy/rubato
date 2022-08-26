@@ -1,5 +1,5 @@
 """
-The component module that represents the template for all components.
+The component abstraction that represents a template for all component types.
 
 Attention:
     Each component can only be attached to one game object. To add one component to multiple game objects, use the
@@ -25,9 +25,16 @@ class Component:
         offset: The offset of the component from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the component from the game object. Defaults to 0.
         z_index: The vertical offset of where to draw the component. Defaults to 0.
+        hidden: Whether the component is hidden or not. Defaults to False.
     """
 
-    def __init__(self, offset: Vector | tuple[float, float] = (0, 0), rot_offset: float = 0, z_index: int = 0):
+    def __init__(
+        self,
+        offset: Vector | tuple[float, float] = (0, 0),
+        rot_offset: float = 0,
+        z_index: int = 0,
+        hidden: bool = False
+    ):
         self.gameobj: GameObject | None = None
         """The game object this component is attached to."""
         self.singular: bool = False
@@ -40,8 +47,8 @@ class Component:
         """Where to draw the component in the z direction."""
         self.started = False
         """Whether the component has run its setup method."""
-        self.hidden = False
-        """Whether the component should not draw."""
+        self.hidden = hidden
+        """Whether the component is hidden (not drawn)."""
 
     def true_z(self) -> int:
         """Returns the z_index of the component offset by its parent gameobject z_index."""
@@ -74,6 +81,10 @@ class Component:
     def _setup(self):
         self.started = True
         self.setup()
+        
+    def draw(self, camera: Camera):
+        """The draw function template for a component subclass."""
+        pass
 
     def setup(self):
         """The setup function template for a component subclass."""
@@ -89,7 +100,9 @@ class Component:
 
     def clone(self) -> Component:
         """Clones the component."""
-        new = Component(offset=self.offset.clone(), rot_offset=self.rot_offset, z_index=self.z_index)
+        new = Component(
+            offset=self.offset.clone(), rot_offset=self.rot_offset, z_index=self.z_index, hidden=self.hidden
+        )
         new.singular = self.singular
         return new
 

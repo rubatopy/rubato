@@ -1,5 +1,5 @@
 """
-Describes a QuadTree implementation for optimized collision detection.
+QuadTree implementation to optimize collision detection as part of the physics engine.
 Do not use this in your own projects as it is tailored only to this use case.
 """
 import Cython

@@ -1,5 +1,5 @@
 """
-Some custom errors
+Custom errors for rubato.
 """
 
 from typing import Any

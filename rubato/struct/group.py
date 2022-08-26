@@ -9,24 +9,27 @@ from .. import Error, Camera
 
 class Group:
     """
-    The group class implementation.
+    A divider between separate categories of game objects.
+    Can be used to differentiate between different "groups" of elements that you don't want to interact;
+    i.e. you don't want a gameobject representing an enemy to collide with the coins in the scene.
 
     Args:
         name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.
         active: Whether the group is active or not. Defaults to True.
+        hidden: Whether the group is hidden or not. Defaults to False.
     """
 
-    def __init__(self, name: str = "", active: bool = True):
+    def __init__(self, name: str = "", active: bool = True, hidden: bool = False):
         self.name: str = name
         """The name of the group."""
         self.active: bool = active
-        """Whether the group is active or not."""
+        """Whether to update and draw this group's contents."""
         self.groups: list[Group] = []
         """A list of groups that are children of this group."""
         self.game_objects: list[GameObject] = []
         """A list of game objects that are children of this group."""
-        self.hidden: bool = False
-        """Whether the game objects and sub-groups in the group will draw, does not affect their hidden status."""
+        self.hidden: bool = hidden
+        """Whether to hide (not draw) this group's contents."""
 
     def add(self, *items: GameObject | Group):
         """
@@ -90,34 +93,38 @@ class Group:
             raise ValueError(f"The item {item.name} is not in the group {self.name}") from e
 
     def update(self):
-        if self.active:
-            for group in self.groups:
-                group.update()
-            for game_obj in self.game_objects:
-                game_obj.update()
+        if not self.active:
+            return
+
+        for group in self.groups:
+            group.update()
+        for game_obj in self.game_objects:
+            game_obj.update()
 
     def fixed_update(self):
         """
         Runs a physics iteration on the group.
         Called automatically by rubato as long as the group is added to a scene.
         """
-        if self.active:
-            for group in self.groups:
-                group.fixed_update()
+        if not self.active:
+            return
 
-            all_hts = []
-            for game_obj in self.game_objects:
-                game_obj.fixed_update()
-                hts = game_obj.get_all(Hitbox)
-                if hts:
-                    all_hts.append(hts)
+        for group in self.groups:
+            group.fixed_update()
 
-            qtree = QTree(all_hts)
+        all_hts = []
+        for game_obj in self.game_objects:
+            game_obj.fixed_update()
+            hts = game_obj.get_all(Hitbox)
+            if hts:
+                all_hts.append(hts)
 
-            for go in self.all_gameobjects():
-                hts = go.get_all(Hitbox)
-                if hts:
-                    qtree.collide(hts, qtree.calc_bb(hts))
+        qtree = QTree(all_hts)
+
+        for go in self.all_gameobjects():
+            hts = go.get_all(Hitbox)
+            if hts:
+                qtree.collide(hts, qtree.calc_bb(hts))
 
     def all_gameobjects(self, include_self: bool = False) -> list[GameObject]:
         """
@@ -135,13 +142,15 @@ class Group:
         return ret
 
     def draw(self, camera: Camera):
-        if self.active and not self.hidden:
-            for group in self.groups:
-                group.draw(camera)
+        if not self.active or self.hidden:
+            return
 
-            for game_obj in self.game_objects:
-                if game_obj.z_index <= camera.z_index:
-                    game_obj.draw(camera)
+        for group in self.groups:
+            group.draw(camera)
+
+        for game_obj in self.game_objects:
+            if game_obj.z_index <= camera.z_index:
+                game_obj.draw(camera)
 
     def count(self) -> int:
         """

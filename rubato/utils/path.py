@@ -1,4 +1,4 @@
-"""A simple path helper for managing relative paths."""
+"""Path helper method for finding relative paths."""
 import sys, os
 
 

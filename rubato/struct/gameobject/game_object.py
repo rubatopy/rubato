@@ -1,5 +1,6 @@
 """
-A game object is a basic element that holds components, postion, and z_index.
+A game object is a basic element describing a "thing" in rubato.
+Its functionality is defined by the components it holds.
 """
 from __future__ import annotations
 from typing import Optional, Type, TypeVar
@@ -13,7 +14,7 @@ T = TypeVar("T", bound=Component)
 
 class GameObject:
     """
-    The base game object class.
+    An element describing a set of functionality grouped as a "thing", such as a player or a wall.
 
     Args:
         name: The name of the game object. Defaults to "".
@@ -21,7 +22,8 @@ class GameObject:
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
         debug: Whether to draw the center of the game object. Defaults to False.
-        active: Whether the group is active or not. Defaults to True.
+        active: Whether the game object is active or not. Defaults to True.
+        hidden: Whether the game object is hidden or not. Defaults to False.
     """
 
     def __init__(
@@ -32,6 +34,7 @@ class GameObject:
         z_index: int = 0,
         debug: bool = False,
         active: bool = True,
+        hidden: bool = False,
     ):
         self.name: str = name
         """
@@ -46,10 +49,10 @@ class GameObject:
         self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
         """The rotation of the game object in degrees."""
-        self.hidden: bool = False
-        """Whether the game object (its components) will be drawn that frame. Keeps debug outline."""
+        self.hidden: bool = hidden
+        """Whether the game object is hidden (not drawn)."""
         self.active: bool = active
-        """Whether the group is active or not. Note: gets rid of debug outline as well as removing draw and update."""
+        """Whether the game object should update and draw."""
         self._debug_cross: Surface = Surface(10, 10)
         self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
         self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
@@ -187,31 +190,35 @@ class GameObject:
                 comp.delete()
 
     def draw(self, camera: Camera):
-        if self.active:
-            if not self.hidden:
-                for comps in self._components.values():
-                    for comp in comps:
-                        if comp.hidden:
-                            continue
-                        comp.draw(camera)
+        if self.hidden or not self.active:
+            return
 
-            if self.debug or Game.debug:
-                self._debug_cross.rotation = self.rotation
+        for comps in self._components.values():
+            for comp in comps:
+                if not comp.hidden:
+                    comp.draw(camera)
 
-                Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
+        if self.debug or Game.debug:
+            self._debug_cross.rotation = self.rotation
+
+            Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
 
     def update(self):
-        if self.active:
-            all_comps = list(self._components.values())
-            for comps in all_comps:
-                for comp in comps:
-                    comp._update()  # pylint: disable=protected-access
+        if not self.active:
+            return
+
+        all_comps = list(self._components.values())
+        for comps in all_comps:
+            for comp in comps:
+                comp._update()  # pylint: disable=protected-access
 
     def fixed_update(self):
-        if self.active:
-            for comps in self._components.values():
-                for comp in comps:
-                    comp.fixed_update()
+        if not self.active:
+            return
+
+        for comps in self._components.values():
+            for comp in comps:
+                comp.fixed_update()
 
     def clone(self) -> GameObject:
         """
@@ -222,7 +229,9 @@ class GameObject:
             pos=self.pos.clone(),
             rotation=self.rotation,
             z_index=self.z_index,
-            debug=self.debug
+            debug=self.debug,
+            active=self.active,
+            hidden=self.hidden,
         )
         for component in self._components.values():
             for comp in component:

@@ -1,5 +1,5 @@
 """
-A utility for generating simple smooth noise in your projects.
+A modified implementation of the OpenSimplex2 algorithm.
 """
 from . import Math, InitError
 
@@ -7,7 +7,7 @@ from . import Math, InitError
 # THIS IS A STATIC CLASS
 class Noise:
     """
-    A modified implementation of the OpenSimplex2 algorithm.
+    A utility for generating simple smooth noise, based on OpenSimplex2.
     """
     seed: int = 0
     """The seed for the random noise. Setting to a fixed value will result in the same noise every time."""

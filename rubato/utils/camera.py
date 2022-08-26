@@ -1,7 +1,7 @@
 """
 The Camera module handles where things are drawn.
 A camera can zoom, pan, and travel along the z-index.
-Items only render if their z-index is not more than that of the camera's.
+GameObjects only render if their z-index is not more than that of the camera's.
 
 The current scene's camera can be accessed through :code:`Game.camera`.
 """
@@ -10,7 +10,7 @@ from . import Vector, Display, Math, Radio, Events
 
 class Camera:
     """
-    The camera class.
+    An abstraction describing how a scene is viewed.
 
     Args:
         pos: The position of the camera. Defaults to center of Display.

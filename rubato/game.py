@@ -1,5 +1,5 @@
 """
-The main game module. It controls everything in the game.
+An abstraction surrounding the main game loop in rubato.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING
@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 # THIS IS A STATIC CLASS
 class Game:
     """
-    The main game class.
+    A static class controlling rubato game flow.
     """
     RUNNING = 1
     STOPPED = 2

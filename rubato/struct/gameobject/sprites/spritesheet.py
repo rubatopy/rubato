@@ -1,5 +1,5 @@
 """
-A module to load, manage, and interact with spritesheets.
+Utility class for loading spritesheets.
 """
 import sdl2
 import os

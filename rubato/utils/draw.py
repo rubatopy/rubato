@@ -1,4 +1,4 @@
-"""A static draw class for drawing things directly to the renderer."""
+"""A static class for drawing things directly to the window."""
 from __future__ import annotations
 from ctypes import c_int16
 from typing import TYPE_CHECKING, Optional, Callable
@@ -24,7 +24,7 @@ class DrawTask:
 
 # THIS IS A STATIC CLASS
 class Draw:
-    """Draws things to the renderer. Don't instantiate, instead use it as a static class."""
+    """A static class allowing drawing items to the window."""
     _queue: list[DrawTask] = []
 
     def __init__(self) -> None:
