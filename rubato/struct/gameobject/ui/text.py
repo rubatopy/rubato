@@ -9,7 +9,7 @@ from .... import Display, Vector, Color, Font, Draw, Camera
 
 class Text(Component):
     """
-    A text component subclass. Add this to game objects or UI elements to give them text.
+    A text component. Add this to game objects or UI elements to give them text.
 
     Args:
         text: The text to display. Defaults to "".

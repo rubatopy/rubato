@@ -1,4 +1,6 @@
-"""Miscellaneous helper functions for rubato developers."""
+"""
+Miscellaneous helper functions for rubato developers.
+"""
 from . import Vector, GameObject, Component, Game, Input
 
 

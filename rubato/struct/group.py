@@ -9,7 +9,9 @@ from .. import Error, Camera
 
 class Group:
     """
-    The group class implementation.
+    A divider between separate categories of game objects.
+    Can be used to differentiate between different "groups" of elements that you don't want to interact;
+    i.e. you don't want a gameobject representing an enemy to collide with the coins in the scene.
 
     Args:
         name: The name of the group. Defaults to "" and is set to "Group #" when it is added to another Group or Scene.

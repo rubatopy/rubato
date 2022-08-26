@@ -1,4 +1,4 @@
-"""Handles collision manifold generation for complex geometries."""
+"""Utility methods for colliding hitbox components."""
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 import math

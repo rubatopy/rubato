@@ -1,5 +1,5 @@
 """
-Global display class that allows for easy screen and window management.
+Static class that allows for intuitive window management.
 """
 from __future__ import annotations
 
@@ -53,6 +53,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
         cls.window.title = new
 
 
+# THIS IS A STATIC CLASS
 class Display(metaclass=_DisplayProperties):
     """
     A static class that houses all of the display information

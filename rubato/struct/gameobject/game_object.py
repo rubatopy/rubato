@@ -1,5 +1,6 @@
 """
-A game object is a basic element that holds components, postion, and z_index.
+A game object is a basic element describing a "thing" in rubato.
+Its functionality is defined by the components it holds.
 """
 from __future__ import annotations
 from typing import Optional, Type, TypeVar
@@ -13,7 +14,7 @@ T = TypeVar("T", bound=Component)
 
 class GameObject:
     """
-    The base game object class.
+    An element describing a set of functionality grouped as a "thing", such as a player or a wall.
 
     Args:
         name: The name of the game object. Defaults to "".

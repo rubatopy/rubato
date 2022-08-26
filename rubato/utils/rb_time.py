@@ -1,6 +1,5 @@
 """
-A static time class to monitor time and to call functions in the future.
-
+A static class to monitor time and to call functions at delay/interval.
 """
 from dataclasses import dataclass, field
 from typing import Callable
@@ -49,7 +48,7 @@ class ScheduledTask:
 # THIS IS A STATIC CLASS
 class Time:
     """
-    The time class.
+    Implements time-related functions in rubato.
     """
 
     frames: int = 0

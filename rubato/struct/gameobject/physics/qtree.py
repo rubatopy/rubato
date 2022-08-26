@@ -1,5 +1,5 @@
 """
-Describes a QuadTree implementation for optimized collision detection.
+QuadTree implementation to optimize collision detection as part of the physics engine.
 Do not use this in your own projects as it is tailored only to this use case.
 """
 import Cython
@@ -7,9 +7,11 @@ import Cython
 from . import Hitbox, Engine
 from .... import Vector
 
+
 @Cython.cclass
 class QTree:
     """The Quadtree itself."""
+
     def __init__(self, hbs: list[list[Hitbox]]):
         self.bbs: list[tuple[Vector, Vector]] = []
 
@@ -90,9 +92,11 @@ class QTree:
 
         return tl, br
 
+
 @Cython.cclass
 class STree:
     """A Subtree."""
+
     def __init__(self, top_left: Vector, bottom_right: Vector):
         self.top_left: Vector = top_left
         self.bottom_right: Vector = bottom_right

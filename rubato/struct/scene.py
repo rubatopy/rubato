@@ -1,6 +1,5 @@
 """
-The Scene class which is a collection of groups. It also houses the current scene camera.
-Scenes are built with a root group that everything is added to.
+An abstraction for a "level", or scene, in rubato.
 """
 from __future__ import annotations
 
@@ -10,7 +9,8 @@ from .. import Game, Color, Draw, Camera
 
 class Scene:
     """
-    A scene is a collection of groups.
+    A scene divides different, potentially unrelated, sections of a game into groups.
+    For instance, there may be a scene for the main menu, a scene for each level, and a scene for the win screen.
 
     Args:
         name: The name of the scene. This is used to reference the scene. Automatically set if not assigned.

@@ -1,5 +1,5 @@
 """
-A fully functional, multi-channel sound system.
+A multi-channel sound system for rubato.
 """
 from __future__ import annotations
 from os import path, walk
@@ -23,9 +23,9 @@ def channel_finish_callback(channel_num: int):
 mixer.Mix_ChannelFinished(channel_finish_callback)
 
 
-class Sound():
+class Sound:
     """
-    A sound class that is used to manage the sounds throughout the project. We support the following audio formats:
+    Used to play sounds in rubato. The following file formats are supported:
         * MP3
         * WAV
         * OGG

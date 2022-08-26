@@ -1,5 +1,5 @@
 """
-The component module that represents the template for all components.
+The component abstraction that represents a template for all component types.
 
 Attention:
     Each component can only be attached to one game object. To add one component to multiple game objects, use the

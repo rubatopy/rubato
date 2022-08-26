@@ -1,5 +1,5 @@
 """
-The Input module is the way you collect input from the user.
+An abstraction for checking for hardware input from a user.
 """
 import ctypes
 import math

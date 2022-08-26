@@ -1,4 +1,4 @@
-"""Image is a Component that handles rendering of images."""
+"""Static image component for game objects."""
 from __future__ import annotations
 from . import Raster
 from ... import Sprite

@@ -1,4 +1,4 @@
-"""A module that contains a component wrappers for Surface and Sprite."""
+"""Abstract component for manipulating pixels attached to a game object."""
 from __future__ import annotations
 from .. import Component, Rectangle
 from ... import Surface

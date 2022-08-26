@@ -1,6 +1,5 @@
 """
-The Rigidbody component contains an implementation of rigidbody physics. They
-have hitboxes and can collide and interact with other rigidbodies.
+The Rigidbody component describes how the physics engine handles a game object.
 """
 from __future__ import annotations
 

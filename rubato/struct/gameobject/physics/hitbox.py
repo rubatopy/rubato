@@ -1,4 +1,4 @@
-"""Various hitbox components that enable collisions"""
+"""Primitive shapes integrated into the physics engine."""
 from __future__ import annotations
 from typing import Callable
 
@@ -102,7 +102,7 @@ class Hitbox(Component):
                 The top left and bottom right corners of the bounding box as Vectors as a tuple.
                 (top left, bottom right)
         """
-        return self.gameobj.pos, self.gameobj.pos
+        pass
 
     def update(self):
         if self.scale != self._old_scale:
@@ -125,7 +125,6 @@ class Hitbox(Component):
             self._old_scale = self.scale
 
     def draw(self, camera: Camera):
-
         if self.color:
             self._image.rotation = self.true_rotation()
 
