@@ -254,11 +254,11 @@ class Listener:
         event: The event key to listen for.
         callback: The function to run once the event is broadcast.
     """
-    event: str = cython.declare(str, visibility="public")
+    event: str = cython.declare(str, visibility="public") # type: ignore
     """The event descriptor"""
-    callback: Callable = cython.declare(object, visibility="public")
+    callback: Callable = cython.declare(object, visibility="public") # type: ignore
     """The function called when the event occurs"""
-    registered: cython.bint = cython.declare(cython.bint, visibility="public")
+    registered: cython.bint = cython.declare(cython.bint, visibility="public") # type: ignore
     """Describes whether the listener is registered"""
 
     def __init__(self, event: str, callback: Callable):

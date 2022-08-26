@@ -13,6 +13,7 @@ from . import Vector, get_path, InitError, Math
 
 
 class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
+    # pyright: reportGeneralTypeIssues=false
 
     @property
     def window_size(cls) -> Vector:
@@ -219,7 +220,7 @@ class Display(metaclass=_DisplayProperties):
         cls.renderer.copy(
             tx,
             dstrect=(pos[0] - (x_dim if flipx else 0), pos[1], x_dim, tx.size[1] * abs(scale[1])),
-            angle=angle,
+            angle=round(angle),
             flip=flip
         )
 
@@ -289,7 +290,7 @@ class Display(metaclass=_DisplayProperties):
             raise RuntimeError(f"Could not create surface: {sdl2.SDL_GetError()}")
         try:
             if sdl2.SDL_RenderReadPixels(
-                cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, cls.window_size.x, cls.window_size.y),
+                cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, round(cls.window_size.x), round(cls.window_size.y)),
                 sdl2.SDL_PIXELFORMAT_ARGB8888, render_surface.contents.pixels, render_surface.contents.pitch
             ) != 0:
                 raise RuntimeError(f"Could not read screenshot: {sdl2.SDL_GetError()}")
@@ -306,6 +307,7 @@ class Display(metaclass=_DisplayProperties):
                 return sdl2.sdlimage.IMG_SaveJPG(render_surface, path_bytes, quality) == 0
             elif extension == "bmp":
                 return sdl2.SDL_SaveBMP(render_surface, path_bytes) == 0
+            return False
 
         finally:
             sdl2.SDL_FreeSurface(render_surface)

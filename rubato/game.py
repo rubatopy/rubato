@@ -48,7 +48,7 @@ class Game:
 
     @classmethod
     @property
-    def current(cls) -> Scene:  # test: skip
+    def current(cls) -> Scene | None:  # test: skip
         """
         The current scene. (getonly)
 
@@ -92,7 +92,7 @@ class Game:
 
     @classmethod
     @property
-    def camera(cls) -> Camera:  # test: skip
+    def camera(cls) -> Camera | None:  # test: skip
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -105,7 +105,7 @@ class Game:
         Returns:
             Camera: The current scene's camera
         """
-        return cls.current.camera
+        return cls.current.camera if cls.current else None  # pylint: disable=using-constant-test
 
     @classmethod
     def quit(cls):  # test: skip

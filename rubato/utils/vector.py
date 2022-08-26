@@ -18,9 +18,9 @@ class Vector:
         x: The x coordinate. Defaults to 0.
         y: The y coordinate. Defaults to 0.
     """
-    x: float = cython.declare(cython.float, visibility="public")
+    x: float = cython.declare(cython.float, visibility="public")  # type: ignore
     """The x coordinate."""
-    y: float = cython.declare(cython.float, visibility="public")
+    y: float = cython.declare(cython.float, visibility="public")  # type: ignore
     """The y coordinate."""
 
     def __init__(self, x: float | int = 0, y: float | int = 0):
@@ -98,7 +98,7 @@ class Vector:
             return f"<{num_dem1[0]}/{num_dem1[1]}, {num_dem2[0]}/{num_dem2[1]}>"
         return f"<{num_dem1[0]}/{num_dem1[1]}√{mag[1]}, {num_dem2[0]}/{num_dem2[1]}√{mag[1]}>"
 
-    def normalized(self, out: Vector = None) -> Vector:
+    def normalized(self, out: Vector | None = None) -> Vector:
         """
         Determines the unit vector of this vector.
 
@@ -158,7 +158,7 @@ class Vector:
         # note using matrix determinant
         return self.x * other.y - self.y * other.x
 
-    def perpendicular(self, scalar: float | int = 1, out: Vector = None) -> Vector:
+    def perpendicular(self, scalar: float | int = 1, out: Vector | None = None) -> Vector:
         """
         Computes a scaled 90 degree clockwise rotation on a given vector.
 
@@ -178,7 +178,11 @@ class Vector:
         return out
 
     def clamp(
-        self, lower: Vector | float | int, upper: Vector | float | int, absolute: bool = False, out: Vector = None
+        self,
+        lower: Vector | float | int,
+        upper: Vector | float | int,
+        absolute: bool = False,
+        out: Vector | None = None
     ):
         """
         Clamps x and y between the two values given.
@@ -210,7 +214,7 @@ class Vector:
 
         return out
 
-    def rotate(self, angle: float | int, out: Vector = None) -> Vector:
+    def rotate(self, angle: float | int, out: Vector | None = None) -> Vector:
         """
         Rotates the vector by a given number of degrees.
 
@@ -245,7 +249,7 @@ class Vector:
         """Returns a copy of the vector."""
         return Vector(self.x, self.y)
 
-    def lerp(self, target: Vector, t: float | int, out: Vector = None) -> Vector:
+    def lerp(self, target: Vector, t: float | int, out: Vector | None = None) -> Vector:
         """
         Lerps the current vector to target by a factor of t.
 
@@ -265,7 +269,7 @@ class Vector:
 
         return out
 
-    def round(self, decimal_places: int = 0, out: Vector = None):
+    def round(self, decimal_places: int = 0, out: Vector | None = None):
         """
         Returns a new vector with the coordinates rounded.
 
@@ -284,7 +288,7 @@ class Vector:
 
         return out
 
-    def ceil(self, out: Vector = None) -> Vector:
+    def ceil(self, out: Vector | None = None) -> Vector:
         """
         Returns a new vector with the coordinates ciel-ed.
 
@@ -302,7 +306,7 @@ class Vector:
 
         return out
 
-    def floor(self, out: Vector = None) -> Vector:
+    def floor(self, out: Vector | None = None) -> Vector:
         """
         Returns a new vector with the coordinates floored.
 
@@ -320,7 +324,7 @@ class Vector:
 
         return out
 
-    def abs(self, out: Vector = None) -> Vector:
+    def abs(self, out: Vector | None = None) -> Vector:
         """
         Returns a new vector with the absolute value of the original coordinates.
 
@@ -531,7 +535,7 @@ class Vector:
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
 
-    def __pow__(self, other: Any, mod: float | int) -> Vector:
+    def __pow__(self, other: Any, mod) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(pow(self.x, other, mod), pow(self.y, other, mod))
         if isinstance(other, (Vector, tuple, list)):

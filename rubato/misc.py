@@ -9,7 +9,7 @@ def world_mouse() -> Vector:
     Returns:
         Vector: The mouse position in world coordinates.
     """
-    return Game.camera.i_transform(Input.get_mouse_pos())
+    return Game.camera.i_transform(Input.get_mouse_pos()) if Game.camera else Input.get_mouse_pos()
 
 
 def wrap(

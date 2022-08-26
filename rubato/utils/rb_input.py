@@ -332,12 +332,12 @@ class Input:
     # MOUSE FUNCTIONS
 
     @classmethod
-    def mouse_state(cls) -> tuple[bool]:
+    def mouse_state(cls) -> tuple[bool, bool, bool, bool, bool]:
         """
         Checks which mouse buttons are pressed.
 
         Returns:
-            tuple[bool]: A tuple with 5 booleans representing the state of each
+            A tuple with 5 booleans representing the state of each
             mouse button. (button1, button2, button3, button4, button5)
         """
         info = sdl2.SDL_GetMouseState(ctypes.byref(c_int(0)), ctypes.byref(c_int(0)))
@@ -376,7 +376,7 @@ class Input:
             (info & sdl2.SDL_BUTTON_RMASK) != 0,
             (info & sdl2.SDL_BUTTON_X1MASK) != 0,
             (info & sdl2.SDL_BUTTON_X2MASK) != 0,
-        )
+        )  # type: ignore
 
     @classmethod
     @deprecated(mouse_pressed)
@@ -430,7 +430,7 @@ class Input:
         Args:
             v: The position to set the mouse to.
         """
-        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(v[0]), c_int(v[1]))
+        sdl2.SDL_WarpMouseInWindow(Display.window.window, c_int(round(v[0])), c_int(round(v[1])))
 
     @classmethod
     def mouse_is_visible(cls) -> bool:

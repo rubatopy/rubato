@@ -14,10 +14,10 @@ if TYPE_CHECKING:
 
 @cython.cclass
 class DrawTask:
-    priority: cython.int = cython.declare(cython.int, visibility="public")
-    func: Callable = cython.declare(object, visibility="public")
+    priority: cython.int = cython.declare(cython.int, visibility="public")  # type: ignore
+    func: Callable = cython.declare(object, visibility="public")  # type: ignore
 
-    def __init__(self, priority: cython.int, func: Callable):
+    def __init__(self, priority: cython.int, func: Callable):  # type: ignore
         self.priority = priority
         self.func = func
 
