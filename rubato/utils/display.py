@@ -85,8 +85,8 @@ class Display(metaclass=_DisplayProperties):
         hidden (bool): Whether the window is currently hidden.
     """
 
-    window: sdl2.ext.Window = None
-    renderer: sdl2.ext.Renderer = None
+    window: sdl2.ext.Window
+    renderer: sdl2.ext.Renderer
     pixel_format = sdl2.SDL_PIXELFORMAT_RGBA8888
     format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, pixel_format).contents.format.contents
     hidden: bool = True

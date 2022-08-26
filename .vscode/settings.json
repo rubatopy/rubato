@@ -43,18 +43,9 @@
     "python.analysis.diagnosticMode": "workspace",
     "python.formatting.provider": "yapf",
     "python.linting.pylintCategorySeverity.refactor": "Information",
-    "githubPullRequests.ignoredPrBranches": [
-        "main"
-    ],
-    "python.linting.ignorePatterns": [
-        "**/site-packages/**/*.py",
-        ".vscode/*.py",
-        "demo/**/*",
-        "docs/**/*"
-    ],
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
-    ],
+    "githubPullRequests.ignoredPrBranches": ["main"],
+    "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py", "demo/**/*", "docs/**/*"],
+    "githubPullRequests.ignoredPullRequestBranches": ["main"],
     "files.associations": {
         "cstdint": "c",
         "cmath": "cpp",
@@ -112,8 +103,7 @@
     "C_Cpp.vcFormat.space.afterCastCloseParenthesis": true,
     "editor.formatOnSave": true,
     "todo-tree.tree.showBadges": true,
-    "todo-tree.filtering.excludeGlobs": [
-        "**/node_modules",
-        "**/static"
-    ]
+    "todo-tree.filtering.excludeGlobs": ["**/node_modules", "**/static"],
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.importFormat": "relative"
 }

@@ -78,8 +78,8 @@ class Game:
         Raises:
             IdError: The given scene id is already used.
         """
-        if scene.name is None:
-            scene._id = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
+        if scene.name == "":
+            scene.name = "scene" + str(cls._scene_id)  # pylint: disable=protected-access
 
         if scene.name in cls._scenes:
             raise IdError(f"A scene with name '{scene.name}' has already been added.")

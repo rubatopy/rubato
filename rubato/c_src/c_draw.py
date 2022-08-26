@@ -1,14 +1,9 @@
 # distutils: language = c++
 # cython: language_level = 3
 """Loader for cdraw.cpp"""
-import cython
 from .. import Vector
-if cython.compiled:
-    from cython.cimports.rubato.c_src import cdraw  # pyright: ignore
-    from cython.cimports.cpython import array  # pyright: ignore
-else:
-    cdraw = None
-    import array
+from cython.cimports.rubato.c_src import cdraw  # pyright: ignore
+from cython.cimports.cpython import array  # pyright: ignore
 
 
 def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = True):

@@ -145,7 +145,7 @@ class Color:
         """
         return f"{self.r:02x}{self.g: 02x}{self.b: 02x}{self.a: 02x}".replace(" ", "")
 
-    def to_hsv(self) -> tuple[float | int, float | int, float]:
+    def to_hsv(self) -> tuple[float | int, float | int, float, float]:
         """
         Converts the Color to a tuple containing its HSV values.
 
@@ -175,7 +175,7 @@ class Color:
             h = (60 * ((b - r) / diff) + 120) % 360
 
         # if cmax equal b then compute h
-        elif cmax == b:
+        else:
             h = (60 * ((r - g) / diff) + 240) % 360
 
         # if cmax equal zero
