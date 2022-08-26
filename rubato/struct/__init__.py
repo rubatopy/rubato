@@ -1,5 +1,5 @@
 """
-The classes module holds all of the high-dependency modules relating to game objects.
+The classes module holds all of the high-dependency modules relating to rubato functionality.
 """
 from .surface import Surface
 from .sprite import Sprite

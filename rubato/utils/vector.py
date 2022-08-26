@@ -1,5 +1,5 @@
 """
-A vector implementation.
+An abstraction for a container of x and y values.
 """
 from __future__ import annotations
 import cython

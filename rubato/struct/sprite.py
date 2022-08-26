@@ -1,5 +1,5 @@
 """
-A sprite is a class that handles rendering of images.
+Utility class for rendering images to the screen without using a game object.
 """
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from .. import get_path, Display, Vector
 
 class Sprite(Surface):
     """
-    A sprite is a class that handles rendering of images from your file system independent of Game Objects.
+    Renders images from your file system without being constrained to a game object.
 
     Args:
         rel_path: The relative path to the image.

@@ -1,5 +1,5 @@
 """
-Holds all the various components for game objects.
+Holds everything relating to game objects.
 """
 from .component import Component
 from .physics import *

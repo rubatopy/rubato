@@ -9,7 +9,7 @@ from .... import Display, Vector, Color, Font, Draw, Camera
 
 class Text(Component):
     """
-    A text component subclass. Add this to game objects or UI elements to give them text.
+    A text component. Add this to game objects or UI elements to give them text.
 
     Args:
         text: The text to display. Defaults to "".
@@ -22,6 +22,7 @@ class Text(Component):
         offset: The offset of the text from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the text from the game object. Defaults to 0.
         z_index: The z index of the text. Defaults to 0.
+        hidden: Whether the text is hidden. Defaults to False.
     """
 
     def __init__(
@@ -33,9 +34,10 @@ class Text(Component):
         width: int = 0,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False,
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index, hidden=hidden)
         self._text: str = text
         self.font_object: Font = font
         self.anchor: Vector = Vector.create(anchor)

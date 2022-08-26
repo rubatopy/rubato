@@ -1,5 +1,5 @@
 """
-This color module contains the Color class, which is used to represent colors in the game.
+The representation for colors in rubato.
 """
 from __future__ import annotations
 import ctypes

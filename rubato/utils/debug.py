@@ -1,5 +1,5 @@
 """
-This Debug module provides a set of functions to help with debugging.
+A set of utility functions to help with debugging.
 """
 import sys, traceback
 
@@ -9,7 +9,7 @@ from . import PrintError, Display, Time, Draw, Vector, Color, Font, InitError
 # THIS IS A STATIC CLASS
 class Debug:
     """
-    Debug comes with useful functions to help with debugging.
+    Useful static methods for debugging rubato projects.
     """
 
     def __init__(self) -> None:
@@ -17,6 +17,13 @@ class Debug:
 
     @staticmethod
     def draw_fps(font: Font):
+        """
+        Draws the current FPS to the screen.
+        Called automatically if `Game.show_fps` is True.
+
+        Args:
+            font (Font): The font to use.
+        """
         fs = str(Time.smooth_fps)
         h = int(Display.res.y) >> 5
         p = h // 2

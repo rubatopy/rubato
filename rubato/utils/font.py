@@ -1,4 +1,4 @@
-"""The font module for text rendering"""
+"""A font abstraction used to render text."""
 from typing import Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
 from importlib.resources import files

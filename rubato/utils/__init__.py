@@ -1,5 +1,5 @@
 """
-This module houses all the utils
+This module houses low-dependency utilities widely used in rubato.
 """
 from .path import *
 from .error import *

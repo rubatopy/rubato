@@ -20,6 +20,7 @@ class Button(Component):
         offset: The offset of the button from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the button from the game object. Defaults to 0.
         z_index: The z-index of the button. Defaults to 0.
+        hidden: Whether the button is hidden or not. Defaults to False.
     """
 
     def __init__(
@@ -32,9 +33,10 @@ class Button(Component):
         onexit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        z_index: int = 0
+        z_index: int = 0,
+        hidden: bool = False,
     ):
-        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index, hidden=hidden)
         self.dims: Vector = Vector(width, height)
         """The dimensions of the button."""
         self.pressed: bool = False

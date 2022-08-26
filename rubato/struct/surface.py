@@ -1,4 +1,4 @@
-"""A Surface is a grid of pixels that you can draw shapes onto or edit individual pixels."""
+"""An abstraction for a grid of pixels that can be drawn onto."""
 from __future__ import annotations
 import sdl2, sdl2.ext
 
@@ -8,7 +8,7 @@ from .. import Vector, Color, Display
 
 class Surface:
     """
-    A surface.
+    A grid of pixels that can be modified without being attached to a game object.
 
     Args:
         width: The width of the surface in pixels. Once set this cannot be changed. Defaults to 32.
