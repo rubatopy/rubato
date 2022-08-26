@@ -48,7 +48,7 @@ class Game:
 
     @classmethod
     @property
-    def current(cls) -> Scene:  # test: skip
+    def current(cls) -> Scene | None:  # test: skip
         """
         The current scene. (getonly)
 
@@ -92,7 +92,7 @@ class Game:
 
     @classmethod
     @property
-    def camera(cls) -> Camera:  # test: skip
+    def camera(cls) -> Camera:
         """
         A shortcut getter allowing easy access to the current camera.
         This is a get-only property.
@@ -108,7 +108,7 @@ class Game:
         return cls.current.camera
 
     @classmethod
-    def quit(cls):  # test: skip
+    def quit(cls):
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
         cls.state = cls.STOPPED
@@ -118,7 +118,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls):  # test: skip
+    def start(cls):
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -140,7 +140,7 @@ class Game:
             sys.stdout.flush()
 
     @classmethod
-    def loop(cls):  # test: skip
+    def loop(cls):
         """
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """

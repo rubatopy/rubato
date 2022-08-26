@@ -11,11 +11,15 @@ DEDENT_CLOSING_BRACKETS = true
 plugins = ["Cython.Coverage"]
 
 [tool.coverage.report]
+fail_under = 100
+skip_covered = true
+skip_empty = true
 show_missing = true
 exclude_lines=[
     "if TYPE_CHECKING:",
     "if sys.platform",
     "# test: skip",
+    "import",
 ]
 omit=[
     "rubato/tests/*",
