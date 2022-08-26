@@ -503,7 +503,7 @@ class Input:
             rb = (center + dims / 2).ceil()  # right bottom
             return lt.x <= mo.x <= rb.x and lt.y <= mo.y <= rb.y
         else:
-            lt = (-dims / 2).rotate(angle) + center  # left top
+            lt = (-dims / 2).rotate(angle) + center  # left top # pylint: disable=invalid-unary-operand-type
             rt = (Vector(dims.x, -dims.y) / 2).rotate(angle) + center  # right top
             rb = (dims / 2).rotate(angle) + center  # right bottom
             lb = (Vector(-dims.x, dims.y) / 2).rotate(angle) + center  # left bottom

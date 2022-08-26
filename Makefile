@@ -3,6 +3,14 @@
 
 all: test lint demos
 
+pre-commit:
+	@make docs-test
+	@make lint
+	@echo "Building Rubato..."
+	@make build-test >/dev/null
+	@pytest --cov=rubato --cov-report term-missing --log-format="%(asctime)s %(levelname)s %(thread)d %(message)s" tests
+	@cd demo && ./_run_all.sh
+
 build-test: delete-build
 	@export CFLAGS=-DCYTHON_TRACE=1
 	@export TEST_MODE=1 && python setup.py build_ext --force --inplace --define CYTHON_TRACE
@@ -28,7 +36,7 @@ test-indiv: build-test
 lint: delete-bin
 	@echo "Linting Code"
 	@-pylint rubato 
-	@-[ -d build ] && make build
+	@-[ -d build ] && make build >/dev/null
 
 demos: build
 	@cd demo && ./_run_all.sh

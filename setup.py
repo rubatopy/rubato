@@ -32,7 +32,7 @@ setup(
                 ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
                 extra_compile_args=["-std=c++14"],
                 language="c++",
-            )
+            ),
         ),
         *cythonize(
             "rubato/**/*.py",

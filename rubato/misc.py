@@ -9,6 +9,7 @@ def world_mouse() -> Vector:
     Returns:
         Vector: The mouse position in world coordinates.
     """
+    # pylint: disable=using-constant-test
     return Game.camera.i_transform(Input.get_mouse_pos()) if Game.camera else Input.get_mouse_pos()
 
 
