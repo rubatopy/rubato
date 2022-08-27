@@ -58,13 +58,15 @@ class Time:
     _task_queue: list[DelayedTask] = []
     _schedule_queue: list[ScheduledTask] = []
 
+    _next_queue: list[Callable] = []
+
     delta_time: float = 0.001
     """The number of seconds between the last frame and the current frame."""
     fixed_delta: float = 0.1
     """The number of seconds since the last fixed update."""
-    normal_delta: float = 0
+    _normal_delta: float = 0
     fps = 60
-    """The current fps of thi frame."""
+    """The fps estimate using the last frame."""
     _frame_start: int = 0
 
     physics_counter: float = 0
@@ -86,7 +88,7 @@ class Time:
     @classmethod
     @property
     def smooth_fps(cls) -> int:
-        """The average fps over the past 120 frames. This is a get-only property."""
+        """The average fps over the past 120 frames. (get-only)."""
         return int(sum(cls._past_fps) / cls._fps_history)
 
     @classmethod
@@ -97,9 +99,26 @@ class Time:
     @classmethod
     @property
     def frame_start(cls) -> int:
-        """The time since the start of the game, in milliseconds, taken at the start of the frame.
-        This is a get-only property."""
+        """
+        Time from the start of the game to the start of the current frame, in milliseconds. (get-only)
+        """
         return cls._frame_start
+
+    @classmethod
+    def _start_frame(cls):
+        cls._frame_start = cls.now()
+
+    @classmethod
+    def _end_frame(cls):
+        if cls.capped:
+            delay = cls._normal_delta - cls.delta_time
+            if delay > 0:
+                sdl2.SDL_Delay(int(1000 * delay))
+
+        while cls.now() == cls._frame_start:
+            sdl2.SDL_Delay(1)
+
+        cls.delta_time = (cls.now() - cls._frame_start) / 1000
 
     @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):
@@ -158,6 +177,16 @@ class Time:
         heapq.heappush(cls._schedule_queue, ScheduledTask(interval, func, interval + cls.now()))
 
     @classmethod
+    def next_frame(cls, func: Callable):
+        """
+        Calls the function func on the next frame.
+
+        Args:
+            func: The function to call.
+        """
+        cls._next_queue.append(func)
+
+    @classmethod
     def milli_to_sec(cls, milli: int) -> float:
         """
         Converts milliseconds to seconds.
@@ -189,6 +218,11 @@ class Time:
 
         cls._past_fps[cls._fps_index] = int(cls.fps)
         cls._fps_index = (cls._fps_index + 1) % cls._fps_history
+
+        if cls._next_queue:
+            for func in cls._next_queue:
+                func()
+            cls._next_queue.clear()
 
         while cls._frame_queue:
             if cls._frame_queue[0].delay <= cls.frames:

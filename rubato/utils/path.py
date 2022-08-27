@@ -13,6 +13,6 @@ def get_path(rel_path: str) -> str:
         The absolute path.
     """
     try:
-        return os.path.join(sys._MEIPASS, rel_path)  # type: ignore # pylint: disable=protected-access
+        return os.path.join(sys._MEIPASS, rel_path)  # type: ignore
     except AttributeError:
         return os.path.abspath(rel_path)

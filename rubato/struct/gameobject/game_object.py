@@ -211,7 +211,7 @@ class GameObject:
         all_comps = list(self._components.values())
         for comps in all_comps:
             for comp in comps:
-                comp._update()  # pylint: disable=protected-access
+                comp._update()
 
     def fixed_update(self):
         if not self.active:

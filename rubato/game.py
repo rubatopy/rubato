@@ -50,7 +50,7 @@ class Game:
     @property
     def current(cls) -> Scene | None:  # test: skip
         """
-        The current scene. (getonly)
+        The current scene. (get-only)
 
         Returns:
             The current scene.
@@ -97,16 +97,12 @@ class Game:
     @property
     def camera(cls) -> Camera | None:  # test: skip
         """
-        A shortcut getter allowing easy access to the current camera.
-        This is a get-only property.
+        A shortcut getter allowing easy access to the current camera. (get-only)
 
         Note:
             Returns a pointer to the current camera object.
             This is so you can access/change the current camera properties faster, but you'd still need to
             use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
-
-        Returns:
-            Camera: The current scene's camera
         """
         return cls.current.camera if cls.current else None  # pylint: disable=using-constant-test
 
@@ -121,7 +117,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls):
+    def start(cls) -> None:
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -148,8 +144,8 @@ class Game:
         Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
         """
         while True:
-            # start timing the update loop
-            Time._frame_start = Time.now()  # pylint: disable= protected-access
+            # start a new frame
+            Time._start_frame()
 
             if cls.state == cls.STOPPED:
                 sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
@@ -173,19 +169,19 @@ class Game:
             if curr:  # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
-                    curr._paused_update()  # pylint: disable=protected-access
+                    curr._paused_update()
                 else:
                     # normal update
-                    curr._update()  # pylint: disable=protected-access
+                    curr._update()
 
                     # fixed update
                     Time.physics_counter += Time.delta_time
 
                     while Time.physics_counter >= Time.fixed_delta:
-                        curr._fixed_update()  # pylint: disable=protected-access
+                        curr._fixed_update()
                         Time.physics_counter -= Time.fixed_delta
 
-                curr._draw()  # pylint: disable=protected-access
+                curr._draw()
             else:
                 Draw.clear()
 
@@ -199,19 +195,8 @@ class Game:
             # update renderers
             Display.renderer.present()
 
-            # use delay to cap the fps if need be
-            if Time.capped:
-                delay = Time.normal_delta - (1000 * Time.delta_time)
-                if delay > 0:
-                    sdl2.SDL_Delay(int(delay))
-
-            # don't allow updates to occur more than once in a millisecond
-            # this will likely never occur but is a failsafe
-            while Time.now() == Time.frame_start:  # pylint: disable= comparison-with-callable
-                sdl2.SDL_Delay(1)
-
-            # clock the time the update call took
-            Time.delta_time = (Time.now() - Time.frame_start) / 1000  # pylint: disable=comparison-with-callable
+            # end frame
+            Time._end_frame()
 
     @staticmethod
     def update():  # test: skip

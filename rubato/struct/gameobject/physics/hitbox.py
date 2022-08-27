@@ -212,7 +212,7 @@ class Polygon(Hitbox):
 
     @property
     def radius(self) -> float:
-        """The radius of the Polygon. (getonly)"""
+        """The radius of the Polygon. (get-only)"""
         verts = self.offset_verts()
         max_dist = -Math.INF
         for vert in verts:
@@ -363,12 +363,12 @@ class Rectangle(Hitbox):
 
     @property
     def verts(self) -> list[Vector]:
-        """The list of Rectangle vertices. (getonly)"""
+        """The list of Rectangle vertices. (get-only)"""
         return self._verts
 
     @property
     def radius(self) -> float:
-        """The radius of the Rectangle. (getonly)"""
+        """The radius of the Rectangle. (get-only)"""
         verts = self.offset_verts()
         max_dist = -Math.INF
         for vert in verts:

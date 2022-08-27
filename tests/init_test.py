@@ -39,7 +39,7 @@ def test_init(monkeypatch):
     set_icon = Mock()
     monkeypatch.setattr(rubato.Display, "set_window_icon", set_icon)
 
-    assert rubato.Game._initialized is False  # pylint: disable=protected-access
+    assert rubato.Game._initialized is False
     rubato.init(
         name="Untitled Game",
         window_size=rubato.Vector(360, 360),
@@ -49,12 +49,12 @@ def test_init(monkeypatch):
         icon="",
         hidden=False,
     )
-    assert rubato.Game._initialized is True  # pylint: disable=protected-access
+    assert rubato.Game._initialized is True
     assert rubato.Game.state == rubato.Game.STOPPED
 
     assert rubato.Time.target_fps == 60
     assert rubato.Time.capped
-    assert rubato.Time.normal_delta == 1000 / 60
+    assert rubato.Time._normal_delta == 1 / 60
     assert rubato.Time.physics_fps == 30
 
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.png")))

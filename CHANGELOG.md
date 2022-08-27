@@ -51,6 +51,7 @@
     rectangle.
 -   `gameobject.active` not functioning properly.
 -   Bug fixing from bugs found through pyright.
+-   `Time.delta_time` being misused in a couple rigidbody methods.
 
 ## [v3.1.0] - August 19, 2022
 

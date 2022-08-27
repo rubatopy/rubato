@@ -157,7 +157,7 @@ class Text(Component):
     def delete(self):
         """Deletes the text component."""
         self._tx.destroy()
-        self.font_object._font.close()  # pylint: disable=protected-access
+        self.font_object._font.close()
 
     def clone(self) -> Text:
         """Clones the text component."""

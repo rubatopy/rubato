@@ -24,7 +24,7 @@ class Input:
     @property
     def controllers(cls) -> int:
         """
-        The number of controllers currently registered. (getonly)
+        The number of controllers currently registered. (get-only)
 
         If non-zero, the controllers are registered from 0 to n-1 where n is the number of controllers.
         This number index is passed to events that are propagated when controllers are inputted to.

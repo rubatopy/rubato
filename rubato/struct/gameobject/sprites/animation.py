@@ -70,8 +70,8 @@ class Animation(Component):
         self.flipy: bool = flipy
         """Whether to flip the animation along the y axis."""
 
-        self._time_step = 1000 / self._fps
-        self._time_count = 0
+        self._time_step: float = 1 / self._fps
+        self._time_count: float = 0
 
     @property
     def fps(self):
@@ -81,7 +81,7 @@ class Animation(Component):
     @fps.setter
     def fps(self, new):
         self._fps = new
-        self._time_step = 1000 / self._fps
+        self._time_step = 1 / self._fps
 
     @property
     def current_frame(self) -> int:
@@ -248,7 +248,7 @@ class Animation(Component):
     def draw(self, camera: Camera):
         """Draws the animation frame and steps the animation forward."""
 
-        self._time_count += 1000 * Time.delta_time
+        self._time_count += Time.delta_time
 
         while self._time_count > self._time_step:
             self.anim_tick()
@@ -286,7 +286,7 @@ class Animation(Component):
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
-        # pylint: disable=protected-access
+
         new._states = self._states
         new.default_state = self.default_state
         new.current_state = self.current_state

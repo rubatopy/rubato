@@ -81,8 +81,10 @@ def test_start(monkeypatch: pytest.MonkeyPatch):
 
 @pytest.mark.rub
 def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
-    time_now = Mock(side_effect=[0] + [x * 1000 for x in range(20)])
-    monkeypatch.setattr(Time, "now", time_now)
+    now = Mock(side_effect=[0] + [i * 1000 for i in range(20)])
+    monkeypatch.setattr(Time, "now", now)
+    start_frame = Mock()
+    monkeypatch.setattr(Time, "_start_frame", start_frame)
     push = Mock(side_effect=Error)
     monkeypatch.setattr(rubato.game.sdl2, "SDL_PushEvent", push)
     pump = Mock()
@@ -113,6 +115,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     Game.update = update_override
 
     Time.fixed_delta = 1
+    Time.delta_time = 1.1
 
     clear = Mock()
     monkeypatch.setattr(Draw, "clear", clear)
@@ -127,16 +130,16 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     monkeypatch.setattr(Display.renderer, "present", present)
 
     Time.capped = True
-    Time.normal_delta = 50000
+    Time._normal_delta = 50
 
-    delay = Mock()
-    monkeypatch.setattr(rubato.game.sdl2, "SDL_Delay", delay)
+    end_frame = Mock()
+    monkeypatch.setattr(Time, "_end_frame", end_frame)
 
     with pytest.raises(Error):
         Game.start()
 
-    time_now.assert_called()
-    assert time_now.call_count == 11
+    start_frame.assert_called()
+    assert start_frame.call_count == 4
     push.assert_called_once()
     pump.assert_called()
     assert pump.call_count == 3
@@ -150,8 +153,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     assert run_count == 3
     scene_mock._paused_update.assert_called_once()
     scene_mock._update.assert_called_once()
-    scene_mock._fixed_update.assert_called()
-    assert scene_mock._fixed_update.call_count == 2
+    scene_mock._fixed_update.assert_called_once()
     scene_mock._draw.assert_called()
     assert scene_mock._draw.call_count == 2
     clear.assert_called_once()
@@ -161,6 +163,6 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     assert draw.call_count == 3
     present.assert_called()
     assert present.call_count == 3
-    delay.assert_called()
-    assert delay.call_count == 4
+    end_frame.assert_called()
+    assert end_frame.call_count == 3
     assert Game.state == Game.STOPPED

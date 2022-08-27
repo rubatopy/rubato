@@ -14,7 +14,7 @@ def test_init(rub):
     # pylint: disable=unused-argument
     c = Camera()
     assert c.pos == Display.center  # pylint: disable=comparison-with-callable
-    assert c._zoom == 1  # pylint: disable=protected-access
+    assert c._zoom == 1
     assert c.z_index == Math.INF
 
 

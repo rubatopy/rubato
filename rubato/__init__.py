@@ -66,12 +66,12 @@ def init(
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
 
-    Game._initialized = True  # pylint: disable=protected-access
+    Game._initialized = True
 
     Time.target_fps = target_fps
     Time.capped = Time.target_fps != 0
     if Time.capped:
-        Time.normal_delta = 1000 / target_fps
+        Time._normal_delta = 1 / target_fps
     Time.physics_fps = physics_fps
     Time.fixed_delta = 1 / physics_fps
 
@@ -115,7 +115,7 @@ def begin():
     Raises:
         RuntimeError: rubato has not been initialized before calling.
     """
-    if Game._initialized:  # pylint: disable=protected-access
+    if Game._initialized:
         if not Display.hidden:
             Display.show_window()
         Game.start()
