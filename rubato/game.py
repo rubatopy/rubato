@@ -145,7 +145,7 @@ class Game:
         """
         while True:
             # start a new frame
-            Time._start_frame() # pylint: disable=protected-access
+            Time._start_frame()
 
             if cls.state == cls.STOPPED:
                 sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
@@ -169,19 +169,19 @@ class Game:
             if curr:  # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update
-                    curr._paused_update()  # pylint: disable=protected-access
+                    curr._paused_update()
                 else:
                     # normal update
-                    curr._update()  # pylint: disable=protected-access
+                    curr._update()
 
                     # fixed update
                     Time.physics_counter += Time.delta_time
 
                     while Time.physics_counter >= Time.fixed_delta:
-                        curr._fixed_update()  # pylint: disable=protected-access
+                        curr._fixed_update()
                         Time.physics_counter -= Time.fixed_delta
 
-                curr._draw()  # pylint: disable=protected-access
+                curr._draw()
             else:
                 Draw.clear()
 
@@ -196,7 +196,7 @@ class Game:
             Display.renderer.present()
 
             # end frame
-            Time._end_frame() # pylint: disable=protected-access
+            Time._end_frame()
 
     @staticmethod
     def update():  # test: skip

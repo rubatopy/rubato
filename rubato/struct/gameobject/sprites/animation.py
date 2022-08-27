@@ -286,7 +286,7 @@ class Animation(Component):
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
-        # pylint: disable=protected-access
+
         new._states = self._states
         new.default_state = self.default_state
         new.current_state = self.current_state
