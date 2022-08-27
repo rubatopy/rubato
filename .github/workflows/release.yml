@@ -43,7 +43,9 @@ jobs:
                   pip install build
 
             - name: Build
-              run: RUBATO_VERSION=${{ github.ref_name }} python -m build
+              run: |
+                  RUBATO_VERSION=${{ github.ref_name }} python -m build -w
+                  RUBATO_VERSION=${{ github.ref_name }} python -m setup sdist --formats zip
               shell: bash
 
             - name: Upload Wheel as Artifact
@@ -56,8 +58,8 @@ jobs:
               if: startsWith(matrix.os, 'windows')
               uses: actions/upload-artifact@v3
               with:
-                  name: tar.gz
-                  path: dist/*.tar.gz
+                  name: zip
+                  path: dist/*.zip
 
     releaser:
         name: Release ${{github.ref_name}}
