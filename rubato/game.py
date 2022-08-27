@@ -117,7 +117,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls):
+    def start(cls) -> None:
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
