@@ -187,26 +187,22 @@ class Time:
         cls._next_queue.append(func)
 
     @classmethod
-    def milli_to_sec(cls, milli: int) -> float:
+    def milli_to_sec(cls, milli: float | int) -> float | int:
         """
         Converts milliseconds to seconds.
 
-        Args:
-            milli: A number in milliseconds.
         Returns:
-            float: The converted number in seconds.
+            The converted number in seconds.
         """
         return milli / 1000
 
     @classmethod
-    def sec_to_milli(cls, sec: int) -> float:
+    def sec_to_milli(cls, sec: float | int) -> float | int:
         """
         Converts seconds to milliseconds.
 
-        Args:
-            sec: A number in seconds.
         Returns:
-            float: The converted number in milliseconds.
+            The converted number in milliseconds.
         """
         return sec * 1000
 
