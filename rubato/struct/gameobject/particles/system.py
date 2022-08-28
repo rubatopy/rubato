@@ -23,6 +23,8 @@ class ParticleSystem(Component):
         max_particles: The maximum number of particles in the system. Defaults to Math.INF.
         starting_shape: The starting shape function of the system. If an int is given, the shape is a circle with the 
             given radius. Defaults to 1.
+        starting_dir: The starting direction function of the system. If None, the direction is away from the center.
+            Defaults to None.
         spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
         movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`
     """
@@ -38,6 +40,7 @@ class ParticleSystem(Component):
         loop: bool = False,
         max_particles: int = Math.INF,
         starting_shape: Callable[[float], Vector] | int = 1,
+        starting_dir: Callable[[float], Vector] | None = None,
         spread: int = 5,
         movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -69,7 +72,18 @@ class ParticleSystem(Component):
             """The starting shape function of the system."""
         else:
             self.starting_shape: Callable[[float], Vector] = starting_shape
+        if starting_dir is None:
+            self.starting_dir: Callable[[float], Vector] = lambda a: Vector.from_radial(
+                1,
+                a,
+            )
+            """The starting direction function of the system."""
+        else:
+            self.starting_dir: Callable[[float], Vector] = starting_dir
+
         self.spread: int = spread
+        """The spread of the system. This is the number of particles generated per loop."""
+
         if movement is None:
             self.movement: Callable[[Particle, float], None] = ParticleSystem.default_movement
             """The movement function of a particle."""
@@ -124,12 +138,12 @@ class ParticleSystem(Component):
         generated = 0
 
         while generated < self.spread and len(self.__particles) < self.max_particles:
-            start_dir = self.starting_shape(generated * (360 / self.spread)).rotate(self.true_rotation())
+            angle = generated * (360 / self.spread)
             self.__particles.append(
                 Particle(
                     self.movement,
-                    start_dir * self.start_speed,
-                    start_dir + self.true_pos(),
+                    self.starting_dir(angle).rotate(self.true_rotation()) * self.start_speed,
+                    self.starting_shape(angle).rotate(self.true_rotation()) + self.true_pos(),
                     self.start_rotation,
                     self.start_scale,
                     self.surface.clone(),

@@ -18,24 +18,35 @@ def movement(particle: rb.Particle, dt: float):
     # particle.surface.draw_circle((15, 15), 15, fill=rb.Color.blue.mix(rb.Color.red, particle.age / particle.lifespan))
 
 
+def start_shape(angle: float):
+    return rb.Vector((angle / 360) * 32, 0)
+
+
+def starting_dir(angle: float):
+    return rb.Vector(0, -1)
+
+
 particleSytem = rb.ParticleSystem(
     surf,
     loop=True,
     duration=0.2,
     start_speed=20,
-    spread=40,
+    spread=5,
     movement=movement,
+    starting_shape=start_shape,
+    starting_dir=starting_dir,
 )
 
 particleSytem.start()
 
 
 def update():
-    particleSytem.rot_offset += 1
+    # particleSytem.rot_offset += rb.Time.fixed_delta * 360
+    pass
 
 
 rb.Radio.listen(rb.Events.KEYDOWN, lambda _: print(particleSytem.num_particles))
 
-s.update = update
+s.fixed_update = update
 s.add(rb.wrap(particleSytem, pos=rb.Display.center))
 rb.begin()
