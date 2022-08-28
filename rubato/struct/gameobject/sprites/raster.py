@@ -253,6 +253,21 @@ class Raster(Component):
         """
         self.surf.set_colorkey(color)
 
+    def set_alpha(self, new: int):
+        """
+        Sets surface wide alpha.
+
+        Args:
+            new: The new alpha. (value between 0-255)
+        """
+        self.surf.set_alpha(new)
+
+    def get_alpha(self) -> int:
+        """
+        Gets the surface wide alpha.
+        """
+        return self.surf.get_alpha()
+
     def clone(self) -> Raster:
         """
         Clones the current raster.

@@ -23,10 +23,11 @@
 -   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
+-   `Raster` component and `Surface` now have a changeable alpha. (`Image` and `Sprite` by extension)
 
 ### Changed
 
--   Modified the internal workings of `gameobject`s components data structure to more more flexibly handle inputs.
+-   Modified the internal workings of `gameobject`s components data structure to more flexibly handle inputs.
     (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
 -   Renamed `vector.distance_between()` to `vector.dist_to()`.
 -   Renamed `polygon.translated_verts()` to `polygon.offset_verts()`.
