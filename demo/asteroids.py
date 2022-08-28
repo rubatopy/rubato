@@ -68,9 +68,6 @@ Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
 
 
 class PlayerController(Component):
-    """
-    A spaceship component.
-    """
 
     def setup(self):
         self.speed = 400
