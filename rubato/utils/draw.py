@@ -424,44 +424,44 @@ class Draw:
         Display.update(texture, pos, scale, angle)
 
     @classmethod
-    def queue_surf(
+    def queue_surface(
         cls,
-        surf: Surface,
+        surface: Surface,
         pos: Vector | tuple[float, float] = (0, 0),
         z_index: int = Math.INF,
         camera: Camera | None = None
     ):
         """
-        Draws an surf onto the renderer at the end of the frame.
+        Draws an surface onto the renderer at the end of the frame.
 
         Args:
-            surf: The surface to draw.
-            pos: The position to draw the surf at. Defaults to (0, 0).
-            z_index: The z-index of the surf. Defaults to 0.
+            surface: The surface to draw.
+            pos: The position to draw the surface at. Defaults to (0, 0).
+            z_index: The z-index of the surface. Defaults to 0.
             camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.surf(surf, pos, camera))
+        cls.push(z_index, lambda: cls.surface(surface, pos, camera))
 
     @staticmethod
-    def surf(surf: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
+    def surface(surface: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
         """
-        Draws an surf onto the renderer immediately.
+        Draws an surface onto the renderer immediately.
 
         Args:
-            surf: The surface to draw.
-            pos: The position to draw the surf at. Defaults to (0, 0).
+            surface: The surface to draw.
+            pos: The position to draw the surface at. Defaults to (0, 0).
             camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        if not surf.surf:
+        if not surface.surf:
             return
-        if not surf.uptodate:
-            surf.generate_tx()
+        if not surface.uptodate:
+            surface.generate_tx()
 
-        size = surf.get_size()
+        size = surface.get_size()
 
         pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
 
         if camera is not None:
             pos = camera.transform(pos)
 
-        Draw.texture(surf.tx, pos, surf.scale, surf.rotation)
+        Draw.texture(surface.tx, pos, surface.scale, surface.rotation)

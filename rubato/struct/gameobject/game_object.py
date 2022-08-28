@@ -202,7 +202,7 @@ class GameObject:
         if self.debug or Game.debug:
             self._debug_cross.rotation = self.rotation
 
-            Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
+            Draw.queue_surface(self._debug_cross, self.pos, camera=camera)
 
     def update(self):
         if not self.active:

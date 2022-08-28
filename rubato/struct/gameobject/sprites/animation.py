@@ -254,7 +254,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_surf(self.anim_frame, self.true_pos(), self.true_z(), camera)
+        Draw.queue_surface(self.anim_frame, self.true_pos(), self.true_z(), camera)
 
     def anim_tick(self):
         """An animation processing tick."""

@@ -51,7 +51,7 @@ shapes[3 * gridx + col].draw_poly(points, main_c, 2, second_c, True)
 
 def update():
     for i in range(len(shapes)):
-        Draw.queue_surf(shapes[i], V((i % gridx) * width + (width / 2), (i // gridx) * height + (height / 2)))
+        Draw.queue_surface(shapes[i], V((i % gridx) * width + (width / 2), (i // gridx) * height + (height / 2)))
 
 
 Game.update = update

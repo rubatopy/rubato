@@ -89,7 +89,7 @@ class Raster(Component):
             self._go_rotation = self.gameobj.rotation
             self.surf.rotation = self.true_rotation()
 
-        Draw.queue_surf(self.surf, self.true_pos(), self.true_z(), camera)
+        Draw.queue_surface(self.surf, self.true_pos(), self.true_z(), camera)
 
     def delete(self):
         """Deletes the raster component"""

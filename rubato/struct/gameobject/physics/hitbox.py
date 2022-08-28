@@ -132,12 +132,12 @@ class Hitbox(Component):
         if self.color:
             self._image.rotation = self.true_rotation()
 
-            Draw.queue_surf(self._image, self.true_pos(), self.true_z(), camera)
+            Draw.queue_surface(self._image, self.true_pos(), self.true_z(), camera)
 
         if self.debug or Game.debug:
             self._debug_image.rotation = self.true_rotation()
 
-            Draw.queue_surf(self._debug_image, self.true_pos(), camera=camera)
+            Draw.queue_surface(self._debug_image, self.true_pos(), camera=camera)
 
 
 class Polygon(Hitbox):
