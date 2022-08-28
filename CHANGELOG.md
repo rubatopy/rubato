@@ -23,6 +23,7 @@
 -   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
+-   `Raster.fill()` and `Surface.fill()`.
 
 ### Changed
 
@@ -41,6 +42,7 @@
 -   `polygon.transformed_verts()` because it was unused in the engine.
 -   `camera.scale()`. Simply multiply by the zoom instead.
 -   `Surf`, moving its functionality to `Surface` and updating `Raster` and `Image` accordingly.
+-   `Game` no longer clears the screen if no scene is set. This is to make it more obvious that a user needs to create a scene.
 
 ### Fixed
 

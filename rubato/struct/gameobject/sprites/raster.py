@@ -97,13 +97,22 @@ class Raster(Component):
 
     def clear(self):
         """
-        Clears the image.
+        Clears the surface.
         """
         self.surf.clear()
 
+    def fill(self, color: Color):
+        """
+        Fill the surface with a color.
+
+        Args:
+            color: The color to fill with.
+        """
+        self.surf.fill(color)
+
     def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
-        Draws a point on the image.
+        Draws a point on the surface.
 
         Args:
             pos: The position to draw the point.
@@ -122,7 +131,7 @@ class Raster(Component):
         blending: bool = True
     ):
         """
-        Draws a line on the image.
+        Draws a line on the surface.
 
         Args:
             start: The start of the line.
@@ -144,7 +153,7 @@ class Raster(Component):
         blending: bool = True,
     ):
         """
-        Draws a rectangle on the image.
+        Draws a rectangle on the surface.
 
         Args:
             top_left: The top left corner of the rectangle.
@@ -167,7 +176,7 @@ class Raster(Component):
         blending: bool = True,
     ):
         """
-        Draws a circle on the image.
+        Draws a circle on the surface.
 
         Args:
             center: The center of the circle.
@@ -190,7 +199,7 @@ class Raster(Component):
         blending: bool = True,
     ):
         """
-        Draws a polygon on the image.
+        Draws a polygon on the surface.
 
         Args:
             points: The points of the polygon.
@@ -204,7 +213,7 @@ class Raster(Component):
 
     def get_size(self) -> Vector:
         """
-        Gets the current size of the image.
+        Gets the current size of the surface.
 
         Returns:
             The size of the surface
@@ -213,7 +222,7 @@ class Raster(Component):
 
     def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """
-        Gets the color of a pixel on the image.
+        Gets the color of a pixel on the surface.
 
         Args:
             pos: The position of the pixel.
@@ -225,7 +234,7 @@ class Raster(Component):
 
     def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
         """
-        Gets the color of a pixel on the image.
+        Gets the color of a pixel on the surface.
 
         Args:
             pos: The position of the pixel.
@@ -237,7 +246,7 @@ class Raster(Component):
 
     def switch_color(self, color: Color, new_color: Color):
         """
-        Switches a color in the image.
+        Switches a color in the surface.
 
         Args:
             color: The color to switch.
@@ -247,7 +256,7 @@ class Raster(Component):
 
     def set_colorkey(self, color: Color):
         """
-        Sets the colorkey of the image.
+        Sets the colorkey of the surface.
         Args:
             color: Color to set as the colorkey.
         """

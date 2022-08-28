@@ -342,9 +342,9 @@ class Vector:
 
         return out
 
-    def dir_to(self, other: Vector) -> Vector:
+    def dir_to(self, other: Vector | tuple[float, float]) -> Vector:
         """
-        Direction from the Vector to another Vector.
+        Direction from the Vector to another Vector (or tuple of floats).
 
         Args:
             other: the position to which you are pointing
@@ -352,8 +352,7 @@ class Vector:
         Returns:
             A unit vector that is in the pointing to the other position passed in
         """
-        base = (other - self).normalized()
-        return base
+        return (other - self).normalized()
 
     def dist_to(self, other: Vector) -> float:
         """
