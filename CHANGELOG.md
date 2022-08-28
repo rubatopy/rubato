@@ -23,6 +23,7 @@
 -   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
+-   `Image` component and `Surface` component now have a changeable alpha.
 
 ### Changed
 
