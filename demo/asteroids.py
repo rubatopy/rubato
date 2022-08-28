@@ -75,6 +75,10 @@ class PlayerController(Component):
 
         self.velocity = Vector()
 
+    def update(self):
+        if Input.controller_button(Input.controllers - 1, 0) or Input.key_pressed("j"):
+            shoot()
+
     def fixed_update(self):
         dx = Input.controller_axis(Input.controllers - 1, 0) or \
             (-1 if Input.key_pressed("a") else (1 if Input.key_pressed("d") else 0))
@@ -117,8 +121,15 @@ main.add(
     )
 )
 
+last_shoot = 0
+interval = 200  # milliseconds between shots
+
 
 def shoot():
+    global last_shoot
+    if Time.now() - last_shoot < interval:
+        return
+    last_shoot = Time.now()
     main.add(
         wrap(
             [
@@ -136,20 +147,6 @@ def shoot():
             player_spr.gameobj.rotation,
         )
     )
-
-
-def handle_key(evt):
-    if evt["key"] == "j":
-        shoot()
-
-
-def handle_btn(evt):
-    if evt["button"] == 0:
-        shoot()
-
-
-Radio.listen(Events.KEYDOWN, handle_key)
-Radio.listen(Events.JOYBUTTONDOWN, handle_btn)
 
 
 def new_draw():
