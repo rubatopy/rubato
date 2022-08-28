@@ -52,7 +52,7 @@ Now that rubato is ready, add the following line of code to the end of the file:
 Without it, rubato won't know to begin the engine cycle, and your game won't run.
 It is recommended to call :func:`rb.begin() <rubato.begin>` at the bottom of your project file as in this example.
 
-Now run your code in a terminal using ``python YOUR_FILENAME.py``. If you see a black square window, congrats!
+Now run your code in a terminal using ``python YOUR_FILENAME.py``. If you see a white square window, congrats!
 You're officially up and running with rubato.
 
 .. warning::

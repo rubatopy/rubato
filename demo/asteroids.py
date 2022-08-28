@@ -9,7 +9,7 @@ bounds = size // 8
 radius = size // 40
 level = 0
 
-init(name="asteroids", res=(size, size), physics_fps=60)
+init(name="asteroids", res=(size, size))
 
 main = Scene()
 

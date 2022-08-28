@@ -54,41 +54,37 @@ main_scene.add(top, bottom, left, right)
 # Create and add all our objects
 for _ in range(num_obj // 2):
     main_scene.add(
-        rb.wrap(
-            [
-                rb.Circle(radius=rb.Display.res.x // num_obj, color=rb.Color.random_default()),
-                rb.RigidBody(
-                    mass=0.1,
-                    bounciness=1,
-                    friction=0.2,
-                    gravity=(0, 50),
-                    velocity=(randint(-100, 100), randint(-100, 100)),
-                )
-            ],
-            pos=(
-                randint(rb.Display.res.x / 20,
-                        19 * rb.Display.res.x / 20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
+        rb.wrap([
+            rb.Circle(radius=rb.Display.res.x // num_obj, color=rb.Color.random_default()),
+            rb.RigidBody(
+                mass=0.1,
+                bounciness=0.99,
+                friction=0.2,
+                gravity=(0, 80),
+                velocity=(randint(-100, 100), randint(-100, 100)),
             )
-        )
+        ],
+                pos=(
+                    randint(rb.Display.res.x / 20,
+                            19 * rb.Display.res.x / 20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
+                ))
     )
 for _ in range(num_obj // 2):
     main_scene.add(
-        rb.wrap(
-            [
-                rb.Polygon(rb.Vector.poly(randint(3, 9), rb.Display.res.x // num_obj), color=rb.Color.random_default()),
-                rb.RigidBody(
-                    mass=0.1,
-                    bounciness=1,
-                    friction=0.2,
-                    gravity=(0, 50),
-                    velocity=(randint(-100, 100), randint(-100, 100)),
-                )
-            ],
-            pos=(
-                randint(rb.Display.res.x / 20,
-                        19 * rb.Display.res.x / 20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
+        rb.wrap([
+            rb.Polygon(rb.Vector.poly(randint(3, 9), rb.Display.res.x // num_obj), color=rb.Color.random_default()),
+            rb.RigidBody(
+                mass=0.1,
+                bounciness=0.99,
+                friction=0.2,
+                gravity=(0, 80),
+                velocity=(randint(-100, 100), randint(-100, 100)),
             )
-        )
+        ],
+                pos=(
+                    randint(rb.Display.res.x / 20,
+                            19 * rb.Display.res.x / 20), randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20)
+                ))
     )
 
 rb.begin()

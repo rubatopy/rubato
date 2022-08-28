@@ -37,6 +37,7 @@
 -   Rewrote `Rectangle` from the ground-up.
 -   Window is now shown when begin is called. Not when init is called.
 -   `mouse_button` key passed in mouse press events renamed to `button`
+-   Default physics fps to 50 to align with Unity.
 
 ### Removed
 
@@ -44,7 +45,6 @@
 -   `polygon.transformed_verts()` because it was unused in the engine.
 -   `camera.scale()`. Simply multiply by the zoom instead.
 -   `Surf`, moving its functionality to `Surface` and updating `Raster` and `Image` accordingly.
--   `Game` no longer clears the screen if no scene is set. This is to make it more obvious that a user needs to create a scene.
 
 ### Fixed
 

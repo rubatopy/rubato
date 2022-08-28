@@ -20,7 +20,7 @@ At this point, your ``main.py`` file should look like this:
 
     rb.begin()
 
-Running ``main.py`` using ``python main.py`` should result in a window similar to this appearing (may be black instead of white):
+Running ``main.py`` using ``python main.py`` should result in a window similar to this appearing:
 
 .. image:: /_static/tutorials_static/platformer/step1/1.png
     :width: 25%
@@ -58,7 +58,7 @@ parameters. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded w
 many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a
 deeper look at what that means in a bit.
 
-At this point, running the game should look like this (again, screen may be black instead of white):
+At this point, running the game should look like this:
 
 .. image:: /_static/tutorials_static/platformer/step1/2.png
     :width: 75%
