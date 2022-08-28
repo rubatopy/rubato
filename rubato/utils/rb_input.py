@@ -19,6 +19,7 @@ class Input:
     # CONTROLLER METHODS
 
     _controllers: list[sdl2.SDL_Joystick] = []
+    _joystick_max: int = 32768
 
     @classmethod
     @property
@@ -83,39 +84,39 @@ class Input:
         return sdl2.SDL_JoystickNameForIndex(controller)
 
     @classmethod
-    def controller_axis(cls, controller: int, axis: int) -> int:
+    def controller_axis(cls, controller: int, axis: int) -> float:
         """
         Get the value of a given joystick axis on a controller.
 
         Args:
-            controller (int): The index of the controller.
-            axis (int): The index of the joystick axis.
+            controller: The index of the controller.
+            axis: The index of the joystick axis.
 
         Raises:
             IndexError: The given controller index is out of range.
                 Note that no error is thrown if controller is negative.
 
         Returns:
-            int: The value of the axis. If controller is less than 0, returns 0.
+            The value of the axis. If controller is less than 0, returns 0.
         """
         if controller < 0:
             return 0
         if controller >= len(cls._controllers):
             raise IndexError(f"Index {controller} out of range.")
-        return sdl2.SDL_JoystickGetAxis(cls._controllers[controller], axis)
+        return sdl2.SDL_JoystickGetAxis(cls._controllers[controller], axis) / cls._joystick_max
 
     @classmethod
-    def axis_centered(cls, val: int) -> bool:
+    def axis_centered(cls, val: float) -> bool:
         """
-        Check whether a given axis value is within the 10% bounds of deadzone considered the "center".
+        Check whether a given axis value is within the +/-10% bounds of deadzone considered the "center".
 
         Args:
-            val (int): The value of the axis.
+            val: The value of the axis.
 
         Returns:
-            bool: Whether the axis is centered.
+            Whether the axis is centered.
         """
-        return -3200 < val < 3200
+        return -0.1 < val < 0.1
 
     @classmethod
     def controller_button(cls, controller: int, button: int) -> bool:

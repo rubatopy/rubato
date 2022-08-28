@@ -160,13 +160,14 @@ class Radio:
                     },
                 )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
+                mag: float = event.jaxis.value / Input._joystick_max
                 cls.broadcast(
                     Events.JOYAXISMOTION,
                     {
                         "controller": event.jaxis.which,
                         "axis": event.jaxis.axis,
-                        "value": event.jaxis.value,
-                        "centered": Input.axis_centered(event.jaxis.value),
+                        "value": mag,
+                        "centered": Input.axis_centered(mag),
                     },
                 )
             elif event.type == sdl2.SDL_JOYBUTTONDOWN:

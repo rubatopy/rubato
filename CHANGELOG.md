@@ -38,6 +38,7 @@
 -   Window is now shown when begin is called. Not when init is called.
 -   `mouse_button` key passed in mouse press events renamed to `button`
 -   Default physics fps to 50 to align with Unity.
+-   Automatically normalized joystick events/getters to be in the range of -1 to 1 instead of -32768 to 32767.
 
 ### Removed
 

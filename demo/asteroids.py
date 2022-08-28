@@ -82,7 +82,7 @@ class PlayerController(Component):
         target = Vector(
             Input.controller_axis(Input.controllers - 1, 0),
             Input.controller_axis(Input.controllers - 1, 1),
-        ).normalized()
+        )
 
         d_vel = target * self.speed
         steering = Vector.clamp_magnitude(d_vel - self.velocity, self.steer)
