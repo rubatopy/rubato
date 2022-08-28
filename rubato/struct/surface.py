@@ -340,7 +340,10 @@ class Surface:
 
     def set_alpha(self, new: int):
         """
-        Sets the alpha of the surface to new 0-255
+        Sets surface wide alpha.
+
+        Args:
+            new: The new alpha. (value between 0-255)
         """
         new = max(min(new, 255), 0)
         sdl2.SDL_SetSurfaceAlphaMod(self._surf, new)
@@ -348,7 +351,7 @@ class Surface:
 
     def get_alpha(self) -> int:
         """
-        Gets the alpha of the surface.
+        Gets the surface wide alpha.
         """
         y = ctypes.c_uint8()
 
