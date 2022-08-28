@@ -377,7 +377,7 @@ class Vector:
         Returns:
             True if the vector is within the distance, False otherwise
         """
-        return self.dist_to(other) <= distance
+        return (self.x - other[0])**2 + (self.y - other[1])**2 <= distance * distance
 
     @deprecated(dist_to)
     def distance_between(self, other: Vector) -> float:
