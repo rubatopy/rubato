@@ -21,7 +21,7 @@ for i in range(200):
     stars.draw_point(pos, Color.white)
 
 
-# remove asteroids that are out of bounds
+# component to remove things that are out of bounds
 class BoundsChecker(Component):
 
     def update(self):
@@ -70,8 +70,8 @@ Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
 class PlayerController(Component):
 
     def setup(self):
-        self.speed = 400
-        self.steer = 50
+        self.speed = 200
+        self.steer = 20
 
         self.velocity = Vector()
 
@@ -116,6 +116,40 @@ main.add(
         Display.center,
     )
 )
+
+
+def shoot():
+    main.add(
+        wrap(
+            [
+                Circle(radius // 5, Color.debug, trigger=True),
+                RigidBody(
+                    velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
+                        500,
+                        player_spr.gameobj.rotation,
+                    )
+                ),
+                BoundsChecker(),
+            ],
+            "bullet",
+            player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation),
+            player_spr.gameobj.rotation,
+        )
+    )
+
+
+def handle_key(evt):
+    if evt["key"] == "j":
+        shoot()
+
+
+def handle_btn(evt):
+    if evt["button"] == 0:
+        shoot()
+
+
+Radio.listen(Events.KEYDOWN, handle_key)
+Radio.listen(Events.JOYBUTTONDOWN, handle_btn)
 
 
 def new_draw():
