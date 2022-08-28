@@ -354,17 +354,30 @@ class Vector:
         """
         return (other - self).normalized()
 
-    def dist_to(self, other: Vector) -> float:
+    def dist_to(self, other: Vector | tuple[float, float]) -> float:
         """
-        Finds the pythagorean distance between two vectors.
+        Finds the pythagorean distance to another vector (or tuple of floats).
 
         Args:
-            other (Vector): The other vector.
+            other: The other vector.
 
         Returns:
-            float: The distance.
+            The distance.
         """
-        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
+        return math.sqrt((self.x - other[0])**2 + (self.y - other[1])**2)
+
+    def within(self, other: Vector | tuple[float, float], distance: float | int) -> bool:
+        """
+        Checks if the vector is within a certain distance of another vector (or tuple of floats).
+
+        Args:
+            other: The other vector
+            distance: The distance to check
+
+        Returns:
+            True if the vector is within the distance, False otherwise
+        """
+        return self.dist_to(other) <= distance
 
     @deprecated(dist_to)
     def distance_between(self, other: Vector) -> float:

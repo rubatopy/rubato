@@ -24,6 +24,7 @@
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
 -   `Raster.fill()` and `Surface.fill()`.
+-   `Vector.within()` method to check if vector is within a certain distance of another vector.
 
 ### Changed
 

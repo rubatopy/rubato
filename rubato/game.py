@@ -203,5 +203,5 @@ class Game:
 
     @staticmethod
     def draw():  # test: skip
-        """An overrideable method for drawing the game. Called once per frame, after the current scene draws."""
+        """An overrideable method for drawing the game. Called once per frame, before the draw queue is dumped."""
         pass

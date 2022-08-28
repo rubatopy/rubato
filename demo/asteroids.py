@@ -9,7 +9,7 @@ bounds = size // 8
 radius = size // 40
 level = 0
 
-init(name="asteroids", res=(size, size))
+init(name="asteroids", res=(size, size), physics_fps=60)
 
 main = Scene()
 
@@ -50,7 +50,7 @@ def make_asteroid():
                 Vector.from_radial(random.randint(int(radius * .7), int(radius * 0.95)), i * 360 / sides)
                 for i in range(sides)
             ], Color.white),
-            RigidBody(velocity=dir * 100, ang_vel=20),
+            RigidBody(velocity=dir * 100, ang_vel=random.randint(-30, 30)),
             BoundsChecker(),
         ], "asteroid", pos, random.randint(0, 360))
     )
@@ -59,8 +59,37 @@ def make_asteroid():
 Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
 
 
+class PlayerController(Component):
+    """
+    A spaceship component.
+    """
+
+    def setup(self):
+        self.speed = .2
+        self.steer = .02
+
+        self.velocity = Vector()
+
+    def fixed_update(self):
+        target = world_mouse()
+        dir = (target - self.gameobj.pos).normalized()
+
+        acc = Vector.clamp_magnitude((dir * self.speed - self.velocity) * self.steer, self.steer)
+
+        self.velocity = Vector.clamp_magnitude(self.velocity + acc * Time.sec_to_milli(Time.fixed_delta), self.speed)
+        self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.fixed_delta)
+
+        if not self.gameobj.pos.within(target, radius):
+            self.gameobj.rotation = self.velocity.angle
+
+
+main.add(
+    wrap([PlayerController(), Polygon(Vector.poly(3, radius), Color.green, trigger=True)], "player", Display.center)
+)
+
+
 def background():
-    Draw.queue_surf(stars, pos=Display.center, z_index=-Math.INF)
+    Draw.surf(stars, Display.center)
 
 
 Game.draw = background
