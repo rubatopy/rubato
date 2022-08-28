@@ -395,9 +395,7 @@ class Vector:
         Returns:
             Vector from the given direction and distance
         """
-        radians = math.radians(-(angle - 90))
-
-        return Vector(round(math.cos(radians), 10) * magnitude, -round(math.sin(radians), 10) * magnitude)
+        return Vector.up().rotate(angle) * magnitude
 
     @staticmethod
     def clamp_magnitude(vector: Vector, max_magnitude: float | int, min_magnitude: float | int = 0) -> Vector:

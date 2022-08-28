@@ -45,14 +45,22 @@ def make_asteroid():
     dir = (-Display.center.dir_to(pos)).rotate(random.randint(-45, 45))
 
     main.add(
-        wrap([
-            Polygon([
-                Vector.from_radial(random.randint(int(radius * .7), int(radius * 0.95)), i * 360 / sides)
-                for i in range(sides)
-            ], Color.white),
-            RigidBody(velocity=dir * 100, ang_vel=random.randint(-30, 30)),
-            BoundsChecker(),
-        ], "asteroid", pos, random.randint(0, 360))
+        wrap(
+            [
+                Polygon(
+                    [
+                        Vector.from_radial(random.randint(int(radius * .7), int(radius * 0.95)), i * 360 / sides)
+                        for i in range(sides)
+                    ],
+                    debug=True,
+                ),
+                RigidBody(velocity=dir * 100, ang_vel=random.randint(-30, 30)),
+                BoundsChecker(),
+            ],
+            "asteroid",
+            pos,
+            random.randint(0, 360),
+        )
     )
 
 
@@ -65,26 +73,50 @@ class PlayerController(Component):
     """
 
     def setup(self):
-        self.speed = .2
-        self.steer = .02
+        self.speed = 400
+        self.steer = 50
 
         self.velocity = Vector()
 
     def fixed_update(self):
-        target = world_mouse()
-        dir = (target - self.gameobj.pos).normalized()
+        target = Vector(
+            Input.controller_axis(Input.controllers - 1, 0),
+            Input.controller_axis(Input.controllers - 1, 1),
+        ).normalized()
 
-        acc = Vector.clamp_magnitude((dir * self.speed - self.velocity) * self.steer, self.steer)
+        d_vel = target * self.speed
+        steering = Vector.clamp_magnitude(d_vel - self.velocity, self.steer)
 
-        self.velocity = Vector.clamp_magnitude(self.velocity + acc * Time.sec_to_milli(Time.fixed_delta), self.speed)
-        self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.fixed_delta)
+        self.velocity = Vector.clamp_magnitude(self.velocity + steering, self.speed)
 
-        if not self.gameobj.pos.within(target, radius):
+        self.gameobj.pos += self.velocity * Time.fixed_delta
+
+        if target != (0, 0):
             self.gameobj.rotation = self.velocity.angle
 
 
+full = [
+    Vector.from_radial(radius, 0),
+    Vector.from_radial(radius, 125),
+    Vector.from_radial(radius // 4, 180),
+    Vector.from_radial(radius, -125),
+]
+right = [full[0], full[1], full[2]]
+left = [full[0], full[2], full[3]]
+player_spr = Raster(radius * 2, radius * 2)
+player_spr.draw_poly([v + radius for v in full], Color.debug, 2, aa=True)
+
 main.add(
-    wrap([PlayerController(), Polygon(Vector.poly(3, radius), Color.green, trigger=True)], "player", Display.center)
+    wrap(
+        [
+            PlayerController(),
+            Polygon(right, trigger=True),
+            Polygon(left, trigger=True),
+            player_spr,
+        ],
+        "player",
+        Display.center,
+    )
 )
 
 
