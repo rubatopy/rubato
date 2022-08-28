@@ -1,6 +1,6 @@
 """An abstraction for a grid of pixels that can be drawn onto."""
 from __future__ import annotations
-import sdl2, sdl2.ext
+import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
 from .. import Vector, Color, Display
@@ -346,3 +346,23 @@ class Surface:
             new.surf = Display.clone_surface(self.surf)
 
         return new
+
+    def set_alpha(self, new: int):
+        """
+        Sets surface wide alpha.
+
+        Args:
+            new: The new alpha. (value between 0-255)
+        """
+        new = max(min(new, 255), 0)
+        sdl2.SDL_SetSurfaceAlphaMod(self._surf, new)
+        self.uptodate = False
+
+    def get_alpha(self) -> int:
+        """
+        Gets the surface wide alpha.
+        """
+        y = ctypes.c_uint8()
+
+        sdl2.SDL_GetSurfaceAlphaMod(self._surf, ctypes.byref(y))
+        return y.value
