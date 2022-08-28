@@ -76,10 +76,11 @@ class PlayerController(Component):
         self.velocity = Vector()
 
     def fixed_update(self):
-        target = Vector(
-            Input.controller_axis(Input.controllers - 1, 0),
-            Input.controller_axis(Input.controllers - 1, 1),
-        )
+        dx = Input.controller_axis(Input.controllers - 1, 0) or \
+            (-1 if Input.key_pressed("a") else (1 if Input.key_pressed("d") else 0))
+        dy = Input.controller_axis(Input.controllers - 1, 1) or \
+            (-1 if Input.key_pressed("w") else (1 if Input.key_pressed("s") else 0))
+        target = Vector(dx, dy)
 
         d_vel = target * self.speed
         steering = Vector.clamp_magnitude(d_vel - self.velocity, self.steer)
@@ -117,10 +118,10 @@ main.add(
 )
 
 
-def background():
+def new_draw():
     Draw.surf(stars, Display.center)
 
 
-Game.draw = background
+Game.draw = new_draw
 
 begin()
