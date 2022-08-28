@@ -3,26 +3,38 @@ import rubato as rb
 from rubato import Vector as V
 
 rb.init(res=V(256, 256), window_size=V(256, 256) * 2)
+rb.Game.show_fps = True
 s = rb.Scene()
 
-surf = rb.Surface(5, 5)
-surf.draw_rect(V(0, 0), V(32, 32), fill=rb.Color.blue)
+surf = rb.Surface(31, 31, scale=(1 / 8, 1 / 8))
+surf.draw_circle((15, 15), 15, fill=rb.Color.blue)
+
+surf2 = surf.clone()
+surf2.draw_rect((0, 0), (31, 31), fill=rb.Color.red)
+
+
+def movement(particle: rb.Particle, dt: float):
+    particle.pos += particle.velocity * dt
+    # particle.surface.draw_circle((15, 15), 15, fill=rb.Color.blue.mix(rb.Color.red, particle.age / particle.lifespan))
+
 
 particleSytem = rb.ParticleSystem(
     surf,
     loop=True,
-    duration=0.1,
+    duration=0.2,
     start_speed=20,
-    spread=10,
+    spread=40,
+    movement=movement,
 )
 
 particleSytem.start()
 
 
 def update():
-    # return
     particleSytem.rot_offset += 1
 
+
+rb.Radio.listen(rb.Events.KEYDOWN, lambda _: print(particleSytem.num_particles))
 
 s.update = update
 s.add(rb.wrap(particleSytem, pos=rb.Display.center))

@@ -333,8 +333,7 @@ class Surface:
             rotation=self.rotation,
             af=self.af,
         )
-        if self.surf:
-            new.surf = Display.clone_surface(self.surf)
+        new.merge(self)
 
         return new
 

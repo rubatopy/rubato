@@ -16,15 +16,16 @@ class Particle:
     rotation: float
     scale: float
     surface: Surface
-    life: float
+    lifespan: float
     z_index: int
+    age: float = 0
 
     def __post_init__(self):
         self.velocity: Vector = Vector.create(self.velocity)
         self.pos: Vector = Vector.create(self.pos)
 
     def _fixed_update(self):
-        self.life -= Time.fixed_delta
+        self.age += Time.fixed_delta
         self.movement(self, Time.fixed_delta)
 
     def _draw(self, camera: Camera):

@@ -37,7 +37,7 @@ class ParticleSystem(Component):
         duration: float = 5,
         loop: bool = False,
         max_particles: int = Math.INF,
-        starting_shape: Callable[[int], Vector] | int = 1,
+        starting_shape: Callable[[float], Vector] | int = 1,
         spread: int = 5,
         movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -62,13 +62,13 @@ class ParticleSystem(Component):
         self.max_particles: int = max_particles
         """The maximum number of particles in the system."""
         if isinstance(starting_shape, int):
-            self.starting_shape: Callable[[int], Vector] = lambda i: Vector.from_radial(
+            self.starting_shape: Callable[[float], Vector] = lambda a: Vector.from_radial(
                 starting_shape,
-                i * 360 / spread,
+                a,
             )
             """The starting shape function of the system."""
         else:
-            self.starting_shape: Callable[[int], Vector] = starting_shape
+            self.starting_shape: Callable[[float], Vector] = starting_shape
         self.spread: int = spread
         if movement is None:
             self.movement: Callable[[Particle, float], None] = ParticleSystem.default_movement
@@ -79,6 +79,13 @@ class ParticleSystem(Component):
         self.__particles: list[Particle] = []
         self.__running: bool = False
         self.__time: float = duration
+
+    @property
+    def num_particles(self):
+        """
+        The number of particles in the system.
+        """
+        return len(self.__particles)
 
     def start(self):
         """Start the system."""
@@ -91,7 +98,7 @@ class ParticleSystem(Component):
     def fixed_update(self):
         i = 0
         while i < len(self.__particles):
-            if self.__particles[i].life <= 0:
+            if self.__particles[i].age >= self.__particles[i].lifespan:
                 self.__particles.pop(i)
             else:
                 self.__particles[i]._fixed_update()
@@ -117,7 +124,7 @@ class ParticleSystem(Component):
         generated = 0
 
         while generated < self.spread and len(self.__particles) < self.max_particles:
-            start_dir = self.starting_shape(generated).rotate(self.true_rotation())
+            start_dir = self.starting_shape(generated * (360 / self.spread)).rotate(self.true_rotation())
             self.__particles.append(
                 Particle(
                     self.movement,
