@@ -41,6 +41,7 @@ jobs:
                   python -m pip install --upgrade pip
                   git submodule update --init --recursive
                   pip install build
+                  pip install -e .
 
             - name: Build
               run: |
@@ -136,7 +137,7 @@ jobs:
         needs: docs
         steps:
             - name: Wait for things to update
-              run: sleep 2m
+              run: sleep 5m
               shell: bash
 
             - uses: actions/checkout@v3
