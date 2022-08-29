@@ -120,6 +120,17 @@ Spritesheet
 ___________
 .. automodule:: rubato.struct.gameobject.sprites.spritesheet
 
+.. _particlesystem:
+
+Particle Sytem
+--------------
+.. automodule:: rubato.struct.gameobject.particles.system
+
+.. _particle:
+
+Particle
+________
+.. automodule:: rubato.struct.gameobject.particles.particle
 
 .. _hitbox:
 
@@ -210,7 +221,7 @@ These classes are utility classes that are used to make certain tasks easier.
 Surface
 =======
 .. automodule:: rubato.struct.surface
-    
+
 .. _sprite:
 
 Sprite

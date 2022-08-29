@@ -71,7 +71,7 @@ class Surface:
     def af(self, new: bool):
         self._af = new
         if hasattr(self, "tx"):
-            self.tx.set_scale_mode("nearest" if not self.af else "linear")
+            self.tx.set_scale_mode("linear" if self.af else "nearest")
 
     def get_size(self) -> Vector:
         """
@@ -107,7 +107,7 @@ class Surface:
         self.uptodate = True
 
     def delete(self):
-        """Deletes the sprite"""
+        """Deletes the surface."""
         self.tx.destroy()
         sdl2.SDL_FreeSurface(self.surf)
 

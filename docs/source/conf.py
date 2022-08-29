@@ -42,21 +42,21 @@ extensions = [
     "sphinx_sitemap",
     "sphinx_design",
     "sphinx.ext.intersphinx",
+    "enum_tools.autoenum",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 html_sidebars = {
-    "**":
-        [
-            "sidebar/scroll-start.html",
-            "brand.html",
-            "sidebar/search.html",
-            "sidebar/navigation.html",
-            "versioning.html",
-            "sidebar/scroll-end.html",
-        ],
+    "**": [
+        "sidebar/scroll-start.html",
+        "brand.html",
+        "sidebar/search.html",
+        "sidebar/navigation.html",
+        "versioning.html",
+        "sidebar/scroll-end.html",
+    ],
 }
 
 # List of patterns, relative to source directory, that match files and
@@ -112,19 +112,17 @@ theme_color = "#ff9484"
 html_theme_options = {
     "navigation_with_keys": True,
     "sidebar_hide_name": True,
-    "light_css_variables":
-        {
-            "color-brand-primary": theme_color,
-            "color-brand-content": theme_color,
-            "color-api-name": theme_color,
-            "font-stack": "Fredoka, sans-serif"
-        },
-    "dark_css_variables":
-        {
-            "color-brand-primary": theme_color,
-            "color-brand-content": theme_color,
-            "color-api-name": theme_color,
-        },
+    "light_css_variables": {
+        "color-brand-primary": theme_color,
+        "color-brand-content": theme_color,
+        "color-api-name": theme_color,
+        "font-stack": "Fredoka, sans-serif"
+    },
+    "dark_css_variables": {
+        "color-brand-primary": theme_color,
+        "color-brand-content": theme_color,
+        "color-api-name": theme_color,
+    },
     "globaltoc_maxdepth": -1,
     "globaltoc_includehidden": True,
 }

@@ -1,7 +1,9 @@
 """A simple particle system."""
-from enum import Enum
+from __future__ import annotations
+from enum import IntEnum, unique
 from random import choice
 from typing import Callable
+from enum_tools import document_enum
 
 from . import Particle
 from .. import Component
@@ -9,17 +11,19 @@ from ... import Surface
 from .... import Vector, Camera, Time, Math
 
 
-class ParticleSystemMode(Enum):
+@unique
+@document_enum
+class ParticleSystemMode(IntEnum):
     """
     The mode of the particle system.
     """
-    RANDOM = "random"
+    RANDOM = 0
     """The particles are generated randomly."""
-    LOOP = "loop"
+    LOOP = 1
     """Animate the generation around the shape."""
-    PINGPONG = "pingpong"
+    PINGPONG = 2
     """Animate the generation in a pingpong fashion."""
-    BURST = "burst"
+    BURST = 3
     """Generate the particles in a burst."""
 
 
@@ -42,7 +46,10 @@ class ParticleSystem(Component):
             Defaults to None.
         mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
         spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
-        movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`
+        movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`.
+        offset: The offset of the system. Defaults to (0, 0).
+        rot_offset: The rotation offset of the system. Defaults to 0.
+        z_index: The z-index of the system. Defaults to 0.
     """
 
     def __init__(
@@ -140,7 +147,7 @@ class ParticleSystem(Component):
             if self.__particles[i].age >= self.__particles[i].lifespan:
                 self.__particles.pop(i)
             else:
-                self.__particles[i]._fixed_update()
+                self.__particles[i].fixed_update()
             i += 1
 
         if self.__running:
@@ -156,11 +163,11 @@ class ParticleSystem(Component):
 
     def draw(self, camera: Camera):
         for particle in self.__particles:
-            particle._draw(camera)
+            particle.draw(camera)
 
     def generate_particles(self):
         """
-        Generates particles.
+        Generates particles. Called automatically by fixed_update.
         """
         if self.mode == ParticleSystemMode.BURST and self.__time == 0:
             while self.__generated < self.spread and len(self.__particles) < self.max_particles:
@@ -205,6 +212,32 @@ class ParticleSystem(Component):
                 self.z_index,
             )
         )
+
+    def clone(self) -> ParticleSystem:
+        return ParticleSystem(
+            self.surface.clone(),
+            self.lifespan,
+            self.start_speed,
+            self.start_rotation,
+            self.start_scale,
+            self.duration,
+            self.loop,
+            self.max_particles,
+            self.starting_shape,
+            self.starting_dir,
+            self.mode,
+            self.spread,
+            self.movement,
+            self.offset.clone(),
+            self.rot_offset,
+            self.z_index,
+        )
+
+    def delete(self):
+        self.surface.delete()
+        for particle in self.__particles:
+            particle.delete()
+        self.__particles.clear()
 
     @staticmethod
     def default_movement(particle: Particle, delta: float):

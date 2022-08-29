@@ -73,23 +73,28 @@ class Component:
         self.update()
 
     def setup(self):
-        """The setup function template for a component subclass."""
+        """The setup function for a component."""
         pass
 
     def update(self):
-        """The update function template for a component subclass."""
+        """The update function for a component."""
         pass
 
     def draw(self, camera: Camera):
-        """The draw function template for a component subclass."""
+        """
+        The draw function for a component.
+
+        Args:
+            camera: The camera to draw the component with.
+        """
         pass
 
     def fixed_update(self):
-        """The physics function template for a component subclass."""
+        """The physics function for a component."""
         pass
 
     def delete(self):
-        """The delete function template for a component subclass."""
+        """The delete function for a component."""
         pass
 
     def clone(self) -> Component:
