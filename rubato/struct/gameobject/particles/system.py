@@ -1,5 +1,5 @@
 """A simple particle system."""
-from typing import Callable
+from typing import Callable, Literal
 
 from rubato.utils.rb_math import Math
 from . import Particle
@@ -25,6 +25,11 @@ class ParticleSystem(Component):
             given radius. Defaults to 1.
         starting_dir: The starting direction function of the system. If None, the direction is away from the center.
             Defaults to None.
+        mode: The particle generation mode of the system. Defaults to "random".
+            random - The particles are generated randomly.
+            loop - Animate the generation around the shape.
+            pingpong - Animate the generation in a pingpong fashion.
+            burst - Generate the particles in a burst.
         spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
         movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`
     """
@@ -41,6 +46,7 @@ class ParticleSystem(Component):
         max_particles: int = Math.INF,
         starting_shape: Callable[[float], Vector] | int = 1,
         starting_dir: Callable[[float], Vector] | None = None,
+        mode: Literal["random", "loop", "pingpong", "burst"] = "random",
         spread: int = 5,
         movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -80,7 +86,18 @@ class ParticleSystem(Component):
             """The starting direction function of the system."""
         else:
             self.starting_dir: Callable[[float], Vector] = starting_dir
+        self.mode: Literal["random", "loop", "pingpong", "burst"] = mode
+        """
+        The particle generation mode of the system.
+        
+        random - The particles are generated randomly.
 
+        loop - Animate the generation around the shape.
+
+        pingpong - Animate the generation in a pingpong fashion.
+
+        burst - Generate the particles in a burst.
+        """
         self.spread: int = spread
         """The spread of the system. This is the number of particles generated per loop."""
 
