@@ -12,9 +12,9 @@ do
     printf "${BLUE}Running $file${NC}\n"
     if command -v python &> /dev/null
     then
-        timeout --preserve-status 3s python $file
+        timeout --preserve-status 5s python $file
     else
-        timeout --preserve-status 3s python3 $file
+        timeout --preserve-status 5s python3 $file
     fi
 
     retVal=$?

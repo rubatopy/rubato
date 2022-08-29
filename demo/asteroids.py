@@ -1,6 +1,7 @@
 """
 A classic
 """
+
 import random
 from rubato import *
 
@@ -16,7 +17,7 @@ main = Scene()
 # background
 stars = Surface(size, size)
 stars.fill(Color.black)
-for i in range(200):
+for _ in range(200):
     pos = random.randint(0, size), random.randint(0, size)
     stars.draw_point(pos, Color.white)
 
@@ -42,7 +43,7 @@ def make_asteroid():
     else:
         pos = side * size + (radius if side else -radius), t
 
-    dir = (-Display.center.dir_to(pos)).rotate(random.randint(-45, 45))
+    direction = (-Display.center.dir_to(pos)).rotate(random.randint(-45, 45))
 
     main.add(
         wrap(
@@ -54,7 +55,7 @@ def make_asteroid():
                     ],
                     debug=True,
                 ),
-                RigidBody(velocity=dir * 100, ang_vel=random.randint(-30, 30)),
+                RigidBody(velocity=direction * 100, ang_vel=random.randint(-30, 30)),
                 BoundsChecker(),
             ],
             "asteroid",
@@ -155,7 +156,7 @@ def shoot():
 
 
 def new_draw():
-    Draw.surf(stars, Display.center)
+    Draw.surface(stars, Display.center)
 
 
 Game.draw = new_draw

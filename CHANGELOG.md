@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+-   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
+
 ### Added
 
 -   `ParticleSystem`: A component that manages a particle system.
