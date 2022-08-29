@@ -5,15 +5,15 @@ from random import choice
 from typing import Callable
 import cython
 
-if not cython.compiled:
-    from enum_tools import document_enum
-else:
-    document_enum = lambda _: None
-
 from . import Particle
 from .. import Component
 from ... import Surface
 from .... import Vector, Camera, Time, Math
+
+if not cython.compiled:
+    from enum_tools import document_enum
+else:
+    document_enum = lambda _: None
 
 
 @unique
