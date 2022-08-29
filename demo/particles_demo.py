@@ -12,8 +12,8 @@ surf.draw_circle((15, 15), 15, fill=rb.Color.orange)
 
 
 def movement(p: rb.Particle, dt: float):
-    p.pos += p.velocity.lerp(Vector.up() * p.velocity.magnitude, p.age / p.lifespan) * dt
-    p.surface.set_alpha(round((p.age / p.lifespan) * 255))
+    p.pos += p.velocity.lerp(V(-3, -0.75) * p.velocity.magnitude, p.age / p.lifespan) * dt
+    p.surface.set_alpha(round(255 - ((p.age / p.lifespan) * 255)))
 
 
 def start_shape(angle: float):
@@ -28,13 +28,13 @@ particleSytem = rb.ParticleSystem(
     surf,
     loop=True,
     lifespan=0.4,
-    duration=0.1,
+    duration=0.3,
     start_speed=50,
-    spread=6,
+    spread=40,
     movement=movement,
     starting_shape=start_shape,
     starting_dir=starting_dir,
-    mode=rb.ParticleSystemMode.RANDOM,
+    density=2,
 )
 go = rb.GameObject()
 go.add(particleSytem)

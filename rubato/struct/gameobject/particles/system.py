@@ -54,6 +54,7 @@ class ParticleSystem(Component):
             Defaults to None.
         mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
         spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
+        density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
         movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`.
         offset: The offset of the system. Defaults to (0, 0).
         rot_offset: The rotation offset of the system. Defaults to 0.
@@ -74,6 +75,7 @@ class ParticleSystem(Component):
         starting_dir: Callable[[float], Vector] | None = None,
         mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
         spread: int = 5,
+        density: int = 1,
         movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
@@ -116,6 +118,8 @@ class ParticleSystem(Component):
         """The particle generation mode of the system."""
         self.spread: int = spread
         """The spread of the system. This is the number of particles generated per loop."""
+        self.density: int = density
+        """The density of the system. This is the number of particles generated per fixed update."""
 
         if movement is None:
             self.movement: Callable[[Particle, float], None] = ParticleSystem.default_movement
@@ -177,28 +181,29 @@ class ParticleSystem(Component):
         """
         Generates particles. Called automatically by fixed_update.
         """
-        if self.mode == ParticleSystemMode.BURST and self.__time == 0:
-            while self.__generated < self.spread and len(self.__particles) < self.max_particles:
-                self.new_particle(self.__generated)
-                self.__generated += 1
-        elif self.mode == ParticleSystemMode.RANDOM:
-            gened = [bool(self.__generated & 1 << n) for n in range(self.spread)]
-            if available := [i for i, x in enumerate(gened) if not x]:
-                i = choice(available)
-                self.new_particle(i)
-                self.__generated |= 1 << i
-        elif self.__generated < self.spread and len(
-            self.__particles
-        ) < self.max_particles and self.__time >= self.duration / self.spread * self.__generated:
-            if self.mode == ParticleSystemMode.LOOP:
-                self.new_particle(self.__generated)
-                self.__generated += 1
-            elif self.mode == ParticleSystemMode.PINGPONG:
-                if self.__forward:
+        for _ in range(self.density):
+            if self.mode == ParticleSystemMode.BURST and self.__time == 0:
+                while self.__generated < self.spread and len(self.__particles) < self.max_particles:
                     self.new_particle(self.__generated)
-                else:
-                    self.new_particle(self.spread - self.__generated)
-                self.__generated += 1
+                    self.__generated += 1
+            elif self.mode == ParticleSystemMode.RANDOM:
+                gened = [bool(self.__generated & 1 << n) for n in range(self.spread)]
+                if available := [i for i, x in enumerate(gened) if not x]:
+                    i = choice(available)
+                    self.new_particle(i)
+                    self.__generated |= 1 << i
+            elif self.__generated < self.spread and len(
+                self.__particles
+            ) < self.max_particles and self.__time >= self.duration / self.spread * self.__generated:
+                if self.mode == ParticleSystemMode.LOOP:
+                    self.new_particle(self.__generated)
+                    self.__generated += 1
+                elif self.mode == ParticleSystemMode.PINGPONG:
+                    if self.__forward:
+                        self.new_particle(self.__generated)
+                    else:
+                        self.new_particle(self.spread - self.__generated)
+                    self.__generated += 1
 
     def new_particle(self, i: int):
         """
@@ -235,6 +240,7 @@ class ParticleSystem(Component):
             self.starting_dir,
             self.mode,
             self.spread,
+            self.density,
             self.movement,
             self.offset.clone(),
             self.rot_offset,
