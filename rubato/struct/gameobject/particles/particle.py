@@ -1,5 +1,5 @@
 """A simple particle."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable
 
 from ... import Surface
@@ -41,10 +41,13 @@ class Particle:
     """The z index of the particle."""
     age: float = 0
     """The age of the particle. (in seconds)"""
+    # pylint: disable=invalid-name
+    __original_scale: Vector | None = field(init=False)  # pyright: ignore [reportGeneralTypeIssues]
 
     def __post_init__(self):
         self.velocity: Vector = Vector.create(self.velocity)
         self.pos: Vector = Vector.create(self.pos)
+        self.__original_scale: Vector = self.surface.scale.clone()
 
     def fixed_update(self):
         """A particle's fixed update functions"""
@@ -54,6 +57,7 @@ class Particle:
     def draw(self, camera: Camera):
         """A particle's draw function."""
         self.surface.rotation = self.rotation
+        self.surface.scale = self.__original_scale * self.scale
         Draw.queue_surface(self.surface, self.pos, self.z_index, camera)
 
     def delete(self):

@@ -12,7 +12,7 @@ surf.draw_circle((15, 15), 15, fill=rb.Color.orange)
 
 
 def movement(p: rb.Particle, dt: float):
-    p.pos += p.velocity.lerp(V(-3, -0.75) * p.velocity.magnitude, p.age / p.lifespan) * dt
+    p.pos += p.velocity.lerp(V(0, -1.25) * p.velocity.magnitude, p.age / p.lifespan) * dt
     p.surface.set_alpha(round(255 - ((p.age / p.lifespan) * 255)))
 
 
@@ -21,7 +21,7 @@ def start_shape(angle: float):
 
 
 def starting_dir(angle: float):
-    return rb.Vector(0, -1).rotate((((angle / 180) - 1) * 40) + 6)
+    return rb.Vector(0, -1).rotate((((angle / 180) - 1) * 60) + 6)
 
 
 particleSytem = rb.ParticleSystem(
