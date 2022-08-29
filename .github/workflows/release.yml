@@ -40,7 +40,7 @@ jobs:
               run: |
                   python -m pip install --upgrade pip
                   git submodule update --init --recursive
-                  pip install build
+                  pip install build Cython~=3.0.0a11
 
             - name: Build
               run: |
@@ -136,7 +136,7 @@ jobs:
         needs: docs
         steps:
             - name: Wait for things to update
-              run: sleep 2m
+              run: sleep 5m
               shell: bash
 
             - uses: actions/checkout@v3

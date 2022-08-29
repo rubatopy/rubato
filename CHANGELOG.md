@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [v0.3.2] - August 28, 2022
 
 ### Breaking Changes
 
@@ -23,6 +23,8 @@
 -   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
+-   `Raster.fill()` and `Surface.fill()`.
+-   `Vector.within()` method to check if vector is within a certain distance of another vector.
 -   `Raster` component and `Surface` now have a changeable alpha. (`Image` and `Sprite` by extension)
 
 ### Changed
@@ -35,6 +37,8 @@
 -   Rewrote `Rectangle` from the ground-up.
 -   Window is now shown when begin is called. Not when init is called.
 -   `mouse_button` key passed in mouse press events renamed to `button`
+-   Default physics fps to 50 to align with Unity.
+-   Automatically normalized joystick events/getters to be in the range of -1 to 1 instead of -32768 to 32767.
 
 ### Removed
 
@@ -54,7 +58,7 @@
 -   Bug fixing from bugs found through pyright.
 -   `Time.delta_time` being misused in a couple rigidbody methods.
 
-## [v3.1.0] - August 19, 2022
+## [v0.3.1] - August 19, 2022
 
 ### Key Features
 
@@ -101,7 +105,7 @@
 -   Deeply nested groups not colliding with ancestors
 -   Hitboxes outside the boundaries not making use of QTrees properly
 
-## [v3.0.0] - July 31, 2022
+## [v0.3.0] - July 31, 2022
 
 ### Key Features
 
@@ -165,7 +169,7 @@
 -   Made vector operations more complete and raise errors properly.
 -   `Group.count()` not working properly.
 
-## [v2.2.0] - June 12, 2022
+## [v0.2.2] - June 12, 2022
 
 ### Breaking Changes
 
@@ -203,30 +207,7 @@
 -   Added `Math.rad_to_north_deg()` and `Math.deg_to_north_rad()` to change accurately.
 -   Fixed `error.deprecated()` to require a replacement or else it didn't work.
 
-## [v2.1.1] - May 10, 2022
-
-### Added
-
--   `Display` can now print the screen contents.
--   `Raster` for pixel mutation and drawing. (Separated from image)
--   `Display.border_size` returns the size of the black bands around the draw area.
-
-### Changed
-
--   `Text.align` renamed to `Text.anchor` and is now properly documented.
--   `input` module renamed to `rb_input` to not override the built-in function.
--   `math` module renamed to `rb_math` to not override the built-in function.
-
-### Removed
-
--   `Image` no longer has drawing functions. Instead use a `Raster` object.
-
-### Fixed
-
--   `Text` font defaults was never actually being set if None. Now it is.
--   DLLs now actually bundle.
-
-## [v2.1.0] - May 6, 2022
+## [v0.2.1] - May 10, 2022
 
 ### Added
 
@@ -244,6 +225,9 @@
 -   Can create a `RigidBody` with density instead of mass and moment. Will usually result in nicer behavior.
 -   `Vector` now has a many quality of life methods. As well as rationalization.
 -   `Math` fraction simplification, simplifying square roots, and prime number generation.
+-   `Display` can now print the screen contents.
+-   `Raster` for pixel mutation and drawing. (Separated from image)
+-   `Display.border_size` returns the size of the black bands around the draw area.
 
 ### Changed
 
@@ -256,6 +240,9 @@
 -   Changed default physics fps to 30.
 -   `Polygon.generate_polygon()` can now takes an optional `options` parameter. When set, it returns a `Polygon` instead of a list of vertices.
 -   Move basic draw functions from `Display` to `Draw`.
+-   `Text.align` renamed to `Text.anchor` and is now properly documented.
+-   `input` module renamed to `rb_input` to not override the built-in function.
+-   `math` module renamed to `rb_math` to not override the built-in function.
 
 ### Removed
 
@@ -266,8 +253,14 @@
 -   Removed `sep` property from Manifolds.
 -   `Polygon`'s instance method `bounding_box_dimensions()`. This will be replaced by `get_bounds()` in a future patch.
 -   `UIElement`. Instead use `Scene.add_ui()` with game objects.
+-   `Image` no longer has drawing functions. Instead use a `Raster` object.
 
-## [v2.0.0] - April 5, 2022
+### Fixed
+
+-   `Text` font defaults was never actually being set if None. Now it is.
+-   DLLs now actually bundle.
+
+## [v0.2.0] - April 5, 2022
 
 ### Added
 
@@ -290,16 +283,29 @@
 
 -   Default sprite images
 
-## [v1.2.0] - March 15, 2022
+## [v0.1.0] - March 15, 2022
 
 ### Added
 
+-   Full Documentation through docstrings and through website
+-   Loader for images. (Can load entire folders)
+-   Custom errors
+-   A full color implementation
+-   Added continuous integration
+-   Text can be drawn onto surfaces
+-   Sound system
 -   Proper 2d physics without angular velocity and torque
 -   Circle collision
 -   Groups are back
 
 ### Changed
 
+-   A more complete color implementation
+-   New time system
+-   Switched to GPL-3.0 License
+-   Lots of linting
+-   Move default options to their own area
+-   Switched to a component based system (similar to Unity)
 -   Updated default image import to actually work properly
 -   Hitboxes can now be colored in. This replaces the old Rectangle class
 -   Hitboxes are now created like all other components (as in they use a options dictionary)
@@ -311,47 +317,12 @@
 
 ### Fixed
 
--   Animations are now independent from FPS
-
-## [v1.1.0] - March 01, 2022
-
-### Added
-
--   Sound system
-
-### Changed
-
--   Switched to a component based system (similar to Unity)
-
-### Removed
-
+-   Many many bugs
 -   Removed Groups because they were deemed useless
 -   Physics for now
+-   Animations are now independent from FPS
 
-## [v1.0.0] - Feb 01, 2022
-
-### Added
-
--   Full Documentation through docstrings and through website
--   Loader for images. (Can load entire folders)
--   Custom errors
--   A full color implementation
--   Added continuous integration
--   Text can be drawn onto surfaces
-
-### Changed
-
--   A more complete color implementation
--   New time system
--   Switched to GPL-3.0 License
--   Lots of linting
--   Move default options to their own area
-
-### Fixed
-
--   Many many bugs
-
-## [v0.0.1] - Nov 03, 2021
+## [v0.0.0] - Nov 03, 2021
 
 ### Added
 
@@ -360,13 +331,11 @@
 -   Rigidbody implementation
 
 [unreleased]: https://github.com/rubatopy/rubato/
-[v3.1.0]: https://github.com/rubatopy/rubato/tree/v3.1.0
-[v3.0.0]: https://github.com/rubatopy/rubato/tree/v3.0.0
-[v2.2.0]: https://github.com/rubatopy/rubato/tree/v2.2.0
-[v2.1.1]: https://github.com/rubatopy/rubato/tree/v2.1.1
-[v2.1.0]: https://github.com/rubatopy/rubato/tree/v2.1.0
-[v2.0.0]: https://github.com/rubatopy/rubato/tree/v2.0.0
-[v1.2.0]: https://github.com/rubatopy/rubato/tree/v1.2.0
-[v1.1.0]: https://github.com/rubatopy/rubato/tree/v1.1.0
-[v1.0.0]: https://github.com/rubatopy/rubato/tree/v1.0.0
-[v0.0.1]: https://github.com/rubatopy/rubato/tree/v0.0.1
+[v0.3.2]: https://github.com/rubatopy/rubato/tree/v0.3.2
+[v0.3.1]: https://github.com/rubatopy/rubato/tree/v0.3.1
+[v0.3.0]: https://github.com/rubatopy/rubato/tree/v0.3.0
+[v0.2.2]: https://github.com/rubatopy/rubato/tree/v0.2.2
+[v0.2.1]: https://github.com/rubatopy/rubato/tree/v0.2.1
+[v0.2.0]: https://github.com/rubatopy/rubato/tree/v0.2.0
+[v0.1.0]: https://github.com/rubatopy/rubato/tree/v0.1.0
+[v0.0.0]: https://github.com/rubatopy/rubato/tree/v0.0.0
