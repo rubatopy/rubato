@@ -23,6 +23,8 @@
 -   `GameObject`s and `Group`s can now be hidden in order to make their children not draw.
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
+-   `Raster.fill()` and `Surface.fill()`.
+-   `Vector.within()` method to check if vector is within a certain distance of another vector.
 -   `Raster` component and `Surface` now have a changeable alpha. (`Image` and `Sprite` by extension)
 
 ### Changed
@@ -35,6 +37,8 @@
 -   Rewrote `Rectangle` from the ground-up.
 -   Window is now shown when begin is called. Not when init is called.
 -   `mouse_button` key passed in mouse press events renamed to `button`
+-   Default physics fps to 50 to align with Unity.
+-   Automatically normalized joystick events/getters to be in the range of -1 to 1 instead of -32768 to 32767.
 
 ### Removed
 

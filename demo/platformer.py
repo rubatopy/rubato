@@ -96,20 +96,24 @@ ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
 
 # create platforms
 platforms = [
-    rb.GameObject(pos=rb.Vector(200, rb.Display.bottom - 140)
-                 ).add(rb.Rectangle(
-                     width=90,
-                     height=40,
-                     tag="ground",
-                     color=rb.Color.blue,
-                 )),
-    rb.GameObject(pos=rb.Vector(400, rb.Display.bottom - 340)
-                 ).add(rb.Rectangle(
-                     width=150,
-                     height=40,
-                     tag="ground",
-                     color=rb.Color.blue,
-                 )),
+    rb.GameObject(pos=rb.Vector(
+        200,
+        rb.Display.bottom - 140,
+    )).add(rb.Rectangle(
+        width=90,
+        height=40,
+        tag="ground",
+        color=rb.Color.blue,
+    )),
+    rb.GameObject(pos=rb.Vector(
+        400,
+        rb.Display.bottom - 340,
+    )).add(rb.Rectangle(
+        width=150,
+        height=40,
+        tag="ground",
+        color=rb.Color.blue,
+    )),
 ]
 
 # create obstacles
@@ -133,13 +137,15 @@ for obstacle in obstacles:
 
 # create triggers
 triggers = [
-    rb.GameObject(pos=rb.Vector(950, rb.Display.bottom -
-                                45),).add(rb.Rectangle(
-                                    width=400,
-                                    height=30,
-                                    tag="retry_collider",
-                                    trigger=True,
-                                )),
+    rb.GameObject(pos=rb.Vector(
+        950,
+        rb.Display.bottom - 45,
+    )).add(rb.Rectangle(
+        width=400,
+        height=30,
+        tag="retry_collider",
+        trigger=True,
+    )),
 ]
 
 # Create animation for portal

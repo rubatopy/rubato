@@ -371,7 +371,8 @@ class Manifold:
         """The direction that would most quickly separate the two colliders."""
 
     def __str__(self) -> str:
-        return f"Manifold <{self.penetration}, {self.normal}>"
+        return f"Manifold <shape_a: {self.shape_a}, shape_b: {self.shape_b}, " + \
+            f"penetration: {self.penetration}, normal: {self.normal}>"
 
     def flip(self) -> Manifold:
         """

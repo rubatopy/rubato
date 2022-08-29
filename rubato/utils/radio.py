@@ -116,17 +116,17 @@ class Radio:
                     },
                 )
             elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
-                mouse_button = None
+                button = None
                 if event.button.state == sdl2.SDL_BUTTON_LEFT:
-                    mouse_button = "mouse 1"
+                    button = "mouse 1"
                 elif event.button.state == sdl2.SDL_BUTTON_MIDDLE:
-                    mouse_button = "mouse 2"
+                    button = "mouse 2"
                 elif event.button.state == sdl2.SDL_BUTTON_RIGHT:
-                    mouse_button = "mouse 3"
+                    button = "mouse 3"
                 elif event.button.state == sdl2.SDL_BUTTON_X1:
-                    mouse_button = "mouse 4"
+                    button = "mouse 4"
                 elif event.button.state == sdl2.SDL_BUTTON_X2:
-                    mouse_button = "mouse 5"
+                    button = "mouse 5"
 
                 if event.type == sdl2.SDL_MOUSEBUTTONUP:
                     event_name = Events.MOUSEUP
@@ -136,7 +136,7 @@ class Radio:
                 cls.broadcast(
                     event_name,
                     {
-                        "button": mouse_button,
+                        "button": button,
                         "x": event.button.x,
                         "y": event.button.y,
                         "clicks": event.button.clicks,
@@ -160,13 +160,14 @@ class Radio:
                     },
                 )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
+                mag: float = event.jaxis.value / Input._joystick_max
                 cls.broadcast(
                     Events.JOYAXISMOTION,
                     {
                         "controller": event.jaxis.which,
                         "axis": event.jaxis.axis,
-                        "value": event.jaxis.value,
-                        "centered": Input.axis_centered(event.jaxis.value),
+                        "value": mag,
+                        "centered": Input.axis_centered(mag),
                     },
                 )
             elif event.type == sdl2.SDL_JOYBUTTONDOWN:
@@ -254,11 +255,11 @@ class Listener:
         event: The event key to listen for.
         callback: The function to run once the event is broadcast.
     """
-    event: str = cython.declare(str, visibility="public") # type: ignore
+    event: str = cython.declare(str, visibility="public")  # type: ignore
     """The event descriptor"""
-    callback: Callable = cython.declare(object, visibility="public") # type: ignore
+    callback: Callable = cython.declare(object, visibility="public")  # type: ignore
     """The function called when the event occurs"""
-    registered: cython.bint = cython.declare(cython.bint, visibility="public") # type: ignore
+    registered: cython.bint = cython.declare(cython.bint, visibility="public")  # type: ignore
     """Describes whether the listener is registered"""
 
     def __init__(self, event: str, callback: Callable):

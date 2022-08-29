@@ -118,6 +118,15 @@ class Surface:
         c_draw.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
         self.uptodate = False
 
+    def fill(self, color: Color):
+        """
+        Fill the surface with a color.
+
+        Args:
+            color: The color to fill with.
+        """
+        self.draw_rect((0, 0), (self.surf.w, self.surf.h), fill=color)
+
     def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.

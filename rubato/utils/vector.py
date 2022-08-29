@@ -342,9 +342,9 @@ class Vector:
 
         return out
 
-    def dir_to(self, other: Vector) -> Vector:
+    def dir_to(self, other: Vector | tuple[float, float]) -> Vector:
         """
-        Direction from the Vector to another Vector.
+        Direction from the Vector to another Vector (or tuple of floats).
 
         Args:
             other: the position to which you are pointing
@@ -352,20 +352,32 @@ class Vector:
         Returns:
             A unit vector that is in the pointing to the other position passed in
         """
-        base = (other - self).normalized()
-        return base
+        return (other - self).normalized()
 
-    def dist_to(self, other: Vector) -> float:
+    def dist_to(self, other: Vector | tuple[float, float]) -> float:
         """
-        Finds the pythagorean distance between two vectors.
+        Finds the pythagorean distance to another vector (or tuple of floats).
 
         Args:
-            other (Vector): The other vector.
+            other: The other vector.
 
         Returns:
-            float: The distance.
+            The distance.
         """
-        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
+        return math.sqrt((self.x - other[0])**2 + (self.y - other[1])**2)
+
+    def within(self, other: Vector | tuple[float, float], distance: float | int) -> bool:
+        """
+        Checks if the vector is within a certain distance of another vector (or tuple of floats).
+
+        Args:
+            other: The other vector
+            distance: The distance to check
+
+        Returns:
+            True if the vector is within the distance, False otherwise
+        """
+        return (self.x - other[0])**2 + (self.y - other[1])**2 <= distance * distance
 
     @deprecated(dist_to)
     def distance_between(self, other: Vector) -> float:
@@ -383,9 +395,7 @@ class Vector:
         Returns:
             Vector from the given direction and distance
         """
-        radians = math.radians(-(angle - 90))
-
-        return Vector(round(math.cos(radians), 10) * magnitude, -round(math.sin(radians), 10) * magnitude)
+        return Vector.up().rotate(angle) * magnitude
 
     @staticmethod
     def clamp_magnitude(vector: Vector, max_magnitude: float | int, min_magnitude: float | int = 0) -> Vector:

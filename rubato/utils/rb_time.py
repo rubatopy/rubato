@@ -79,8 +79,8 @@ class Time:
     """The fps that the game should try to run at. 0 means that the game's fps will not be capped. Defaults to 0."""
     capped: bool = False
 
-    physics_fps = 30
-    """The fps that the physics should run at. Defaults to 30."""
+    physics_fps = 50
+    """The fps that the physics should run at. Defaults to 50."""
 
     def __init__(self) -> None:
         raise InitError(self)
