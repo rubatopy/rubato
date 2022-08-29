@@ -150,14 +150,6 @@ class ParticleSystem(Component):
         self.__running = False
 
     def fixed_update(self):
-        i = 0
-        while i < len(self.__particles):
-            if self.__particles[i].age >= self.__particles[i].lifespan:
-                self.__particles.pop(i)
-            else:
-                self.__particles[i].fixed_update()
-            i += 1
-
         if self.__running:
             self.generate_particles()
             self.__time += Time.fixed_delta
@@ -168,6 +160,14 @@ class ParticleSystem(Component):
                     self.__forward = not self.__forward
                 else:
                     self.__running = False
+
+        i = 0
+        while i < len(self.__particles):
+            if self.__particles[i].age >= self.__particles[i].lifespan:
+                self.__particles.pop(i)
+            else:
+                self.__particles[i].fixed_update()
+            i += 1
 
     def draw(self, camera: Camera):
         for particle in self.__particles:
