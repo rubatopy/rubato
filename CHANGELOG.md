@@ -16,6 +16,8 @@
 
 ### Fixed
 
+-   Returned `NotImplemented` object instead of raising an error for vector math methods.
+
 ## [v0.3.2] - August 28, 2022
 
 ### Breaking Changes

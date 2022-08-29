@@ -6,7 +6,7 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, SideError, raise_operator_error, deprecated
+from . import Math, SideError, deprecated
 
 
 @cython.cclass
@@ -525,22 +525,22 @@ class Vector:
     def __gt__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, (Vector, tuple, list)):
             return self.x > other[0] and self.y > other[1]
-        raise_operator_error(">", self, other)
+        return NotImplemented
 
     def __lt__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, (Vector, tuple, list)):
             return self.x < other[0] and self.y < other[1]
-        raise_operator_error("<", self, other)
+        return NotImplemented
 
     def __ge__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, (Vector, tuple, list)):
             return self.x >= other[0] and self.y >= other[1]
-        raise_operator_error(">=", self, other)
+        return NotImplemented
 
     def __le__(self, other: Vector | tuple | list) -> bool:
         if isinstance(other, (Vector, tuple, list)):
             return self.x <= other[0] and self.y <= other[1]
-        raise_operator_error("<=", self, other)
+        return NotImplemented
 
     def __str__(self) -> str:
         return f"<{self.x}, {self.y}>"
@@ -550,140 +550,140 @@ class Vector:
             return Vector(pow(self.x, other, mod), pow(self.y, other, mod))
         if isinstance(other, (Vector, tuple, list)):
             return Vector(pow(self.x, other[0], mod), pow(self.y, other[1], mod))
-        raise_operator_error("**", self, other)
+        return NotImplemented
 
     def __ipow__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(pow(self.x, other), pow(self.y, other))
         if isinstance(other, (Vector, tuple, list)):
             return Vector(pow(self.x, other[0]), pow(self.y, other[1]))
-        raise_operator_error("**", self, other)
+        return NotImplemented
 
     def __mul__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x * other[0], self.y * other[1])
-        raise_operator_error("*", self, other)
+        return NotImplemented
 
     def __add__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x + other[0], self.y + other[1])
-        raise_operator_error("+", self, other)
+        return NotImplemented
 
     def __imul__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x * other[0], self.y * other[1])
-        raise_operator_error("*", self, other)
+        return NotImplemented
 
     def __iadd__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x + other[0], self.y + other[1])
-        raise_operator_error("+", self, other)
+        return NotImplemented
 
     def __rmul__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x * other[0], self.y * other[1])
-        raise_operator_error("*", self, other)
+        return NotImplemented
 
     def __radd__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x + other, self.y + other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x + other[0], self.y + other[1])
-        raise_operator_error("+", self, other)
+        return NotImplemented
 
     def __sub__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x - other, self.y - other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x - other[0], self.y - other[1])
-        raise_operator_error("-", self, other)
+        return NotImplemented
 
     def __rsub__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(other - self.x, other - self.y)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(other[0] - self.x, other[1] - self.y)
-        raise_operator_error("-", other, self)
+        return NotImplemented
 
     def __isub__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x - other, self.y - other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x - other[0], self.y - other[1])
-        raise_operator_error("-", self, other)
+        return NotImplemented
 
     def __truediv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x / other[0], self.y / other[1])
-        raise_operator_error("/", self, other)
+        return NotImplemented
 
     def __rtruediv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(other / self.x, other / self.y)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(other[0] / self.x, other[1] / self.y)
-        raise_operator_error("/", other, self)
+        return NotImplemented
 
     def __itruediv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x / other, self.y / other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x / other[0], self.y / other[1])
-        raise_operator_error("/", self, other)
+        return NotImplemented
 
     def __floordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x // other, self.y // other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x // other[0], self.y // other[1])
-        raise_operator_error("//", self, other)
+        return NotImplemented
 
     def __rfloordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(other // self.x, other // self.y)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(other[0] // self.x, other[1] // self.y)
-        raise_operator_error("//", other, self)
+        return NotImplemented
 
     def __ifloordiv__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x // other, self.y // other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x // other[0], self.y // other[1])
-        raise_operator_error("//", self, other)
+        return NotImplemented
 
     def __mod__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x % other, self.y % other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x % other[0], self.y % other[1])
-        raise_operator_error("%", self, other)
+        return NotImplemented
 
     def __rmod__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(other % self.x, other % self.y)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(other[0] % self.x, other[1] % self.y)
-        raise_operator_error("%", other, self)
+        return NotImplemented
 
     def __imod__(self, other: Any) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(self.x % other, self.y % other)
         if isinstance(other, (Vector, tuple, list)):
             return Vector(self.x % other[0], self.y % other[1])
-        raise_operator_error("%", self, other)
+        return NotImplemented
 
     def __neg__(self) -> Vector:
         return Vector(-self.x, -self.y)

@@ -1,8 +1,6 @@
 """
 Custom errors for rubato.
 """
-
-from typing import Any
 import warnings
 import functools
 import sys
@@ -139,7 +137,3 @@ def removed(other_func=None):
     wrapper.__doc__ = other_func.__doc__
     wrapper.__dict__.update(other_func.__dict__)
     return wrapper
-
-
-def raise_operator_error(op: str, obj1: Any, obj2: Any):
-    raise TypeError(f"unsupported operand type(s) for {op}: '{type(obj1).__name__}' and '{type(obj2).__name__}'")
