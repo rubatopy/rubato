@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+### Breaking Changes
+
+### Added
+
+-   `ParticleSystem`: A component that manages a particle system.
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v0.3.2] - August 28, 2022
 
 ### Breaking Changes
