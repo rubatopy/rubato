@@ -125,6 +125,11 @@ last_shoot = 0
 interval = 200  # milliseconds between shots
 
 
+def bullet_collide(man: Manifold):
+    if man.shape_b.gameobj.name == "asteroid":
+        main.delete(man.shape_b.gameobj)
+
+
 def shoot():
     global last_shoot
     if Time.now() - last_shoot < interval:
@@ -133,7 +138,7 @@ def shoot():
     main.add(
         wrap(
             [
-                Circle(radius // 5, Color.debug, trigger=True),
+                Circle(radius // 5, Color.debug, trigger=True, on_collide=bullet_collide),
                 RigidBody(
                     velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
                         500,
