@@ -3,7 +3,12 @@ from __future__ import annotations
 from enum import IntEnum, unique
 from random import choice
 from typing import Callable
-from enum_tools import document_enum
+import cython
+
+if not cython.compiled:
+    from enum_tools import document_enum
+else:
+    document_enum = lambda _: None
 
 from . import Particle
 from .. import Component
@@ -12,7 +17,6 @@ from .... import Vector, Camera, Time, Math
 
 
 @unique
-@document_enum
 class ParticleSystemMode(IntEnum):
     """
     The mode of the particle system.
@@ -25,6 +29,10 @@ class ParticleSystemMode(IntEnum):
     """Animate the generation in a pingpong fashion."""
     BURST = 3
     """Generate the particles in a burst."""
+
+
+if not cython.compiled:
+    document_enum(ParticleSystemMode)
 
 
 class ParticleSystem(Component):
