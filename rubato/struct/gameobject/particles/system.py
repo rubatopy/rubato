@@ -1,11 +1,26 @@
 """A simple particle system."""
-from typing import Callable, Literal
+from enum import Enum
+from random import choice
+from typing import Callable
 
-from rubato.utils.rb_math import Math
 from . import Particle
 from .. import Component
 from ... import Surface
-from .... import Vector, Camera, Time
+from .... import Vector, Camera, Time, Math
+
+
+class ParticleSystemMode(Enum):
+    """
+    The mode of the particle system.
+    """
+    RANDOM = "random"
+    """The particles are generated randomly."""
+    LOOP = "loop"
+    """Animate the generation around the shape."""
+    PINGPONG = "pingpong"
+    """Animate the generation in a pingpong fashion."""
+    BURST = "burst"
+    """Generate the particles in a burst."""
 
 
 class ParticleSystem(Component):
@@ -21,15 +36,11 @@ class ParticleSystem(Component):
         duration: The duration of the system in seconds. Defaults to 5.
         loop: Whether the system should loop. Defaults to False.
         max_particles: The maximum number of particles in the system. Defaults to Math.INF.
-        starting_shape: The starting shape function of the system. If an int is given, the shape is a circle with the 
+        starting_shape: The starting shape function of the system. If an int is given, the shape is a circle with the
             given radius. Defaults to 1.
         starting_dir: The starting direction function of the system. If None, the direction is away from the center.
             Defaults to None.
-        mode: The particle generation mode of the system. Defaults to "random".
-            random - The particles are generated randomly.
-            loop - Animate the generation around the shape.
-            pingpong - Animate the generation in a pingpong fashion.
-            burst - Generate the particles in a burst.
+        mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
         spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
         movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`
     """
@@ -46,7 +57,7 @@ class ParticleSystem(Component):
         max_particles: int = Math.INF,
         starting_shape: Callable[[float], Vector] | int = 1,
         starting_dir: Callable[[float], Vector] | None = None,
-        mode: Literal["random", "loop", "pingpong", "burst"] = "random",
+        mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
         spread: int = 5,
         movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -86,18 +97,8 @@ class ParticleSystem(Component):
             """The starting direction function of the system."""
         else:
             self.starting_dir: Callable[[float], Vector] = starting_dir
-        self.mode: Literal["random", "loop", "pingpong", "burst"] = mode
-        """
-        The particle generation mode of the system.
-        
-        random - The particles are generated randomly.
-
-        loop - Animate the generation around the shape.
-
-        pingpong - Animate the generation in a pingpong fashion.
-
-        burst - Generate the particles in a burst.
-        """
+        self.mode: ParticleSystemMode = mode
+        """The particle generation mode of the system."""
         self.spread: int = spread
         """The spread of the system. This is the number of particles generated per loop."""
 
@@ -110,6 +111,13 @@ class ParticleSystem(Component):
         self.__particles: list[Particle] = []
         self.__running: bool = False
         self.__time: float = duration
+        self.__generated: int = 0
+        """
+        Number of particles generated this loop. (NOT EQUAL TO TOTAL NUMBER OF PARTICLES)
+        If mode is RANDOM, then each bit corresponds to a generated particle this loop.
+        """
+        self.__forward: bool = True
+        """This controls the direction of the particle generation. (Only used in ParticleSystemMode.PINGPONG)"""
 
     @property
     def num_particles(self):
@@ -136,11 +144,13 @@ class ParticleSystem(Component):
             i += 1
 
         if self.__running:
+            self.generate_particles()
             self.__time += Time.fixed_delta
             if self.__time >= self.duration:
-                self.generate_particles()
                 if self.loop:
                     self.__time = 0
+                    self.__generated = 0
+                    self.__forward = not self.__forward
                 else:
                     self.__running = False
 
@@ -152,23 +162,49 @@ class ParticleSystem(Component):
         """
         Generates particles.
         """
-        generated = 0
+        if self.mode == ParticleSystemMode.BURST and self.__time == 0:
+            while self.__generated < self.spread and len(self.__particles) < self.max_particles:
+                self.new_particle(self.__generated)
+                self.__generated += 1
+        elif self.mode == ParticleSystemMode.RANDOM:
+            gened = [bool(self.__generated & 1 << n) for n in range(self.spread)]
+            if available := [i for i, x in enumerate(gened) if not x]:
+                i = choice(available)
+                self.new_particle(i)
+                self.__generated |= 1 << i
+        elif self.__generated < self.spread and len(
+            self.__particles
+        ) < self.max_particles and self.__time >= self.duration / self.spread * self.__generated:
+            if self.mode == ParticleSystemMode.LOOP:
+                self.new_particle(self.__generated)
+                self.__generated += 1
+            elif self.mode == ParticleSystemMode.PINGPONG:
+                if self.__forward:
+                    self.new_particle(self.__generated)
+                else:
+                    self.new_particle(self.spread - self.__generated)
+                self.__generated += 1
 
-        while generated < self.spread and len(self.__particles) < self.max_particles:
-            angle = generated * (360 / self.spread)
-            self.__particles.append(
-                Particle(
-                    self.movement,
-                    self.starting_dir(angle).rotate(self.true_rotation()) * self.start_speed,
-                    self.starting_shape(angle).rotate(self.true_rotation()) + self.true_pos(),
-                    self.start_rotation,
-                    self.start_scale,
-                    self.surface.clone(),
-                    self.lifespan,
-                    self.z_index,
-                )
+    def new_particle(self, i: int):
+        """
+        Generate a new particle and add it to the system.
+
+        Args:
+            i: The generation index of the particle.
+        """
+        angle = i * (360 / self.spread)
+        self.__particles.append(
+            Particle(
+                self.movement,
+                self.starting_dir(angle).rotate(self.true_rotation()) * self.start_speed,
+                self.starting_shape(angle).rotate(self.true_rotation()) + self.true_pos(),
+                self.start_rotation,
+                self.start_scale,
+                self.surface.clone(),
+                self.lifespan,
+                self.z_index,
             )
-            generated += 1
+        )
 
     @staticmethod
     def default_movement(particle: Particle, delta: float):

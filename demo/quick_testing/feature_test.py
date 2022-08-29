@@ -8,7 +8,7 @@ rb.Game.show_fps = True
 s = rb.Scene()
 
 surf = rb.Surface(31, 31, scale=(1 / 8, 1 / 8))
-surf.draw_circle((15, 15), 15, fill=rb.Color.red)
+surf.draw_circle((15, 15), 15, fill=rb.Color.red.darker(50))
 
 
 def movement(p: rb.Particle, dt: float):
@@ -38,18 +38,22 @@ particleSytem = rb.ParticleSystem(
     movement=movement,
     starting_shape=start_shape,
     starting_dir=starting_dir,
+    mode=rb.ParticleSystemMode.RANDOM,
 )
-
-particleSytem.start()
+go = rb.GameObject()
+go.add(particleSytem)
 
 
 def update():
-    # particleSytem.rot_offset += rb.Time.fixed_delta * 360
-    pass
+    if rb.Input.mouse_pressed():
+        particleSytem.start()
+        go.pos = rb.Input.get_mouse_pos()
+    else:
+        particleSytem.stop()
 
 
 rb.Radio.listen(rb.Events.KEYDOWN, lambda _: print(particleSytem.num_particles))
 
 s.fixed_update = update
-s.add(rb.wrap(particleSytem, pos=rb.Display.center))
+s.add(go)
 rb.begin()
