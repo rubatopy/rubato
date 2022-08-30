@@ -41,17 +41,17 @@ class ParticleSystem(Component):
 
     Args:
         surface: The surface to use for each particle.
-        lifespan: The lifespan of a particle in second. Defaults to 5.
+        lifespan: The lifespan of a particle in seconds. Defaults to 5.
         start_speed: The starting speed of a particle. Defaults to 5.
         start_rotation: The starting rotation of a particle. Defaults to 0.
         start_scale: The starting scale of a particle. Defaults to 1.
-        duration: The duration of the system in seconds. Defaults to 5.
-        loop: Whether the system should loop. Defaults to False.
+        duration: The duration of the system in seconds (when to stop generating particles). Defaults to 5.
+        loop: Whether the system should loop (start again at the end of its duration). Defaults to False.
         max_particles: The maximum number of particles in the system. Defaults to Math.INF.
-        starting_shape: The starting shape function of the system. If an int is given, the shape is a circle with the
-            given radius. Defaults to 1.
-        starting_dir: The starting direction function of the system. If None, the direction is away from the center.
-            Defaults to None.
+        starting_shape: The generating shape function of the system. Takes in an angle and should generate a vector.
+            If None, the starting shape is simply a point. Defaults to None.
+        starting_dir: The generating direction function of the system. Takes in an angle and should generate a vector.
+            If None, the direction is away from the center. Defaults to None.
         mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
         spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
         density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
@@ -71,7 +71,7 @@ class ParticleSystem(Component):
         duration: float = 5,
         loop: bool = False,
         max_particles: int = Math.INF,
-        starting_shape: Callable[[float], Vector] | int = 1,
+        starting_shape: Callable[[float], Vector] | None = None,
         starting_dir: Callable[[float], Vector] | None = None,
         mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
         spread: int = 5,
@@ -98,34 +98,18 @@ class ParticleSystem(Component):
         """Whether the system should loop."""
         self.max_particles: int = max_particles
         """The maximum number of particles in the system."""
-        if isinstance(starting_shape, int):
-            self.starting_shape: Callable[[float], Vector] = lambda a: Vector.from_radial(
-                starting_shape,
-                a,
-            )
-            """The starting shape function of the system."""
-        else:
-            self.starting_shape: Callable[[float], Vector] = starting_shape
-        if starting_dir is None:
-            self.starting_dir: Callable[[float], Vector] = lambda a: Vector.from_radial(
-                1,
-                a,
-            )
-            """The starting direction function of the system."""
-        else:
-            self.starting_dir: Callable[[float], Vector] = starting_dir
+        self.starting_shape: Callable[[float], Vector] = starting_shape or (lambda _: Vector(0, 0))
+        """The starting shape function of the system."""
+        self.starting_dir: Callable[[float], Vector] = starting_dir or (lambda a: Vector.from_radial(1, a))
+        """The starting direction function of the system."""
         self.mode: ParticleSystemMode = mode
         """The particle generation mode of the system."""
         self.spread: int = spread
         """The spread of the system. This is the number of particles generated per loop."""
         self.density: int = density
         """The density of the system. This is the number of particles generated per fixed update."""
-
-        if movement is None:
-            self.movement: Callable[[Particle, float], None] = ParticleSystem.default_movement
-            """The movement function of a particle."""
-        else:
-            self.movement: Callable[[Particle, float], None] = movement
+        self.movement: Callable[[Particle, float], None] = movement or ParticleSystem.default_movement
+        """The movement function of a particle."""
 
         self.__particles: list[Particle] = []
         self.__running: bool = False
@@ -138,7 +122,6 @@ class ParticleSystem(Component):
         self.__forward: bool = True
         """This controls the direction of the particle generation. (Only used in ParticleSystemMode.PINGPONG)"""
 
-    @property
     def num_particles(self):
         """
         The number of particles in the system.
@@ -167,10 +150,12 @@ class ParticleSystem(Component):
 
         i = 0
         while i < len(self.__particles):
-            if self.__particles[i].age >= self.__particles[i].lifespan:
+            particle = self.__particles[i]
+            if particle.age >= particle.lifespan:
                 self.__particles.pop(i)
             else:
-                self.__particles[i].fixed_update()
+                particle.age += Time.fixed_delta
+                particle.movement(particle, Time.fixed_delta)
             i += 1
 
     def draw(self, camera: Camera):
