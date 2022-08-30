@@ -6,7 +6,7 @@ import os
 
 from . import Animation
 from ... import Surface
-from .... import Vector, get_path, Display, Color
+from .... import Vector, get_path, Display
 
 
 class Spritesheet:
@@ -110,7 +110,7 @@ class Spritesheet:
     def from_folder(
         rel_path: str,
         sprite_size: Vector | tuple[float, float],
-        default_state=None,
+        default_state: str | None = None,
         recursive: bool = True
     ) -> Animation:
         """
