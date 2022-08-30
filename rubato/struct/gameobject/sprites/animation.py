@@ -8,7 +8,7 @@ from warnings import warn
 import sdl2
 
 from .. import Component
-from ... import Sprite
+from ... import Surface
 from .... import Vector, Time, get_path, Draw, Camera, deprecated_no_replacement
 
 if TYPE_CHECKING:
@@ -48,7 +48,7 @@ class Animation(Component):
         self._fps: int = fps
         self.singular = False
 
-        self._states: dict[str, list[Sprite]] = {}
+        self._states: dict[str, list[Surface]] = {}
         self._freeze: int = -1
 
         self.default_state: str = ""
@@ -99,11 +99,11 @@ class Animation(Component):
         return self._states[self.current_state][self.current_frame].surf
 
     @property
-    def anim_frame(self) -> Sprite:
+    def anim_frame(self) -> Surface:
         """The current animation frame."""
-        sprite = self._states[self.current_state][self.current_frame]
-        sprite.af = self.af
-        sprite.rotation = self.true_rotation()
+        surface = self._states[self.current_state][self.current_frame]
+        surface.af = self.af
+        surface.rotation = self.true_rotation()
 
         calculated_scale = self.scale.clone()
         if self.flipx:
@@ -111,8 +111,9 @@ class Animation(Component):
         if self.flipy:
             calculated_scale.y *= -1
 
-        sprite.scale = calculated_scale
-        return sprite
+        surface.scale = calculated_scale
+        surface.generate_tx()
+        return surface
 
     def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
@@ -128,13 +129,12 @@ class Animation(Component):
             KeyError: The new_state key is not in the initialized states.
         """
         if new_state != self.current_state:
-            if new_state in self._states:
-                self.loop = loop
-                self.current_state = new_state
-                self.reset()
-                self._freeze = freeze
-            else:
+            if new_state not in self._states:
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
+            self.loop = loop
+            self.current_state = new_state
+            self.reset()
+            self._freeze = freeze
 
     @deprecated_no_replacement
     def resize(self, new_size: Vector):  # pylint: disable=unused-argument
@@ -153,7 +153,7 @@ class Animation(Component):
         """Reset the animation state back to the first frame."""
         self.current_frame = 0
 
-    def add(self, state_name: str, images: list[Sprite]):
+    def add(self, state_name: str, images: list[Surface]):
         """
         Adds a state to the animation.
 
@@ -185,7 +185,7 @@ class Animation(Component):
             for image_path in files:
                 try:
                     path_to_image = path.join(p, image_path)
-                    image = Sprite(rel_path=path_to_image)
+                    image = Surface.from_file(path_to_image)
                     ret_list.append(image)
                 except TypeError:
                     continue
@@ -196,7 +196,7 @@ class Animation(Component):
                 for image_path in files:
                     try:
                         path_to_image = path.join(p, image_path)
-                        image = Sprite(rel_path=path_to_image)
+                        image = Surface.from_file(path_to_image)
                         ret_list.append(image)
                     except TypeError:
                         continue
@@ -266,13 +266,6 @@ class Animation(Component):
                 self.reset()
             else:
                 self.set_current_state(self.default_state, True)
-
-    def delete(self):
-        """Deletes the animation component"""
-        for state in self._states.values():
-            for image in state:
-                image.delete()
-        self._states = {}
 
     def clone(self) -> Animation:
         """Clones the animation."""

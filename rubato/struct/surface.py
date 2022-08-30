@@ -3,7 +3,7 @@ from __future__ import annotations
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display
+from .. import Vector, Color, Display, get_path
 
 
 class Surface:
@@ -103,13 +103,10 @@ class Surface:
 
     def generate_tx(self):
         """Regenerates the texture from the surface."""
+        if hasattr(self, "tx"):
+            self.tx.destroy()
         self.tx = sdl2.ext.Texture(Display.renderer, self.surf)
         self.uptodate = True
-
-    def delete(self):
-        """Deletes the surface."""
-        self.tx.destroy()
-        sdl2.SDL_FreeSurface(self.surf)
 
     def clear(self):
         """
@@ -365,3 +362,32 @@ class Surface:
 
         sdl2.SDL_GetSurfaceAlphaMod(self._surf, ctypes.byref(y))
         return y.value
+
+    @staticmethod
+    def from_file(path: str, **kwargs) -> Surface:
+        """
+        Loads a surface from a file.
+
+        Args:
+            path: The path to the file.
+            **kwargs: Arguments to pass to the Surface constructor.
+
+        Returns:
+            The loaded surface.
+        """
+        try:
+            surf = sdl2.ext.load_img(path, False)
+        except OSError:
+            surf = sdl2.ext.load_img(get_path(path), False)
+        except sdl2.ext.SDLError as e:
+            fname = path.replace("\\", "/").split("/")[-1]
+            raise TypeError(f"{fname} is not a valid image file") from e
+
+        s = Surface(**kwargs)
+        s.surf = surf
+        return s
+
+    def __del__(self):
+        if hasattr(self, "tx"):
+            self.tx.destroy()
+        sdl2.SDL_FreeSurface(self.surf)

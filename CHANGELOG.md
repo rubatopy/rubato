@@ -5,10 +5,13 @@
 ### Breaking Changes
 
 -   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
+-   Removed all `delete` functions because they were just memory management functions and that is now done
+    automatically.
 
 ### Added
 
 -   `ParticleSystem`: A component that manages a particle system.
+-   `remove` functions where needed.
 
 ### Changed
 

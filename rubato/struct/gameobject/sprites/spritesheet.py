@@ -5,8 +5,8 @@ import sdl2
 import os
 
 from . import Animation
-from ... import Sprite
-from .... import Vector, get_path, Display
+from ... import Surface
+from .... import Vector, get_path, Display, Color
 
 
 class Spritesheet:
@@ -30,8 +30,8 @@ class Spritesheet:
         grid_size: Vector | tuple[float, float] | None = None
     ):
         self._sprite_size: tuple[int, int] = (int(sprite_size[0]), int(sprite_size[1]))
-        self._sheet = Sprite(rel_path=rel_path)
-        self._sprites: list[list[Sprite]] = []
+        self._sheet = Surface.from_file(rel_path)
+        self._sprites: list[list[Surface]] = []
 
         if not grid_size:
             self._grid: tuple[int, int] = (self._sheet.get_size() / self._sprite_size).tuple_int()
@@ -53,10 +53,10 @@ class Spritesheet:
                     sdl2.SDL_Rect(0, 0, self._sprite_size[0], self._sprite_size[1]),
                 )
 
-                sprite: Sprite = Sprite("")
-                sprite.surf = sub.contents
+                surface = Surface(width=self._sprite_size[0], height=self._sprite_size[1])
+                surface.surf = sub.contents
 
-                self._sprites[y // self._sprite_size[1]].append(sprite)
+                self._sprites[y // self._sprite_size[1]].append(surface)
 
     @property
     def grid_size(self) -> Vector:
@@ -69,12 +69,12 @@ class Spritesheet:
         return Vector(*self._sprite_size)
 
     @property
-    def sheet(self) -> Sprite:
+    def sheet(self) -> Surface:
         """The actual spritesheet sprite (readonly)."""
         return self._sheet
 
     @property
-    def sprites(self) -> list[list[Sprite]]:
+    def sprites(self) -> list[list[Surface]]:
         """The list of all the sprites as sprites (readonly)."""
         return self._sprites
 
@@ -88,7 +88,7 @@ class Spritesheet:
         """
         return self.grid_size - Vector.one()
 
-    def get(self, x: int, y: int) -> Sprite:
+    def get(self, x: int, y: int) -> Surface:
         """
         Gets the Sprite at the corresponding grid coordinate of the spritesheet.
 

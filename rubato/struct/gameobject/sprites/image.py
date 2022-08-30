@@ -1,7 +1,7 @@
 """Static image component for game objects."""
 from __future__ import annotations
 from . import Raster
-from ... import Sprite
+from ... import Surface
 from .... import Vector
 
 
@@ -30,7 +30,7 @@ class Image(Raster):
         hidden: bool = False
     ):
         super().__init__(0, 0, scale, offset, rot_offset, af, z_index, hidden)
-        self.surf: Sprite = Sprite(rel_path, scale=scale, rotation=rot_offset, af=af)
+        self.surf: Surface = Surface.from_file(rel_path, scale=scale, rotation=rot_offset, af=af)
 
     def clone(self) -> Image:
         img = Image("", self.scale, self.offset.clone(), self.rot_offset, self.af, self.z_index)

@@ -91,10 +91,6 @@ class Raster(Component):
 
         Draw.queue_surface(self.surf, self.true_pos(), self.true_z(), camera)
 
-    def delete(self):
-        """Deletes the raster component"""
-        self.surf.delete()
-
     def clear(self):
         """
         Clears the surface.
