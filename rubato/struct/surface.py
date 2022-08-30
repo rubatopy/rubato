@@ -376,6 +376,7 @@ class Surface:
             raise TypeError(f"{fname} is not a valid image file") from e
 
         s = Surface(**kwargs)
+        sdl2.SDL_FreeSurface(s._surf)
         s._surf = surf
         return s
 
