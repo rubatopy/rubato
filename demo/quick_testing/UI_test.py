@@ -9,7 +9,7 @@ Game.show_fps = True
 main = Scene()
 
 txt = wrap(Text("Hello World!", Font(size=64), rot_offset=25), pos=Display.center + 100, rotation=45)
-img = Raster.from_file("../sprites/spaceship/spaceship.png")
+img = Image("../sprites/spaceship/spaceship.png")
 rast = Raster(32, 32)
 rast.draw_rect((0, 0), (32, 32), Color.red)
 

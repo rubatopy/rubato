@@ -81,14 +81,14 @@ The default Component class.
 
 Raster
 ---------
-.. automodule:: rubato.struct.gameobject.sprites.raster
+.. automodule:: rubato.struct.gameobject.sprites.raster.Raster
 
 
 .. _image:
 
 Image
 ---------
-.. automodule:: rubato.struct.gameobject.sprites.image
+.. automodule:: rubato.struct.gameobject.sprites.raster.Image
 
 .. _text:
 
