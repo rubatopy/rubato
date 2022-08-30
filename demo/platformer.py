@@ -51,7 +51,7 @@ def player_collide(col_info: rb.Manifold):
     if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
         grounded = True
         jumps = 2
-        p_animation.set_current_state("idle", True)
+        p_animation.set_state("idle", True)
     if col_info.shape_b.tag == "retry_collider":
         if retry_allowed:
             print("r to retry")
@@ -166,8 +166,8 @@ portal.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
-        width=portal_animation.anim_frame.get_size().x,
-        height=portal_animation.anim_frame.get_size().y,
+        width=portal_animation.anim_frame().get_size().x,
+        height=portal_animation.anim_frame().get_size().y,
     )
 )
 
@@ -189,24 +189,24 @@ def update():
         p_animation.flipx = True
         if grounded:
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
-                p_animation.set_current_state("sneak", True)
+                p_animation.set_state("sneak", True)
             else:
-                p_animation.set_current_state("run", True)
+                p_animation.set_state("run", True)
     elif rb.Input.key_pressed("d") or (move_axis > 0 and not centered):
         player_body.velocity.x = 300
         p_animation.flipx = False
         if grounded:
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
-                p_animation.set_current_state("sneak", True)
+                p_animation.set_state("sneak", True)
             else:
-                p_animation.set_current_state("run", True)
+                p_animation.set_state("run", True)
     else:
         player_body.velocity.x = 0
         if grounded:
             if rb.Input.key_pressed("shift") or rb.Input.key_pressed("s"):
-                p_animation.set_current_state("crouch", True)
+                p_animation.set_state("crouch", True)
             else:
-                p_animation.set_current_state("idle", True)
+                p_animation.set_state("idle", True)
 
     if rb.Input.key_pressed("r") or rb.Input.controller_button(rb.Input.controllers - 1, 6):
         player.pos = rb.Display.center_left + rb.Vector(50, 0)
@@ -238,9 +238,9 @@ def handle_keydown(event):
         grounded = False
         player_body.velocity.y = -800
         if jumps == 2:
-            p_animation.set_current_state("jump", freeze=2)
+            p_animation.set_state("jump", freeze=2)
         elif jumps == 1:
-            p_animation.set_current_state("somer", True)
+            p_animation.set_state("somer", True)
         jumps -= 1
     if event["key"] == "1":
         rb.Game.camera.zoom = 1

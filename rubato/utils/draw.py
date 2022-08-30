@@ -455,7 +455,7 @@ class Draw:
         if not surface.surf:
             return
         if not surface.uptodate:
-            surface.generate_tx()
+            surface.regen()
 
         size = surface.get_size()
 

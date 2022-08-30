@@ -15,7 +15,13 @@
 
 ### Changed
 
+-   Made `animation.anim_frame()` a function instead of a property method.
+-   Renamed `surface.generate_tx()` to `surface.regen()`.
+-   Renamed `animation.set_current_state()` to `animation.set_state()`.
+
 ### Removed
+
+-   `animation.image` because it exposed an underlying SDL surface, which should not be used.
 
 ### Fixed
 

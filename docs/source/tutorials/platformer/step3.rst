@@ -91,9 +91,9 @@ that is called when the "w" key is pressed.
         if event["key"] == "w" and jumps > 0:
             player_body.velocity.y = -200
             if jumps == 2:
-                p_animation.set_current_state("jump", freeze=2)
+                p_animation.set_state("jump", freeze=2)
             elif jumps == 1:
-                p_animation.set_current_state("somer", True)
+                p_animation.set_state("somer", True)
             jumps -= 1
 
     rb.Radio.listen("KEYDOWN", handle_keydown)
@@ -202,9 +202,9 @@ In the next step, we'll be building the level for the player to explore.
             if event["key"] == "w" and jumps > 0:
                 player_body.velocity.y = -200
                 if jumps == 2:
-                    p_animation.set_current_state("jump", freeze=2)
+                    p_animation.set_state("jump", freeze=2)
                 elif jumps == 1:
-                    p_animation.set_current_state("somer", True)
+                    p_animation.set_state("somer", True)
                 jumps -= 1
 
 

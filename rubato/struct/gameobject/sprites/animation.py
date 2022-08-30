@@ -4,12 +4,10 @@ This is the animation component module for game objects.
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from os import path, walk
-from warnings import warn
-import sdl2
 
 from .. import Component
 from ... import Surface
-from .... import Vector, Time, get_path, Draw, Camera, deprecated_no_replacement
+from .... import Vector, Time, get_path, Draw, Camera
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -93,12 +91,6 @@ class Animation(Component):
         self._current_frame = new
         self.animation_frames_left = len(self._states[self.current_state]) - (1 + self._current_frame)
 
-    @property
-    def image(self) -> sdl2.SDL_Surface:
-        """The current SDL Surface holding the image."""
-        return self._states[self.current_state][self.current_frame].surf
-
-    @property
     def anim_frame(self) -> Surface:
         """The current animation frame."""
         surface = self._states[self.current_state][self.current_frame]
@@ -112,10 +104,11 @@ class Animation(Component):
             calculated_scale.y *= -1
 
         surface.scale = calculated_scale
-        surface.generate_tx()
+        if not surface.uptodate:
+            surface.regen()
         return surface
 
-    def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
+    def set_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
         Set the current animation state.
 
@@ -135,19 +128,6 @@ class Animation(Component):
             self.current_state = new_state
             self.reset()
             self._freeze = freeze
-
-    @deprecated_no_replacement
-    def resize(self, new_size: Vector):  # pylint: disable=unused-argument
-        """
-        Resize the Animation to a given size in pixels.
-
-        Args:
-            new_size: The new size of the Animation in pixels.
-        """
-        warn("Resizing isn't supported anymore. Use the scale property instead.")
-        # for value in self._states.values():
-        #     for anim_frame in value:
-        #         anim_frame.resize(new_size)
 
     def reset(self):
         """Reset the animation state back to the first frame."""
@@ -254,7 +234,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_surface(self.anim_frame, self.true_pos(), self.true_z(), camera)
+        Draw.queue_surface(self.anim_frame(), self.true_pos(), self.true_z(), camera)
 
     def anim_tick(self):
         """An animation processing tick."""
@@ -265,7 +245,7 @@ class Animation(Component):
             elif self.loop:  # we reached the end of our state
                 self.reset()
             else:
-                self.set_current_state(self.default_state, True)
+                self.set_state(self.default_state, True)
 
     def clone(self) -> Animation:
         """Clones the animation."""

@@ -101,7 +101,7 @@ class Surface:
         sdl2.SDL_BlitSurface(other.surf, None, self.surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
         self.uptodate = False
 
-    def generate_tx(self):
+    def regen(self):
         """Regenerates the texture from the surface."""
         if hasattr(self, "tx"):
             self.tx.destroy()
