@@ -1,7 +1,7 @@
 """A simple particle system."""
 from __future__ import annotations
 from enum import IntEnum, unique
-from random import choice
+from random import randint
 from typing import Callable
 import cython
 
@@ -48,13 +48,13 @@ class ParticleSystem(Component):
         duration: The duration of the system in seconds (when to stop generating particles). Defaults to 5.
         loop: Whether the system should loop (start again at the end of its duration). Defaults to False.
         max_particles: The maximum number of particles in the system. Defaults to Math.INF.
+        mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
+        spread: The gap between particles (in degrees). Defaults to 45.
+        density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
         starting_shape: The generating shape function of the system. Takes in an angle and should generate a vector.
             If None, the starting shape is simply a point. Defaults to None.
         starting_dir: The generating direction function of the system. Takes in an angle and should generate a vector.
             If None, the direction is away from the center. Defaults to None.
-        mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
-        spread: The spread of the system. This is the number of particles generated per loop. Defaults to 5.
-        density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
         movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`.
         offset: The offset of the system. Defaults to (0, 0).
         rot_offset: The rotation offset of the system. Defaults to 0.
@@ -71,11 +71,11 @@ class ParticleSystem(Component):
         duration: float = 5,
         loop: bool = False,
         max_particles: int = Math.INF,
+        mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
+        spread: float = 5,
+        density: int = 1,
         starting_shape: Callable[[float], Vector] | None = None,
         starting_dir: Callable[[float], Vector] | None = None,
-        mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
-        spread: int = 5,
-        density: int = 1,
         movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
@@ -100,12 +100,12 @@ class ParticleSystem(Component):
         """The maximum number of particles in the system."""
         self.starting_shape: Callable[[float], Vector] = starting_shape or (lambda _: Vector(0, 0))
         """The starting shape function of the system."""
-        self.starting_dir: Callable[[float], Vector] = starting_dir or (lambda a: Vector.from_radial(1, a))
+        self.starting_dir: Callable[[float], Vector] = starting_dir or ParticleSystem.circle_direction()
         """The starting direction function of the system."""
         self.mode: ParticleSystemMode = mode
         """The particle generation mode of the system."""
-        self.spread: int = spread
-        """The spread of the system. This is the number of particles generated per loop."""
+        self.spread: float = spread
+        """The gap between particles (in degrees)."""
         self.density: int = density
         """The density of the system. This is the number of particles generated per fixed update."""
         self.movement: Callable[[Particle, float], None] = movement or ParticleSystem.default_movement
@@ -113,11 +113,10 @@ class ParticleSystem(Component):
 
         self.__particles: list[Particle] = []
         self.__running: bool = False
-        self.__time: float = duration
+        self.__time: float = 0
         self.__generated: int = 0
         """
         Number of particles generated this loop. (NOT EQUAL TO TOTAL NUMBER OF PARTICLES)
-        If mode is RANDOM, then each bit corresponds to a generated particle this loop.
         """
         self.__forward: bool = True
         """This controls the direction of the particle generation. (Only used in ParticleSystemMode.PINGPONG)"""
@@ -156,7 +155,7 @@ class ParticleSystem(Component):
             else:
                 particle.age += Time.fixed_delta
                 particle.movement(particle, Time.fixed_delta)
-            i += 1
+                i += 1
 
     def draw(self, camera: Camera):
         for particle in self.__particles:
@@ -166,29 +165,23 @@ class ParticleSystem(Component):
         """
         Generates particles. Called automatically by fixed_update.
         """
+        max_in_dur = round(360 / self.spread) * self.density
         for _ in range(self.density):
             if self.mode == ParticleSystemMode.BURST and self.__time == 0:
-                while self.__generated < self.spread and len(self.__particles) < self.max_particles:
+                while self.__generated < max_in_dur and len(self.__particles) < self.max_particles:
                     self.new_particle(self.__generated)
-                    self.__generated += 1
             elif self.mode == ParticleSystemMode.RANDOM:
-                gened = [bool(self.__generated & 1 << n) for n in range(self.spread)]
-                if available := [i for i, x in enumerate(gened) if not x]:
-                    i = choice(available)
-                    self.new_particle(i)
-                    self.__generated |= 1 << i
-            elif self.__generated < self.spread and len(
+                self.new_particle(randint(0, max_in_dur))
+            elif self.__generated < max_in_dur and len(
                 self.__particles
-            ) < self.max_particles and self.__time >= self.duration / self.spread * self.__generated:
+            ) < self.max_particles and self.__time >= self.duration / max_in_dur * self.__generated:
                 if self.mode == ParticleSystemMode.LOOP:
                     self.new_particle(self.__generated)
-                    self.__generated += 1
                 elif self.mode == ParticleSystemMode.PINGPONG:
                     if self.__forward:
                         self.new_particle(self.__generated)
                     else:
-                        self.new_particle(self.spread - self.__generated)
-                    self.__generated += 1
+                        self.new_particle(max_in_dur - self.__generated)
 
     def new_particle(self, i: int):
         """
@@ -197,7 +190,7 @@ class ParticleSystem(Component):
         Args:
             i: The generation index of the particle.
         """
-        angle = i * (360 / self.spread)
+        angle = i * self.spread
         self.__particles.append(
             Particle(
                 self.movement,
@@ -210,6 +203,7 @@ class ParticleSystem(Component):
                 self.z_index,
             )
         )
+        self.__generated += 1
 
     def clone(self) -> ParticleSystem:
         return ParticleSystem(
@@ -221,11 +215,11 @@ class ParticleSystem(Component):
             self.duration,
             self.loop,
             self.max_particles,
-            self.starting_shape,
-            self.starting_dir,
             self.mode,
             self.spread,
             self.density,
+            self.starting_shape,
+            self.starting_dir,
             self.movement,
             self.offset.clone(),
             self.rot_offset,
@@ -248,3 +242,71 @@ class ParticleSystem(Component):
             delta: The time delta.
         """
         particle.pos += particle.velocity * delta
+
+    @staticmethod
+    def circle_shape(radius: float) -> Callable[[float], Vector]:
+        """
+        A shape function that returns a circle. This can be passed into the starting_shape argument of a ParticleSystem.
+
+        Args:
+            radius: The radius of the circle.
+        """
+
+        def shape(angle: float) -> Vector:
+            return Vector.from_radial(radius, angle)
+
+        return shape
+
+    @staticmethod
+    def circle_direction() -> Callable[[float], Vector]:
+        """
+        A direction function that returns a circle. This can be passed into the starting_dir argument of a
+        ParticleSystem.
+        """
+
+        def direction(angle: float) -> Vector:
+            return Vector.from_radial(1, angle)
+
+        return direction
+
+    @staticmethod
+    def square_shape(size: float) -> Callable[[float], Vector]:
+        """
+        A shape function that returns a square. This can be passed into the starting_shape argument of a ParticleSystem.
+
+        Args:
+            size: The size of the square.
+        """
+
+        def shape(angle: float) -> Vector:
+            angle %= 360
+            if 0 <= angle < 90:
+                return Vector(((angle / 45) - 1) * size, -size / 2)
+            elif 90 <= angle < 180:
+                return Vector(size / 2, (((angle - 90) / 45) - 1) * size)
+            elif 180 <= angle < 270:
+                return Vector((((angle - 180) / 45) - 1) * size, size / 2)
+            else:
+                return Vector(-size / 2, (((angle - 270) / 45) - 1) * size)
+
+        return shape
+
+    @staticmethod
+    def square_direction() -> Callable[[float], Vector]:
+        """
+        A direction function that returns a square. This can be passed into the starting_dir argument of a
+        ParticleSystem.
+        """
+
+        def direction(angle: float) -> Vector:
+            angle %= 360
+            if 0 <= angle < 90:
+                return Vector(0, -1)
+            elif 90 <= angle < 180:
+                return Vector(1, 0)
+            elif 180 <= angle < 270:
+                return Vector(0, 1)
+            else:
+                return Vector(-1, 0)
+
+        return direction
