@@ -226,10 +226,8 @@ class ParticleSystem(Component):
             self.z_index,
         )
 
-    def delete(self):
-        self.surface.delete()
-        for particle in self.__particles:
-            particle.delete()
+    def clear(self):
+        """Clear the system."""
         self.__particles.clear()
 
     @staticmethod

@@ -55,7 +55,3 @@ class Particle:
         self.surface.rotation = self.rotation
         self.surface.scale = self.__original_scale * self.scale
         Draw.queue_surface(self.surface, self.pos, self.z_index, camera)
-
-    def delete(self):
-        """Deletes a particle."""
-        self.surface.delete()

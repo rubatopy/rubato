@@ -5,14 +5,26 @@
 ### Breaking Changes
 
 -   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
+-   Removed all `delete` functions because they did nothing that was useful for memory management,
+    which was their purpose.
+-   Removed `Sprite`, because `Surface` does the same thing.
 
 ### Added
 
--   `ParticleSystem`: A component that manages a particle system.
+-   `ParticleSystem`, which manages a system of particles.
+-   `remove` functions where needed.
 
 ### Changed
 
+-   Made `animation.anim_frame()` a function instead of a property method.
+-   Renamed `surface.generate_tx()` to `surface.regen()`.
+-   Renamed `animation.set_current_state()` to `animation.set_state()`.
+
 ### Removed
+
+-   `animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
+-   Long deprecated mouse methods in `Input`
+-   `vector.distance_between` (use `vector.dist_to()`).
 
 ### Fixed
 

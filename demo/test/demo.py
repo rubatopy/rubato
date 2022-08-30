@@ -5,7 +5,7 @@ init(res=Vector(500, 500))
 main = Scene()
 
 player = GameObject(name="player", pos=Display.center)
-image = Image(rel_path="art/Player1.png")
+image = Image("art/Player1.png")
 player.add(image)
 main.add(player)
 
@@ -23,7 +23,7 @@ class Coin(Component):
     #     self.image.offset = Vector(100, 100)
 
 
-player.add(Coin()).add(Image(rel_path="art/Silver Coin.png", offset=Vector(100, 100)))
+player.add(Coin()).add(Image("art/Silver Coin.png", offset=Vector(100, 100)))
 
 speed = 40
 

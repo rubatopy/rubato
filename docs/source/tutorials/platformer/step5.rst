@@ -33,7 +33,7 @@ That code looks like this:
         if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
             grounded = True
             jumps = 2
-            p_animation.set_current_state("idle", True)
+            p_animation.set_state("idle", True)
 
     # add a hitbox to the player with the collider
     player.add(rb.Rectangle(width=64, height=64, tag="player")) # This line should already be in your code
@@ -57,9 +57,9 @@ For this to work, you also need to update the event listner at the bottom to loo
             grounded = False
             player_body.velocity.y = -800
             if jumps == 2:
-                p_animation.set_current_state("jump", freeze=2)
+                p_animation.set_state("jump", freeze=2)
             elif jumps == 1:
-                p_animation.set_current_state("somer", True)
+                p_animation.set_state("somer", True)
             jumps -= 1
 
 *************
@@ -130,7 +130,7 @@ This was just the tip of the iceberg of what rubato can do.
 
         # Create animation and initialize states
         p_animation = rb.Spritesheet.from_folder(
-            rel_path="files/dino",
+            path="files/dino",
             sprite_size=rb.Vector(24, 24),
             default_state="idle",
         )
@@ -152,7 +152,7 @@ This was just the tip of the iceberg of what rubato can do.
             if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
                 grounded = True
                 jumps = 2
-                p_animation.set_current_state("idle", True)
+                p_animation.set_state("idle", True)
 
 
         # add a hitbox to the player with the collider
@@ -255,9 +255,9 @@ This was just the tip of the iceberg of what rubato can do.
                 grounded = False
                 player_body.velocity.y = -800
                 if jumps == 2:
-                    p_animation.set_current_state("jump", freeze=2)
+                    p_animation.set_state("jump", freeze=2)
                 elif jumps == 1:
-                    p_animation.set_current_state("somer", True)
+                    p_animation.set_state("somer", True)
                 jumps -= 1
 
 

@@ -151,7 +151,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         # Create animation and initialize states
         p_animation = rb.Spritesheet.from_folder(
-            rel_path="files/dino",
+            path="files/dino",
             sprite_size=rb.Vector(24, 24),
             default_state="idle",
         )
@@ -250,9 +250,9 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
             if event["key"] == "w" and jumps > 0:
                 player_body.velocity.y = -200
                 if jumps == 2:
-                    p_animation.set_current_state("jump", freeze=2)
+                    p_animation.set_state("jump", freeze=2)
                 elif jumps == 1:
-                    p_animation.set_current_state("somer", True)
+                    p_animation.set_state("somer", True)
                 jumps -= 1
 
 

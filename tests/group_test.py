@@ -20,7 +20,6 @@ def go():
     g.update = Mock()
     g.fixed_update = Mock()
     g.draw = Mock()
-    g.delete = Mock()
     return g
 
 
@@ -45,20 +44,6 @@ def test_add(monkeypatch, group, go):
 
     with pytest.raises(ValueError):
         group.add(Camera())
-
-
-def test_delete(group, go):
-    group.add(go)
-    group.delete(go)
-    assert go not in group.game_objects
-
-    g = Group()
-    group.add(g)
-    group.delete(g)
-    assert g not in group.groups
-
-    with pytest.raises(ValueError):
-        group.delete(g)
 
 
 def test_pass_on_funcs(group, go):

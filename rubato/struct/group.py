@@ -71,18 +71,15 @@ class Group:
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
 
-    def delete(self, item: GameObject | Group):
+    def remove(self, item: GameObject | Group):
         """
         Removes an item from the group.
 
         Args:
             item: The item to remove from the group.
 
-        Note:
-            The actually game object is not deleted, just removed from the group.
-
         Raises:
-            ValueError: The item is not in the group and cannot be deleted.
+            ValueError: The item is not in the group and cannot be removed.
         """
         try:
             if isinstance(item, GameObject):

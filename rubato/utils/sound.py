@@ -2,7 +2,7 @@
 A multi-channel sound system for rubato.
 """
 from __future__ import annotations
-from os import path, walk
+from os import path as os_path, walk
 from ctypes import c_int, CFUNCTYPE
 
 import sdl2.sdlmixer as mixer
@@ -37,7 +37,7 @@ class Sound:
         * VOC
 
     Args:
-        rel_path: The relative path to the sound file you wish to import.
+        path: The relative path to the sound file you wish to import.
         sound_name: The name of the sound. Defaults to the name of the file.
     """
     STOPPED = 0
@@ -49,14 +49,14 @@ class Sound:
     active_channels: dict[int, Sound] = {}
     """A dictionary housing all the active sounds, stored by their name."""
 
-    def __init__(self, rel_path: str, sound_name: str = ""):
-        self.chunk = mixer.Mix_LoadWAV(rel_path.encode("utf-8"))
+    def __init__(self, path: str, sound_name: str = ""):
+        self.chunk = mixer.Mix_LoadWAV(path.encode("utf-8"))
         self.channels = 0
         self._paused = False
         self._volume = int(mixer.MIX_MAX_VOLUME / 2)
 
         if sound_name == "":
-            self.name = rel_path.split("/")[-1].split(".")[0]
+            self.name = path.split("/")[-1].split(".")[0]
         else:
             self.name = sound_name
 
@@ -161,24 +161,24 @@ class Sound:
         return self._volume
 
     @classmethod
-    def import_sound_folder(cls, rel_path: str, duplicate_names=False, recursive: bool = True):
+    def import_sound_folder(cls, path: str, duplicate_names=False, recursive: bool = True):
         """
         Imports a folder of sounds, saving each one in the loaded_sounds
         dictionary by filename.
 
         Args:
-            rel_path: The relative path to the folder you wish to import.
+            path: The relative path to the folder you wish to import.
             duplicate_names: if you wish to have duplicate names to your sounds,
             it will use the relative and the sound path for the sounds name
             recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
         """
-        p = get_path(rel_path)
+        p = get_path(path)
 
         if not recursive:
             _, _, files = next(walk(p))
             # walk to directory path and ignore name and subdirectories
             for sound_path in files:
-                path_to_sound = path.join(p, sound_path)
+                path_to_sound = os_path.join(p, sound_path)
                 name = (p + sound_path).split(".")[0] if duplicate_names else sound_path.split(".")[0]
                 try:
                     cls(path_to_sound, name)
@@ -191,8 +191,8 @@ class Sound:
             for _, _, files in walk(p):
                 # walk to directory path and ignore name and subdirectories
                 for sound_path in files:
-                    path_to_sound = path.join(p, sound_path)
-                    name = (rel_path + "/" + sound_path).split(".")[0] if duplicate_names else sound_path.split(".")[0]
+                    path_to_sound = os_path.join(p, sound_path)
+                    name = (path + "/" + sound_path).split(".")[0] if duplicate_names else sound_path.split(".")[0]
                     try:
                         cls(path_to_sound, name)
                     except IdError as err:

@@ -93,10 +93,6 @@ class Component:
         """The physics function for a component."""
         pass
 
-    def delete(self):
-        """The delete function for a component."""
-        pass
-
     def clone(self) -> Component:
         """Clones the component."""
         new = Component(

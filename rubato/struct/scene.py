@@ -76,23 +76,23 @@ class Scene:
         """
         self.ui.add(*items)
 
-    def delete(self, item: GameObject | Group):
+    def remove(self, item: GameObject | Group):
         """
         Removes an item from the root group.
 
         Args:
             item: The item to remove.
         """
-        self.root.delete(item)
+        self.root.remove(item)
 
-    def delete_ui(self, item: GameObject):
+    def remove_ui(self, item: GameObject):
         """
         Removes an item from the ui group.
 
         Args:
             item: The item to remove.
         """
-        self.ui.delete(item)
+        self.ui.remove(item)
 
     def _setup(self):
         self.started = True

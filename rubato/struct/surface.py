@@ -3,7 +3,7 @@ from __future__ import annotations
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display
+from .. import Vector, Color, Display, get_path
 
 
 class Surface:
@@ -36,31 +36,22 @@ class Surface:
             0, width, height, 32, Display.pixel_format
         ).contents
 
-        self.tx: sdl2.ext.Texture
-        """(READ ONLY) The generated sprite texture."""
+        self._tx: sdl2.ext.Texture
         self.uptodate: bool = False
         """
         Whether the texture is up to date with the surface.
         Can be set to False to trigger a texture regeneration at the next draw cycle.
         """
 
-        self.width: int = width
-        """(READ ONLY) The width of the surface in pixels."""
-        self.height: int = height
-        """(READ ONLY) The height of the surface in pixels."""
+    @property
+    def width(self) -> int:
+        """The width of the surface in pixels (read-only)."""
+        return self._surf.w
 
     @property
-    def surf(self) -> sdl2.SDL_Surface:
-        """The surface that is rendered."""
-        return self._surf
-
-    @surf.setter
-    def surf(self, new: sdl2.SDL_Surface):
-        """
-        Sets the surface to be rendered.
-        """
-        self._surf = new
-        self.uptodate = False
+    def height(self) -> int:
+        """The height of the surface in pixels (read-only)."""
+        return self._surf.h
 
     @property
     def af(self):
@@ -71,7 +62,7 @@ class Surface:
     def af(self, new: bool):
         self._af = new
         if hasattr(self, "tx"):
-            self.tx.set_scale_mode("linear" if self.af else "nearest")
+            self._tx.set_scale_mode("linear" if self.af else "nearest")
 
     def get_size(self) -> Vector:
         """
@@ -80,7 +71,7 @@ class Surface:
         Returns:
             The size of the image
         """
-        return Vector(self.surf.w * self.scale.x, self.surf.h * self.scale.y)
+        return Vector(self._surf.w * self.scale.x, self._surf.h * self.scale.y)
 
     def get_size_raw(self) -> Vector:
         """
@@ -89,7 +80,7 @@ class Surface:
         Returns:
             The size of the image
         """
-        return Vector(self.surf.w, self.surf.h)
+        return Vector(self._surf.w, self._surf.h)
 
     def merge(self, other: Surface):
         """
@@ -98,24 +89,22 @@ class Surface:
         Args:
             other: The surface to merge into this one.
         """
-        sdl2.SDL_BlitSurface(other.surf, None, self.surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
+        sdl2.SDL_BlitSurface(other._surf, None, self._surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
         self.uptodate = False
 
-    def generate_tx(self):
+    def regen(self):
         """Regenerates the texture from the surface."""
-        self.tx = sdl2.ext.Texture(Display.renderer, self.surf)
+        if hasattr(self, "tx"):
+            self._tx.destroy()
+        self._tx = sdl2.ext.Texture(Display.renderer, self._surf)
+        self._tx.set_scale_mode("linear" if self.af else "nearest")
         self.uptodate = True
-
-    def delete(self):
-        """Deletes the surface."""
-        self.tx.destroy()
-        sdl2.SDL_FreeSurface(self.surf)
 
     def clear(self):
         """
         Clears the surface.
         """
-        c_draw.clear_pixels(self.surf.pixels, self.surf.w, self.surf.h)
+        c_draw.clear_pixels(self._surf.pixels, self._surf.w, self._surf.h)
         self.uptodate = False
 
     def fill(self, color: Color):
@@ -125,7 +114,7 @@ class Surface:
         Args:
             color: The color to fill with.
         """
-        self.draw_rect((0, 0), (self.surf.w, self.surf.h), fill=color)
+        self.draw_rect((0, 0), (self._surf.w, self._surf.h), fill=color)
 
     def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
@@ -137,7 +126,7 @@ class Surface:
             blending: Whether to use blending. Defaults to False.
         """
         x, y = int(pos[0]), int(pos[1])
-        c_draw.set_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y, color.rgba32(), blending)
+        c_draw.set_pixel(self._surf.pixels, self._surf.w, self._surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
     def draw_line(
@@ -163,7 +152,7 @@ class Surface:
         sx, sy = int(start[0]), int(start[1])
         ex, ey = int(end[0]), int(end[1])
         c_draw.draw_line(
-            self.surf.pixels, self.surf.w, self.surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
+            self._surf.pixels, self._surf.w, self._surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
         self.uptodate = False
 
@@ -190,9 +179,9 @@ class Surface:
         x, y = int(top_left[0]), int(top_left[1])
         w, h = int(dims[0]), int(dims[1])
         c_draw.draw_rect(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
+            self._surf.pixels,
+            self._surf.w,
+            self._surf.h,
             x,
             y,
             w,
@@ -228,9 +217,9 @@ class Surface:
         """
         x, y = int(center[0]), int(center[1])
         c_draw.draw_circle(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
+            self._surf.pixels,
+            self._surf.w,
+            self._surf.h,
             x,
             y,
             radius,
@@ -263,9 +252,9 @@ class Surface:
             blending: Whether to use blending. Defaults to False.
         """
         c_draw.draw_poly(
-            self.surf.pixels,
-            self.surf.w,
-            self.surf.h,
+            self._surf.pixels,
+            self._surf.w,
+            self._surf.h,
             points,
             border.rgba32() if border else 0,
             fill.rgba32() if fill else 0,
@@ -286,8 +275,8 @@ class Surface:
             The color of the pixel.
         """
         x, y = int(pos[0]), int(pos[1])
-        if 0 <= x < self.surf.w and 0 <= y < self.surf.h:
-            return Color.from_rgba32(c_draw.get_pixel(self.surf.pixels, self.surf.w, self.surf.h, x, y))
+        if 0 <= x < self._surf.w and 0 <= y < self._surf.h:
+            return Color.from_rgba32(c_draw.get_pixel(self._surf.pixels, self._surf.w, self._surf.h, x, y))
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
@@ -313,10 +302,10 @@ class Surface:
         """
         for x in range(round(self.get_size().x)):
             for y in range(round(self.get_size().y)):
-                if self.get_pixel(Vector(x, y)) == color:
-                    new_color.a = self.get_pixel_tuple((x, y))[0]  # Preserve the alpha value.
-                    self.draw_point(Vector(x, y), new_color)
-                self.draw_point(Vector(x, y), color)  # Set the color of the pixel.
+                if self.get_pixel((x, y)) == color:
+                    new_color.a = self.get_pixel_tuple((x, y))[0]
+                    self.draw_point((x, y), new_color)
+                self.draw_point((x, y), color)
         self.uptodate = False
 
     def set_colorkey(self, color: Color):
@@ -325,7 +314,7 @@ class Surface:
         Args:
             color: Color to set as the colorkey.
         """
-        sdl2.SDL_SetColorKey(self.surf, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self.surf.format, color.r, color.g, color.b))
+        sdl2.SDL_SetColorKey(self._surf, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._surf.format, color.r, color.g, color.b))
         self.uptodate = False
 
     def clone(self) -> Surface:
@@ -365,3 +354,41 @@ class Surface:
 
         sdl2.SDL_GetSurfaceAlphaMod(self._surf, ctypes.byref(y))
         return y.value
+
+    @classmethod
+    def from_file(
+        cls,
+        path: str,
+        scale: Vector | tuple[float, float] = (1, 1),
+        rotation: float = 0,
+        af: bool = False,
+    ) -> Surface:
+        """
+        Loads a surface from an image file.
+
+        Args:
+            path: The path to the file.
+            scale: The scale of the surface. Defaults to (1, 1).
+            rotation: The clockwise rotation of the sprite.
+            af: Whether to use anisotropic filtering. Defaults to False.
+
+        Returns:
+            The resultant surface.
+        """
+        try:
+            surf = sdl2.ext.load_img(path, False)
+        except OSError:
+            surf = sdl2.ext.load_img(get_path(path), False)
+        except sdl2.ext.SDLError as e:
+            fname = path.replace("\\", "/").split("/")[-1]
+            raise TypeError(f"{fname} is not a valid image file") from e
+
+        s = cls(scale=scale, rotation=rotation, af=af)
+        sdl2.SDL_FreeSurface(s._surf)
+        s._surf = surf
+        return s
+
+    def __del__(self):
+        if hasattr(self, "tx"):
+            self._tx.destroy()
+        sdl2.SDL_FreeSurface(self._surf)

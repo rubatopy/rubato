@@ -3,7 +3,7 @@ A game object is a basic element describing a "thing" in rubato.
 Its functionality is defined by the components it holds.
 """
 from __future__ import annotations
-from typing import Optional, Type, TypeVar
+from typing import Type, TypeVar
 
 from . import Component
 from .. import Surface
@@ -147,7 +147,7 @@ class GameObject:
         if not deleted:
             raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
-    def get(self, comp_type: Type[T]) -> Optional[T]:
+    def get(self, comp_type: Type[T]) -> T | None:
         """
         Gets a component from the game object.
 
@@ -157,10 +157,10 @@ class GameObject:
         Returns:
             The component if it was found or None if it wasn't.
         """
-        for key, val in self._components.items():
-            if issubclass(key, comp_type):
-                return val[0]  # type: ignore
-        return None
+        return next(
+            (val[0] for key, val in self._components.items() if issubclass(key, comp_type)),
+            None,
+        )  # type: ignore
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
         """
@@ -178,17 +178,6 @@ class GameObject:
             if issubclass(key, comp_type):
                 fin.extend(val)
         return fin
-
-    def delete(self):
-        """
-        Deletes and frees everything from the game object. This is called when you remove it from a group or scene.
-
-        Warning:
-            Calling this will render the gameobject useless in the future.
-        """
-        for comps in self._components.values():
-            for comp in comps:
-                comp.delete()
 
     def draw(self, camera: Camera):
         if self.hidden or not self.active:

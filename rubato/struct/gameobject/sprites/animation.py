@@ -3,13 +3,11 @@ This is the animation component module for game objects.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from os import path, walk
-from warnings import warn
-import sdl2
+from os import path as os_path, walk
 
 from .. import Component
-from ... import Sprite
-from .... import Vector, Time, get_path, Draw, Camera, deprecated_no_replacement
+from ... import Surface
+from .... import Vector, Time, get_path, Draw, Camera
 
 if TYPE_CHECKING:
     from . import Spritesheet
@@ -48,7 +46,7 @@ class Animation(Component):
         self._fps: int = fps
         self.singular = False
 
-        self._states: dict[str, list[Sprite]] = {}
+        self._states: dict[str, list[Surface]] = {}
         self._freeze: int = -1
 
         self.default_state: str = ""
@@ -93,17 +91,11 @@ class Animation(Component):
         self._current_frame = new
         self.animation_frames_left = len(self._states[self.current_state]) - (1 + self._current_frame)
 
-    @property
-    def image(self) -> sdl2.SDL_Surface:
-        """The current SDL Surface holding the image."""
-        return self._states[self.current_state][self.current_frame].surf
-
-    @property
-    def anim_frame(self) -> Sprite:
+    def anim_frame(self) -> Surface:
         """The current animation frame."""
-        sprite = self._states[self.current_state][self.current_frame]
-        sprite.af = self.af
-        sprite.rotation = self.true_rotation()
+        surface = self._states[self.current_state][self.current_frame]
+        surface.af = self.af
+        surface.rotation = self.true_rotation()
 
         calculated_scale = self.scale.clone()
         if self.flipx:
@@ -111,10 +103,12 @@ class Animation(Component):
         if self.flipy:
             calculated_scale.y *= -1
 
-        sprite.scale = calculated_scale
-        return sprite
+        surface.scale = calculated_scale
+        if not surface.uptodate:
+            surface.regen()
+        return surface
 
-    def set_current_state(self, new_state: str, loop: bool = False, freeze: int = -1):
+    def set_state(self, new_state: str, loop: bool = False, freeze: int = -1):
         """
         Set the current animation state.
 
@@ -128,32 +122,18 @@ class Animation(Component):
             KeyError: The new_state key is not in the initialized states.
         """
         if new_state != self.current_state:
-            if new_state in self._states:
-                self.loop = loop
-                self.current_state = new_state
-                self.reset()
-                self._freeze = freeze
-            else:
+            if new_state not in self._states:
                 raise KeyError(f"The given state {new_state} is not in the initialized states")
-
-    @deprecated_no_replacement
-    def resize(self, new_size: Vector):  # pylint: disable=unused-argument
-        """
-        Resize the Animation to a given size in pixels.
-
-        Args:
-            new_size: The new size of the Animation in pixels.
-        """
-        warn("Resizing isn't supported anymore. Use the scale property instead.")
-        # for value in self._states.values():
-        #     for anim_frame in value:
-        #         anim_frame.resize(new_size)
+            self.loop = loop
+            self.current_state = new_state
+            self.reset()
+            self._freeze = freeze
 
     def reset(self):
         """Reset the animation state back to the first frame."""
         self.current_frame = 0
 
-    def add(self, state_name: str, images: list[Sprite]):
+    def add(self, state_name: str, images: list[Surface]):
         """
         Adds a state to the animation.
 
@@ -168,24 +148,24 @@ class Animation(Component):
             self.current_state = state_name
             self.reset()
 
-    def add_folder(self, state_name: str, rel_path: str, recursive: bool = True):
+    def add_folder(self, state_name: str, path: str, recursive: bool = True):
         """
         Adds a state from a folder of images. Directory must be solely comprised of images.
 
         Args:
             state_name: The key used to reference this state.
-            rel_path: The relative path to the folder you wish to import
+            path: The relative path to the folder you wish to import
             recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
         """
         ret_list = []
-        p = get_path(rel_path)
+        p = get_path(path)
         if not recursive:
             _, _, files = next(walk(p))
             files.sort()
             for image_path in files:
                 try:
-                    path_to_image = path.join(p, image_path)
-                    image = Sprite(rel_path=path_to_image)
+                    path_to_image = os_path.join(p, image_path)
+                    image = Surface.from_file(path_to_image)
                     ret_list.append(image)
                 except TypeError:
                     continue
@@ -195,8 +175,8 @@ class Animation(Component):
                 files.sort()
                 for image_path in files:
                     try:
-                        path_to_image = path.join(p, image_path)
-                        image = Sprite(rel_path=path_to_image)
+                        path_to_image = os_path.join(p, image_path)
+                        image = Surface.from_file(path_to_image)
                         ret_list.append(image)
                     except TypeError:
                         continue
@@ -254,7 +234,7 @@ class Animation(Component):
             self.anim_tick()
             self._time_count -= self._time_step
 
-        Draw.queue_surface(self.anim_frame, self.true_pos(), self.true_z(), camera)
+        Draw.queue_surface(self.anim_frame(), self.true_pos(), self.true_z(), camera)
 
     def anim_tick(self):
         """An animation processing tick."""
@@ -265,14 +245,7 @@ class Animation(Component):
             elif self.loop:  # we reached the end of our state
                 self.reset()
             else:
-                self.set_current_state(self.default_state, True)
-
-    def delete(self):
-        """Deletes the animation component"""
-        for state in self._states.values():
-            for image in state:
-                image.delete()
-        self._states = {}
+                self.set_state(self.default_state, True)
 
     def clone(self) -> Animation:
         """Clones the animation."""

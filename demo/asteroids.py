@@ -28,7 +28,7 @@ class BoundsChecker(Component):
     def update(self):
         if self.gameobj.pos.x < -bounds or self.gameobj.pos.x > size + bounds or \
             self.gameobj.pos.y < -bounds or self.gameobj.pos.y > size + bounds:
-            main.delete(self.gameobj)
+            main.remove(self.gameobj)
 
 
 # asteroid generator
@@ -128,7 +128,7 @@ interval = 200  # milliseconds between shots
 
 def bullet_collide(man: Manifold):
     if man.shape_b.gameobj.name == "asteroid":
-        main.delete(man.shape_b.gameobj)
+        main.remove(man.shape_b.gameobj)
 
 
 def shoot():

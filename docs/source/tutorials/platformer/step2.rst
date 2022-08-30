@@ -83,7 +83,7 @@ return to when other states finish. In our case, this will be the idle state.
 
     # Create animation and initialize states
     p_animation = rb.Spritesheet.from_folder(
-        rel_path="files/dino",
+        path="files/dino",
         sprite_size=rb.Vector(24, 24),
         default_state="idle",
     )
@@ -124,7 +124,7 @@ Here is what you should have so far if you've been following along:
 
     # Create animation and initialize states
     p_animation = rb.Spritesheet.from_folder(
-        rel_path="files/dino",
+        path="files/dino",
         sprite_size=rb.Vector(24, 24),
         default_state="idle",
     )

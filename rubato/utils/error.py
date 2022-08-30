@@ -71,9 +71,10 @@ class RemovalWarning(DeprecationWarning):
 
 
 def deprecated(other_func):
-    """This is a decorator which can be used to mark functions
-        as deprecated. It will result in a warning being emitted
-        when the function is used."""
+    """
+    This is a decorator which can be used to mark functions as deprecated.
+    It will result in a warning being emitted when the function is used.
+    """
 
     def wrapper(func):
 
@@ -96,9 +97,10 @@ def deprecated(other_func):
 
 
 def deprecated_no_replacement(func):
-    """This is a decorator which can be used to mark functions
-        as deprecated. It will result in a warning being emitted
-        when the function is used."""
+    """
+    This is a decorator which can be used to mark functions as deprecated.
+    It will result in a warning being emitted when the function is used.
+    """
 
     @functools.wraps(func)
     def new_func(*args, **kwargs):
@@ -116,8 +118,9 @@ def deprecated_no_replacement(func):
 
 
 def removed(other_func=None):
-    """This is a decorator which can be used to mark functions
-        as removed, they will no longer work."""
+    """
+    This is a decorator which can be used to mark functions as removed, they will no longer work.
+    """
 
     def wrapper(func):
 

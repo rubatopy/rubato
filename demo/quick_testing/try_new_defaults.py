@@ -4,7 +4,7 @@ init()
 
 main = Scene("main")
 
-image = Image(rel_path="../sprites/dino/blue/crouch.png", scale=Vector(10, 10))
+image = Image("../sprites/dino/blue/crouch.png", Vector(10, 10))
 print(image.scale)
 # image.scale = Vector(10, 10)
 
