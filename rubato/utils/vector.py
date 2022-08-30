@@ -6,7 +6,7 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, SideError, deprecated
+from . import Math, SideError
 
 
 @cython.cclass
@@ -378,10 +378,6 @@ class Vector:
             True if the vector is within the distance, False otherwise
         """
         return (self.x - other[0])**2 + (self.y - other[1])**2 <= distance * distance
-
-    @deprecated(dist_to)
-    def distance_between(self, other: Vector) -> float:
-        return self.dist_to(other)
 
     @staticmethod
     def from_radial(magnitude: float | int, angle: float | int) -> Vector:

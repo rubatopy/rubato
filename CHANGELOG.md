@@ -23,6 +23,8 @@
 ### Removed
 
 -   `animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
+-   Long deprecated mouse methods in `Input`
+-   `vector.distance_between` (use `vector.dist_to()`).
 
 ### Fixed
 
