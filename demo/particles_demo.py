@@ -8,8 +8,8 @@ rb.init(res=V(256, 256), window_size=V(256, 256) * 2)
 rb.Game.show_fps = True
 s = rb.Scene()
 
-surf = rb.Surface(31, 31, scale=(1 / 16, 1 / 16))
-surf.draw_circle((15, 15), 15, fill=rb.Color.turquoize)
+surf = rb.Surface(scale=(1 / 16, 1 / 16))
+surf.draw_circle((16, 16), 16, fill=rb.Color.turquoize)
 
 
 def movement(p: rb.Particle, dt: float):
@@ -61,7 +61,7 @@ max_i = 10
 
 def make_system():
     global i
-    _surf = rb.Surface(31, 31, scale=(1 / 16, 1 / 16))
+    _surf = rb.Surface(scale=(1 / 16, 1 / 16))
     _surf.fill(rb.Color.red.mix(rb.Color.purple, i / max_i))
     args = {
         "surface": _surf.clone(),
