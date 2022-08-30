@@ -5,12 +5,12 @@
 ### Breaking Changes
 
 -   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
--   Removed all `delete` functions because they were just memory management functions and that is now done
-    automatically.
+-   Removed all `delete` functions because they did nothing that was useful for memory management,
+    which was their purpose.
 
 ### Added
 
--   `ParticleSystem`: A component that manages a particle system.
+-   `ParticleSystem`, which manages a system of particles.
 -   `remove` functions where needed.
 
 ### Changed
@@ -21,7 +21,7 @@
 
 ### Removed
 
--   `animation.image` because it exposed an underlying SDL surface, which should not be used.
+-   `animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
 
 ### Fixed
 
