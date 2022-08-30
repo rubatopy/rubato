@@ -53,10 +53,8 @@ start_scale = 1
 duration = 2
 loop = True
 max_particles = rb.Math.INF
-mode = rb.ParticleSystemMode.BURST
 spread = 10
 density = 1
-
 i = 0
 max_i = 10
 
@@ -65,26 +63,48 @@ def make_system():
     global i
     _surf = rb.Surface(31, 31, scale=(1 / 16, 1 / 16))
     _surf.fill(rb.Color.red.mix(rb.Color.purple, i / max_i))
-    _system = rb.ParticleSystem(
-        surface=_surf,
-        starting_shape=rb.ParticleSystem.circle_shape(5),
-        starting_dir=rb.ParticleSystem.circle_direction(),
-        z_index=1,
-        offset=rb.Vector((i - (max_i / 2)) * 20, 0),
+    args = {
+        "surface": _surf.clone(),
+        "starting_shape": rb.ParticleSystem.circle_shape(5),
+        "starting_dir": rb.ParticleSystem.circle_direction(),
+        "z_index": 1,
         ##############################################
-        lifespan=lifespan,
-        start_speed=start_speed,
-        start_rotation=start_rotation,
-        start_scale=start_scale,
-        duration=duration,
-        loop=loop,
-        max_particles=max_particles,
-        mode=mode,
-        spread=spread,
-        density=density,
+        "lifespan": lifespan,
+        "start_speed": start_speed,
+        "start_rotation": start_rotation,
+        "start_scale": start_scale,
+        "duration": duration,
+        "loop": loop,
+        "max_particles": max_particles,
+        "spread": spread,
+        "density": density,
+    }
+
+    _system = rb.ParticleSystem(
+        **args,
+        mode=rb.ParticleSystemMode.BURST,
+        offset=rb.Vector((i - (max_i / 2)) * 20, -80),
+    )
+    _system2 = rb.ParticleSystem(
+        **args,
+        mode=rb.ParticleSystemMode.PINGPONG,
+        offset=rb.Vector((i - (max_i / 2)) * 20, -30),
+    )
+    _system3 = rb.ParticleSystem(
+        **args,
+        mode=rb.ParticleSystemMode.LOOP,
+        offset=rb.Vector((i - (max_i / 2)) * 20, 30),
+    )
+    _system4 = rb.ParticleSystem(
+        **args,
+        mode=rb.ParticleSystemMode.RANDOM,
+        offset=rb.Vector((i - (max_i / 2)) * 20, 80),
     )
     _system.start()
-    main_go.add(_system)
+    _system2.start()
+    _system3.start()
+    _system4.start()
+    main_go.add(_system, _system2, _system3, _system4)
     i += 1
 
 
