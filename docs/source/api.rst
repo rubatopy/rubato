@@ -222,12 +222,6 @@ Surface
 =======
 .. automodule:: rubato.struct.surface
 
-.. _sprite:
-
-Sprite
-------
-.. automodule:: rubato.struct.sprite
-
 .. _draw:
 
 Draw
