@@ -148,7 +148,7 @@ class ParticleSystem(Component):
                 else:
                     self.__running = False
 
-        i = 0
+        i: int = 0
         while i < len(self.__particles):
             particle = self.__particles[i]
             if particle.age >= particle.lifespan:
