@@ -52,7 +52,7 @@ def update():
         particleSytem.stop()
 
 
-rb.Radio.listen(rb.Events.KEYDOWN, lambda _: print(particleSytem.num_particles))
+rb.Radio.listen(rb.Events.KEYDOWN, lambda _: print(particleSytem.num_particles()))
 
 s.fixed_update = update
 s.add(go)

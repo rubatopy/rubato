@@ -1,9 +1,10 @@
 """A simple particle."""
+from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable
 
 from ... import Surface
-from .... import Vector, Time, Draw, Camera
+from .... import Vector, Draw, Camera
 
 
 @dataclass(repr=False, slots=True, unsafe_hash=True)
@@ -23,7 +24,7 @@ class Particle:
         age: The age of the particle. Defaults to 0.
     """
 
-    movement: Callable[["Particle", float], None]
+    movement: Callable[[Particle, float], None]
     """The movement function of the particle"""
     velocity: Vector | tuple[float, float]  # pyright: ignore [reportGeneralTypeIssues]
     """The velocity of the particle."""
@@ -48,11 +49,6 @@ class Particle:
         self.velocity: Vector = Vector.create(self.velocity)
         self.pos: Vector = Vector.create(self.pos)
         self.__original_scale: Vector = self.surface.scale.clone()
-
-    def fixed_update(self):
-        """A particle's fixed update functions"""
-        self.age += Time.fixed_delta
-        self.movement(self, Time.fixed_delta)
 
     def draw(self, camera: Camera):
         """A particle's draw function."""
