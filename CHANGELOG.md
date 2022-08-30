@@ -7,6 +7,7 @@
 -   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
 -   Removed all `delete` functions because they did nothing that was useful for memory management,
     which was their purpose.
+-   Removed `Sprite`, because `Surface` does the same thing.
 
 ### Added
 
