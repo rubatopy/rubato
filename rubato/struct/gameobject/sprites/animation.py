@@ -3,7 +3,7 @@ This is the animation component module for game objects.
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING
-from os import path, walk
+from os import path as os_path, walk
 
 from .. import Component
 from ... import Surface
@@ -148,23 +148,23 @@ class Animation(Component):
             self.current_state = state_name
             self.reset()
 
-    def add_folder(self, state_name: str, rel_path: str, recursive: bool = True):
+    def add_folder(self, state_name: str, path: str, recursive: bool = True):
         """
         Adds a state from a folder of images. Directory must be solely comprised of images.
 
         Args:
             state_name: The key used to reference this state.
-            rel_path: The relative path to the folder you wish to import
+            path: The relative path to the folder you wish to import
             recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
         """
         ret_list = []
-        p = get_path(rel_path)
+        p = get_path(path)
         if not recursive:
             _, _, files = next(walk(p))
             files.sort()
             for image_path in files:
                 try:
-                    path_to_image = path.join(p, image_path)
+                    path_to_image = os_path.join(p, image_path)
                     image = Surface.from_file(path_to_image)
                     ret_list.append(image)
                 except TypeError:
@@ -175,7 +175,7 @@ class Animation(Component):
                 files.sort()
                 for image_path in files:
                     try:
-                        path_to_image = path.join(p, image_path)
+                        path_to_image = os_path.join(p, image_path)
                         image = Surface.from_file(path_to_image)
                         ret_list.append(image)
                     except TypeError:

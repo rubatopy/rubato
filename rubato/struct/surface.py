@@ -355,17 +355,25 @@ class Surface:
         sdl2.SDL_GetSurfaceAlphaMod(self._surf, ctypes.byref(y))
         return y.value
 
-    @staticmethod
-    def from_file(path: str, **kwargs) -> Surface:
+    @classmethod
+    def from_file(
+        cls,
+        path: str,
+        scale: Vector | tuple[float, float] = (1, 1),
+        rotation: float = 0,
+        af: bool = False,
+    ) -> Surface:
         """
-        Loads a surface from a file.
+        Loads a surface from an image file.
 
         Args:
             path: The path to the file.
-            **kwargs: Arguments to pass to the Surface constructor.
+            scale: The scale of the surface. Defaults to (1, 1).
+            rotation: The clockwise rotation of the sprite.
+            af: Whether to use anisotropic filtering. Defaults to False.
 
         Returns:
-            The loaded surface.
+            The resultant surface.
         """
         try:
             surf = sdl2.ext.load_img(path, False)
@@ -375,7 +383,7 @@ class Surface:
             fname = path.replace("\\", "/").split("/")[-1]
             raise TypeError(f"{fname} is not a valid image file") from e
 
-        s = Surface(**kwargs)
+        s = cls(scale=scale, rotation=rotation, af=af)
         sdl2.SDL_FreeSurface(s._surf)
         s._surf = surf
         return s

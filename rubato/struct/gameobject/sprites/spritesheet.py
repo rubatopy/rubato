@@ -14,7 +14,7 @@ class Spritesheet:
     A spritesheet from the filesystem.
 
     Args:
-        rel_path: The relative path to the spritesheet.
+        path: The relative path to the spritesheet.
         sprite_size: The size of each sprite in the spritesheet. Defaults to (32, 32).
         grid_size: The size of the grid of sprites in the spritesheet. Set to None to automatically determine the
             grid size. Defaults to None.
@@ -25,12 +25,12 @@ class Spritesheet:
 
     def __init__(
         self,
-        rel_path: str,
+        path: str,
         sprite_size: Vector | tuple[float, float] = (32, 32),
         grid_size: Vector | tuple[float, float] | None = None
     ):
         self._sprite_size: tuple[int, int] = (int(sprite_size[0]), int(sprite_size[1]))
-        self._sheet = Surface.from_file(rel_path)
+        self._sheet = Surface.from_file(path)
         self._sprites: list[list[Surface]] = []
 
         if not grid_size:
@@ -104,7 +104,7 @@ class Spritesheet:
 
     @staticmethod
     def from_folder(
-        rel_path: str,
+        path: str,
         sprite_size: Vector | tuple[float, float],
         default_state: str | None = None,
         recursive: bool = True
@@ -115,7 +115,7 @@ class Spritesheet:
         Added alphabetically. Default is the first sheet loaded.
 
         Args:
-            rel_path: The relative path to the folder you wish to import
+            path: The relative path to the folder you wish to import
             sprite_size: The size of a single sprite in your spritesheet, should be the same in all imported sheets.
             default_state: Sets the default state of the animation.
             recursive: Whether it will import an animation shallowly or recursively. Defaults to True.
@@ -125,7 +125,7 @@ class Spritesheet:
         """
         anim = Animation()
 
-        path = get_path(rel_path)
+        path = get_path(path)
 
         if not recursive:
             _, _, files = next(os.walk(path))
@@ -134,7 +134,7 @@ class Spritesheet:
             for sprite_path in files:
                 path_to_spritesheet = os.path.join(path, sprite_path)
                 sprite_sheet = Spritesheet(
-                    rel_path=path_to_spritesheet,
+                    path=path_to_spritesheet,
                     sprite_size=sprite_size,
                 )
                 anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
@@ -145,7 +145,7 @@ class Spritesheet:
                 for sprite_path in files:
                     path_to_spritesheet = os.path.join(path, sprite_path)
                     sprite_sheet = Spritesheet(
-                        rel_path=path_to_spritesheet,
+                        path=path_to_spritesheet,
                         sprite_size=sprite_size,
                     )
                     anim.add_spritesheet(sprite_path.split(".")[0], sprite_sheet, to_coord=sprite_sheet.end)
