@@ -452,8 +452,9 @@ class Draw:
             pos: The position to draw the surface at. Defaults to (0, 0).
             camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        if not surface.surf:
+        if not surface._surf:
             return
+
         if not surface.uptodate:
             surface.regen()
 
@@ -464,4 +465,4 @@ class Draw:
         if camera is not None:
             pos = camera.transform(pos)
 
-        Draw.texture(surface.tx, pos, surface.scale, surface.rotation)
+        Draw.texture(surface._tx, pos, surface.scale, surface.rotation)

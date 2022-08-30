@@ -69,10 +69,10 @@ def player_collide(col_info: rb.Manifold):
 
 
 # add a hitbox to the player with the collider
-player.add(rb.Rectangle(width=64, height=64, tag="player"))
+player.add(rb.Rectangle(width=40, height=64, tag="player"))
 # add a ground detector
 player.add(rb.Rectangle(
-    width=10,
+    width=34,
     height=2,
     offset=rb.Vector(0, 32),
     trigger=True,
@@ -80,7 +80,7 @@ player.add(rb.Rectangle(
 ))
 
 # define the player rigidbody
-player_body = rb.RigidBody(gravity=rb.Vector(y=rb.Display.res.y * 1.5), pos_correction=1, friction=0.8)
+player_body = rb.RigidBody(gravity=rb.Vector(y=rb.Display.res.y * 1.5), pos_correction=1)
 player.add(player_body)
 
 # Side boundary
