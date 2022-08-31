@@ -147,14 +147,15 @@ class ParticleSystem(Component):
                 else:
                     self.__running = False
 
+    def update(self):
         i: int = 0
         while i < len(self.__particles):
             particle = self.__particles[i]
             if particle.age >= particle.lifespan:
                 self.__particles.pop(i)
             else:
-                particle.age += Time.fixed_delta
-                particle.movement(particle, Time.fixed_delta)
+                particle.age += Time.delta_time
+                particle.movement(particle, Time.delta_time)
                 i += 1
 
     def draw(self, camera: Camera):
