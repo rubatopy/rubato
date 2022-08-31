@@ -170,18 +170,17 @@ class ParticleSystem(Component):
             if self.mode == ParticleSystemMode.BURST and self.__time == 0:
                 while self.__generated < max_in_dur and len(self.__particles) < self.max_particles:
                     self.new_particle(self.__generated)
-            elif self.mode == ParticleSystemMode.RANDOM:
-                self.new_particle(randint(0, max_in_dur))
-            elif self.__generated < max_in_dur and len(
-                self.__particles
-            ) < self.max_particles and self.__time >= self.duration / max_in_dur * self.__generated:
-                if self.mode == ParticleSystemMode.LOOP:
-                    self.new_particle(self.__generated)
-                elif self.mode == ParticleSystemMode.PINGPONG:
-                    if self.__forward:
+            if len(self.__particles) < self.max_particles:
+                if self.mode == ParticleSystemMode.RANDOM:
+                    self.new_particle(randint(0, max_in_dur))
+                elif self.__time >= self.duration / max_in_dur * self.__generated:
+                    if self.mode == ParticleSystemMode.LOOP:
                         self.new_particle(self.__generated)
-                    else:
-                        self.new_particle(max_in_dur - self.__generated)
+                    elif self.mode == ParticleSystemMode.PINGPONG:
+                        if self.__forward:
+                            self.new_particle(self.__generated)
+                        else:
+                            self.new_particle(max_in_dur - self.__generated)
 
     def new_particle(self, i: int):
         """
