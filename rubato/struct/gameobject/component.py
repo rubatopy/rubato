@@ -43,10 +43,9 @@ class Component:
         """The rotational offset from the game object's rotation."""
         self.z_index: int = z_index
         """Where to draw the component in the z direction."""
-        self.started = False
-        """Whether the component has run its setup method."""
         self.hidden = hidden
         """Whether the component is hidden (not drawn)."""
+        self.__started = False
 
     def true_z(self) -> int:
         """Returns the z_index of the component offset by its parent gameobject z_index."""
@@ -63,11 +62,11 @@ class Component:
         return self.rot_offset + (self.gameobj.rotation if self.gameobj else 0)
 
     def _setup(self):
-        self.started = True
+        self.__started = True
         self.setup()
 
     def _update(self):
-        if not self.started:
+        if not self.__started:
             self._setup()
 
         self.update()

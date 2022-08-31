@@ -21,6 +21,31 @@ for _ in range(200):
     pos = random.randint(0, size), random.randint(0, size)
     stars.draw_point(pos, Color.white)
 
+# explosion particle
+expl = Surface(radius // 4, radius // 4)
+expl.draw_rect((0, 0), expl.get_size_raw(), Color.green)
+
+
+# component to remove gameobject after number of seconds
+class Timer(Component):
+
+    def __init__(self, secs: float):
+        super().__init__()
+        self.time = Time.sec_to_milli(secs)
+        self.started = False
+
+    def update(self):
+        if not self.started:
+            self.time += Time.now()
+            self.started = True
+
+        if Time.now() >= self.time:
+            main.remove(self.gameobj)
+
+
+# explosion system
+expl_sys = wrap([ParticleSystem(expl, max_particles=5, mode=ParticleSystemMode.RANDOM, density=5, spread=1), Timer(5)])
+
 
 # component to remove things that are out of bounds
 class BoundsChecker(Component):
@@ -128,7 +153,11 @@ interval = 200  # milliseconds between shots
 
 def bullet_collide(man: Manifold):
     if man.shape_b.gameobj.name == "asteroid":
+        local_expl = expl_sys.clone()
+        local_expl.pos = man.shape_b.gameobj.pos.clone()
         main.remove(man.shape_b.gameobj)
+        main.add(local_expl)
+        local_expl.get(ParticleSystem).start()
 
 
 def shoot():
