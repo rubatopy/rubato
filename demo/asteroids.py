@@ -60,9 +60,14 @@ expl_sys = wrap([
 class BoundsChecker(Component):
 
     def update(self):
-        if self.gameobj.pos.x < -bounds or self.gameobj.pos.x > size + bounds or \
-            self.gameobj.pos.y < -bounds or self.gameobj.pos.y > size + bounds:
-            main.remove(self.gameobj)
+        if self.gameobj.pos.x < 0:
+            self.gameobj.pos.x = Display.right
+        elif self.gameobj.pos.x > Display.right:
+            self.gameobj.pos.x = 0
+        if self.gameobj.pos.y < 0:
+            self.gameobj.pos.y = Display.bottom
+        elif self.gameobj.pos.y > Display.bottom:
+            self.gameobj.pos.y = 0
 
 
 # asteroid generator
@@ -105,8 +110,8 @@ Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
 class PlayerController(Component):
 
     def setup(self):
-        self.speed = 200
-        self.steer = 20
+        self.accel = 250
+        self.steer = 4
 
         self.velocity = Vector()
 
@@ -117,19 +122,20 @@ class PlayerController(Component):
     def fixed_update(self):
         dx = Input.controller_axis(Input.controllers - 1, 0) or \
             (-1 if Input.key_pressed("a") else (1 if Input.key_pressed("d") else 0))
-        dy = Input.controller_axis(Input.controllers - 1, 1) or \
-            (-1 if Input.key_pressed("w") else (1 if Input.key_pressed("s") else 0))
-        target = Vector(dx, dy)
+        dy = Math.clamp(Input.controller_axis(Input.controllers - 1, 5), 0, 1) \
+            or (1 if Input.key_pressed("w") else 0)
 
-        d_vel = target * self.speed
-        steering = Vector.clamp_magnitude(d_vel - self.velocity, self.steer)
+        self.gameobj.rotation += dx * self.steer
+        target = Vector(0, -dy)
 
-        self.velocity = Vector.clamp_magnitude(self.velocity + steering, self.speed)
+        accel = target.rotate(self.gameobj.rotation) * self.accel
+
+        self.velocity += accel * Time.fixed_delta
 
         self.gameobj.pos += self.velocity * Time.fixed_delta
 
         if target != (0, 0):
-            self.gameobj.rotation = self.velocity.angle
+            self.gameobj.rotation = accel.angle
 
 
 full = [
@@ -150,6 +156,7 @@ main.add(
             Polygon(right, trigger=True),
             Polygon(left, trigger=True),
             player_spr,
+            BoundsChecker(),
         ],
         "player",
         Display.center,
@@ -171,6 +178,7 @@ def bullet_collide(man: Manifold):
         local_expl_sys.spread = 360 / len(man.shape_b.verts)
         local_expl_sys.start()
         main.remove(man.shape_b.gameobj)
+        main.remove(man.shape_a.gameobj)
         main.add(local_expl)
 
 
@@ -190,6 +198,7 @@ def shoot():
                     )
                 ),
                 BoundsChecker(),
+                Timer(0.75),
             ],
             "bullet",
             player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation),
