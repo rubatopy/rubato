@@ -21,10 +21,6 @@ for _ in range(200):
     pos = random.randint(0, size), random.randint(0, size)
     stars.draw_point(pos, Color.white)
 
-# explosion particle
-expl = Surface(radius // 4, radius // 4)
-expl.draw_rect((0, 0), expl.get_size_raw(), Color.green)
-
 
 # component to remove gameobject after number of seconds
 class Timer(Component):
@@ -43,8 +39,21 @@ class Timer(Component):
             main.remove(self.gameobj)
 
 
+# explosion particle
+expl = Surface(radius // 2, radius // 2)
+expl.draw_rect((0, 0), expl.get_size_raw(), Color.debug, 3)
+
 # explosion system
-expl_sys = wrap([ParticleSystem(expl, max_particles=5, mode=ParticleSystemMode.RANDOM, density=5, spread=1), Timer(5)])
+expl_sys = wrap([
+    ParticleSystem(
+        expl,
+        mode=ParticleSystemMode.BURST,
+        lifespan=1,
+        start_speed=75,
+        starting_shape=ParticleSystem.circle_shape(radius * 0.75),
+    ),
+    Timer(5)
+])
 
 
 # component to remove things that are out of bounds
@@ -155,9 +164,14 @@ def bullet_collide(man: Manifold):
     if man.shape_b.gameobj.name == "asteroid":
         local_expl = expl_sys.clone()
         local_expl.pos = man.shape_b.gameobj.pos.clone()
+        local_expl.rotation = random.randint(0, 360)
+        local_expl_sys = local_expl.get(ParticleSystem)
+        local_expl_sys.start_rotation = random.randint(0, 360)
+        local_expl_sys.start_speed = random.randint(50, 100)
+        local_expl_sys.spread = 360 / len(man.shape_b.verts)
+        local_expl_sys.start()
         main.remove(man.shape_b.gameobj)
         main.add(local_expl)
-        local_expl.get(ParticleSystem).start()
 
 
 def shoot():
