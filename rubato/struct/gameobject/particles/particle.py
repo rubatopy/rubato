@@ -42,7 +42,6 @@ class Particle:
     """The z index of the particle."""
     age: float = 0
     """The age of the particle. (in seconds)"""
-    # pylint: disable=invalid-name
     _original_scale: Vector | None = field(init=False)  # pyright: ignore [reportGeneralTypeIssues]
 
     def __post_init__(self):

@@ -6,7 +6,6 @@ import random
 from rubato import *
 
 size = 1080
-bounds = size // 8
 radius = size // 40
 level = 0
 
@@ -43,31 +42,31 @@ class Timer(Component):
 expl = Surface(radius // 2, radius // 2)
 expl.draw_rect((0, 0), expl.get_size_raw(), Color.debug, 3)
 
+
+def make_part(angle: float):
+    return Particle(
+        ParticleSystem.default_movement,
+        ParticleSystem.circle_direction()(angle) * 75,
+        ParticleSystem.circle_shape(radius * 0.75)(angle), 0, 1, expl, 1, 0
+    )
+
+
 # explosion system
-expl_sys = wrap([
-    ParticleSystem(
-        expl,
-        mode=ParticleSystemMode.BURST,
-        lifespan=1,
-        start_speed=75,
-        starting_shape=ParticleSystem.circle_shape(radius * 0.75),
-    ),
-    Timer(5)
-])
+expl_sys = wrap([ParticleSystem(new_particle=make_part, mode=ParticleSystemMode.BURST), Timer(5)])
 
 
 # component to remove things that are out of bounds
 class BoundsChecker(Component):
 
     def update(self):
-        if self.gameobj.pos.x < 0:
-            self.gameobj.pos.x = Display.right
-        elif self.gameobj.pos.x > Display.right:
-            self.gameobj.pos.x = 0
-        if self.gameobj.pos.y < 0:
-            self.gameobj.pos.y = Display.bottom
-        elif self.gameobj.pos.y > Display.bottom:
-            self.gameobj.pos.y = 0
+        if self.gameobj.pos.x < -radius:
+            self.gameobj.pos.x = Display.right + radius
+        elif self.gameobj.pos.x > Display.right + radius:
+            self.gameobj.pos.x = -radius
+        if self.gameobj.pos.y < -radius:
+            self.gameobj.pos.y = Display.bottom + radius
+        elif self.gameobj.pos.y > Display.bottom + radius:
+            self.gameobj.pos.y = -radius
 
 
 # asteroid generator
@@ -110,8 +109,8 @@ Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
 class PlayerController(Component):
 
     def setup(self):
-        self.accel = 250
-        self.steer = 4
+        self.speed = 250
+        self.steer = 25
 
         self.velocity = Vector()
 
@@ -122,20 +121,19 @@ class PlayerController(Component):
     def fixed_update(self):
         dx = Input.controller_axis(Input.controllers - 1, 0) or \
             (-1 if Input.key_pressed("a") else (1 if Input.key_pressed("d") else 0))
-        dy = Math.clamp(Input.controller_axis(Input.controllers - 1, 5), 0, 1) \
-            or (1 if Input.key_pressed("w") else 0)
+        dy = Input.controller_axis(Input.controllers - 1, 1) or \
+            (-1 if Input.key_pressed("w") else (1 if Input.key_pressed("s") else 0))
+        target = Vector(dx, dy)
 
-        self.gameobj.rotation += dx * self.steer
-        target = Vector(0, -dy)
+        d_vel = target * self.speed
+        steering = Vector.clamp_magnitude(d_vel - self.velocity, self.steer)
 
-        accel = target.rotate(self.gameobj.rotation) * self.accel
-
-        self.velocity += accel * Time.fixed_delta
+        self.velocity = Vector.clamp_magnitude(self.velocity + steering, self.speed)
 
         self.gameobj.pos += self.velocity * Time.fixed_delta
 
         if target != (0, 0):
-            self.gameobj.rotation = accel.angle
+            self.gameobj.rotation = self.velocity.angle
 
 
 full = [
@@ -173,8 +171,6 @@ def bullet_collide(man: Manifold):
         local_expl.pos = man.shape_b.gameobj.pos.clone()
         local_expl.rotation = random.randint(0, 360)
         local_expl_sys = local_expl.get(ParticleSystem)
-        local_expl_sys.start_rotation = random.randint(0, 360)
-        local_expl_sys.start_speed = random.randint(50, 100)
         local_expl_sys.spread = 360 / len(man.shape_b.verts)
         local_expl_sys.start()
         main.remove(man.shape_b.gameobj)

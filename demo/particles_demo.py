@@ -21,17 +21,11 @@ def starting_dir(angle: float):
     return rb.Vector(0, -1).rotate((((angle / 180) - 1) * 60) + 6)
 
 
-particleSytem = rb.ParticleSystem(
-    surf,
-    loop=True,
-    lifespan=0.4,
-    duration=0.3,
-    start_speed=50,
-    spread=40,
-    movement=movement,
-    starting_dir=starting_dir,
-    density=2,
-)
+def cursor_make(angle: float):
+    return rb.Particle(movement, starting_dir(angle) * 50, (0, 0), 0, 1, surf, 0.4, 0)
+
+
+particleSytem = rb.ParticleSystem(new_particle=cursor_make, loop=True, duration=0.3, spread=40, density=2)
 go = rb.GameObject()
 go.add(particleSytem)
 
@@ -59,20 +53,29 @@ i = 0
 max_i = 10
 
 
+def particle_gen_gen(x):
+    span = lifespan
+    sp = start_speed
+    ro = start_rotation
+    sc = start_scale
+
+    def particle_gen(angle: float):
+        _surf = rb.Surface(scale=(1 / 16, 1 / 16))
+        _surf.fill(rb.Color.red.mix(rb.Color.purple, x / max_i))
+        return rb.Particle(
+            rb.ParticleSystem.default_movement,
+            rb.ParticleSystem.circle_direction()(angle) * sp,
+            rb.ParticleSystem.circle_shape(5)(angle), ro, sc, _surf, span, 0
+        )
+
+    return particle_gen
+
+
 def make_system():
     global i
-    _surf = rb.Surface(scale=(1 / 16, 1 / 16))
-    _surf.fill(rb.Color.red.mix(rb.Color.purple, i / max_i))
     args = {
-        "surface": _surf.clone(),
-        "starting_shape": rb.ParticleSystem.circle_shape(5),
-        "starting_dir": rb.ParticleSystem.circle_direction(),
+        "new_particle": particle_gen_gen(i),
         "z_index": 1,
-        ##############################################
-        "lifespan": lifespan,
-        "start_speed": start_speed,
-        "start_rotation": start_rotation,
-        "start_scale": start_scale,
         "duration": duration,
         "loop": loop,
         "max_particles": max_particles,

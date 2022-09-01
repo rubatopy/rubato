@@ -8,7 +8,7 @@ import cython
 from . import Particle
 from .. import Component
 from ... import Surface
-from .... import Vector, Camera, Time, Math, Draw
+from .... import Vector, Camera, Time, Math, Color, Draw
 
 if not cython.compiled:
     from enum_tools import document_enum
@@ -40,22 +40,14 @@ class ParticleSystem(Component):
     A simple particle system.
 
     Args:
-        surface: The surface to use for each particle.
-        lifespan: The lifespan of a particle in seconds. Defaults to 5.
-        start_speed: The starting speed of a particle. Defaults to 5.
-        start_rotation: The starting rotation of a particle. Defaults to 0.
-        start_scale: The starting scale of a particle. Defaults to 1.
+        new_particle: The method to generate a new particle. Should return a particle object.
+            Defaults to ParticleSystem.default_particle
         duration: The duration of the system in seconds (when to stop generating particles). Defaults to 5.
         loop: Whether the system should loop (start again at the end of its duration). Defaults to False.
         max_particles: The maximum number of particles in the system. Defaults to Math.INF.
         mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
         spread: The gap between particles (in degrees). Defaults to 45.
         density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
-        starting_shape: The generating shape function of the system. Takes in an angle and should generate a vector.
-            If None, the starting shape is simply a point. Defaults to None.
-        starting_dir: The generating direction function of the system. Takes in an angle and should generate a vector.
-            If None, the direction is away from the center. Defaults to None.
-        movement: The movement function of a particle. Defaults to `ParticleSystem.default_movement`.
         offset: The offset of the system. Defaults to (0, 0).
         rot_offset: The rotation offset of the system. Defaults to 0.
         z_index: The z-index of the system. Defaults to 0.
@@ -63,53 +55,32 @@ class ParticleSystem(Component):
 
     def __init__(
         self,
-        surface: Surface,
-        lifespan: float = 5,
-        start_speed: float = 5,
-        start_rotation: float = 0,
-        start_scale: float = 1,
+        new_particle: Callable[[float], Particle] | None = None,
         duration: float = 5,
         loop: bool = False,
         max_particles: int = Math.INF,
         mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
         spread: float = 5,
         density: int = 1,
-        starting_shape: Callable[[float], Vector] | None = None,
-        starting_dir: Callable[[float], Vector] | None = None,
-        movement: Callable[[Particle, float], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index)
-        self.surface = surface
-        """The surface of each particle."""
-        self.lifespan: float = lifespan
-        """The lifespan of a particle in seconds."""
-        self.start_speed: float = start_speed
-        """The starting speed of a particle."""
-        self.start_rotation: float = start_rotation
-        """The starting rotation of a particle."""
-        self.start_scale: float = start_scale
-        """The starting scale of a particle."""
+        self.new_particle = new_particle or ParticleSystem.default_particle
+        """The user-defined function that generates a particle."""
         self.duration: float = duration
         """The duration of the system in seconds."""
         self.loop: bool = loop
         """Whether the system should loop."""
         self.max_particles: int = max_particles
         """The maximum number of particles in the system."""
-        self.starting_shape: Callable[[float], Vector] = starting_shape or (lambda _: Vector(0, 0))
-        """The starting shape function of the system."""
-        self.starting_dir: Callable[[float], Vector] = starting_dir or ParticleSystem.circle_direction()
-        """The starting direction function of the system."""
         self.mode: ParticleSystemMode = mode
         """The particle generation mode of the system."""
         self.spread: float = spread
         """The gap between particles (in degrees)."""
         self.density: int = density
         """The density of the system. This is the number of particles generated per fixed update."""
-        self.movement: Callable[[Particle, float], None] = movement or ParticleSystem.default_movement
-        """The movement function of a particle."""
 
         self.__particles: list[Particle] = []
         self.__running: bool = False
@@ -147,15 +118,14 @@ class ParticleSystem(Component):
                 else:
                     self.__running = False
 
-    def update(self):
         i: int = 0
         while i < len(self.__particles):
             particle = self.__particles[i]
             if particle.age >= particle.lifespan:
                 self.__particles.pop(i)
             else:
-                particle.age += Time.delta_time
-                particle.movement(particle, Time.delta_time)
+                particle.age += Time.fixed_delta
+                particle.movement(particle, Time.fixed_delta)
                 i += 1
 
     def draw(self, camera: Camera):
@@ -172,65 +142,50 @@ class ParticleSystem(Component):
         for _ in range(self.density):
             if self.mode == ParticleSystemMode.BURST and self.__time == 0:
                 while self.__generated < max_in_dur and len(self.__particles) < self.max_particles:
-                    self.new_particle(self.__generated)
+                    self.gen_particle(self.__generated * self.spread)
             if len(self.__particles) < self.max_particles:
                 if self.mode == ParticleSystemMode.RANDOM:
-                    self.new_particle(randint(0, max_in_dur))
+                    self.gen_particle(randint(0, max_in_dur) * self.spread)
                 elif self.__time >= self.duration / max_in_dur * self.__generated:
                     if self.mode == ParticleSystemMode.LOOP:
-                        self.new_particle(self.__generated)
+                        self.gen_particle(self.__generated * self.spread)
                     elif self.mode == ParticleSystemMode.PINGPONG:
                         if self.__forward:
-                            self.new_particle(self.__generated)
+                            self.gen_particle(self.__generated * self.spread)
                         else:
-                            self.new_particle(max_in_dur - self.__generated)
+                            self.gen_particle((max_in_dur - self.__generated) * self.spread)
 
-    def new_particle(self, i: int):
-        """
-        Generate a new particle and add it to the system.
-
-        Args:
-            i: The generation index of the particle.
-        """
-        angle = i * self.spread
-        self.__particles.append(
-            Particle(
-                self.movement,
-                self.starting_dir(angle).rotate(self.true_rotation()) * self.start_speed,
-                self.starting_shape(angle).rotate(self.true_rotation()) + self.true_pos(),
-                self.start_rotation,
-                self.start_scale,
-                self.surface.clone(),
-                self.lifespan,
-                self.z_index,
-            )
-        )
+    def gen_particle(self, angle: float):
+        part = self.new_particle(angle)
+        part.pos += self.true_pos()
+        part.z_index += self.true_z()
+        part.rotation += self.true_rotation()
+        self.__particles.append(part)
         self.__generated += 1
+
+    def clear(self):
+        """Clear the system."""
+        self.__particles.clear()
 
     def clone(self) -> ParticleSystem:
         return ParticleSystem(
-            self.surface.clone(),
-            self.lifespan,
-            self.start_speed,
-            self.start_rotation,
-            self.start_scale,
+            self.new_particle,
             self.duration,
             self.loop,
             self.max_particles,
             self.mode,
             self.spread,
             self.density,
-            self.starting_shape,
-            self.starting_dir,
-            self.movement,
             self.offset.clone(),
             self.rot_offset,
             self.z_index,
         )
 
-    def clear(self):
-        """Clear the system."""
-        self.__particles.clear()
+    @classmethod
+    def default_particle(cls, angle: float) -> Particle:
+        surf = Surface()
+        surf.fill(Color.debug)
+        return Particle(cls.default_movement, Vector.from_radial(1, angle), Vector(0, 0), 0, 1, surf, 1, 0)
 
     @staticmethod
     def default_movement(particle: Particle, delta: float):
