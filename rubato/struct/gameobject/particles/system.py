@@ -8,7 +8,7 @@ import cython
 from . import Particle
 from .. import Component
 from ... import Surface
-from .... import Vector, Camera, Time, Math
+from .... import Vector, Camera, Time, Math, Draw
 
 if not cython.compiled:
     from enum_tools import document_enum
@@ -160,7 +160,9 @@ class ParticleSystem(Component):
 
     def draw(self, camera: Camera):
         for particle in self.__particles:
-            particle.draw(camera)
+            particle.surface.rotation = particle.rotation
+            particle.surface.scale = particle._original_scale * particle.scale
+            Draw.queue_surface(particle.surface, particle.pos, particle.z_index, camera)
 
     def generate_particles(self):
         """
