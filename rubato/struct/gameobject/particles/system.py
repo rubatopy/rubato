@@ -48,6 +48,7 @@ class ParticleSystem(Component):
         mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
         spread: The gap between particles (in degrees). Defaults to 45.
         density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
+        local_space: Whether the particles should be in local space.
         offset: The offset of the system. Defaults to (0, 0).
         rot_offset: The rotation offset of the system. Defaults to 0.
         z_index: The z-index of the system. Defaults to 0.
@@ -62,6 +63,7 @@ class ParticleSystem(Component):
         mode: ParticleSystemMode = ParticleSystemMode.RANDOM,
         spread: float = 5,
         density: int = 1,
+        local_space: bool = False,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -81,6 +83,8 @@ class ParticleSystem(Component):
         """The gap between particles (in degrees)."""
         self.density: int = density
         """The density of the system. This is the number of particles generated per fixed update."""
+        self.local_space: bool = local_space
+        """Whether the particles should be in local space."""
 
         self.__particles: list[Particle] = []
         self.__running: bool = False
@@ -129,10 +133,20 @@ class ParticleSystem(Component):
                 i += 1
 
     def draw(self, camera: Camera):
-        for particle in self.__particles:
-            particle.surface.rotation = particle.rotation
-            particle.surface.scale = particle._original_scale * particle.scale
-            Draw.queue_surface(particle.surface, particle.pos, particle.z_index, camera)
+        if self.local_space:
+            for particle in self.__particles:
+                particle.surface.rotation = self.true_rotation() + particle.rotation
+                particle.surface.scale = particle._original_scale * particle.scale
+                Draw.queue_surface(
+                    particle.surface,
+                    self.true_pos() + particle.pos,
+                    self.true_z() + particle.z_index, camera
+                )
+        else:
+            for particle in self.__particles:
+                particle.surface.rotation = particle.rotation
+                particle.surface.scale = particle._original_scale * particle.scale
+                Draw.queue_surface(particle.surface, particle.pos, particle.z_index, camera)
 
     def generate_particles(self):
         """
@@ -157,9 +171,10 @@ class ParticleSystem(Component):
 
     def gen_particle(self, angle: float):
         part = self.new_particle(angle)
-        part.pos += self.true_pos()
-        part.z_index += self.true_z()
-        part.rotation += self.true_rotation()
+        if not self.local_space:
+            part.pos += self.true_pos()
+            part.z_index += self.true_z()
+            part.rotation += self.true_rotation()
         self.__particles.append(part)
         self.__generated += 1
 
@@ -176,6 +191,7 @@ class ParticleSystem(Component):
             self.mode,
             self.spread,
             self.density,
+            self.local_space,
             self.offset.clone(),
             self.rot_offset,
             self.z_index,
