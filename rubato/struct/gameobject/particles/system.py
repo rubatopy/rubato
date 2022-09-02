@@ -40,7 +40,7 @@ class ParticleSystem(Component):
     A simple particle system.
 
     Args:
-        new_particle: The method to generate a new particle. Should return a particle object.
+        new_particle: The method to generate a new particle. Takes in an angle and should return a particle object.
             Defaults to `ParticleSystem.default_particle`.
         duration: The duration of the system in seconds (when to stop generating particles). Defaults to 5.
         loop: Whether the system should loop (start again at the end of its duration). Defaults to False.

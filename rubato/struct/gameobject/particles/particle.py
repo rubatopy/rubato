@@ -82,7 +82,8 @@ class Particle:
     @staticmethod
     def circle_shape(radius: float) -> Callable[[float], Vector]:
         """
-        A shape function that returns a circle. This can be passed into the Particle constructor.
+        A shape function that returns a circle. The output of this generator can be used as a position value for
+        Particles.
 
         Args:
             radius: The radius of the circle.
@@ -96,7 +97,8 @@ class Particle:
     @staticmethod
     def circle_direction() -> Callable[[float], Vector]:
         """
-        A direction function that returns a circle. This can be passed into the Particle constructor.
+        A direction function that returns a circle. The output of this generator can be used to control the initial
+        direction of Particles.
         """
 
         def direction(angle: float) -> Vector:
@@ -107,7 +109,8 @@ class Particle:
     @staticmethod
     def square_shape(size: float) -> Callable[[float], Vector]:
         """
-        A shape function that returns a square. This can be passed into the Particle constructor.
+        A shape function that returns a square. The output of this generator can be used as a position value for
+        Particles.
 
         Args:
             size: The size of the square.
@@ -129,7 +132,8 @@ class Particle:
     @staticmethod
     def square_direction() -> Callable[[float], Vector]:
         """
-        A direction function that returns a square. This can be passed into the Particle constructor.
+        A direction function that returns a square. The output of this generator can be used to control the initial
+        direction of Particles.
         """
 
         def direction(angle: float) -> Vector:
