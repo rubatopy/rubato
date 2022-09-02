@@ -133,20 +133,20 @@ class ParticleSystem(Component):
                 i += 1
 
     def draw(self, camera: Camera):
-        if self.local_space:
-            for particle in self.__particles:
-                particle.surface.rotation = self.true_rotation() + particle.rotation
-                particle.surface.scale = particle._original_scale * particle.scale
-                Draw.queue_surface(
-                    particle.surface,
-                    self.true_pos() + particle.pos.rotate(self.true_rotation()),
-                    self.true_z() + particle.z_index, camera
-                )
-        else:
-            for particle in self.__particles:
-                particle.surface.rotation = particle.rotation
-                particle.surface.scale = particle._original_scale * particle.scale
-                Draw.queue_surface(particle.surface, particle.pos, particle.z_index, camera)
+        for particle in self.__particles:
+            if self.local_space:
+                particle._system_z = self.true_z()
+                particle._system_pos = self.true_pos().clone()
+                particle._system_rotation = self.true_rotation()
+
+            particle.surface.rotation = particle.rotation
+            particle.surface.scale = particle._original_scale * particle.scale
+            Draw.queue_surface(
+                particle.surface,
+                particle._system_pos + particle.pos.rotate(particle._system_rotation),
+                particle.z_index + particle._system_z,
+                camera,
+            )
 
     def generate_particles(self):
         """
@@ -172,8 +172,9 @@ class ParticleSystem(Component):
     def gen_particle(self, angle: float):
         part = self.new_particle(angle)
         if not self.local_space:
-            part.pos = self.true_pos() + part.pos.rotate(self.true_rotation())
-            part.z_index += self.true_z()
+            part._system_rotation = self.true_rotation()
+            part._system_pos = self.true_pos().clone()
+            part._system_z = self.true_z()
         self.__particles.append(part)
         self.__generated += 1
 

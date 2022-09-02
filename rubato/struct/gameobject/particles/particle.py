@@ -43,6 +43,9 @@ class Particle:
     age: float = 0
     """The age of the particle. (in seconds)"""
     _original_scale: Vector | None = field(init=False)  # pyright: ignore [reportGeneralTypeIssues]
+    _system_pos: Vector = field(default_factory=Vector, init=False)
+    _system_rotation: float = field(default=0, init=False)
+    _system_z: int = field(default=0, init=False)
 
     def __post_init__(self):
         self.velocity: Vector = Vector.create(self.velocity)
