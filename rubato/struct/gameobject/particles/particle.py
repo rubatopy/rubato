@@ -12,7 +12,8 @@ class Particle:
 
     Args:
         surface: The surface of the particle.
-        movement: The movement function of a particle. Defaults to `Particle.default_movement`.
+        movement: The movement function of a particle. Takes in a Particle and a delta time.
+            Defaults to `Particle.default_movement`.
         pos: The position of the particle. Defaults to (0, 0).
         velocity: The velocity of the particle. Defaults to (0, 0).
         acceleration: The acceleration of the particle. Defaults to (0, 0).
