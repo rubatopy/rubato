@@ -30,12 +30,17 @@ class PlayerController(rb.Component):
         self.health = 100
         self.speed = 10
 
+        self.hitbox: rb.Hitbox  # we are going to get this later
+
+    def setup(self):
+        self.hitbox = self.gameobj.get(rb.Hitbox)
+
     def update(self):
         """
         Called once per frame. Before the draw function.
         """
         if rb.Input.mouse_pressed():
-            self.gameobj.get(rb.Hitbox).color = rb.Color.random()
+            self.hitbox.color = rb.Color.random()
             self.gameobj.pos = rb.world_mouse()
 
     def speak(self):
