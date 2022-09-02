@@ -33,8 +33,6 @@ class Component:
         z_index: int = 0,
         hidden: bool = False
     ):
-        self.gameobj: GameObject | None = None
-        """The game object this component is attached to."""
         self.singular: bool = False
         """Whether multiple components of the same type are allowed on a game object."""
         self.offset: Vector = Vector.create(offset)
@@ -43,53 +41,53 @@ class Component:
         """The rotational offset from the game object's rotation."""
         self.z_index: int = z_index
         """Where to draw the component in the z direction."""
-        self.started = False
-        """Whether the component has run its setup method."""
         self.hidden = hidden
         """Whether the component is hidden (not drawn)."""
+        self.gameobj: GameObject
+        """The game object this component is attached to."""
+        self.__started = False
 
     def true_z(self) -> int:
         """Returns the z_index of the component offset by its parent gameobject z_index."""
-        return self.z_index + (self.gameobj.z_index if self.gameobj else 0)
+        return self.z_index + self.gameobj.z_index
 
     def true_pos(self) -> Vector:
         """Returns the world position of the component."""
-        if self.gameobj:
-            return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
-        return self.offset
+        return self.gameobj.pos + self.offset.rotate(self.gameobj.rotation)
 
     def true_rotation(self) -> float:
         """Returns the rotation of the component offset by its parent gameobject rotation."""
-        return self.rot_offset + (self.gameobj.rotation if self.gameobj else 0)
+        return self.rot_offset + self.gameobj.rotation
 
     def _setup(self):
-        self.started = True
+        self.__started = True
         self.setup()
 
     def _update(self):
-        if not self.started:
+        if not self.__started:
             self._setup()
 
         self.update()
 
     def setup(self):
-        """The setup function template for a component subclass."""
+        """The setup function for a component."""
         pass
 
     def update(self):
-        """The update function template for a component subclass."""
+        """The update function for a component."""
         pass
 
     def draw(self, camera: Camera):
-        """The draw function template for a component subclass."""
+        """
+        The draw function for a component.
+
+        Args:
+            camera: The camera to draw the component with.
+        """
         pass
 
     def fixed_update(self):
-        """The physics function template for a component subclass."""
-        pass
-
-    def delete(self):
-        """The delete function template for a component subclass."""
+        """The physics function for a component."""
         pass
 
     def clone(self) -> Component:
@@ -101,7 +99,7 @@ class Component:
         return new
 
     def __repr__(self):
-        if self.gameobj is not None:
+        if hasattr(self, "gameobj"):
             return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
         else:
             return f"{type(self).__name__} with no game object at {hex(id(self))}"

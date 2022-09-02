@@ -3,7 +3,7 @@ A game object is a basic element describing a "thing" in rubato.
 Its functionality is defined by the components it holds.
 """
 from __future__ import annotations
-from typing import Optional, Type, TypeVar
+from typing import Type, TypeVar
 
 from . import Component
 from .. import Surface
@@ -47,13 +47,14 @@ class GameObject:
         """Whether to draw a debug crosshair for the game object."""
         self.z_index: int = z_index
         """The z_index of the game object."""
-        self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
         """The rotation of the game object in degrees."""
         self.hidden: bool = hidden
         """Whether the game object is hidden (not drawn)."""
         self.active: bool = active
         """Whether the game object should update and draw."""
+
+        self._components: dict[type, list[Component]] = {}
         self._debug_cross: Surface = Surface(10, 10)
         self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
         self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
@@ -147,20 +148,23 @@ class GameObject:
         if not deleted:
             raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
-    def get(self, comp_type: Type[T]) -> Optional[T]:
+    def get(self, comp_type: Type[T]) -> T:
         """
         Gets a component from the game object.
 
         Args:
-            comp_type: The type of the component to search for.
+            comp_type: The component type (such as `ParticleSystem`, or `Hitbox`).
+
+        Raises:
+            ValueError: There were no components of that type found.
 
         Returns:
-            The component if it was found or None if it wasn't.
+            The first component of that type that the gameobject holds.
         """
         for key, val in self._components.items():
             if issubclass(key, comp_type):
                 return val[0]  # type: ignore
-        return None
+        raise ValueError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
         """
@@ -179,17 +183,6 @@ class GameObject:
                 fin.extend(val)
         return fin
 
-    def delete(self):
-        """
-        Deletes and frees everything from the game object. This is called when you remove it from a group or scene.
-
-        Warning:
-            Calling this will render the gameobject useless in the future.
-        """
-        for comps in self._components.values():
-            for comp in comps:
-                comp.delete()
-
     def draw(self, camera: Camera):
         if self.hidden or not self.active:
             return
@@ -202,7 +195,7 @@ class GameObject:
         if self.debug or Game.debug:
             self._debug_cross.rotation = self.rotation
 
-            Draw.queue_surf(self._debug_cross, self.pos, camera=camera)
+            Draw.queue_surface(self._debug_cross, self.pos, camera=camera)
 
     def update(self):
         if not self.active:
@@ -239,6 +232,12 @@ class GameObject:
                 new_obj.add(comp.clone())
 
         return new_obj
+
+    def __contains__(self, comp_type):
+        for key in self._components:
+            if issubclass(key, comp_type):
+                return True
+        return False
 
     def __repr__(self):
         return f"{self.name} rubato.GameObject with {len(self.get_all(Component))} components at {hex(id(self))}"

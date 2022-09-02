@@ -84,11 +84,10 @@ class Text(Component):
 
     @justify.setter
     def justify(self, new: Literal["left", "center", "right"]):
-        if new in ["left", "center", "right"]:
-            self._justify = new
-            self.generate_surface()
-        else:
+        if new not in ["left", "center", "right"]:
             raise ValueError(f"Justification {new} is not left, center or right.")
+        self._justify = new
+        self.generate_surface()
 
     @property
     def width(self) -> int:
@@ -154,11 +153,6 @@ class Text(Component):
             angle=int(self.true_rotation()),
         )
 
-    def delete(self):
-        """Deletes the text component."""
-        self._tx.destroy()
-        self.font_object._font.close()
-
     def clone(self) -> Text:
         """Clones the text component."""
         return Text(
@@ -171,3 +165,7 @@ class Text(Component):
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
+
+    def __del__(self):
+        self._tx.destroy()
+        self.font_object._font.close()

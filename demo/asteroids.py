@@ -5,7 +5,6 @@ import random
 from rubato import *
 
 size = 1080
-bounds = size // 8
 radius = size // 40
 level = 0
 
@@ -16,18 +15,58 @@ main = Scene()
 # background
 stars = Surface(size, size)
 stars.fill(Color.black)
-for i in range(200):
+for _ in range(200):
     pos = random.randint(0, size), random.randint(0, size)
     stars.draw_point(pos, Color.white)
 
 
-# component to remove things that are out of bounds
+# component to remove gameobject after number of seconds
+class Timer(Component):
+
+    def __init__(self, secs: float):
+        super().__init__()
+        self.time = Time.sec_to_milli(secs)
+        self.started = False
+
+    def update(self):
+        if not self.started:
+            self.time += Time.now()
+            self.started = True
+
+        if Time.now() >= self.time:
+            main.remove(self.gameobj)
+
+
+# explosion particle
+expl = Surface(radius // 2, radius // 2)
+expl.draw_rect((0, 0), expl.get_size_raw(), Color.debug, 3)
+
+
+def make_part(angle: float):
+    return Particle(
+        expl.clone(),
+        pos=Particle.circle_shape(radius * 0.75)(angle),
+        velocity=Particle.circle_direction()(angle) * random.randint(50, 100),
+        rotation=random.randint(0, 360),
+    )
+
+
+# explosion system
+expl_sys = wrap([ParticleSystem(new_particle=make_part, mode=ParticleSystemMode.BURST), Timer(5)])
+
+
+# component to move things that are out of bounds
 class BoundsChecker(Component):
 
     def update(self):
-        if self.gameobj.pos.x < -bounds or self.gameobj.pos.x > size + bounds or \
-            self.gameobj.pos.y < -bounds or self.gameobj.pos.y > size + bounds:
-            main.delete(self.gameobj)
+        if self.gameobj.pos.x < -radius:
+            self.gameobj.pos.x = Display.right + radius
+        elif self.gameobj.pos.x > Display.right + radius:
+            self.gameobj.pos.x = -radius
+        if self.gameobj.pos.y < -radius:
+            self.gameobj.pos.y = Display.bottom + radius
+        elif self.gameobj.pos.y > Display.bottom + radius:
+            self.gameobj.pos.y = -radius
 
 
 # asteroid generator
@@ -42,7 +81,7 @@ def make_asteroid():
     else:
         pos = side * size + (radius if side else -radius), t
 
-    dir = (-Display.center.dir_to(pos)).rotate(random.randint(-45, 45))
+    direction = (-Display.center.dir_to(pos)).rotate(random.randint(-45, 45))
 
     main.add(
         wrap(
@@ -54,7 +93,7 @@ def make_asteroid():
                     ],
                     debug=True,
                 ),
-                RigidBody(velocity=dir * 100, ang_vel=random.randint(-30, 30)),
+                RigidBody(velocity=direction * 100, ang_vel=random.randint(-30, 30)),
                 BoundsChecker(),
             ],
             "asteroid",
@@ -70,8 +109,8 @@ Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
 class PlayerController(Component):
 
     def setup(self):
-        self.speed = 200
-        self.steer = 20
+        self.speed = 250
+        self.steer = 25
 
         self.velocity = Vector()
 
@@ -115,6 +154,7 @@ main.add(
             Polygon(right, trigger=True),
             Polygon(left, trigger=True),
             player_spr,
+            BoundsChecker(),
         ],
         "player",
         Display.center,
@@ -122,12 +162,21 @@ main.add(
 )
 
 last_shoot = 0
-interval = 200  # milliseconds between shots
+interval = 200
 
 
 def bullet_collide(man: Manifold):
     if man.shape_b.gameobj.name == "asteroid":
-        main.delete(man.shape_b.gameobj)
+        local_expl = expl_sys.clone()
+        local_expl.pos = man.shape_b.gameobj.pos.clone()
+        local_expl.rotation = random.randint(0, 360)
+        local_expl_sys = local_expl.get(ParticleSystem)
+        if isinstance(man.shape_b, Polygon):
+            local_expl_sys.spread = 360 / len(man.shape_b.verts)
+        local_expl_sys.start()
+        main.remove(man.shape_b.gameobj)
+        main.remove(man.shape_a.gameobj)
+        main.add(local_expl)
 
 
 def shoot():
@@ -146,6 +195,7 @@ def shoot():
                     )
                 ),
                 BoundsChecker(),
+                Timer(0.75),
             ],
             "bullet",
             player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation),
@@ -155,7 +205,7 @@ def shoot():
 
 
 def new_draw():
-    Draw.surf(stars, Display.center)
+    Draw.surface(stars, Display.center)
 
 
 Game.draw = new_draw

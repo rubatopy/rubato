@@ -1,5 +1,36 @@
 # Changelog
 
+## [Unreleased]
+
+### Breaking Changes
+
+-   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
+-   Removed all `delete` functions because they did nothing that was useful for memory management,
+    which was their purpose.
+-   Removed `Sprite`, because `Surface` does the same thing.
+
+### Added
+
+-   `ParticleSystem`, which manages a system of `Particles`.
+-   `remove` functions where needed. (will add Component specific niceties in following releases).
+-   `Surface.from_file()` as a replacement for `Sprite`.
+
+### Changed
+
+-   Made `Animation.anim_frame()` a function instead of a property method.
+-   Renamed `Surface.generate_tx()` to `Surface.regen()`.
+-   Renamed `Animation.set_current_state()` to `Animation.set_state()`.
+
+### Removed
+
+-   `Animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
+-   Long deprecated mouse methods in `Input`
+-   `vector.distance_between` (use `Vector.dist_to()`).
+
+### Fixed
+
+-   Returned `NotImplemented` object instead of raising an error for vector math methods.
+
 ## [v0.3.2] - August 28, 2022
 
 ### Breaking Changes

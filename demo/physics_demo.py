@@ -66,8 +66,8 @@ for _ in range(num_obj // 2):
                 ),
             ],
             pos=(
-                randint(rb.Display.res.x / 20, 19 * rb.Display.res.x / 20),
-                randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20),
+                randint(int(rb.Display.res.x / 20), int(19 * rb.Display.res.x / 20)),
+                randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
             ),
         )
     )
@@ -85,8 +85,8 @@ for _ in range(num_obj // 2):
                 ),
             ],
             pos=(
-                randint(rb.Display.res.x / 20, 19 * rb.Display.res.x / 20),
-                randint(rb.Display.res.y / 20, 19 * rb.Display.res.y / 20),
+                randint(int(rb.Display.res.x / 20), int(19 * rb.Display.res.x / 20)),
+                randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
             ),
         )
     )

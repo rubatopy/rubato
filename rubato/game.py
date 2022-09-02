@@ -48,17 +48,20 @@ class Game:
 
     @classmethod
     @property
-    def current(cls) -> Scene | None:  # test: skip
+    def current(cls) -> Scene:
         """
         The current scene. (get-only)
 
         Returns:
             The current scene.
         """
-        return cls._scenes.get(cls._current)
+        scene = cls._scenes.get(cls._current)
+        if scene:
+            return scene
+        raise ValueError("The current scene is not set. Make sure to create a scene or switch to it.")
 
     @classmethod
-    def set_scene(cls, scene_id: str):  # test: skip
+    def set_scene(cls, scene_id: str):
         """
         Changes the current scene. Takes effect on the next frame.
 
@@ -95,7 +98,7 @@ class Game:
 
     @classmethod
     @property
-    def camera(cls) -> Camera | None:  # test: skip
+    def camera(cls) -> Camera:  # test: skip
         """
         A shortcut getter allowing easy access to the current camera. (get-only)
 
@@ -104,7 +107,7 @@ class Game:
             This is so you can access/change the current camera properties faster, but you'd still need to
             use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
         """
-        return cls.current.camera if cls.current else None  # pylint: disable=using-constant-test
+        return cls.current.camera
 
     @classmethod
     def quit(cls):
@@ -165,7 +168,7 @@ class Game:
 
             cls.update()
 
-            curr = cls.current
+            curr = cls._scenes.get(cls._current)
             if curr:  # pylint: disable=using-constant-test
                 if cls.state == Game.PAUSED:
                     # process user set pause update

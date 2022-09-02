@@ -29,27 +29,20 @@ class Engine:
             col: The collision information.
         """
         # INITIALIZATION STEP
+        rb_a: RigidBody | None = col.shape_a.gameobj.get(RigidBody) if (RigidBody in col.shape_a.gameobj) else None
+        rb_b: RigidBody | None = col.shape_b.gameobj.get(RigidBody) if (RigidBody in col.shape_b.gameobj) else None
 
-        if col.shape_a.gameobj is None or col.shape_b.gameobj is None:
-            return
-
-        rb_a: RigidBody | None = col.shape_a.gameobj.get(RigidBody)
-        rb_b: RigidBody | None = col.shape_b.gameobj.get(RigidBody)
-
-        a_none = rb_a is None
-        b_none = rb_b is None
-
-        if a_none and b_none:
+        if not rb_a and not rb_b:
             return
 
         # calculate restitution
-        e = max(0 if a_none else rb_a.bounciness, 0 if b_none else rb_b.bounciness)
+        e = max(rb_a.bounciness if rb_a else 0, rb_b.bounciness if rb_b else 0)
 
         # calculate friction coefficient
-        if a_none:
+        if not rb_a:
             rv = rb_b.velocity  # type: ignore
             mu = rb_b.friction * rb_b.friction  # type: ignore
-        elif b_none:
+        elif not rb_b:
             rv = -rb_a.velocity
             mu = rb_a.friction * rb_a.friction
         else:
@@ -57,14 +50,14 @@ class Engine:
             mu = (rb_a.friction * rb_a.friction + rb_b.friction * rb_b.friction) / 2
 
         # find inverse masses
-        inv_mass_a: float = 0 if a_none else rb_a.inv_mass
-        inv_mass_b: float = 0 if b_none else rb_b.inv_mass
+        inv_mass_a: float = rb_a.inv_mass if rb_a else 0
+        inv_mass_b: float = rb_b.inv_mass if rb_b else 0
 
         # handle infinite mass cases
         if inv_mass_a == inv_mass_b == 0:
-            if a_none:
+            if not rb_a:
                 inv_mass_b = 1
-            elif b_none:
+            elif not rb_b:
                 inv_mass_a = 1
             else:
                 inv_mass_a, inv_mass_b = 1, 1
@@ -90,22 +83,17 @@ class Engine:
         else:
             t_impulse = -mu * t * j
 
-        # Velocity correction
-        if not (a_none or rb_a.static):
-            rb_a.velocity -= impulse * inv_mass_a
-            rb_a.velocity -= t_impulse * inv_mass_a
-
-        if not (b_none or rb_b.static):
-            rb_b.velocity += impulse * inv_mass_b
-            rb_b.velocity += t_impulse * inv_mass_b
-
-        # Position correction
         correction = max(col.penetration - 0.01, 0) * col.normal
 
-        if not (a_none or rb_a.static):
+        # Corrections
+        if rb_a and not rb_a.static:
+            rb_a.velocity -= impulse * inv_mass_a
+            rb_a.velocity -= t_impulse * inv_mass_a
             col.shape_a.gameobj.pos -= correction * rb_a.pos_correction
 
-        if not (b_none or rb_b.static):
+        if rb_b and not rb_b.static:
+            rb_b.velocity += impulse * inv_mass_b
+            rb_b.velocity += t_impulse * inv_mass_b
             col.shape_b.gameobj.pos += correction * rb_b.pos_correction
 
     @staticmethod
@@ -125,9 +113,6 @@ class Engine:
         if not isinstance(hitbox_a,
                           Rectangle | Polygon | Circle) or not isinstance(hitbox_b, Rectangle | Polygon | Circle):
             raise TypeError("Engine.overlap() only supports Rectangle, Polygon, and Circle objects.")
-
-        if hitbox_a.gameobj is None or hitbox_b.gameobj is None:
-            return None
 
         if isinstance(hitbox_a, Circle):
             if isinstance(hitbox_b, Circle):
@@ -207,9 +192,6 @@ class Engine:
     @staticmethod
     def _circle_polygon_test(circle: Circle, polygon: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
-        if polygon.gameobj is None:
-            return None
-
         verts = polygon.offset_verts()
         circle_rad = circle.true_radius()
         circle_pos = circle.true_pos()
@@ -262,9 +244,6 @@ class Engine:
     @staticmethod
     def _polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
-        if shape_a.gameobj is None or shape_b.gameobj is None:
-            return None
-
         a_verts = shape_a.offset_verts()
         b_verts = shape_b.offset_verts()
 
@@ -300,9 +279,6 @@ class Engine:
         a: Polygon | Rectangle, b: Polygon | Rectangle, a_verts: list[Vector], b_verts: list[Vector]
     ) -> tuple[float, int] | tuple[None, None]:
         """Finds the axis of least penetration between two possibly colliding polygons."""
-        if a.gameobj is None or b.gameobj is None:
-            return None, None
-
         best_dist = -Math.INF
         best_ind = 0
 

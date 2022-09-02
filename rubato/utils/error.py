@@ -1,8 +1,6 @@
 """
 Custom errors for rubato.
 """
-
-from typing import Any
 import warnings
 import functools
 import sys
@@ -73,9 +71,10 @@ class RemovalWarning(DeprecationWarning):
 
 
 def deprecated(other_func):
-    """This is a decorator which can be used to mark functions
-        as deprecated. It will result in a warning being emitted
-        when the function is used."""
+    """
+    This is a decorator which can be used to mark functions as deprecated.
+    It will result in a warning being emitted when the function is used.
+    """
 
     def wrapper(func):
 
@@ -98,9 +97,10 @@ def deprecated(other_func):
 
 
 def deprecated_no_replacement(func):
-    """This is a decorator which can be used to mark functions
-        as deprecated. It will result in a warning being emitted
-        when the function is used."""
+    """
+    This is a decorator which can be used to mark functions as deprecated.
+    It will result in a warning being emitted when the function is used.
+    """
 
     @functools.wraps(func)
     def new_func(*args, **kwargs):
@@ -118,8 +118,9 @@ def deprecated_no_replacement(func):
 
 
 def removed(other_func=None):
-    """This is a decorator which can be used to mark functions
-        as removed, they will no longer work."""
+    """
+    This is a decorator which can be used to mark functions as removed, they will no longer work.
+    """
 
     def wrapper(func):
 
@@ -139,7 +140,3 @@ def removed(other_func=None):
     wrapper.__doc__ = other_func.__doc__
     wrapper.__dict__.update(other_func.__dict__)
     return wrapper
-
-
-def raise_operator_error(op: str, obj1: Any, obj2: Any):
-    raise TypeError(f"unsupported operand type(s) for {op}: '{type(obj1).__name__}' and '{type(obj2).__name__}'")

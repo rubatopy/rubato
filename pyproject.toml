@@ -1,10 +1,7 @@
 [build-system]
 # if updating the Cython version, update the version in release.yml as well
-requires = ["setuptools ~= 63.2", "wheel ~= 0.37", "Cython ~= 3.0.0a11"] 
+requires = ["setuptools ~= 63.2", "wheel ~= 0.37", "Cython ~= 3.0.0a11"]
 build-backend = "setuptools.build_meta"
-
-[tool.pyright]
-ignore=["demo/**/*"]
 
 [tool.yapf]
 based_on_style = "google"
@@ -17,7 +14,7 @@ JOIN_MULTIPLE_LINES = true
 plugins = ["Cython.Coverage"]
 
 [tool.coverage.report]
-fail_under = 47
+fail_under = 40
 skip_covered = true
 skip_empty = true
 show_missing = true

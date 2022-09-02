@@ -81,14 +81,14 @@ The default Component class.
 
 Raster
 ---------
-.. automodule:: rubato.struct.gameobject.sprites.raster
+.. autoclass:: rubato.struct.gameobject.sprites.raster.Raster
 
 
 .. _image:
 
 Image
 ---------
-.. automodule:: rubato.struct.gameobject.sprites.image
+.. autoclass:: rubato.struct.gameobject.sprites.raster.Image
 
 .. _text:
 
@@ -120,6 +120,17 @@ Spritesheet
 ___________
 .. automodule:: rubato.struct.gameobject.sprites.spritesheet
 
+.. _particlesystem:
+
+Particle Sytem
+--------------
+.. automodule:: rubato.struct.gameobject.particles.system
+
+.. _particle:
+
+Particle
+________
+.. automodule:: rubato.struct.gameobject.particles.particle
 
 .. _hitbox:
 
@@ -210,12 +221,6 @@ These classes are utility classes that are used to make certain tasks easier.
 Surface
 =======
 .. automodule:: rubato.struct.surface
-    
-.. _sprite:
-
-Sprite
-------
-.. automodule:: rubato.struct.sprite
 
 .. _draw:
 

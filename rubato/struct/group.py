@@ -71,26 +71,25 @@ class Group:
             g.name = f"Game Object {len(self.game_objects)}"
         self.game_objects.append(g)
 
-    def delete(self, item: GameObject | Group):
+    def remove(self, item: GameObject | Group) -> bool:
         """
-        Removes an item from the group.
+        Remove an item shallowly from the group.
 
         Args:
-            item: The item to remove from the group.
+            item: The group or gameobject to remove.
 
-        Note:
-            The actually game object is not deleted, just removed from the group.
-
-        Raises:
-            ValueError: The item is not in the group and cannot be deleted.
+        Returns:
+            Whether it was removed successfully.
         """
+        success = True
         try:
             if isinstance(item, GameObject):
                 self.game_objects.remove(item)
             elif isinstance(item, Group):
                 self.groups.remove(item)
-        except ValueError as e:
-            raise ValueError(f"The item {item.name} is not in the group {self.name}") from e
+        except ValueError:
+            success = False
+        return success
 
     def update(self):
         if not self.active:

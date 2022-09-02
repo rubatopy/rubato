@@ -44,7 +44,9 @@ def test__add():
 
 
 @pytest.mark.rub
-def test_quit(rub):
+def test_quit(monkeypatch: pytest.MonkeyPatch, rub):
+    mock = Mock()
+    monkeypatch.setattr(rubato.sdl2, "SDL_Quit", mock)
     with pytest.raises(SystemExit):
         Game.quit()
     assert Game.state == Game.STOPPED
@@ -98,17 +100,23 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     process = Mock()
     monkeypatch.setattr(Time, "process_calls", process)
 
+    draw_mock = Mock()
+
     run_count = 0
-    scene_mock = Mock()
+
+    Game._scenes = {}
+
+    with pytest.raises(ValueError):
+        Game.current  # pylint: disable=pointless-statement
 
     def update_override():
         nonlocal run_count
-        if run_count == 0:
-            Game._current = ""
         if run_count == 1:
-            monkeypatch.setattr(Game, "current", scene_mock)
-            Game.state = Game.PAUSED
+            monkeypatch.setattr(Scene, "_draw", draw_mock)
+            Scene()
         elif run_count == 2:
+            Game.state = Game.PAUSED
+        elif run_count == 3:
             Game.state = Game.STOPPED
         run_count += 1
 
@@ -139,30 +147,27 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
         Game.start()
 
     start_frame.assert_called()
-    assert start_frame.call_count == 4
+    assert start_frame.call_count == 5
     push.assert_called_once()
     pump.assert_called()
-    assert pump.call_count == 3
+    assert pump.call_count == 4
     handle.assert_called()
-    assert handle.call_count == 3
+    assert handle.call_count == 4
     quit_func.assert_called_once()
     update_controller.assert_called()
-    assert update_controller.call_count == 3
+    assert update_controller.call_count == 4
     process.assert_called()
-    assert process.call_count == 3
-    assert run_count == 3
-    scene_mock._paused_update.assert_called_once()
-    scene_mock._update.assert_called_once()
-    scene_mock._fixed_update.assert_called_once()
-    scene_mock._draw.assert_called()
-    assert scene_mock._draw.call_count == 2
+    assert process.call_count == 4
+    assert run_count == 4
+    draw_mock.assert_called()
+    assert draw_mock.call_count == 3
     clear.assert_called_once()
     dump.assert_called()
-    assert dump.call_count == 3
+    assert dump.call_count == 4
     draw.assert_called()
-    assert draw.call_count == 3
+    assert draw.call_count == 4
     present.assert_called()
-    assert present.call_count == 3
+    assert present.call_count == 4
     end_frame.assert_called()
-    assert end_frame.call_count == 3
+    assert end_frame.call_count == 4
     assert Game.state == Game.STOPPED

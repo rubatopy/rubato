@@ -33,9 +33,6 @@ class Raster(Component):
     ):
         super().__init__(offset, rot_offset, z_index, hidden)
         self.surf: Surface = Surface(width, height, scale, rot_offset, af)
-        self.singular = False
-
-        self._go_rotation = 0
 
     @property
     def scale(self) -> Vector:
@@ -74,26 +71,9 @@ class Raster(Component):
         """
         self.surf.merge(other.surf)
 
-    def update(self):
-        if self.gameobj is None:
-            return
-
-        if self._go_rotation != self.gameobj.rotation:
-            self._go_rotation = self.gameobj.rotation
-
     def draw(self, camera: Camera):
-        if self.gameobj is None:
-            return
-
-        if self.gameobj.rotation != self._go_rotation:
-            self._go_rotation = self.gameobj.rotation
-            self.surf.rotation = self.true_rotation()
-
-        Draw.queue_surf(self.surf, self.true_pos(), self.true_z(), camera)
-
-    def delete(self):
-        """Deletes the raster component"""
-        self.surf.delete()
+        self.surf.rotation = self.true_rotation()
+        Draw.queue_surface(self.surf, self.true_pos(), self.true_z(), camera)
 
     def clear(self):
         """
@@ -295,3 +275,36 @@ class Raster(Component):
         )
         r.surf = self.surf.clone()
         return r
+
+
+class Image(Raster):
+    """
+    An image is a raster subclass that generates the surface from an image file.
+
+    Args:
+        path: The path to the file.
+        scale: The scale of the Raster. Defaults to (1, 1).
+        offset: The offset of the Raster. Defaults to (0, 0).
+        rot_offset: The rotation offset of the Raster. Defaults to 0.
+        af: Whether to use anisotropic filtering. Defaults to False.
+        z_index: The z-index of the Raster. Defaults to 0.
+        hidden: Whether to hide the Raster. Defaults to False.
+    """
+
+    def __init__(
+        self,
+        path: str,
+        scale: Vector | tuple[float, float] = (1, 1),
+        offset: Vector | tuple[float, float] = (0, 0),
+        rot_offset: float = 0,
+        af: bool = False,
+        z_index: int = 0,
+        hidden: bool = False,
+    ):
+        super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index, hidden=hidden)
+        self.surf = Surface.from_file(path, scale, rot_offset, af)
+
+    def clone(self) -> Image:
+        img = Image("", self.scale, self.offset.clone(), self.rot_offset, self.af, self.z_index)
+        img.surf = self.surf.clone()
+        return img
