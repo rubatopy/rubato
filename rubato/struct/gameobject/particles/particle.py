@@ -13,16 +13,16 @@ class Particle:
     Args:
         surface: The surface of the particle.
         movement: The movement function of a particle. Defaults to `Particle.default_movement`.
+        pos: The position of the particle. Defaults to (0, 0).
         velocity: The velocity of the particle. Defaults to (0, 0).
         acceleration: The acceleration of the particle. Defaults to (0, 0).
-        pos: The position of the particle. Defaults to (0, 0).
         rotation: The rotation of the particle. Defaults to 0.
         rot_velocity: The rotational velocity of the particle. Defaults to 0.
         rot_acceleration: The rotational acceleration of the particle. Defaults to 0.
         scale: The scale of the particle. Defaults to 1.
         lifespan: The lifespan of the particle (in seconds). Defaults to 1.
         z_index: The z-index of the particle. Defaults to 0.
-        age: The age of the particle (in seconds). Defaults to 0.
+        age: The starting age of the particle (in seconds). Defaults to 0.
     """
 
     def __init__(

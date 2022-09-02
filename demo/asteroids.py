@@ -45,9 +45,8 @@ expl.draw_rect((0, 0), expl.get_size_raw(), Color.debug, 3)
 def make_part(angle: float):
     return Particle(
         expl.clone(),
-        Particle.default_movement,
-        Particle.circle_shape(radius * 0.75)(angle),
-        Particle.circle_direction()(angle) * random.randint(50, 100),
+        pos=Particle.circle_shape(radius * 0.75)(angle),
+        velocity=Particle.circle_direction()(angle) * random.randint(50, 100),
         rotation=random.randint(0, 360),
     )
 
