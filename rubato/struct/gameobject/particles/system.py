@@ -139,7 +139,7 @@ class ParticleSystem(Component):
                 particle.surface.scale = particle._original_scale * particle.scale
                 Draw.queue_surface(
                     particle.surface,
-                    self.true_pos() + particle.pos,
+                    self.true_pos() + particle.pos.rotate(self.true_rotation()),
                     self.true_z() + particle.z_index, camera
                 )
         else:
@@ -172,9 +172,8 @@ class ParticleSystem(Component):
     def gen_particle(self, angle: float):
         part = self.new_particle(angle)
         if not self.local_space:
-            part.pos += self.true_pos()
+            part.pos = self.true_pos() + part.pos.rotate(self.true_rotation())
             part.z_index += self.true_z()
-            part.rotation += self.true_rotation()
         self.__particles.append(part)
         self.__generated += 1
 

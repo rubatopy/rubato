@@ -4,6 +4,7 @@ A multi-channel sound system for rubato.
 from __future__ import annotations
 from os import path as os_path, walk
 from ctypes import c_int, CFUNCTYPE
+from warnings import warn
 
 import sdl2.sdlmixer as mixer
 from sdl2 import AUDIO_F32
@@ -11,7 +12,7 @@ from sdl2 import AUDIO_F32
 from . import IdError, get_path, Math
 
 if mixer.Mix_OpenAudio(48000, AUDIO_F32, 2, 2048):
-    raise Exception("Could not open audio device.")
+    warn("Could not open audio device.")
 
 
 @CFUNCTYPE(None, c_int)
