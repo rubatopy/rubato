@@ -3,7 +3,6 @@ from importlib.resources import files
 from unittest.mock import Mock
 import pytest
 import rubato
-import sdl2
 
 
 @pytest.mark.rub
@@ -59,7 +58,6 @@ def test_init(monkeypatch):
 
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.png")))
     set_icon.reset_mock()
-    sdl2.SDL_Quit()
     rubato.init(
         name="Untitled Game",
         window_size=rubato.Vector(360, 360),

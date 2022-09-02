@@ -19,14 +19,16 @@ def movement(p: rb.Particle, dt: float):
 
 
 def starting_dir(angle: float):
-    return rb.Vector(0, -1).rotate((((angle / 180) - 1) * 60) + 6)
+    return rb.Vector(0, -1).rotate((((angle / 180) - 1) * 60) + 6) * 50
 
 
-def cursor_make(angle: float):
-    return rb.Particle(surf, movement, (0, 0), starting_dir(angle) * 50, (0, 0), 0, 0, 0, 1, 0.4, 1, 0)
-
-
-particleSytem = rb.ParticleSystem(new_particle=cursor_make, loop=True, duration=0.3, spread=40, density=2)
+particleSytem = rb.ParticleSystem(
+    new_particle=rb.ParticleSystem.particle_gen(surf, movement, dir_func=starting_dir, lifespan=0.4, z_index=1),
+    loop=True,
+    duration=0.3,
+    spread=40,
+    density=2,
+)
 go = rb.GameObject()
 go.add(particleSytem)
 

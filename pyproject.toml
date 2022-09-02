@@ -14,7 +14,7 @@ JOIN_MULTIPLE_LINES = true
 plugins = ["Cython.Coverage"]
 
 [tool.coverage.report]
-fail_under = 46
+fail_under = 40
 skip_covered = true
 skip_empty = true
 show_missing = true

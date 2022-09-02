@@ -77,3 +77,69 @@ class Particle:
 
         particle.rot_velocity += particle.rot_acceleration * dt
         particle.rotation += particle.rot_velocity * dt
+
+    @staticmethod
+    def circle_shape(radius: float) -> Callable[[float], Vector]:
+        """
+        A shape function that returns a circle. This can be passed into the Particle constructor.
+
+        Args:
+            radius: The radius of the circle.
+        """
+
+        def shape(angle: float) -> Vector:
+            return Vector.from_radial(radius, angle)
+
+        return shape
+
+    @staticmethod
+    def circle_direction() -> Callable[[float], Vector]:
+        """
+        A direction function that returns a circle. This can be passed into the Particle constructor.
+        """
+
+        def direction(angle: float) -> Vector:
+            return Vector.from_radial(1, angle)
+
+        return direction
+
+    @staticmethod
+    def square_shape(size: float) -> Callable[[float], Vector]:
+        """
+        A shape function that returns a square. This can be passed into the Particle constructor.
+
+        Args:
+            size: The size of the square.
+        """
+
+        def shape(angle: float) -> Vector:
+            angle %= 360
+            if 0 <= angle < 90:
+                return Vector(((angle / 45) - 1) * size, -size / 2)
+            elif 90 <= angle < 180:
+                return Vector(size / 2, (((angle - 90) / 45) - 1) * size)
+            elif 180 <= angle < 270:
+                return Vector((((angle - 180) / 45) - 1) * size, size / 2)
+            else:
+                return Vector(-size / 2, (((angle - 270) / 45) - 1) * size)
+
+        return shape
+
+    @staticmethod
+    def square_direction() -> Callable[[float], Vector]:
+        """
+        A direction function that returns a square. This can be passed into the Particle constructor.
+        """
+
+        def direction(angle: float) -> Vector:
+            angle %= 360
+            if 0 <= angle < 90:
+                return Vector(0, -1)
+            elif 90 <= angle < 180:
+                return Vector(1, 0)
+            elif 180 <= angle < 270:
+                return Vector(0, 1)
+            else:
+                return Vector(-1, 0)
+
+        return direction

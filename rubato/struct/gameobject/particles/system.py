@@ -197,76 +197,69 @@ class ParticleSystem(Component):
             self.z_index,
         )
 
-    @classmethod
-    def default_particle(cls, angle: float) -> Particle:
+    @staticmethod
+    def default_particle(angle: float) -> Particle:
+        """
+        The default particle generation function. This can be passed into the Particle System constructor.
+        """
         surf = Surface()
         surf.fill(Color.debug)
-        return Particle(surf, velocity=cls.circle_direction()(angle))
+        return Particle(surf, velocity=Particle.circle_direction()(angle))
 
     @staticmethod
-    def circle_shape(radius: float) -> Callable[[float], Vector]:
+    def particle_gen(
+        surface: Surface,
+        movement: Callable[[Particle, float], None] | None = None,
+        pos_func: Callable[[float], Vector] | None = None,
+        dir_func: Callable[[float], Vector] = Particle.circle_direction(),
+        start_speed: float = 1,
+        acceleration: Vector | tuple[float, float] = (0, 0),
+        rotation: float = 0,
+        rot_velocity: float = 0,
+        rot_acceleration: float = 0,
+        scale: float = 1,
+        lifespan: float = 1,
+        z_index: int = 0,
+        age: float = 0,
+    ) -> Callable[[float], Particle]:
         """
-        A shape function that returns a circle. This can be passed into the starting_shape argument of a ParticleSystem.
+        Generates a particle generation function for the Particle System constructor.
 
         Args:
-            radius: The radius of the circle.
+            surface: The surface to use for the particle.
+            movement: The movement function. Defaults to `Particle.default_movement`.
+            pos_func: The function used to determine each starting position. Must take in an angle relative to the
+                system. Defaults to `lambda _: Vector(0, 0)`.
+            dir_func: The function used to determine each starting direction. Must take in an angle relative to the
+                system. Defaults to `Particle.circle_direction()`.
+            start_speed: The starting speed. Defaults to 1.
+            acceleration: The starting acceleration. Defaults to (0, 0).
+            rotation: The starting rotation. Defaults to 0.
+            rot_velocity: The starting rotational velocity. Defaults to 0.
+            rot_acceleration: The starting rotational acceleration. Defaults to 0.
+            scale: The starting scale. Defaults to 1.
+            lifespan: The lifespan of each particle. Defaults to 1.
+            z_index: The z-index of each particle. Defaults to 0.
+            age: The starting age of each particle. Defaults to 0.
+
+        Returns:
+            A particle generation function.
         """
 
-        def shape(angle: float) -> Vector:
-            return Vector.from_radial(radius, angle)
+        def gen(angle: float) -> Particle:
+            return Particle(
+                surface,
+                movement or Particle.default_movement,
+                pos_func(angle) if pos_func else Vector(0, 0),
+                dir_func(angle) * start_speed,
+                acceleration,
+                rotation,
+                rot_velocity,
+                rot_acceleration,
+                scale,
+                lifespan,
+                z_index,
+                age,
+            )
 
-        return shape
-
-    @staticmethod
-    def circle_direction() -> Callable[[float], Vector]:
-        """
-        A direction function that returns a circle. This can be passed into the starting_dir argument of a
-        ParticleSystem.
-        """
-
-        def direction(angle: float) -> Vector:
-            return Vector.from_radial(1, angle)
-
-        return direction
-
-    @staticmethod
-    def square_shape(size: float) -> Callable[[float], Vector]:
-        """
-        A shape function that returns a square. This can be passed into the starting_shape argument of a ParticleSystem.
-
-        Args:
-            size: The size of the square.
-        """
-
-        def shape(angle: float) -> Vector:
-            angle %= 360
-            if 0 <= angle < 90:
-                return Vector(((angle / 45) - 1) * size, -size / 2)
-            elif 90 <= angle < 180:
-                return Vector(size / 2, (((angle - 90) / 45) - 1) * size)
-            elif 180 <= angle < 270:
-                return Vector((((angle - 180) / 45) - 1) * size, size / 2)
-            else:
-                return Vector(-size / 2, (((angle - 270) / 45) - 1) * size)
-
-        return shape
-
-    @staticmethod
-    def square_direction() -> Callable[[float], Vector]:
-        """
-        A direction function that returns a square. This can be passed into the starting_dir argument of a
-        ParticleSystem.
-        """
-
-        def direction(angle: float) -> Vector:
-            angle %= 360
-            if 0 <= angle < 90:
-                return Vector(0, -1)
-            elif 90 <= angle < 180:
-                return Vector(1, 0)
-            elif 180 <= angle < 270:
-                return Vector(0, 1)
-            else:
-                return Vector(-1, 0)
-
-        return direction
+        return gen

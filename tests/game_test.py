@@ -44,7 +44,9 @@ def test__add():
 
 
 @pytest.mark.rub
-def test_quit(rub):
+def test_quit(monkeypatch: pytest.MonkeyPatch, rub):
+    mock = Mock()
+    monkeypatch.setattr(rubato.sdl2, "SDL_Quit", mock)
     with pytest.raises(SystemExit):
         Game.quit()
     assert Game.state == Game.STOPPED
