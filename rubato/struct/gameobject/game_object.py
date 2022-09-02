@@ -108,15 +108,15 @@ class GameObject:
         """
         self.remove_ind(comp_type, 0)
 
-    def remove_by_ref(self, component: Component):
+    def remove_by_ref(self, component: Component) -> bool:
         """
         Removes a component from the game object.
 
         Args:
             component: The component to remove.
 
-        Raises:
-            IndexError: The component was not in the game object and nothing was removed.
+        Returns:
+            Whether the component was removed.
         """
         for key, val in self._components.items():
             if issubclass(key, type(component)):
