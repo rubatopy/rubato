@@ -49,6 +49,7 @@ class ParticleSystem(Component):
         spread: The gap between particles (in degrees). Defaults to 45.
         density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
         local_space: Whether the particles should be in local space.
+        running: Whether the system should start as soon as it becomes active.
         offset: The offset of the system. Defaults to (0, 0).
         rot_offset: The rotation offset of the system. Defaults to 0.
         z_index: The z-index of the system. Defaults to 0.
@@ -64,6 +65,7 @@ class ParticleSystem(Component):
         spread: float = 5,
         density: int = 1,
         local_space: bool = False,
+        running: bool = False,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -85,9 +87,10 @@ class ParticleSystem(Component):
         """The density of the system. This is the number of particles generated per fixed update."""
         self.local_space: bool = local_space
         """Whether the particles should be in local space."""
+        self.running: bool = running
+        """Whether the system is allowed to generate particles."""
 
         self.__particles: list[Particle] = []
-        self.__running: bool = False
         self.__time: float = 0
         self.__generated: int = 0
         """
@@ -103,15 +106,15 @@ class ParticleSystem(Component):
         return len(self.__particles)
 
     def start(self):
-        """Start the system."""
-        self.__running = True
+        """Start the system (sets `running` to True)."""
+        self.running = True
 
     def stop(self):
-        """Stop the system."""
-        self.__running = False
+        """Stop the system (sets `running` to False)."""
+        self.running = False
 
     def fixed_update(self):
-        if self.__running:
+        if self.running:
             self.generate_particles()
             self.__time += Time.fixed_delta
             if self.__time >= self.duration:
@@ -120,7 +123,7 @@ class ParticleSystem(Component):
                     self.__generated = 0
                     self.__forward = not self.__forward
                 else:
-                    self.__running = False
+                    self.running = False
 
         i: int = 0
         while i < len(self.__particles):
@@ -192,6 +195,7 @@ class ParticleSystem(Component):
             self.spread,
             self.density,
             self.local_space,
+            self.running,
             self.offset.clone(),
             self.rot_offset,
             self.z_index,

@@ -28,11 +28,10 @@ particleSytem = rb.ParticleSystem(
     duration=0.3,
     spread=5,
     density=2,
+    running=True,
 )
 go = rb.GameObject()
 go.add(particleSytem)
-
-particleSytem.start()
 
 go.pos = rb.Display.center
 
@@ -44,7 +43,7 @@ mouse.get(rb.ParticleSystem).new_particle = rb.ParticleSystem.particle_gen(
 
 def fixed():
     mouse.pos = rb.Input.get_mouse_pos()
-    mouse.get(rb.ParticleSystem).start() if rb.Input.mouse_pressed() else mouse.get(rb.ParticleSystem).stop()
+    mouse.get(rb.ParticleSystem).running = rb.Input.mouse_pressed()
 
 
 s.add(go, mouse)
