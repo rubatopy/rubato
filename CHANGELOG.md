@@ -11,20 +11,21 @@
 
 ### Added
 
--   `ParticleSystem`, which manages a system of particles.
--   `remove` functions where needed.
+-   `ParticleSystem`, which manages a system of `Particles`.
+-   `remove` functions where needed. (will add Component specific niceties in following releases).
+-   `Surface.from_file()` as a replacement for `Sprite`.
 
 ### Changed
 
--   Made `animation.anim_frame()` a function instead of a property method.
--   Renamed `surface.generate_tx()` to `surface.regen()`.
--   Renamed `animation.set_current_state()` to `animation.set_state()`.
+-   Made `Animation.anim_frame()` a function instead of a property method.
+-   Renamed `Surface.generate_tx()` to `Surface.regen()`.
+-   Renamed `Animation.set_current_state()` to `Animation.set_state()`.
 
 ### Removed
 
--   `animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
+-   `Animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
 -   Long deprecated mouse methods in `Input`
--   `vector.distance_between` (use `vector.dist_to()`).
+-   `vector.distance_between` (use `Vector.dist_to()`).
 
 ### Fixed
 
