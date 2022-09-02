@@ -41,11 +41,11 @@ class ParticleSystem(Component):
 
     Args:
         new_particle: The method to generate a new particle. Should return a particle object.
-            Defaults to ParticleSystem.default_particle
+            Defaults to `ParticleSystem.default_particle`.
         duration: The duration of the system in seconds (when to stop generating particles). Defaults to 5.
         loop: Whether the system should loop (start again at the end of its duration). Defaults to False.
-        max_particles: The maximum number of particles in the system. Defaults to Math.INF.
-        mode: The particle generation mode of the system. Defaults to ParticleSystemMode.RANDOM.
+        max_particles: The maximum number of particles in the system. Defaults to `Math.INF`.
+        mode: The particle generation mode of the system. Defaults to `ParticleSystemMode.RANDOM`.
         spread: The gap between particles (in degrees). Defaults to 45.
         density: The density of the system. This is the number of particles generated per fixed update. Defaults to 1.
         local_space: Whether the particles should be in local space.
@@ -139,7 +139,7 @@ class ParticleSystem(Component):
                 particle._system_pos = self.true_pos().clone()
                 particle._system_rotation = self.true_rotation()
 
-            particle.surface.rotation = particle.rotation
+            particle.surface.rotation = particle.rotation + particle._system_rotation
             particle.surface.scale = particle._original_scale * particle.scale
             Draw.queue_surface(
                 particle.surface,
@@ -201,18 +201,7 @@ class ParticleSystem(Component):
     def default_particle(cls, angle: float) -> Particle:
         surf = Surface()
         surf.fill(Color.debug)
-        return Particle(cls.default_movement, Vector.from_radial(1, angle), Vector(0, 0), 0, 1, surf, 1, 0)
-
-    @staticmethod
-    def default_movement(particle: Particle, delta: float):
-        """
-        The default movement function of a particle.
-
-        Args:
-            particle: The particle to move.
-            delta: The time delta.
-        """
-        particle.pos += particle.velocity * delta
+        return Particle(surf, velocity=cls.circle_direction()(angle))
 
     @staticmethod
     def circle_shape(radius: float) -> Callable[[float], Vector]:
