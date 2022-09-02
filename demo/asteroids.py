@@ -171,7 +171,8 @@ def bullet_collide(man: Manifold):
         local_expl.pos = man.shape_b.gameobj.pos.clone()
         local_expl.rotation = random.randint(0, 360)
         local_expl_sys = local_expl.get(ParticleSystem)
-        local_expl_sys.spread = 360 / len(man.shape_b.verts)
+        if isinstance(man.shape_b, Polygon):
+            local_expl_sys.spread = 360 / len(man.shape_b.verts)
         local_expl_sys.start()
         main.remove(man.shape_b.gameobj)
         main.remove(man.shape_a.gameobj)

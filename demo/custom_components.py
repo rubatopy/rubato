@@ -29,22 +29,13 @@ class PlayerController(rb.Component):
         # Initialize any attributes that you want to use in your component.
         self.health = 100
         self.speed = 10
-        self.hitbox = None  # We are going to get this later.
-
-    def setup(self):
-        """
-        Here you have access to the GameObject of the component and is where you should set any variables that depend
-        on the GameObject.
-        Automatically run once before the first update call.
-        """
-        self.hitbox = self.gameobj.get(rb.Hitbox)
 
     def update(self):
         """
         Called once per frame. Before the draw function.
         """
         if rb.Input.mouse_pressed():
-            self.hitbox.color = rb.Color.random()
+            self.gameobj.get(rb.Hitbox).color = rb.Color.random()
             self.gameobj.pos = rb.world_mouse()
 
     def speak(self):

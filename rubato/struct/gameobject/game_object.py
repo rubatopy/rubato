@@ -47,13 +47,14 @@ class GameObject:
         """Whether to draw a debug crosshair for the game object."""
         self.z_index: int = z_index
         """The z_index of the game object."""
-        self._components: dict[type, list[Component]] = {}
         self.rotation: float = rotation
         """The rotation of the game object in degrees."""
         self.hidden: bool = hidden
         """Whether the game object is hidden (not drawn)."""
         self.active: bool = active
         """Whether the game object should update and draw."""
+
+        self._components: dict[type, list[Component]] = {}
         self._debug_cross: Surface = Surface(10, 10)
         self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
         self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
@@ -147,20 +148,23 @@ class GameObject:
         if not deleted:
             raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
-    def get(self, comp_type: Type[T]) -> T | None:
+    def get(self, comp_type: Type[T]) -> T:
         """
         Gets a component from the game object.
 
         Args:
-            comp_type: The type of the component to search for.
+            comp_type: The component type (such as `ParticleSystem`, or `Hitbox`).
+
+        Raises:
+            ValueError: There were no components of that type found.
 
         Returns:
-            The component if it was found or None if it wasn't.
+            The first component of that type that the gameobject holds.
         """
-        return next(
-            (val[0] for key, val in self._components.items() if issubclass(key, comp_type)),
-            None,
-        )  # type: ignore
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                return val[0]  # type: ignore
+        raise ValueError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def get_all(self, comp_type: Type[T]) -> list[T]:
         """
@@ -228,6 +232,12 @@ class GameObject:
                 new_obj.add(comp.clone())
 
         return new_obj
+
+    def __contains__(self, comp_type):
+        for key in self._components:
+            if issubclass(key, comp_type):
+                return True
+        return False
 
     def __repr__(self):
         return f"{self.name} rubato.GameObject with {len(self.get_all(Component))} components at {hex(id(self))}"
