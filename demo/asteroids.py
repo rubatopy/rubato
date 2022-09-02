@@ -44,14 +44,11 @@ expl.draw_rect((0, 0), expl.get_size_raw(), Color.debug, 3)
 
 def make_part(angle: float):
     return Particle(
-        ParticleSystem.default_movement,
-        ParticleSystem.circle_direction()(angle) * random.randint(50, 100),
-        ParticleSystem.circle_shape(radius * 0.75)(angle),
-        random.randint(0, 360),
-        1,
-        expl,
-        1,
-        0,
+        expl.clone(),
+        Particle.default_movement,
+        Particle.circle_shape(radius * 0.75)(angle),
+        Particle.circle_direction()(angle) * random.randint(50, 100),
+        rotation=random.randint(0, 360),
     )
 
 
@@ -59,7 +56,7 @@ def make_part(angle: float):
 expl_sys = wrap([ParticleSystem(new_particle=make_part, mode=ParticleSystemMode.BURST), Timer(5)])
 
 
-# component to remove things that are out of bounds
+# component to move things that are out of bounds
 class BoundsChecker(Component):
 
     def update(self):
@@ -166,7 +163,7 @@ main.add(
 )
 
 last_shoot = 0
-interval = 200  # milliseconds between shots
+interval = 200
 
 
 def bullet_collide(man: Manifold):

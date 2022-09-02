@@ -245,14 +245,15 @@ class ParticleSystem(Component):
         Returns:
             A particle generation function.
         """
+        acc = Vector.create(acceleration)
 
         def gen(angle: float) -> Particle:
             return Particle(
-                surface,
+                surface.clone(),
                 movement or Particle.default_movement,
                 pos_func(angle) if pos_func else Vector(0, 0),
                 dir_func(angle) * start_speed,
-                acceleration,
+                acc.clone(),
                 rotation,
                 rot_velocity,
                 rot_acceleration,
