@@ -102,8 +102,6 @@ class Hitbox(Component):
                 The top left and bottom right corners of the bounding box as Vectors as a tuple.
                 (top left, bottom right)
         """
-        if self.gameobj is None:
-            return Vector(), Vector()
         true_pos = self.true_pos()
         return true_pos, true_pos
 
@@ -245,8 +243,6 @@ class Polygon(Hitbox):
         """
         Returns a list of the Polygon's vertices in world coordinates. Accounts for gameobject position and rotation.
         """
-        if self.gameobj is None:
-            return self.offset_verts()
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):
@@ -387,8 +383,6 @@ class Rectangle(Hitbox):
 
     @top_left.setter
     def top_left(self, new: Vector):
-        if self.gameobj is None:
-            raise Exception("Cannot set top_left without a gameobject.")
         self.gameobj.pos += new - self.get_aabb()[0]
 
     @property
@@ -402,8 +396,6 @@ class Rectangle(Hitbox):
 
     @bottom_left.setter
     def bottom_left(self, new: Vector):
-        if self.gameobj is None:
-            raise Exception("Cannot set bottom_left without a gameobject.")
         aabb = self.get_aabb()
         self.gameobj.pos += new - Vector(aabb[0].x, aabb[1].y)
 
@@ -418,8 +410,6 @@ class Rectangle(Hitbox):
 
     @top_right.setter
     def top_right(self, new: Vector):
-        if self.gameobj is None:
-            raise Exception("Cannot set top_right without a gameobject.")
         aabb = self.get_aabb()
         self.gameobj.pos += new - Vector(aabb[1].x, aabb[0].y)
 
@@ -433,8 +423,6 @@ class Rectangle(Hitbox):
 
     @bottom_right.setter
     def bottom_right(self, new: Vector):
-        if self.gameobj is None:
-            raise Exception("Cannot set bottom_right without a gameobject.")
         self.gameobj.pos += new - self.get_aabb()[1]
 
     @property
@@ -447,8 +435,6 @@ class Rectangle(Hitbox):
 
     @top.setter
     def top(self, new: float):
-        if self.gameobj is None:
-            raise Exception("Cannot set top without a gameobject.")
         self.gameobj.pos.y += new - self.get_aabb()[0].y
 
     @property
@@ -461,8 +447,6 @@ class Rectangle(Hitbox):
 
     @left.setter
     def left(self, new: float):
-        if self.gameobj is None:
-            raise Exception("Cannot set left without a gameobject.")
         self.gameobj.pos.x += new - self.get_aabb()[0].x
 
     @property
@@ -475,8 +459,6 @@ class Rectangle(Hitbox):
 
     @bottom.setter
     def bottom(self, new: float):
-        if self.gameobj is None:
-            raise Exception("Cannot set bottom without a gameobject.")
         self.gameobj.pos.y += new - self.get_aabb()[1].y
 
     @property
@@ -489,8 +471,6 @@ class Rectangle(Hitbox):
 
     @right.setter
     def right(self, new: float):
-        if self.gameobj is None:
-            raise Exception("Cannot set right without a gameobject.")
         self.gameobj.pos.x += new - self.get_aabb()[1].x
 
     def get_aabb(self) -> tuple[Vector, Vector]:
@@ -517,8 +497,6 @@ class Rectangle(Hitbox):
         """
         Returns a list of the Rectangle's vertices in world coordinates. Accounts for gameobject position and rotation.
         """
-        if self.gameobj is None:
-            return self.offset_verts()
         return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
 
     def regen(self):

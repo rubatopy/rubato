@@ -90,9 +90,6 @@ class RigidBody(Component):
 
     def physics(self):
         """Applies general kinematic laws to the rigidbody."""
-        if self.gameobj is None:
-            return
-
         self.velocity += self.gravity * Time.fixed_delta
         self.velocity.clamp(-self.max_speed, self.max_speed)  # pylint: disable=invalid-unary-operand-type
 

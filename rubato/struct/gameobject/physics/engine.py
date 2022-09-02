@@ -29,10 +29,6 @@ class Engine:
             col: The collision information.
         """
         # INITIALIZATION STEP
-
-        if col.shape_a.gameobj is None or col.shape_b.gameobj is None:
-            return
-
         rb_a: RigidBody | None = col.shape_a.gameobj.get(RigidBody)
         rb_b: RigidBody | None = col.shape_b.gameobj.get(RigidBody)
 
@@ -126,9 +122,6 @@ class Engine:
                           Rectangle | Polygon | Circle) or not isinstance(hitbox_b, Rectangle | Polygon | Circle):
             raise TypeError("Engine.overlap() only supports Rectangle, Polygon, and Circle objects.")
 
-        if hitbox_a.gameobj is None or hitbox_b.gameobj is None:
-            return None
-
         if isinstance(hitbox_a, Circle):
             if isinstance(hitbox_b, Circle):
                 return Engine._circle_circle_test(hitbox_a, hitbox_b)
@@ -207,9 +200,6 @@ class Engine:
     @staticmethod
     def _circle_polygon_test(circle: Circle, polygon: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between a circle and a polygon"""
-        if polygon.gameobj is None:
-            return None
-
         verts = polygon.offset_verts()
         circle_rad = circle.true_radius()
         circle_pos = circle.true_pos()
@@ -262,9 +252,6 @@ class Engine:
     @staticmethod
     def _polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
         """Checks for overlap between two polygons"""
-        if shape_a.gameobj is None or shape_b.gameobj is None:
-            return None
-
         a_verts = shape_a.offset_verts()
         b_verts = shape_b.offset_verts()
 
@@ -300,9 +287,6 @@ class Engine:
         a: Polygon | Rectangle, b: Polygon | Rectangle, a_verts: list[Vector], b_verts: list[Vector]
     ) -> tuple[float, int] | tuple[None, None]:
         """Finds the axis of least penetration between two possibly colliding polygons."""
-        if a.gameobj is None or b.gameobj is None:
-            return None, None
-
         best_dist = -Math.INF
         best_ind = 0
 
