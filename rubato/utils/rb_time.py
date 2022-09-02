@@ -80,7 +80,7 @@ class Time:
     capped: bool = False
 
     physics_fps = 60
-    """The fps that the physics should run at. Defaults to 30."""
+    """The fps that the physics should run at. Defaults to 60."""
 
     def __init__(self) -> None:
         raise InitError(self)
