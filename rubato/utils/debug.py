@@ -3,7 +3,7 @@ A set of utility functions to help with debugging.
 """
 import sys, traceback
 
-from . import PrintError, Display, Time, Draw, Vector, Color, Font, InitError
+from . import PrintError, Display, Time, Draw, Vector, Font, InitError, Color
 
 
 # THIS IS A STATIC CLASS
@@ -22,13 +22,22 @@ class Debug:
         Called automatically if `Game.show_fps` is True.
 
         Args:
-            font (Font): The font to use.
+            font: The font to use.
         """
-        fs = str(Time.smooth_fps)
-        h = int(Display.res.y) >> 5
-        p = h // 2
-        Draw.rect(Vector(p + (h * len(fs)) / 2, p + h / 2), h * len(fs) + p, h + p, Color(a=200), fill=Color(a=200))
-        Draw.text(fs, font=font, pos=Vector(p + 4, p + 3), align=Vector(1, 1))
+        fps = str(Time.smooth_fps)
+        h = int(Display.res.y) >> 5  # 1/32 of the screen height
+        p = h // 2  # distance from edge to start of text and half font size (scaled)
+        scale = h / font.size  # scale to get the text to the right size
+        center = Vector(p + (len(fps) * p), 2 * p)
+        Draw.rect(center, (len(fps) * h) + p, h + p, fill=Color(a=200))
+        Draw.text(
+            fps,
+            font=font,
+            pos=center,
+            align=Vector(0, 0),
+            justify="center",
+            scale=(scale, scale),
+        )
 
     @staticmethod
     def find_my_print():

@@ -367,7 +367,8 @@ class Draw:
         pos: Vector | tuple[float, float] = (0, 0),
         justify: str = "left",
         align: Vector | tuple[float, float] = (0, 0),
-        width: int | float = 0
+        width: int | float = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
     ):
         """
         Draws some text onto the renderer immediately.
@@ -379,9 +380,14 @@ class Draw:
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
+            scale: The scale of the text. Defaults to (1, 1).
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
-        Display.update(tx, (pos[0] + (align[0] - 1) * tx.size[0] / 2, pos[1] + (align[1] - 1) * tx.size[1] / 2))
+        Display.update(
+            tx,
+            (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2, pos[1] + (align[1] * tx.size[1] * scale[1]) / 2),
+            scale,
+        )
         tx.destroy()
 
     @classmethod
@@ -457,10 +463,6 @@ class Draw:
 
         if not surface.uptodate:
             surface.regen()
-
-        size = surface.get_size()
-
-        pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
 
         if camera is not None:
             pos = camera.transform(pos)

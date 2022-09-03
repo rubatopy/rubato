@@ -12,7 +12,7 @@
 ### Added
 
 -   `ParticleSystem`, which manages a system of `Particles`.
--   `remove` functions where needed. (will add Component specific niceties in following releases).
+-   `remove` functions where needed.
 -   `Surface.from_file()` as a replacement for `Sprite`.
 
 ### Changed
@@ -30,6 +30,7 @@
 ### Fixed
 
 -   Returned `NotImplemented` object instead of raising an error for vector math methods.
+-   FPS drawing correctly on smaller resolutions
 
 ## [v0.3.2] - August 28, 2022
 
