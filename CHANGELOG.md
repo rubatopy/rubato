@@ -8,6 +8,7 @@
 -   Removed all `delete` functions because they did nothing that was useful for memory management,
     which was their purpose.
 -   Removed `Sprite`, because `Surface` does the same thing.
+-   `Display.update` and `Draw.text` now use center position like the rest of rubato
 
 ### Added
 
