@@ -3,6 +3,7 @@ from __future__ import annotations
 from ctypes import c_int16
 from typing import TYPE_CHECKING, Optional, Callable
 import cython
+import math
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
@@ -389,9 +390,13 @@ class Draw:
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
-        center = (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2, pos[1] + (align[1] * tx.size[1] * scale[1]) / 2)
+        center = (
+            (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2),
+            (pos[1] + (align[1] * tx.size[1] * scale[1]) / 2),
+        )
         if shadow:
-            Draw.rect(center, tx.size[0] * scale[0], tx.size[1] * scale[1], fill=Color(a=200))
+            # Draw.rect(center, tx.size[0] * scale[0], tx.size[1] * scale[1], fill=Color(a=200))
+            Draw.rect(center, tx.size[0] * scale[0], math.ceil(tx.size[1] / 2) * scale[1], fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 

@@ -25,7 +25,7 @@ class Debug:
             font: The font to use.
         """
         height: int = int(Display.res.y / 16)
-        pad: int = height // 2
+        pad: int = height // 4
 
         scale = height / font.size
 
