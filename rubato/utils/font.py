@@ -13,7 +13,7 @@ class Font:
 
     Args:
         font: The font to use. Can also be a path to a font file. Defaults to Roboto.
-        size: The size of the font. Defaults to 16.
+        size: The size of the font in pixels. Defaults to 16.
         styles: The styles to apply to the font. Defaults to [].
             Fill with only the following: bold, italic, underline, strikethrough.
         color: The color of the font. Defaults to Color(0, 0, 0).
@@ -52,7 +52,7 @@ class Font:
             self._font_path = font
 
         try:
-            self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
+            self._font = sdl2.ext.FontTTF(self._font_path, str(self._size) + "px", self._color.to_tuple())
         except ValueError as e:
             raise FileNotFoundError(f"Font {font} cannot be found.") from e
 

@@ -394,7 +394,7 @@ class Draw:
             (pos[1] + (align[1] * tx.size[1] * scale[1]) / 2),
         )
         if shadow:
-            Draw.rect(center, tx.size[0] * scale[0], (tx.size[1] * scale[1]) - 2, fill=Color(a=200))
+            Draw.rect(center, tx.size[0] * scale[0], (font.size * scale[1]), fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 
