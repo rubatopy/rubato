@@ -184,7 +184,7 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
         """
-        x, y = width / 2, height / 2
+        x, y = round(width / 2), round(height / 2)
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
         Draw.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
