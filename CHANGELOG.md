@@ -8,13 +8,15 @@
 -   Removed all `delete` functions because they did nothing that was useful for memory management,
     which was their purpose.
 -   Removed `Sprite`, because `Surface` does the same thing.
--   `Display.update` and `Draw.text` now use center position like the rest of rubato
+-   `Display.update` and `Draw.text` now use center position like the rest of rubato.
+-   Removed `PressStart2P` font and replaced it with `Mozart`.
 
 ### Added
 
 -   `ParticleSystem`, which manages a system of `Particles`.
 -   `remove` functions where needed.
 -   `Surface.from_file()` as a replacement for `Sprite`.
+-   `shadow` option when drawing text.
 
 ### Changed
 
