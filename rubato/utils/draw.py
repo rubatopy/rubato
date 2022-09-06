@@ -391,10 +391,10 @@ class Draw:
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
         center = (
             (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2),
-            (pos[1] + (align[1] * tx.size[1] * scale[1]) / 2),
+            (pos[1] + (align[1] * font.size * scale[1]) / 2),
         )
         if shadow:
-            Draw.rect(center, tx.size[0] * scale[0], (font.size * scale[1]), fill=Color(a=200))
+            Draw.rect(center, tx.size[0] * scale[0], font.size * scale[1], fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 
