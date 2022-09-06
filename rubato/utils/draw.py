@@ -3,7 +3,6 @@ from __future__ import annotations
 from ctypes import c_int16
 from typing import TYPE_CHECKING, Optional, Callable
 import cython
-import math
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
@@ -292,7 +291,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
-        x_coords, y_coords = zip(*((round(coord[0]), round(coord[1])) for coord in points))
+        x_coords, y_coords = zip(*((int(coord[0]), int(coord[1])) for coord in points))
 
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)
@@ -395,8 +394,7 @@ class Draw:
             (pos[1] + (align[1] * tx.size[1] * scale[1]) / 2),
         )
         if shadow:
-            # Draw.rect(center, tx.size[0] * scale[0], tx.size[1] * scale[1], fill=Color(a=200))
-            Draw.rect(center, tx.size[0] * scale[0], math.ceil(tx.size[1] / 2) * scale[1], fill=Color(a=200))
+            Draw.rect(center, tx.size[0] * scale[0], (tx.size[1] * scale[1]) - 2, fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 
