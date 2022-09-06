@@ -344,6 +344,8 @@ class Draw:
         justify: str = "left",
         align: Vector | tuple[float, float] = (0, 0),
         width: int | float = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
+        shadow: bool = False,
         z_index: int = Math.INF
     ):
         """
@@ -356,9 +358,11 @@ class Draw:
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
+            scale: The scale of the text. Defaults to (1, 1).
+            shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width))
+        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow))
 
     @staticmethod
     def text(
@@ -369,6 +373,7 @@ class Draw:
         align: Vector | tuple[float, float] = (0, 0),
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
+        shadow: bool = False,
     ):
         """
         Draws some text onto the renderer immediately.
@@ -381,13 +386,13 @@ class Draw:
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
+            shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
-        Display.update(
-            tx,
-            (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2, pos[1] + (align[1] * tx.size[1] * scale[1]) / 2),
-            scale,
-        )
+        center = (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2, pos[1] + (align[1] * tx.size[1] * scale[1]) / 2)
+        if shadow:
+            Draw.rect(center, tx.size[0] * scale[0], tx.size[1] * scale[1], fill=Color(a=200))
+        Display.update(tx, center, scale)
         tx.destroy()
 
     @classmethod

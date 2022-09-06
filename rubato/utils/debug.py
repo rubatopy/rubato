@@ -3,7 +3,7 @@ A set of utility functions to help with debugging.
 """
 import sys, traceback
 
-from . import PrintError, Display, Time, Draw, Vector, Font, InitError, Color
+from . import PrintError, Display, Time, Draw, Vector, Font, InitError
 
 
 # THIS IS A STATIC CLASS
@@ -24,19 +24,19 @@ class Debug:
         Args:
             font: The font to use.
         """
-        fps = str(Time.smooth_fps)
-        h = int(Display.res.y) >> 5  # 1/32 of the screen height
-        p = h // 2  # distance from edge to start of text and half font size (scaled)
-        scale = h / font.size  # scale to get the text to the right size
-        center = Vector(p + (len(fps) * p), 2 * p)
-        Draw.rect(center, (len(fps) * h) + p, h + p, fill=Color(a=200))
+        height: int = int(Display.res.y / 16)
+        pad: int = height // 2
+
+        scale = height / font.size
+
         Draw.text(
-            fps,
+            str(Time.smooth_fps),
             font=font,
-            pos=center,
-            align=Vector(0, 0),
+            pos=(pad, pad),
+            align=Vector(1, 1),
             justify="center",
             scale=(scale, scale),
+            shadow=True,
         )
 
     @staticmethod
