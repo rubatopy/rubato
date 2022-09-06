@@ -233,21 +233,21 @@ class Draw:
         if fill:
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(center[0]),
-                int(center[1]),
-                int(radius),
+                round(center[0]),
+                round(center[1]),
+                round(radius),
                 fill.r,
                 fill.g,
                 fill.b,
                 fill.a,
             )
 
-        for i in range(int(border_thickness)):
+        for i in range(round(border_thickness)):
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(center[0]),
-                int(center[1]),
-                int(radius) + i,
+                round(center[0]),
+                round(center[1]),
+                round(radius) + i,
                 border.r,
                 border.g,
                 border.b,
@@ -291,7 +291,7 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
         """
-        x_coords, y_coords = zip(*((int(coord[0]), int(coord[1])) for coord in points))
+        x_coords, y_coords = zip(*((round(coord[0]), round(coord[1])) for coord in points))
 
         vx = (c_int16 * len(x_coords))(*x_coords)
         vy = (c_int16 * len(y_coords))(*y_coords)

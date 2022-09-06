@@ -125,7 +125,7 @@ class Surface:
             color: The color of the point. Defaults to black.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = int(pos[0]), int(pos[1])
+        x, y = round(pos[0]), round(pos[1])
         c_draw.set_pixel(self._surf.pixels, self._surf.w, self._surf.h, x, y, color.rgba32(), blending)
         self.uptodate = False
 
@@ -149,8 +149,8 @@ class Surface:
             thickness: The thickness of the line. Defaults to 1.
             blending: Whether to use blending. Defaults to False.
         """
-        sx, sy = int(start[0]), int(start[1])
-        ex, ey = int(end[0]), int(end[1])
+        sx, sy = round(start[0]), round(start[1])
+        ex, ey = round(end[0]), round(end[1])
         c_draw.draw_line(
             self._surf.pixels, self._surf.w, self._surf.h, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
@@ -176,8 +176,8 @@ class Surface:
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = int(top_left[0]), int(top_left[1])
-        w, h = int(dims[0]), int(dims[1])
+        x, y = round(top_left[0]), round(top_left[1])
+        w, h = round(dims[0]), round(dims[1])
         c_draw.draw_rect(
             self._surf.pixels,
             self._surf.w,
@@ -215,7 +215,7 @@ class Surface:
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = int(center[0]), int(center[1])
+        x, y = round(center[0]), round(center[1])
         c_draw.draw_circle(
             self._surf.pixels,
             self._surf.w,
@@ -274,7 +274,7 @@ class Surface:
         Returns:
             The color of the pixel.
         """
-        x, y = int(pos[0]), int(pos[1])
+        x, y = round(pos[0]), round(pos[1])
         if 0 <= x < self._surf.w and 0 <= y < self._surf.h:
             return Color.from_rgba32(c_draw.get_pixel(self._surf.pixels, self._surf.w, self._surf.h, x, y))
         else:

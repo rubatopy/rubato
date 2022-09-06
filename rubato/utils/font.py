@@ -96,7 +96,7 @@ class Font:
             The surface containing the text.
         """
         try:
-            return self._font.render_text(text, width=None if width <= 0 else int(width), align=align)
+            return self._font.render_text(text, width=None if width <= 0 else round(width), align=align)
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e
         except OSError as e:

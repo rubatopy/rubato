@@ -251,7 +251,7 @@ class Polygon(Hitbox):
     def redraw(self):
         super().redraw()
 
-        r = int(self.radius * self.scale * 2)
+        r = round(self.radius * self.scale * 2)
         if r != self._image.width:
             self._image = Surface(r, r)
             self._debug_image = Surface(r, r)
@@ -508,8 +508,8 @@ class Rectangle(Hitbox):
     def redraw(self):
         super().redraw()
 
-        w = int(self.width * self.scale)
-        h = int(self.height * self.scale)
+        w = round(self.width * self.scale)
+        h = round(self.height * self.scale)
         if w != self._image.width or h != self._image.height:
             self._image = Surface(w, h)
             self._debug_image = Surface(w, h)
@@ -614,7 +614,7 @@ class Circle(Hitbox):
     def redraw(self):
         super().redraw()
 
-        int_r = int(self.radius * self.scale)
+        int_r = round(self.radius * self.scale)
         center = (int_r, int_r)
         size = int_r * 2 + 1
 
