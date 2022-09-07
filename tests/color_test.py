@@ -119,7 +119,10 @@ def test_random_defaults(monkeypatch):
         c = Color.random_default()
         assert c.to_tuple()[:-1] in list(Color._color_defaults.values())
     for _ in range(10):
-        c = Color.random_default(True)
+        c = Color.random_default(0)
+        assert c.to_tuple()[:-1] in list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values())
+    for _ in range(10):
+        c = Color.random_default(1)
         assert c.to_tuple()[:-1] in list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values())
 
 
