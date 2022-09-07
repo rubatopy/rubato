@@ -85,9 +85,9 @@ class Time:
         raise InitError(self)
     @classmethod
     @property
-    def delta_time(self) -> float:
+    def delta_time(cls) -> float:
         """The number of seconds between the last frame and the current frame."""
-        return self._delta_time
+        return cls._delta_time
     @classmethod
     @property
     def smooth_fps(cls) -> int:
