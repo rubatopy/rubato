@@ -389,12 +389,13 @@ class Draw:
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
+        w, h = tx.size[0] * scale[0], font.size * scale[1]
         center = (
-            (pos[0] + (align[0] * tx.size[0] * scale[0]) / 2),
-            (pos[1] + (align[1] * font.size * scale[1]) / 2),
+            pos[0] + (align[0] * w) / 2,
+            pos[1] + (align[1] * h) / 2,
         )
         if shadow:
-            Draw.rect(center, tx.size[0] * scale[0], font.size * scale[1], fill=Color(a=200))
+            Draw.rect(center, w, h, fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 
