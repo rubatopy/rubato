@@ -33,7 +33,7 @@ jobs:
                   pip install `grep -v '^\[' rubato.egg-info/requires.txt`
 
             - name: Build Docs
-              run: make docs-save
+              run: ./b docs save
 
             - name: Deploy to Netlify
               uses: nwtgck/actions-netlify@v1.2

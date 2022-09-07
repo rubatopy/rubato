@@ -71,7 +71,7 @@ jobs:
                   git submodule update --init --recursive
 
             - name: Run Unit Tests
-              run: make test
+              run: ./b test
 
     lint:
         name: Lint Code

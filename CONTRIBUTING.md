@@ -14,7 +14,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 Setting up your environment is easy. In a Bash shell, just run:
 
 ```shell
-make setup
+./b setup
 ```
 
 This will take a couple minutes the first time so be patient. Once this finishes, everything is ready to go!
@@ -22,7 +22,7 @@ This will take a couple minutes the first time so be patient. Once this finishes
 #### rubato is a Cython project. To compile the code, run:
 
 ```shell
-make build
+./b build
 ```
 
 ### To run tests
@@ -30,33 +30,14 @@ make build
 From the repository root, run:
 
 ```shell
-make test
+./b test
 ```
 
 This will run all the tests. There are also more make targets for specific tests.
 
-## Makefile documentation
+## Automation documentation
 
-```shell
-make all # Run all tests and linting
-make # same as make all
-make test # Run all tests
-make test-rub # Run tests that need Rubato initialized
-make test-sdl # Run tests that need SDL
-make test-no-rub # Run tests that don't need Rubato initialized
-make test-no-sdl # Run tests that don't need SDL
-make test-indiv # Run individual tests. Must specify test parameter. (e.g. make test-indiv test=test_foo)
-make lint # Run linting
-make demos # runs all demos for 3 seconds
-make docs-live # builds the documentation locally
-make docs-clear # clears the built docs
-make build # builds the project
-make rebuild # rebuilds the project (clears the build directory then builds)
-make watch # builds the project as you make changes
-make delete-bin # deletes the binary files
-make delete-c # deletes the c files
-make delete-build # undoes the build process
-```
+We have an automation script to help development. Run `./b --help` in a bash shell for more information.
 
 ## Suggest Improvements
 
