@@ -115,7 +115,7 @@ class PlayerController(Component):
         self.velocity = Vector()
 
     def update(self):
-        if Input.controller_button(Input.controllers - 1, 0) or Input.key_pressed("j"):
+        if Input.controller_button(Input.controllers - 1, 0) or Input.key_pressed("j") or Input.key_pressed("space"):
             shoot()
 
     def fixed_update(self):
