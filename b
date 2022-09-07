@@ -8,7 +8,7 @@ help_text() {
     then
         echo "Unknown argument: '$1'"
     else
-        echo "Usage: $0 [options]"
+        echo "Usage: ./b [options]"
         echo ""
         echo "Options:"
         echo "${tab}--help, -h: Show this help text"
@@ -36,18 +36,17 @@ help_text() {
 delete() {
     case $1 in
         bin|b)
-            cd rubato
+            echo "Deleting binary files..."
             find . -name "*.pyd" -type f -delete
             find . -name "*.so" -type f -delete
-            cd ..
             ;;
         c)
-            cd rubato
+            echo "Deleting c files..."
             find . -name "*.cpp" -not -name "cdraw.cpp" -type f -delete
             find . -name "*.c" -type f -delete
-            cd ..
             ;;
         *)
+            echo "Deleting build directory..."
             rm -rf build
             delete bin
             delete c
@@ -120,7 +119,7 @@ tests() {
 ogdir="$( pwd )"
 cd "$( dirname -- "$0" )"
 case $1 in
-    -h|--help)
+    --help|-h)
         help_text
         ;;
     build|b)
