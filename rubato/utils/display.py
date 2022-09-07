@@ -220,7 +220,12 @@ class Display(metaclass=_DisplayProperties):
 
         cls.renderer.copy(
             tx,
-            dstrect=(pos[0] - (x_dim if flipx else 0), pos[1], x_dim, tx.size[1] * abs(scale[1])),
+            dstrect=(
+                (pos[0] - (x_dim if flipx else 0)) - (tx.size[0] * scale[0]) / 2,
+                (pos[1] - (tx.size[1] * scale[1]) / 2),
+                x_dim,
+                tx.size[1] * abs(scale[1]),
+            ),
             angle=round(angle),
             flip=flip
         )

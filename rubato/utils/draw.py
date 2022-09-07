@@ -184,7 +184,7 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
         """
-        x, y = width / 2, height / 2
+        x, y = round(width / 2), round(height / 2)
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
         Draw.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
@@ -233,21 +233,21 @@ class Draw:
         if fill:
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(center[0]),
-                int(center[1]),
-                int(radius),
+                round(center[0]),
+                round(center[1]),
+                round(radius),
                 fill.r,
                 fill.g,
                 fill.b,
                 fill.a,
             )
 
-        for i in range(int(border_thickness)):
+        for i in range(round(border_thickness)):
             sdl2.sdlgfx.aacircleRGBA(
                 Display.renderer.sdlrenderer,
-                int(center[0]),
-                int(center[1]),
-                int(radius) + i,
+                round(center[0]),
+                round(center[1]),
+                round(radius) + i,
                 border.r,
                 border.g,
                 border.b,
@@ -344,6 +344,9 @@ class Draw:
         justify: str = "left",
         align: Vector | tuple[float, float] = (0, 0),
         width: int | float = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
+        shadow: bool = False,
+        shadow_pad: int = 0,
         z_index: int = Math.INF
     ):
         """
@@ -356,9 +359,12 @@ class Draw:
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
+            scale: The scale of the text. Defaults to (1, 1).
+            shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
+            shadow_pad: What padding to use for the shadow. Defaults to 0.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width))
+        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad))
 
     @staticmethod
     def text(
@@ -367,7 +373,10 @@ class Draw:
         pos: Vector | tuple[float, float] = (0, 0),
         justify: str = "left",
         align: Vector | tuple[float, float] = (0, 0),
-        width: int | float = 0
+        width: int | float = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
+        shadow: bool = False,
+        shadow_pad: int = 0,
     ):
         """
         Draws some text onto the renderer immediately.
@@ -379,9 +388,19 @@ class Draw:
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
+            scale: The scale of the text. Defaults to (1, 1).
+            shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
+            shadow_pad: What padding to use for the shadow. Defaults to 0.
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
-        Display.update(tx, (pos[0] + (align[0] - 1) * tx.size[0] / 2, pos[1] + (align[1] - 1) * tx.size[1] / 2))
+        w, h = tx.size[0] * scale[0], font.size * scale[1]
+        center = (
+            pos[0] + (align[0] * w) / 2,
+            pos[1] + (align[1] * h) / 2,
+        )
+        if shadow:
+            Draw.rect(center, w + shadow_pad, h + shadow_pad, fill=Color(a=200))
+        Display.update(tx, center, scale)
         tx.destroy()
 
     @classmethod
@@ -457,10 +476,6 @@ class Draw:
 
         if not surface.uptodate:
             surface.regen()
-
-        size = surface.get_size()
-
-        pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
 
         if camera is not None:
             pos = camera.transform(pos)
