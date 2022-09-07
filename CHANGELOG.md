@@ -24,6 +24,7 @@
 -   Renamed `Surface.generate_tx()` to `Surface.regen()`.
 -   Renamed `Animation.set_current_state()` to `Animation.set_state()`.
 -   Internally use `round()` more often instead of `int()` to avoid rounding errors.
+-   `button` attribute of mouse events is now an integer instead of a string to be consistent.
 
 ### Removed
 

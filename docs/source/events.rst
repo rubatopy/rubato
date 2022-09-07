@@ -61,7 +61,7 @@ Each event gives a dictionary with the following information:
 .. code-block:: python
 
     {
-        "button": str,
+        "button": int,
         "x": int,
         "y": int,
         "clicks": int,
