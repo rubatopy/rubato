@@ -3,11 +3,33 @@
 
 
 help_text() {
+    tab="    "
     if [ $# -ne 0 ]
     then
         echo "Unknown argument: '$1'"
     else
         echo "Usage: $0 [options]"
+        echo ""
+        echo "Options:"
+        echo "${tab}--help, -h: Show this help text"
+        echo "${tab}build, b: Build the project"
+        echo "${tab}${tab}force: Force a rebuild"
+        echo "${tab}demo, dem: Run the demos"
+        echo "${tab}delete, del: Delete the build directory"
+        echo "${tab}${tab}bin, b: Delete the binary files"
+        echo "${tab}${tab}c: Delete the c files"
+        echo "${tab}docs, doc: Start a live server of the documentation"
+        echo "${tab}${tab}clear, c: Clear the documentation build directory"
+        echo "${tab}${tab}save, s: Save the documentation build directory"
+        echo "${tab}lint, l: Run the linter"
+        echo "${tab}test, t: Run the testing flow"
+        echo "${tab}${tab}build, b: Build the project for testing"
+        echo "${tab}${tab}quick, q: Run the tests without force rebuilding"
+        echo "${tab}${tab}test, t: Run the tests without building"
+        echo "${tab}setup, s: Setup the project"
+        echo "${tab}precommit, pre: Run the precommit script"
+        echo "${tab}pypi: Build the project for pypi"
+        echo "${tab}publish-wheel, publish: Build and publish the wheel to pypi"
     fi
 }
 
@@ -104,7 +126,7 @@ case $1 in
     build|b)
         build $2
         ;;
-    demo|demos|dem)
+    demo|dem)
         ./b b
         cd demos
         ./_run_all.sh
@@ -133,7 +155,7 @@ case $1 in
         pip install --editable .[docs]
         build f
         ;;
-    precommit|pc|pre|p)
+    precommit|pre)
         ./b doc s
         ./b lint
         echo "Building rubato..."
@@ -147,7 +169,7 @@ case $1 in
         rm -rf dist
         python -m build
         ;;
-    publish-wheel|publish|pub)
+    publish-wheel|publish)
         rm -rf dist
         pip install twine
         python -m build
