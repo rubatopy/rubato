@@ -346,6 +346,7 @@ class Draw:
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
+        shadow_pad: int = 0,
         z_index: int = Math.INF
     ):
         """
@@ -360,9 +361,10 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
+            shadow_pad: What padding to use for the shadow. Defaults to 0.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
         """
-        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow))
+        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad))
 
     @staticmethod
     def text(
@@ -374,6 +376,7 @@ class Draw:
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
+        shadow_pad: int = 0,
     ):
         """
         Draws some text onto the renderer immediately.
@@ -387,6 +390,7 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
+            shadow_pad: What padding to use for the shadow. Defaults to 0.
         """
         tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
         w, h = tx.size[0] * scale[0], font.size * scale[1]
@@ -395,7 +399,7 @@ class Draw:
             pos[1] + (align[1] * h) / 2,
         )
         if shadow:
-            Draw.rect(center, w, h, fill=Color(a=200))
+            Draw.rect(center, w + shadow_pad, h + shadow_pad, fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 

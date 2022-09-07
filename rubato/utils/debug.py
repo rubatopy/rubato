@@ -1,7 +1,7 @@
 """
 A set of utility functions to help with debugging.
 """
-import sys, traceback
+import sys, traceback, math
 
 from . import PrintError, Display, Time, Draw, Vector, Font, InitError
 
@@ -24,8 +24,8 @@ class Debug:
         Args:
             font: The font to use.
         """
-        height: int = int(Display.res.y / 32)
-        pad: int = height // 4
+        pad: int = math.ceil(Display.res.y / 64)
+        height: int = pad * 2
 
         scale = height / font.size
 
@@ -37,6 +37,7 @@ class Debug:
             justify="center",
             scale=(scale, scale),
             shadow=True,
+            shadow_pad=pad,
         )
 
     @staticmethod
