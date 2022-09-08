@@ -189,22 +189,22 @@ class Color:
         return h, s, v, self.a / 255
 
     @staticmethod
-    def random_default(grayscale:int = -1) -> Color:
+    def random_default(grayscale: int = -1) -> Color:
         """
         Returns a random default Color.
 
         Args:
-            grayscale (int, optional): Whether to add grayscale colors -1 - no, 0 - yes, 1 - only. Defaults to -1,
-            (only default colors).
+            grayscale: Grayscale color option (-1 excludes, 0 includes, and 1 only chooses from grayscale colors).
+            Defaults to -1.
 
         Returns:
-            Color: A random default Color.
+            A random default Color.
         """
 
         return Color(
             *choice(
-                list(Color._color_defaults.values()) if grayscale <=0 else []
-                + list(Color._grayscale_defaults.values() if grayscale >= 0 else [])
+                list(Color._color_defaults.values()) if grayscale <= 0 else [] +
+                list(Color._grayscale_defaults.values() if grayscale >= 0 else [])
             )
         )
 

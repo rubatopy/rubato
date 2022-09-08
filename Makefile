@@ -1,7 +1,7 @@
 .PHONY: all build
 
 
-all: test lint demos
+all: test lint demos docs-test
 
 pre-commit:
 	@make docs-test
@@ -39,7 +39,7 @@ test-indiv: build-test
 
 lint: delete-bin
 	@echo "Linting Code"
-	@-pylint rubato 
+	@-pylint rubato
 	@-[ -d build ] && make build >/dev/null
 
 demos: build

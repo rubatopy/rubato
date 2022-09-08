@@ -28,7 +28,7 @@ def update():
 
 
 def handler(m_event):
-    if m_event["button"] == "mouse 1":
+    if m_event["button"] == 1:
         e = extra.clone()
         e.pos = V(m_event["x"], m_event["y"])
         s.add(e)
