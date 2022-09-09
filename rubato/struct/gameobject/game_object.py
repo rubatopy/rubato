@@ -256,4 +256,10 @@ class GameObject:
         return False
 
     def __repr__(self):
-        return f"{self.name} rubato.GameObject with {len(self.get_all(Component))} components at {hex(id(self))}"
+        return (
+            f"GameObject(name='{self.name}', pos={self.pos}, rotation={self.rotation}, z_index={self.z_index}, "
+            f"debug={self.debug}, active={self.active}, hidden={self.hidden})"
+        )
+
+    def __str__(self):
+        return f"<GameObject '{self.name}', with {len(self.get_all(Component))} components at {hex(id(self))}>"

@@ -99,7 +99,13 @@ class Component:
         return new
 
     def __repr__(self):
+        return (
+            f"Component(offset={self.offset}, rot_offset={self.rot_offset}, "
+            f"z_index={self.z_index}, hidden={self.hidden})"
+        )
+
+    def __str__(self):
         if hasattr(self, "gameobj"):
-            return f"{type(self).__name__} with game object {self.gameobj.name} at {hex(id(self))}"
+            return f"<{type(self).__name__} with GameObject '{self.gameobj.name}' at {hex(id(self))}>"
         else:
-            return f"{type(self).__name__} with no game object at {hex(id(self))}"
+            return f"<{type(self).__name__} with no GameObject at {hex(id(self))}>"

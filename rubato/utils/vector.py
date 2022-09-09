@@ -538,9 +538,6 @@ class Vector:
             return self.x <= other[0] and self.y <= other[1]
         return NotImplemented
 
-    def __str__(self) -> str:
-        return f"<{self.x}, {self.y}>"
-
     def __pow__(self, other: Any, mod) -> Vector:
         if isinstance(other, (int, float)):
             return Vector(pow(self.x, other, mod), pow(self.y, other, mod))
@@ -688,7 +685,10 @@ class Vector:
         return iter([self.x, self.y])
 
     def __repr__(self):
-        return f"rubato.Vector({self.x}, {self.y}) at {hex(id(self))}"
+        return f"Vector({self.x}, {self.y})"
+
+    def __str__(self) -> str:
+        return f"<{self.x}, {self.y}>"
 
     def __getitem__(self, index: int) -> int | float:
         if index == 0:
