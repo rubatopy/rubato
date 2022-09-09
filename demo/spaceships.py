@@ -54,7 +54,8 @@ class SpaceshipComp(Component):
             self.velocity + acceleration * Time.sec_to_milli(Time.delta_time), self.speed
         )
         self.gameobj.pos += self.velocity * Time.sec_to_milli(Time.delta_time)
-        if (new := self.gameobj.pos.clamp(Display.top_left, Display.bottom_right)) != self.gameobj.pos:
+        new = self.gameobj.pos.clamp(Display.top_left, Display.bottom_right)
+        if new != self.gameobj.pos:
             self.gameobj.pos = new
             self.velocity = Vector.from_radial(self.speed, self.gameobj.pos.dir_to(Display.center).angle)
             self.desired_direction = self.velocity.normalized()
