@@ -11,17 +11,13 @@ Please note we have a code of conduct, please follow it in all your interactions
 -   **Mac OS X:** To clang, install the XCode CLI with `xcode-select –install`.
 -   **Windows:** Get the Microsoft Build Tools [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/). You need the **MSVC** compiler, and the SDK for your Windows version. To download make using Chocolatey, go [here](https://stackoverflow.com/a/57042516).
 
-Setting up your environment is easy. In a bash, zsh, or powershell shell, just run:
+Setting up your environment is easy. In a bash shell just run:
 
 ```shell
 ./b setup
 ```
 
-If you are using powershell, you may also need to run:
-
-```powershell
-
-```
+On Windows you need to be using Git Bash or WSL.
 
 This will take a couple minutes the first time so be patient. Once this finishes, everything is ready to go!
 
