@@ -1,7 +1,12 @@
 .PHONY: all build
 
 
-all: test lint demos docs-test
+all:
+	@make test
+	@make lint
+	@make demos
+	@make delete-build
+	@make docs-test
 
 pre-commit:
 	@make docs-test

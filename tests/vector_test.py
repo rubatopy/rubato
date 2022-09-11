@@ -210,7 +210,7 @@ def test_inequalities():
 
 def test_str(v1):
     assert str(v1) == "<1.0, 1.0>"
-    assert "rubato.Vector(1.0, 1.0) at" in repr(v1)
+    assert repr(v1) == "Vector(1.0, 1.0)"
 
 
 def test_math(v1, v34):

@@ -54,16 +54,8 @@ player = rb.GameObject(name="Player", pos=rb.Display.center)
 player.add(rb.Circle(radius=20, color=rb.Color.red))
 player.add(PlayerController("Bob"))
 
-main_scene.add(
-    rb.wrap(
-        poly := rb.Polygon(
-            rb.Vector.poly(5, 50),
-            color=rb.Color.green,
-        ),
-        pos=rb.Display.center + rb.Vector(-30),
-        rotation=30
-    )
-)
+poly = rb.Polygon(rb.Vector.poly(5, 50), color=rb.Color.green)
+main_scene.add(rb.wrap(poly, pos=rb.Display.center + rb.Vector(-30), rotation=30))
 
 
 def update():

@@ -122,7 +122,7 @@ class Engine:
 
         if isinstance(hitbox_b, Circle):
             r = Engine._circle_polygon_test(hitbox_b, hitbox_a)
-            return None if r is None else r.flip()
+            return None if r is None else r._flip()
 
         return Engine._polygon_polygon_test(hitbox_a, hitbox_b)
 
@@ -161,7 +161,7 @@ class Engine:
             Engine.resolve(col)
 
         hitbox_a.on_collide(col)
-        hitbox_b.on_collide(col.flip())
+        hitbox_b.on_collide(col._flip())
 
     @staticmethod
     def _circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
@@ -321,11 +321,11 @@ class Engine:
 
 class Manifold:
     """
-    A class that represents information returned in a successful collision.
+    A class that represents information returned in collision callbacks.
 
     Args:
-        shape_a: The first shape involved in the collision.
-        shape_b: The second shape involved in the collision.
+        shape_a: The first shape involved in the collision (the reference shape).
+        shape_b: The second shape involved in the collision (the incident shape).
         penetration: The amount of penetration between the two shapes.
         normal: The normal of the collision.
     """
@@ -338,21 +338,23 @@ class Manifold:
         normal: Vector = Vector(),
     ):
         self.shape_a: Hitbox = shape_a
-        """A reference to the first shape."""
+        """The reference shape."""
         self.shape_b: Hitbox = shape_b
-        """A reference to the second shape."""
+        """The incident (colliding) shape."""
         self.penetration: float = penetration
         """The amount by which the colliders are intersecting."""
         self.normal: Vector = normal
         """The direction that would most quickly separate the two colliders."""
 
-    def __str__(self) -> str:
-        return f"Manifold <shape_a: {self.shape_a}, shape_b: {self.shape_b}, " + \
-            f"penetration: {self.penetration}, normal: {self.normal}>"
+    def __repr__(self) -> str:
+        return (
+            f"Manifold(shape_a={self.shape_a}, shape_b={self.shape_b}, penetration={self.penetration}, "
+            f"normal={self.normal})"
+        )
 
-    def flip(self) -> Manifold:
+    def _flip(self) -> Manifold:
         """
-        Flips the reference shape in a collision manifold
+        Flips the reference shape in a collision manifold and inverts the normal vector.
 
         Returns:
             A reference to self.

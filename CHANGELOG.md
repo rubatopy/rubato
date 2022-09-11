@@ -17,6 +17,7 @@
 -   `remove` functions where needed.
 -   `Surface.from_file()` as a replacement for `Sprite`.
 -   `shadow` option when drawing text.
+-   A few miscellaneous `str` and `repr` methods where most likely to be used.
 
 ### Changed
 
@@ -36,6 +37,7 @@
 
 -   Returned `NotImplemented` object instead of raising an error for vector math methods.
 -   FPS drawing correctly on smaller resolutions
+-   Some `repr` methods not returning a string capable of recreating the object.
 
 ## [v0.3.2] - August 28, 2022
 
