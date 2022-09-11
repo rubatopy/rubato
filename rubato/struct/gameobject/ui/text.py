@@ -150,7 +150,7 @@ class Text(Component):
             self._tx,
             camera.transform(self.true_pos() + (self.anchor - 1) * Vector(*self._tx.size) / 2),
             self.true_z(),
-            angle=int(self.true_rotation()),
+            angle=round(self.true_rotation()),
         )
 
     def clone(self) -> Text:

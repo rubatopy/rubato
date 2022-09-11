@@ -60,8 +60,7 @@ class Time:
 
     _next_queue: list[Callable] = []
 
-    delta_time: float = 0.001
-    """The number of seconds between the last frame and the current frame."""
+    _delta_time: float = 0.001
     fixed_delta: float = 0.1
     """The number of seconds since the last fixed update."""
     _normal_delta: float = 0
@@ -84,6 +83,12 @@ class Time:
 
     def __init__(self) -> None:
         raise InitError(self)
+
+    @classmethod
+    @property
+    def delta_time(cls) -> float:
+        """The number of seconds between the last frame and the current frame."""
+        return cls._delta_time
 
     @classmethod
     @property
@@ -118,7 +123,7 @@ class Time:
         while cls.now() == cls._frame_start:
             sdl2.SDL_Delay(1)
 
-        cls.delta_time = (cls.now() - cls._frame_start) / 1000
+        cls._delta_time = (cls.now() - cls._frame_start) / 1000
 
     @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):

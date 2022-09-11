@@ -116,18 +116,6 @@ class Radio:
                     },
                 )
             elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
-                button = None
-                if event.button.state == sdl2.SDL_BUTTON_LEFT:
-                    button = "mouse 1"
-                elif event.button.state == sdl2.SDL_BUTTON_MIDDLE:
-                    button = "mouse 2"
-                elif event.button.state == sdl2.SDL_BUTTON_RIGHT:
-                    button = "mouse 3"
-                elif event.button.state == sdl2.SDL_BUTTON_X1:
-                    button = "mouse 4"
-                elif event.button.state == sdl2.SDL_BUTTON_X2:
-                    button = "mouse 5"
-
                 if event.type == sdl2.SDL_MOUSEBUTTONUP:
                     event_name = Events.MOUSEUP
                 else:
@@ -136,7 +124,7 @@ class Radio:
                 cls.broadcast(
                     event_name,
                     {
-                        "button": button,
+                        "button": event.button.button,
                         "x": event.button.x,
                         "y": event.button.y,
                         "clicks": event.button.clicks,
@@ -151,7 +139,6 @@ class Radio:
                     {
                         "x": event.wheel.x,
                         "y": event.wheel.y,
-                        # "direction": event.wheel.direction,
                         "precise x": event.wheel.preciseX,
                         "precise y": event.wheel.preciseY,
                         "which": event.wheel.which,

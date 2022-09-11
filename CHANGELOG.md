@@ -8,18 +8,24 @@
 -   Removed all `delete` functions because they did nothing that was useful for memory management,
     which was their purpose.
 -   Removed `Sprite`, because `Surface` does the same thing.
+-   `Display.update` and `Draw.text` now use center position like the rest of rubato.
+-   Removed `PressStart2P` font and replaced it with `Mozart`.
 
 ### Added
 
 -   `ParticleSystem`, which manages a system of `Particles`.
--   `remove` functions where needed. (will add Component specific niceties in following releases).
+-   `remove` functions where needed.
 -   `Surface.from_file()` as a replacement for `Sprite`.
+-   `shadow` option when drawing text.
+-   A few miscellaneous `str` and `repr` methods where most likely to be used.
 
 ### Changed
 
 -   Made `Animation.anim_frame()` a function instead of a property method.
 -   Renamed `Surface.generate_tx()` to `Surface.regen()`.
 -   Renamed `Animation.set_current_state()` to `Animation.set_state()`.
+-   Internally use `round()` more often instead of `int()` to avoid rounding errors.
+-   `button` attribute of mouse events is now an integer instead of a string to be consistent.
 
 ### Removed
 
@@ -30,6 +36,8 @@
 ### Fixed
 
 -   Returned `NotImplemented` object instead of raising an error for vector math methods.
+-   FPS drawing correctly on smaller resolutions
+-   Some `repr` methods not returning a string capable of recreating the object.
 
 ## [v0.3.2] - August 28, 2022
 

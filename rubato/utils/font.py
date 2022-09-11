@@ -2,6 +2,7 @@
 from typing import Literal
 import sdl2, sdl2.sdlttf, sdl2.ext
 from importlib.resources import files
+import ctypes
 
 from . import Color
 
@@ -12,7 +13,7 @@ class Font:
 
     Args:
         font: The font to use. Can also be a path to a font file. Defaults to Roboto.
-        size: The size of the font. Defaults to 16.
+        size: The size of the font in pixels. Defaults to 16.
         styles: The styles to apply to the font. Defaults to [].
             Fill with only the following: bold, italic, underline, strikethrough.
         color: The color of the font. Defaults to Color(0, 0, 0).
@@ -24,7 +25,7 @@ class Font:
         "Merriweather": "Merriweather-Regular.ttf",
         "Roboto": "Roboto-Regular.ttf",
         "SourceCodePro": "SourceCodePro-Regular.ttf",
-        "PressStart": "PressStart2P-Regular.ttf",
+        "Mozart": "Mozart-Regular.ttf",
     }
 
     _text_styles = {
@@ -36,7 +37,7 @@ class Font:
 
     def __init__(
         self,
-        font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "PressStart"] = "Roboto",
+        font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "Mozart"] = "Roboto",
         size: int = 16,
         styles: list[str] = [],
         color: Color = Color(0, 0, 0),
@@ -51,7 +52,7 @@ class Font:
             self._font_path = font
 
         try:
-            self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
+            self._font = sdl2.ext.FontTTF(self._font_path, str(self._size) + "px", self._color.to_tuple())
         except ValueError as e:
             raise FileNotFoundError(f"Font {font} cannot be found.") from e
 
@@ -95,11 +96,25 @@ class Font:
             The surface containing the text.
         """
         try:
-            return self._font.render_text(text, width=None if width <= 0 else int(width), align=align)
+            return self._font.render_text(text, width=None if width <= 0 else round(width), align=align)
         except RuntimeError as e:
             raise ValueError(f"The width {width} is too small for the text.") from e
         except OSError as e:
             raise ValueError(f"The size {self._size} is too big for the text.") from e
+
+    def size_text(self, text: str) -> tuple[int, int]:
+        """
+        Calculated the dimensions of a string of text using a given font.
+
+        Args:
+            text: The string of text to calculate dimensions for.
+
+        Returns:
+            The dimensions of the string.
+        """
+        text_w, text_h = ctypes.c_int(0), ctypes.c_int(0)
+        sdl2.sdlttf.TTF_SizeText(self._font.get_ttf_font(), text.encode(), ctypes.byref(text_w), ctypes.byref(text_h))
+        return (text_w.value, text_h.value)
 
     def add_style(self, style: str):
         """

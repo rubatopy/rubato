@@ -174,6 +174,8 @@ class ParticleSystem(Component):
 
     def gen_particle(self, angle: float):
         part = self.new_particle(angle)
+        if part is None:
+            raise ValueError("new_particle must return a Particle.")
         if not self.local_space:
             part._system_rotation = self.true_rotation()
             part._system_pos = self.true_pos().clone()

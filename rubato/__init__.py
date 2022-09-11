@@ -103,9 +103,7 @@ def init(
 
     Display.hidden = hidden
 
-    Game.debug_font = Font(
-        size=int(Display.res.y) >> 5 if Display.res.y > 0 else 1, font="PressStart", color=Color.cyan
-    )
+    Game.debug_font = Font(size=22, font="Mozart", color=Color.cyan)
 
 
 def begin():

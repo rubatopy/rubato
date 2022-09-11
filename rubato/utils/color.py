@@ -189,20 +189,22 @@ class Color:
         return h, s, v, self.a / 255
 
     @staticmethod
-    def random_default(grayscale=False) -> Color:
+    def random_default(grayscale: int = -1) -> Color:
         """
         Returns a random default Color.
 
         Args:
-            grayscale (bool, optional): Whether to add grayscale colors. Defaults to False.
+            grayscale: Grayscale color option (-1 excludes, 0 includes, and 1 only chooses from grayscale colors).
+            Defaults to -1.
 
         Returns:
-            Color: A random default Color.
+            A random default Color.
         """
 
         return Color(
             *choice(
-                list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values() if grayscale else [])
+                list(Color._color_defaults.values()) if grayscale <= 0 else [] +
+                list(Color._grayscale_defaults.values() if grayscale >= 0 else [])
             )
         )
 
@@ -440,8 +442,8 @@ class Color:
         """
         return Color(self.r, self.g, self.b, self.a)
 
-    def __str__(self):
-        return str(f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})")
+    def __repr__(self):
+        return f"Color(r={self.r}, g={self.g}, b={self.b}, a={self.a})"
 
     def __eq__(self, other: Color) -> bool:
         if isinstance(other, Color):
