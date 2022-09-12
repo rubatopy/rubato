@@ -50,6 +50,7 @@ delete() {
             rm -rf build
             delete bin
             delete c
+            ;;
     esac
 }
 
