@@ -148,7 +148,7 @@ class Text(Component):
 
         Draw.queue_texture(
             self._tx,
-            camera.transform(self.true_pos() + (self.anchor - 1) * Vector(*self._tx.size) / 2),
+            camera.transform(self.true_pos() + self.anchor * Vector(*self._tx.size) / 2),
             self.true_z(),
             angle=round(self.true_rotation()),
         )
