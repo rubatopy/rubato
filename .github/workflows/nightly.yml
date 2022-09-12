@@ -30,7 +30,7 @@ jobs:
                   ./b delete
 
             - name: Build Docs
-              run: ./b docs save
+              run: ./b docs -s
 
             - name: Prep files for transfer
               run: |
