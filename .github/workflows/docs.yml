@@ -45,7 +45,7 @@ jobs:
                   enable-pull-request-comment: true
                   enable-commit-comment: false
                   overwrites-pull-request-comment: true
-                  alias: ${{ github.ref }}
+                  alias: ${{ github.head_commit }}
                   github-deployment-environment: Preview-${{ github.ref }}
                   github-deployment-description: "Preview build for ${{ github.ref }}"
               env:
