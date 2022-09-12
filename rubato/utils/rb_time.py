@@ -202,14 +202,14 @@ class Time:
         return milli / 1000
 
     @classmethod
-    def sec_to_milli(cls, sec: float | int) -> float | int:
+    def sec_to_milli(cls, sec: float | int) -> int:
         """
         Converts seconds to milliseconds.
 
         Returns:
             The converted number in milliseconds.
         """
-        return sec * 1000
+        return int(sec * 1000)
 
     @classmethod
     def process_calls(cls):
