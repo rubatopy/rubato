@@ -21,9 +21,9 @@ help_text() {
         echo "${tab}${tab}--bin, -b: Delete only the binary files"
         echo "${tab}${tab}--cython, -c: Delete only the C/C++ files"
         echo "${tab}docs, doc:"
-        echo "${tab}${tab}--live, -l: Start a local server hosting the documentation (default)"
+        echo "${tab}${tab}--save, -s: Build and save the documentation (default)"
+        echo "${tab}${tab}--live, -l: Start a local server hosting the documentation"
         echo "${tab}${tab}--clear, -c: Clear the documentation build directory"
-        echo "${tab}${tab}--save, -s: Build once and save instead of hosting"
         echo "${tab}lint, l: Run linting on rubato"
         echo "${tab}test, t:"
         echo "${tab}${tab}--test, -t: Run the rubato test suite (default)"
@@ -87,20 +87,20 @@ doc() {
             rm -rf build
             cd ..
             ;;
-        --save|-s)
+        --live|-l)
+            ./b del -b
+            ./b doc -c
+            cd docs
+            sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../rubato
+            cd ..
+            echo -e $endmsg
+            ;;
+        *|--save|-s)
             ./b del -b
             ./b doc -c
             cd docs
             python -m $SPHINXBUILD -W --keep-going -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
             touch build/html/_modules/robots.txt
-            cd ..
-            echo -e $endmsg
-            ;;
-        *|--live|-l)
-            ./b del -b
-            ./b doc -c
-            cd docs
-            sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../rubato
             cd ..
             echo -e $endmsg
             ;;
@@ -181,7 +181,7 @@ case $1 in
         ;;
     precommit|pre)
         ./b del
-        ./b doc s
+        ./b doc
         ./b l
         echo "Building rubato..."
         ./b t -b >/dev/null
