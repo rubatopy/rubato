@@ -1,4 +1,4 @@
-name: Build
+name: Test Suite
 
 on: [push]
 
@@ -30,7 +30,7 @@ jobs:
               run: |
                   cd demo
                   ./_run_all.sh
-    test:
+    unittest:
         name: ${{ matrix.os }} (Python ${{ matrix.python-version }})
         runs-on: ${{ matrix.os }}
 

@@ -1,4 +1,4 @@
-name: Manually Publish to PyPi
+name: Manually Publish to TestPyPi
 
 on:
     workflow_dispatch:
@@ -7,17 +7,6 @@ on:
                 required: true
                 type: string
                 description: Version Number (ex. 1.2.3.dev4)
-            pypiRepo:
-                required: true
-                type: choice
-                options:
-                    - main
-                    - test
-                description: PyPi Repo
-            publishPassword:
-                required: true
-                type: string
-                description: Password
 
 jobs:
     publisher:
@@ -46,19 +35,7 @@ jobs:
             - name: Build
               run: python -m build && rm -rf **/*.whl
 
-            - name: Assign variable
-              id: secret
-              run: echo '::set-output name=secret::${{secrets.publishPassword}}'
-
-            - name: Publish to PyPI
-              if: ${{ inputs.publishPassword == steps.secret.outputs.secret && inputs.pypiRepo == 'main' }}
-              uses: pypa/gh-action-pypi-publish@release/v1
-              with:
-                  user: __token__
-                  password: ${{ secrets.PYPI_API_TOKEN }}
-
             - name: Publish to TestPyPI
-              if: ${{ inputs.publishPassword == steps.secret.outputs.secret && inputs.pypiRepo == 'test' }}
               uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
