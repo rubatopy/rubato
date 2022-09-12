@@ -144,6 +144,7 @@ case $1 in
         pylint rubato
         if [ -d build ]
         then
+            echo "Restoring binary files..."
             ./b b >/dev/null
         fi
         ;;
@@ -156,6 +157,7 @@ case $1 in
         build f
         ;;
     precommit|pre)
+        ./b del
         ./b doc s
         ./b l
         echo "Building rubato..."
