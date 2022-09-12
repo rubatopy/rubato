@@ -32,6 +32,7 @@
 -   `Animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
 -   Long deprecated mouse methods in `Input`
 -   `vector.distance_between` (use `Vector.dist_to()`).
+-   `camera` argument from some draw methods to be consistent.
 
 ### Fixed
 
