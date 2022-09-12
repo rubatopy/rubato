@@ -34,7 +34,8 @@ class PlayerController(rb.Component):
         self.hitbox: rb.Hitbox = rb.Circle(radius=20, color=rb.Color.red)
 
         # The text that is drawn to the screen, will use the game object's name in setup.
-        self.text: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20), anchor=rb.Vector(1,1))
+        self.text: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20))
+        self.text.offset = rb.Vector(0, -self.hitbox.radius - self.text.font_size / 2)
 
     def setup(self):
         """
