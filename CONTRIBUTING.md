@@ -11,52 +11,34 @@ Please note we have a code of conduct, please follow it in all your interactions
 -   **Mac OS X:** To clang, install the XCode CLI with `xcode-select –install`.
 -   **Windows:** Get the Microsoft Build Tools [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/). You need the **MSVC** compiler, and the SDK for your Windows version. To download make using Chocolatey, go [here](https://stackoverflow.com/a/57042516).
 
-Setting up your environment is easy. In a Bash shell, just run:
+Setting up your environment is easy. In a bash shell just run:
 
 ```shell
-make setup
+./b setup
 ```
+
+On Windows you need to be using Git Bash or WSL.
 
 This will take a couple minutes the first time so be patient. Once this finishes, everything is ready to go!
 
 #### rubato is a Cython project. To compile the code, run:
 
 ```shell
-make build
+./b build
 ```
 
 ### To run tests
 
-From the repository root, run:
+To run most major tests, run the following from the repository root:
 
 ```shell
-make test
+./b precommit
 ```
 
-This will run all the tests. There are also more make targets for specific tests.
+## Automation documentation
 
-## Makefile documentation
-
-```shell
-make all # Run all tests and linting
-make # same as make all
-make test # Run all tests
-make test-rub # Run tests that need Rubato initialized
-make test-sdl # Run tests that need SDL
-make test-no-rub # Run tests that don't need Rubato initialized
-make test-no-sdl # Run tests that don't need SDL
-make test-indiv # Run individual tests. Must specify test parameter. (e.g. make test-indiv test=test_foo)
-make lint # Run linting
-make demos # runs all demos for 3 seconds
-make docs-live # builds the documentation locally
-make docs-clear # clears the built docs
-make build # builds the project
-make rebuild # rebuilds the project (clears the build directory then builds)
-make watch # builds the project as you make changes
-make delete-bin # deletes the binary files
-make delete-c # deletes the c files
-make delete-build # undoes the build process
-```
+There are many more commands you can use to aid in testing, building, and releasing for rubato development.
+Run `./b --help` in a bash shell for more information.
 
 ## Suggest Improvements
 

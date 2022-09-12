@@ -105,10 +105,10 @@ jobs:
                   pip install Cython==3.0.0a11
                   python setup.py egg_info
                   pip install `grep -v '^\[' rubato.egg-info/requires.txt`
-                  make delete-build
+                  ./b delete
 
             - name: Build Docs
-              run: make docs-save
+              run: ./b docs
 
             - name: Prep files for transfer
               run: |
