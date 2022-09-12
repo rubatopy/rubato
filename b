@@ -157,7 +157,7 @@ case $1 in
         ;;
     precommit|pre)
         ./b doc s
-        ./b lint
+        ./b l
         echo "Building rubato..."
         ./b t b >/dev/null
         ./b t t
