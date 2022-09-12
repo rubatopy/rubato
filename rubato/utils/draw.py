@@ -6,7 +6,7 @@ import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math, InitError, Camera
+from . import Vector, Color, Font, Display, Math, InitError
 
 if TYPE_CHECKING:
     from ..struct import Surface
@@ -14,10 +14,10 @@ if TYPE_CHECKING:
 
 @cython.cclass
 class DrawTask:
-    priority: cython.int = cython.declare(cython.int, visibility="public")  # type: ignore
+    priority: int = cython.declare(int, visibility="public")  # type: ignore
     func: Callable = cython.declare(object, visibility="public")  # type: ignore
 
-    def __init__(self, priority: cython.int, func: Callable):  # type: ignore
+    def __init__(self, priority: int, func: Callable):
         self.priority = priority
         self.func = func
 
@@ -448,7 +448,6 @@ class Draw:
         surface: Surface,
         pos: Vector | tuple[float, float] = (0, 0),
         z_index: int = Math.INF,
-        camera: Camera | None = None
     ):
         """
         Draws an surface onto the renderer at the end of the frame.
@@ -457,12 +456,11 @@ class Draw:
             surface: The surface to draw.
             pos: The position to draw the surface at. Defaults to (0, 0).
             z_index: The z-index of the surface. Defaults to 0.
-            camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.surface(surface, pos, camera))
+        cls.push(z_index, lambda: cls.surface(surface, pos))
 
     @staticmethod
-    def surface(surface: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
+    def surface(surface: Surface, pos: Vector | tuple[float, float] = (0, 0)):
         """
         Draws an surface onto the renderer immediately.
 
@@ -476,8 +474,5 @@ class Draw:
 
         if not surface.uptodate:
             surface.regen()
-
-        if camera is not None:
-            pos = camera.transform(pos)
 
         Draw.texture(surface._tx, pos, surface.scale, surface.rotation)
