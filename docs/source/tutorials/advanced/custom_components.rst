@@ -19,23 +19,27 @@ Below is what this PlayerController component might look like.
 
     class PlayerController(rb.Component):
         """A custom component that adds player behavior to a GameObject."""
-        def __init__(self, name):
+
+        def __init__(self):
             """
             Here you set up all the variables of the component.
             """
-            super().__init__() # you must call super().__init__()
+            super().__init__()  # you must call super().__init__()
 
-            # Assign arguments to attributes
-            self.name = name
-
-            # Change any attributes inhertied from Component.
+            # Change any attributes inherited from Component.
             self.singular = True
-            self.offset = rb.Vector(0, 10)
+            self.offset = rb.Vector(0, 20)
 
             # Initialize any attributes that you want to use in your component.
             self.health = 100
             self.speed = 10
-            self.hitbox = None # We are going to get this later.
+
+            # The hitbox (circle) that is drawn to the screen
+            self.hitbox: rb.Hitbox = rb.Circle(radius=20, color=rb.Color.red)
+
+            # The text that is drawn to the screen, will use the game object's name in setup.
+            self.nametag: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20))
+            self.nametag.offset = rb.Vector(0, -self.hitbox.radius - self.nametag.font_size / 2)
 
         def setup(self):
             """
@@ -43,21 +47,34 @@ Below is what this PlayerController component might look like.
             on the GameObject.
             Automatically run once before the first update call.
             """
-            self.hitbox = self.gameobj.get(rb.Hitbox)
+            # once we have access to the game object, we can set the text to the game object's name.
+            self.nametag.text = self.gameobj.name
+
+            # here we need to add all of our components to the game object
+            self.gameobj.add(self.hitbox)
+            self.gameobj.add(self.nametag)
+
+            # subscribe to the mouse down event
+            rb.Radio.listen(rb.Events.MOUSEDOWN, self.on_mouse_press)
+
+        def on_mouse_press(self):
+            self.hitbox.color = rb.Color.random()
+            self.gameobj.pos = rb.world_mouse()
 
         def update(self):
             """
             Called once per frame. Before the draw function.
             """
-            if rb.Input.mouse_pressed():
-                self.hitbox.color = rb.Color.random()
-                self.gameobj.pos = rb.Input.get_mouse_pos()
+            if rb.Input.key_pressed("shift"):
+                self.nametag.hidden = False
+            else:
+                self.nametag.hidden = True
 
         def speak(self):
             """
             A custom function that can add even move behavior to your component.
             """
-            print(f"Hello! My name is {self.name}.")
+            print(f"Hello! My name is {self.gameobj.name}.")
 
 Next we will break down each section of the PlayerController component.
 
@@ -71,23 +88,26 @@ Custom components are created by inheriting from the Component class.
 
 .. code-block:: python
 
-    def __init__(self, name):
+    def __init__(self):
         """
         Here you set up all the variables of the component.
         """
-        super().__init__() # you must call super().__init__()
+        super().__init__()  # you must call super().__init__()
 
-        # Assign arguments to attributes
-        self.name = name
-
-        # Change any attributes inhertied from Component.
+        # Change any attributes inherited from Component.
         self.singular = True
-        self.offset = rb.Vector(0, 10)
+        self.offset = rb.Vector(0, 20)
 
         # Initialize any attributes that you want to use in your component.
         self.health = 100
         self.speed = 10
-        self.hitbox = None # We are going to get this later.
+
+        # The hitbox (circle) that is drawn to the screen
+        self.hitbox: rb.Hitbox = rb.Circle(radius=20, color=rb.Color.red)
+
+        # The text that is drawn to the screen, will use the game object's name in setup.
+        self.nametag: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20))
+        self.nametag.offset = rb.Vector(0, -self.hitbox.radius - self.nametag.font_size / 2)
 
 In the initalizer for your component, you must first call the ``super().__init__()`` function. This will setup the structure
 for the component and allow it to work with the rest of the rubato. This also give you access to the attributes in Components
@@ -105,11 +125,19 @@ will get it from the GameObject later.
         on the GameObject.
         Automatically run once before the first update call.
         """
-        self.hitbox = self.gameobj.get(rb.Hitbox)
+        # once we have access to the game object, we can set the text to the game object's name.
+        self.nametag.text = self.gameobj.name
+
+        # here we need to add all of our components to the game object
+        self.gameobj.add(self.hitbox)
+        self.gameobj.add(self.nametag)
+
+        # subscribe to the mouse down event
+        rb.Radio.listen(rb.Events.MOUSEDOWN, self.on_mouse_press)
 
 The setup function is the first time you get access to the GameObject of the component. This is where you should set any
-attributes that require knowledge of the GameObject. In our example, we set our hitbox attribute to the the hitbox of the
-GameObject.
+attributes that require knowledge of the GameObject. In our example, we set our name tags text. As well as adding our
+components to the game object.
 
 |
 
@@ -119,9 +147,10 @@ GameObject.
         """
         Called once per frame. Before the draw function.
         """
-        if rb.Input.mouse_pressed():
-            self.hitbox.color = rb.Color.random()
-            self.gameobj.pos = rb.Input.get_mouse_pos()
+        if rb.Input.key_pressed("shift"):
+            self.nametag.hidden = False
+        else:
+            self.nametag.hidden = True
 
 As you should know, components have a couple functions that can be overriden:
 ``setup``, ``update``, ``fixed_update``, ``draw``, ``delete`` and ``clone``. In these, you have access to every attribute
@@ -136,7 +165,7 @@ hitbox and move the player whenever the mouse is pressed.
         """
         A custom function that can add even move behavior to your component.
         """
-        print(f"Hello! My name is {self.name}.")
+        print(f"Hello! My name is {self.gameobj.name}.")
 
 The last thing to know about custom components is that you can define any functions you want. In our example, we are defining
 a speak function that prints a message to the console. This speak function can be called from inside the component, but it
