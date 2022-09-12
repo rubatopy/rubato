@@ -7,6 +7,7 @@ help_text() {
     if [ $# -ne 0 ]
     then
         echo "Unknown arguments: '$@'"
+        echo "Try './b --help' for more information."
     else
         echo "Usage: ./b [command] [flags]"
         echo ""
