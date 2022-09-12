@@ -4,7 +4,7 @@
 
 help_text() {
     tab="    "
-    if [ $# -ne 0 ]
+    if [[ $# -ne 0 ]]
     then
         echo "Unknown arguments: '$@'"
         echo "Try './b --help' for more information."
@@ -94,7 +94,7 @@ doc() {
             cd docs
             sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../rubato
             cd ..
-            if [ -d build ]
+            if [[ -d build ]]
             then
                 echo "Restoring binary files..."
                 ./b b >/dev/null
@@ -107,7 +107,7 @@ doc() {
             python -m $SPHINXBUILD -W --keep-going -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
             touch build/html/_modules/robots.txt
             cd ..
-            if [ -d build ]
+            if [[ -d build ]]
             then
                 echo "Restoring binary files..."
                 ./b b >/dev/null
@@ -172,7 +172,7 @@ case $1 in
         ./b del -b
         echo "Linting Code..."
         pylint rubato
-        if [ -d build ]
+        if [[ -d build ]]
         then
             echo "Restoring binary files..."
             ./b b >/dev/null
