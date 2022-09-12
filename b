@@ -22,12 +22,12 @@ help_text() {
         echo "${tab}${tab}clear, c: Clear the documentation build directory"
         echo "${tab}${tab}save, s: Build once and save instead of hosting"
         echo "${tab}lint, l: Run linting on rubato"
-        echo "${tab}test, t: Run the testing flow"
-        echo "${tab}${tab}build, b: Build the project for testing"
-        echo "${tab}${tab}quick, q: Run the tests without force rebuilding"
+        echo "${tab}test, t: Run the rubato test suite"
+        echo "${tab}${tab}build, b: Build rubato for testing without running tests"
+        echo "${tab}${tab}quick, q: Run the tests without forcing a rebuild"
         echo "${tab}${tab}test, t: Run the tests without building"
         echo "${tab}setup, s: Install all needed dependencies for developing rubato"
-        echo "${tab}precommit, pre: Run the precommit script"
+        echo "${tab}precommit, pre: Run the precommit script (run every common test)"
         echo "${tab}pypi: Build the project for pypi"
         echo "${tab}publish-wheel, publish: Build and publish the wheel to pypi"
     fi
@@ -161,7 +161,7 @@ case $1 in
         echo "Building rubato..."
         ./b t b >/dev/null
         ./b t t
-        cd demos
+        cd demo
         ./_run_all.sh
         cd ..
         ;;
