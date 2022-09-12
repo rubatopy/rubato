@@ -184,7 +184,7 @@ case $1 in
         ;;
     setup|s)
         git submodule update --init --recursive
-        pip install --editable .[dev,docs]
+        pip install --force-reinstall --editable .[dev,docs]
         build f
         ;;
     precommit|pre)
