@@ -467,7 +467,6 @@ class Draw:
         Args:
             surface: The surface to draw.
             pos: The position to draw the surface at. Defaults to (0, 0).
-            camera: The camera to use. Set to None to ignore the camera. Defaults to None.
         """
         if not surface._surf:
             return
