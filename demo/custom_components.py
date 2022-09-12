@@ -13,14 +13,11 @@ main_scene = rb.Scene()
 class PlayerController(rb.Component):
     """A custom component that adds player behavior to a GameObject."""
 
-    def __init__(self, name):
+    def __init__(self):
         """
         Here you set up all the variables of the component.
         """
         super().__init__()  # you must call super().__init__()
-
-        # Assign arguments to attributes
-        self.name = name
 
         # Change any attributes inherited from Component.
         self.singular = True
@@ -34,8 +31,8 @@ class PlayerController(rb.Component):
         self.hitbox: rb.Hitbox = rb.Circle(radius=20, color=rb.Color.red)
 
         # The text that is drawn to the screen, will use the game object's name in setup.
-        self.text: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20))
-        self.text.offset = rb.Vector(0, -self.hitbox.radius - self.text.font_size / 2)
+        self.nametag: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20))
+        self.nametag.offset = rb.Vector(0, -self.hitbox.radius - self.nametag.font_size / 2)
 
     def setup(self):
         """
@@ -44,11 +41,11 @@ class PlayerController(rb.Component):
         Automatically run once before the first update call.
         """
         # once we have access to the game object, we can set the text to the game object's name.
-        self.text.text = self.gameobj.name
+        self.nametag.text = self.gameobj.name
 
         # here we need to add all of our components to the game object
         self.gameobj.add(self.hitbox)
-        self.gameobj.add(self.text)
+        self.gameobj.add(self.nametag)
 
         # subscribe to the mouse down event
         rb.Radio.listen(rb.Events.MOUSEDOWN, self.on_mouse_press)
@@ -62,19 +59,19 @@ class PlayerController(rb.Component):
         Called once per frame. Before the draw function.
         """
         if rb.Input.key_pressed("shift"):
-            self.text.hidden = False
+            self.nametag.hidden = False
         else:
-            self.text.hidden = True
+            self.nametag.hidden = True
 
     def speak(self):
         """
         A custom function that can add even move behavior to your component.
         """
-        print(f"Hello! My name is {self.name}.")
+        print(f"Hello! My name is {self.gameobj.name}.")
 
 
-player = rb.GameObject(name="Player", pos=rb.Display.center)
-player.add(PlayerController("Bob"))
+player = rb.GameObject(name="Bob", pos=rb.Display.center)
+player.add(PlayerController())
 
 
 

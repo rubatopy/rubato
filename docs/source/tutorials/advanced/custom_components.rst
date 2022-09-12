@@ -10,9 +10,8 @@ used just like any other component. Below is an example of a custom component Pl
 
 .. code-block:: python
 
-    player = rb.GameObject("Player")
-    player.add(rb.Rectangle(width=20, height=20, color=rb.Color.red))
-    player.add(PlayerController("Bob"))
+    player = rb.GameObject(name="Bob", pos=rb.Display.center)
+    player.add(PlayerController())
 
 Below is what this PlayerController component might look like.
 
