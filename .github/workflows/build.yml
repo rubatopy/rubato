@@ -60,16 +60,6 @@ jobs:
                   pip install -e .[dev]
               shell: bash
 
-            - if: startsWith(matrix.os, 'ubuntu')
-              name: Install Dependencies
-              run: |
-                  pip install pysdl2-dll
-
-            - if: startsWith(matrix.os, 'windows')
-              name: Install Dependencies
-              run: |
-                  git submodule update --init --recursive
-
             - name: Run Unit Tests
               run: ./b test
 
