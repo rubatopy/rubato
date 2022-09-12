@@ -101,8 +101,8 @@ doc() {
 tests() {
     case $1 in
         build|b)
-            export CFLAGS=-DCYTHON_TRACE=1
-            TEST_MODE=1 python setup.py build_ext --force --inplace --define CYTHON_TRACE
+            delete c
+            CFLAGS=-DCYTHON_TRACE=1 TEST_MODE=1 python setup.py build_ext --force --inplace --define CYTHON_TRACE
             ;;
         quick|q)
             TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
