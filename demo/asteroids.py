@@ -20,21 +20,17 @@ for _ in range(200):
     stars.draw_point(pos, Color.white)
 
 
-# component to remove gameobject after number of seconds
 class Timer(Component):
 
     def __init__(self, secs: float):
         super().__init__()
-        self.time = Time.sec_to_milli(secs)
-        self.started = False
+        self.secs = secs
 
-    def update(self):
-        if not self.started:
-            self.time += Time.now()
-            self.started = True
+    def remove(self):
+        main.remove(self.gameobj)
 
-        if Time.now() >= self.time:
-            main.remove(self.gameobj)
+    def setup(self):
+        Time.delayed_call(Time.sec_to_milli(self.secs), self.remove)
 
 
 # explosion particle
@@ -113,10 +109,37 @@ class PlayerController(Component):
         self.steer = 25
 
         self.velocity = Vector()
+        self.interval = 200
+        self.allowed_to_shoot = True
+        self.gameobj.add(BoundsChecker())
 
     def update(self):
         if Input.controller_button(Input.controllers - 1, 0) or Input.key_pressed("j") or Input.key_pressed("space"):
-            shoot()
+            self.shoot()
+
+    def shoot(self):
+        if self.allowed_to_shoot:
+            main.add(
+                wrap(
+                    [
+                        Circle(radius // 5, Color.debug, trigger=True, on_collide=bullet_collide),
+                        RigidBody(
+                            velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
+                                500,
+                                player_spr.gameobj.rotation,
+                            )
+                        ),
+                        BoundsChecker(),
+                        Timer(0.75),
+                    ],
+                    "bullet",
+                    player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation),
+                    player_spr.gameobj.rotation,
+                )
+            )
+            self.allowed_to_shoot = False
+            Time.delayed_call(self.interval, lambda: setattr(self, "allowed_to_shoot", True))
+            # ^ could also use a class function
 
     def fixed_update(self):
         dx = Input.controller_axis(Input.controllers - 1, 0) or \
@@ -135,7 +158,7 @@ class PlayerController(Component):
         if target != (0, 0):
             self.gameobj.rotation = self.velocity.angle
 
-
+# player geometry, we cannot have concave polygons (yet), this gets the absolute hitbox.
 full = [
     Vector.from_radial(radius, 0),
     Vector.from_radial(radius, 125),
@@ -154,15 +177,11 @@ main.add(
             Polygon(right, trigger=True),
             Polygon(left, trigger=True),
             player_spr,
-            BoundsChecker(),
         ],
         "player",
         Display.center,
     )
 )
-
-last_shoot = 0
-interval = 200
 
 
 def bullet_collide(man: Manifold):
@@ -179,29 +198,6 @@ def bullet_collide(man: Manifold):
         main.add(local_expl)
 
 
-def shoot():
-    global last_shoot
-    if Time.now() - last_shoot < interval:
-        return
-    last_shoot = Time.now()
-    main.add(
-        wrap(
-            [
-                Circle(radius // 5, Color.debug, trigger=True, on_collide=bullet_collide),
-                RigidBody(
-                    velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
-                        500,
-                        player_spr.gameobj.rotation,
-                    )
-                ),
-                BoundsChecker(),
-                Timer(0.75),
-            ],
-            "bullet",
-            player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation),
-            player_spr.gameobj.rotation,
-        )
-    )
 
 
 def new_draw():

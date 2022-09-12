@@ -15,8 +15,8 @@ class PlayerController(rb.Component):
 
     def __init__(self, name):
         """
-            Here you set up all the variables of the component.
-            """
+        Here you set up all the variables of the component.
+        """
         super().__init__()  # you must call super().__init__()
 
         # Assign arguments to attributes
