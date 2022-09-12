@@ -8,25 +8,25 @@ help_text() {
     then
         echo "Unknown argument: '$1'"
     else
-        echo "Usage: ./b [options]"
+        echo "Usage: ./b [command] [flags]"
         echo ""
         echo "Options:"
-        echo "${tab}--help, -h: Show this help text"
-        echo "${tab}build, b: Build the project"
-        echo "${tab}${tab}force: Force a rebuild"
-        echo "${tab}demo, dem: Run the demos"
-        echo "${tab}delete, del: Delete the build directory"
-        echo "${tab}${tab}bin, b: Delete the binary files"
-        echo "${tab}${tab}c: Delete the c files"
-        echo "${tab}docs, doc: Start a live server of the documentation"
+        echo "${tab}help, --help, -h: Show this help manual"
+        echo "${tab}build, b: Cythonize and build rubato"
+        echo "${tab}${tab}force: Force rubato to rebuild"
+        echo "${tab}demo, dem: Run the demos in quick succession"
+        echo "${tab}delete, del: Delete rubato build files"
+        echo "${tab}${tab}bin, b: Delete only the binary files"
+        echo "${tab}${tab}c: Delete only the C/C++ files"
+        echo "${tab}docs, doc: Start a local server hosting the documentation"
         echo "${tab}${tab}clear, c: Clear the documentation build directory"
-        echo "${tab}${tab}save, s: Save the documentation build directory"
-        echo "${tab}lint, l: Run the linter"
+        echo "${tab}${tab}save, s: Build once and save instead of hosting"
+        echo "${tab}lint, l: Run linting on rubato"
         echo "${tab}test, t: Run the testing flow"
         echo "${tab}${tab}build, b: Build the project for testing"
         echo "${tab}${tab}quick, q: Run the tests without force rebuilding"
         echo "${tab}${tab}test, t: Run the tests without building"
-        echo "${tab}setup, s: Setup the project"
+        echo "${tab}setup, s: Install all needed dependencies for developing rubato"
         echo "${tab}precommit, pre: Run the precommit script"
         echo "${tab}pypi: Build the project for pypi"
         echo "${tab}publish-wheel, publish: Build and publish the wheel to pypi"
@@ -101,7 +101,8 @@ doc() {
 tests() {
     case $1 in
         build|b)
-            CFLAGS=-DCYTHON_TRACE=1 TEST_MODE=1 python setup.py build_ext --force --inplace --define CYTHON_TRACE
+            export CFLAGS=-DCYTHON_TRACE=1
+            TEST_MODE=1 python setup.py build_ext --force --inplace --define CYTHON_TRACE
             ;;
         quick|q)
             TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
@@ -120,7 +121,7 @@ tests() {
 ogdir="$( pwd )"
 cd "$( dirname -- "$0" )"
 case $1 in
-    --help|-h)
+    help|--help|-h)
         help_text
         ;;
     build|b)
@@ -170,7 +171,6 @@ case $1 in
         ;;
     publish-wheel|publish)
         rm -rf dist
-        pip install twine
         python -m build
         python -m twine upload dist/*.whl
         ;;
