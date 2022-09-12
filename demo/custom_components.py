@@ -30,10 +30,19 @@ class PlayerController(rb.Component):
         self.health = 100
         self.speed = 10
 
-        self.hitbox: rb.Hitbox  # we are going to get this later
+        self.hitbox: rb.Hitbox = rb.Circle(radius=20, color=rb.Color.red)
+
+        self.text: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20), anchor=rb.Vector(1,1))
 
     def setup(self):
-        self.hitbox = self.gameobj.get(rb.Hitbox)
+        """
+        Here you have access to the GameObject of the component and is where you should set any variables that depend
+        on the GameObject.
+        Automatically run once before the first update call.
+        """
+        self.gameobj.add(self.hitbox)
+        self.text.text = self.gameobj.name
+        self.gameobj.add(self.text)
 
     def update(self):
         """
@@ -42,6 +51,11 @@ class PlayerController(rb.Component):
         if rb.Input.mouse_pressed():
             self.hitbox.color = rb.Color.random()
             self.gameobj.pos = rb.world_mouse()
+        if rb.Input.key_pressed("shift"):
+            self.text.hidden = False
+        else:
+            # self.text.hidden = True
+            pass
 
     def speak(self):
         """
@@ -51,18 +65,9 @@ class PlayerController(rb.Component):
 
 
 player = rb.GameObject(name="Player", pos=rb.Display.center)
-player.add(rb.Circle(radius=20, color=rb.Color.red))
 player.add(PlayerController("Bob"))
+player.add(rb.Circle(radius=3, color=rb.Color.green, z_index=3))
 
-poly = rb.Polygon(rb.Vector.poly(5, 50), color=rb.Color.green)
-main_scene.add(rb.wrap(poly, pos=rb.Display.center + rb.Vector(-30), rotation=30))
-
-
-def update():
-    poly.color = rb.Color.red if poly.contains_pt(rb.world_mouse()) else rb.Color.green
-
-
-rb.Game.update = update
 
 main_scene.add(player)
 rb.begin()
