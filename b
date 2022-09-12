@@ -4,7 +4,7 @@
 
 help_text() {
     tab="    "
-    if [ $# -ne 0 ]
+    if [[ $# -ne 0 ]]
     then
         echo "Unknown arguments: '$@'"
         echo "Try './b --help' for more information."
@@ -18,6 +18,7 @@ help_text() {
         echo "${tab}demo, dem: Run the demos in quick succession"
         echo "${tab}delete, del:"
         echo "${tab}${tab}--all, -a: Delete all rubato build files (default)"
+        echo "${tab}${tab}--dir, -d: Delete only the build directory"
         echo "${tab}${tab}--bin, -b: Delete only the binary files"
         echo "${tab}${tab}--cython, -c: Delete only the C/C++ files"
         echo "${tab}docs, doc:"
@@ -49,11 +50,12 @@ delete() {
             find . -name "*.cpp" -not -name "cdraw.cpp" -type f -delete
             find . -name "*.c" -type f -delete
             ;;
-        *|--all|-a)
+        --dir|-d)
             echo "Deleting build directory..."
             rm -rf build
-            delete --bin
-            delete --cython
+            ;;
+        *|--all|-a)
+            delete --dir --bin --cython
             ;;
     esac
     shift
@@ -80,7 +82,6 @@ doc() {
     SOURCEDIR="source"
     BUILDDIR="./build/html"
     BUILDER="dirhtml"
-    endmsg="\033[0;34mBuild was deleted. Make sure to rebuild. \033[0m"
     case $1 in
         --clear|-c)
             cd docs
@@ -93,7 +94,11 @@ doc() {
             cd docs
             sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../rubato
             cd ..
-            echo -e $endmsg
+            if [[ -d build ]]
+            then
+                echo "Restoring binary files..."
+                ./b b >/dev/null
+            fi
             ;;
         *|--save|-s)
             ./b del -b
@@ -102,7 +107,11 @@ doc() {
             python -m $SPHINXBUILD -W --keep-going -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
             touch build/html/_modules/robots.txt
             cd ..
-            echo -e $endmsg
+            if [[ -d build ]]
+            then
+                echo "Restoring binary files..."
+                ./b b >/dev/null
+            fi
             ;;
     esac
     shift
@@ -126,8 +135,7 @@ tests() {
             pytest --cov=rubato tests
             ;;
         *|--test|-t)
-            tests -b
-            tests -n
+            tests -b -n
             ;;
     esac
     shift
@@ -149,7 +157,7 @@ case $1 in
         ;;
     demo|dem)
         ./b b
-        cd demos
+        cd demo
         ./_run_all.sh
         ;;
     delete|del)
@@ -161,10 +169,10 @@ case $1 in
         doc "$@"
         ;;
     lint|l)
-        ./b del b
+        ./b del -b
         echo "Linting Code..."
         pylint rubato
-        if [ -d build ]
+        if [[ -d build ]]
         then
             echo "Restoring binary files..."
             ./b b >/dev/null
