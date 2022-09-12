@@ -45,9 +45,9 @@ jobs:
                   enable-pull-request-comment: true
                   enable-commit-comment: false
                   overwrites-pull-request-comment: true
-                  alias: ${{ github.head_ref }}
-                  github-deployment-environment: Preview-${{ github.head_ref }}
-                  github-deployment-description: "Preview build for ${{ github.head_ref }}"
+                  alias: ${{ github.ref }}
+                  github-deployment-environment: Preview-${{ github.ref }}
+                  github-deployment-description: "Preview build for ${{ github.ref }}"
               env:
                   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
                   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
