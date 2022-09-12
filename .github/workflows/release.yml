@@ -108,7 +108,7 @@ jobs:
                   ./b delete
 
             - name: Build Docs
-              run: ./b docs -s
+              run: ./b docs
 
             - name: Prep files for transfer
               run: |

@@ -29,17 +29,16 @@ This will take a couple minutes the first time so be patient. Once this finishes
 
 ### To run tests
 
-From the repository root, run:
+To run most major tests, run the following from the repository root:
 
 ```shell
-./b test
+./b precommit
 ```
-
-This will run all the tests. There are also more make targets for specific tests.
 
 ## Automation documentation
 
-We have an automation script to help development. Run `./b --help` in a bash shell for more information.
+There are many more commands you can use to aid in testing, building, and releasing for rubato development.
+Run `./b --help` in a bash shell for more information.
 
 ## Suggest Improvements
 
