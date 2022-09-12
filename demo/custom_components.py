@@ -5,7 +5,7 @@ import rubato as rb
 from rubato import Vector
 
 size = Vector(600, 400)
-rb.init(res=size, window_size=size)
+rb.init(res=size, window_size=size, window_pos=(10, 10))
 
 main_scene = rb.Scene()
 

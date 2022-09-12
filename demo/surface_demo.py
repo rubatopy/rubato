@@ -1,12 +1,12 @@
 from rubato import init, begin, Draw, Surface, Game, Vector as V, Color as C
-
+import rubato as rb
 width, height = 32, 32
 gridx, gridy = 4, 4
 main_c = C.red
 second_c = C.green
 bg_c = C.blue
 init("Surface Demo", V(width * gridx, height * gridy), V(1000, 1000))
-
+print(rb.Display.window_pos)
 shapes = [Surface(width, height) for _ in range(gridx * gridy)]
 
 for shape in shapes:
