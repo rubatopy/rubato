@@ -34,7 +34,7 @@ help_text() {
         echo "${tab}setup, s: Install all needed dependencies for developing rubato"
         echo "${tab}precommit, pre: Run the precommit script (run every common test)"
         echo "${tab}pypi: Build the project for pypi"
-        echo "${tab}publish-wheel, publish: Build and publish the wheel to pypi"
+        echo "${tab}publish-wheels, wheels <version_name>: Build and publish the wheel to pypi"
     fi
 }
 
@@ -201,10 +201,24 @@ case $1 in
         rm -rf dist
         python -m build
         ;;
-    publish-wheel|publish)
+    publish-wheels|wheels)
+        shift
+        if [[ $# -eq 0 ]]
+        then
+            echo "No version specified"
+            exit 1
+        fi
         rm -rf dist
-        python -m build
-        python -m twine upload dist/*.whl
+        read -p "Confirm version $1? [y/N]: " -r response
+        if [[ $response =~ ^[Yy]$ ]]
+        then
+            echo "Building wheels..."
+            RUBATO_VERSION=$1 python -m build
+            echo "Uploading wheels..."
+            python -m twine upload dist/*.whl
+        else
+            echo "Aborting..."
+        fi
         ;;
     *)
         help_text "$@"

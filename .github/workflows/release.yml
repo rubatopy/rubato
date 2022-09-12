@@ -153,6 +153,7 @@ jobs:
                   pip install requests
                   cd docs
                   python ghapi_cacher.py
+                  git commit -m "Update GH API Cache"
 
             - name: Push changes
               uses: ad-m/github-push-action@master

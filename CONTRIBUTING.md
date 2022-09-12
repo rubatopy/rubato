@@ -174,7 +174,7 @@ H6
 3.  Once the automatic release is complete, build and upload the apple silicon build with on a apple silicon Mac:
 
     ```shell
-    RUBATO_VERSION={VERSION_NAME} make pypi-publish-wheels
+    ./b publish-wheels {VERSION_NAME}
     ```
 
     Also upload the wheel to the github release.
