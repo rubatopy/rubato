@@ -62,7 +62,7 @@ The docs are built and publish automatically
 
 ```shell
 pip install -e .[docs] # install requirements for docs
-make docs-live # start doc server
+./b docs -l # start doc server
 ```
 
 ### Docstring Guide
