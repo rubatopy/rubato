@@ -149,7 +149,7 @@ case $1 in
         ;;
     demo|dem)
         ./b b
-        cd demos
+        cd demo
         ./_run_all.sh
         ;;
     delete|del)
