@@ -30,8 +30,10 @@ class PlayerController(rb.Component):
         self.health = 100
         self.speed = 10
 
+        # The hitbox (circle) that is drawn to the screen
         self.hitbox: rb.Hitbox = rb.Circle(radius=20, color=rb.Color.red)
 
+        # The text that is drawn to the screen, will use the game object's name in setup.
         self.text: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20), anchor=rb.Vector(1,1))
 
     def setup(self):
@@ -40,22 +42,28 @@ class PlayerController(rb.Component):
         on the GameObject.
         Automatically run once before the first update call.
         """
-        self.gameobj.add(self.hitbox)
+        # once we have access to the game object, we can set the text to the game object's name.
         self.text.text = self.gameobj.name
+
+        # here we need to add all of our components to the game object
+        self.gameobj.add(self.hitbox)
         self.gameobj.add(self.text)
+
+        # subscribe to the mouse down event
+        rb.Radio.listen(rb.Events.MOUSEDOWN, self.on_mouse_press)
+
+    def on_mouse_press(self):
+        self.hitbox.color = rb.Color.random()
+        self.gameobj.pos = rb.world_mouse()
 
     def update(self):
         """
         Called once per frame. Before the draw function.
         """
-        if rb.Input.mouse_pressed():
-            self.hitbox.color = rb.Color.random()
-            self.gameobj.pos = rb.world_mouse()
         if rb.Input.key_pressed("shift"):
             self.text.hidden = False
         else:
-            # self.text.hidden = True
-            pass
+            self.text.hidden = True
 
     def speak(self):
         """
@@ -66,8 +74,8 @@ class PlayerController(rb.Component):
 
 player = rb.GameObject(name="Player", pos=rb.Display.center)
 player.add(PlayerController("Bob"))
-player.add(rb.Circle(radius=3, color=rb.Color.green, z_index=3))
 
 
-main_scene.add(player)
+
+main_scene.add(player, rb.wrap(rb.Text("psst... press shift.", anchor=(1,1))))
 rb.begin()
