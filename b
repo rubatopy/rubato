@@ -59,7 +59,7 @@ delete() {
     shift
     if [[ $# -gt 0 ]]
     then
-        delete $@
+        delete "$@"
     fi
 }
 
@@ -108,7 +108,7 @@ doc() {
     shift
     if [[ $# -gt 0 ]]
     then
-        doc $@
+        doc "$@"
     fi
 }
 
@@ -126,14 +126,14 @@ tests() {
             pytest --cov=rubato tests
             ;;
         *|--test|-t)
-            tests b
-            tests t
+            tests -b
+            tests -n
             ;;
     esac
     shift
     if [[ $# -gt 0 ]]
     then
-        tests $@
+        tests "$@"
     fi
 }
 
