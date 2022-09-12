@@ -14,14 +14,6 @@ Installing rubato is simple. Make sure you have Python 3.10 or later installed, 
 .. note::
     | We recommend installing python directly from `python.org <https://www.python.org/downloads/>`_ if you do not already have it.
 
-On Windows and Mac, the dll files that SDL needs come pre-bundled with rubato, so you should be ready to go.
-
-.. dropdown:: On Linux **only**, you'll need to install them yourself:
-
-    .. code-block:: console
-
-        $ pip install pysdl2-dll
-
 **********
 Setting Up
 **********

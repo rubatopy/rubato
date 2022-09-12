@@ -183,9 +183,8 @@ case $1 in
         tests "$@"
         ;;
     setup|s)
-        git submodule update --init --recursive
-        pip install --editable .[dev,docs]
-        build f
+        pip install --force-reinstall --editable .[dev,docs]
+        build -f
         ;;
     precommit|pre)
         ./b del

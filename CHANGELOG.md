@@ -38,6 +38,7 @@
 -   Returned `NotImplemented` object instead of raising an error for vector math methods.
 -   FPS drawing correctly on smaller resolutions
 -   Some `repr` methods not returning a string capable of recreating the object.
+-   SDL dlls are now properly bundled on _every_ major platform.
 
 ## [v0.3.2] - August 28, 2022
 
