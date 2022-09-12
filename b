@@ -161,7 +161,7 @@ case $1 in
         doc "$@"
         ;;
     lint|l)
-        ./b del b
+        ./b del -b
         echo "Linting Code..."
         pylint rubato
         if [ -d build ]
