@@ -126,7 +126,8 @@ class Game:
         """
         cls.state = cls.RUNNING
         try:
-            cls.loop()
+            while True:
+                cls._tick()
         except KeyboardInterrupt:
             cls.quit()
         except PrintError as e:
@@ -142,64 +143,60 @@ class Game:
             sys.stdout.flush()
 
     @classmethod
-    def loop(cls):
-        """
-        Rubato's main game loop. Called automatically by :meth:`rubato.Game.start`.
-        """
-        while True:
-            # start a new frame
-            Time._start_frame()
+    def _tick(cls):
+        # start a new frame
+        Time._start_frame()
 
-            if cls.state == cls.STOPPED:
-                sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
+        if cls.state == cls.STOPPED:
+            sdl2.SDL_PushEvent(sdl2.SDL_Event(sdl2.SDL_QUIT))
 
-            # Pump SDL events
-            sdl2.SDL_PumpEvents()
+        # Pump SDL events
+        sdl2.SDL_PumpEvents()
 
-            # Event handling
-            if Radio.handle():
-                cls.quit()
+        # Event handling
+        if Radio.handle():
+            cls.quit()
 
-            # Register controllers
-            Input.update_controllers()
+        # Register controllers
+        Input.update_controllers()
 
-            # process delayed calls
-            Time.process_calls()
+        # process delayed calls
+        Time.process_calls()
 
-            cls.update()
+        cls.update()
 
-            curr = cls._scenes.get(cls._current)
-            if curr:  # pylint: disable=using-constant-test
-                if cls.state == Game.PAUSED:
-                    # process user set pause update
-                    curr._paused_update()
-                else:
-                    # normal update
-                    curr._update()
-
-                    # fixed update
-                    Time.physics_counter += Time.delta_time
-
-                    while Time.physics_counter >= Time.fixed_delta:
-                        curr._fixed_update()
-                        Time.physics_counter -= Time.fixed_delta
-
-                curr._draw()
+        curr = cls._scenes.get(cls._current)
+        if curr:  # pylint: disable=using-constant-test
+            if cls.state == Game.PAUSED:
+                # process user set pause update
+                curr._paused_update()
             else:
-                Draw.clear()
+                # normal update
+                curr._update()
 
-            cls.draw()
+                # fixed update
+                Time.physics_counter += Time.delta_time
 
-            Draw.dump()
+                while Time.physics_counter >= Time.fixed_delta:
+                    curr._fixed_update()
+                    Time.physics_counter -= Time.fixed_delta
 
-            if cls.show_fps:
-                Debug.draw_fps(cls.debug_font)
+            curr._draw()
+        else:
+            Draw.clear()
 
-            # update renderers
-            Display.renderer.present()
+        cls.draw()
 
-            # end frame
-            Time._end_frame()
+        Draw.dump()
+
+        if cls.show_fps:
+            Debug.draw_fps(cls.debug_font)
+
+        # update renderers
+        Display.renderer.present()
+
+        # end frame
+        Time._end_frame()
 
     @staticmethod
     def update():  # test: skip
