@@ -2,7 +2,7 @@ from rubato import *
 from pympler import tracker
 import psutil, os
 
-tr = tracker.SummaryTracker()
+#tr = tracker.SummaryTracker()
 
 init()
 
@@ -16,9 +16,9 @@ def process_memory():
 def print_mem():
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f"Overall useage: {process_memory()}\n")
-    tr.print_diff()
+    #tr.print_diff()
 
 
-Time.schedule(ScheduledTask(2000, print_mem))
+Time.schedule(ScheduledTask(1000, print_mem))
 
 begin()
