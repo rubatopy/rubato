@@ -12,9 +12,9 @@ poweruser. And all that finally with some legible documentation.
 from typing import Literal
 from warnings import simplefilter
 from importlib.resources import files
-import cython
+import cython, sys
 
-if not cython.compiled:
+if not cython.compiled and "sphinx" not in sys.modules:
     raise Exception("rubato must be compiled with Cython")
 
 simplefilter("ignore", UserWarning)
