@@ -136,13 +136,13 @@ class Text(Component):
 
     def generate_surface(self):
         """(Re)generates the surface of the text."""
-        self._tx = sdl2.ext.Texture(
-            Display.renderer, self.font_object.generate_surface(
-                self._text,
-                self._justify,
-                self._width,
-            )
+        surf = self.font_object.generate_surface(
+            self._text,
+            self._justify,
+            self._width,
         )
+        self._tx = sdl2.ext.Texture(Display.renderer, surf)
+        sdl2.SDL_FreeSurface(surf)
 
     def draw(self, camera: Camera):
 
