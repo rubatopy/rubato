@@ -104,7 +104,7 @@ doc() {
             ./b del -b
             ./b doc -c
             cd docs
-            python -m $SPHINXBUILD -W --keep-going -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
+            python -m $SPHINXBUILD -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
             touch build/html/_modules/robots.txt
             cd ..
             if [[ -d build ]]
