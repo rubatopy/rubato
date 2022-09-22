@@ -3,8 +3,6 @@ A physics demo for rubato
 """
 from random import randint
 import rubato as rb
-from pympler import tracker
-import os
 
 # Controls the number of objects in the simulation
 num_obj = 60
@@ -92,15 +90,5 @@ for _ in range(num_obj // 2):
             ),
         )
     )
-
-tr = tracker.SummaryTracker()
-
-
-def print_mem():
-    os.system('cls' if os.name == 'nt' else 'clear')
-    tr.print_diff()
-
-
-rb.Time.schedule(rb.ScheduledTask(2000, print_mem))
 
 rb.begin()

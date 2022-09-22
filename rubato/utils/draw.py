@@ -392,7 +392,9 @@ class Draw:
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             shadow_pad: What padding to use for the shadow. Defaults to 0.
         """
-        tx = sdl2.ext.Texture(Display.renderer, font.generate_surface(text, justify, width))
+        surf = font.generate_surface(text, justify, width)
+        tx = sdl2.ext.Texture(Display.renderer, surf)
+        sdl2.SDL_FreeSurface(surf)
         w, h = tx.size[0] * scale[0], font.size * scale[1]
         center = (
             pos[0] + (align[0] * w) / 2,
