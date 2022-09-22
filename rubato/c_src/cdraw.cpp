@@ -418,8 +418,8 @@ inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* v
 inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
-    int v_x_min[height];
-    int v_x_max[height];
+    int* v_x_min = new int[height];
+    int* v_x_max = new int[height];
 
     for (int i = 0; i < height; i++) {
         v_x_min[i] = width + 1;
@@ -473,6 +473,8 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
         }
         _drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color, blending);
     }
+    delete[] v_x_min;
+    delete[] v_x_max;
 }
 
 
@@ -548,3 +550,4 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
         _drawRect(_pixels, width, height, x, y, w, h, borderColor, blending, thickness);
     }
 }
+
