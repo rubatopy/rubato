@@ -14,7 +14,7 @@ def process_memory():
 
 
 def print_mem():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    # os.system('cls' if os.name == 'nt' else 'clear')
     print(f"Overall useage: {process_memory()}\n")
     #tr.print_diff()
 

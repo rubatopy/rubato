@@ -6,7 +6,7 @@ import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math, InitError
+from . import Vector, Color, Font, Display, Math, InitError, Camera
 
 if TYPE_CHECKING:
     from ..struct import Surface
@@ -71,7 +71,13 @@ class Draw:
         cls._queue.clear()
 
     @classmethod
-    def queue_point(cls, pos: Vector | tuple[float, float], color: Color = Color.cyan, z_index: int = Math.INF):
+    def queue_point(
+        cls,
+        pos: Vector | tuple[float, float],
+        color: Color = Color.cyan,
+        z_index: int = Math.INF,
+        camera: Camera | None = None
+    ):
         """
         Draw a point onto the renderer at the end of the frame.
 
@@ -79,18 +85,23 @@ class Draw:
             pos: The position of the point.
             color: The color to use for the pixel. Defaults to Color.cyan.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.point(pos, color))
+        cls.push(z_index, lambda: cls.point(pos, color, camera))
 
     @staticmethod
-    def point(pos: Vector | tuple[float, float], color: Color = Color.cyan):
+    def point(pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
         """
         Draw a point onto the renderer immediately.
 
         Args:
             pos: The position of the point.
             color: The color to use for the pixel. Defaults to Color.cyan.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            pos = camera.transform(pos)
+
         sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos[0]), round(pos[1]), *color.to_tuple())
 
     @classmethod
@@ -100,7 +111,8 @@ class Draw:
         p2: Vector | tuple[float, float],
         color: Color = Color.cyan,
         width: int | float = 1,
-        z_index: int = Math.INF
+        z_index: int = Math.INF,
+        camera: Camera | None = None
     ):
         """
         Draw a line onto the renderer at the end of the frame.
@@ -111,15 +123,17 @@ class Draw:
             color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.line(p1, p2, color, width))
+        cls.push(z_index, lambda: cls.line(p1, p2, color, width, camera))
 
     @staticmethod
     def line(
         p1: Vector | tuple[float, float],
         p2: Vector | tuple[float, float],
         color: Color = Color.cyan,
-        width: int | float = 1
+        width: int | float = 1,
+        camera: Camera | None = None
     ):
         """
         Draw a line onto the renderer immediately.
@@ -129,7 +143,13 @@ class Draw:
             p2: The second point of the line.
             color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            p1 = camera.transform(p1)
+            p2 = camera.transform(p2)
+            width = camera.zoom * width
+
         sdl2.sdlgfx.thickLineRGBA(
             Display.renderer.sdlrenderer, round(p1[0]), round(p1[1]), round(p2[0]), round(p2[1]), round(width), color.r,
             color.g, color.b, color.a
@@ -145,7 +165,8 @@ class Draw:
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
-        z_index: int = Math.INF
+        z_index: int = Math.INF,
+        camera: Camera | None = None
     ):
         """
         Draws a rectangle onto the renderer at the end of the frame.
@@ -159,18 +180,21 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle))
+        cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
 
-    @staticmethod
+    @classmethod
     def rect(
+        cls,
         center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
-        angle: float = 0
+        angle: float = 0,
+        camera: Camera | None = None
     ):
         """
         Draws a rectangle onto the renderer immediately.
@@ -183,11 +207,18 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            center = camera.transform(center)
+            width = camera.zoom * width
+            height = camera.zoom * height
+            border_thickness = camera.zoom * border_thickness
+
         x, y = round(width / 2), round(height / 2)
         verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
 
-        Draw.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
+        cls.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
 
     @classmethod
     def queue_circle(
@@ -197,7 +228,8 @@ class Draw:
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
-        z_index: int = Math.INF
+        z_index: int = Math.INF,
+        camera: Camera | None = None
     ):
         """
         Draws a circle onto the renderer at the end of the frame.
@@ -209,8 +241,9 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill))
+        cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
 
     @staticmethod
     def circle(
@@ -218,7 +251,8 @@ class Draw:
         radius: int | float = 4,
         border: Color = Color.clear,
         border_thickness: int | float = 1,
-        fill: Optional[Color] = None
+        fill: Optional[Color] = None,
+        camera: Camera | None = None
     ):
         """
         Draws a circle onto the renderer immediately.
@@ -229,7 +263,13 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            center = camera.transform(center)
+            radius = camera.zoom * radius
+            border_thickness = camera.zoom * border_thickness
+
         if fill:
             sdl2.sdlgfx.filledCircleRGBA(
                 Display.renderer.sdlrenderer,
@@ -261,7 +301,8 @@ class Draw:
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
-        z_index: int = Math.INF
+        z_index: int = Math.INF,
+        camera: Camera | None = None
     ):
         """
         Draws a polygon onto the renderer at the end of the frame.
@@ -272,15 +313,18 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill))
+        cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill, camera))
 
-    @staticmethod
+    @classmethod
     def poly(
+        cls,
         points: list[Vector] | list[tuple[float, float]],
         border: Color = Color.clear,
         border_thickness: int | float = 1,
-        fill: Optional[Color] = None
+        fill: Optional[Color] = None,
+        camera: Camera | None = None
     ):
         """
         Draws a polygon onto the renderer immediately.
@@ -290,7 +334,12 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            points = [camera.transform(point) for point in points]
+            border_thickness = camera.zoom * border_thickness
+
         x_coords, y_coords = zip(*((round(coord[0]), round(coord[1])) for coord in points))
 
         vx = (c_int16 * len(x_coords))(*x_coords)
@@ -322,7 +371,7 @@ class Draw:
             )
         else:
             for i in range(len(points)):
-                Draw.line(
+                cls.line(
                     (
                         points[i][0],
                         points[i][1],
@@ -347,7 +396,8 @@ class Draw:
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
         shadow_pad: int = 0,
-        z_index: int = Math.INF
+        z_index: int = Math.INF,
+        camera: Camera | None = None
     ):
         """
         Draws some text onto the renderer at the end of the frame.
@@ -363,11 +413,13 @@ class Draw:
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             shadow_pad: What padding to use for the shadow. Defaults to 0.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad))
+        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera))
 
-    @staticmethod
+    @classmethod
     def text(
+        cls,
         text: str,
         font: Font,
         pos: Vector | tuple[float, float] = (0, 0),
@@ -377,6 +429,7 @@ class Draw:
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
         shadow_pad: int = 0,
+        camera: Camera | None = None
     ):
         """
         Draws some text onto the renderer immediately.
@@ -391,7 +444,13 @@ class Draw:
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             shadow_pad: What padding to use for the shadow. Defaults to 0.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            pos = camera.transform(pos)
+            scale = camera.zoom * scale[0], camera.zoom * scale[1]
+            shadow_pad = round(camera.zoom * shadow_pad)
+
         surf = font.generate_surface(text, justify, width)
         tx = sdl2.ext.Texture(Display.renderer, surf)
         sdl2.SDL_FreeSurface(surf)
@@ -401,7 +460,7 @@ class Draw:
             pos[1] + (align[1] * h) / 2,
         )
         if shadow:
-            Draw.rect(center, w + shadow_pad, h + shadow_pad, fill=Color(a=200))
+            cls.rect(center, w + shadow_pad, h + shadow_pad, fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 
@@ -413,6 +472,7 @@ class Draw:
         z_index: int = Math.INF,
         scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
+        camera: Camera | None = None
     ):
         """
         Draws an texture onto the renderer at the end of the frame.
@@ -423,8 +483,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
             scale: The scale of the texture. Defaults to (1, 1).
             angle: The clockwise rotation of the texture. Defaults to 0.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle))
+        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
 
     @staticmethod
     def texture(
@@ -432,6 +493,7 @@ class Draw:
         pos: Vector | tuple[float, float] = (0, 0),
         scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
+        camera: Camera | None = None
     ):
         """
         Draws an SDL Texture onto the renderer immediately.
@@ -441,7 +503,12 @@ class Draw:
             pos: The position to draw the texture at. Defaults to (0, 0).
             scale: The scale of the texture. Defaults to (1, 1).
             angle: The clockwise rotation of the texture. Defaults to 0.
+            camera: The camera to use. Defaults to None.
         """
+        if camera is not None:
+            pos = camera.transform(pos)
+            scale = camera.zoom * scale[0], camera.zoom * scale[1]
+
         Display.update(texture, pos, scale, angle)
 
     @classmethod
@@ -450,6 +517,7 @@ class Draw:
         surface: Surface,
         pos: Vector | tuple[float, float] = (0, 0),
         z_index: int = Math.INF,
+        camera: Camera | None = None
     ):
         """
         Draws an surface onto the renderer at the end of the frame.
@@ -458,17 +526,19 @@ class Draw:
             surface: The surface to draw.
             pos: The position to draw the surface at. Defaults to (0, 0).
             z_index: The z-index of the surface. Defaults to 0.
+            camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.surface(surface, pos))
+        cls.push(z_index, lambda: cls.surface(surface, pos, camera))
 
-    @staticmethod
-    def surface(surface: Surface, pos: Vector | tuple[float, float] = (0, 0)):
+    @classmethod
+    def surface(cls, surface: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
         """
         Draws an surface onto the renderer immediately.
 
         Args:
             surface: The surface to draw.
             pos: The position to draw the surface at. Defaults to (0, 0).
+            camera: The camera to use. Defaults to None.
         """
         if not surface._surf:
             return
@@ -476,4 +546,10 @@ class Draw:
         if not surface.uptodate:
             surface.regen()
 
-        Draw.texture(surface._tx, pos, surface.scale, surface.rotation)
+        scale = surface.scale  # Clone isn't needed because the * will clone it.
+
+        if camera is not None:
+            pos = camera.transform(pos)
+            scale = camera.zoom * scale
+
+        cls.texture(surface._tx, pos, scale, surface.rotation)
