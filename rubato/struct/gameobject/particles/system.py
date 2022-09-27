@@ -222,7 +222,7 @@ class ParticleSystem(Component):
         rotation: float = 0,
         rot_velocity: float = 0,
         rot_acceleration: float = 0,
-        scale: float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         lifespan: float = 1,
         z_index: int = 0,
         age: float = 0,

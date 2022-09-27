@@ -32,7 +32,7 @@ class Hitbox(Component):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int | float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -45,7 +45,7 @@ class Hitbox(Component):
         """Whether to draw a green outline around the hitbox or not."""
         self.trigger: bool = trigger
         """Whether this hitbox is just a trigger or not."""
-        self.scale: int | float = scale
+        self.scale: Vector = Vector.create(scale)
         """The scale of the hitbox."""
         self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
         """The on_collide function to call when a collision happens with this hitbox."""
@@ -65,7 +65,7 @@ class Hitbox(Component):
         """Whether the hitbox image is up to date or not."""
         self._old_rot_offset: float = self.rot_offset
         self._old_offset: Vector = self.offset.clone()
-        self._old_scale: int | float = self.scale
+        self._old_scale: Vector | tuple[float, float] = self.scale
         self._old_color: Color | None = self.color.clone() if self.color is not None else None
 
     def regen(self):
@@ -173,7 +173,7 @@ class Polygon(Hitbox):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int | float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -251,12 +251,13 @@ class Polygon(Hitbox):
     def redraw(self):
         super().redraw()
 
-        r = round(self.radius * self.scale * 2)
-        if r != self._image.width:
-            self._image = Surface(r, r)
-            self._debug_image = Surface(r, r)
+        w = round(self.radius * self.scale.x * 2)
+        h = round(self.radius * self.scale.y * 2)
+        if w != self._image.width or h != self._image.height:
+            self._image = Surface(w, h)
+            self._debug_image = Surface(w, h)
 
-        verts = [v + r // 2 for v in self.verts]
+        verts = [v + Vector(w // 2, h // 2) for v in self.verts]
 
         if self.color is not None:
             self._image.draw_poly(verts, border=self.color, fill=self.color, aa=True)
@@ -310,7 +311,7 @@ class Rectangle(Hitbox):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int | float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -508,8 +509,8 @@ class Rectangle(Hitbox):
     def redraw(self):
         super().redraw()
 
-        w = round(self.width * self.scale)
-        h = round(self.height * self.scale)
+        w = round(self.width * self.scale.x)
+        h = round(self.height * self.scale.y)
         if w != self._image.width or h != self._image.height:
             self._image = Surface(w, h)
             self._debug_image = Surface(w, h)
@@ -564,7 +565,7 @@ class Circle(Hitbox):
         tag: str = "",
         debug: bool = False,
         trigger: bool = False,
-        scale: int | float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         on_collide: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
@@ -609,12 +610,12 @@ class Circle(Hitbox):
 
     def true_radius(self) -> int | float:
         """Gets the true radius of the circle"""
-        return self.radius * self.scale
+        return self.radius * self.scale.max()
 
     def redraw(self):
         super().redraw()
 
-        int_r = round(self.radius * self.scale)
+        int_r = round(self.radius * self.scale.max())
         center = (int_r, int_r)
         size = int_r * 2 + 1
 

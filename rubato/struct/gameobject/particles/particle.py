@@ -36,7 +36,7 @@ class Particle:
         rotation: float = 0,
         rot_velocity: float = 0,
         rot_acceleration: float = 0,
-        scale: float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         lifespan: float = 1,
         z_index: int = 0,
         age: float = 0,
@@ -57,7 +57,7 @@ class Particle:
         """The rotational velocity of the particle."""
         self.rot_acceleration: float = rot_acceleration
         """The rotational acceleration of the particle."""
-        self.scale: float = scale
+        self.scale: Vector = Vector.create(scale)
         """The scale of the particle."""
         self.lifespan: float = lifespan
         """The lifespan of the particle. (in seconds)"""
