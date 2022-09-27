@@ -546,10 +546,4 @@ class Draw:
         if not surface.uptodate:
             surface.regen()
 
-        scale = surface.scale  # Clone isn't needed because the * will clone it.
-
-        if camera is not None:
-            pos = camera.transform(pos)
-            scale = camera.zoom * scale
-
-        cls.texture(surface._tx, pos, scale, surface.rotation)
+        cls.texture(surface._tx, pos, surface.scale, surface.rotation, camera)
