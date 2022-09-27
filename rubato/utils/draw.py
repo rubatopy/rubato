@@ -1,15 +1,11 @@
 """A static class for drawing things directly to the window."""
 from __future__ import annotations
-from ctypes import c_int16
-from typing import TYPE_CHECKING, Optional, Callable
+from typing import Optional, Callable
 import cython
 
-import sdl2, sdl2.sdlgfx, sdl2.ext
+import sdl2, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math, InitError, Camera
-
-if TYPE_CHECKING:
-    from ..struct import Surface
+from . import Vector, Color, Font, Display, Math, InitError, Camera, Surface
 
 
 @cython.cclass
@@ -26,6 +22,7 @@ class DrawTask:
 class Draw:
     """A static class allowing drawing items to the window."""
     _queue: list[DrawTask] = []
+    _cached_surfs: dict[int, Surface] = {}
 
     def __init__(self) -> None:
         raise InitError(self)
@@ -89,8 +86,8 @@ class Draw:
         """
         cls.push(z_index, lambda: cls.point(pos, color, camera))
 
-    @staticmethod
-    def point(pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
+    @classmethod
+    def point(cls, pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
         """
         Draw a point onto the renderer immediately.
 
@@ -99,10 +96,12 @@ class Draw:
             color: The color to use for the pixel. Defaults to Color.cyan.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None:
-            pos = camera.transform(pos)
+        if (surf := cls._cached_surfs.get(hash(color), None)) is None:
+            surf = Surface(1, 1)
+            surf.fill(color)
+            cls._cached_surfs[hash(color)] = surf
 
-        sdl2.sdlgfx.pixelRGBA(Display.renderer.sdlrenderer, round(pos[0]), round(pos[1]), *color.to_tuple())
+        cls.surface(surf, pos, camera)
 
     @classmethod
     def queue_line(
@@ -145,15 +144,14 @@ class Draw:
             width: The width of the line. Defaults to 1.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None:
-            p1 = camera.transform(p1)
-            p2 = camera.transform(p2)
-            width = camera.zoom * width
+        hashed = hash((p1, p2, color, width))
 
-        sdl2.sdlgfx.thickLineRGBA(
-            Display.renderer.sdlrenderer, round(p1[0]), round(p1[1]), round(p2[0]), round(p2[1]), round(width), color.r,
-            color.g, color.b, color.a
-        )
+        if (surf := Draw._cached_surfs.get(hashed, None)) is None:
+            surf = Surface(*Display.res.tuple_int())
+            surf.draw_line(p1, p2, color, thickness=round(width))
+            Draw._cached_surfs[hashed] = surf
+
+        Draw.surface(surf, Display.center, camera)
 
     @classmethod
     def queue_rect(
@@ -161,7 +159,7 @@ class Draw:
         center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
-        border: Color = Color.clear,
+        border: Color = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
@@ -175,7 +173,7 @@ class Draw:
             center: The center of the rectangle.
             width: The width of the rectangle.
             height: The height of the rectangle.
-            border: The border color. Defaults to Color.clear.
+            border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
@@ -190,7 +188,7 @@ class Draw:
         center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
-        border: Color = Color.clear,
+        border: Color = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
@@ -203,29 +201,28 @@ class Draw:
             center: The center of the rectangle.
             width: The width of the rectangle.
             height: The height of the rectangle.
-            border: The border color. Defaults to Color.clear.
+            border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None:
-            center = camera.transform(center)
-            width = camera.zoom * width
-            height = camera.zoom * height
-            border_thickness = camera.zoom * border_thickness
+        hashed = hash((width, height, border, border_thickness, fill))
 
-        x, y = round(width / 2), round(height / 2)
-        verts = (Vector(-x, -y), Vector(x, -y), Vector(x, y), Vector(-x, y))
+        if (surf := cls._cached_surfs.get(hashed, None)) is None:
+            surf = Surface(round(width), round(height))
+            surf.draw_rect((0, 0), (width, height), border, round(border_thickness), fill)
+            cls._cached_surfs[hashed] = surf
 
-        cls.poly([center + v.rotate(angle) for v in verts], border, border_thickness, fill)
+        surf.rotation = angle
+        cls.surface(surf, center, camera)
 
     @classmethod
     def queue_circle(
         cls,
         center: Vector | tuple[float, float],
         radius: int = 4,
-        border: Color = Color.clear,
+        border: Color = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         z_index: int = Math.INF,
@@ -237,7 +234,7 @@ class Draw:
         Args:
             center: The center.
             radius: The radius. Defaults to 4.
-            border: The border color. Defaults to green.
+            border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
@@ -245,11 +242,12 @@ class Draw:
         """
         cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
 
-    @staticmethod
+    @classmethod
     def circle(
+        cls,
         center: Vector | tuple[float, float],
         radius: int | float = 4,
-        border: Color = Color.clear,
+        border: Color = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         camera: Camera | None = None
@@ -260,45 +258,24 @@ class Draw:
         Args:
             center: The center.
             radius: The radius. Defaults to 4.
-            border: The border color. Defaults to green.
+            border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None:
-            center = camera.transform(center)
-            radius = camera.zoom * radius
-            border_thickness = camera.zoom * border_thickness
+        hashed = hash((radius, border, border_thickness, fill))
+        if (surf := cls._cached_surfs.get(hashed, None)) is None:
+            surf = Surface(round(radius * 2) + 1, round(radius * 2) + 1)
+            surf.draw_circle((radius, radius), round(radius), border, round(border_thickness), fill)
+            cls._cached_surfs[hashed] = surf
 
-        if fill:
-            sdl2.sdlgfx.filledCircleRGBA(
-                Display.renderer.sdlrenderer,
-                round(center[0]),
-                round(center[1]),
-                round(radius),
-                fill.r,
-                fill.g,
-                fill.b,
-                fill.a,
-            )
-
-        for i in range(round(border_thickness)):
-            sdl2.sdlgfx.aacircleRGBA(
-                Display.renderer.sdlrenderer,
-                round(center[0]),
-                round(center[1]),
-                round(radius) + i,
-                border.r,
-                border.g,
-                border.b,
-                border.a,
-            )
+        cls.surface(surf, center, camera)
 
     @classmethod
     def queue_poly(
         cls,
         points: list[Vector] | list[tuple[float, float]],
-        border: Color = Color.clear,
+        border: Color = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         z_index: int = Math.INF,
@@ -309,7 +286,7 @@ class Draw:
 
         Args:
             points: The list of points to draw.
-            border: The border color. Defaults to green.
+            border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             z_index: Where to draw it in the drawing order. Defaults to Math.INF.
@@ -321,7 +298,7 @@ class Draw:
     def poly(
         cls,
         points: list[Vector] | list[tuple[float, float]],
-        border: Color = Color.clear,
+        border: Color = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         camera: Camera | None = None
@@ -331,58 +308,18 @@ class Draw:
 
         Args:
             points: The list of points to draw.
-            border: The border color. Defaults to green.
+            border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None:
-            points = [camera.transform(point) for point in points]
-            border_thickness = camera.zoom * border_thickness
+        hashed = hash((tuple(points), border, border_thickness, fill))
+        if (surf := cls._cached_surfs.get(hashed, None)) is None:
+            surf = Surface(*Display.res.tuple_int())
+            surf.draw_poly(points, border, round(border_thickness), fill)
+            cls._cached_surfs[hashed] = surf
 
-        x_coords, y_coords = zip(*((round(coord[0]), round(coord[1])) for coord in points))
-
-        vx = (c_int16 * len(x_coords))(*x_coords)
-        vy = (c_int16 * len(y_coords))(*y_coords)
-        if fill:
-            sdl2.sdlgfx.filledPolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(points),
-                fill.r,
-                fill.g,
-                fill.b,
-                fill.a,
-            )
-
-        if border_thickness <= 0:
-            return
-        elif border_thickness == 1:
-            sdl2.sdlgfx.aapolygonRGBA(
-                Display.renderer.sdlrenderer,
-                vx,
-                vy,
-                len(points),
-                border.r,
-                border.g,
-                border.b,
-                border.a,
-            )
-        else:
-            for i in range(len(points)):
-                cls.line(
-                    (
-                        points[i][0],
-                        points[i][1],
-                    ),
-                    (
-                        points[(i + 1) % len(points)][0],
-                        points[(i + 1) % len(points)][1],
-                    ),
-                    border,
-                    border_thickness,
-                )
+        cls.surface(surf, Display.center, camera)
 
     @classmethod
     def queue_text(
@@ -546,10 +483,4 @@ class Draw:
         if not surface.uptodate:
             surface.regen()
 
-        scale = surface.scale  # Clone isn't needed because the * will clone it.
-
-        if camera is not None:
-            pos = camera.transform(pos)
-            scale = camera.zoom * scale
-
-        cls.texture(surface._tx, pos, scale, surface.rotation)
+        cls.texture(surface._tx, pos, surface.scale, surface.rotation, camera)

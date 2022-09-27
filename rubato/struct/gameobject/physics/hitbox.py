@@ -3,8 +3,7 @@ from __future__ import annotations
 from typing import Callable
 
 from .. import Component
-from ... import Surface
-from .... import Vector, Color, Game, Draw, Math, Camera, Input
+from .... import Vector, Color, Game, Draw, Math, Camera, Input, Surface
 
 
 class Hitbox(Component):

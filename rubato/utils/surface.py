@@ -3,7 +3,7 @@ from __future__ import annotations
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
-from .. import Vector, Color, Display, get_path
+from . import Vector, Color, Display, get_path
 
 
 class Surface:

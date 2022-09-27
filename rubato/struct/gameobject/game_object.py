@@ -6,8 +6,7 @@ from __future__ import annotations
 from typing import Type, TypeVar
 
 from . import Component
-from .. import Surface
-from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color
+from ... import Game, Vector, DuplicateComponentError, Draw, ImplementationError, Camera, Color, Surface
 
 T = TypeVar("T", bound=Component)
 

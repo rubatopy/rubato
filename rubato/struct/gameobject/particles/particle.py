@@ -2,8 +2,7 @@
 from __future__ import annotations
 from typing import Callable
 
-from ... import Surface
-from .... import Vector
+from .... import Vector, Surface
 
 
 class Particle:
