@@ -242,7 +242,7 @@ class ParticleSystem(Component):
             rotation: The starting rotation. Defaults to 0.
             rot_velocity: The starting rotational velocity. Defaults to 0.
             rot_acceleration: The starting rotational acceleration. Defaults to 0.
-            scale: The starting scale. Defaults to 1.
+            scale: The starting scale. Defaults to (1, 1).
             lifespan: The lifespan of each particle. Defaults to 1.
             z_index: The z-index of each particle. Defaults to 0.
             age: The starting age of each particle. Defaults to 0.

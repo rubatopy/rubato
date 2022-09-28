@@ -20,7 +20,7 @@ class Particle:
         rotation: The rotation of the particle. Defaults to 0.
         rot_velocity: The rotational velocity of the particle. Defaults to 0.
         rot_acceleration: The rotational acceleration of the particle. Defaults to 0.
-        scale: The scale of the particle. Defaults to 1.
+        scale: The scale of the particle. Defaults to (1, 1).
         lifespan: The lifespan of the particle (in seconds). Defaults to 1.
         z_index: The z-index of the particle. Defaults to 0.
         age: The starting age of the particle (in seconds). Defaults to 0.

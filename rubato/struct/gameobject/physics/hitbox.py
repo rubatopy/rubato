@@ -17,7 +17,7 @@ class Hitbox(Component):
         tag: A string to tag the hitbox. Defaults to "".
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to 1.
+        scale: The scale of the hitbox. Defaults to (1, 1).
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
@@ -157,7 +157,7 @@ class Polygon(Hitbox):
         tag: A string to tag the hitbox. Defaults to "".
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to 1.
+        scale: The scale of the hitbox. Defaults to (1, 1).
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
@@ -294,7 +294,7 @@ class Rectangle(Hitbox):
         tag: A string to tag the hitbox. Defaults to "".
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to 1.
+        scale: The scale of the hitbox. Defaults to (1, 1).
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
@@ -549,7 +549,7 @@ class Circle(Hitbox):
         tag: A string to tag the hitbox. Defaults to "".
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to 1.
+        scale: The scale of the hitbox. Note that only the largest value will affect the scale. Defaults to (1, 1).
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
