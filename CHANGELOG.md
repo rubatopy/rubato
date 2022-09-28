@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+-   Default z-index for all `Draw` functions is now 0 to match the rest of rubato. (was Math.INF)
+
 ### Added
 
 ### Changed
