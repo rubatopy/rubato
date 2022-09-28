@@ -53,26 +53,21 @@ def test_quit(monkeypatch: pytest.MonkeyPatch, rub):
 
 
 def test_start(monkeypatch: pytest.MonkeyPatch):
-    loop = Mock()
-    monkeypatch.setattr(Game, "loop", loop)
-    Game.start()
-    loop.assert_called_once()
-
     loop = Mock(side_effect=KeyboardInterrupt)
     quit_mock = Mock()
     monkeypatch.setattr(Game, "quit", quit_mock)
-    monkeypatch.setattr(Game, "loop", loop)
+    monkeypatch.setattr(Game, "_tick", loop)
     Game.start()
     quit_mock.assert_called_once()
 
     loop = Mock(side_effect=PrintError)
-    monkeypatch.setattr(Game, "loop", loop)
+    monkeypatch.setattr(Game, "_tick", loop)
     with pytest.raises(PrintError):
         Game.start()
     loop.assert_called_once()
 
     loop = Mock(side_effect=Error)
-    monkeypatch.setattr(Game, "loop", loop)
+    monkeypatch.setattr(Game, "_tick", loop)
     with pytest.raises(Error):
         Game.start()
     loop.assert_called_once()

@@ -134,7 +134,7 @@ tests() {
             ;;
         --quick|-q)
             TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
-            tests t
+            tests -n
             exit_with="$(expr $?+$exit_with)"
             ;;
         --no-build|-n)
@@ -193,7 +193,9 @@ case $1 in
         tests "$@"
         ;;
     setup|s)
-        pip install --force-reinstall --editable .[dev,docs]
+        pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
+        python setup.py egg_info
+        pip install `grep -v '^\[' *.egg-info/requires.txt`
         build -f
         exit_with="$(expr $?+$exit_with)"
         ;;
