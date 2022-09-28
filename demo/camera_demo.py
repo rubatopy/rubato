@@ -7,6 +7,7 @@ main = Scene(name="main")
 
 player = GameObject(pos=Display.center)
 player.add(Rectangle(width=50, height=50, color=Color.red))
+main.camera.z_index = -1
 
 
 def update():
@@ -14,6 +15,12 @@ def update():
         main.camera.zoom += 0.05
     if Input.key_pressed("-"):
         main.camera.zoom -= 0.05
+    if Input.key_pressed("up"):
+        main.camera.z_index += 1
+        print(main.camera.z_index)
+    if Input.key_pressed("down"):
+        main.camera.z_index -= 1
+        print(main.camera.z_index)
 
 
 def mouse_down(_):

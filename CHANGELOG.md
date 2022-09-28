@@ -4,13 +4,20 @@
 
 ### Breaking Changes
 
+-   Default z-index for all `Draw` functions is now 0 to match the rest of rubato. (was Math.INF)
+
 ### Added
 
 ### Changed
 
+-   All `Draw` functions can now take in a camera as an optional arguement. This will cuase the result to be drawn
+    based on that camera.
+
 ### Removed
 
 ### Fixed
+
+-   Some things weren't taking into account zoom and the camera's z-index. These issues should be fixed.
 
 ## [v0.3.3] - September 12, 2022
 
