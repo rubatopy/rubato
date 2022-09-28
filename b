@@ -1,6 +1,6 @@
 #!/bin/bash
 # A script to run various automation on rubato
-
+exit_with=0
 
 help_text() {
     tab="    "
@@ -44,15 +44,18 @@ delete() {
             echo "Deleting binary files..."
             find . -name "*.pyd" -type f -delete
             find . -name "*.so" -type f -delete
+            exit_with="$(expr $?+$exit_with)"
             ;;
         --cython|-c)
             echo "Deleting cython files..."
             find . -name "*.cpp" -not -name "cdraw.cpp" -type f -delete
             find . -name "*.c" -type f -delete
+            exit_with="$(expr $?+$exit_with)"
             ;;
         --dir|-d)
             echo "Deleting build directory..."
             rm -rf build
+            exit_with="$(expr $?+$exit_with)"
             ;;
         *|--all|-a)
             delete --dir --bin --cython
@@ -73,6 +76,7 @@ build() {
             ;;
         *)
             python setup.py build_ext --inplace
+            exit_with="$(expr $?+$exit_with)"
             ;;
     esac
 }
@@ -126,16 +130,20 @@ tests() {
         --build|-b)
             delete
             CFLAGS=-DCYTHON_TRACE=1 TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
+            exit_with="$(expr $?+$exit_with)"
             ;;
         --quick|-q)
             TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
             tests t
+            exit_with="$(expr $?+$exit_with)"
             ;;
         --no-build|-n)
             pytest --cov=rubato tests
+            exit_with="$(expr $?+$exit_with)"
             ;;
         *|--test|-t)
             tests -b -n
+            exit_with="$(expr $?+$exit_with)"
             ;;
     esac
     shift
@@ -172,10 +180,12 @@ case $1 in
         ./b del -b
         echo "Linting Code..."
         pylint rubato
+        exit_with="$(expr $?+$exit_with)"
         if [[ -d build ]]
         then
             echo "Restoring binary files..."
             ./b b >/dev/null
+            exit_with="$(expr $?+$exit_with)"
         fi
         ;;
     test|t)
@@ -185,6 +195,7 @@ case $1 in
     setup|s)
         pip install --force-reinstall --editable .[dev,docs]
         build -f
+        exit_with="$(expr $?+$exit_with)"
         ;;
     precommit|pre)
         ./b del
@@ -200,6 +211,7 @@ case $1 in
     pypi)
         rm -rf dist
         python -m build
+        exit_with="$(expr $?+$exit_with)"
         ;;
     publish-wheels|wheels)
         shift
@@ -225,3 +237,10 @@ case $1 in
         ;;
 esac
 cd "$ogdir"
+
+if [[ $exit_with -ne 0 ]]
+then
+    exit 1
+else
+    exit 0
+fi
