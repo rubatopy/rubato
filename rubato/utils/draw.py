@@ -6,7 +6,7 @@ import cython
 
 import sdl2, sdl2.sdlgfx, sdl2.ext
 
-from . import Vector, Color, Font, Display, Math, InitError, Camera
+from . import Vector, Color, Font, Display, InitError, Camera
 
 if TYPE_CHECKING:
     from ..struct import Surface
@@ -75,7 +75,7 @@ class Draw:
         cls,
         pos: Vector | tuple[float, float],
         color: Color = Color.cyan,
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -84,10 +84,11 @@ class Draw:
         Args:
             pos: The position of the point.
             color: The color to use for the pixel. Defaults to Color.cyan.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.point(pos, color, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.point(pos, color, camera))
 
     @staticmethod
     def point(pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
@@ -111,7 +112,7 @@ class Draw:
         p2: Vector | tuple[float, float],
         color: Color = Color.cyan,
         width: int | float = 1,
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -122,10 +123,11 @@ class Draw:
             p2: The second point of the line.
             color: The color to use for the line. Defaults to Color.cyan.
             width: The width of the line. Defaults to 1.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.line(p1, p2, color, width, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.line(p1, p2, color, width, camera))
 
     @staticmethod
     def line(
@@ -165,7 +167,7 @@ class Draw:
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -179,10 +181,11 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
 
     @classmethod
     def rect(
@@ -228,7 +231,7 @@ class Draw:
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -240,10 +243,11 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
 
     @staticmethod
     def circle(
@@ -301,7 +305,7 @@ class Draw:
         border: Color = Color.clear,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -312,10 +316,11 @@ class Draw:
             border: The border color. Defaults to green.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill, camera))
 
     @classmethod
     def poly(
@@ -396,7 +401,7 @@ class Draw:
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
         shadow_pad: int = 0,
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -412,10 +417,13 @@ class Draw:
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             shadow_pad: What padding to use for the shadow. Defaults to 0.
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(
+                z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera)
+            )
 
     @classmethod
     def text(
@@ -469,7 +477,7 @@ class Draw:
         cls,
         texture: sdl2.ext.Texture,
         pos: Vector | tuple[float, float] = (0, 0),
-        z_index: int = Math.INF,
+        z_index: int = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
         camera: Camera | None = None
@@ -480,12 +488,13 @@ class Draw:
         Args:
             texture: The texture to draw.
             pos: The position of the texture. Defaults to (0, 0).
-            z_index: Where to draw it in the drawing order. Defaults to Math.INF.
+            z_index: Where to draw it in the drawing order. Defaults to 0.
             scale: The scale of the texture. Defaults to (1, 1).
             angle: The clockwise rotation of the texture. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
 
     @staticmethod
     def texture(
@@ -516,7 +525,7 @@ class Draw:
         cls,
         surface: Surface,
         pos: Vector | tuple[float, float] = (0, 0),
-        z_index: int = Math.INF,
+        z_index: int = 0,
         camera: Camera | None = None
     ):
         """
@@ -528,7 +537,8 @@ class Draw:
             z_index: The z-index of the surface. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        cls.push(z_index, lambda: cls.surface(surface, pos, camera))
+        if camera is not None and camera.z_index >= z_index:
+            cls.push(z_index, lambda: cls.surface(surface, pos, camera))
 
     @classmethod
     def surface(cls, surface: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):

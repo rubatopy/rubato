@@ -193,7 +193,7 @@ case $1 in
         tests "$@"
         ;;
     setup|s)
-        pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
+        pip install Cython==3.0.0a11
         python setup.py egg_info
         pip install `grep -v '^\[' *.egg-info/requires.txt`
         build -f
