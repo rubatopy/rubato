@@ -44,12 +44,13 @@ class Spritesheet:
             for x in range(0, self._grid[0] * self._sprite_size[0], self._sprite_size[0]):
                 surface = Surface(width=self._sprite_size[0], height=self._sprite_size[1])
 
-                sdl2.SDL_BlitSurface(
-                    self._sheet._surf,
-                    sdl2.SDL_Rect(x, y, self._sprite_size[0], self._sprite_size[1]),
-                    surface._surf,
-                    sdl2.SDL_Rect(0, 0, self._sprite_size[0], self._sprite_size[1]),
-                )
+                # FIXME find blit alternative
+                # sdl2.SDL_BlitSurface(
+                #     self._sheet._surf,
+                #     sdl2.SDL_Rect(x, y, self._sprite_size[0], self._sprite_size[1]),
+                #     surface._surf,
+                #     sdl2.SDL_Rect(0, 0, self._sprite_size[0], self._sprite_size[1]),
+                # )
 
                 self._sprites[y // self._sprite_size[1]].append(surface)
 

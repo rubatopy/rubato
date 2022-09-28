@@ -401,22 +401,24 @@ class Draw:
             shadow_pad = round(camera.zoom * shadow_pad)
 
         surf = font.generate_surface(text, justify, width)
-        tx = sdl2.ext.Texture(Display.renderer, surf)
-        sdl2.SDL_FreeSurface(surf)
-        w, h = tx.size[0] * scale[0], font.size * scale[1]
+        tx: sdl2.SDL_Texture = sdl2.SDL_CreateTextureFromSurface(Display.renderer.sdlrenderer, surf).contents
+        w, h = surf.w * scale[0], font.size * scale[1]
         center = (
             pos[0] + (align[0] * w) / 2,
             pos[1] + (align[1] * h) / 2,
         )
         if shadow:
             cls.rect(center, w + shadow_pad, h + shadow_pad, fill=Color(a=200))
-        Display.update(tx, center, scale)
-        tx.destroy()
+        Display.update(tx, surf.w, surf.h, center, scale)
+        sdl2.SDL_DestroyTexture(tx)
+        sdl2.SDL_FreeSurface(surf)
 
     @classmethod
     def queue_texture(
         cls,
-        texture: sdl2.ext.Texture,
+        texture: sdl2.SDL_Texture,
+        width: int,
+        height: int,
         pos: Vector | tuple[float, float] = (0, 0),
         z_index: int = 0,
         scale: Vector | tuple[float, float] = (1, 1),
@@ -436,11 +438,13 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
+        cls.push(z_index, lambda: cls.texture(texture, width, height, pos, scale, angle, camera))
 
     @staticmethod
     def texture(
-        texture: sdl2.ext.Texture,
+        texture: sdl2.SDL_Texture,
+        width: int,
+        height: int,
         pos: Vector | tuple[float, float] = (0, 0),
         scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
@@ -460,7 +464,7 @@ class Draw:
             pos = camera.transform(pos)
             scale = camera.zoom * scale[0], camera.zoom * scale[1]
 
-        Display.update(texture, pos, scale, angle)
+        Display.update(texture, width, height, pos, scale, angle)
 
     @classmethod
     def queue_surface(
@@ -493,10 +497,7 @@ class Draw:
             pos: The position to draw the surface at. Defaults to (0, 0).
             camera: The camera to use. Defaults to None.
         """
-        if not surface._surf:
-            return
-
         if not surface.uptodate:
             surface.regen()
 
-        cls.texture(surface._tx, pos, surface.scale, surface.rotation, camera)
+        cls.texture(surface._tx, surface.width, surface.height, pos, surface.scale, surface.rotation, camera)

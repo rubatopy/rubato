@@ -12,6 +12,14 @@ else:
     import array
 
 
+def create_pixel_buffer(width: int, height: int) -> int:
+    return cdraw.createPixelBuffer(width, height)
+
+
+def free_pixel_buffer(buffer: int):
+    return cdraw.freePixelBuffer(buffer)
+
+
 def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = True):
     cdraw.setPixel(pixels, width, height, x, y, color, blending)
 

@@ -2,6 +2,9 @@ from libcpp cimport bool
 
 cdef extern from "cdraw.cpp":
 
+    size_t createPixelBuffer(int width, int height)
+    void freePixelBuffer(size_t buffer)
+
     void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending)
     int getPixel(size_t _pixels, int width, int height, int x, int y)
     void clearPixels(size_t _pixels, int width, int height)

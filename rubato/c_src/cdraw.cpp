@@ -7,6 +7,21 @@
 
 /***********************************************************************************************************************
 
+BUFFER FUNCTIONS
+
+***********************************************************************************************************************/
+
+inline size_t createPixelBuffer(int width, int height) {
+    return (size_t) calloc(width * height, sizeof(uint32_t));
+}
+
+inline void freePixelBuffer(size_t buffer) {
+    free((void*) buffer);
+}
+
+
+/***********************************************************************************************************************
+
 PIXEL FUNCTIONS
 
 ***********************************************************************************************************************/
@@ -550,4 +565,3 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
         _drawRect(_pixels, width, height, x, y, w, h, borderColor, blending, thickness);
     }
 }
-

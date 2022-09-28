@@ -189,7 +189,9 @@ class Display(metaclass=_DisplayProperties):
     @classmethod
     def update(
         cls,
-        tx: sdl2.ext.Texture,
+        tx: sdl2.SDL_Texture,
+        width: int,
+        height: int,
         pos: Vector | tuple[float, float],
         scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
@@ -201,6 +203,8 @@ class Display(metaclass=_DisplayProperties):
 
         Args:
             tx: The texture to draw on the screen.
+            width: The width of the texture.
+            height: The height of the texture.
             pos: The position to draw the texture on.
             scale: The scale of the texture. Defaults to Vector(1, 1).
             angle: The clockwise rotation of the texture. Defaults to 0.
@@ -216,20 +220,34 @@ class Display(metaclass=_DisplayProperties):
         if flipy:
             flip |= sdl2.SDL_FLIP_VERTICAL
 
-        x_dim = tx.size[0] * abs(scale[0])
+        x_dim = width * abs(scale[0])
 
-        cls.renderer.copy(
+        sdl2.SDL_RenderCopyEx(
+            cls.renderer.sdlrenderer,
             tx,
-            dstrect=(
-                (pos[0] - (x_dim if flipx else 0)) - (tx.size[0] * scale[0]) / 2,
-                (pos[1] - (tx.size[1] * scale[1]) / 2),
-                x_dim,
-                tx.size[1] * abs(scale[1]),
+            None,
+            sdl2.SDL_Rect(
+                int((pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2),
+                int(pos[1] - (height * scale[1]) / 2),
+                int(x_dim),
+                int(height * abs(scale[1])),
             ),
-            angle=round(angle),
-            flip=flip
+            round(angle),
+            None,
+            flip,
         )
 
+        # cls.renderer.copy(
+        #     tx,
+        #     dstrect=(
+        #         (pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2,
+        #         (pos[1] - (height * scale[1]) / 2),
+        #         x_dim,
+        #         height * abs(scale[1]),
+        #     ),
+        #     angle=round(angle),
+        #     flip=flip
+        # )
     @classmethod
     def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
         """
