@@ -87,8 +87,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.point(pos, color, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.point(pos, color, camera))
 
     @staticmethod
     def point(pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
@@ -126,8 +127,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.line(p1, p2, color, width, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.line(p1, p2, color, width, camera))
 
     @staticmethod
     def line(
@@ -184,8 +186,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
 
     @classmethod
     def rect(
@@ -246,8 +249,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
 
     @staticmethod
     def circle(
@@ -319,8 +323,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill, camera))
 
     @classmethod
     def poly(
@@ -420,10 +425,9 @@ class Draw:
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(
-                z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera)
-            )
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera))
 
     @classmethod
     def text(
@@ -493,8 +497,9 @@ class Draw:
             angle: The clockwise rotation of the texture. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
 
     @staticmethod
     def texture(
@@ -537,8 +542,9 @@ class Draw:
             z_index: The z-index of the surface. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        if camera is not None and camera.z_index >= z_index:
-            cls.push(z_index, lambda: cls.surface(surface, pos, camera))
+        if camera is not None and camera.z_index < z_index:
+            return
+        cls.push(z_index, lambda: cls.surface(surface, pos, camera))
 
     @classmethod
     def surface(cls, surface: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
