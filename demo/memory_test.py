@@ -1,8 +1,6 @@
 from rubato import *
 import psutil, os
 
-#tr = tracker.SummaryTracker()
-
 init()
 
 
@@ -12,12 +10,6 @@ def process_memory():
     return mem_info.rss
 
 
-def print_mem():
-    # os.system('cls' if os.name == 'nt' else 'clear')
-    print(f"Overall useage: {process_memory()}\n")
-    #tr.print_diff()
-
-
-Time.schedule(ScheduledTask(1000, print_mem))
+Time.schedule(ScheduledTask(1000, lambda: print(f"Overall usage: {process_memory()}\n")))
 
 begin()
