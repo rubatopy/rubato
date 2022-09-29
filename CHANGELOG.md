@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 
+-   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
+
 ### Added
 
 ### Changed
