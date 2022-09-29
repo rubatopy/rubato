@@ -7,7 +7,7 @@ main = Scene(name="main")
 
 player = GameObject(pos=Display.center)
 player.add(Rectangle(width=50, height=50, color=Color.red))
-main.camera.z_index = -1
+main.camera.z_index = 0
 
 
 def update():
@@ -25,7 +25,7 @@ def update():
 
 def mouse_down(_):
     main.camera.pos += Vector(5, -10)
-    main.add(GameObject(pos=world_mouse()).add(Circle(radius=5, color=Color.blue)))
+    main.add(GameObject(pos=world_mouse(), z_index=-1).add(Circle(radius=10, color=Color.blue)))
     print(main.camera.zoom)
 
 
