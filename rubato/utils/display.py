@@ -206,7 +206,7 @@ class Display(metaclass=_DisplayProperties):
             width: The width of the texture.
             height: The height of the texture.
             pos: The position to draw the texture on.
-            scale: The scale of the texture. Defaults to Vector(1, 1).
+            scale: The scale of the texture. Defaults to (1, 1).
             angle: The clockwise rotation of the texture. Defaults to 0.
             flipx: Whether to flip the texture horizontally. Defaults to False.
             flipy: Whether to flip the texture vertically. Defaults to False.

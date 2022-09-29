@@ -59,7 +59,7 @@ class Raster(Component):
             The Rectangle hitbox that bounds the raster.
         """
         size = self.get_size()
-        return Rectangle(offset=self.offset, width=size.x, height=size.y)
+        return Rectangle(offset=self.offset, width=size.x, height=size.y, scale=self.scale)
 
     def merge(self, other: Raster):
         """
