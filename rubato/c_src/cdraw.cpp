@@ -96,6 +96,15 @@ inline void blit(size_t _source, size_t _destination, int sw, int sh, int dw, in
     }
 }
 
+inline void switchColors(size_t _pixels, int width, int height, size_t color1, size_t color2) {
+    uint32_t* pixels = (uint32_t*) _pixels;
+    for (int i = 0; i < width * height; i++) {
+        if (pixels[i] == color1) {
+            pixels[i] = color2;
+        }
+    }
+}
+
 
 /***********************************************************************************************************************
 

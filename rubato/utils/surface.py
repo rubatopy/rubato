@@ -1,6 +1,5 @@
 """An abstraction for a grid of pixels that can be drawn onto."""
 from __future__ import annotations
-from turtle import width
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
@@ -34,9 +33,10 @@ class Surface:
         """The clockwise rotation of the sprite."""
         self.scale: Vector = Vector.create(scale)
         """The scale of the sprite."""
-        self._af = af
-        self._width = width
-        self._height = height
+        self._af: bool = af
+        self._width: int = width
+        self._height: int = height
+        self._color_key: int = 0
 
         sdl2.SDL_SetHint(b"SDL_RENDER_SCALE_QUALITY", b"linear" if self._af else b"nearest")
         self._tx: sdl2.SDL_Texture = sdl2.SDL_CreateTexture(
@@ -44,6 +44,7 @@ class Surface:
         ).contents
         sdl2.SDL_SetTextureBlendMode(self._tx, sdl2.SDL_BLENDMODE_BLEND)
         self._pixels = c_draw.create_pixel_buffer(width, height)
+        self._pixels_colorkey = c_draw.clone_pixel_buffer(self._pixels, width, height)
         self.uptodate: bool = False
         """
         Whether the texture is up to date with the surface.
@@ -125,7 +126,13 @@ class Surface:
 
     def regen(self):
         """Regenerates the texture from the surface."""
-        sdl2.SDL_UpdateTexture(self._tx, None, self._pixels, self.width * 4)
+        if self._color_key != 0:
+            self._pixels_colorkey = c_draw.clone_pixel_buffer(self._pixels, self._width, self._height)
+            c_draw.switch_colors(self._pixels_colorkey, self._width, self._height, self._color_key, 0)
+
+        sdl2.SDL_UpdateTexture(
+            self._tx, None, self._pixels_colorkey if self._color_key != 0 else self._pixels, self.width * 4
+        )
         self.uptodate = True
 
     def clear(self):
@@ -328,22 +335,17 @@ class Surface:
             color: The color to switch.
             new_color: The new color to switch to.
         """
-        for x in range(round(self.get_size().x)):
-            for y in range(round(self.get_size().y)):
-                if self.get_pixel((x, y)) == color:
-                    new_color.a = self.get_pixel_tuple((x, y))[0]
-                    self.draw_point((x, y), new_color)
-                self.draw_point((x, y), color)
+        c_draw.switch_colors(self._pixels, self._width, self._height, color.rgba32(), new_color.rgba32())
         self.uptodate = False
 
     def set_colorkey(self, color: Color):
         """
         Sets the colorkey of the surface.
+
         Args:
             color: Color to set as the colorkey.
         """
-        # FIXME find an alternative to colorkey
-        # sdl2.SDL_SetColorKey(self._surf, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._surf.format, color.r, color.g, color.b))
+        self._color_key = color.rgba32()
         self.uptodate = False
 
     def clone(self) -> Surface:
@@ -412,11 +414,7 @@ class Surface:
 
         surf = sdl2.SDL_ConvertSurfaceFormat(surf_bad, Display.pixel_format, 0).contents
         s = cls(surf.w, surf.h, scale=scale, rotation=rotation, af=af)
-        sdl2.SDL_DestroyTexture(s._tx)
-        s._tx = sdl2.SDL_CreateTextureFromSurface(Display.renderer.sdlrenderer, surf).contents
         s._pixels = c_draw.clone_pixel_buffer(surf.pixels, surf.w, surf.h)
-        s._width = surf.w
-        s._height = surf.h
         sdl2.SDL_FreeSurface(surf)
         sdl2.SDL_FreeSurface(surf_bad)
         return s

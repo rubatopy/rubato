@@ -55,6 +55,10 @@ def blit(
     cdraw.blit(src, dst, sw, sh, dw, dh, srx, sry, srw, srh, drx, dry, drw, drh)
 
 
+def switch_colors(pixels: int, width: int, height: int, color1: int, color2: int):
+    cdraw.switchColors(pixels, width, height, color1, color2)
+
+
 def draw_line(
     pixels: int,
     width: int,
