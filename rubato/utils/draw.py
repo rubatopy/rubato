@@ -1,6 +1,5 @@
 """A static class for drawing things directly to the window."""
 from __future__ import annotations
-import math
 from typing import Optional, Callable
 import cython
 
@@ -339,15 +338,16 @@ class Draw:
         hashing = tuple(points), border, border_thickness, fill
 
         if (surf := cls._poly_surfs.get(hashing, None)) is None:
-            max_dist = -Math.INF
-            for p in points:
-                dist = Vector(*p).mag_sq
-                if dist > max_dist:
-                    max_dist = dist
-
-            dim = round(math.sqrt(max_dist))
-            surf = Surface(dim * 2, dim * 2)
-            surf.draw_poly([(p[0] + dim, p[1] + dim) for p in points], border, round(border_thickness), fill)
+            min_x, min_y = Math.INF, Math.INF
+            max_x, max_y = -Math.INF, -Math.INF
+            for point in points:
+                min_x = min(min_x, round(point[0]))
+                min_y = min(min_y, round(point[1]))
+                max_x = max(max_x, round(point[0]))
+                max_y = max(max_y, round(point[1]))
+            off = Vector(min_x, min_y)
+            surf = Surface(max_x - min_x + 2, max_y - min_y + 2)
+            surf.draw_poly([p - off + 1 for p in points], border, round(border_thickness), fill)
             cls._poly_surfs[hashing] = surf
 
         cls.surface(surf, center, camera)
@@ -522,6 +522,19 @@ class Draw:
             surface.regen()
 
         cls.texture(surface._tx, surface.width, surface.height, pos, surface.scale, surface.rotation, camera)
+
+    @classmethod
+    def clear_cache(cls):
+        """
+        Clears the cache of surfaces.
+        Use this if you are drawing things without using Surfaces and need to free memory.
+        Note that if you need this method, it is probably just smarter to use Surfaces yourself instead.
+        """
+        cls._pt_surfs.clear()
+        cls._line_surfs.clear()
+        cls._rect_surfs.clear()
+        cls._circle_surfs.clear()
+        cls._poly_surfs.clear()
 
     @classmethod
     def _cache_size(cls):
