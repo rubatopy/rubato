@@ -223,7 +223,7 @@ class ParticleSystem(Component):
         rotation: float = 0,
         rot_velocity: float = 0,
         rot_acceleration: float = 0,
-        scale: float = 1,
+        scale: Vector | tuple[float, float] = (1, 1),
         lifespan: float = 1,
         z_index: int = 0,
         age: float = 0,
@@ -243,7 +243,7 @@ class ParticleSystem(Component):
             rotation: The starting rotation. Defaults to 0.
             rot_velocity: The starting rotational velocity. Defaults to 0.
             rot_acceleration: The starting rotational acceleration. Defaults to 0.
-            scale: The starting scale. Defaults to 1.
+            scale: The starting scale. Defaults to (1, 1).
             lifespan: The lifespan of each particle. Defaults to 1.
             z_index: The z-index of each particle. Defaults to 0.
             age: The starting age of each particle. Defaults to 0.
@@ -252,6 +252,7 @@ class ParticleSystem(Component):
             A particle generation function.
         """
         acc = Vector.create(acceleration)
+        sca = Vector.create(scale)
 
         def gen(angle: float) -> Particle:
             return Particle(
@@ -263,7 +264,7 @@ class ParticleSystem(Component):
                 rotation,
                 rot_velocity,
                 rot_acceleration,
-                scale,
+                sca.clone(),
                 lifespan,
                 z_index,
                 age,
