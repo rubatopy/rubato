@@ -1,4 +1,4 @@
-"""A place to test new WIP features"""  # pylint: disable=all
+"""Draw Demo"""  # pylint: disable=all
 import rubato as rb
 
 rb.init(res=(32 * 3, 32 * 2), window_size=(1000, 1000))
