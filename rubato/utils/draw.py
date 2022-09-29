@@ -433,7 +433,7 @@ class Draw:
         Display.update(tx, surf.w, surf.h, center, scale)
         sdl2.SDL_DestroyTexture(tx)
         sdl2.SDL_FreeSurface(surf)
-        
+
     @classmethod
     def queue_texture(
         cls,
@@ -522,7 +522,6 @@ class Draw:
             surface.regen()
 
         cls.texture(surface._tx, surface.width, surface.height, pos, surface.scale, surface.rotation, camera)
-
 
     @classmethod
     def clear_cache(cls):
