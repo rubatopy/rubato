@@ -163,7 +163,7 @@ class Draw:
         center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
-        border: Color = Color.cyan,
+        border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
@@ -194,7 +194,7 @@ class Draw:
         center: Vector | tuple[float, float],
         width: int | float,
         height: int | float,
-        border: Color = Color.cyan,
+        border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         angle: float = 0,
@@ -228,7 +228,7 @@ class Draw:
         cls,
         center: Vector | tuple[float, float],
         radius: int = 4,
-        border: Color = Color.cyan,
+        border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         z_index: int = 0,
@@ -255,7 +255,7 @@ class Draw:
         cls,
         center: Vector | tuple[float, float],
         radius: int | float = 4,
-        border: Color = Color.cyan,
+        border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         camera: Camera | None = None
@@ -283,7 +283,7 @@ class Draw:
     def queue_poly(
         cls,
         points: list[Vector] | list[tuple[float, float]],
-        border: Color = Color.cyan,
+        border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         z_index: int = 0,
@@ -308,7 +308,7 @@ class Draw:
     def poly(
         cls,
         points: list[Vector] | list[tuple[float, float]],
-        border: Color = Color.cyan,
+        border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
         camera: Camera | None = None
@@ -409,7 +409,7 @@ class Draw:
             pos[1] + (align[1] * h) / 2,
         )
         if shadow:
-            cls.rect(center, w + shadow_pad, h + shadow_pad, fill=Color(a=200))
+            cls.rect(center, w + shadow_pad, h + shadow_pad, border=None, fill=Color(a=200))
         Display.update(tx, center, scale)
         tx.destroy()
 
