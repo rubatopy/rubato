@@ -1,11 +1,12 @@
 """A static class for drawing things directly to the window."""
 from __future__ import annotations
+import math
 from typing import Optional, Callable
 import cython
 
 import sdl2, sdl2.ext
 
-from . import Vector, Color, Font, Display, InitError, Camera, Surface
+from . import Vector, Color, Font, Display, InitError, Camera, Surface, Math
 
 
 @cython.cclass
@@ -23,11 +24,11 @@ class Draw:
     """A static class allowing drawing items to the window."""
     _queue: list[DrawTask] = []
 
-    _pt_surfs: dict[int, Surface] = {}
-    _line_surfs: dict[int, Surface] = {}
-    _rect_surfs: dict[int, Surface] = {}
-    _circle_surfs: dict[int, Surface] = {}
-    _poly_surfs: dict[int, Surface] = {}
+    _pt_surfs: dict[Color, Surface] = {}
+    _line_surfs: dict[tuple, Surface] = {}
+    _rect_surfs: dict[tuple, Surface] = {}
+    _circle_surfs: dict[tuple, Surface] = {}
+    _poly_surfs: dict[tuple, Surface] = {}
 
     def __init__(self) -> None:
         raise InitError(self)
@@ -103,10 +104,10 @@ class Draw:
             color: The color to use for the pixel. Defaults to Color.cyan.
             camera: The camera to use. Defaults to None.
         """
-        if (surf := cls._pt_surfs.get(hash(color), None)) is None:
+        if (surf := cls._pt_surfs.get(color, None)) is None:
             surf = Surface(1, 1)
-            surf.fill(color)
-            cls._pt_surfs[hash(color)] = surf
+            surf.draw_point((0, 0), color)
+            cls._pt_surfs[color] = surf
 
         cls.surface(surf, pos, camera)
 
@@ -153,14 +154,16 @@ class Draw:
             width: The width of the line. Defaults to 1.
             camera: The camera to use. Defaults to None.
         """
-        hashed = hash((p1, p2, color, width))
+        dims = Vector.create(p2) - p1
+        hashing = dims, color, width
 
-        if (surf := Draw._line_surfs.get(hashed, None)) is None:
-            surf = Surface(*Display.res.tuple_int())
-            surf.draw_line(p1, p2, color, thickness=round(width))
-            Draw._line_surfs[hashed] = surf
+        if (surf := Draw._line_surfs.get(hashing, None)) is None:
+            size = abs(round(dims.x)), abs(round(dims.y))
+            surf = Surface(*size)
+            surf.draw_line((0, 0), size, color, thickness=round(width))
+            Draw._line_surfs[hashing] = surf
 
-        Draw.surface(surf, Display.center, camera)
+        Draw.surface(surf, p1 + dims / 2, camera)
 
     @classmethod
     def queue_rect(
@@ -218,12 +221,12 @@ class Draw:
             angle: The angle in degrees. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
-        hashed = hash((width, height, border, border_thickness, fill))
+        hashing = width, height, border, border_thickness, fill
 
-        if (surf := cls._rect_surfs.get(hashed, None)) is None:
+        if (surf := cls._rect_surfs.get(hashing, None)) is None:
             surf = Surface(round(width), round(height))
             surf.draw_rect((0, 0), (width, height), border, round(border_thickness), fill)
-            cls._rect_surfs[hashed] = surf
+            cls._rect_surfs[hashing] = surf
 
         surf.rotation = angle
         cls.surface(surf, center, camera)
@@ -276,11 +279,12 @@ class Draw:
             fill: The fill color. Defaults to None.
             camera: The camera to use. Defaults to None.
         """
-        hashed = hash((radius, border, border_thickness, fill))
-        if (surf := cls._circle_surfs.get(hashed, None)) is None:
+        hashing = radius, border, border_thickness, fill
+
+        if (surf := cls._circle_surfs.get(hashing, None)) is None:
             surf = Surface(round(radius * 2) + 1, round(radius * 2) + 1)
             surf.draw_circle((radius, radius), round(radius), border, round(border_thickness), fill)
-            cls._circle_surfs[hashed] = surf
+            cls._circle_surfs[hashing] = surf
 
         cls.surface(surf, center, camera)
 
@@ -288,6 +292,7 @@ class Draw:
     def queue_poly(
         cls,
         points: list[Vector] | list[tuple[float, float]],
+        center: Vector | tuple[float, float],
         border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -298,7 +303,8 @@ class Draw:
         Draws a polygon onto the renderer at the end of the frame.
 
         Args:
-            points: The list of points to draw.
+            points: The list of points to draw relative to the center.
+            center: The center of the polygon.
             border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
@@ -307,12 +313,13 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.poly(points, border, border_thickness, fill, camera))
+        cls.push(z_index, lambda: cls.poly(points, center, border, border_thickness, fill, camera))
 
     @classmethod
     def poly(
         cls,
         points: list[Vector] | list[tuple[float, float]],
+        center: Vector | tuple[float, float],
         border: Optional[Color] = Color.cyan,
         border_thickness: int | float = 1,
         fill: Optional[Color] = None,
@@ -322,19 +329,28 @@ class Draw:
         Draws a polygon onto the renderer immediately.
 
         Args:
-            points: The list of points to draw.
+            points: The list of points to draw relative to the center.
+            center: The center of the polygon.
             border: The border color. Defaults to Color.cyan.
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             camera: The camera to use. Defaults to None.
         """
-        hashed = hash((tuple(points), border, border_thickness, fill))
-        if (surf := cls._poly_surfs.get(hashed, None)) is None:
-            surf = Surface(*Display.res.tuple_int())
-            surf.draw_poly(points, border, round(border_thickness), fill)
-            cls._poly_surfs[hashed] = surf
+        hashing = tuple(points), border, border_thickness, fill
 
-        cls.surface(surf, Display.center, camera)
+        if (surf := cls._poly_surfs.get(hashing, None)) is None:
+            max_dist = -Math.INF
+            for p in points:
+                dist = Vector(*p).mag_sq
+                if dist > max_dist:
+                    max_dist = dist
+
+            dim = round(math.sqrt(max_dist))
+            surf = Surface(dim * 2, dim * 2)
+            surf.draw_poly([(p[0] + dim, p[1] + dim) for p in points], border, round(border_thickness), fill)
+            cls._poly_surfs[hashing] = surf
+
+        cls.surface(surf, center, camera)
 
     @classmethod
     def queue_text(
