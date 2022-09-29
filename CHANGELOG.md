@@ -8,9 +8,14 @@
 
 ### Changed
 
+-   Default z-index for all queue-based `Draw` functions is now 0 to match the rest of rubato. (was Math.INF)
+-   All `Draw` functions can now take in a camera as an optional argument.
+
 ### Removed
 
 ### Fixed
+
+-   Some drawing processes weren't taking into account zoom and the camera's z-index.
 
 ## [v0.3.3] - September 12, 2022
 
