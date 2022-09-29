@@ -146,8 +146,9 @@ class ParticleSystem(Component):
             particle.surface.scale = particle._original_scale * particle.scale
             Draw.queue_surface(
                 particle.surface,
-                camera.transform(particle._system_pos + particle.pos.rotate(particle._system_rotation)),
+                particle._system_pos + particle.pos.rotate(particle._system_rotation),
                 particle.z_index + particle._system_z,
+                camera,
             )
 
     def generate_particles(self):

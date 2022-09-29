@@ -73,7 +73,7 @@ class Raster(Component):
 
     def draw(self, camera: Camera):
         self.surf.rotation = self.true_rotation()
-        Draw.queue_surface(self.surf, camera.transform(self.true_pos()), self.true_z())
+        Draw.queue_surface(self.surf, self.true_pos(), self.true_z(), camera)
 
     def clear(self):
         """

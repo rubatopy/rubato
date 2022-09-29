@@ -211,6 +211,7 @@ class GameObject:
         if self.debug or Game.debug:
             self._debug_cross.rotation = self.rotation
 
+            # Done like this because we don't want the crosshair to be affected by the camera's zoom
             Draw.queue_surface(self._debug_cross, camera.transform(self.pos))
 
     def update(self):
