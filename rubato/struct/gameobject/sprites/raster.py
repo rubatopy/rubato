@@ -1,8 +1,7 @@
 """Abstract component for manipulating pixels attached to a game object."""
 from __future__ import annotations
 from .. import Component, Rectangle
-from ... import Surface
-from .... import Vector, Camera, Draw, Color
+from .... import Vector, Camera, Draw, Color, Surface
 
 
 class Raster(Component):

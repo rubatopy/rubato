@@ -7,8 +7,7 @@ import cython
 
 from . import Particle
 from .. import Component
-from ... import Surface
-from .... import Vector, Camera, Time, Math, Color, Draw
+from .... import Vector, Camera, Time, Math, Color, Draw, Surface
 
 if not cython.compiled:
     from enum_tools import document_enum
