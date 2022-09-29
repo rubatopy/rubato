@@ -4,10 +4,12 @@ cdef extern from "cdraw.cpp":
 
     size_t createPixelBuffer(int width, int height)
     void freePixelBuffer(size_t buffer)
+    inline size_t clonePixelBuffer(size_t _source, int width, int height)
 
     void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending)
     int getPixel(size_t _pixels, int width, int height, int x, int y)
     void clearPixels(size_t _pixels, int width, int height)
+    inline void blit(size_t _source, size_t _destination, int sw, int sh, int dw, int dh, int srx, int sry, int srw, int srh, int drx, int dry, int drw, int drh)
 
     void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa, bool blending, int thickness)
     void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness)

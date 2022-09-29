@@ -1,14 +1,17 @@
 """A place to test new WIP features"""  # pylint: disable=all
 import rubato as rb
 
-rb.init(res=(10, 10), window_size=(2000, 2000))
+rb.init(res=(100, 100), window_size=(2000, 2000))
 
-a = rb.Surface(2, 2)
-a.fill(rb.Color(255, 0, 0))
+a = rb.Surface.from_file("../files/dino/idle.png")
+print(a.width, a.height)
+
+b = rb.Surface(24, 24)
+b.merge(a, (0, 0, 24, 24), (0, 0, 12, 12))
 
 
 def update():
-    rb.Draw.queue_surface(a, (5, 5))
+    rb.Draw.queue_surface(b, rb.Display.center)
 
 
 rb.Game.update = update

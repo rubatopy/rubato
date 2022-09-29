@@ -17,7 +17,11 @@ def create_pixel_buffer(width: int, height: int) -> int:
 
 
 def free_pixel_buffer(buffer: int):
-    return cdraw.freePixelBuffer(buffer)
+    cdraw.freePixelBuffer(buffer)
+
+
+def clone_pixel_buffer(src: int, width: int, height: int) -> int:
+    return cdraw.clonePixelBuffer(src, width, height)
 
 
 def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = True):
@@ -30,6 +34,25 @@ def get_pixel(pixels: int, width: int, height: int, x: int, y: int):
 
 def clear_pixels(pixels: int, width: int, height: int):
     cdraw.clearPixels(pixels, width, height)
+
+
+def blit(
+    src: int,
+    dst: int,
+    sw: int,
+    sh: int,
+    dw: int,
+    dh: int,
+    srx: int,
+    sry: int,
+    srw: int,
+    srh: int,
+    drx: int,
+    dry: int,
+    drw: int,
+    drh: int,
+):
+    cdraw.blit(src, dst, sw, sh, dw, dh, srx, sry, srw, srh, drx, dry, drw, drh)
 
 
 def draw_line(

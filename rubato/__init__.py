@@ -80,7 +80,9 @@ def init(
     Display.window = sdl2.ext.Window(name, (int(size[0]), int(size[1])), window_pos, flags)
 
     Display.renderer = sdl2.ext.Renderer(
-        Display.window, flags=(sdl2.SDL_RENDERER_ACCELERATED), logical_size=(int(res[0]), int(res[1]))
+        Display.window,
+        flags=(sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_TARGETTEXTURE),
+        logical_size=(int(res[0]), int(res[1]))
     )
 
     if change_pos:

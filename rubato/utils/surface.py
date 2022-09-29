@@ -1,6 +1,6 @@
 """An abstraction for a grid of pixels that can be drawn onto."""
 from __future__ import annotations
-from time import time
+from turtle import width
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
@@ -38,10 +38,11 @@ class Surface:
         self._width = width
         self._height = height
 
+        sdl2.SDL_SetHint(b"SDL_RENDER_SCALE_QUALITY", b"linear" if self._af else b"nearest")
         self._tx: sdl2.SDL_Texture = sdl2.SDL_CreateTexture(
             Display.renderer.sdlrenderer, Display.pixel_format, sdl2.SDL_TEXTUREACCESS_STREAMING, width, height
         ).contents
-        # self._tx.set_scale_mode("linear" if self.af else "nearest") # FIXME find an alternative
+        sdl2.SDL_SetTextureBlendMode(self._tx, sdl2.SDL_BLENDMODE_BLEND)
         self._pixels = c_draw.create_pixel_buffer(width, height)
         self.uptodate: bool = False
         """
@@ -67,36 +68,59 @@ class Surface:
     @af.setter
     def af(self, new: bool):
         self._af = new
-        # if hasattr(self, "tx"):
-        #     self._tx.set_scale_mode("linear" if self.af else "nearest") # FIXME find an alternative
+        sdl2.SDL_SetHint(b"SDL_RENDER_SCALE_QUALITY", b"linear" if self._af else b"nearest")
+        self._tx: sdl2.SDL_Texture = sdl2.SDL_CreateTexture(
+            Display.renderer.sdlrenderer, Display.pixel_format, sdl2.SDL_TEXTUREACCESS_STREAMING, self.width,
+            self.height
+        ).contents
+        sdl2.SDL_SetTextureBlendMode(self._tx, sdl2.SDL_BLENDMODE_BLEND)
+        self.uptodate = False
 
     def get_size(self) -> Vector:
         """
-        Gets the current size of the image. (Scaled)
+        Gets the current size of the Surface. (Scaled)
 
         Returns:
-            The size of the image
+            The size of the Surface
         """
         return Vector(self._width * self.scale.x, self._height * self.scale.y)
 
     def get_size_raw(self) -> Vector:
         """
-        Gets the current size of the image. (Unscaled)
+        Gets the current size of the Surface. (Unscaled)
 
         Returns:
-            The size of the image
+            The size of the Surface
         """
         return Vector(self._width, self._height)
 
-    def merge(self, other: Surface):
+    def merge(
+        self,
+        other: Surface,
+        src_rect: tuple[int, int, int, int] | None = None,
+        dst_rect: tuple[int, int, int, int] | None = None,
+    ):
         """
-        Merges another surface into this one.
+        Merges another Surface onto this one.
 
         Args:
-            other: The surface to merge into this one.
+            other: The Surface to merge onto this one.
+            src_rect: The rectangle of the other surface to merge. Defaults to the whole surface.
+            dst_rect: The rectangle of this surface to merge onto. Defaults to the whole surface.
+
+        Note:
+            Will not stretch the other surface to fit the destination rectangle.
         """
-        # FIXME find an alternative to blit
-        # sdl2.SDL_BlitSurface(other._surf, None, self._surf, sdl2.SDL_Rect(0, 0, *self.get_size_raw().tuple_int()))
+        c_draw.blit(
+            other._pixels,
+            self._pixels,
+            other.width,
+            other.height,
+            self.width,
+            self.height,
+            *(src_rect or (0, 0, other.width, other.height)),
+            *(dst_rect or (0, 0, self.width, self.height)),
+        )
         self.uptodate = False
 
     def regen(self):
@@ -318,7 +342,7 @@ class Surface:
         Args:
             color: Color to set as the colorkey.
         """
-        # FIXME find an alternative
+        # FIXME find an alternative to colorkey
         # sdl2.SDL_SetColorKey(self._surf, sdl2.SDL_TRUE, sdl2.SDL_MapRGB(self._surf.format, color.r, color.g, color.b))
         self.uptodate = False
 
@@ -348,17 +372,14 @@ class Surface:
             new: The new alpha. (value between 0-255)
         """
         new = max(min(new, 255), 0)
-        # FIXME find an alternative
-        # sdl2.SDL_SetSurfaceAlphaMod(self._surf, new)
-        self.uptodate = False
+        sdl2.SDL_SetTextureAlphaMod(self._tx, new)
 
     def get_alpha(self) -> int:
         """
         Gets the surface wide alpha.
         """
         y = ctypes.c_uint8()
-        # FIXME find an alternative
-        # sdl2.SDL_GetSurfaceAlphaMod(self._surf, ctypes.byref(y))
+        sdl2.SDL_GetTextureAlphaMod(self._tx, ctypes.byref(y))
         return y.value
 
     @classmethod
@@ -382,19 +403,22 @@ class Surface:
             The resultant surface.
         """
         try:
-            surf = sdl2.ext.load_img(path, False)
+            surf_bad = sdl2.ext.load_img(path, False)
         except OSError:
-            surf = sdl2.ext.load_img(get_path(path), False)
+            surf_bad = sdl2.ext.load_img(get_path(path), False)
         except sdl2.ext.SDLError as e:
             fname = path.replace("\\", "/").split("/")[-1]
             raise TypeError(f"{fname} is not a valid image file") from e
 
-        s = cls(scale=scale, rotation=rotation, af=af)
+        surf = sdl2.SDL_ConvertSurfaceFormat(surf_bad, Display.pixel_format, 0).contents
+        s = cls(surf.w, surf.h, scale=scale, rotation=rotation, af=af)
         sdl2.SDL_DestroyTexture(s._tx)
         s._tx = sdl2.SDL_CreateTextureFromSurface(Display.renderer.sdlrenderer, surf).contents
+        s._pixels = c_draw.clone_pixel_buffer(surf.pixels, surf.w, surf.h)
         s._width = surf.w
         s._height = surf.h
         sdl2.SDL_FreeSurface(surf)
+        sdl2.SDL_FreeSurface(surf_bad)
         return s
 
     def __del__(self):

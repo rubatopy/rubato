@@ -4,6 +4,7 @@
 #include <math.h>
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
 
 /***********************************************************************************************************************
 
@@ -19,6 +20,12 @@ inline void freePixelBuffer(size_t buffer) {
     free((void*) buffer);
 }
 
+inline size_t clonePixelBuffer(size_t _source, int width, int height) {
+    uint32_t* source = (uint32_t*) _source;
+    uint32_t* newBuffer = new uint32_t[width * height];
+    std::copy(source, source + width * height, newBuffer);
+    return (size_t) newBuffer;
+}
 
 /***********************************************************************************************************************
 
@@ -77,6 +84,16 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
 
 inline void clearPixels(size_t _pixels, int width, int height) {
     memset((size_t*) _pixels, 0, width * height * 4);
+}
+
+inline void blit(size_t _source, size_t _destination, int sw, int sh, int dw, int dh, int srx, int sry, int srw, int srh, int drx, int dry, int drw, int drh) {
+    for (int y = 0; y < srh; y++) {
+        for (int x = 0; x < srw; x++) {
+            if (x < drw && y < drh) {
+                setPixel(_destination, dw, dh, drx + x, dry + y, getPixel(_source, sw, sh, srx + x, sry + y), true);
+            }
+        }
+    }
 }
 
 
