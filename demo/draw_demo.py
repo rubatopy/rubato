@@ -18,4 +18,6 @@ def draw():
 
 rb.Game.draw = draw
 
+rb.Time.scheduled_call(1000, lambda: print(rb.Draw._cache_size()))
+
 rb.begin()
