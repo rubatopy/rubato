@@ -523,6 +523,19 @@ class Draw:
         cls.texture(surface._tx, pos, surface.scale, surface.rotation, camera)
 
     @classmethod
+    def clear_cache(cls):
+        """
+        Clears the cache of surfaces.
+        Use this if you are drawing things without using Surfaces and need to free memory.
+        Note that if you need this method, it is probably just smarter to use Surfaces yourself instead.
+        """
+        cls._pt_surfs.clear()
+        cls._line_surfs.clear()
+        cls._rect_surfs.clear()
+        cls._circle_surfs.clear()
+        cls._poly_surfs.clear()
+
+    @classmethod
     def _cache_size(cls):
         return len(cls._pt_surfs) + len(cls._line_surfs) + len(cls._rect_surfs) \
             + len(cls._circle_surfs) + len(cls._poly_surfs)
