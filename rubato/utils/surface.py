@@ -375,7 +375,7 @@ class Surface:
         """
         new = max(min(new, 255), 0)
         sdl2.SDL_SetTextureAlphaMod(self._tx, new)
-
+        
     def get_alpha(self) -> int:
         """
         Gets the surface wide alpha.
