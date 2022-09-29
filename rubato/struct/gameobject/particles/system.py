@@ -251,6 +251,7 @@ class ParticleSystem(Component):
             A particle generation function.
         """
         acc = Vector.create(acceleration)
+        sca = Vector.create(scale)
 
         def gen(angle: float) -> Particle:
             return Particle(
@@ -262,7 +263,7 @@ class ParticleSystem(Component):
                 rotation,
                 rot_velocity,
                 rot_acceleration,
-                scale,
+                sca.clone(),
                 lifespan,
                 z_index,
                 age,
