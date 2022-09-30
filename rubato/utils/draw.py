@@ -341,12 +341,12 @@ class Draw:
             min_x, min_y = Math.INF, Math.INF
             max_x, max_y = -Math.INF, -Math.INF
             for point in points:
-                min_x = min(min_x, round(point[0]))
-                min_y = min(min_y, round(point[1]))
-                max_x = max(max_x, round(point[0]))
-                max_y = max(max_y, round(point[1]))
+                min_x = min(min_x, point[0])
+                min_y = min(min_y, point[1])
+                max_x = max(max_x, point[0])
+                max_y = max(max_y, point[1])
             off = Vector(min_x, min_y)
-            surf = Surface(max_x - min_x + 2, max_y - min_y + 2)
+            surf = Surface(round(max_x - min_x + 2), round(max_y - min_y + 2))
             surf.draw_poly([p - off + 1 for p in points], border, round(border_thickness), fill)
             cls._poly_surfs[hashing] = surf
 
