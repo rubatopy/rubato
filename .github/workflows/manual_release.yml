@@ -12,8 +12,6 @@ jobs:
     publisher:
         name: Publish to PyPi
         runs-on: ubuntu-latest
-        env:
-            RUBATO_VERSION: ${{ inputs.versionNumber }}
         steps:
             - uses: actions/checkout@v3
               with:
@@ -29,7 +27,7 @@ jobs:
                   pip install build Cython~=3.0.0a11
 
             - name: Build
-              run: python -m setup sdist --formats zip
+              run: RUBATO_VERSION=${{ inputs.versionNumber }} python -m setup sdist --formats zip
 
             - name: Publish to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
