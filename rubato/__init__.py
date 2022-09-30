@@ -94,11 +94,8 @@ def init(
         Display.window_pos += Vector(0, Display.get_window_border_size()[0])
     elif Display.window_pos.y < 0:
         Display.window_pos.y = Display.get_window_border_size()[0]
-        print( Display.get_window_border_size()[0])  #TODO: get rid of print
-        print("Fixing")
     elif Display.window_pos.x < 0:
         Display.window_pos.x = 0
-    print(Display.window_pos)  #TODO: get rid of print
     if icon:
         Display.set_window_icon(icon)
     else:
