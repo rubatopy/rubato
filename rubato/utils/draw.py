@@ -341,12 +341,12 @@ class Draw:
             min_x, min_y = Math.INF, Math.INF
             max_x, max_y = -Math.INF, -Math.INF
             for point in points:
-                min_x = min(min_x, round(point[0]))
-                min_y = min(min_y, round(point[1]))
-                max_x = max(max_x, round(point[0]))
-                max_y = max(max_y, round(point[1]))
+                min_x = min(min_x, point[0])
+                min_y = min(min_y, point[1])
+                max_x = max(max_x, point[0])
+                max_y = max(max_y, point[1])
             off = Vector(min_x, min_y)
-            surf = Surface(max_x - min_x + 2, max_y - min_y + 2)
+            surf = Surface(round(max_x - min_x + 2), round(max_y - min_y + 2))
             surf.draw_poly([p - off + 1 for p in points], border, round(border_thickness), fill)
             cls._poly_surfs[hashing] = surf
 
@@ -363,7 +363,7 @@ class Draw:
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
-        shadow_pad: int = 0,
+        shadow_pad: Vector | tuple[float, float] = (0, 0),
         z_index: int = 0,
         camera: Camera | None = None
     ):
@@ -379,7 +379,7 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
-            shadow_pad: What padding to use for the shadow. Defaults to 0.
+            shadow_pad: What padding to use for the shadow. Defaults to (0, 0).
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
@@ -398,7 +398,7 @@ class Draw:
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
-        shadow_pad: int = 0,
+        shadow_pad: Vector | tuple[float, float] = (0, 0),
         camera: Camera | None = None
     ):
         """
@@ -413,75 +413,40 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
-            shadow_pad: What padding to use for the shadow. Defaults to 0.
+            shadow_pad: What padding to use for the shadow. Defaults to (0, 0).
             camera: The camera to use. Defaults to None.
         """
+        shadow_pad = Vector.create(shadow_pad)
+
         if camera is not None:
             pos = camera.transform(pos)
             scale = camera.zoom * scale[0], camera.zoom * scale[1]
-            shadow_pad = round(camera.zoom * shadow_pad)
+            shadow_pad = camera.zoom * shadow_pad
 
         surf = font.generate_surface(text, justify, width)
-        tx = sdl2.ext.Texture(Display.renderer, surf)
+        tx = Surface._from_surf(surf, scale=scale)
         sdl2.SDL_FreeSurface(surf)
-        w, h = tx.size[0] * scale[0], font.size * scale[1]
-        center = (
-            pos[0] + (align[0] * w) / 2,
-            pos[1] + (align[1] * h) / 2,
-        )
+
+        pad_x, pad_y = (shadow_pad / scale).tuple_int()
+
         if shadow:
-            cls.rect(center, w + shadow_pad, h + shadow_pad, border=None, fill=Color(a=200))
-        Display.update(tx, center, scale)
-        tx.destroy()
+            tx_dims = tx.width + 2 * pad_x, font.size + 2 * pad_y
+            final_tx = Surface(*tx_dims, scale=scale)
+            final_tx.fill(Color(a=200))
+            final_tx.blit(
+                tx,
+                (0, (tx.height - font.size) // 2, tx.width, font.size),
+                (pad_x, pad_y, tx.width, font.size),
+            )
+        else:
+            final_tx = tx
 
-    @classmethod
-    def queue_texture(
-        cls,
-        texture: sdl2.ext.Texture,
-        pos: Vector | tuple[float, float] = (0, 0),
-        z_index: int = 0,
-        scale: Vector | tuple[float, float] = (1, 1),
-        angle: float = 0,
-        camera: Camera | None = None
-    ):
-        """
-        Draws an texture onto the renderer at the end of the frame.
-
-        Args:
-            texture: The texture to draw.
-            pos: The position of the texture. Defaults to (0, 0).
-            z_index: Where to draw it in the drawing order. Defaults to 0.
-            scale: The scale of the texture. Defaults to (1, 1).
-            angle: The clockwise rotation of the texture. Defaults to 0.
-            camera: The camera to use. Defaults to None.
-        """
-        if camera is not None and camera.z_index < z_index:
-            return
-        cls.push(z_index, lambda: cls.texture(texture, pos, scale, angle, camera))
-
-    @staticmethod
-    def texture(
-        texture: sdl2.ext.Texture,
-        pos: Vector | tuple[float, float] = (0, 0),
-        scale: Vector | tuple[float, float] = (1, 1),
-        angle: float = 0,
-        camera: Camera | None = None
-    ):
-        """
-        Draws an SDL Texture onto the renderer immediately.
-
-        Args:
-            texture: The texture to draw.
-            pos: The position to draw the texture at. Defaults to (0, 0).
-            scale: The scale of the texture. Defaults to (1, 1).
-            angle: The clockwise rotation of the texture. Defaults to 0.
-            camera: The camera to use. Defaults to None.
-        """
-        if camera is not None:
-            pos = camera.transform(pos)
-            scale = camera.zoom * scale[0], camera.zoom * scale[1]
-
-        Display.update(texture, pos, scale, angle)
+        size = final_tx.get_size()
+        center = (
+            pos[0] + (align[0] * size[0]) / 2,
+            pos[1] + (align[1] * size[1]) / 2,
+        )
+        cls.surface(final_tx, center, camera)
 
     @classmethod
     def queue_surface(
@@ -514,13 +479,16 @@ class Draw:
             pos: The position to draw the surface at. Defaults to (0, 0).
             camera: The camera to use. Defaults to None.
         """
-        if not surface._surf:
-            return
-
         if not surface.uptodate:
             surface.regen()
 
-        cls.texture(surface._tx, pos, surface.scale, surface.rotation, camera)
+        if camera is not None:
+            pos = camera.transform(pos)
+            scale = camera.zoom * surface.scale
+        else:
+            scale = surface.scale
+
+        Display._update(surface._tx, surface.width, surface.height, pos, scale, surface.rotation)
 
     @classmethod
     def clear_cache(cls):

@@ -12,6 +12,22 @@ else:
     import array
 
 
+def create_pixel_buffer(width: int, height: int) -> int:
+    return cdraw.createPixelBuffer(width, height)
+
+
+def free_pixel_buffer(buffer: int):
+    cdraw.freePixelBuffer(buffer)
+
+
+def colokey_copy(src: int, dst: int, width: int, height: int, colorkey: int):
+    cdraw.colorkeyCopy(src, dst, width, height, colorkey)
+
+
+def clone_pixel_buffer(src: int, width: int, height: int) -> int:
+    return cdraw.clonePixelBuffer(src, width, height)
+
+
 def set_pixel(pixels: int, width: int, height: int, x: int, y: int, color: int, blending: bool = True):
     cdraw.setPixel(pixels, width, height, x, y, color, blending)
 
@@ -22,6 +38,29 @@ def get_pixel(pixels: int, width: int, height: int, x: int, y: int):
 
 def clear_pixels(pixels: int, width: int, height: int):
     cdraw.clearPixels(pixels, width, height)
+
+
+def blit(
+    src: int,
+    dst: int,
+    sw: int,
+    sh: int,
+    dw: int,
+    dh: int,
+    srx: int,
+    sry: int,
+    srw: int,
+    srh: int,
+    drx: int,
+    dry: int,
+    drw: int,
+    drh: int,
+):
+    cdraw.blit(src, dst, sw, sh, dw, dh, srx, sry, srw, srh, drx, dry, drw, drh)
+
+
+def switch_colors(pixels: int, width: int, height: int, color1: int, color2: int):
+    cdraw.switchColors(pixels, width, height, color1, color2)
 
 
 def draw_line(

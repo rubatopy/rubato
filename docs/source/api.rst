@@ -220,7 +220,7 @@ These classes are utility classes that are used to make certain tasks easier.
 
 Surface
 =======
-.. automodule:: rubato.struct.surface
+.. automodule:: rubato.utils.surface
 
 .. _draw:
 

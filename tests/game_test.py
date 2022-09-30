@@ -125,7 +125,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     dump = Mock()
     monkeypatch.setattr(Draw, "dump", dump)
     draw = Mock()
-    monkeypatch.setattr(Debug, "draw_fps", draw)
+    monkeypatch.setattr(Debug, "_draw_fps", draw)
 
     Game.show_fps = True
 
