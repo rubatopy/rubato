@@ -153,6 +153,12 @@ class RigidBody(Component):
         if not self.static:
             self.physics()
 
+
+    def stop(self):
+        """Stops the rigidbody. velocity and ang_vel are set to 0."""
+        self.velocity = Vector(0, 0)
+        self.ang_vel = 0
+
     def clone(self) -> RigidBody:
         return RigidBody(
             mass=self.mass,
