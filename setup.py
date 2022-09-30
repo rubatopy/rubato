@@ -24,7 +24,8 @@ def package_files(directory):
 
 setup(
     version=version,
-    package_data={"rubato": [*package_files("rubato/static"), "rubato/c_src/cdraw.pxd"]},
+    package_data={"rubato": [*package_files("rubato/static"),
+                             os.path.join("..", "rubato/c_src/", "cdraw.pxd")]},
     ext_modules=[
         *cythonize(
             Extension(
