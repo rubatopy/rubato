@@ -187,7 +187,7 @@ class Display(metaclass=_DisplayProperties):
             sdl2.SDL_SetWindowFullscreen(cls.window.window, 0)
 
     @classmethod
-    def update(
+    def _update(
         cls,
         tx: sdl2.SDL_Texture,
         width: int,
@@ -236,37 +236,6 @@ class Display(metaclass=_DisplayProperties):
             None,
             flip,
         )
-
-        # cls.renderer.copy(
-        #     tx,
-        #     dstrect=(
-        #         (pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2,
-        #         (pos[1] - (height * scale[1]) / 2),
-        #         x_dim,
-        #         height * abs(scale[1]),
-        #     ),
-        #     angle=round(angle),
-        #     flip=flip
-        # )
-    @classmethod
-    def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
-        """
-        Clones an SDL surface.
-
-        Args:
-            surface: The surface to clone.
-
-        Returns:
-            sdl2.SDL_Surface: The cloned surface.
-        """
-        return sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
-            surface.pixels,
-            surface.w,
-            surface.h,
-            32,
-            surface.pitch,
-            surface.format.contents.format,
-        ).contents
 
     @classmethod
     def get_window_border_size(cls):

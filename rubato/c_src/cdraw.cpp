@@ -13,7 +13,7 @@ BUFFER FUNCTIONS
 ***********************************************************************************************************************/
 
 inline size_t createPixelBuffer(int width, int height) {
-    return (size_t) calloc(width * height, sizeof(uint32_t));
+    return (size_t) new uint32_t[width * height]();
 }
 
 inline void freePixelBuffer(size_t buffer) {

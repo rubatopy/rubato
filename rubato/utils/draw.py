@@ -430,12 +430,12 @@ class Draw:
         )
         if shadow:
             cls.rect(center, w + shadow_pad, h + shadow_pad, border=None, fill=Color(a=200))
-        Display.update(tx, surf.w, surf.h, center, scale)
+        Display._update(tx, surf.w, surf.h, center, scale)
         sdl2.SDL_DestroyTexture(tx)
         sdl2.SDL_FreeSurface(surf)
 
     @classmethod
-    def queue_texture(
+    def _queue_texture(
         cls,
         texture: sdl2.SDL_Texture,
         width: int,
@@ -459,10 +459,10 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.texture(texture, width, height, pos, scale, angle, camera))
+        cls.push(z_index, lambda: cls._texture(texture, width, height, pos, scale, angle, camera))
 
     @staticmethod
-    def texture(
+    def _texture(
         texture: sdl2.SDL_Texture,
         width: int,
         height: int,
@@ -485,7 +485,7 @@ class Draw:
             pos = camera.transform(pos)
             scale = camera.zoom * scale[0], camera.zoom * scale[1]
 
-        Display.update(texture, width, height, pos, scale, angle)
+        Display._update(texture, width, height, pos, scale, angle)
 
     @classmethod
     def queue_surface(
@@ -521,7 +521,7 @@ class Draw:
         if not surface.uptodate:
             surface.regen()
 
-        cls.texture(surface._tx, surface.width, surface.height, pos, surface.scale, surface.rotation, camera)
+        cls._texture(surface._tx, surface.width, surface.height, pos, surface.scale, surface.rotation, camera)
 
     @classmethod
     def clear_cache(cls):

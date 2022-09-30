@@ -146,7 +146,7 @@ class Text(Component):
 
     def draw(self, camera: Camera):
 
-        Draw.queue_texture(
+        Draw._queue_texture(
             self._tx.tx,
             *self._tx.size,
             self.true_pos() + self.anchor * Vector(*self._tx.size) / 2,
