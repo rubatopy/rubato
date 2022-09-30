@@ -128,7 +128,7 @@ class Surface:
         self.uptodate = False
 
     def regen(self):
-        """Regenerates the texture from the surface."""
+        """Updates the texture."""
         if self._color_key is not None:
             c_draw.colokey_copy(self._pixels, self._pixels_colorkey, self._width, self._height, self._color_key)
 
