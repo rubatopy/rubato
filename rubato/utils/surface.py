@@ -1,5 +1,6 @@
 """An abstraction for a grid of pixels that can be drawn onto."""
 from __future__ import annotations
+from typing import Optional
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
@@ -36,15 +37,15 @@ class Surface:
         self._af: bool = af
         self._width: int = width
         self._height: int = height
-        self._color_key: int = 0
+        self._color_key: Optional[int] = None
 
         sdl2.SDL_SetHint(b"SDL_RENDER_SCALE_QUALITY", b"linear" if self._af else b"nearest")
         self._tx: sdl2.SDL_Texture = sdl2.SDL_CreateTexture(
             Display.renderer.sdlrenderer, Display.pixel_format, sdl2.SDL_TEXTUREACCESS_STREAMING, width, height
         ).contents
         sdl2.SDL_SetTextureBlendMode(self._tx, sdl2.SDL_BLENDMODE_BLEND)
-        self._pixels = c_draw.create_pixel_buffer(width, height)
-        self._pixels_colorkey = c_draw.clone_pixel_buffer(self._pixels, width, height)
+        self._pixels: int = c_draw.create_pixel_buffer(width, height)
+        self._pixels_colorkey: int = 0
         self.uptodate: bool = False
         """
         Whether the texture is up to date with the surface.
@@ -126,12 +127,11 @@ class Surface:
 
     def regen(self):
         """Regenerates the texture from the surface."""
-        if self._color_key != 0:
-            self._pixels_colorkey = c_draw.clone_pixel_buffer(self._pixels, self._width, self._height)
-            c_draw.switch_colors(self._pixels_colorkey, self._width, self._height, self._color_key, 0)
+        if self._color_key is not None:
+            c_draw.colokey_copy(self._pixels, self._pixels_colorkey, self._width, self._height, self._color_key)
 
         sdl2.SDL_UpdateTexture(
-            self._tx, None, self._pixels_colorkey if self._color_key != 0 else self._pixels, self.width * 4
+            self._tx, None, self._pixels if self._color_key is None else self._pixels_colorkey, self.width * 4
         )
         self.uptodate = True
 
@@ -345,7 +345,19 @@ class Surface:
         Args:
             color: Color to set as the colorkey.
         """
+        if self._pixels_colorkey == 0:
+            self._pixels_colorkey = c_draw.create_pixel_buffer(self.width, self.height)
         self._color_key = color.rgba32()
+        self.uptodate = False
+
+    def remove_colorkey(self):
+        """
+        Remove the colorkey of the surface.
+        """
+        if self._pixels_colorkey != 0:
+            c_draw.free_pixel_buffer(self._pixels_colorkey)
+            self._pixels_colorkey = 0
+        self._color_key = None
         self.uptodate = False
 
     def clone(self) -> Surface:

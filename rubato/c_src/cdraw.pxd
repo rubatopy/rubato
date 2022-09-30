@@ -4,6 +4,7 @@ cdef extern from "cdraw.cpp":
 
     size_t createPixelBuffer(int width, int height)
     void freePixelBuffer(size_t buffer)
+    void colorkeyCopy(size_t source, size_t destination, int width, int height, size_t color_key)
     size_t clonePixelBuffer(size_t _source, int width, int height)
 
     void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending)
