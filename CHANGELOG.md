@@ -24,6 +24,7 @@
 ### Fixed
 
 -   Some drawing processes weren't taking into account zoom and the camera's z-index.
+-   Potential memory leak issue with naked `Font` objects.
 
 ## [v0.3.3] - September 12, 2022
 
