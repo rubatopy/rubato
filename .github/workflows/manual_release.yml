@@ -13,6 +13,12 @@ jobs:
         name: Publish to PyPi
         runs-on: ubuntu-latest
         steps:
+            - name: Report Version
+              run: |
+                  export RUBATO_VERSION=${{ inputs.versionNumber }}
+                  echo 'Releasing $RUBATO_VERSION'
+              shell: bash
+
             - uses: actions/checkout@v3
               with:
                   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
