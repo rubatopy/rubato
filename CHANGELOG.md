@@ -6,8 +6,11 @@
 
 -   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
 -   `shadow_pad` parameter in `Draw.text` is now a vector to allow for different padding in the x and y directions.
+-   Renamed `surface.merge` and `raster.merge` to `surface.blit` and `raster.blit`, respectively, to be more consistent with Unity's API.
 
 ### Added
+
+-   Extra arguments to `raster.blit` to be unlock the full functionality of `surface.blit`.
 
 ### Changed
 

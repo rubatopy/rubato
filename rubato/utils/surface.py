@@ -96,19 +96,21 @@ class Surface:
         """
         return Vector(self._width, self._height)
 
-    def merge(
+    def blit(
         self,
         other: Surface,
         src_rect: tuple[int, int, int, int] | None = None,
         dst_rect: tuple[int, int, int, int] | None = None,
     ):
         """
-        Merges another Surface onto this one.
+        Blits (merges / copies) another Surface onto this one.
 
         Args:
-            other: The Surface to merge onto this one.
-            src_rect: The rectangle of the other surface to merge. Defaults to the whole surface.
-            dst_rect: The rectangle of this surface to merge onto. Defaults to the whole surface.
+            other: The Surface to blit onto this one.
+            src_rect: The area (x, y, width, height) to blit from in the source surface (other).
+                Defaults to the whole surface.
+            dst_rect: The area (x, y, width, height) to blit to in the destination surface (self).
+                Defaults to the whole surface.
 
         Note:
             Will not stretch the other surface to fit the destination rectangle.
@@ -374,7 +376,7 @@ class Surface:
             rotation=self.rotation,
             af=self.af,
         )
-        new.merge(self)
+        new.blit(self)
 
         return new
 

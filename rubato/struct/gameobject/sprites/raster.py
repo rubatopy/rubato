@@ -61,14 +61,26 @@ class Raster(Component):
         size = self.get_size()
         return Rectangle(offset=self.offset, width=size.x, height=size.y, scale=self.scale)
 
-    def merge(self, other: Raster):
+    def blit(
+        self,
+        other: Raster,
+        src_rect: tuple[int, int, int, int] | None = None,
+        dst_rect: tuple[int, int, int, int] | None = None,
+    ):
         """
-        Merges the surface of another component into this one.
+        Blits (merges / copies) another Raster onto this one.
 
         Args:
-            other: The other component to merge into this one.
+            other: The Raster to blit onto this one.
+            src_rect: The area (x, y, width, height) to blit from in the source raster (other).
+                Defaults to the whole surface.
+            dst_rect: The area (x, y, width, height) to blit to in the destination raster (self).
+                Defaults to the whole surface.
+
+        Note:
+            Will not stretch the other raster to fit the destination rectangle.
         """
-        self.surf.merge(other.surf)
+        self.surf.blit(other.surf, src_rect, dst_rect)
 
     def draw(self, camera: Camera):
         self.surf.rotation = self.true_rotation()

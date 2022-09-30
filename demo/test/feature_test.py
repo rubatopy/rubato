@@ -9,7 +9,7 @@ print(a.width, a.height)
 a.set_colorkey(rb.Color(77, 146, 188))
 
 b = rb.Surface(24, 24)
-b.merge(a, (0, 0, 24, 24), (0, 0, 12, 12))
+b.blit(a, (0, 0, 24, 24), (0, 0, 12, 12))
 
 
 def update():

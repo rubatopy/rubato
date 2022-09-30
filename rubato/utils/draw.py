@@ -433,7 +433,7 @@ class Draw:
             tx_dims = tx.width + 2 * pad_x, font.size + 2 * pad_y
             final_tx = Surface(*tx_dims, scale=scale)
             final_tx.fill(Color(a=200))
-            final_tx.merge(
+            final_tx.blit(
                 tx,
                 (0, (tx.height - font.size) // 2, tx.width, font.size),
                 (pad_x, pad_y, tx.width, font.size),

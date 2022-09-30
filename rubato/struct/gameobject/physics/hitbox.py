@@ -253,7 +253,7 @@ class Polygon(Hitbox):
         w = round(self.radius * self.scale.x * 2)
         h = round(self.radius * self.scale.y * 2)
         if w != self._image.width or h != self._image.height:
-            self._image = Surface(w, h, af=True)
+            self._image = Surface(w, h)
             self._debug_image = Surface(w, h)
 
         verts = [v + Vector(w // 2, h // 2) for v in self.verts]
@@ -511,7 +511,7 @@ class Rectangle(Hitbox):
         w = round(self.width * self.scale.x)
         h = round(self.height * self.scale.y)
         if w != self._image.width or h != self._image.height:
-            self._image = Surface(w, h, af=True)
+            self._image = Surface(w, h)
             self._debug_image = Surface(w, h)
 
         if self.color is not None:
@@ -619,7 +619,7 @@ class Circle(Hitbox):
         size = int_r * 2 + 1
 
         if self._image.width != size:
-            self._image = Surface(size, size, af=True)
+            self._image = Surface(size, size)
             self._debug_image = Surface(size, size)
 
         if self.color is not None:
