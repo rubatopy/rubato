@@ -6,8 +6,7 @@ from typing import TYPE_CHECKING
 from os import path as os_path, walk
 
 from .. import Component
-from ... import Surface
-from .... import Vector, Time, get_path, Draw, Camera
+from .... import Vector, Time, get_path, Draw, Camera, Surface
 
 if TYPE_CHECKING:
     from . import Spritesheet

@@ -8,6 +8,7 @@ from .noise import Noise
 from .vector import Vector
 from .display import Display
 from .color import Color
+from .surface import Surface
 from .font import Font
 from .rb_input import Input
 from .radio import Radio, Events, Listener
