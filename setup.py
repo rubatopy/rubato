@@ -29,7 +29,7 @@ setup(
         *cythonize(
             Extension(
                 "rubato.c_src.c_draw",
-                ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
+                ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp", "rubato/c_src/cdraw.pxd"],
                 extra_compile_args=["-std=c++14"],
                 language="c++",
             ),
