@@ -363,7 +363,7 @@ class Draw:
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
-        shadow_pad: int = 0,
+        shadow_pad: Vector | tuple[float, float] = (0, 0),
         z_index: int = 0,
         camera: Camera | None = None
     ):
@@ -379,7 +379,7 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
-            shadow_pad: What padding to use for the shadow. Defaults to 0.
+            shadow_pad: What padding to use for the shadow. Defaults to (0, 0).
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
@@ -398,7 +398,7 @@ class Draw:
         width: int | float = 0,
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
-        shadow_pad: int = 0,
+        shadow_pad: Vector | tuple[float, float] = (0, 0),
         camera: Camera | None = None
     ):
         """
@@ -413,26 +413,40 @@ class Draw:
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
-            shadow_pad: What padding to use for the shadow. Defaults to 0.
+            shadow_pad: What padding to use for the shadow. Defaults to (0, 0).
             camera: The camera to use. Defaults to None.
         """
+        shadow_pad = Vector.create(shadow_pad)
+
         if camera is not None:
             pos = camera.transform(pos)
             scale = camera.zoom * scale[0], camera.zoom * scale[1]
-            shadow_pad = round(camera.zoom * shadow_pad)
+            shadow_pad = camera.zoom * shadow_pad
 
         surf = font.generate_surface(text, justify, width)
-        tx: sdl2.SDL_Texture = sdl2.SDL_CreateTextureFromSurface(Display.renderer.sdlrenderer, surf).contents
-        w, h = surf.w * scale[0], font.size * scale[1]
-        center = (
-            pos[0] + (align[0] * w) / 2,
-            pos[1] + (align[1] * h) / 2,
-        )
-        if shadow:
-            cls.rect(center, w + shadow_pad, h + shadow_pad, border=None, fill=Color(a=200))
-        Display._update(tx, surf.w, surf.h, center, scale)
-        sdl2.SDL_DestroyTexture(tx)
+        tx = Surface._from_surf(surf, scale=scale)
         sdl2.SDL_FreeSurface(surf)
+
+        pad_x, pad_y = (shadow_pad / scale).tuple_int()
+
+        if shadow:
+            tx_dims = tx.width + 2 * pad_x, font.size + 2 * pad_y
+            final_tx = Surface(*tx_dims, scale=scale)
+            final_tx.fill(Color(a=200))
+            final_tx.merge(
+                tx,
+                (0, (tx.height - font.size) // 2, tx.width, font.size),
+                (pad_x, pad_y, tx.width, font.size),
+            )
+        else:
+            final_tx = tx
+
+        size = final_tx.get_size()
+        center = (
+            pos[0] + (align[0] * size[0]) / 2,
+            pos[1] + (align[1] * size[1]) / 2,
+        )
+        cls.surface(final_tx, center, camera)
 
     @classmethod
     def queue_surface(

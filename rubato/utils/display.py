@@ -220,17 +220,18 @@ class Display(metaclass=_DisplayProperties):
         if flipy:
             flip |= sdl2.SDL_FLIP_VERTICAL
 
-        x_dim = width * abs(scale[0])
+        x_dim = round(width * abs(scale[0]))
+        y_dim = round(height * abs(scale[1]))
 
         sdl2.SDL_RenderCopyEx(
             cls.renderer.sdlrenderer,
             tx,
             None,
             sdl2.SDL_Rect(
-                int((pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2),
-                int(pos[1] - (height * scale[1]) / 2),
-                int(x_dim),
-                int(height * abs(scale[1])),
+                round((pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2),
+                round(pos[1] - (height * scale[1]) / 2),
+                x_dim,
+                y_dim,
             ),
             round(angle),
             None,

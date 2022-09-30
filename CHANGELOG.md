@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 -   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
+-   `shadow_pad` parameter in `Draw.text` is now a vector to allow for different padding in the x and y directions.
 
 ### Added
 
