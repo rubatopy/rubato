@@ -24,12 +24,12 @@ def package_files(directory):
 
 setup(
     version=version,
-    package_data={"rubato": package_files("rubato/static")},
+    package_data={"rubato": [*package_files("rubato/static"), "rubato/c_src/cdraw.pxd"]},
     ext_modules=[
         *cythonize(
             Extension(
                 "rubato.c_src.c_draw",
-                ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp", "rubato/c_src/cdraw.pxd"],
+                ["rubato/c_src/c_draw.py", "rubato/c_src/cdraw.cpp"],
                 extra_compile_args=["-std=c++14"],
                 language="c++",
             ),
