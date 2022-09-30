@@ -1,4 +1,4 @@
-name: Manually Publish to TestPyPi
+name: Manually Publish to PyPi
 
 on:
     workflow_dispatch:
@@ -12,9 +12,13 @@ jobs:
     publisher:
         name: Publish to PyPi
         runs-on: ubuntu-latest
-        env:
-            RUBATO_VERSION: ${{ inputs.versionNumber }}
         steps:
+            - name: Report Version
+              run: |
+                  export RUBATO_VERSION=${{ inputs.versionNumber }}
+                  echo 'Releasing $RUBATO_VERSION'
+              shell: bash
+
             - uses: actions/checkout@v3
               with:
                   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
@@ -26,18 +30,13 @@ jobs:
             - name: Install requirements
               run: |
                   python -m pip install --upgrade pip
-                  git submodule update --init --recursive
-                  pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
-                  python setup.py egg_info
-                  pip install `grep -v '^\[' rubato.egg-info/requires.txt`
-                  pip install build twine
+                  pip install build Cython~=3.0.0a11
 
             - name: Build
-              run: python -m build && rm -rf **/*.whl
+              run: RUBATO_VERSION=${{ inputs.versionNumber }} python -m setup sdist --formats zip
 
-            - name: Publish to TestPyPI
+            - name: Publish to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
-                  password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-                  repository_url: https://test.pypi.org/legacy/
+                  password: ${{ secrets.PYPI_API_TOKEN }}
