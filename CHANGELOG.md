@@ -10,7 +10,7 @@
 
 ### Added
 
--   Extra arguments to `raster.blit` to be unlock the full functionality of `surface.blit`.
+-   Extra arguments to `raster.blit` to allow for the full functionality of `surface.blit`.
 
 ### Changed
 
