@@ -33,7 +33,7 @@ jobs:
                   pip install `grep -v '^\[' rubato.egg-info/requires.txt`
 
             - name: Build Docs
-              run: ./b docs
+              run: make docs-save
 
             - name: Deploy to Netlify
               uses: nwtgck/actions-netlify@v1.2
@@ -45,9 +45,9 @@ jobs:
                   enable-pull-request-comment: true
                   enable-commit-comment: false
                   overwrites-pull-request-comment: true
-                  alias: ${{ github.head_commit }}
-                  github-deployment-environment: Preview-${{ github.ref }}
-                  github-deployment-description: "Preview build for ${{ github.ref }}"
+                  alias: ${{ github.head_ref }}
+                  github-deployment-environment: Preview-${{ github.head_ref }}
+                  github-deployment-description: "Preview build for ${{ github.head_ref }}"
               env:
                   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
                   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

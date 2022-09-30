@@ -4,26 +4,6 @@
 
 ### Breaking Changes
 
--   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
-
-### Added
-
-### Changed
-
--   Removed sdlgfx dependency, replacing them with a cache-based `Surface` implementation.
--   Default z-index for all queue-based `Draw` functions is now 0 to match the rest of rubato. (was Math.INF)
--   All `Draw` functions can now take in a camera as an optional argument.
-
-### Removed
-
-### Fixed
-
--   Some drawing processes weren't taking into account zoom and the camera's z-index.
-
-## [v0.3.3] - September 12, 2022
-
-### Breaking Changes
-
 -   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
 -   Removed all `delete` functions because they did nothing that was useful for memory management,
     which was their purpose.
@@ -59,7 +39,6 @@
 -   Returned `NotImplemented` object instead of raising an error for vector math methods.
 -   FPS drawing correctly on smaller resolutions
 -   Some `repr` methods not returning a string capable of recreating the object.
--   SDL dlls are now properly bundled on _every_ major platform.
 
 ## [v0.3.2] - August 28, 2022
 
@@ -392,7 +371,6 @@
 -   Rigidbody implementation
 
 [unreleased]: https://github.com/rubatopy/rubato/
-[v0.3.3]: https://github.com/rubatopy/rubato/tree/v0.3.3
 [v0.3.2]: https://github.com/rubatopy/rubato/tree/v0.3.2
 [v0.3.1]: https://github.com/rubatopy/rubato/tree/v0.3.1
 [v0.3.0]: https://github.com/rubatopy/rubato/tree/v0.3.0

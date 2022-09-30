@@ -5,7 +5,8 @@ import sdl2
 import os
 
 from . import Animation
-from .... import Vector, get_path, Surface
+from ... import Surface
+from .... import Vector, get_path
 
 
 class Spritesheet:

@@ -2,7 +2,8 @@
 from __future__ import annotations
 from typing import Callable
 
-from .... import Vector, Surface
+from ... import Surface
+from .... import Vector
 
 
 class Particle:
@@ -19,7 +20,7 @@ class Particle:
         rotation: The rotation of the particle. Defaults to 0.
         rot_velocity: The rotational velocity of the particle. Defaults to 0.
         rot_acceleration: The rotational acceleration of the particle. Defaults to 0.
-        scale: The scale of the particle. Defaults to (1, 1).
+        scale: The scale of the particle. Defaults to 1.
         lifespan: The lifespan of the particle (in seconds). Defaults to 1.
         z_index: The z-index of the particle. Defaults to 0.
         age: The starting age of the particle (in seconds). Defaults to 0.
@@ -35,7 +36,7 @@ class Particle:
         rotation: float = 0,
         rot_velocity: float = 0,
         rot_acceleration: float = 0,
-        scale: Vector | tuple[float, float] = (1, 1),
+        scale: float = 1,
         lifespan: float = 1,
         z_index: int = 0,
         age: float = 0,
@@ -56,7 +57,7 @@ class Particle:
         """The rotational velocity of the particle."""
         self.rot_acceleration: float = rot_acceleration
         """The rotational acceleration of the particle."""
-        self.scale: Vector = Vector.create(scale)
+        self.scale: float = scale
         """The scale of the particle."""
         self.lifespan: float = lifespan
         """The lifespan of the particle. (in seconds)"""

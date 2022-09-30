@@ -12,10 +12,17 @@ poweruser. And all that finally with some legible documentation.
 from typing import Literal
 from warnings import simplefilter
 from importlib.resources import files
-import cython, sys
+from pathlib import Path
+import os, sys
 
-if not cython.compiled and "sphinx" not in sys.modules:
-    raise Exception("rubato must be compiled with Cython")
+# Sets the sdl path to the proper rubato sdl directory, from now on all sdl imports will be relative to this directory.
+if sys.platform.startswith("darwin"):
+    if os.uname().machine == "arm64":  # type: ignore # test: skip
+        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/silicon")  # test: skip
+    else:
+        os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/mac/intel")  # test: skip
+if sys.platform.startswith("win32"):
+    os.environ["PYSDL2_DLL_PATH"] = str(Path(__file__).parent / "static/dll/windows")  # test: skip
 
 simplefilter("ignore", UserWarning)
 

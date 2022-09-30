@@ -3,7 +3,7 @@ from __future__ import annotations
 import sdl2, sdl2.ext, ctypes
 
 from ..c_src import c_draw
-from . import Vector, Color, Display, get_path
+from .. import Vector, Color, Display, get_path
 
 
 class Surface:
@@ -26,9 +26,6 @@ class Surface:
         rotation: float = 0,
         af: bool = False,
     ):
-        if width <= 0 or height <= 0:
-            raise ValueError("Width and height must be greater than 0")
-
         self.rotation: float = rotation
         """The clockwise rotation of the sprite."""
         self.scale: Vector = Vector.create(scale)

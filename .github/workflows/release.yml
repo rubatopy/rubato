@@ -13,7 +13,7 @@ jobs:
             fail-fast: false
             matrix:
                 python-version: ["3.10"]
-                os: ["windows-latest", "macos-latest", "ubuntu-latest"]
+                os: ["windows-latest", "macos-latest"]
 
         steps:
             - name: Report Version
@@ -42,23 +42,10 @@ jobs:
                   git submodule update --init --recursive
                   pip install build Cython~=3.0.0a11
 
-            - name: Non Linux Build
-              if: ${{ !startsWith(matrix.os, 'ubuntu') }}
+            - name: Build
               run: |
                   RUBATO_VERSION=${{ github.ref_name }} python -m build -w
                   RUBATO_VERSION=${{ github.ref_name }} python -m setup sdist --formats zip
-              shell: bash
-
-            - name: Linux Build
-              if: ${{ startsWith(matrix.os, 'ubuntu') }}
-              uses: RalfG/python-wheels-manylinux-build@v0.5.0-manylinux_2_28_x86_64
-              with:
-                  python-versions: "cp310-cp310"
-                  build-requirements: "Cython~=3.0.0a11"
-
-            - name: Purge Bad Wheels
-              run: |
-                  rm -rf dist/*linux_x86_64*.whl
               shell: bash
 
             - name: Upload Wheel as Artifact
@@ -68,7 +55,7 @@ jobs:
                   path: dist/*.whl
 
             - name: Upload Tar.Gz as Artifact
-              if: startsWith(matrix.os, 'ubuntu')
+              if: startsWith(matrix.os, 'windows')
               uses: actions/upload-artifact@v3
               with:
                   name: zip
@@ -118,10 +105,10 @@ jobs:
                   pip install Cython==3.0.0a11
                   python setup.py egg_info
                   pip install `grep -v '^\[' rubato.egg-info/requires.txt`
-                  ./b delete
+                  make delete-build
 
             - name: Build Docs
-              run: ./b docs
+              run: make docs-save
 
             - name: Prep files for transfer
               run: |
@@ -166,7 +153,6 @@ jobs:
                   pip install requests
                   cd docs
                   python ghapi_cacher.py
-                  git commit -m "Update GH API Cache"
 
             - name: Push changes
               uses: ad-m/github-push-action@master

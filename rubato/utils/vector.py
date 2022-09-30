@@ -288,14 +288,6 @@ class Vector:
 
         return out
 
-    def max(self) -> float:
-        """Returns the maximum of x and y."""
-        return max(self.x, self.y)
-
-    def min(self) -> float:
-        """Returns the minimum of x and y."""
-        return min(self.x, self.y)
-
     def ceil(self, out: Vector | None = None) -> Vector:
         """
         Returns a new vector with the coordinates ciel-ed.

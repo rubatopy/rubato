@@ -4,7 +4,7 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "./b build",
+            "command": "$PROMPT_COMMAND && make build",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

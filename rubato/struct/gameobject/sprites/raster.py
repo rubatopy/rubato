@@ -1,7 +1,8 @@
 """Abstract component for manipulating pixels attached to a game object."""
 from __future__ import annotations
 from .. import Component, Rectangle
-from .... import Vector, Camera, Draw, Color, Surface
+from ... import Surface
+from .... import Vector, Camera, Draw, Color
 
 
 class Raster(Component):
@@ -59,7 +60,7 @@ class Raster(Component):
             The Rectangle hitbox that bounds the raster.
         """
         size = self.get_size()
-        return Rectangle(offset=self.offset, width=size.x, height=size.y, scale=self.scale)
+        return Rectangle(offset=self.offset, width=size.x, height=size.y)
 
     def merge(self, other: Raster):
         """
