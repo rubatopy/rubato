@@ -1,4 +1,4 @@
-name: Manually Publish to TestPyPi
+name: Manually Publish to PyPi
 
 on:
     workflow_dispatch:
@@ -35,9 +35,8 @@ jobs:
             - name: Build
               run: python -m build && rm -rf **/*.whl
 
-            - name: Publish to TestPyPI
+            - name: Publish to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
               with:
                   user: __token__
-                  password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-                  repository_url: https://test.pypi.org/legacy/
+                  password: ${{ secrets.PYPI_API_TOKEN }}
