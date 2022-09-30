@@ -10,13 +10,15 @@
 
 ### Changed
 
--   Hidden some functions that deal with internal SDL objects that were not usable anyway.
 -   Removed sdlgfx dependency, replacing them with a cache-based `Surface` implementation.
 -   Default z-index for all queue-based `Draw` functions is now 0 to match the rest of rubato. (was Math.INF)
 -   All `Draw` functions can now take in a camera as an optional argument.
 -   `Text` component now uses a Surface in its implementation.
 
 ### Removed
+
+-   `Draw.texture` and `Draw.queue_texture` because they used SDL_Texture objects which are hidden in rubato.
+-   Hidden a few functions that deal with internal SDL objects that were not user-usable anyway.
 
 ### Fixed
 

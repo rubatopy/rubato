@@ -435,59 +435,6 @@ class Draw:
         sdl2.SDL_FreeSurface(surf)
 
     @classmethod
-    def _queue_texture(
-        cls,
-        texture: sdl2.SDL_Texture,
-        width: int,
-        height: int,
-        pos: Vector | tuple[float, float] = (0, 0),
-        z_index: int = 0,
-        scale: Vector | tuple[float, float] = (1, 1),
-        angle: float = 0,
-        camera: Camera | None = None
-    ):
-        """
-        Draws an texture onto the renderer at the end of the frame.
-
-        Args:
-            texture: The texture to draw.
-            pos: The position of the texture. Defaults to (0, 0).
-            z_index: Where to draw it in the drawing order. Defaults to 0.
-            scale: The scale of the texture. Defaults to (1, 1).
-            angle: The clockwise rotation of the texture. Defaults to 0.
-            camera: The camera to use. Defaults to None.
-        """
-        if camera is not None and camera.z_index < z_index:
-            return
-        cls.push(z_index, lambda: cls._texture(texture, width, height, pos, scale, angle, camera))
-
-    @staticmethod
-    def _texture(
-        texture: sdl2.SDL_Texture,
-        width: int,
-        height: int,
-        pos: Vector | tuple[float, float] = (0, 0),
-        scale: Vector | tuple[float, float] = (1, 1),
-        angle: float = 0,
-        camera: Camera | None = None
-    ):
-        """
-        Draws an SDL Texture onto the renderer immediately.
-
-        Args:
-            texture: The texture to draw.
-            pos: The position to draw the texture at. Defaults to (0, 0).
-            scale: The scale of the texture. Defaults to (1, 1).
-            angle: The clockwise rotation of the texture. Defaults to 0.
-            camera: The camera to use. Defaults to None.
-        """
-        if camera is not None:
-            pos = camera.transform(pos)
-            scale = camera.zoom * scale[0], camera.zoom * scale[1]
-
-        Display._update(texture, width, height, pos, scale, angle)
-
-    @classmethod
     def queue_surface(
         cls,
         surface: Surface,
@@ -521,7 +468,13 @@ class Draw:
         if not surface.uptodate:
             surface.regen()
 
-        cls._texture(surface._tx, surface.width, surface.height, pos, surface.scale, surface.rotation, camera)
+        if camera is not None:
+            pos = camera.transform(pos)
+            scale = camera.zoom * surface.scale
+        else:
+            scale = surface.scale
+
+        Display._update(surface._tx, surface.width, surface.height, pos, scale, surface.rotation)
 
     @classmethod
     def clear_cache(cls):
