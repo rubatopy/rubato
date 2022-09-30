@@ -4,7 +4,7 @@ from typing import Literal
 import sdl2, sdl2.ext
 
 from .. import Component
-from .... import Display, Vector, Color, Font, Draw, Camera
+from .... import Vector, Color, Font, Draw, Camera, Surface
 
 
 class Text(Component):
@@ -141,18 +141,16 @@ class Text(Component):
             self._justify,
             self._width,
         )
-        self._tx = sdl2.ext.Texture(Display.renderer, surf)
+        self._surf = Surface._from_surf(surf)
         sdl2.SDL_FreeSurface(surf)
 
     def draw(self, camera: Camera):
-
-        Draw._queue_texture(
-            self._tx.tx,
-            *self._tx.size,
-            self.true_pos() + self.anchor * Vector(*self._tx.size) / 2,
+        self._surf.rotation = self.true_rotation()
+        Draw.queue_surface(
+            self._surf,
+            self.true_pos() + self.anchor * self._surf.get_size() / 2,
             self.true_z(),
-            angle=round(self.true_rotation()),
-            camera=camera,
+            camera,
         )
 
     def clone(self) -> Text:
@@ -167,7 +165,3 @@ class Text(Component):
             rot_offset=self.rot_offset,
             z_index=self.z_index,
         )
-
-    def __del__(self):
-        self._tx.destroy()
-        self.font_object._font.close()

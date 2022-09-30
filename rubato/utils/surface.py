@@ -398,7 +398,7 @@ class Surface:
         Args:
             path: The path to the file.
             scale: The scale of the surface. Defaults to (1, 1).
-            rotation: The clockwise rotation of the sprite.
+            rotation: The clockwise rotation of the sprite. Defaults to 0.
             af: Whether to use anisotropic filtering. Defaults to False.
 
         Returns:
@@ -417,6 +417,33 @@ class Surface:
         s._pixels = c_draw.clone_pixel_buffer(surf.pixels, surf.w, surf.h)
         sdl2.SDL_FreeSurface(surf)
         sdl2.SDL_FreeSurface(surf_bad)
+        return s
+
+    @classmethod
+    def _from_surf(
+        cls,
+        surf: sdl2.SDL_Surface,
+        scale: Vector | tuple[float, float] = (1, 1),
+        rotation: float = 0,
+        af: bool = False
+    ) -> Surface:
+        """
+        Creates a Surface from an SDL_Surface.
+        Note that this does not free the original SDL_Surface.
+
+        Args:
+            surf: The SDL_Surface to create the surface from.
+            scale: The scale of the surface. Defaults to (1, 1).
+            rotation: The clockwise rotation of the sprite. Defaults to 0.
+            af: Whether to use anisotropic filtering. Defaults to False.
+
+        Returns:
+            The resultant surface.
+        """
+        new_surf = sdl2.SDL_ConvertSurfaceFormat(surf, Display.pixel_format, 0).contents
+        s = cls(surf.w, surf.h, scale=scale, rotation=rotation, af=af)
+        s._pixels = c_draw.clone_pixel_buffer(new_surf.pixels, surf.w, surf.h)
+        sdl2.SDL_FreeSurface(new_surf)
         return s
 
     def __del__(self):
