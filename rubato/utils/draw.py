@@ -158,6 +158,8 @@ class Draw:
 
         if (surf := Draw._line_surfs.get(hashing, None)) is None:
             size = abs(round(dims.x)), abs(round(dims.y))
+            if size.x == 0:
+                size.x = width
             surf = Surface(*size)
             surf.draw_line((0, 0), size, color, thickness=round(width))
             Draw._line_surfs[hashing] = surf
