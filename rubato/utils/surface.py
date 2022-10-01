@@ -428,6 +428,7 @@ class Surface:
 
         surf = sdl2.SDL_ConvertSurfaceFormat(surf_bad, Display.pixel_format, 0).contents
         s = cls(surf.w, surf.h, scale=scale, rotation=rotation, af=af)
+        c_draw.free_pixel_buffer(s._pixels)
         s._pixels = c_draw.clone_pixel_buffer(surf.pixels, surf.w, surf.h)
         sdl2.SDL_FreeSurface(surf)
         sdl2.SDL_FreeSurface(surf_bad)
@@ -456,6 +457,7 @@ class Surface:
         """
         new_surf = sdl2.SDL_ConvertSurfaceFormat(surf, Display.pixel_format, 0).contents
         s = cls(surf.w, surf.h, scale=scale, rotation=rotation, af=af)
+        c_draw.free_pixel_buffer(s._pixels)
         s._pixels = c_draw.clone_pixel_buffer(new_surf.pixels, surf.w, surf.h)
         sdl2.SDL_FreeSurface(new_surf)
         return s
