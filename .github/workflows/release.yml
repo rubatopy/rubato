@@ -56,8 +56,7 @@ jobs:
                   build-requirements: "Cython~=3.0.0a11"
 
             - name: Purge Bad Wheels
-              run: |
-                  rm -rf dist/*linux_x86_64*.whl
+              run: sudo rm -rf dist/*linux_x86_64*.whl
               shell: bash
 
             - name: Upload Wheel as Artifact
@@ -66,8 +65,8 @@ jobs:
                   name: ${{matrix.os}}-wheel
                   path: dist/*.whl
 
-            - name: Upload Tar.Gz as Artifact
-              if: startsWith(matrix.os, 'ubuntu')
+            - name: Upload zip as Artifact
+              if: startsWith(matrix.os, 'windows')
               uses: actions/upload-artifact@v3
               with:
                   name: zip
@@ -159,6 +158,11 @@ jobs:
             - uses: actions/setup-python@v4
               with:
                   python-version: "3.10"
+
+            - name: Prep Git
+              run: |
+                  git config --global user.email "martin.chapino@gmail.com"
+                  git config --global user.name "Martin Chaperot (Bot)"
 
             - name: Cache Docs
               run: |
