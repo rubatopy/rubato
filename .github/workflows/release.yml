@@ -56,6 +56,7 @@ jobs:
                   build-requirements: "Cython~=3.0.0a11"
 
             - name: Purge Bad Wheels
+              if: ${{ startsWith(matrix.os, 'ubuntu') }}
               run: sudo rm -rf dist/*linux_x86_64*.whl
               shell: bash
 
