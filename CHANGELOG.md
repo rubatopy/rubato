@@ -5,20 +5,29 @@
 ### Breaking Changes
 
 -   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
+-   `shadow_pad` parameter in `Draw.text` is now a vector to allow for different padding in the x and y directions.
+-   Renamed `surface.merge` and `raster.merge` to `surface.blit` and `raster.blit`, respectively, to be more consistent with Unity's API.
 
 ### Added
+
+-   Extra arguments to `raster.blit` to allow for the full functionality of `surface.blit`.
 
 ### Changed
 
 -   Removed sdlgfx dependency, replacing them with a cache-based `Surface` implementation.
 -   Default z-index for all queue-based `Draw` functions is now 0 to match the rest of rubato. (was Math.INF)
 -   All `Draw` functions can now take in a camera as an optional argument.
+-   `Text` component now uses a Surface in its implementation.
 
 ### Removed
+
+-   `Draw.texture` and `Draw.queue_texture` because they used SDL_Texture objects which are hidden in rubato.
+-   Hidden a few functions that deal with internal SDL objects that were not user-usable anyway.
 
 ### Fixed
 
 -   Some drawing processes weren't taking into account zoom and the camera's z-index.
+-   Potential memory leak issue with naked `Font` objects.
 
 ## [v0.3.3] - September 12, 2022
 

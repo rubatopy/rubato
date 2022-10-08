@@ -1,7 +1,6 @@
 """
 Utility class for loading spritesheets.
 """
-import sdl2
 import os
 
 from . import Animation
@@ -42,15 +41,11 @@ class Spritesheet:
         for y in range(0, self._grid[1] * self._sprite_size[1], self._sprite_size[1]):
             self._sprites.append([])
             for x in range(0, self._grid[0] * self._sprite_size[0], self._sprite_size[0]):
-                surface = Surface(width=self._sprite_size[0], height=self._sprite_size[1])
-
-                sdl2.SDL_BlitSurface(
-                    self._sheet._surf,
-                    sdl2.SDL_Rect(x, y, self._sprite_size[0], self._sprite_size[1]),
-                    surface._surf,
-                    sdl2.SDL_Rect(0, 0, self._sprite_size[0], self._sprite_size[1]),
+                surface = Surface(*self._sprite_size)
+                surface.blit(
+                    self._sheet,
+                    (x, y, self._sprite_size[0], self._sprite_size[1]),
                 )
-
                 self._sprites[y // self._sprite_size[1]].append(surface)
 
     @property

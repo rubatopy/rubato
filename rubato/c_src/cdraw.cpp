@@ -7,6 +7,38 @@
 
 /***********************************************************************************************************************
 
+BUFFER FUNCTIONS
+
+***********************************************************************************************************************/
+
+inline size_t createPixelBuffer(int width, int height) {
+    return (size_t) new uint32_t[width * height]();
+}
+
+inline void freePixelBuffer(size_t buffer) {
+    free((void*) buffer);
+}
+
+inline void colorkeyCopy(size_t source, size_t destination, int width, int height, size_t color_key) {
+    uint32_t* source_buffer = (uint32_t*) source;
+    uint32_t* destination_buffer = (uint32_t*) destination;
+    for (int i = 0; i < width * height; i++) {
+        if (source_buffer[i] != color_key) {
+            destination_buffer[i] = source_buffer[i];
+        } else {
+            destination_buffer[i] = 0;
+        }
+    }
+}
+
+inline size_t clonePixelBuffer(size_t _source, int width, int height) {
+    uint32_t* newBuffer = new uint32_t[width * height];
+    memcpy((void*) newBuffer, (void*) _source, width * height * sizeof(uint32_t));
+    return (size_t) newBuffer;
+}
+
+/***********************************************************************************************************************
+
 PIXEL FUNCTIONS
 
 ***********************************************************************************************************************/
@@ -62,6 +94,25 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
 
 inline void clearPixels(size_t _pixels, int width, int height) {
     memset((size_t*) _pixels, 0, width * height * 4);
+}
+
+inline void blit(size_t _source, size_t _destination, int sw, int sh, int dw, int dh, int srx, int sry, int srw, int srh, int drx, int dry, int drw, int drh) {
+    for (int y = 0; y < srh; y++) {
+        for (int x = 0; x < srw; x++) {
+            if (x < drw && y < drh) {
+                setPixel(_destination, dw, dh, drx + x, dry + y, getPixel(_source, sw, sh, srx + x, sry + y), true);
+            }
+        }
+    }
+}
+
+inline void switchColors(size_t _pixels, int width, int height, size_t color1, size_t color2) {
+    uint32_t* pixels = (uint32_t*) _pixels;
+    for (int i = 0; i < width * height; i++) {
+        if (pixels[i] == color1) {
+            pixels[i] = color2;
+        }
+    }
 }
 
 
@@ -550,4 +601,3 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
         _drawRect(_pixels, width, height, x, y, w, h, borderColor, blending, thickness);
     }
 }
-

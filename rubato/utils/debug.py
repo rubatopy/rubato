@@ -16,7 +16,7 @@ class Debug:
         raise InitError(self)
 
     @staticmethod
-    def draw_fps(font: Font):
+    def _draw_fps(font: Font):
         """
         Draws the current FPS to the screen.
         Called automatically if `Game.show_fps` is True.
@@ -24,8 +24,8 @@ class Debug:
         Args:
             font: The font to use.
         """
-        pad: int = math.ceil(Display.res.y / 64)
-        height: int = pad * 2
+        height: int = math.ceil(Display.res.y / 32)
+        pad = max(height / 4, 1)
 
         scale = height / font.size
 
@@ -37,7 +37,7 @@ class Debug:
             justify="center",
             scale=(scale, scale),
             shadow=True,
-            shadow_pad=pad,
+            shadow_pad=(pad, pad),
         )
 
     @staticmethod

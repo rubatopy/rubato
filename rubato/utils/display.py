@@ -187,9 +187,11 @@ class Display(metaclass=_DisplayProperties):
             sdl2.SDL_SetWindowFullscreen(cls.window.window, 0)
 
     @classmethod
-    def update(
+    def _update(
         cls,
-        tx: sdl2.ext.Texture,
+        tx: sdl2.SDL_Texture,
+        width: int,
+        height: int,
         pos: Vector | tuple[float, float],
         scale: Vector | tuple[float, float] = (1, 1),
         angle: float = 0,
@@ -201,6 +203,8 @@ class Display(metaclass=_DisplayProperties):
 
         Args:
             tx: The texture to draw on the screen.
+            width: The width of the texture.
+            height: The height of the texture.
             pos: The position to draw the texture on.
             scale: The scale of the texture. Defaults to (1, 1).
             angle: The clockwise rotation of the texture. Defaults to 0.
@@ -216,39 +220,23 @@ class Display(metaclass=_DisplayProperties):
         if flipy:
             flip |= sdl2.SDL_FLIP_VERTICAL
 
-        x_dim = tx.size[0] * abs(scale[0])
+        x_dim = round(width * abs(scale[0]))
+        y_dim = round(height * abs(scale[1]))
 
-        cls.renderer.copy(
+        sdl2.SDL_RenderCopyEx(
+            cls.renderer.sdlrenderer,
             tx,
-            dstrect=(
-                (pos[0] - (x_dim if flipx else 0)) - (tx.size[0] * scale[0]) / 2,
-                (pos[1] - (tx.size[1] * scale[1]) / 2),
+            None,
+            sdl2.SDL_Rect(
+                round((pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2),
+                round(pos[1] - (height * scale[1]) / 2),
                 x_dim,
-                tx.size[1] * abs(scale[1]),
+                y_dim,
             ),
-            angle=round(angle),
-            flip=flip
+            round(angle),
+            None,
+            flip,
         )
-
-    @classmethod
-    def clone_surface(cls, surface: sdl2.SDL_Surface) -> sdl2.SDL_Surface:
-        """
-        Clones an SDL surface.
-
-        Args:
-            surface: The surface to clone.
-
-        Returns:
-            sdl2.SDL_Surface: The cloned surface.
-        """
-        return sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
-            surface.pixels,
-            surface.w,
-            surface.h,
-            32,
-            surface.pitch,
-            surface.format.contents.format,
-        ).contents
 
     @classmethod
     def get_window_border_size(cls):

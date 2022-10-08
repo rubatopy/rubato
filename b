@@ -42,15 +42,19 @@ delete() {
     case $1 in
         --bin|-b)
             echo "Deleting binary files..."
+            cd rubato
             find . -name "*.pyd" -type f -delete
             find . -name "*.so" -type f -delete
             exit_with="$(expr $?+$exit_with)"
+            cd ..
             ;;
         --cython|-c)
             echo "Deleting cython files..."
+            cd rubato
             find . -name "*.cpp" -not -name "cdraw.cpp" -type f -delete
             find . -name "*.c" -type f -delete
             exit_with="$(expr $?+$exit_with)"
+            cd ..
             ;;
         --dir|-d)
             echo "Deleting build directory..."

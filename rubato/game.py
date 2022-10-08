@@ -190,7 +190,7 @@ class Game:
         Draw.dump()
 
         if cls.show_fps:
-            Debug.draw_fps(cls.debug_font)
+            Debug._draw_fps(cls.debug_font)
 
         # update renderers
         Display.renderer.present()

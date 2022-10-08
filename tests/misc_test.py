@@ -5,6 +5,7 @@ from rubato.game import Game
 from rubato.misc import world_mouse, wrap
 from rubato.struct.gameobject.component import Component
 from rubato.struct.gameobject.game_object import GameObject
+from rubato.struct.scene import Scene
 from rubato.utils.camera import Camera
 from rubato.utils.display import Display
 from rubato.utils.rb_input import Input
@@ -14,6 +15,7 @@ from rubato.utils.vector import Vector
 def test_world_mouse(monkeypatch: MonkeyPatch):
     mouse = Mock(return_value=Vector(0, 0))
     monkeypatch.setattr(Input, "get_mouse_pos", mouse)
+    Scene()
     monkeypatch.setattr(Game, "camera", None)
     assert Vector(0, 0) == world_mouse()
     monkeypatch.setattr(Game, "camera", Camera(Vector(2, 2), 2))
