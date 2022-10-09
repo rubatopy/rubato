@@ -49,12 +49,20 @@ https://github.com/rubatopy/rubato/issues
 ## Pull Request Process
 
 1. Make to remove any unnecessary print statements and remove all `TODO` comments.
-2. Update the `CHANGELOG.md` with details of changes.
+2. Update the `CHANGELOG.md` with details of changes. (See below)
 3. Make sure that all changes have unit-tests.
 4. Make sure that all GitHub Actions pass.
 5. The pull request will then be review and merged by a maintainer.
 
-## Documentaion
+## Changelog Standard
+
+New changes should be added to the appropriate category in the `Unreleased` section. If a change can cause old programs to crash, it should be added to the `Breaking Changes` section.
+
+If referencing something in rubato (ex. a class or function) it must be referenced with backticks (\`) and with correct capitalization. Functions and attributes should include the camel-case class name if they are static or class methods (ex. `ClassName.static_func()` or `ClassName.static_attr`) and the lowercase class name if they are instance methods (ex. `classname.instance_func()` or `classname.instance_attr`).
+
+All changelog lines must start with a capital and end with a period.
+
+## Documentation
 
 The docs are built and publish automatically
 
