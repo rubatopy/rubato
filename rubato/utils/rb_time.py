@@ -12,7 +12,7 @@ from . import InitError
 class DelayedTask:
     """A task that is run after a specified number of milliseconds."""
     delay: int
-    task: Callable = field(compare=False)
+    task: Callable[[], None] = field(compare=False)
     is_stopped: bool = field(default=False, compare=False)
 
     def stop(self):
@@ -24,7 +24,7 @@ class DelayedTask:
 class FramesTask:
     """A task that is run after a specified number of frames."""
     delay: int
-    task: Callable = field(compare=False)
+    task: Callable[[], None] = field(compare=False)
     is_stopped: bool = field(default=False, compare=False)
 
     def stop(self):
@@ -36,7 +36,7 @@ class FramesTask:
 class ScheduledTask:
     """A task that is run every specified number of milliseconds."""
     interval: int = field(compare=False)
-    task: Callable = field(compare=False)
+    task: Callable[[], None] | Callable[["ScheduledTask"], None] = field(compare=False)
     delay: int = field(default=0)
     is_stopped: bool = field(default=False, compare=False)
 
@@ -126,6 +126,52 @@ class Time:
         cls._delta_time = (cls.now() - cls._frame_start) / 1000
 
     @classmethod
+    def next_frame(cls, func: Callable[[], None]):
+        """
+        Calls the function func on the next frame.
+
+        Args:
+            func: The function to call.
+        """
+        cls._next_queue.append(func)
+
+    @classmethod
+    def delayed_frames(cls, delay: int, func: Callable[[], None]):
+        """
+        Calls the function func at a later frame.
+
+        Args:
+            delay: The number of frames to wait.
+            func: The function to call
+        """
+
+        heapq.heappush(cls._frame_queue, FramesTask(cls.frames + delay, func))
+
+    @classmethod
+    def delayed_call(cls, delay: int, func: Callable[[], None]):
+        """
+        Calls the function func at a later time.
+
+        Args:
+            delay: The time from now (in milliseconds) to run the function at.
+            func: The function to call.
+        """
+
+        heapq.heappush(cls._task_queue, DelayedTask(delay + cls.now(), func))
+
+    @classmethod
+    def scheduled_call(cls, interval: int, func: Callable[[], None] | Callable[[ScheduledTask], None]):
+        """
+        Schedules the function func to be repeatly every interval.
+
+        Args:
+            interval: The interval (in milliseconds) to run the function at.
+            func: The function to call. Can take a ScheduledTask as an argument. This is useful for stopping the task.
+        """
+
+        heapq.heappush(cls._schedule_queue, ScheduledTask(interval, func, interval + cls.now()))
+
+    @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):
         """
         Schedules a task for delayed execution based on what type of task it is.
@@ -144,52 +190,6 @@ class Time:
             heapq.heappush(cls._schedule_queue, task)
         else:
             raise TypeError("Task argument must of of type DelayedTask, FramesTask or ScheduledTask.")
-
-    @classmethod
-    def delayed_call(cls, delay: int, func: Callable):
-        """
-        Calls the function func at a later time.
-
-        Args:
-            delay: The time from now (in milliseconds) to run the function at.
-            func: The function to call.
-        """
-
-        heapq.heappush(cls._task_queue, DelayedTask(delay + cls.now(), func))
-
-    @classmethod
-    def delayed_frames(cls, delay: int, func: Callable):
-        """
-        Calls the function func at a later frame.
-
-        Args:
-            delay: The number of frames to wait.
-            func: The function to call
-        """
-
-        heapq.heappush(cls._frame_queue, FramesTask(cls.frames + delay, func))
-
-    @classmethod
-    def scheduled_call(cls, interval: int, func: Callable):
-        """
-        Calls the function func at a scheduled interval.
-
-        Args:
-            interval: The interval (in milliseconds) to run the function at.
-            func: The function to call.
-        """
-
-        heapq.heappush(cls._schedule_queue, ScheduledTask(interval, func, interval + cls.now()))
-
-    @classmethod
-    def next_frame(cls, func: Callable):
-        """
-        Calls the function func on the next frame.
-
-        Args:
-            func: The function to call.
-        """
-        cls._next_queue.append(func)
 
     @classmethod
     def milli_to_sec(cls, milli: float | int) -> float | int:
@@ -246,7 +246,10 @@ class Time:
                 scheduled_task = heapq.heappop(cls._schedule_queue)
 
                 if not scheduled_task.is_stopped:
-                    scheduled_task.task()
+                    try:
+                        scheduled_task.task(scheduled_task)  # type: ignore
+                    except TypeError:
+                        scheduled_task.task()  # type: ignore
 
                 if not scheduled_task.is_stopped:
                     scheduled_task.delay += scheduled_task.interval
