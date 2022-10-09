@@ -4,6 +4,7 @@ import objects
 
 
 class Spring(rb.Component):
+
     def __init__(self, minlength, target: rb.GameObject, spring_coefficient: float, damping_coefficient: float):
         super().__init__()
         self.target = target
@@ -11,6 +12,7 @@ class Spring(rb.Component):
         self.min_length = minlength
         self.k = spring_coefficient
         self.b = damping_coefficient
+
     # def update(self):
     #     rb.Draw.queue_line(self.target.pos + rb.Vector(5, 0),
     #                        self.target.pos + rb.Vector(5, 0) + self.targetrb.velocity, rb.Color.green, width=5)
@@ -36,7 +38,9 @@ class Spring(rb.Component):
         rb.Draw.queue_line(self.target.pos, self.target.pos + mag, rb.Color.blue, width=5)
         self.targetrb.add_force(mag)
 
+
 class Anchor(rb.Component):
+
     def __init__(self, pos):
         super().__init__()
         self.pos = pos
@@ -70,7 +74,6 @@ class Anchor(rb.Component):
         # rb.Draw.queue_circle(self.pos, self.stretch_length, fill=color)
         # rb.Draw.queue_circle(self.pos, self.length, fill=rb.Color(255, 0, 0, 100))
 
-
         # if self.player_is_on:
         #     dist: rb.Vector = self.pos - objects.player.pos
         #     force = rb.Vector.zero()
@@ -87,6 +90,3 @@ class Anchor(rb.Component):
         #
         #     rb.Draw.queue_line(self.pos, objects.player.pos, color=rb.Color.blue, width=5)
         #     rb.Draw.queue_line(objects.player.pos, objects.player.pos + force, color=rb.Color.red, width=5)
-
-
-

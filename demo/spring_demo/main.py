@@ -13,7 +13,9 @@ objs.player.add(rect)
 objs.player_body = rb.RigidBody(gravity=rb.Vector(0, 10), pos_correction=1, mass=30)
 objs.player.add(objs.player_body)
 
-ground = rb.wrap(rb.Rectangle(width=Display.res.x, height=50, color=rb.Color.green, tag="ground"), pos=Display.bottom_center)
+ground = rb.wrap(
+    rb.Rectangle(width=Display.res.x, height=50, color=rb.Color.green, tag="ground"), pos=Display.bottom_center
+)
 
 # def key_down(data):
 #     if data["key"] == "space":

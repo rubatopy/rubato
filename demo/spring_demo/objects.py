@@ -1,4 +1,4 @@
 import rubato as rb
 
-player: rb.GameObject = None
-player_body: rb.RigidBody = None
+player: rb.GameObject
+player_body: rb.RigidBody

@@ -88,10 +88,10 @@ class RigidBody(Component):
         else:
             self.inv_mass: float = 1 / new
 
-    def physics(self):
+    def _tick(self):
         """Applies general kinematic laws to the rigidbody."""
         self.velocity += self.gravity * Time.fixed_delta
-        self.velocity.clamp(-self.max_speed, self.max_speed)  # pylint: disable=invalid-unary-operand-type
+        self.velocity.clamp(-self.max_speed, self.max_speed)
 
         self.gameobj.pos += self.velocity * Time.fixed_delta
         self.gameobj.rotation += self.ang_vel * Time.fixed_delta
@@ -151,12 +151,12 @@ class RigidBody(Component):
     def fixed_update(self):
         """The physics loop for the rigidbody component."""
         if not self.static:
-            self.physics()
-
+            self._tick()
 
     def stop(self):
-        """Stops the rigidbody. velocity and ang_vel are set to 0."""
-        self.velocity = Vector(0, 0)
+        """Stops the rigidbody by setting velocity and ang_vel to 0."""
+        self.velocity.x = 0
+        self.velocity.y = 0
         self.ang_vel = 0
 
     def clone(self) -> RigidBody:
