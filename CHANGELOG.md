@@ -21,10 +21,11 @@
 ### Added
 
 -   `RigidBody.stop` method to quickly set the rigidbody velocity to 0.
+-   `Animation` now has an alpha that can be set.
 
 ### Changed
 
--   `ScheduledTask` task function can now optionally take in a task arguement. This allows you to stop the task when you want
+-   `ScheduledTask` task function can now optionally take in a task arguement. This allows you to stop the task when you want.
 
 ### Removed
 
