@@ -20,13 +20,15 @@
 
 ### Added
 
--   `rigidbody.stop` method to quickly set the rigidbody velocity to 0.
+-   `RigidBody.stop` method to quickly set the rigidbody velocity to 0.
 
 ### Changed
 
+-   `ScheduledTask` task function can now optionally take in a task arguement. This allows you to stop the task when you want
+
 ### Removed
 
--   Hidden `rigidbody.physics` because it is called automatically.
+-   Hidden `RigidBody.physics` because it is called automatically.
 
 ### Fixed
 
