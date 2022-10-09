@@ -3,6 +3,7 @@ name: Release
 on:
     release:
         types: [published]
+    workflow_dispatch:
 
 jobs:
     builder:
@@ -16,16 +17,6 @@ jobs:
                 os: ["windows-latest", "macos-latest", "ubuntu-latest"]
 
         steps:
-            - name: Report Version
-              run: |
-                  export RUBATO_VERSION=${{ github.ref_name }}
-                  echo 'Releasing $RUBATO_VERSION'
-              shell: bash
-
-            - name: cancelling
-              if: ${{ !contains(github.ref_name, 'v' ) }}
-              uses: andymckay/cancel-action@0.2
-
             - uses: actions/checkout@v3
               with:
                   persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
@@ -44,8 +35,8 @@ jobs:
             - name: Non Linux Build
               if: ${{ !startsWith(matrix.os, 'ubuntu') }}
               run: |
-                  RUBATO_VERSION=${{ github.ref_name }} python -m build -w
-                  RUBATO_VERSION=${{ github.ref_name }} python -m setup sdist --formats zip
+                  python -m build -w
+                  python -m setup sdist --formats zip
               shell: bash
 
             - name: Linux Build
@@ -90,6 +81,7 @@ jobs:
               with:
                   user: __token__
                   password: ${{ secrets.PYPI_API_TOKEN }}
+                  skip_existing: true
 
             - name: Upload to release
               uses: AButler/upload-release-assets@v2.0
@@ -101,6 +93,7 @@ jobs:
     docs:
         name: Release Docs
         runs-on: ubuntu-latest
+        if: github.event_name == 'release'
         steps:
             - uses: actions/checkout@v3
               with:
@@ -170,7 +163,7 @@ jobs:
                   pip install requests
                   cd docs
                   python ghapi_cacher.py
-                  git commit -m "Update GH API Cache"
+                  git commit -am "Update GH API Cache"
 
             - name: Push changes
               uses: ad-m/github-push-action@master

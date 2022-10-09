@@ -3,11 +3,6 @@ from setuptools import Extension, setup
 from Cython.Build import cythonize
 import os
 
-if "RUBATO_VERSION" in os.environ:
-    version = os.environ["RUBATO_VERSION"]
-else:
-    version = "0.0.0"
-
 if "TEST_MODE" in os.environ:
     linetrace = os.environ["TEST_MODE"] == "1"
 else:
@@ -23,7 +18,7 @@ def package_files(directory):
 
 
 setup(
-    version=version,
+    version="v0.3.4",
     package_data={"rubato": [*package_files("rubato/static"),
                              os.path.join("..", "rubato/c_src/", "cdraw.pxd")]},
     ext_modules=[

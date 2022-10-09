@@ -230,10 +230,13 @@ case $1 in
         read -p "Confirm version $1? [y/N]: " -r response
         if [[ $response =~ ^[Yy]$ ]]
         then
+            BRANCH="$(git branch --show-current)"
+            git checkout "$1"
             echo "Building wheels..."
-            RUBATO_VERSION=$1 python -m build
+            python -m build
             echo "Uploading wheels..."
             python -m twine upload dist/*.whl
+            git checkout "$BRANCH"
         else
             echo "Aborting..."
         fi

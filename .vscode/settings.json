@@ -109,5 +109,8 @@
     "autoDocstring.customTemplatePath": "autodocstringtemplate.mustache",
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.diagnosticMode": "workspace",
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///home/martin/Coding/rubato/.github/workflows/release.yml"
+    }
 }
