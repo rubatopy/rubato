@@ -1,96 +1,47 @@
-"""
-These events are broadcast by rubato and can be listened to with
-:func:`rb.Radio.listen() <rubato.utils.radio.Radio.listen>`. Here is an example of how you can listen for a
-key down event:
-
-.. code-block:: python
-
-    def listener(data: rb.KeyResponse):
-        if data.key == "a":
-            print("You pressed the 'a' key!")
-
-    rb.Radio.listen(rb.Events.KEYDOWN, listener)
-"""
-
+"""Events for rubato"""
 from __future__ import annotations
-from enum import Enum, unique
+from typing import TYPE_CHECKING
 from dataclasses import dataclass
 import cython
 
+if TYPE_CHECKING:
+    from . import Camera
 
-@unique
-class Events(Enum):
+
+@cython.cclass
+class Events:
     """
     Describes all rubato-fired events that can be listened for.
     """
 
     KEYUP = "KEYUP"
-    """
-    Fired when a key is released.
-    Responds with a :func:`KeyResponse <rubato.utils.events.KeyResponse>` object.
-    """
+    """Fired when a key is released. Responds with a KeyResponse object."""
     KEYDOWN = "KEYDOWN"
-    """
-    Fired when a key is pressed.
-    Responds with a :func:`KeyResponse <rubato.utils.events.KeyResponse>` object.
-    """
+    """Fired when a key is pressed. Responds with a KeyResponse object."""
     KEYHOLD = "KEYHOLD"
-    """
-    Fired when a key is held down (After the initial keydown).
-    Responds with a :func:`KeyResponse <rubato.utils.events.KeyResponse>` object.
-    """
+    """Fired when a key is held down (After the initial keydown). Responds with a KeyResponse object."""
     MOUSEUP = "MOUSEUP"
-    """
-    Fired when a mouse button is released.
-    Responds with a :func:`MouseButtonResponse <rubato.utils.events.MouseButtonResponse>` object.
-    """
+    """Fired when a mouse button is released. Responds with a MouseButtonResponse object."""
     MOUSEDOWN = "MOUSEDOWN"
-    """
-    Fired when a mouse button is pressed.
-    Responds with a :func:`MouseButtonResponse <rubato.utils.events.MouseButtonResponse>` object.
-    """
+    """Fired when a mouse button is pressed. Responds with a MouseButtonResponse object."""
     MOUSEWHEEL = "MOUSEWHEEL"
-    """
-    Fired when the mouse wheel is scrolled.
-    Responds with a :func:`MouseWheelResponse <rubato.utils.events.MouseWheelResponse>` object.
-    """
+    """Fired when the mouse wheel is scrolled. Responds with a MouseWheelResponse object."""
     MOUSEMOTION = "MOUSEMOTION"
-    """
-    Fired when the mouse is moved.
-    Responds with a :func:`MouseMotionResponse <rubato.utils.events.MouseMotionResponse>` object.
-    """
+    """Fired when the mouse is moved. Responds with a MouseMotionResponse object."""
     JOYAXISMOTION = "JOYAXISMOTION"
-    """
-    Fired when a controller joystick axis is moved.
-    Responds with a :func:`JoyAxisMotionResponse <rubato.utils.events.JoyAxisMotionResponse>` object.
-    """
+    """Fired when a controller joystick axis is moved. Responds with a JoyAxisMotionResponse object."""
     JOYHATMOTION = "JOYHATMOTION"
-    """
-    Fired when a controller hat button is changed.
-    Responds with a :func:`JoyHatMotionResponse <rubato.utils.events.JoyHatMotionResponse>` object.
-    """
+    """Fired when a controller hat button is changed. Responds with a JoyHatMotionResponse object."""
     JOYBUTTONDOWN = "JOYBUTTONDOWN"
-    """
-    Fired when a controller button is pressed.
-    Responds with a :func:`JoyButtonResponse <rubato.utils.events.JoyButtonResponse>` object.
-    """
+    """Fired when a controller button is pressed. Responds with a JoyButtonResponse object."""
     JOYBUTTONUP = "JOYBUTTONUP"
-    """
-    Fired when a controller button is released.
-    Responds with a :func:`JoyButtonResponse <rubato.utils.events.JoyButtonResponse>` object.
-    """
+    """Fired when a controller button is released. Responds with a JoyButtonResponse object."""
+    ZOOM = "ZOOM"
+    """Fired when the camera is zoomed. Responds with a ZoomResponse object."""
     EXIT = "EXIT"
     """Fired when the game is exiting. Has no response."""
     RESIZE = "RESIZE"
-    """
-    Fired when the window is resized.
-    Responds with a :func:`ResizeResponse <rubato.utils.events.ResizeResponse>` object.
-    """
-
-
-if not cython.compiled:
-    from enum_tools import document_enum
-    document_enum(Events)
+    """Fired when the window is resized. Responds with a ResizeResponse object."""
 
 
 @dataclass(frozen=True)
@@ -182,7 +133,7 @@ class JoyAxisMotionResponse(EventResponse):
     """The joystick that was used"""
     axis: int
     """The axis that was moved"""
-    value: float
+    value: int
     """The value of the axis"""
     centered: bool
     """Whether the axis is centered"""
@@ -211,13 +162,20 @@ class JoyHatMotionResponse(EventResponse):
 
 
 @dataclass(frozen=True)
+class ZoomResponse(EventResponse):
+    """A response to a zoom event"""
+    camera: Camera
+    """The camera that was zoomed"""
+
+
+@dataclass(frozen=True)
 class ResizeResponse(EventResponse):
     """A response to a resize event"""
     width: int
     """The new width of the window"""
     height: int
     """The new height of the window"""
-    old_width: float
+    old_width: int
     """The old width of the window"""
-    old_height: float
+    old_height: int
     """The old height of the window"""
