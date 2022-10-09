@@ -6,17 +6,14 @@ on:
             - "main"
 
 concurrency:
+    group: preview-${{ github.ref | github.ref_name }}
     cancel-in-progress: true
-    group: preview-${{ github.ref }}
 
 jobs:
     docs:
         name: Build Docs
         runs-on: ubuntu-latest
 
-        concurrency:
-            group: docs-${{ github.ref | github.ref_name }}
-            cancel-in-progress: true
 
         steps:
             - uses: actions/checkout@v3

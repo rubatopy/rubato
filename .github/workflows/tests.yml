@@ -2,15 +2,14 @@ name: Test Suite
 
 on: [push]
 
+concurrency:
+    group: tests-${{ github.ref | github.ref_name }}
+    cancel-in-progress: true
+
 jobs:
     demo:
         name: Test Demo Files
         runs-on: ubuntu-latest
-
-        concurrency:
-            group: demo-${{ github.ref | github.ref_name }}
-            cancel-in-progress: true
-
 
         env:
             SDL_VIDEODRIVER: dummy
@@ -40,11 +39,6 @@ jobs:
     unittest:
         name: ${{ matrix.os }} (Python ${{ matrix.python-version }})
         runs-on: ${{ matrix.os }}
-
-        concurrency:
-            group: unittest-${{ github.ref | github.ref_name }}
-            cancel-in-progress: true
-
 
         strategy:
             fail-fast: false
@@ -79,10 +73,6 @@ jobs:
     lint:
         name: Lint Code
         runs-on: ubuntu-latest
-
-        concurrency:
-            group: lint-${{ github.ref | github.ref_name }}
-            cancel-in-progress: true
 
         steps:
             - uses: actions/checkout@v3
