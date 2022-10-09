@@ -200,7 +200,10 @@ case $1 in
         pip install Cython==3.0.0a11
         python setup.py egg_info
         pip install `grep -v '^\[' *.egg-info/requires.txt`
+        exit_with="$(expr $?+$exit_with)"
         build -f
+        exit_with="$(expr $?+$exit_with)"
+        pip install -e .
         exit_with="$(expr $?+$exit_with)"
         ;;
     precommit|pre)
