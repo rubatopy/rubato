@@ -9,6 +9,11 @@ on:
 jobs:
     docs:
         runs-on: ubuntu-latest
+
+        concurrency:
+            group: docs-nightly-${{ github.ref | github.ref_name }}
+            cancel-in-progress: true
+
         steps:
             - uses: actions/checkout@v3
               with:

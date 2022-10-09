@@ -13,6 +13,11 @@ jobs:
     docs:
         name: Build Docs
         runs-on: ubuntu-latest
+
+        concurrency:
+            group: docs-${{ github.ref | github.ref_name }}
+            cancel-in-progress: true
+
         steps:
             - uses: actions/checkout@v3
               with:
