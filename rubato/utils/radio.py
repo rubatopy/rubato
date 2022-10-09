@@ -15,43 +15,7 @@ from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, InitError
-
-
-@cython.cclass
-class Events:
-    """
-    Describes all rubato-fired events that can be listened for.
-    """
-
-    KEYUP = "KEYUP"
-    """Fired when a key is released"""
-    KEYDOWN = "KEYDOWN"
-    """Fired when a key is pressed"""
-    KEYHOLD = "KEYHOLD"
-    """Fired when a key is held down (After the initial keydown)"""
-    MOUSEUP = "MOUSEUP"
-    """Fired when a mouse button is released"""
-    MOUSEDOWN = "MOUSEDOWN"
-    """Fired when a mouse button is pressed"""
-    MOUSEWHEEL = "MOUSEWHEEL"
-    """Fired when the mouse wheel is scrolled"""
-    SCROLL = MOUSEWHEEL
-    """Same as MOUSEWHEEL"""
-    JOYAXISMOTION = "JOYAXISMOTION"
-    """Fired when a controller joystick axis is moved"""
-    JOYHATMOTION = "JOYHATMOTION"
-    """Fired when a controller hat button is changed"""
-    JOYBUTTONDOWN = "JOYBUTTONDOWN"
-    """Fired when a controller button is pressed"""
-    JOYBUTTONUP = "JOYBUTTONUP"
-    """Fired when a controller button is released"""
-    ZOOM = "ZOOM"
-    """Fired when the camera is zoomed"""
-    EXIT = "EXIT"
-    """Fired when the game is exiting"""
-    RESIZE = "RESIZE"
-    """Fired when the window is resized"""
+from . import Input, Display, InitError, Events
 
 
 # THIS IS A STATIC CLASS

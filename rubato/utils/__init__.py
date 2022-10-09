@@ -11,7 +11,8 @@ from .color import Color
 from .surface import Surface
 from .font import Font
 from .rb_input import Input
-from .radio import Radio, Events, Listener
+from .events import *
+from .radio import Radio, Listener
 from .camera import Camera
 from .draw import Draw, DrawTask
 from .rb_time import DelayedTask, FramesTask, ScheduledTask, Time

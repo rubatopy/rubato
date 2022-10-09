@@ -361,15 +361,9 @@ class Input:
         return any(cls.mouse_state())
 
     @staticmethod
-    def get_mouse_pos() -> Vector:
-        """
-        The current position of the mouse, in screen-coordinates.
-
-        Returns:
-            A Vector representing position.
-        """
-        x_window, y_window = c_int(0), c_int(0)
-        sdl2.SDL_GetMouseState(ctypes.byref(x_window), ctypes.byref(y_window))
+    def _display_to_screen(x: float, y: float) -> tuple[float, float]:
+        """Converts display coordinates to screen coordinates."""
+        x_window, y_window = c_int(round(x)), c_int(round(y))
 
         x_render, y_render = c_float(0), c_float(0)
         size = Display.border_size
@@ -379,12 +373,22 @@ class Input:
             y_window.value = math.floor(Math.clamp(y_window.value, size, Display.window_size.y - size))
         sdl2.SDL_RenderWindowToLogical(Display.renderer.sdlrenderer, x_window, y_window, x_render, y_render)
 
-        return Vector(x_render.value, y_render.value)
+        return x_render.value, y_render.value
+
+    @classmethod
+    def get_mouse_pos(cls) -> Vector:
+        """
+        The current position of the mouse, in screen-coordinates.
+
+        Returns:
+            A Vector representing position.
+        """
+        return Vector.create(cls._display_to_screen(*cls.get_mouse_abs_pos()))
 
     @staticmethod
     def get_mouse_abs_pos() -> Vector:
         """
-        The current absolute position of the mouse. ie. screen coordinates.
+        The current absolute position of the mouse, in display coordinates.
 
         Returns:
             A Vector representing position.
