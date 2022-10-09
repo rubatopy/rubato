@@ -6,6 +6,7 @@ rb.init(res=(100, 100), window_size=(2000, 2000))
 rb.Scene()
 
 x = 0
+y = 0
 
 
 def test(task):
@@ -16,6 +17,13 @@ def test(task):
         task.stop()
 
 
-rb.Time.scheduled_call(1000, test)
+def test2():
+    global y
+    print(f"test2 {y} {rb.Time.now()}")
+    y += 1
+
+
+rb.Time.scheduled_call(500, test)
+rb.Time.scheduled_call(500, test2)
 
 rb.begin()
