@@ -24,7 +24,11 @@
 
 ### Removed
 
+-   Hidden `rigidbody.physics` because it is called automatically.
+
 ### Fixed
+
+-   Fixed border-thickness not being taken into account when making surfaces in `Draw` methods.
 
 ## [v0.3.4] - October 8, 2022
 
