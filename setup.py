@@ -18,7 +18,6 @@ def package_files(directory):
 
 
 setup(
-    version="v0.3.4",
     package_data={"rubato": [*package_files("rubato/static"),
                              os.path.join("..", "rubato/c_src/", "cdraw.pxd")]},
     ext_modules=[
