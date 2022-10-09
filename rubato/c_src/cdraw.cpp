@@ -567,17 +567,8 @@ inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w
 inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending, int thickness) {
     if (thickness == 1) {
         _drawRect(_pixels, width, height, x, y, w, h, color, blending);
-        return;
     } else {
-        int s, f;
-        if (thickness % 2 == 0) {
-            s = -thickness / 2;
-            f = thickness / 2;
-        } else {
-            s = -(thickness - 1) / 2;
-            f = ((thickness - 1) / 2) + 1;
-        }
-        for (int i = s; i < f; i++) {
+        for (int i = -thickness / 2; i <= thickness / 2; i++) {
             _drawRect(_pixels, width, height, x + i, y + i, w - (2 * i), h - (2 * i), color, blending);
         }
     }
