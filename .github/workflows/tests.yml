@@ -44,7 +44,6 @@ jobs:
             SDL_VIDEODRIVER: dummy
             SDL_AUDIODRIVER: dummy
             SDL_RENDER_DRIVER: software
-            RUBATO_VERSION: "v0.0.0"
         steps:
             - uses: actions/checkout@v3
 

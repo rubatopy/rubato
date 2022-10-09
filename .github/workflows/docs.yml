@@ -13,8 +13,6 @@ jobs:
     docs:
         name: Build Docs
         runs-on: ubuntu-latest
-        env:
-            RUBATO_VERSION: "v0.0.0"
         steps:
             - uses: actions/checkout@v3
               with:
