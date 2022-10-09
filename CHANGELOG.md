@@ -20,6 +20,8 @@
 
 ### Added
 
+-   `rigidbody.stop` method to quickly set the rigidbody velocity to 0.
+
 ### Changed
 
 ### Removed
