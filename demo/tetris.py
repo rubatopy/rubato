@@ -16,9 +16,7 @@ incScore(0)
 
 field = [[0] * 10] * 20
 
-block_size = Display.res.y // (len(field) + 1)
-
-pad = (Display.res - block_size * V(len(field[0]), len(field))) // 2
+block_size = 2
 
 i_piece = [
     [0, 0, 1, 0],
@@ -62,10 +60,10 @@ pos = V(1, 0)
 
 def draw_block(pos, color):
     Draw.rect(
-        center=pad + pos * block_size + block_size // 2,
+        center=pos * block_size + 1 + block_size / 2,
         width=block_size,
         height=block_size,
-        border=color,
+        border=None,
         fill=color,
     )
 

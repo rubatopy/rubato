@@ -91,7 +91,7 @@ class RigidBody(Component):
     def _tick(self):
         """Applies general kinematic laws to the rigidbody."""
         self.velocity += self.gravity * Time.fixed_delta
-        self.velocity.clamp(-self.max_speed, self.max_speed)
+        self.velocity.clamp(-self.max_speed, self.max_speed)  # pylint: disable=invalid-unary-operand-type
 
         self.gameobj.pos += self.velocity * Time.fixed_delta
         self.gameobj.rotation += self.ang_vel * Time.fixed_delta
