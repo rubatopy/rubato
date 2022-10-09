@@ -18,11 +18,16 @@
 
 ### Breaking Changes
 
+-   `Radio.broadcast` now takes in an `EventResponse` or `None` as its params argument.
+
 ### Added
 
 -   `rigidbody.stop` method to quickly set the rigidbody velocity to 0.
+-   `EventResponse` and subclasses for individual events
 
 ### Changed
+
+-   All event listener callbacks now can take in an `EventResponse`
 
 ### Removed
 

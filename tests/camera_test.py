@@ -27,7 +27,8 @@ def test_zoom_prop():
     c.zoom = 2
     assert c.zoom == 2
 
-    callback.assert_called_once_with({"camera": c})
+    callback.assert_called_once()
+    assert callback.call_args_list[0].args[0].camera == c
 
 
 @pytest.mark.rub

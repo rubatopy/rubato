@@ -5,7 +5,7 @@ GameObjects only render if their z-index is not more than that of the camera's.
 
 The current scene's camera can be accessed through :code:`Game.camera`.
 """
-from . import Vector, Display, Math, Radio, Events
+from . import Vector, Display, Math, Radio, Events, ZoomResponse, Time
 
 
 class Camera:
@@ -33,7 +33,7 @@ class Camera:
     @zoom.setter
     def zoom(self, new: float):
         self._zoom = Math.clamp(new, 0.01, Math.INF)
-        Radio.broadcast(Events.ZOOM, {"camera": self})
+        Radio.broadcast(Events.ZOOM, ZoomResponse(Time.now(), self))
 
     def transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
@@ -45,10 +45,8 @@ class Camera:
         Returns:
             The translated coordinates.
         """
-        return Vector(
-            (point[0] - self.pos.x) * self.zoom + Display.center.x,
-            (point[1] - self.pos.y) * self.zoom + Display.center.y
-        )
+        return Vector((point[0] - self.pos.x) * self.zoom + Display.center.x,
+                      (point[1] - self.pos.y) * self.zoom + Display.center.y)
 
     def i_transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
@@ -60,7 +58,5 @@ class Camera:
         Returns:
             The translated coordinates.
         """
-        return Vector(
-            (point[0] - Display.center.x) / self.zoom + self.pos.x,
-            (point[1] - Display.center.y) / self.zoom + self.pos.y
-        )
+        return Vector((point[0] - Display.center.x) / self.zoom + self.pos.x,
+                      (point[1] - Display.center.y) / self.zoom + self.pos.y)
