@@ -15,6 +15,19 @@ def test_init(rub):
     assert c.z_index == Math.INF
 
 
+def test_zoom_prop():
+    callback = Mock()
+    c = Camera()
+    Radio.listen("ZOOM", callback)
+
+    assert c.zoom == 1
+    c.zoom = 2
+    assert c.zoom == 2
+
+    callback.assert_called_once()
+    assert callback.call_args_list[0].args[0].camera == c
+
+
 @pytest.mark.rub
 def test_transform(rub):
     # pylint: disable=unused-argument

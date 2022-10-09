@@ -133,7 +133,7 @@ class JoyAxisMotionResponse(EventResponse):
     """The joystick that was used"""
     axis: int
     """The axis that was moved"""
-    value: int
+    value: float
     """The value of the axis"""
     centered: bool
     """Whether the axis is centered"""
@@ -175,7 +175,7 @@ class ResizeResponse(EventResponse):
     """The new width of the window"""
     height: int
     """The new height of the window"""
-    old_width: int
+    old_width: float
     """The old width of the window"""
-    old_height: int
+    old_height: float
     """The old height of the window"""

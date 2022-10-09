@@ -15,7 +15,8 @@ from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, InitError, Events
+from . import Input, Display, InitError, Events, EventResponse, ResizeResponse, KeyResponse, MouseButtonResponse, \
+    MouseWheelResponse, MouseMotionResponse, JoyAxisMotionResponse, JoyHatMotionResponse, JoyButtonResponse, Time
 
 
 # THIS IS A STATIC CLASS
@@ -48,17 +49,16 @@ class Radio:
                 return True
             elif event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                    if Events.RESIZE.value in cls.listeners:
-                        cls.broadcast(
-                            Events.RESIZE,
-                            ResizeResponse(
-                                event.window.timestamp,
-                                event.window.data1,
-                                event.window.data2,
-                                Display.window_size.x,  # type: ignore
-                                Display.window_size.y,  # type: ignore
-                            )
+                    cls.broadcast(
+                        Events.RESIZE,
+                        ResizeResponse(
+                            event.window.timestamp,
+                            event.window.data1,
+                            event.window.data2,
+                            Display.window_size.x,
+                            Display.window_size.y,
                         )
+                    )
                     Display.window_size = (
                         event.window.data1,
                         event.window.data2,
@@ -73,117 +73,96 @@ class Radio:
                 else:
                     event_name = (Events.KEYDOWN, Events.KEYHOLD)[event.key.repeat]
 
-                if event_name.value in cls.listeners:
-                    cls.broadcast(
-                        event_name,
-                        KeyResponse(
-                            event.key.timestamp,
-                            Input.get_name(key_info.sym),
-                            unicode,
-                            int(key_info.sym),
-                            key_info.mod,
-                        )
+                cls.broadcast(
+                    event_name,
+                    KeyResponse(
+                        event.key.timestamp,
+                        Input.get_name(key_info.sym),
+                        unicode,
+                        int(key_info.sym),
+                        key_info.mod,
                     )
+                )
             elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
                 if event.type == sdl2.SDL_MOUSEBUTTONUP:
                     event_name = Events.MOUSEUP
                 else:
                     event_name = Events.MOUSEDOWN
 
-                if event_name.value in cls.listeners:
-                    cls.broadcast(
-                        event_name,
-                        MouseButtonResponse(
-                            event.button.timestamp,
-                            event.button.button,
-                            event.button.x,
-                            event.button.y,
-                            event.button.clicks,
-                            event.button.which,
-                        )
+                cls.broadcast(
+                    event_name,
+                    MouseButtonResponse(
+                        event.button.timestamp,
+                        event.button.button,
+                        event.button.x,
+                        event.button.y,
+                        event.button.clicks,
+                        event.button.which,
                     )
+                )
             elif event.type == sdl2.SDL_MOUSEWHEEL:
-                if Events.MOUSEWHEEL.value in cls.listeners:
-                    cls.broadcast(
-                        Events.MOUSEWHEEL,
-                        MouseWheelResponse(
-                            event.wheel.timestamp,
-                            event.wheel.preciseX,
-                            event.wheel.preciseY,
-                            event.wheel.which,
-                        )
+                cls.broadcast(
+                    Events.MOUSEWHEEL,
+                    MouseWheelResponse(
+                        event.wheel.timestamp,
+                        event.wheel.preciseX,
+                        event.wheel.preciseY,
+                        event.wheel.which,
                     )
+                )
             elif event.type == sdl2.SDL_MOUSEMOTION:
-                if Events.MOUSEMOTION.value in cls.listeners:
-                    cls.broadcast(
-                        Events.MOUSEMOTION,
-                        MouseMotionResponse(
-                            event.motion.timestamp,
-                            event.motion.x,
-                            event.motion.y,
-                            event.motion.xrel,
-                            event.motion.yrel,
-                            event.motion.which,
-                        )
+                cls.broadcast(
+                    Events.MOUSEMOTION,
+                    MouseMotionResponse(
+                        event.motion.timestamp,
+                        event.motion.x,
+                        event.motion.y,
+                        event.motion.xrel,
+                        event.motion.yrel,
+                        event.motion.which,
                     )
+                )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
                 mag: float = event.jaxis.value / Input._joystick_max
-                if Events.JOYAXISMOTION.value in cls.listeners:
-                    cls.broadcast(
-                        Events.JOYAXISMOTION,
-                        JoyAxisMotionResponse(
-                            event.jaxis.timestamp,
-                            event.jaxis.which,
-                            event.jaxis.axis,
-                            mag,
-                            Input.axis_centered(mag),
-                        )
+                cls.broadcast(
+                    Events.JOYAXISMOTION,
+                    JoyAxisMotionResponse(
+                        event.jaxis.timestamp,
+                        event.jaxis.which,
+                        event.jaxis.axis,
+                        mag,
+                        Input.axis_centered(mag),
                     )
+                )
             elif event.type in (sdl2.SDL_JOYBUTTONDOWN, sdl2.SDL_JOYBUTTONUP):
                 if event.type == sdl2.SDL_JOYBUTTONUP:
                     event_name = Events.JOYBUTTONUP
                 else:
                     event_name = Events.JOYBUTTONDOWN
 
-                if event_name.value in cls.listeners:
-                    cls.broadcast(
-                        event_name,
-                        JoyButtonResponse(
-                            event.jbutton.timestamp,
-                            event.jbutton.which,
-                            event.jbutton.button,
-                        )
+                cls.broadcast(
+                    event_name, JoyButtonResponse(
+                        event.jbutton.timestamp,
+                        event.jbutton.which,
+                        event.jbutton.button,
                     )
+                )
             elif event.type == sdl2.SDL_JOYHATMOTION:
-                if Events.JOYHATMOTION.value in cls.listeners:
-                    cls.broadcast(
-                        Events.JOYHATMOTION,
-                        JoyHatMotionResponse(
-                            event.jhat.timestamp,
-                            event.jhat.which,
-                            event.jhat.hat,
-                            event.jhat.value,
-                            Input.translate_hat(event.jhat.value),
-                        )
+                cls.broadcast(
+                    Events.JOYHATMOTION,
+                    JoyHatMotionResponse(
+                        event.jhat.timestamp,
+                        event.jhat.which,
+                        event.jhat.hat,
+                        event.jhat.value,
+                        Input.translate_hat(event.jhat.value),
                     )
+                )
 
         return False
 
     @classmethod
-    def broadcast(cls, event: str | Events, params: Any | None = None):
-        """
-        Broadcast an event to be caught by listeners.
-
-        Args:
-            event: The event key to broadcast.
-            params: The event parameters (usually a dictionary). Defaults to None.
-        """
-        # pylint: disable=isinstance-second-argument-not-valid-type
-        for listener in cls.listeners.get(event.value if isinstance(event, Events) else event, []):
-            listener.ping(params or EventResponse(Time.now()))
-
-    @classmethod
-    def listen(cls, event: str | Events, func: Callable[[], None] | Callable[[Any], None]):
+    def listen(cls, event: str, func: Callable[[], None] | Callable[[EventResponse], None]):
         """
         Creates an event listener and registers it.
 
@@ -216,6 +195,18 @@ class Radio:
 
         return listener
 
+    @classmethod
+    def broadcast(cls, event: str, params: EventResponse | None = None):
+        """
+        Broadcast an event to be caught by listeners.
+
+        Args:
+            event: The event key to broadcast.
+            params: The event parameters (usually a dictionary)
+        """
+        for listener in cls.listeners.get(event, []):
+            listener.ping(params or EventResponse(Time.now()))
+
 
 @cython.cclass
 class Listener:
@@ -228,7 +219,9 @@ class Listener:
     """
     event: str = cython.declare(str, visibility="public")  # type: ignore
     """The event descriptor"""
-    callback: Callable[[], None] | Callable[[Any], None] = cython.declare(object, visibility="public")  # type: ignore
+    callback: Callable[[], None] | Callable[[EventResponse], None] = cython.declare(
+        object, visibility="public"
+    )  # type: ignore
     """The function called when the event occurs"""
     registered: cython.bint = cython.declare(cython.bint, visibility="public")  # type: ignore
     """Describes whether the listener is registered"""
