@@ -128,7 +128,7 @@ class Time:
     @classmethod
     def next_frame(cls, func: Callable[[], None]):
         """
-        Calls the function func on the next frame.
+        Calls the function func to be called on the next frame.
 
         Args:
             func: The function to call.
@@ -138,7 +138,7 @@ class Time:
     @classmethod
     def delayed_frames(cls, delay: int, func: Callable[[], None]):
         """
-        Calls the function func at a later frame.
+        Calls the function func to be called at a later frame.
 
         Args:
             delay: The number of frames to wait.
@@ -150,7 +150,7 @@ class Time:
     @classmethod
     def delayed_call(cls, delay: int, func: Callable[[], None]):
         """
-        Calls the function func at a later time.
+        Calls the function func to be called at a later time.
 
         Args:
             delay: The time from now (in milliseconds) to run the function at.
@@ -162,7 +162,7 @@ class Time:
     @classmethod
     def scheduled_call(cls, interval: int, func: Callable[[], None] | Callable[[ScheduledTask], None]):
         """
-        Schedules the function func to be repeatly every interval.
+        Schedules the function func to be repeatedly called every interval.
 
         Args:
             interval: The interval (in milliseconds) to run the function at.
@@ -174,7 +174,7 @@ class Time:
     @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):
         """
-        Schedules a task for delayed execution based on what type of task it is.
+        Schedules a task for execution based on what type of task it is.
 
         Args:
             task (DelayedTask | FramesTask | ScheduledTask): The task to queue.
