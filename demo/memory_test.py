@@ -10,6 +10,6 @@ def process_memory():
     return mem_info.rss
 
 
-Time.schedule(ScheduledTask(1000, lambda: print(f"Overall usage: {process_memory()}\n")))
+Time.schedule(RecurrentTask(1000, lambda: print(f"Overall usage: {process_memory()}\n")))
 
 begin()

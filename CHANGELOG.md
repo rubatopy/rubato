@@ -18,14 +18,18 @@
 
 ### Breaking Changes
 
+-   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurred_call()`.
+
 ### Added
 
 -   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
 -   `Animation` now has an alpha that can be set.
+-   Frame, Delayed, and Recurrent tasks now have a `next_run` value that control the next run. This was previously done by `delay`.
 
 ### Changed
 
 -   `ScheduledTask` task function can now optionally take in a task argument. This allows you to stop the task when you want.
+-   `delay` argument in Frame, Delayed, and Recurrent tasks now only controls the delay.
 
 ### Removed
 

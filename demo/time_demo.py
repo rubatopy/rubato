@@ -12,6 +12,8 @@ go = wrap(Rectangle(width=100, height=100, color=Color.red), pos=Display.center_
 main.add(go)
 
 interval = 1000
+
+
 def task():
     go.pos += Vector(50, 0)
     print(f"Scheduled: {time.time() - st}")
@@ -24,9 +26,10 @@ def d_task():
     print(f"Delayed: {time.time() - st}")
     Time.delayed_call(interval, d_task)
 
+
 st = time.time()
 
-sched_task = ScheduledTask(interval, task)
+sched_task = RecurrentTask(interval, task)
 Time.schedule(sched_task)
 
 Time.delayed_call(interval, d_task)

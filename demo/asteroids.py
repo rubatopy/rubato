@@ -99,7 +99,7 @@ def make_asteroid():
     )
 
 
-Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
+Time.schedule(RecurrentTask(1000, make_asteroid, 1000))
 
 
 class PlayerController(Component):
@@ -158,6 +158,7 @@ class PlayerController(Component):
         if target != (0, 0):
             self.gameobj.rotation = self.velocity.angle
 
+
 # player geometry, we cannot have concave polygons (yet), this gets the absolute hitbox.
 full = [
     Vector.from_radial(radius, 0),
@@ -196,8 +197,6 @@ def bullet_collide(man: Manifold):
         main.remove(man.shape_b.gameobj)
         main.remove(man.shape_a.gameobj)
         main.add(local_expl)
-
-
 
 
 def new_draw():
