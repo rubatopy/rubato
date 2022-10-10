@@ -30,7 +30,7 @@ class Timer(Component):
         main.remove(self.gameobj)
 
     def setup(self):
-        Time.delayed_call(Time.sec_to_milli(self.secs), self.remove)
+        Time.delayed_call(self.remove, Time.sec_to_milli(self.secs))
 
 
 # explosion particle
@@ -99,7 +99,7 @@ def make_asteroid():
     )
 
 
-Time.schedule(ScheduledTask(1000, make_asteroid, 1000))
+Time.schedule(RecurrentTask(make_asteroid, 1000, 1000))
 
 
 class PlayerController(Component):
@@ -138,7 +138,7 @@ class PlayerController(Component):
                 )
             )
             self.allowed_to_shoot = False
-            Time.delayed_call(self.interval, lambda: setattr(self, "allowed_to_shoot", True))
+            Time.delayed_call(lambda: setattr(self, "allowed_to_shoot", True), self.interval)
             # ^ could also use a class function
 
     def fixed_update(self):
@@ -157,6 +157,7 @@ class PlayerController(Component):
 
         if target != (0, 0):
             self.gameobj.rotation = self.velocity.angle
+
 
 # player geometry, we cannot have concave polygons (yet), this gets the absolute hitbox.
 full = [
@@ -196,8 +197,6 @@ def bullet_collide(man: Manifold):
         main.remove(man.shape_b.gameobj)
         main.remove(man.shape_a.gameobj)
         main.add(local_expl)
-
-
 
 
 def new_draw():

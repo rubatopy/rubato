@@ -14,6 +14,6 @@ from .rb_input import Input
 from .radio import Radio, Events, Listener
 from .camera import Camera
 from .draw import Draw, DrawTask
-from .rb_time import DelayedTask, FramesTask, ScheduledTask, Time
+from .rb_time import DelayedTask, FramesTask, RecurrentTask, Time
 from .sound import Sound
 from .debug import Debug

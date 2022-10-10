@@ -10,10 +10,21 @@ from . import InitError
 
 @dataclass(order=True)
 class DelayedTask:
-    """A task that is run after a specified number of milliseconds."""
+    """
+    A task that is run after a specified number of milliseconds.
+
+    Args:
+        task: The task to invoke.
+        delay: The number of milliseconds to wait before invoking the task.
+    """
+    task: Callable[[], None] = field(compare=False)
+    """The task to run."""
     delay: int
-    task: Callable = field(compare=False)
-    is_stopped: bool = field(default=False, compare=False)
+    """The delay until the task is run, in milliseconds."""
+    is_stopped: bool = field(init=False, default=False, compare=False)
+    """Whether the DelayedTask is stopped."""
+    next_run: int = field(init=False, compare=False)
+    """The time at which the task will be run next, in milliseconds."""
 
     def stop(self):
         """Stop the DelayedTask from invoking."""
@@ -22,10 +33,21 @@ class DelayedTask:
 
 @dataclass(order=True)
 class FramesTask:
-    """A task that is run after a specified number of frames."""
+    """
+    A task that is run after a specified number of frames.
+
+    Args:
+        task: The task to invoke.
+        delay: The number of frames to wait before invoking the task.
+    """
+    task: Callable[[], None] = field(compare=False)
+    """The task to run."""
     delay: int
-    task: Callable = field(compare=False)
-    is_stopped: bool = field(default=False, compare=False)
+    """The delay until the task is run, in frames."""
+    is_stopped: bool = field(init=False, default=False, compare=False)
+    """Whether the FramesTask is stopped."""
+    next_run: int = field(init=False, compare=False)
+    """The frame at which the task will be run next."""
 
     def stop(self):
         """Stop the FramesTask from invoking."""
@@ -33,15 +55,28 @@ class FramesTask:
 
 
 @dataclass(order=True)
-class ScheduledTask:
-    """A task that is run every specified number of milliseconds."""
+class RecurrentTask:
+    """
+    A task that is run every specified number of milliseconds.
+
+    Args:
+        task: The task to invoke.
+        interval: The number of milliseconds between task invocations.
+        delay: The number of milliseconds to wait before starting the invocations.
+    """
+    task: Callable[[], None] | Callable[["RecurrentTask"], None] = field(compare=False)
+    """The task to run."""
     interval: int = field(compare=False)
-    task: Callable = field(compare=False)
+    """The interval between task invocations, in milliseconds."""
     delay: int = field(default=0)
-    is_stopped: bool = field(default=False, compare=False)
+    """The initial delay until the task is run, in milliseconds."""
+    is_stopped: bool = field(init=False, default=False, compare=False)
+    """Whether the RecurrentTask is stopped."""
+    next_run: int = field(init=False, compare=False)
+    """The time at which the task will be run next, in milliseconds."""
 
     def stop(self):
-        """Stop the ScheduledTask from invoking."""
+        """Stop the RecurrentTask from invoking."""
         self.is_stopped = True
 
 
@@ -56,7 +91,7 @@ class Time:
 
     _frame_queue: list[FramesTask] = []
     _task_queue: list[DelayedTask] = []
-    _schedule_queue: list[ScheduledTask] = []
+    _recurrent_queue: list[RecurrentTask] = []
 
     _next_queue: list[Callable] = []
 
@@ -126,70 +161,72 @@ class Time:
         cls._delta_time = (cls.now() - cls._frame_start) / 1000
 
     @classmethod
-    def schedule(cls, task: DelayedTask | FramesTask | ScheduledTask):
+    def next_frame(cls, func: Callable[[], None]):
         """
-        Schedules a task for delayed execution based on what type of task it is.
-
-        Args:
-            task (DelayedTask | FramesTask | ScheduledTask): The task to queue.
-        """
-        if isinstance(task, DelayedTask):
-            task.delay += cls.now()
-            heapq.heappush(cls._task_queue, task)
-        elif isinstance(task, FramesTask):
-            task.delay += cls.frames
-            heapq.heappush(cls._frame_queue, task)
-        elif isinstance(task, ScheduledTask):
-            task.delay += cls.now()
-            heapq.heappush(cls._schedule_queue, task)
-        else:
-            raise TypeError("Task argument must of of type DelayedTask, FramesTask or ScheduledTask.")
-
-    @classmethod
-    def delayed_call(cls, delay: int, func: Callable):
-        """
-        Calls the function func at a later time.
-
-        Args:
-            delay: The time from now (in milliseconds) to run the function at.
-            func: The function to call.
-        """
-
-        heapq.heappush(cls._task_queue, DelayedTask(delay + cls.now(), func))
-
-    @classmethod
-    def delayed_frames(cls, delay: int, func: Callable):
-        """
-        Calls the function func at a later frame.
-
-        Args:
-            delay: The number of frames to wait.
-            func: The function to call
-        """
-
-        heapq.heappush(cls._frame_queue, FramesTask(cls.frames + delay, func))
-
-    @classmethod
-    def scheduled_call(cls, interval: int, func: Callable):
-        """
-        Calls the function func at a scheduled interval.
-
-        Args:
-            interval: The interval (in milliseconds) to run the function at.
-            func: The function to call.
-        """
-
-        heapq.heappush(cls._schedule_queue, ScheduledTask(interval, func, interval + cls.now()))
-
-    @classmethod
-    def next_frame(cls, func: Callable):
-        """
-        Calls the function func on the next frame.
+        Calls the function func to be called on the next frame.
 
         Args:
             func: The function to call.
         """
         cls._next_queue.append(func)
+
+    @classmethod
+    def delayed_frames(cls, task: Callable[[], None], delay: int):
+        """
+        Calls the function func to be called at a later frame.
+
+        Args:
+            task: The function to call
+            delay: The number of frames to wait.
+        """
+
+        cls.schedule(FramesTask(task, delay))
+
+    @classmethod
+    def delayed_call(cls, task: Callable[[], None], delay: int):
+        """
+        Calls the function func to be called at a later time.
+
+        Args:
+            task: The function to call.
+            delay: The time from now (in milliseconds) to run the function at.
+        """
+
+        cls.schedule(DelayedTask(task, delay))
+
+    @classmethod
+    def recurrent_call(cls, task: Callable[[], None] | Callable[[RecurrentTask], None], interval: int, delay: int = 0):
+        """
+        Schedules the function func to be repeatedly called every interval.
+
+        Args:
+            task: The function to call.
+                This method may take a RecurrentTask as an argument, which will be passed to it when it is invoked.
+            interval: The interval (in milliseconds) to run the function at.
+            delay: The delay (in milliseconds) to wait before starting the task.
+        """
+
+        cls.schedule(RecurrentTask(task, interval, delay))
+
+    @classmethod
+    def schedule(cls, task: DelayedTask | FramesTask | RecurrentTask):
+        """
+        Schedules a task for execution based on what type of task it is.
+
+        Args:
+            task: The task to queue.
+        """
+        if isinstance(task, DelayedTask):
+            task.next_run = cls.now() + task.delay
+            heapq.heappush(cls._task_queue, task)
+        elif isinstance(task, FramesTask):
+            task.next_run = cls.frames + task.delay
+            heapq.heappush(cls._frame_queue, task)
+        elif isinstance(task, RecurrentTask):
+            task.next_run = cls.now() + task.delay
+            heapq.heappush(cls._recurrent_queue, task)
+        else:
+            raise TypeError("Task argument must of of type DelayedTask, FramesTask or RecurrentTask.")
 
     @classmethod
     def milli_to_sec(cls, milli: float | int) -> float | int:
@@ -226,30 +263,32 @@ class Time:
             cls._next_queue.clear()
 
         while cls._frame_queue:
-            if cls._frame_queue[0].delay <= cls.frames:
-                timer_task = heapq.heappop(cls._frame_queue)
-                if not timer_task.is_stopped:
-                    timer_task.task()
+            if cls._frame_queue[0].next_run <= cls.frames:
+                frame_task: FramesTask = heapq.heappop(cls._frame_queue)
+                if not frame_task.is_stopped:
+                    frame_task.task()
             else:
                 break
 
         while cls._task_queue:
-            if cls._task_queue[0].delay <= cls.now():
-                timer_task = heapq.heappop(cls._task_queue)
-                if not timer_task.is_stopped:
-                    timer_task.task()
+            if cls._task_queue[0].next_run <= cls.now():
+                delayed_task: DelayedTask = heapq.heappop(cls._task_queue)
+                if not delayed_task.is_stopped:
+                    delayed_task.task()
             else:
                 break
 
-        while cls._schedule_queue:
-            if cls._schedule_queue[0].delay <= cls.now():
-                scheduled_task = heapq.heappop(cls._schedule_queue)
+        while cls._recurrent_queue:
+            if cls._recurrent_queue[0].next_run <= cls.now():
+                recurrent_task: RecurrentTask = heapq.heappop(cls._recurrent_queue)
 
-                if not scheduled_task.is_stopped:
-                    scheduled_task.task()
+                if not recurrent_task.is_stopped:
+                    try:
+                        recurrent_task.task(recurrent_task)  # type: ignore
+                    except TypeError:
+                        recurrent_task.task()  # type: ignore
 
-                if not scheduled_task.is_stopped:
-                    scheduled_task.delay += scheduled_task.interval
-                    heapq.heappush(cls._schedule_queue, scheduled_task)
+                    recurrent_task.next_run += recurrent_task.interval
+                    heapq.heappush(cls._recurrent_queue, recurrent_task)
             else:
                 break

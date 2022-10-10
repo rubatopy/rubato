@@ -5,23 +5,25 @@ rb.init(res=(100, 100), window_size=(2000, 2000))
 
 rb.Scene()
 
-a = rb.Surface.from_file("../files/dino/idle.png")
-print(a.width, a.height)
-
-a.set_colorkey(rb.Color(77, 146, 188))
-
-b = rb.Surface(24, 24)
-b.blit(a, (0, 0, 24, 24), (0, 0, 12, 12))
+x = 0
+y = 0
 
 
-def draw():
-    rb.Draw.queue_surface(a, rb.Display.center)
-    rb.Draw.queue_line((0, 0), rb.world_mouse(), rb.Color.red, 3)
-    rb.Draw.queue_circle(rb.world_mouse(), 10, rb.Color.green, 4)
-    rb.Draw.queue_rect(rb.world_mouse(), 30, 30, rb.Color.blue, 2)
-    rb.Draw.queue_poly(rb.Vector.poly(5, 10), rb.world_mouse(), rb.Color.yellow, 2)
+def test(task):
+    global x
+    print(f"test {x} {rb.Time.now()}")
+    x += 1
+    if x >= 10:
+        task.stop()
 
 
-rb.Game.draw = draw
+def test2():
+    global y
+    print(f"test2 {y} {rb.Time.now()}")
+    y += 1
+
+
+rb.Time.recurrent_call(test, 500)
+rb.Time.recurrent_call(test2, 500)
 
 rb.begin()
