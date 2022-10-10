@@ -24,14 +24,14 @@ def task():
 def d_task():
     go.pos += Vector(50, 0)
     print(f"Delayed: {time.time() - st}")
-    Time.delayed_call(interval, d_task)
+    Time.delayed_call(d_task, interval)
 
 
 st = time.time()
 
-sched_task = RecurrentTask(interval, task)
+sched_task = RecurrentTask(task, interval)
 Time.schedule(sched_task)
 
-Time.delayed_call(interval, d_task)
+Time.delayed_call(d_task, interval)
 
 begin()

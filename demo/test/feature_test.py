@@ -23,7 +23,7 @@ def test2():
     y += 1
 
 
-rb.Time.recurrent_call(500, test)
-rb.Time.recurrent_call(500, test2)
+rb.Time.recurrent_call(test, 500)
+rb.Time.recurrent_call(test2, 500)
 
 rb.begin()

@@ -14,17 +14,16 @@ class DelayedTask:
     A task that is run after a specified number of milliseconds.
 
     Args:
-        delay: The number of milliseconds to wait before invoking the task.
         task: The task to invoke.
-        is_stopped: Whether the task is stopped.
+        delay: The number of milliseconds to wait before invoking the task.
     """
-    delay: int
-    """The delay until the task is run, in milliseconds."""
     task: Callable[[], None] = field(compare=False)
     """The task to run."""
-    is_stopped: bool = field(default=False, compare=False)
+    delay: int
+    """The delay until the task is run, in milliseconds."""
+    is_stopped: bool = field(init=False, default=False, compare=False)
     """Whether the DelayedTask is stopped."""
-    next_run: int = field(default=0, compare=False)
+    next_run: int = field(init=False, compare=False)
     """The time at which the task will be run next, in milliseconds."""
 
     def stop(self):
@@ -38,17 +37,16 @@ class FramesTask:
     A task that is run after a specified number of frames.
 
     Args:
-        delay: The number of frames to wait before invoking the task.
         task: The task to invoke.
-        is_stopped: Whether the task is stopped.
+        delay: The number of frames to wait before invoking the task.
     """
-    delay: int
-    """The delay until the task is run, in frames."""
     task: Callable[[], None] = field(compare=False)
     """The task to run."""
-    is_stopped: bool = field(default=False, compare=False)
+    delay: int
+    """The delay until the task is run, in frames."""
+    is_stopped: bool = field(init=False, default=False, compare=False)
     """Whether the FramesTask is stopped."""
-    next_run: int = field(default=0, compare=False)
+    next_run: int = field(init=False, compare=False)
     """The frame at which the task will be run next."""
 
     def stop(self):
@@ -62,20 +60,19 @@ class RecurrentTask:
     A task that is run every specified number of milliseconds.
 
     Args:
-        interval: The number of milliseconds between task invocations.
         task: The task to invoke.
+        interval: The number of milliseconds between task invocations.
         delay: The number of milliseconds to wait before starting the invocations.
-        is_stopped: Whether the task is stopped.
     """
-    interval: int = field(compare=False)
-    """The interval between task invocations, in milliseconds."""
     task: Callable[[], None] | Callable[["RecurrentTask"], None] = field(compare=False)
     """The task to run."""
+    interval: int = field(compare=False)
+    """The interval between task invocations, in milliseconds."""
     delay: int = field(default=0)
     """The initial delay until the task is run, in milliseconds."""
-    is_stopped: bool = field(default=False, compare=False)
+    is_stopped: bool = field(init=False, default=False, compare=False)
     """Whether the RecurrentTask is stopped."""
-    next_run: int = field(default=0, compare=False)
+    next_run: int = field(init=False, compare=False)
     """The time at which the task will be run next, in milliseconds."""
 
     def stop(self):
@@ -174,41 +171,42 @@ class Time:
         cls._next_queue.append(func)
 
     @classmethod
-    def delayed_frames(cls, delay: int, func: Callable[[], None]):
+    def delayed_frames(cls, task: Callable[[], None], delay: int):
         """
         Calls the function func to be called at a later frame.
 
         Args:
+            task: The function to call
             delay: The number of frames to wait.
-            func: The function to call
         """
 
-        cls.schedule(FramesTask(delay, func))
+        cls.schedule(FramesTask(task, delay))
 
     @classmethod
-    def delayed_call(cls, delay: int, func: Callable[[], None]):
+    def delayed_call(cls, task: Callable[[], None], delay: int):
         """
         Calls the function func to be called at a later time.
 
         Args:
+            task: The function to call.
             delay: The time from now (in milliseconds) to run the function at.
-            func: The function to call.
         """
 
-        cls.schedule(DelayedTask(delay, func))
+        cls.schedule(DelayedTask(task, delay))
 
     @classmethod
-    def recurrent_call(cls, interval: int, func: Callable[[], None] | Callable[[RecurrentTask], None], delay: int = 0):
+    def recurrent_call(cls, task: Callable[[], None] | Callable[[RecurrentTask], None], interval: int, delay: int = 0):
         """
         Schedules the function func to be repeatedly called every interval.
 
         Args:
+            task: The function to call.
+                This method may take a RecurrentTask as an argument, which will be passed to it when it is invoked.
             interval: The interval (in milliseconds) to run the function at.
-            func: The function to call. Can take a RecurrentTask as an argument. This is useful for stopping the task.
             delay: The delay (in milliseconds) to wait before starting the task.
         """
 
-        cls.schedule(RecurrentTask(interval, func, delay))
+        cls.schedule(RecurrentTask(task, interval, delay))
 
     @classmethod
     def schedule(cls, task: DelayedTask | FramesTask | RecurrentTask):
@@ -219,13 +217,13 @@ class Time:
             task: The task to queue.
         """
         if isinstance(task, DelayedTask):
-            task.next_run = cls.now() + task.delay if task.next_run <= cls.now() else task.next_run
+            task.next_run = cls.now() + task.delay
             heapq.heappush(cls._task_queue, task)
         elif isinstance(task, FramesTask):
-            task.next_run = cls.frames + task.delay if task.next_run <= cls.frames else task.next_run
+            task.next_run = cls.frames + task.delay
             heapq.heappush(cls._frame_queue, task)
         elif isinstance(task, RecurrentTask):
-            task.next_run = cls.now() + task.delay + task.interval if task.next_run <= cls.now() else task.next_run
+            task.next_run = cls.now() + task.delay
             heapq.heappush(cls._recurrent_queue, task)
         else:
             raise TypeError("Task argument must of of type DelayedTask, FramesTask or RecurrentTask.")
@@ -274,9 +272,9 @@ class Time:
 
         while cls._task_queue:
             if cls._task_queue[0].next_run <= cls.now():
-                task: DelayedTask = heapq.heappop(cls._task_queue)
-                if not task.is_stopped:
-                    task.task()
+                delayed_task: DelayedTask = heapq.heappop(cls._task_queue)
+                if not delayed_task.is_stopped:
+                    delayed_task.task()
             else:
                 break
 
