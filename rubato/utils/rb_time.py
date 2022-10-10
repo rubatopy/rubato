@@ -198,7 +198,7 @@ class Time:
         cls.schedule(DelayedTask(delay, func))
 
     @classmethod
-    def recurred_call(cls, interval: int, func: Callable[[], None] | Callable[[RecurrentTask], None], delay: int = 0):
+    def recurrent_call(cls, interval: int, func: Callable[[], None] | Callable[[RecurrentTask], None], delay: int = 0):
         """
         Schedules the function func to be repeatedly called every interval.
 

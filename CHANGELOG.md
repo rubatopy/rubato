@@ -18,7 +18,7 @@
 
 ### Breaking Changes
 
--   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurred_call()`.
+-   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurrent_call()`.
 
 ### Added
 
