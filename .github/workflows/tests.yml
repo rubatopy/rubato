@@ -53,8 +53,8 @@ jobs:
             - name: Save cythonized stuff
               run: |
                 mkdir build/temp.c/
-                cp --parents rubato/**/*.c build/temp.c/
-                cp --parents rubato/c_src/c_draw.cpp build/temp.c/
+                cp -p --parents rubato/**/*.c build/temp.c/
+                cp -p --parents rubato/c_src/c_draw.cpp build/temp.c/
               shell: bash
 
 
@@ -91,8 +91,8 @@ jobs:
 
             - name: Uncache
               run: |
-                cp -r build/temp.c/* .
-                cp -r build/lib.*/* .
+                cp -r -p build/temp.c/* .
+                ./b test -qb
               shell: bash
 
             - name: Run Unit Tests
