@@ -1,15 +1,40 @@
-"""Events for rubato"""
+"""
+Events can be broadcast with :func:`rb.Radio.broadcast() <rubato.utils.radio.Radio.broadcast>`:
+
+>>> rb.Radio.broadcast("EVENT_NAME", {data})
+
+rubato broadcasts some events already, but you can also define your own events using this function!
+
+These events can also be listened to with :func:`rb.Radio.listen() <rubato.utils.radio.Radio.listen>`.
+Here is an example of how you can listen for a key down event:
+
+.. code-block:: python
+
+    def listener(data):
+        if data["key"] == "a":
+            print("You pressed the 'a' key!")
+
+    rb.Radio.listen("KEYDOWN", listener)
+
+Below is a list of all the events that are broadcast by rubato:
+"""
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from enum import Enum, unique
 from dataclasses import dataclass
 import cython
 
 if TYPE_CHECKING:
     from . import Camera
 
+if not cython.compiled:
+    from enum_tools import document_enum
+else:
+    document_enum = lambda _: None
 
-@cython.cclass
-class Events:
+
+@unique
+class Events(Enum):
     """
     Describes all rubato-fired events that can be listened for.
     """
@@ -42,6 +67,10 @@ class Events:
     """Fired when the game is exiting. Has no response."""
     RESIZE = "RESIZE"
     """Fired when the window is resized. Responds with a ResizeResponse object."""
+
+
+if not cython.compiled:
+    document_enum(Events)
 
 
 @dataclass(frozen=True)

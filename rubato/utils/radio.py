@@ -162,7 +162,7 @@ class Radio:
         return False
 
     @classmethod
-    def listen(cls, event: str, func: Callable[[], None] | Callable[[EventResponse], None]):
+    def listen(cls, event: str | Events, func: Callable[[], None] | Callable[[EventResponse], None]):
         """
         Creates an event listener and registers it.
 
@@ -170,8 +170,7 @@ class Radio:
             event: The event key to listen for.
             func: The function to run once the event is broadcast. It may take in an EventResponse as an argument.
         """
-        # pylint: disable=isinstance-second-argument-not-valid-type
-        return cls.register(Listener(event.value if isinstance(event, Events) else event, func))
+        return cls.register(Listener(str(event), func))
 
     @classmethod
     def register(cls, listener: Listener):
@@ -196,7 +195,7 @@ class Radio:
         return listener
 
     @classmethod
-    def broadcast(cls, event: str, params: EventResponse | None = None):
+    def broadcast(cls, event: str | Events, params: EventResponse | None = None):
         """
         Broadcast an event to be caught by listeners.
 
@@ -204,7 +203,7 @@ class Radio:
             event: The event key to broadcast.
             params: The event parameters (usually a dictionary)
         """
-        for listener in cls.listeners.get(event, []):
+        for listener in cls.listeners.get(str(event), []):
             listener.ping(params or EventResponse(Time.now()))
 
 

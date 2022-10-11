@@ -24,6 +24,12 @@
 
 ### Changed
 
+-   `RecurrentTask` task callback can now be made to take in a task argument. This allows you to stop the task when you want.
+-   `delay` argument in Frame, Delayed, and Recurrent tasks now only controls the delay.
+-   Frame, Delayed, and Recurrent tasks no longer modify `delay`, and instead determine the next time to run the task using `next_run`.
+-   All event listener callbacks now can take in an `EventResponse`.
+-   Made `Events` an enum for nicer documentation. Doesn't impact usage.
+
 ### Removed
 
 -   Hidden `rigidbody.physics()` because it is called automatically.
