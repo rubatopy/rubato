@@ -31,21 +31,32 @@ jobs:
                   path: |
                     ${{ env.pythonLocation }}
                     build
+                    dist
                   key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py') }}
                   restore-keys: |
                     ${{ matrix.os }}-${{ matrix.python-version }}
 
             - name: Prep setup
               run: |
-                  python -m pip install --upgrade pip
-                  pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
-                  python setup.py egg_info
-                  pip install `grep -v '^\[' *.egg-info/requires.txt`
+                python -m pip install --upgrade pip
+                pip install build Cython==3.0.0a11 --install-option="--no-cython-compile"
+                python setup.py egg_info
+                pip install `grep -v '^\[' *.egg-info/requires.txt`
               shell: bash
 
             - name: Build
-              run: ./b test -qb
+              run: |
+                ./b test -qb
+                python -m build -w
               shell: bash
+
+            - name: Save cythonized stuff
+              run: |
+                mkdir build/temp.c/
+                cp --parents rubato/**/*.c build/temp.c/
+                cp --parents rubato/c_src/c_draw.cpp build/temp.c/
+              shell: bash
+
 
     unittest:
         name: ${{ matrix.os }} Test (Python ${{ matrix.python-version }})
@@ -78,8 +89,14 @@ jobs:
                     build
                   key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py') }}
 
+            - name: Uncache
+              run: |
+                cp -r build/temp.c/* .
+                cp -r build/lib.*/* .
+              shell: bash
+
             - name: Run Unit Tests
-              run: ./b test -q
+              run: ./b test -n
               shell: bash
 
     demo:
@@ -109,6 +126,11 @@ jobs:
                     ${{ env.pythonLocation }}
                     build
                   key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py') }}
+
+            - name: Install rubato
+              run: |
+                pip uninstall rubato
+                pip install dist/*
 
             - name: Run Demos
               run: |
