@@ -170,7 +170,7 @@ class Radio:
             event: The event key to listen for.
             func: The function to run once the event is broadcast. It may take in an EventResponse as an argument.
         """
-        return cls.register(Listener(str(event), func))
+        return cls.register(Listener(event.value if isinstance(event, Events) else event, func))
 
     @classmethod
     def register(cls, listener: Listener):
@@ -203,7 +203,7 @@ class Radio:
             event: The event key to broadcast.
             params: The event parameters (usually a dictionary)
         """
-        for listener in cls.listeners.get(str(event), []):
+        for listener in cls.listeners.get(event.value if isinstance(event, Events) else event, []):
             listener.ping(params or EventResponse(Time.now()))
 
 
