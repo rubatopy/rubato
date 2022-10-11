@@ -1,4 +1,4 @@
-name: CI Suite
+name: Test Suite
 
 on: [push]
 
@@ -7,120 +7,9 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
-    builder:
-        name: ${{ matrix.os }} Build (Python ${{ matrix.python-version }})
-        runs-on: ${{ matrix.os }}
-
-        strategy:
-            fail-fast: false
-            matrix:
-                python-version: ["3.10", "3.11.0-rc.2"]
-                os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v4
-              with:
-                  python-version: ${{ matrix.python-version }}
-
-            - name: Cache
-              uses: actions/cache@v3
-              id: cache
-              with:
-                  path: |
-                    ${{ env.pythonLocation }}
-                    build
-                    dist
-                  key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py', '.github/workflows/**/*') }}
-                  restore-keys: |
-                    ${{ matrix.os }}-${{ matrix.python-version }}
-
-            - name: Prep setup
-              run: |
-                python -m pip install --upgrade pip
-                pip install build Cython==3.0.0a11
-                python setup.py egg_info
-                pip install `grep -v '^\[' *.egg-info/requires.txt`
-              shell: bash
-
-            - name: Uncache
-              run: |
-                cp -r -p build/temp.c/* . || :
-              shell: bash
-
-            - name: Build
-              run: |
-                ./b test -qb
-                python -m build -w
-              shell: bash
-
-            - name: Save cythonized stuff
-              if: ${{ !startsWith(matrix.os, 'macos') }}
-              run: |
-                rm -rf build/temp.c
-                mkdir build/temp.c/
-                cp -p --parents rubato/**/*.c build/temp.c/
-                cp -p --parents rubato/c_src/c_draw.cpp build/temp.c/
-              shell: bash
-
-            - name: Save cythonized stuff (Mac)
-              if: startsWith(matrix.os, 'macos')
-              run: |
-                rm -rf build/temp.c
-                mkdir build/temp.c/
-                rsync -R -t rubato/**/*.c build/temp.c/
-                rsync -R -t rubato/c_src/c_draw.cpp build/temp.c/
-
-
-
-    unittest:
-        name: ${{ matrix.os }} Test (Python ${{ matrix.python-version }})
-        runs-on: ${{ matrix.os }}
-        needs: builder
-
-        strategy:
-            fail-fast: false
-            matrix:
-                python-version: ["3.10", "3.11.0-rc.2"]
-                os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-
-        env:
-            SDL_VIDEODRIVER: dummy
-            SDL_AUDIODRIVER: dummy
-            SDL_RENDER_DRIVER: software
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v4
-              with:
-                  python-version: ${{ matrix.python-version }}
-
-            - name: Cache
-              uses: actions/cache@v3
-              with:
-                  path: |
-                    ${{ env.pythonLocation }}
-                    build
-                    dist
-                  key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py', '.github/workflows/**/*') }}
-
-            - name: Uncache
-              run: |
-                cp -r -p build/temp.c/* .
-                cp -r -p build/lib*/* .
-              shell: bash
-
-            - name: Run Unit Tests
-              run: ./b test -n
-              shell: bash
-
     demo:
         name: Test Demo Files
         runs-on: ubuntu-latest
-        needs: builder
 
         env:
             SDL_VIDEODRIVER: dummy
@@ -137,24 +26,49 @@ jobs:
               with:
                   python-version: "3.10"
 
-            - name: Cache
-              uses: actions/cache@v3
-              with:
-                  path: |
-                    ${{ env.pythonLocation }}
-                    build
-                    dist
-                  key: ubuntu-latest-3.10-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py', '.github/workflows/**/*') }}
-
-            - name: Install rubato
+            - name: Install dependencies
               run: |
-                pip uninstall rubato
-                pip install dist/*
+                  python -m pip install --upgrade pip
+                  pip install pysdl2-dll
+                  pip install .[dev]
 
             - name: Run Demos
               run: |
                   cd demo
                   ./_run_all.sh
+    unittest:
+        name: ${{ matrix.os }} (Python ${{ matrix.python-version }})
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ["3.10", "3.11.0-rc.2"]
+                os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+        env:
+            SDL_VIDEODRIVER: dummy
+            SDL_AUDIODRIVER: dummy
+            SDL_RENDER_DRIVER: software
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v4
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Prep setup
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
+                  python setup.py egg_info
+                  pip install `grep -v '^\[' *.egg-info/requires.txt`
+              shell: bash
+
+            - name: Run Unit Tests
+              run: ./b test
+              shell: bash
 
     lint:
         name: Lint Code
