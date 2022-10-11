@@ -24,18 +24,18 @@ class Color:
 
     # [colordef]
     _color_defaults = {
-        "yellow": (253, 203, 110),  # . . . . . . . . . . . . . . . tuple
-        "scarlet": (214, 48, 49),  #. . . . . . . . . . . . . . . . tuple
-        "violet": (108, 92, 231),  #. . . . . . . . . . . . . . . . tuple
-        "turquoize": (0, 206, 201),  #. . . . . . . . . . . . . . . tuple
-        "orange": (225, 112, 85),  #. . . . . . . . . . . . . . . . tuple
-        "magenta": (232, 67, 147),  # . . . . . . . . . . . . . . . tuple
-        "blue": (9, 132, 227),  # . . . . . . . . . . . . . . . . . tuple
-        "green": (0, 184, 148),  #. . . . . . . . . . . . . . . . . tuple
-        "red": (255, 118, 117),  #. . . . . . . . . . . . . . . . . tuple
-        "purple": (162, 155, 254),  # . . . . . . . . . . . . . . . tuple
-        "cyan": (116, 185, 255),  # . . . . . . . . . . . . . . . . tuple
-        "lime": (85, 239, 196),  #. . . . . . . . . . . . . . . . . tuple
+        "yellow": (253, 203, 110),
+        "scarlet": (214, 48, 49),
+        "violet": (108, 92, 231),
+        "turquoize": (0, 206, 201),
+        "orange": (225, 112, 85),
+        "magenta": (232, 67, 147),
+        "blue": (9, 132, 227),
+        "green": (0, 184, 148),
+        "red": (255, 118, 117),
+        "purple": (162, 155, 254),
+        "cyan": (116, 185, 255),
+        "lime": (85, 239, 196),
 
         # colorwheel used (rgb values are not identical):
         # https://upload.wikimedia.org/wikipedia/commons/5/54/RGV_color_wheel_1908.png
@@ -43,13 +43,13 @@ class Color:
     # [/colordef]
     # [grayscaledef]
     _grayscale_defaults = {
-        "black": (0, 0, 0),  #. . . . . . . . . . . . . . . . . . . tuple
-        "white": (255, 255, 255),  #. . . . . . . . . . . . . . . . tuple
-        "night": (20, 20, 22),  # . . . . . . . . . . . . . . . . . tuple
-        "darkgray": (45, 52, 54),  #. . . . . . . . . . . . . . . . tuple
-        "gray": (99, 110, 114),  #. . . . . . . . . . . . . . . . . tuple
-        "lightgray": (178, 190, 195),  #. . . . . . . . . . . . . . tuple
-        "snow": (223, 230, 233),  # . . . . . . . . . . . . . . . . tuple
+        "black": (0, 0, 0),
+        "white": (255, 255, 255),
+        "night": (20, 20, 22),
+        "darkgray": (45, 52, 54),
+        "gray": (99, 110, 114),
+        "lightgray": (178, 190, 195),
+        "snow": (223, 230, 233),
     }
 
     # [/grayscaledef]
@@ -195,7 +195,7 @@ class Color:
 
         Args:
             grayscale: Grayscale color option (-1 excludes, 0 includes, and 1 only chooses from grayscale colors).
-            Defaults to -1.
+                Defaults to -1.
 
         Returns:
             A random default Color.
@@ -280,7 +280,8 @@ class Color:
     @property
     def black(cls) -> Color:
         """
-        The default black color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default black color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["black"])
 
@@ -288,7 +289,8 @@ class Color:
     @property
     def white(cls) -> Color:
         """
-        The default white color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default white color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["white"])
 
@@ -296,7 +298,8 @@ class Color:
     @property
     def night(cls) -> Color:
         """
-        The default night color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default night color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["night"])
 
@@ -304,7 +307,8 @@ class Color:
     @property
     def darkgray(cls) -> Color:
         """
-        The default darkgray color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default darkgray color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["darkgray"])
 
@@ -312,7 +316,8 @@ class Color:
     @property
     def gray(cls) -> Color:
         """
-        The default gray color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default gray color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["gray"])
 
@@ -320,7 +325,8 @@ class Color:
     @property
     def lightgray(cls) -> Color:
         """
-        The default lightgray color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default lightgray color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["lightgray"])
 
@@ -328,7 +334,8 @@ class Color:
     @property
     def snow(cls) -> Color:
         """
-        The default snow color. To see the RGB values, check out the :ref:`Grayscale defaults <grayscaledef>`.
+        The default snow color. To see the RGB values, check out the
+        :ref:`Grayscale defaults <api:default grayscale colors>`.
         """
         return Color(*Color._grayscale_defaults["snow"])
 
@@ -336,7 +343,7 @@ class Color:
     @property
     def yellow(cls) -> Color:
         """
-        The default yellow color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default yellow color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["yellow"])
 
@@ -344,7 +351,7 @@ class Color:
     @property
     def orange(cls) -> Color:
         """
-        The default orange color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default orange color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["orange"])
 
@@ -352,7 +359,7 @@ class Color:
     @property
     def red(cls) -> Color:
         """
-        The default red color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default red color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["red"])
 
@@ -360,7 +367,7 @@ class Color:
     @property
     def scarlet(cls) -> Color:
         """
-        The default scarlet color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default scarlet color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["scarlet"])
 
@@ -368,7 +375,7 @@ class Color:
     @property
     def magenta(cls) -> Color:
         """
-        The default magenta color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default magenta color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["magenta"])
 
@@ -376,7 +383,7 @@ class Color:
     @property
     def purple(cls) -> Color:
         """
-        The default purple color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default purple color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["purple"])
 
@@ -384,7 +391,7 @@ class Color:
     @property
     def violet(cls) -> Color:
         """
-        The default violet color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default violet color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["violet"])
 
@@ -392,7 +399,7 @@ class Color:
     @property
     def blue(cls) -> Color:
         """
-        The default blue color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default blue color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["blue"])
 
@@ -400,7 +407,7 @@ class Color:
     @property
     def cyan(cls) -> Color:
         """
-        The default cyan color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default cyan color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["cyan"])
 
@@ -408,7 +415,7 @@ class Color:
     @property
     def turquoize(cls) -> Color:
         """
-        The default turquoize color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default turquoize color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["turquoize"])
 
@@ -416,7 +423,7 @@ class Color:
     @property
     def green(cls) -> Color:
         """
-        The default green color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default green color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["green"])
 
@@ -424,7 +431,7 @@ class Color:
     @property
     def lime(cls) -> Color:
         """
-        The default lime color. To see the RGB values, check out the :ref:`Color defaults <colordef>`.
+        The default lime color. To see the RGB values, check out the :ref:`Color defaults <api:default colors>`.
         """
         return Color(*Color._color_defaults["lime"])
 

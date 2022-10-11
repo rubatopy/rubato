@@ -43,7 +43,10 @@ extensions = [
     "sphinx_design",
     "sphinx.ext.intersphinx",
     "enum_tools.autoenum",
+    "sphinx.ext.autosectionlabel",
 ]
+
+autosectionlabel_prefix_document = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -69,12 +72,14 @@ smartquotes = False
 add_module_names = False
 
 # Auto Class Config
+autoclass_content = "both"
 autodoc_class_signature = "mixed"
 autodoc_member_order = "bysource"
 autodoc_mock_imports = ["sdl2"]
 autodoc_typehints_format = "short"
 autodoc_typehints = "signature"
 autodoc_preserve_defaults = True
+autodoc_typehints_description_target = "documented_params"
 
 autodoc_default_options = {
     "members": True,
@@ -82,7 +87,8 @@ autodoc_default_options = {
 }
 
 # Type Hint Config
-always_document_param_types = True
+always_document_param_types = False
+typehints_document_rtype = True
 set_type_checking_flag = False
 
 intersphinx_mapping = {
@@ -149,7 +155,6 @@ ogp_custom_meta_tags = [
 
 # Napoleon settings
 napoleon_google_docstring = True
-napoleon_numpy_docstring = True
 napoleon_include_init_with_doc = False
 napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
