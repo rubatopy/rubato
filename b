@@ -142,7 +142,7 @@ tests() {
             exit_with="$(expr $?+$exit_with)"
             ;;
         --quick|-q)
-            TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
+            tests -qb
             tests -n
             exit_with="$(expr $?+$exit_with)"
             ;;
