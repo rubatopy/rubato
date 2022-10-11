@@ -27,6 +27,7 @@ jobs:
 
             - name: Cache
               uses: actions/cache@v3
+              id: cache
               with:
                   path: |
                     ${{ env.pythonLocation }}
@@ -44,6 +45,12 @@ jobs:
                 pip install `grep -v '^\[' *.egg-info/requires.txt`
               shell: bash
 
+            - name: Uncache
+              if: steps.cache.outputs.cache-hit == 'true'
+              run: |
+                cp -r -p build/temp.c/* .
+              shell: bash
+
             - name: Build
               run: |
                 ./b test -qb
@@ -52,6 +59,7 @@ jobs:
 
             - name: Save cythonized stuff
               run: |
+                rm -rf build/temp.c
                 mkdir build/temp.c/
                 cp -p --parents rubato/**/*.c build/temp.c/
                 cp -p --parents rubato/c_src/c_draw.cpp build/temp.c/
