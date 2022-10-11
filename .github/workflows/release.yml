@@ -30,7 +30,7 @@ jobs:
             - name: Install requirements
               run: |
                   python -m pip install --upgrade pip
-                  pip install build
+                  pip install build Cython~=3.0.0a11
 
             - name: Non Linux Build
               if: ${{ !startsWith(matrix.os, 'ubuntu') }}
@@ -70,11 +70,8 @@ jobs:
         needs: builder
         steps:
             - uses: actions/download-artifact@v3
-
-            - name: Move Files to dist
-              run: |
-                  mkdir dist
-                  cp */* dist/
+              with:
+                path: dist
 
             - name: Publish to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
