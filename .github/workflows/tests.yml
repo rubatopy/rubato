@@ -111,7 +111,7 @@ jobs:
             - name: Uncache
               run: |
                 cp -r -p build/temp.c/* .
-                ./b test -qb
+                cp -r -p build/lib*/* .
               shell: bash
 
             - name: Run Unit Tests
@@ -145,7 +145,7 @@ jobs:
                     ${{ env.pythonLocation }}
                     build
                     dist
-                  key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py', '.github/workflows/**/*') }}
+                  key: ubuntu-latest-3.10-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py', '.github/workflows/**/*') }}
 
             - name: Install rubato
               run: |
