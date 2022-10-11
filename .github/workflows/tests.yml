@@ -46,9 +46,8 @@ jobs:
               shell: bash
 
             - name: Uncache
-              if: steps.cache.outputs.cache-hit == 'true'
               run: |
-                cp -r -p build/temp.c/* .
+                cp -r -p build/temp.c/* . || :
               shell: bash
 
             - name: Build
