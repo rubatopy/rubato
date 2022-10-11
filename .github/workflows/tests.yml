@@ -45,6 +45,7 @@ jobs:
 
             - name: Build
               run: ./b test --build
+              shell: bash
 
     unittest:
         name: ${{ matrix.os }} Test (Python ${{ matrix.python-version }})
