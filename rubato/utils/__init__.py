@@ -3,7 +3,7 @@ This module houses low-dependency utilities widely used in rubato.
 """
 from .path import *
 from .error import *
-from .rb_time import DelayedTask, FramesTask, ScheduledTask, Time
+from .rb_time import DelayedTask, FramesTask, RecurrentTask, Time
 from .rb_math import Math
 from .noise import Noise
 from .vector import Vector

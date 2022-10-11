@@ -22,6 +22,7 @@ class Animation(Component):
         af: Whether to use anisotropic filtering on the animation. Defaults to False.
         flipx: Whether to flip the animation horizontally. Defaults to False.
         flipy: Whether to flip the animation vertically. Defaults to False.
+        alpha: The alpha of the animation. Defaults to 255.
         offset: The offset of the animation from the game object. Defaults to (0, 0).
         rot_offset: The rotation offset of the animation from the game object. Defaults to 0.
         z_index: The z-index of the animation. Defaults to 0.
@@ -35,6 +36,7 @@ class Animation(Component):
         af: bool = False,
         flipx: bool = False,
         flipy: bool = False,
+        alpha: int = 255,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -66,6 +68,8 @@ class Animation(Component):
         """Whether to flip the animation along the x axis."""
         self.flipy: bool = flipy
         """Whether to flip the animation along the y axis."""
+        self.alpha: int = alpha
+        """The alpha of the animation."""
 
         self._time_step: float = 1 / self._fps
         self._time_count: float = 0
@@ -95,6 +99,7 @@ class Animation(Component):
         surface = self._states[self.current_state][self.current_frame]
         surface.af = self.af
         surface.rotation = self.true_rotation()
+        surface.set_alpha(self.alpha)
 
         calculated_scale = self.scale.clone()
         if self.flipx:

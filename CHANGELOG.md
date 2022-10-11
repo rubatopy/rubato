@@ -1,4 +1,4 @@
-<!-- DONT TOUCH THESE -->
+<!-- DON'T TOUCH THESE -->
 
 [unreleased]: https://github.com/rubatopy/rubato/
 [v0.3.4]: https://github.com/rubatopy/rubato/tree/v0.3.4
@@ -19,19 +19,26 @@
 ### Breaking Changes
 
 -   `Radio.broadcast` now takes in an `EventResponse` or `None` as its params argument.
+-   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurrent_call()`.
+-   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
+-   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
 
 ### Added
 
--   `rigidbody.stop` method to quickly set the rigidbody velocity to 0.
+-   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
 -   `EventResponse` and subclasses for individual events
+-   `Animation` now has an alpha that can be set.
 
 ### Changed
 
--   All event listener callbacks now can take in an `EventResponse`
+-   `RecurrentTask` task callback can now be made to take in a task argument. This allows you to stop the task when you want.
+-   `delay` argument in Frame, Delayed, and Recurrent tasks now only controls the delay.
+-   Frame, Delayed, and Recurrent tasks no longer modify `delay`, and instead determine the next time to run the task using `next_run`.
+-   All event listener callbacks now can take in an `EventResponse`.
 
 ### Removed
 
--   Hidden `rigidbody.physics` because it is called automatically.
+-   Hidden `rigidbody.physics()` because it is called automatically.
 
 ### Fixed
 
@@ -42,12 +49,12 @@
 ### Breaking Changes
 
 -   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
--   `shadow_pad` parameter in `Draw.text` is now a vector to allow for different padding in the x and y directions.
--   Renamed `surface.merge` and `raster.merge` to `surface.blit` and `raster.blit`, respectively, to be more consistent with Unity's API.
+-   `shadow_pad` parameter in `Draw.text()` is now a vector to allow for different padding in the x and y directions.
+-   Renamed `surface.merge()` and `raster.merge()` to `surface.blit()` and `raster.blit()`, respectively, to be more consistent with Unity's API.
 
 ### Added
 
--   Extra arguments to `raster.blit` to allow for the full functionality of `surface.blit`.
+-   Extra arguments to `raster.blit()` to allow for the full functionality of `surface.blit()`.
 
 ### Changed
 
@@ -58,7 +65,7 @@
 
 ### Removed
 
--   `Draw.texture` and `Draw.queue_texture` because they used SDL_Texture objects which are hidden in rubato.
+-   `Draw.texture()` and `Draw.queue_texture()` because they used SDL_Texture objects which are hidden in rubato.
 -   Hidden a few functions that deal with internal SDL objects that were not user-usable anyway.
 
 ### Fixed
@@ -70,34 +77,34 @@
 
 ### Breaking Changes
 
--   Renamed `Draw.surf` and `Draw.queue_surf` to `Draw.surface` and `Draw.queue_surface`.
--   Removed all `delete` functions because they did nothing that was useful for memory management,
+-   Renamed `Draw.surf()` and `Draw.queue_surf()` to `Draw.surface()` and `Draw.queue_surface()`.
+-   Removed all `delete()` functions because they did nothing that was useful for memory management,
     which was their purpose.
 -   Removed `Sprite`, because `Surface` does the same thing.
--   `Display.update` and `Draw.text` now use center position like the rest of rubato.
+-   `Display.update()` and `Draw.text()` now use center position like the rest of rubato.
 -   Removed `PressStart2P` font and replaced it with `Mozart`.
 
 ### Added
 
 -   `ParticleSystem`, which manages a system of `Particles`.
--   `remove` functions where needed.
+-   `remove()` functions where needed.
 -   `Surface.from_file()` as a replacement for `Sprite`.
 -   `shadow` option when drawing text.
 -   A few miscellaneous `str` and `repr` methods where most likely to be used.
 
 ### Changed
 
--   Made `Animation.anim_frame()` a function instead of a property method.
--   Renamed `Surface.generate_tx()` to `Surface.regen()`.
--   Renamed `Animation.set_current_state()` to `Animation.set_state()`.
+-   Made `animation.anim_frame()` a function instead of a property method.
+-   Renamed `surface.generate_tx()` to `surface.regen()`.
+-   Renamed `animation.set_current_state()` to `animation.set_state()`.
 -   Internally use `round()` more often instead of `int()` to avoid rounding errors.
 -   `button` attribute of mouse events is now an integer instead of a string to be consistent.
 
 ### Removed
 
--   `Animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
+-   `animation.image` because it exposed an underlying SDL surface, which should not be seen by users.
 -   Long deprecated mouse methods in `Input`
--   `vector.distance_between` (use `Vector.dist_to()`).
+-   `vector.distance_between` (use `vector.dist_to()`).
 -   `camera` argument from some draw methods to be consistent.
 
 ### Fixed
@@ -131,7 +138,7 @@
 -   `GameObjects`s can be active just like groups.
 -   Allowing passing in the hidden attribute into `Component` constructors.
 -   `Raster.fill()` and `Surface.fill()`.
--   `Vector.within()` method to check if vector is within a certain distance of another vector.
+-   `vector.within()` method to check if vector is within a certain distance of another vector.
 -   `Raster` component and `Surface` now have a changeable alpha. (`Image` and `Sprite` by extension)
 
 ### Changed
