@@ -33,7 +33,7 @@ jobs:
                     ${{ env.pythonLocation }}
                     build
                     dist
-                  key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py') }}
+                  key: ${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('**/setup.cfg', 'rubato/**/*.py', '.github/workflows/**/*') }}
                   restore-keys: |
                     ${{ matrix.os }}-${{ matrix.python-version }}
 
