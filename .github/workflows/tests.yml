@@ -58,12 +58,22 @@ jobs:
               shell: bash
 
             - name: Save cythonized stuff
+              if: ${{ !startsWith(matrix.os, 'macos') }}
+              run: |
+                rm -rf build/temp.c
+                mkdir build/temp.c/
+                cp -p --parents rubato/**/*.c build/temp.c/
+                cp -p --parents rubato/c_src/c_draw.cpp build/temp.c/
+              shell: bash
+
+            - name: Save cythonized stuff (Mac)
+              if: startsWith(matrix.os, 'macos')
               run: |
                 rm -rf build/temp.c
                 mkdir build/temp.c/
                 rsync -R -t rubato/**/*.c build/temp.c/
                 rsync -R -t rubato/c_src/c_draw.cpp build/temp.c/
-              shell: bash
+
 
 
     unittest:
