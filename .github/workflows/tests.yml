@@ -61,8 +61,8 @@ jobs:
               run: |
                 rm -rf build/temp.c
                 mkdir build/temp.c/
-                cp -p --parents rubato/**/*.c build/temp.c/
-                cp -p --parents rubato/c_src/c_draw.cpp build/temp.c/
+                rsync -R -t rubato/**/*.c build/temp.c/
+                rsync -R -t rubato/c_src/c_draw.cpp build/temp.c/
               shell: bash
 
 
