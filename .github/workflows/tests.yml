@@ -44,7 +44,7 @@ jobs:
               shell: bash
 
             - name: Build
-              run: ./b test --build
+              run: ./b test -qb
               shell: bash
 
     unittest:
