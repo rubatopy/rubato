@@ -7,14 +7,15 @@ rubato broadcasts some events already, but you can also define your own events u
 
 These events can also be listened to with :func:`rb.Radio.listen() <rubato.utils.radio.Radio.listen>`.
 Here is an example of how you can listen for a key down event:
+(note that using the Events enum is optional but recommended)
 
 .. code-block:: python
 
-    def listener(data):
-        if data["key"] == "a":
+    def listener(data: KeyResponse):
+        if data.key == "a":
             print("You pressed the 'a' key!")
 
-    rb.Radio.listen("KEYDOWN", listener)
+    rb.Radio.listen(Events.KEYDOWN, listener)
 
 Below is a list of all the events that are broadcast by rubato:
 """
@@ -26,11 +27,6 @@ import cython
 
 if TYPE_CHECKING:
     from . import Camera
-
-if not cython.compiled:
-    from enum_tools import document_enum
-else:
-    document_enum = lambda _: None
 
 
 @unique
@@ -70,6 +66,7 @@ class Events(Enum):
 
 
 if not cython.compiled:
+    from enum_tools import document_enum
     document_enum(Events)
 
 
