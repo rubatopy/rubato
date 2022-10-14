@@ -49,16 +49,17 @@ class Radio:
                 return True
             elif event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                    cls.broadcast(
-                        Events.RESIZE,
-                        ResizeResponse(
-                            event.window.timestamp,
-                            event.window.data1,
-                            event.window.data2,
-                            Display.window_size.x,  # type: ignore
-                            Display.window_size.y,  # type: ignore
+                    if Events.RESIZE.value in cls.listeners:
+                        cls.broadcast(
+                            Events.RESIZE,
+                            ResizeResponse(
+                                event.window.timestamp,
+                                event.window.data1,
+                                event.window.data2,
+                                Display.window_size.x,  # type: ignore
+                                Display.window_size.y,  # type: ignore
+                            )
                         )
-                    )
                     Display.window_size = (
                         event.window.data1,
                         event.window.data2,
@@ -73,91 +74,99 @@ class Radio:
                 else:
                     event_name = (Events.KEYDOWN, Events.KEYHOLD)[event.key.repeat]
 
-                cls.broadcast(
-                    event_name,
-                    KeyResponse(
-                        event.key.timestamp,
-                        Input.get_name(key_info.sym),
-                        unicode,
-                        int(key_info.sym),
-                        key_info.mod,
+                if event_name.value in cls.listeners:
+                    cls.broadcast(
+                        event_name,
+                        KeyResponse(
+                            event.key.timestamp,
+                            Input.get_name(key_info.sym),
+                            unicode,
+                            int(key_info.sym),
+                            key_info.mod,
+                        )
                     )
-                )
             elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
                 if event.type == sdl2.SDL_MOUSEBUTTONUP:
                     event_name = Events.MOUSEUP
                 else:
                     event_name = Events.MOUSEDOWN
 
-                cls.broadcast(
-                    event_name,
-                    MouseButtonResponse(
-                        event.button.timestamp,
-                        event.button.button,
-                        event.button.x,
-                        event.button.y,
-                        event.button.clicks,
-                        event.button.which,
+                if event_name.value in cls.listeners:
+                    cls.broadcast(
+                        event_name,
+                        MouseButtonResponse(
+                            event.button.timestamp,
+                            event.button.button,
+                            event.button.x,
+                            event.button.y,
+                            event.button.clicks,
+                            event.button.which,
+                        )
                     )
-                )
             elif event.type == sdl2.SDL_MOUSEWHEEL:
-                cls.broadcast(
-                    Events.MOUSEWHEEL,
-                    MouseWheelResponse(
-                        event.wheel.timestamp,
-                        event.wheel.preciseX,
-                        event.wheel.preciseY,
-                        event.wheel.which,
+                if Events.MOUSEWHEEL.value in cls.listeners:
+                    cls.broadcast(
+                        Events.MOUSEWHEEL,
+                        MouseWheelResponse(
+                            event.wheel.timestamp,
+                            event.wheel.preciseX,
+                            event.wheel.preciseY,
+                            event.wheel.which,
+                        )
                     )
-                )
             elif event.type == sdl2.SDL_MOUSEMOTION:
-                cls.broadcast(
-                    Events.MOUSEMOTION,
-                    MouseMotionResponse(
-                        event.motion.timestamp,
-                        event.motion.x,
-                        event.motion.y,
-                        event.motion.xrel,
-                        event.motion.yrel,
-                        event.motion.which,
+                if Events.MOUSEMOTION.value in cls.listeners:
+                    cls.broadcast(
+                        Events.MOUSEMOTION,
+                        MouseMotionResponse(
+                            event.motion.timestamp,
+                            event.motion.x,
+                            event.motion.y,
+                            event.motion.xrel,
+                            event.motion.yrel,
+                            event.motion.which,
+                        )
                     )
-                )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
                 mag: float = event.jaxis.value / Input._joystick_max
-                cls.broadcast(
-                    Events.JOYAXISMOTION,
-                    JoyAxisMotionResponse(
-                        event.jaxis.timestamp,
-                        event.jaxis.which,
-                        event.jaxis.axis,
-                        mag,
-                        Input.axis_centered(mag),
+                if Events.JOYAXISMOTION.value in cls.listeners:
+                    cls.broadcast(
+                        Events.JOYAXISMOTION,
+                        JoyAxisMotionResponse(
+                            event.jaxis.timestamp,
+                            event.jaxis.which,
+                            event.jaxis.axis,
+                            mag,
+                            Input.axis_centered(mag),
+                        )
                     )
-                )
             elif event.type in (sdl2.SDL_JOYBUTTONDOWN, sdl2.SDL_JOYBUTTONUP):
                 if event.type == sdl2.SDL_JOYBUTTONUP:
                     event_name = Events.JOYBUTTONUP
                 else:
                     event_name = Events.JOYBUTTONDOWN
 
-                cls.broadcast(
-                    event_name, JoyButtonResponse(
-                        event.jbutton.timestamp,
-                        event.jbutton.which,
-                        event.jbutton.button,
+                if event_name.value in cls.listeners:
+                    cls.broadcast(
+                        event_name,
+                        JoyButtonResponse(
+                            event.jbutton.timestamp,
+                            event.jbutton.which,
+                            event.jbutton.button,
+                        )
                     )
-                )
             elif event.type == sdl2.SDL_JOYHATMOTION:
-                cls.broadcast(
-                    Events.JOYHATMOTION,
-                    JoyHatMotionResponse(
-                        event.jhat.timestamp,
-                        event.jhat.which,
-                        event.jhat.hat,
-                        event.jhat.value,
-                        Input.translate_hat(event.jhat.value),
+                if Events.JOYHATMOTION.value in cls.listeners:
+                    cls.broadcast(
+                        Events.JOYHATMOTION,
+                        JoyHatMotionResponse(
+                            event.jhat.timestamp,
+                            event.jhat.which,
+                            event.jhat.hat,
+                            event.jhat.value,
+                            Input.translate_hat(event.jhat.value),
+                        )
                     )
-                )
 
         return False
 
@@ -251,6 +260,8 @@ class Listener:
         """
         try:
             Radio.listeners[self.event].remove(self)
+            if not Radio.listeners[self.event]:
+                del Radio.listeners[self.event]
             self.registered = False
         except ValueError as e:
             raise ValueError("Listener not registered in the radio") from e
