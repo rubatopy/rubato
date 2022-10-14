@@ -22,6 +22,7 @@
 -   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurrent_call()`.
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
+-   Removed `Debug` class.
 
 ### Added
 
