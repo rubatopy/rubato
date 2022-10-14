@@ -6,7 +6,8 @@ import cython
 from typing import Any, Iterator
 import math, random
 
-from . import Math, SideError
+from . import Math
+from .. import SideError
 
 
 @cython.cclass

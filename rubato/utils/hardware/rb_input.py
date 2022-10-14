@@ -6,7 +6,8 @@ import math
 import sdl2
 from ctypes import c_char_p, c_float, c_int
 
-from . import Vector, Display, Math, InitError
+from . import Display
+from .. import Vector, Math, InitError
 
 
 # THIS IS A STATIC CLASS

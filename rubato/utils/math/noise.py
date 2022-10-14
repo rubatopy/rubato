@@ -1,7 +1,8 @@
 """
 A modified implementation of the OpenSimplex2 algorithm.
 """
-from . import Math, InitError
+from . import Math
+from .. import InitError
 
 
 # THIS IS A STATIC CLASS
