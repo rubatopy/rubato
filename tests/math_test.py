@@ -1,6 +1,7 @@
 """Test the Math class"""
 import pytest
-from rubato.utils.rb_math import Math
+
+from rubato.utils.computation.rb_math import Math
 
 
 def test_clamp():

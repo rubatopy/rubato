@@ -3,7 +3,8 @@ import pytest
 
 import rubato
 import sdl2, sdl2.sdlttf
-from rubato.utils.vector import Vector
+
+from rubato.utils.computation.vector import Vector
 
 
 @pytest.fixture(scope="module")

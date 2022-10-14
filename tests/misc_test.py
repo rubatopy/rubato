@@ -6,10 +6,10 @@ from rubato.misc import world_mouse, wrap
 from rubato.struct.gameobject.component import Component
 from rubato.struct.gameobject.game_object import GameObject
 from rubato.struct.scene import Scene
-from rubato.utils.camera import Camera
-from rubato.utils.display import Display
-from rubato.utils.rb_input import Input
-from rubato.utils.vector import Vector
+from rubato.utils.computation.vector import Vector
+from rubato.utils.hardware.display import Display
+from rubato.utils.hardware.rb_input import Input
+from rubato.utils.rendering.camera import Camera
 
 
 def test_world_mouse(monkeypatch: MonkeyPatch):

@@ -1,11 +1,11 @@
 """Test the Group class."""
 from unittest.mock import Mock
 import pytest
-from rubato.utils.camera import Camera
 from rubato.struct.gameobject.physics.hitbox import Hitbox
 from rubato.struct.gameobject.game_object import GameObject
 from rubato.struct.group import Group
 from rubato.utils.error import Error
+from rubato.utils.rendering.camera import Camera
 # pylint: disable=redefined-outer-name
 
 

@@ -1,7 +1,7 @@
 """Test the radio module"""
 import pytest, unittest.mock as mock
 from rubato.utils.radio import Radio, Listener
-from rubato.utils.events import EventResponse
+from rubato.utils.radio.events import EventResponse
 
 
 def test_listener_init():
