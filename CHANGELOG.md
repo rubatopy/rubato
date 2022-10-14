@@ -18,9 +18,15 @@
 
 ### Breaking Changes
 
+-   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurrent_call()`.
+-   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
+-   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
+
 ### Added
 
--   `rigidbody.stop` method to quickly set the rigidbody velocity to 0.
+-   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
+-   `EventResponse` and subclasses for individual rubato events
+-   `Animation` now has an alpha that can be set.
 
 ### Changed
 
