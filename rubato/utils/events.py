@@ -13,13 +13,9 @@ key down event:
 """
 
 from __future__ import annotations
-from typing import TYPE_CHECKING
 from enum import Enum, unique
 from dataclasses import dataclass
 import cython
-
-if TYPE_CHECKING:
-    from . import Camera
 
 
 @unique
@@ -82,11 +78,6 @@ class Events(Enum):
     """
     Fired when a controller button is released.
     Responds with a :func:`JoyButtonResponse <rubato.utils.events.JoyButtonResponse>` object.
-    """
-    ZOOM = "ZOOM"
-    """
-    Fired when the camera is zoomed.
-    Responds with a :func:`ZoomResponse <rubato.utils.events.ZoomResponse>` object.
     """
     EXIT = "EXIT"
     """Fired when the game is exiting. Has no response."""
@@ -217,13 +208,6 @@ class JoyHatMotionResponse(EventResponse):
     """The value of the hat"""
     name: str
     """The name of the hat"""
-
-
-@dataclass(frozen=True)
-class ZoomResponse(EventResponse):
-    """A response to a zoom event"""
-    camera: Camera
-    """The camera that was zoomed"""
 
 
 @dataclass(frozen=True)
