@@ -81,7 +81,7 @@ def test_listener_remove():
 
     l.remove()
     assert l.registered is False
-    assert l not in Radio.listeners["test"]
+    assert not Radio.listeners
 
     with pytest.raises(ValueError):
         l2.remove()
