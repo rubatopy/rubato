@@ -15,7 +15,7 @@ from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, InitError, Time
+from .. import Input, Display, InitError, Time
 from .events import Events, KeyResponse, MouseButtonResponse, MouseMotionResponse, MouseWheelResponse, EventResponse, \
     JoyAxisMotionResponse, JoyButtonResponse, JoyHatMotionResponse, ResizeResponse
 
