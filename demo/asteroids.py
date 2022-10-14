@@ -5,6 +5,7 @@ import random
 from rubato import *
 
 size = 1080
+half_size = size // 2
 radius = size // 40
 level = 0
 
@@ -55,27 +56,27 @@ expl_sys = wrap([ParticleSystem(new_particle=make_part, mode=ParticleSystemMode.
 class BoundsChecker(Component):
 
     def update(self):
-        if self.gameobj.pos.x < -radius:
+        if self.gameobj.pos.x < Display.left - radius:
             self.gameobj.pos.x = Display.right + radius
         elif self.gameobj.pos.x > Display.right + radius:
-            self.gameobj.pos.x = -radius
-        if self.gameobj.pos.y < -radius:
-            self.gameobj.pos.y = Display.bottom + radius
-        elif self.gameobj.pos.y > Display.bottom + radius:
-            self.gameobj.pos.y = -radius
+            self.gameobj.pos.x = Display.left - radius
+        if self.gameobj.pos.y > Display.top + radius:
+            self.gameobj.pos.y = Display.bottom - radius
+        elif self.gameobj.pos.y < Display.bottom - radius:
+            self.gameobj.pos.y = Display.top + radius
 
 
 # asteroid generator
 def make_asteroid():
     sides = random.randint(5, 8)
 
-    t = random.randint(0, size)
+    t = random.randint(-half_size, half_size)
     topbottom = random.randint(0, 1)
     side = random.randint(0, 1)
     if topbottom:
-        pos = t, side * size + (radius if side else -radius)
+        pos = t, Display.top + (side * size + (radius if side else -radius))
     else:
-        pos = side * size + (radius if side else -radius), t
+        pos = Display.left + (side * size + (radius if side else -radius)), t
 
     direction = (-Display.center.dir_to(pos)).rotate(random.randint(-45, 45))
 
@@ -127,13 +128,13 @@ class PlayerController(Component):
                             velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
                                 500,
                                 player_spr.gameobj.rotation,
-                            )
+                            ).negate_y()
                         ),
                         BoundsChecker(),
                         Timer(0.75),
                     ],
                     "bullet",
-                    player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation),
+                    player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation).negate_y(),
                     player_spr.gameobj.rotation,
                 )
             )
@@ -143,9 +144,9 @@ class PlayerController(Component):
 
     def fixed_update(self):
         dx = Input.controller_axis(Input.controllers - 1, 0) or \
-            (-1 if Input.key_pressed("a") else (1 if Input.key_pressed("d") else 0))
+            (-1 if Input.key_pressed("a") or Input.key_pressed("left") else (1 if Input.key_pressed("d") or Input.key_pressed("right") else 0))
         dy = Input.controller_axis(Input.controllers - 1, 1) or \
-            (-1 if Input.key_pressed("w") else (1 if Input.key_pressed("s") else 0))
+            (1 if Input.key_pressed("w") or Input.key_pressed("up") else (-1 if Input.key_pressed("s") or Input.key_pressed("down") else 0))
         target = Vector(dx, dy)
 
         d_vel = target * self.speed

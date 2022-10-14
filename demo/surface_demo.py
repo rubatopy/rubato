@@ -1,4 +1,5 @@
 from rubato import init, begin, Draw, Surface, Game, Vector as V, Color as C
+from rubato.utils.hardware.display import Display
 
 width, height = 32, 32
 gridx, gridy = 4, 4
@@ -51,7 +52,9 @@ shapes[3 * gridx + col].draw_poly(points, main_c, 2, second_c, True)
 
 def update():
     for i in range(len(shapes)):
-        Draw.queue_surface(shapes[i], V((i % gridx) * width + (width / 2), (i // gridx) * height + (height / 2)))
+        Draw.queue_surface(
+            shapes[i], Display.top_left + ((i % gridx) * width + (width / 2), -(i // gridx) * height - (height / 2))
+        )
 
 
 Game.update = update

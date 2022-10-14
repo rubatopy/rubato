@@ -13,13 +13,13 @@ class Camera:
     An abstraction describing how a scene is viewed.
 
     Args:
-        pos: The position of the camera. Defaults to center of Display.
+        pos: The position of the camera. Defaults to (0, 0).
         zoom: The zoom of the camera.
         z_index: The z-index of the camera.
     """
 
-    def __init__(self, pos: Vector | tuple[float, float] | None = None, zoom: float = 1, z_index: int = Math.INF):
-        self.pos: Vector = Vector.create(pos) if pos else Display.center
+    def __init__(self, pos: Vector | tuple[float, float] = (0, 0), zoom: float = 1, z_index: int = Math.INF):
+        self.pos: Vector = Vector.create(pos)
         """The current position of the camera. Center based i.e. where the camera is looking at."""
         self._zoom = zoom
         self.z_index: int = z_index

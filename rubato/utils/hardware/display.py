@@ -116,7 +116,7 @@ class Display(metaclass=_DisplayProperties):
     ):
         """
         Note:
-            pos is the center of the texture in cardinal coordinates.
+            pos is the center of the texture in cartesian coordinates.
         """
         flipx |= Math.sign(scale[0]) == -1
         flipy |= Math.sign(scale[1]) == -1
@@ -130,7 +130,7 @@ class Display(metaclass=_DisplayProperties):
         x_dim = round(width * abs(scale[0]))
         y_dim = round(height * abs(scale[1]))
 
-        final_pos = cls._center_to_top_left(cls._cardinal_to_sdl(pos), (x_dim, y_dim))
+        final_pos = cls._center_to_top_left(cls._cartesian_to_sdl(pos), (x_dim, y_dim))
 
         sdl2.SDL_RenderCopyEx(
             cls.renderer.sdlrenderer,
@@ -148,11 +148,11 @@ class Display(metaclass=_DisplayProperties):
         )
 
     @classmethod
-    def _cardinal_to_sdl(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+    def _cartesian_to_sdl(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
         return (pos[0] + cls._half_res[0], cls.renderer.logical_size[1] - (pos[1] + cls._half_res[1]))
 
     @classmethod
-    def _sdl_to_cardinal(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+    def _sdl_to_cartesian(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
         return (pos[0] - cls._half_res[0], cls.renderer.logical_size[1] - (pos[1] + cls._half_res[1]))
 
     @classmethod

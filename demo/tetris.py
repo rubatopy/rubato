@@ -60,7 +60,7 @@ pos = V(1, 0)
 
 def draw_block(pos, color):
     Draw.rect(
-        center=pos * block_size + 1 + block_size / 2,
+        center=Display.top_left + ((pos * block_size) + (1 + block_size / 2, -1 - block_size / 2)),
         width=block_size,
         height=block_size,
         border=None,
@@ -74,9 +74,9 @@ def draw_scene():
     for i in range(len(field)):
         for j in range(len(field[i])):
             if field[i][j]:
-                draw_block(V(j, i), Color.magenta)
+                draw_block(V(j, -i), Color.magenta)
             else:
-                draw_block(V(j, i), Color.black.lighter())
+                draw_block(V(j, -i), Color.black.lighter())
 
     for i in range(len(current)):
         for j in range(len(current[i])):
@@ -85,7 +85,7 @@ def draw_scene():
 
 
 def moveDown():
-    pos.y += 1
+    pos.y -= 1
     incScore(1)
 
 

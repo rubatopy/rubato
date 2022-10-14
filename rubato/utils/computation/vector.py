@@ -49,7 +49,7 @@ class Vector:
     @property
     def angle(self) -> float:
         """The angle of the vector degrees (readonly)."""
-        return -math.degrees(math.atan2(-self.y, self.x) - Math.PI_HALF)
+        return -math.degrees(math.atan2(self.y, self.x) - Math.PI_HALF)
 
     @property
     def rationalized_mag(self) -> str:
@@ -158,6 +158,44 @@ class Vector:
         """
         # note using matrix determinant
         return self.x * other.y - self.y * other.x
+
+    def negate_x(self, out: Vector | None = None) -> Vector:
+        """
+        Negates the x value of the vector.
+
+        Args:
+            out: The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
+        Returns:
+            The vector output of the operation.
+        """
+        if out is None:
+            out = Vector()
+
+        out.x = -self.x
+        out.y = self.y
+
+        return out
+
+    def negate_y(self, out: Vector | None = None) -> Vector:
+        """
+        Negates the y value of the vector.
+
+        Args:
+            out: The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
+        Returns:
+            The vector output of the operation.
+        """
+        if out is None:
+            out = Vector()
+
+        out.x = self.x
+        out.y = -self.y
+
+        return out
 
     def perpendicular(self, scalar: float | int = 1, out: Vector | None = None) -> Vector:
         """

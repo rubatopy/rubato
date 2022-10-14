@@ -383,7 +383,8 @@ class Rectangle(Hitbox):
 
     @top_left.setter
     def top_left(self, new: Vector):
-        self.gameobj.pos += new - self.get_aabb()[0]
+        self.top = new.y
+        self.left = new.x
 
     @property
     def bottom_left(self):
@@ -396,8 +397,8 @@ class Rectangle(Hitbox):
 
     @bottom_left.setter
     def bottom_left(self, new: Vector):
-        aabb = self.get_aabb()
-        self.gameobj.pos += new - Vector(aabb[0].x, aabb[1].y)
+        self.bottom = new.y
+        self.left = new.x
 
     @property
     def top_right(self):
@@ -410,8 +411,8 @@ class Rectangle(Hitbox):
 
     @top_right.setter
     def top_right(self, new: Vector):
-        aabb = self.get_aabb()
-        self.gameobj.pos += new - Vector(aabb[1].x, aabb[0].y)
+        self.top = new.y
+        self.right = new.x
 
     @property
     def bottom_right(self):
@@ -423,7 +424,8 @@ class Rectangle(Hitbox):
 
     @bottom_right.setter
     def bottom_right(self, new: Vector):
-        self.gameobj.pos += new - self.get_aabb()[1]
+        self.bottom = new.y
+        self.right = new.x
 
     @property
     def top(self):
@@ -435,7 +437,7 @@ class Rectangle(Hitbox):
 
     @top.setter
     def top(self, new: float):
-        self.gameobj.pos.y += new - self.get_aabb()[0].y
+        self.gameobj.pos.y = new - self.height / 2
 
     @property
     def left(self):
@@ -447,7 +449,7 @@ class Rectangle(Hitbox):
 
     @left.setter
     def left(self, new: float):
-        self.gameobj.pos.x += new - self.get_aabb()[0].x
+        self.gameobj.pos.x = new + self.width / 2
 
     @property
     def bottom(self):
@@ -459,7 +461,7 @@ class Rectangle(Hitbox):
 
     @bottom.setter
     def bottom(self, new: float):
-        self.gameobj.pos.y += new - self.get_aabb()[1].y
+        self.gameobj.pos.y = new + self.height / 2
 
     @property
     def right(self):
@@ -471,9 +473,9 @@ class Rectangle(Hitbox):
 
     @right.setter
     def right(self, new: float):
-        self.gameobj.pos.x += new - self.get_aabb()[1].x
+        self.gameobj.pos.x = new - self.width / 2
 
-    def get_aabb(self) -> tuple[Vector, Vector]:
+    def get_aabb(self) -> tuple[Vector, Vector]:  # TODO this need to be flipped
         verts = self.true_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 

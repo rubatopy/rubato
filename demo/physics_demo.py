@@ -3,6 +3,7 @@ A physics demo for rubato
 """
 from random import randint
 import rubato as rb
+from rubato.utils.hardware.display import Display
 
 # Controls the number of objects in the simulation
 num_obj = 60
@@ -16,7 +17,7 @@ rb.Game.show_fps = True
 main_scene = rb.Scene()  # Create our scene
 
 # Create our four walls
-top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -60)).add(
+top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, 60)).add(
     rb.Rectangle(
         width=rb.Display.res.x + 175,
         height=rb.Display.res.y // 10,
@@ -24,7 +25,7 @@ top = rb.GameObject(pos=rb.Display.top_center + rb.Vector(0, -60)).add(
     )
 )
 
-bottom = rb.GameObject(pos=rb.Display.bottom_center + rb.Vector(0, 60)).add(
+bottom = rb.GameObject(pos=rb.Display.bottom_center + rb.Vector(0, -60)).add(
     rb.Rectangle(
         width=rb.Display.res.x + 175,
         height=rb.Display.res.y // 10,
@@ -61,13 +62,13 @@ for _ in range(num_obj // 2):
                     mass=0.1,
                     bounciness=0.99,
                     friction=0.2,
-                    gravity=(0, 80),
+                    gravity=(0, -80),
                     velocity=(randint(-100, 100), randint(-100, 100)),
                 ),
             ],
-            pos=(
+            pos=Display.top_left + (
                 randint(int(rb.Display.res.x / 20), int(19 * rb.Display.res.x / 20)),
-                randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
+                -randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
             ),
         )
     )
@@ -80,13 +81,13 @@ for _ in range(num_obj // 2):
                     mass=0.1,
                     bounciness=0.99,
                     friction=0.2,
-                    gravity=(0, 80),
+                    gravity=(0, -80),
                     velocity=(randint(-100, 100), randint(-100, 100)),
                 ),
             ],
-            pos=(
+            pos=Display.top_left + (
                 randint(int(rb.Display.res.x / 20), int(19 * rb.Display.res.x / 20)),
-                randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
+                -randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
             ),
         )
     )
