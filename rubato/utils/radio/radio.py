@@ -230,7 +230,7 @@ class Listener:
     """
     event: str = cython.declare(str, visibility="public")  # type: ignore
     """The event descriptor"""
-    callback: Callable[[], None] | Callable[[Any], None] = cython.declare(object, visibility="public")  # type: ignore
+    callback: Callable = cython.declare(object, visibility="public")  # type: ignore
     """The function called when the event occurs"""
     registered: cython.bint = cython.declare(cython.bint, visibility="public")  # type: ignore
     """Describes whether the listener is registered"""
@@ -240,7 +240,7 @@ class Listener:
         self.callback = callback
         self.registered = False
 
-    def ping(self, params: EventResponse):
+    def ping(self, params: Any):
         """
         Calls the callback of this listener.
 
