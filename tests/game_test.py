@@ -87,7 +87,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     pump = Mock()
     monkeypatch.setattr(rubato.game.sdl2, "SDL_PumpEvents", pump)
     handle = Mock(side_effect=[x == 0 for x in range(20)])
-    monkeypatch.setattr(Radio, "handle", handle)
+    monkeypatch.setattr(Radio, "_handle", handle)
     quit_func = Mock()
     monkeypatch.setattr(Game, "quit", quit_func)
     update_controller = Mock()
