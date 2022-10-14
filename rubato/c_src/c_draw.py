@@ -1,7 +1,7 @@
 # distutils: language = c++
 # cython: language_level = 3
 """Loader for cdraw.cpp"""
-from ..utils.math.vector import Vector
+from ..utils.computation.vector import Vector
 import cython
 from typing import Any
 if cython.compiled:
