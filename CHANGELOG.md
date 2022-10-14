@@ -23,6 +23,8 @@
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
 -   Removed `Debug` class.
+-   Switch from the SDL coordinate system to the cartesian coordinate system.
+-   Centered drawing to `Surface`s and made them cartesian.
 
 ### Added
 
