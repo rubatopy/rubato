@@ -94,12 +94,12 @@ class Hitbox(Component):
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         """
-        Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
+        Gets bottom left and top right corners of the axis-aligned bounding box of the hitbox in world coordinates.
 
         Returns:
             tuple[Vector, Vector]:
-                The top left and bottom right corners of the bounding box as Vectors as a tuple.
-                (top left, bottom right)
+                The bottom left and top right right corners of the bounding box as Vectors as a tuple.
+                (bottom left, top right)
         """
         true_pos = self.true_pos()
         return true_pos, true_pos
@@ -220,19 +220,19 @@ class Polygon(Hitbox):
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.true_verts()
-        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+        bottom, top, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
         for vert in verts:
-            if vert.y > bottom:
-                bottom = vert.y
-            elif vert.y < top:
+            if vert.y > top:
                 top = vert.y
+            elif vert.y < bottom:
+                bottom = vert.y
             if vert.x > right:
                 right = vert.x
             elif vert.x < left:
                 left = vert.x
 
-        return Vector(left, top), Vector(right, bottom)
+        return Vector(left, bottom), Vector(right, top)
 
     def offset_verts(self) -> list[Vector]:
         """The list of polygon vertices offset by the Polygon's offsets."""
@@ -475,7 +475,7 @@ class Rectangle(Hitbox):
     def right(self, new: float):
         self.gameobj.pos.x = new - self.width / 2
 
-    def get_aabb(self) -> tuple[Vector, Vector]:  # TODO this need to be flipped
+    def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.true_verts()
         top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
