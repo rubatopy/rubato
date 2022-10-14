@@ -154,7 +154,7 @@ class Game:
         sdl2.SDL_PumpEvents()
 
         # Event handling
-        if Radio.handle():
+        if Radio._handle():
             cls.quit()
 
         # Register controllers

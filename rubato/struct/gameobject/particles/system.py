@@ -9,11 +9,6 @@ from . import Particle
 from .. import Component
 from .... import Vector, Camera, Time, Math, Color, Draw, Surface
 
-if not cython.compiled:
-    from enum_tools import document_enum
-else:
-    document_enum = lambda _: None
-
 
 @unique
 class ParticleSystemMode(IntEnum):
@@ -31,6 +26,7 @@ class ParticleSystemMode(IntEnum):
 
 
 if not cython.compiled:
+    from enum_tools import document_enum
     document_enum(ParticleSystemMode)
 
 

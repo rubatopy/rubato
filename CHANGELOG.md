@@ -40,6 +40,7 @@
 ### Removed
 
 -   Hidden `rigidbody.physics()` because it is called automatically.
+-   Hidden `Radio.handle()` because it is called automatically.
 
 ### Fixed
 
