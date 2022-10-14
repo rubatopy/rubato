@@ -55,8 +55,8 @@ class Radio:
                             event.window.timestamp,
                             event.window.data1,
                             event.window.data2,
-                            Display.window_size.x,
-                            Display.window_size.y,
+                            Display.window_size.x,  # type: ignore
+                            Display.window_size.y,  # type: ignore
                         )
                     )
                     Display.window_size = (
@@ -162,7 +162,19 @@ class Radio:
         return False
 
     @classmethod
-    def listen(cls, event: str | Events, func: Callable[[], None] | Callable[[EventResponse], None]):
+    def broadcast(cls, event: str | Events, params: Any | None = None):
+        """
+        Broadcast an event to be caught by listeners.
+
+        Args:
+            event: The event key to broadcast.
+            params: The event parameters (usually a dictionary). Defaults to None.
+        """
+        for listener in cls.listeners.get(event.value if isinstance(event, Events) else event, []):
+            listener.ping(params or EventResponse(Time.now()))
+
+    @classmethod
+    def listen(cls, event: str | Events, func: Callable[[], None] | Callable[[Any], None]):
         """
         Creates an event listener and registers it.
 
@@ -194,18 +206,6 @@ class Radio:
 
         return listener
 
-    @classmethod
-    def broadcast(cls, event: str | Events, params: EventResponse | None = None):
-        """
-        Broadcast an event to be caught by listeners.
-
-        Args:
-            event: The event key to broadcast.
-            params: The event parameters (usually a dictionary)
-        """
-        for listener in cls.listeners.get(event.value if isinstance(event, Events) else event, []):
-            listener.ping(params or EventResponse(Time.now()))
-
 
 @cython.cclass
 class Listener:
@@ -218,9 +218,7 @@ class Listener:
     """
     event: str = cython.declare(str, visibility="public")  # type: ignore
     """The event descriptor"""
-    callback: Callable[[], None] | Callable[[EventResponse], None] = cython.declare(
-        object, visibility="public"
-    )  # type: ignore
+    callback: Callable[[], None] | Callable[[Any], None] = cython.declare(object, visibility="public")  # type: ignore
     """The function called when the event occurs"""
     registered: cython.bint = cython.declare(cython.bint, visibility="public")  # type: ignore
     """Describes whether the listener is registered"""

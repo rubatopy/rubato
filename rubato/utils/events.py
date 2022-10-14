@@ -1,24 +1,17 @@
 """
-Events can be broadcast with :func:`rb.Radio.broadcast() <rubato.utils.radio.Radio.broadcast>`:
-
->>> rb.Radio.broadcast("EVENT_NAME", {data})
-
-rubato broadcasts some events already, but you can also define your own events using this function!
-
-These events can also be listened to with :func:`rb.Radio.listen() <rubato.utils.radio.Radio.listen>`.
-Here is an example of how you can listen for a key down event:
-(note that using the Events enum is optional but recommended)
+These events are broadcast by rubato and can be listened to with
+:func:`rb.Radio.listen() <rubato.utils.radio.Radio.listen>`. Here is an example of how you can listen for a
+key down event:
 
 .. code-block:: python
 
-    def listener(data: KeyResponse):
+    def listener(data: rb.KeyResponse):
         if data.key == "a":
             print("You pressed the 'a' key!")
 
-    rb.Radio.listen(Events.KEYDOWN, listener)
-
-Below is a list of all the events that are broadcast by rubato:
+    rb.Radio.listen(rb.Events.KEYDOWN, listener)
 """
+
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from enum import Enum, unique
@@ -36,33 +29,72 @@ class Events(Enum):
     """
 
     KEYUP = "KEYUP"
-    """Fired when a key is released. Responds with a KeyResponse object."""
+    """
+    Fired when a key is released.
+    Responds with a :func:`KeyResponse <rubato.utils.events.KeyResponse>` object.
+    """
     KEYDOWN = "KEYDOWN"
-    """Fired when a key is pressed. Responds with a KeyResponse object."""
+    """
+    Fired when a key is pressed.
+    Responds with a :func:`KeyResponse <rubato.utils.events.KeyResponse>` object.
+    """
     KEYHOLD = "KEYHOLD"
-    """Fired when a key is held down (After the initial keydown). Responds with a KeyResponse object."""
+    """
+    Fired when a key is held down (After the initial keydown).
+    Responds with a :func:`KeyResponse <rubato.utils.events.KeyResponse>` object.
+    """
     MOUSEUP = "MOUSEUP"
-    """Fired when a mouse button is released. Responds with a MouseButtonResponse object."""
+    """
+    Fired when a mouse button is released.
+    Responds with a :func:`MouseButtonResponse <rubato.utils.events.MouseButtonResponse>` object.
+    """
     MOUSEDOWN = "MOUSEDOWN"
-    """Fired when a mouse button is pressed. Responds with a MouseButtonResponse object."""
+    """
+    Fired when a mouse button is pressed.
+    Responds with a :func:`MouseButtonResponse <rubato.utils.events.MouseButtonResponse>` object.
+    """
     MOUSEWHEEL = "MOUSEWHEEL"
-    """Fired when the mouse wheel is scrolled. Responds with a MouseWheelResponse object."""
+    """
+    Fired when the mouse wheel is scrolled.
+    Responds with a :func:`MouseWheelResponse <rubato.utils.events.MouseWheelResponse>` object.
+    """
     MOUSEMOTION = "MOUSEMOTION"
-    """Fired when the mouse is moved. Responds with a MouseMotionResponse object."""
+    """
+    Fired when the mouse is moved.
+    Responds with a :func:`MouseMotionResponse <rubato.utils.events.MouseMotionResponse>` object.
+    """
     JOYAXISMOTION = "JOYAXISMOTION"
-    """Fired when a controller joystick axis is moved. Responds with a JoyAxisMotionResponse object."""
+    """
+    Fired when a controller joystick axis is moved.
+    Responds with a :func:`JoyAxisMotionResponse <rubato.utils.events.JoyAxisMotionResponse>` object.
+    """
     JOYHATMOTION = "JOYHATMOTION"
-    """Fired when a controller hat button is changed. Responds with a JoyHatMotionResponse object."""
+    """
+    Fired when a controller hat button is changed.
+    Responds with a :func:`JoyHatMotionResponse <rubato.utils.events.JoyHatMotionResponse>` object.
+    """
     JOYBUTTONDOWN = "JOYBUTTONDOWN"
-    """Fired when a controller button is pressed. Responds with a JoyButtonResponse object."""
+    """
+    Fired when a controller button is pressed.
+    Responds with a :func:`JoyButtonResponse <rubato.utils.events.JoyButtonResponse>` object.
+    """
     JOYBUTTONUP = "JOYBUTTONUP"
-    """Fired when a controller button is released. Responds with a JoyButtonResponse object."""
+    """
+    Fired when a controller button is released.
+    Responds with a :func:`JoyButtonResponse <rubato.utils.events.JoyButtonResponse>` object.
+    """
     ZOOM = "ZOOM"
-    """Fired when the camera is zoomed. Responds with a ZoomResponse object."""
+    """
+    Fired when the camera is zoomed.
+    Responds with a :func:`ZoomResponse <rubato.utils.events.ZoomResponse>` object.
+    """
     EXIT = "EXIT"
     """Fired when the game is exiting. Has no response."""
     RESIZE = "RESIZE"
-    """Fired when the window is resized. Responds with a ResizeResponse object."""
+    """
+    Fired when the window is resized.
+    Responds with a :func:`ResizeResponse <rubato.utils.events.ResizeResponse>` object.
+    """
 
 
 if not cython.compiled:
