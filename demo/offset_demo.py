@@ -1,4 +1,4 @@
-"""A place to test new WIP features"""  # pylint: disable=all
+"""A place to test new WIP features"""
 import rubato as rb
 from rubato import Vector as V
 

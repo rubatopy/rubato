@@ -1,5 +1,4 @@
 """using rubato's particle effects to make a happy birthday card"""
-# pylint: disable=all
 import rubato as rb
 
 from rubato import Vector as V

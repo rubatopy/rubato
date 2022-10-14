@@ -1,7 +1,7 @@
-"""A place to test new WIP features"""  # pylint: disable=all
+"""A place to test new WIP features"""
 import rubato as rb
 
-rb.init(res=(100, 100), window_size=(2000, 2000))
+rb.init(res=(100, 100), window_size=(200, 200))
 
 
 def listener(event: rb.KeyResponse):

@@ -1,4 +1,4 @@
-"""Draw Demo"""  # pylint: disable=all
+"""Draw Demo"""
 import rubato as rb
 
 rb.init(res=(96, 64), window_size=(960, 640))
