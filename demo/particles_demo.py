@@ -1,7 +1,6 @@
 """A particles demo"""
 import rubato as rb
 from rubato import Vector as V
-from rubato.utils.vector import Vector
 
 rb.init(res=V(128, 128), window_size=V(256, 256) * 2)
 rb.Game.show_fps = True

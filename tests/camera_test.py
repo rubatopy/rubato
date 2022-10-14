@@ -1,9 +1,9 @@
 """Test the Camera class"""
 import pytest
-from rubato.utils.camera import Camera
-from rubato.utils.display import Display
-from rubato.utils.vector import Vector
-from rubato.utils.rb_math import Math
+from rubato.utils.computation.rb_math import Math
+from rubato.utils.computation.vector import Vector
+from rubato.utils.hardware.display import Display
+from rubato.utils.rendering.camera import Camera
 
 
 @pytest.mark.rub

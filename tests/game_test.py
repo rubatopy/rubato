@@ -4,13 +4,12 @@ from unittest.mock import Mock
 import rubato
 from rubato.game import Game
 from rubato.struct.scene import Scene
-from rubato.utils.debug import Debug
-from rubato.utils.display import Display
-from rubato.utils.draw import Draw
 from rubato.utils.error import Error, InitError, IdError, PrintError
+from rubato.utils.hardware.display import Display
+from rubato.utils.hardware.rb_input import Input
 from rubato.utils.radio import Radio
-from rubato.utils.rb_input import Input
 from rubato.utils.rb_time import Time
+from rubato.utils.rendering.draw import Draw
 # pylint: disable=redefined-outer-name, unused-argument, protected-access
 
 
@@ -125,7 +124,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     dump = Mock()
     monkeypatch.setattr(Draw, "dump", dump)
     draw = Mock()
-    monkeypatch.setattr(Debug, "_draw_fps", draw)
+    monkeypatch.setattr(Draw, "_draw_fps", draw)
 
     Game.show_fps = True
 

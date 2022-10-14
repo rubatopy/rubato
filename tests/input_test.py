@@ -1,5 +1,6 @@
 """Test the Input class"""
-from rubato.utils.rb_input import Input
+
+from rubato.utils.hardware.rb_input import Input
 
 
 def test_get_name():

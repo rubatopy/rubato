@@ -9,7 +9,7 @@ from typing import Literal
 import sdl2, sdl2.ext, sdl2.sdlimage
 import os
 
-from . import Vector, get_path, InitError, Math
+from .. import Vector, get_path, InitError, Math
 
 
 class _DisplayProperties(type):  # pylint: disable=missing-class-docstring

@@ -22,7 +22,7 @@ Scenes and Their Management
 ***************************
 
 :func:`Scenes <rubato.struct.scene.Scene>` holds two Groups. It also manages a
-:func:`Camera <rubato.utils.camera.Camera>`. Scenes are used to compartmentalize code. For example,
+:func:`Camera <rubato.utils.rendering.camera.Camera>`. Scenes are used to compartmentalize code. For example,
 you could have each level of your game on a different scene. Then to switch levels you would switch scenes.
 
 :func:`Groups <rubato.struct.group.Group>` hold a collection of Game Objects and/or other Groups. Their main purpose is to
@@ -35,7 +35,7 @@ Scene
 
 Camera
 ------
-.. automodule:: rubato.utils.camera
+.. automodule:: rubato.utils.rendering.camera
 
 Group
 =====
@@ -147,15 +147,15 @@ or playing a sound.
 
 Display
 =======
-.. automodule:: rubato.utils.display
+.. automodule:: rubato.utils.hardware.display
 
 Input
 =====
-.. automodule:: rubato.utils.rb_input
+.. automodule:: rubato.utils.hardware.rb_input
 
 Sound
 =====
-.. automodule:: rubato.utils.sound
+.. automodule:: rubato.utils.hardware.sound
 
 *********
 Utilities
@@ -164,25 +164,25 @@ These classes are utility classes that are used to make certain tasks easier.
 
 Surface
 =======
-.. automodule:: rubato.utils.surface
+.. automodule:: rubato.utils.rendering.surface
 
 Draw
 ====
-.. automodule:: rubato.utils.draw
+.. automodule:: rubato.utils.rendering.draw
 
 Vector
 ======
-.. automodule:: rubato.utils.vector
+.. automodule:: rubato.utils.computation.vector
 
 Math
 ====
-.. automodule:: rubato.utils.rb_math
+.. automodule:: rubato.utils.computation.rb_math
 
 Noise
 ------
 A utility for generating simple smooth noise in your projects.
 
-.. autoclass:: rubato.utils.noise.Noise
+.. autoclass:: rubato.utils.computation.noise.Noise
 
 Time
 ====
@@ -209,23 +209,18 @@ Default Grayscale Colors
     :end-before: [/grayscaledef]
     :dedent:
 
-Debug
-=====
-.. automodule:: rubato.utils.debug
-    :undoc-members:
-
 Font
 ====
-.. automodule:: rubato.utils.font
+.. automodule:: rubato.utils.rendering.font
     :undoc-members:
 
 Radio
 =====
-.. automodule:: rubato.utils.radio
+.. automodule:: rubato.utils.radio.radio
 
 Events
 ------
-.. automodule:: rubato.utils.events
+.. automodule:: rubato.utils.radio.events
 
 Errors
 ======

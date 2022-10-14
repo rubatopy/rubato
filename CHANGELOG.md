@@ -22,6 +22,7 @@
 -   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurrent_call()`.
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
+-   Removed `Debug` class.
 
 ### Added
 
@@ -36,6 +37,7 @@
 -   Frame, Delayed, and Recurrent tasks no longer modify `delay`, and instead determine the next time to run the task using `next_run`.
 -   All event listener callbacks now can take in an `EventResponse`.
 -   Made `Events` an enum for nicer documentation. Doesn't impact usage.
+-   Internal file structure. Shouldn't impact most users.
 
 ### Removed
 

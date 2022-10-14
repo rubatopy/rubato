@@ -1,8 +1,9 @@
 """Test the Vector class"""
 from random import Random
 import pytest
-from rubato.utils.vector import Vector
-from rubato.utils.rb_math import Math
+from rubato.utils.computation.rb_math import Math
+
+from rubato.utils.computation.vector import Vector
 # pylint: disable=redefined-outer-name
 
 

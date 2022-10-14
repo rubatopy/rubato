@@ -1,7 +1,7 @@
 """Test the noise class"""
 import pytest
+from rubato.utils.computation.noise import Noise
 from rubato.utils.error import InitError
-from rubato.utils.noise import Noise
 
 
 def test_init():

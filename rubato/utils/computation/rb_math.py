@@ -2,7 +2,7 @@
 The math module includes some helper functions for commonly used equations.
 """
 import math
-from . import InitError
+from .. import InitError
 
 
 # THIS IS A STATIC CLASS
@@ -80,10 +80,8 @@ class Math:
         Returns:
             float: The mapped value.
         """
-        return cls.clamp(
-            ((variable - variable_lower) / (variable_upper - variable_lower)) * (map_upper - map_lower) + map_lower,
-            map_lower, map_upper
-        )
+        return cls.clamp(((variable - variable_lower) / (variable_upper - variable_lower)) * (map_upper - map_lower) +
+                         map_lower, map_lower, map_upper)
 
     @staticmethod
     def floor(x: float) -> int:

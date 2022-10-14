@@ -1,11 +1,15 @@
 """A static class for drawing things directly to the window."""
 from __future__ import annotations
-from typing import Optional, Callable
-import cython
+from typing import Optional, Callable, TYPE_CHECKING
+import cython, math
 
 import sdl2, sdl2.ext
 
-from . import Vector, Color, Font, Display, InitError, Camera, Surface, Math
+from . import Font, Surface
+from .. import Vector, Color, Display, InitError, Math, Time
+
+if TYPE_CHECKING:
+    from . import Camera
 
 
 @cython.cclass
@@ -31,6 +35,31 @@ class Draw:
 
     def __init__(self) -> None:
         raise InitError(self)
+
+    @staticmethod
+    def _draw_fps(font: Font):
+        """
+        Draws the current FPS to the screen.
+        Called automatically if `Game.show_fps` is True.
+
+        Args:
+            font: The font to use.
+        """
+        height: int = math.ceil(Display.res.y / 32)
+        pad = max(height / 4, 1)
+
+        scale = height / font.size
+
+        Draw.text(
+            str(Time.smooth_fps),
+            font=font,
+            pos=(pad, pad),
+            align=Vector(1, 1),
+            justify="center",
+            scale=(scale, scale),
+            shadow=True,
+            shadow_pad=(pad, pad),
+        )
 
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):

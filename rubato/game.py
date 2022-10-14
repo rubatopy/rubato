@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Debug, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError, Input
+from . import Time, Display, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError, Input
 
 if TYPE_CHECKING:
     from . import Scene
@@ -190,7 +190,7 @@ class Game:
         Draw.dump()
 
         if cls.show_fps:
-            Debug._draw_fps(cls.debug_font)
+            Draw._draw_fps(cls.debug_font)
 
         # update renderers
         Display.renderer.present()
