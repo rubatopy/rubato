@@ -36,6 +36,7 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
     @res.setter
     def res(cls, new: Vector | tuple[float, float]):
         cls.renderer.logical_size = (int(new[0]), int(new[1]))
+        cls._half_res = (new[0] / 2, new[1] / 2)
 
     @property
     def window_pos(cls) -> Vector:
@@ -96,8 +97,87 @@ class Display(metaclass=_DisplayProperties):
     _saved_window_size: Vector | None = None
     _saved_window_pos: Vector | None = None
 
+    _half_res: tuple[float, float]
+
     def __init__(self) -> None:
         raise InitError(self)
+
+    @classmethod
+    def _update(
+        cls,
+        tx: sdl2.SDL_Texture,
+        width: int,
+        height: int,
+        pos: Vector | tuple[float, float],
+        scale: Vector | tuple[float, float] = (1, 1),
+        angle: float = 0,
+        flipx: bool = False,
+        flipy: bool = False,
+    ):
+        """
+        Note:
+            pos is the center of the texture in cardinal coordinates.
+        """
+        flipx |= Math.sign(scale[0]) == -1
+        flipy |= Math.sign(scale[1]) == -1
+
+        flip = sdl2.SDL_FLIP_NONE
+        if flipx:
+            flip |= sdl2.SDL_FLIP_HORIZONTAL
+        if flipy:
+            flip |= sdl2.SDL_FLIP_VERTICAL
+
+        x_dim = round(width * abs(scale[0]))
+        y_dim = round(height * abs(scale[1]))
+
+        final_pos = cls._center_to_top_left(cls._cardinal_to_sdl(pos), (x_dim, y_dim))
+
+        sdl2.SDL_RenderCopyEx(
+            cls.renderer.sdlrenderer,
+            tx,
+            None,
+            sdl2.SDL_Rect(
+                round(final_pos[0]),
+                round(final_pos[1]),
+                x_dim,
+                y_dim,
+            ),
+            round(angle),
+            None,
+            flip,
+        )
+
+    @classmethod
+    def _cardinal_to_sdl(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+        return (pos[0] + cls._half_res[0], cls.renderer.logical_size[1] - (pos[1] + cls._half_res[1]))
+
+    @classmethod
+    def _sdl_to_cardinal(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+        return (pos[0] - cls._half_res[0], cls.renderer.logical_size[1] - (pos[1] + cls._half_res[1]))
+
+    @classmethod
+    def _center_to_top_left(
+        cls,
+        pos: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
+    ) -> tuple[float, float]:
+        """
+        Note:
+            Assumes sdl coordinates.
+        """
+        return (pos[0] - (dims[0] / 2), pos[1] - (dims[1] / 2))
+
+    @classmethod
+    def _top_left_to_center(
+        cls,
+        pos: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
+    ) -> tuple[float, float]:
+        """
+        Note:
+            Assumes sdl coordinates.
+        """
+        return (pos[0] + (dims[0] / 2), pos[1] + (dims[1] / 2))
 
     @classmethod
     @property
@@ -187,58 +267,6 @@ class Display(metaclass=_DisplayProperties):
             sdl2.SDL_SetWindowFullscreen(cls.window.window, 0)
 
     @classmethod
-    def _update(
-        cls,
-        tx: sdl2.SDL_Texture,
-        width: int,
-        height: int,
-        pos: Vector | tuple[float, float],
-        scale: Vector | tuple[float, float] = (1, 1),
-        angle: float = 0,
-        flipx: bool = False,
-        flipy: bool = False,
-    ):
-        """
-        Update the current screen.
-
-        Args:
-            tx: The texture to draw on the screen.
-            width: The width of the texture.
-            height: The height of the texture.
-            pos: The position to draw the texture on.
-            scale: The scale of the texture. Defaults to (1, 1).
-            angle: The clockwise rotation of the texture. Defaults to 0.
-            flipx: Whether to flip the texture horizontally. Defaults to False.
-            flipy: Whether to flip the texture vertically. Defaults to False.
-        """
-        flipx |= Math.sign(scale[0]) == -1
-        flipy |= Math.sign(scale[1]) == -1
-
-        flip = sdl2.SDL_FLIP_NONE
-        if flipx:
-            flip |= sdl2.SDL_FLIP_HORIZONTAL
-        if flipy:
-            flip |= sdl2.SDL_FLIP_VERTICAL
-
-        x_dim = round(width * abs(scale[0]))
-        y_dim = round(height * abs(scale[1]))
-
-        sdl2.SDL_RenderCopyEx(
-            cls.renderer.sdlrenderer,
-            tx,
-            None,
-            sdl2.SDL_Rect(
-                round((pos[0] - (x_dim if flipx else 0)) - (width * scale[0]) / 2),
-                round(pos[1] - (height * scale[1]) / 2),
-                x_dim,
-                y_dim,
-            ),
-            round(angle),
-            None,
-            flip,
-        )
-
-    @classmethod
     def get_window_border_size(cls):
         """
         Get the size of the window border. pixels on the top sides and bottom of the window.
@@ -324,78 +352,78 @@ class Display(metaclass=_DisplayProperties):
 
     @classmethod
     @property
-    def top_left(cls) -> Vector:
-        """The position of the top left of the window."""
-        return Vector(0, 0)
-
-    @classmethod
-    @property
-    def top_right(cls) -> Vector:
-        """The position of the top right of the window."""
-        return Vector(cls.res.x, 0)
-
-    @classmethod
-    @property
-    def bottom_left(cls) -> Vector:
-        """The position of the bottom left of the window."""
-        return Vector(0, cls.res.y)
-
-    @classmethod
-    @property
-    def bottom_right(cls) -> Vector:
-        """The position of the bottom right of the window."""
-        return Vector(cls.res.x, cls.res.y)
-
-    @classmethod
-    @property
-    def top_center(cls) -> Vector:
-        """The position of the top center of the window."""
-        return Vector(cls.res.x / 2, 0)
-
-    @classmethod
-    @property
-    def bottom_center(cls) -> Vector:
-        """The position of the bottom center of the window."""
-        return Vector(cls.res.x / 2, cls.res.y)
-
-    @classmethod
-    @property
-    def center_left(cls) -> Vector:
-        """The position of the center left of the window."""
-        return Vector(0, cls.res.y / 2)
-
-    @classmethod
-    @property
-    def center_right(cls) -> Vector:
-        """The position of the center right of the window."""
-        return Vector(cls.res.x, cls.res.y / 2)
-
-    @classmethod
-    @property
     def center(cls) -> Vector:
         """The position of the center of the window."""
-        return Vector(cls.res.x / 2, cls.res.y / 2)
+        return Vector(0, 0)
 
     @classmethod
     @property
     def top(cls) -> float:
         """The position of the top of the window."""
-        return 0
+        return cls._half_res[1]
 
     @classmethod
     @property
     def right(cls) -> float:
         """The position of the right of the window."""
-        return cls.res.x
+        return cls._half_res[0]
 
     @classmethod
     @property
     def left(cls) -> float:
         """The position of the left of the window."""
-        return 0
+        return -cls._half_res[0]
 
     @classmethod
     @property
     def bottom(cls) -> float:
         """The position of the bottom of the window."""
-        return cls.res.y
+        return -cls._half_res[1]
+
+    @classmethod
+    @property
+    def top_left(cls) -> Vector:
+        """The position of the top left of the window."""
+        return Vector(cls.left, cls.top)
+
+    @classmethod
+    @property
+    def top_right(cls) -> Vector:
+        """The position of the top right of the window."""
+        return Vector(cls.right, cls.top)
+
+    @classmethod
+    @property
+    def bottom_left(cls) -> Vector:
+        """The position of the bottom left of the window."""
+        return Vector(cls.left, cls.bottom)
+
+    @classmethod
+    @property
+    def bottom_right(cls) -> Vector:
+        """The position of the bottom right of the window."""
+        return Vector(cls.right, cls.bottom)
+
+    @classmethod
+    @property
+    def top_center(cls) -> Vector:
+        """The position of the top center of the window."""
+        return Vector(0, cls.top)
+
+    @classmethod
+    @property
+    def bottom_center(cls) -> Vector:
+        """The position of the bottom center of the window."""
+        return Vector(0, cls.bottom)
+
+    @classmethod
+    @property
+    def center_left(cls) -> Vector:
+        """The position of the center left of the window."""
+        return Vector(cls.left, 0)
+
+    @classmethod
+    @property
+    def center_right(cls) -> Vector:
+        """The position of the center right of the window."""
+        return Vector(cls.right, 0)

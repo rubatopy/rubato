@@ -12,13 +12,16 @@ do
     printf "${BLUE}Running $file${NC}\n"
     if command -v python &> /dev/null
     then
-        timeout --preserve-status 5s python $file
+        timeout --preserve-status --foreground 5s python $file
     else
-        timeout --preserve-status 5s python3 $file
+        timeout --preserve-status --foreground 5s python3 $file
     fi
 
     retVal=$?
     if [ "$retVal" != "143"  ] && [ "$retVal" != "124" ] && [ "$retVal" != "0" ]
+    then
+        exit 1
+    elif [ "$retVal" == "130" ]
     then
         exit 1
     fi

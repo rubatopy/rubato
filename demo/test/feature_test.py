@@ -1,17 +1,15 @@
 """A place to test new WIP features"""
 import rubato as rb
 
-rb.init(res=(100, 100), window_size=(200, 200))
+rb.init(res=(100, 100), window_size=(1000, 1000))
+
+rb.Game.show_fps = True
 
 
-def listener(event: rb.KeyResponse):
-    rb.Radio.broadcast("wow", event.key)
+def draw():
+    rb.Draw.rect((0, 0), 1, 1, rb.Color.black, 1, rb.Color.purple)
 
 
-def listener2(event):
-    print(event, "wow thats crazy")
+rb.Game.draw = draw
 
-
-rb.Radio.listen(rb.Events.KEYDOWN, listener)
-rb.Radio.listen("wow", listener2)
 rb.begin()

@@ -53,7 +53,7 @@ class Draw:
         Draw.text(
             str(Time.smooth_fps),
             font=font,
-            pos=(pad, pad),
+            pos=Display.top_left + (pad, -pad),
             align=Vector(1, 1),
             justify="center",
             scale=(scale, scale),
@@ -406,7 +406,7 @@ class Draw:
         Args:
             text: The text to draw.
             font: The Font object to use.
-            pos: The position of the text. Defaults to (0, 0).
+            pos: The top left corner of the text. Defaults to (0, 0).
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
@@ -440,7 +440,7 @@ class Draw:
         Args:
             text: The text to draw.
             font: The Font object to use.
-            pos: The position of the text. Defaults to (0, 0).
+            pos: The top left corner of the text. Defaults to (0, 0).
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
@@ -477,7 +477,7 @@ class Draw:
         size = final_tx.get_size()
         center = (
             pos[0] + (align[0] * size[0]) / 2,
-            pos[1] + (align[1] * size[1]) / 2,
+            pos[1] - (align[1] * size[1]) / 2,
         )
         cls.surface(final_tx, center, camera)
 
