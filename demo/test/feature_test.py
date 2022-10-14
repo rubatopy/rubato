@@ -1,29 +1,17 @@
-"""A place to test new WIP features"""  # pylint: disable=all
+"""A place to test new WIP features"""
 import rubato as rb
 
-rb.init(res=(100, 100), window_size=(2000, 2000))
-
-rb.Scene()
-
-x = 0
-y = 0
+rb.init(res=(100, 100), window_size=(200, 200))
 
 
-def test(task):
-    global x
-    print(f"test {x} {rb.Time.now()}")
-    x += 1
-    if x >= 10:
-        task.stop()
+def listener(event: rb.KeyResponse):
+    rb.Radio.broadcast("wow", event.key)
 
 
-def test2():
-    global y
-    print(f"test2 {y} {rb.Time.now()}")
-    y += 1
+def listener2(event):
+    print(event, "wow thats crazy")
 
 
-rb.Time.recurrent_call(test, 500)
-rb.Time.recurrent_call(test2, 500)
-
+rb.Radio.listen(rb.Events.KEYDOWN, listener)
+rb.Radio.listen("wow", listener2)
 rb.begin()

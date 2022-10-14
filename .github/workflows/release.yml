@@ -70,11 +70,8 @@ jobs:
         needs: builder
         steps:
             - uses: actions/download-artifact@v3
-
-            - name: Move Files to dist
-              run: |
-                  mkdir dist
-                  cp */* dist/
+              with:
+                path: dist
 
             - name: Publish to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1

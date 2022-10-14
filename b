@@ -28,7 +28,8 @@ help_text() {
         echo "${tab}lint, l: Run linting on rubato"
         echo "${tab}test, t:"
         echo "${tab}${tab}--test, -t: Run the rubato test suite (default)"
-        echo "${tab}${tab}--build, -b: Build rubato for testing without running tests"
+        echo "${tab}${tab}--build, -b: Force build rubato for testing without running tests"
+        echo "${tab}${tab}--quick-build, -qb: Build rubato for testing without running tests"
         echo "${tab}${tab}--quick, -q: Run the tests without forcing a rebuild"
         echo "${tab}${tab}--no-build, -n: Run the tests without building"
         echo "${tab}setup, s: Install all needed dependencies for developing rubato"
@@ -136,8 +137,12 @@ tests() {
             CFLAGS=-DCYTHON_TRACE=1 TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
             exit_with="$(expr $?+$exit_with)"
             ;;
-        --quick|-q)
+        --quick-build|-qb)
             TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
+            exit_with="$(expr $?+$exit_with)"
+            ;;
+        --quick|-q)
+            tests -qb
             tests -n
             exit_with="$(expr $?+$exit_with)"
             ;;

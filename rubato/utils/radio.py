@@ -6,52 +6,17 @@ To use this, first you need to listen for a specific key using the
 :meth:`Radio.listen` function. Then from anywhere else in the code, you can
 broadcast that event key using :meth:`Radio.broadcast`.
 
-:doc:`Go here <events>` to see all the events that can be broadcast.
+:ref:`Go here <api:events>` to see all the events that can be broadcast.
 """
 from __future__ import annotations
 import ctypes
-from typing import Callable
+from typing import Any, Callable
 from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, InitError
-
-
-@cython.cclass
-class Events:
-    """
-    Describes all rubato-fired events that can be listened for.
-    """
-
-    KEYUP = "KEYUP"
-    """Fired when a key is released"""
-    KEYDOWN = "KEYDOWN"
-    """Fired when a key is pressed"""
-    KEYHOLD = "KEYHOLD"
-    """Fired when a key is held down (After the initial keydown)"""
-    MOUSEUP = "MOUSEUP"
-    """Fired when a mouse button is released"""
-    MOUSEDOWN = "MOUSEDOWN"
-    """Fired when a mouse button is pressed"""
-    MOUSEWHEEL = "MOUSEWHEEL"
-    """Fired when the mouse wheel is scrolled"""
-    SCROLL = MOUSEWHEEL
-    """Same as MOUSEWHEEL"""
-    JOYAXISMOTION = "JOYAXISMOTION"
-    """Fired when a controller joystick axis is moved"""
-    JOYHATMOTION = "JOYHATMOTION"
-    """Fired when a controller hat button is changed"""
-    JOYBUTTONDOWN = "JOYBUTTONDOWN"
-    """Fired when a controller button is pressed"""
-    JOYBUTTONUP = "JOYBUTTONUP"
-    """Fired when a controller button is released"""
-    ZOOM = "ZOOM"
-    """Fired when the camera is zoomed"""
-    EXIT = "EXIT"
-    """Fired when the game is exiting"""
-    RESIZE = "RESIZE"
-    """Fired when the window is resized"""
+from . import Input, Display, InitError, Events, EventResponse, ResizeResponse, KeyResponse, MouseButtonResponse, \
+    MouseWheelResponse, MouseMotionResponse, JoyAxisMotionResponse, JoyHatMotionResponse, JoyButtonResponse, Time
 
 
 # THIS IS A STATIC CLASS
@@ -68,7 +33,7 @@ class Radio:
         raise InitError(self)
 
     @classmethod
-    def handle(cls) -> bool:
+    def _handle(cls) -> bool:
         """
         Handle the current SDL event queue.
 
@@ -84,14 +49,17 @@ class Radio:
                 return True
             elif event.type == sdl2.SDL_WINDOWEVENT:
                 if event.window.event == sdl2.SDL_WINDOWEVENT_RESIZED:
-                    cls.broadcast(
-                        Events.RESIZE, {
-                            "width": event.window.data1,
-                            "height": event.window.data2,
-                            "old_width": Display.window_size.x,
-                            "old_height": Display.window_size.y
-                        }
-                    )
+                    if Events.RESIZE.value in cls.listeners:
+                        cls.broadcast(
+                            Events.RESIZE,
+                            ResizeResponse(
+                                event.window.timestamp,
+                                event.window.data1,
+                                event.window.data2,
+                                Display.window_size.x,  # type: ignore
+                                Display.window_size.y,  # type: ignore
+                            )
+                        )
                     Display.window_size = (
                         event.window.data1,
                         event.window.data2,
@@ -106,97 +74,126 @@ class Radio:
                 else:
                     event_name = (Events.KEYDOWN, Events.KEYHOLD)[event.key.repeat]
 
-                cls.broadcast(
-                    event_name,
-                    {
-                        "key": Input.get_name(key_info.sym),
-                        "unicode": unicode,
-                        "code": int(key_info.sym),
-                        "mods": key_info.mod,
-                    },
-                )
+                if event_name.value in cls.listeners:
+                    cls.broadcast(
+                        event_name,
+                        KeyResponse(
+                            event.key.timestamp,
+                            Input.get_name(key_info.sym),
+                            unicode,
+                            int(key_info.sym),
+                            key_info.mod,
+                        )
+                    )
             elif event.type in (sdl2.SDL_MOUSEBUTTONDOWN, sdl2.SDL_MOUSEBUTTONUP):
                 if event.type == sdl2.SDL_MOUSEBUTTONUP:
                     event_name = Events.MOUSEUP
                 else:
                     event_name = Events.MOUSEDOWN
 
-                cls.broadcast(
-                    event_name,
-                    {
-                        "button": event.button.button,
-                        "x": event.button.x,
-                        "y": event.button.y,
-                        "clicks": event.button.clicks,
-                        "which": event.button.which,
-                        "windowID": event.button.windowID,
-                        "timestamp": event.button.timestamp,
-                    },
-                )
+                if event_name.value in cls.listeners:
+                    cls.broadcast(
+                        event_name,
+                        MouseButtonResponse(
+                            event.button.timestamp,
+                            event.button.button,
+                            event.button.x,
+                            event.button.y,
+                            event.button.clicks,
+                            event.button.which,
+                        )
+                    )
             elif event.type == sdl2.SDL_MOUSEWHEEL:
-                cls.broadcast(
-                    Events.MOUSEWHEEL,
-                    {
-                        "x": event.wheel.x,
-                        "y": event.wheel.y,
-                        "precise x": event.wheel.preciseX,
-                        "precise y": event.wheel.preciseY,
-                        "which": event.wheel.which,
-                        "timestamp": event.wheel.timestamp,
-                        "windowID": event.wheel.windowID,
-                    },
-                )
+                if Events.MOUSEWHEEL.value in cls.listeners:
+                    cls.broadcast(
+                        Events.MOUSEWHEEL,
+                        MouseWheelResponse(
+                            event.wheel.timestamp,
+                            event.wheel.preciseX,
+                            event.wheel.preciseY,
+                            event.wheel.which,
+                        )
+                    )
+            elif event.type == sdl2.SDL_MOUSEMOTION:
+                if Events.MOUSEMOTION.value in cls.listeners:
+                    cls.broadcast(
+                        Events.MOUSEMOTION,
+                        MouseMotionResponse(
+                            event.motion.timestamp,
+                            event.motion.x,
+                            event.motion.y,
+                            event.motion.xrel,
+                            event.motion.yrel,
+                            event.motion.which,
+                        )
+                    )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
                 mag: float = event.jaxis.value / Input._joystick_max
-                cls.broadcast(
-                    Events.JOYAXISMOTION,
-                    {
-                        "controller": event.jaxis.which,
-                        "axis": event.jaxis.axis,
-                        "value": mag,
-                        "centered": Input.axis_centered(mag),
-                    },
-                )
-            elif event.type == sdl2.SDL_JOYBUTTONDOWN:
-                cls.broadcast(
-                    Events.JOYBUTTONDOWN,
-                    {
-                        "controller": event.jbutton.which,
-                        "button": event.jbutton.button
-                    },
-                )
-            elif event.type == sdl2.SDL_JOYBUTTONUP:
-                cls.broadcast(
-                    Events.JOYBUTTONUP,
-                    {
-                        "controller": event.jbutton.which,
-                        "button": event.jbutton.button
-                    },
-                )
+                if Events.JOYAXISMOTION.value in cls.listeners:
+                    cls.broadcast(
+                        Events.JOYAXISMOTION,
+                        JoyAxisMotionResponse(
+                            event.jaxis.timestamp,
+                            event.jaxis.which,
+                            event.jaxis.axis,
+                            mag,
+                            Input.axis_centered(mag),
+                        )
+                    )
+            elif event.type in (sdl2.SDL_JOYBUTTONDOWN, sdl2.SDL_JOYBUTTONUP):
+                if event.type == sdl2.SDL_JOYBUTTONUP:
+                    event_name = Events.JOYBUTTONUP
+                else:
+                    event_name = Events.JOYBUTTONDOWN
+
+                if event_name.value in cls.listeners:
+                    cls.broadcast(
+                        event_name,
+                        JoyButtonResponse(
+                            event.jbutton.timestamp,
+                            event.jbutton.which,
+                            event.jbutton.button,
+                        )
+                    )
             elif event.type == sdl2.SDL_JOYHATMOTION:
-                cls.broadcast(
-                    Events.JOYHATMOTION,
-                    {
-                        "controller": event.jhat.which,
-                        "hat": event.jhat.hat,
-                        "value": event.jhat.value,
-                        "name": Input.translate_hat(event.jhat.value),
-                    },
-                )
+                if Events.JOYHATMOTION.value in cls.listeners:
+                    cls.broadcast(
+                        Events.JOYHATMOTION,
+                        JoyHatMotionResponse(
+                            event.jhat.timestamp,
+                            event.jhat.which,
+                            event.jhat.hat,
+                            event.jhat.value,
+                            Input.translate_hat(event.jhat.value),
+                        )
+                    )
 
         return False
 
     @classmethod
-    def listen(cls, event: str, func: Callable):
+    def broadcast(cls, event: str | Events, params: Any | None = None):
+        """
+        Broadcast an event to be caught by listeners.
+
+        Args:
+            event: The event key to broadcast.
+            params: The event parameters (usually a dictionary). Defaults to None.
+        """
+        # pylint: disable=isinstance-second-argument-not-valid-type
+        for listener in cls.listeners.get(event.value if isinstance(event, Events) else event, []):
+            listener.ping(params or EventResponse(Time.now()))
+
+    @classmethod
+    def listen(cls, event: str | Events, func: Callable[[], None] | Callable[[Any], None]):
         """
         Creates an event listener and registers it.
 
         Args:
             event: The event key to listen for.
-            func: The function to run once the event is
-                broadcast. It may take in a params dictionary argument.
+            func: The function to run once the event is broadcast. It may take in an EventResponse as an argument.
         """
-        return cls.register(Listener(event, func))
+        # pylint: disable=isinstance-second-argument-not-valid-type
+        return cls.register(Listener(event.value if isinstance(event, Events) else event, func))
 
     @classmethod
     def register(cls, listener: Listener):
@@ -220,18 +217,6 @@ class Radio:
 
         return listener
 
-    @classmethod
-    def broadcast(cls, event: str, params={}):
-        """
-        Broadcast an event to be caught by listeners.
-
-        Args:
-            event: The event key to broadcast.
-            params: The event parameters (usually a dictionary)
-        """
-        for listener in cls.listeners.get(event, []):
-            listener.ping(params)
-
 
 @cython.cclass
 class Listener:
@@ -244,7 +229,7 @@ class Listener:
     """
     event: str = cython.declare(str, visibility="public")  # type: ignore
     """The event descriptor"""
-    callback: Callable = cython.declare(object, visibility="public")  # type: ignore
+    callback: Callable[[], None] | Callable[[Any], None] = cython.declare(object, visibility="public")  # type: ignore
     """The function called when the event occurs"""
     registered: cython.bint = cython.declare(cython.bint, visibility="public")  # type: ignore
     """Describes whether the listener is registered"""
@@ -254,7 +239,7 @@ class Listener:
         self.callback = callback
         self.registered = False
 
-    def ping(self, params):
+    def ping(self, params: EventResponse):
         """
         Calls the callback of this listener.
 
@@ -262,9 +247,9 @@ class Listener:
             params: The event parameters (usually a dictionary)
         """
         try:
-            self.callback(params)
+            self.callback(params)  # type: ignore
         except TypeError:
-            self.callback()
+            self.callback()  # type: ignore
 
     def remove(self):
         """
@@ -274,7 +259,12 @@ class Listener:
             ValueError: Raises error when listener is not registered
         """
         try:
-            Radio.listeners[self.event].remove(self)
-            self.registered = False
+            if self.event in Radio.listeners:
+                Radio.listeners[self.event].remove(self)
+                if not Radio.listeners[self.event]:
+                    del Radio.listeners[self.event]
+                self.registered = False
+            else:
+                raise ValueError("Listener not registered")
         except ValueError as e:
-            raise ValueError("Listener not registered in the radio") from e
+            raise ValueError("Listener not registered") from e

@@ -1,31 +1,30 @@
 """Test the radio module"""
 import pytest, unittest.mock as mock
 from rubato.utils.radio import Radio, Listener
+from rubato.utils.events import EventResponse
 
 
 def test_listener_init():
     l = Listener("test", lambda: "test")
     assert l.event == "test"
-    assert l.callback() == "test"
+    assert l.callback() == "test"  # type: ignore
     assert l.registered is False
 
 
 def test_listener_ping():
     callback = mock.Mock()
+    res = EventResponse(1)
     l = Listener("test", callback)
 
-    l.ping({})
-    callback.assert_called_with({})
-
-    l.ping({"test": "test"})
-    callback.assert_called_with({"test": "test"})
+    l.ping(res)
+    callback.assert_called_with(res)
 
     def example_cb():
         pass
 
     callback = mock.create_autospec(example_cb)
     l = Listener("test", callback)
-    l.ping({})
+    l.ping(res)
     callback.assert_called_once()
 
 
@@ -55,7 +54,7 @@ def test_radio_listen():
     l = Radio.listen("test", lambda: None)
     assert l.registered is True
     assert l.event == "test"
-    assert l.callback() is None
+    assert l.callback() is None  # type: ignore
     assert Radio.listeners["test"] == [l]
 
 
@@ -66,9 +65,8 @@ def test_radio_broadcast():
     Radio.listen("test", callback)
     Radio.listen("test", callback)
 
-    Radio.broadcast("test", {"test": "test"})
-
-    callback.assert_called_with({"test": "test"})
+    Radio.broadcast("test")
+    assert isinstance(callback.call_args_list[0].args[0], EventResponse)
     assert callback.call_count == 3
 
 
@@ -83,7 +81,7 @@ def test_listener_remove():
 
     l.remove()
     assert l.registered is False
-    assert l not in Radio.listeners["test"]
+    assert not Radio.listeners
 
     with pytest.raises(ValueError):
         l2.remove()

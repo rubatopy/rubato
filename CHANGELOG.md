@@ -18,6 +18,7 @@
 
 ### Breaking Changes
 
+-   Removed `Events.ZOOM` because it was only propagated as a result of user behavior.
 -   Renamed `ScheduledTask` to `RecurrentTask` and `Time.scheduled_call()` to `Time.recurrent_call()`.
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
@@ -25,6 +26,7 @@
 ### Added
 
 -   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
+-   `EventResponse` and subclasses for individual rubato events
 -   `Animation` now has an alpha that can be set.
 
 ### Changed
@@ -32,10 +34,13 @@
 -   `RecurrentTask` task callback can now be made to take in a task argument. This allows you to stop the task when you want.
 -   `delay` argument in Frame, Delayed, and Recurrent tasks now only controls the delay.
 -   Frame, Delayed, and Recurrent tasks no longer modify `delay`, and instead determine the next time to run the task using `next_run`.
+-   All event listener callbacks now can take in an `EventResponse`.
+-   Made `Events` an enum for nicer documentation. Doesn't impact usage.
 
 ### Removed
 
 -   Hidden `rigidbody.physics()` because it is called automatically.
+-   Hidden `Radio.handle()` because it is called automatically.
 
 ### Fixed
 

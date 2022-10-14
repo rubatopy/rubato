@@ -43,7 +43,12 @@
     "python.formatting.provider": "yapf",
     "python.linting.pylintCategorySeverity.refactor": "Information",
     "githubPullRequests.ignoredPrBranches": ["main"],
-    "python.linting.ignorePatterns": ["**/site-packages/**/*.py", ".vscode/*.py", "demo/**/*", "docs/**/*"],
+    "python.linting.ignorePatterns": [
+        "**/site-packages/**/*.py",
+        ".vscode/*.py",
+        "demo/**/*",
+        "docs/**/*"
+    ],
     "githubPullRequests.ignoredPullRequestBranches": ["main"],
     "files.associations": {
         "cstdint": "c",
@@ -112,5 +117,10 @@
     "files.trimTrailingWhitespace": true,
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file:///home/martin/Coding/rubato/.github/workflows/release.yml"
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "*.py": "${capture}.c,${capture}.*.so,${capture}.cpp"
     }
 }

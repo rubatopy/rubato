@@ -1,4 +1,4 @@
-"""A file to test all events"""  # pylint: disable=all
+"""A file to test all events"""
 import rubato as rb
 
 rb.init()

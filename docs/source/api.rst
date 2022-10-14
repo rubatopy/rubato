@@ -6,14 +6,11 @@ This page describes all user-accessible API components to the rubato project.
 .. toctree::
     :hidden:
 
-    events
     key-names
 
 .. autofunction:: rubato.init
 
 .. autofunction:: rubato.begin
-
-.. _game_class:
 
 ****
 Game
@@ -32,21 +29,13 @@ you could have each level of your game on a different scene. Then to switch leve
 further compartmentalize items. For example, items in 2 different groups won't collide with each other. In this tutorial,
 we won't be using Groups as we don't need this functionality here.
 
-
-.. _scene:
-
 Scene
 =====
 .. automodule:: rubato.struct.scene
 
-.. _camera:
-
 Camera
 ------
 .. automodule:: rubato.utils.camera
-
-
-.. _group:
 
 Group
 =====
@@ -63,13 +52,9 @@ have a z-index. By themselves, they have very little functionality.
 changes something about the Game Object. For example, an Image component draws an image from your filesystem to the game at the
 Game Object's position.
 
-.. _gameobj:
-
 Game Object
 ============
 .. automodule:: rubato.struct.gameobject.game_object
-
-.. _components:
 
 Components
 ==========
@@ -77,62 +62,41 @@ The default Component class.
 
 .. automodule:: rubato.struct.gameobject.component
 
-.. _raster:
-
 Raster
 ---------
 .. autoclass:: rubato.struct.gameobject.sprites.raster.Raster
-
-
-.. _image:
 
 Image
 ---------
 .. autoclass:: rubato.struct.gameobject.sprites.raster.Image
 
-.. _text:
-
 Text
 ---------
 .. automodule:: rubato.struct.gameobject.ui.text
-
-.. _button:
 
 Button
 ---------
 .. automodule:: rubato.struct.gameobject.ui.button
 
-.. _slider_:
-
 Slider
 ---------
 .. automodule:: rubato.struct.gameobject.ui.slider
-
-.. _animation:
 
 Animation
 ---------
 .. automodule:: rubato.struct.gameobject.sprites.animation
 
-.. _spritesheet:
-
 Spritesheet
 ___________
 .. automodule:: rubato.struct.gameobject.sprites.spritesheet
-
-.. _particlesystem:
 
 Particle Sytem
 --------------
 .. automodule:: rubato.struct.gameobject.particles.system
 
-.. _particle:
-
 Particle
 ________
 .. automodule:: rubato.struct.gameobject.particles.particle
-
-.. _hitbox:
 
 Hitbox
 -------
@@ -140,25 +104,17 @@ Various hitbox components that enable collisions
 
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Hitbox
 
-.. _rect:
-
 Rectangle
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Rectangle
-
-.. _poly:
 
 Polygon
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Polygon
 
-.. _circle:
-
 Circle
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Circle
-
-.. _rigidbody:
 
 RigidBody
 ---------
@@ -174,13 +130,9 @@ automatically handled by rubato, so these classes are here mainly for reference.
 In general, it is recommended that you define callback functions for Hitbox objects instead of calling Engine
 functions yourself.
 
-.. _engine:
-
 Engine
 =======
 .. autoclass:: rubato.struct.gameobject.physics.engine.Engine
-
-.. _manifold:
 
 Manifold
 ==========
@@ -193,19 +145,13 @@ Hardware Interaction
 All of these static classes let you interact with the hardware. Either by checking for user input, drawing to the screen
 or playing a sound.
 
-.. _display:
-
 Display
 =======
 .. automodule:: rubato.utils.display
 
-.. _input:
-
 Input
 =====
 .. automodule:: rubato.utils.rb_input
-
-.. _sound:
 
 Sound
 =====
@@ -216,31 +162,21 @@ Utilities
 *********
 These classes are utility classes that are used to make certain tasks easier.
 
-.. _surface:
-
 Surface
 =======
 .. automodule:: rubato.utils.surface
-
-.. _draw:
 
 Draw
 ====
 .. automodule:: rubato.utils.draw
 
-.. _vector:
-
 Vector
 ======
 .. automodule:: rubato.utils.vector
 
-.. _math:
-
 Math
 ====
 .. automodule:: rubato.utils.rb_math
-
-.. _noise:
 
 Noise
 ------
@@ -248,22 +184,14 @@ A utility for generating simple smooth noise in your projects.
 
 .. autoclass:: rubato.utils.noise.Noise
 
-
-.. _time:
-
 Time
 ====
 .. automodule:: rubato.utils.rb_time
 
-.. _color:
-
 Color
 =====
-
 .. automodule:: rubato.utils.color
     :undoc-members:
-
-.. _colordef:
 
 Default Colors
 --------------
@@ -273,8 +201,6 @@ Default Colors
     :end-before: [/colordef]
     :dedent:
 
-.. _grayscaledef:
-
 Default Grayscale Colors
 ------------------------
 .. literalinclude:: ../../rubato/utils/color.py
@@ -283,30 +209,23 @@ Default Grayscale Colors
     :end-before: [/grayscaledef]
     :dedent:
 
-.. _debug:
-
 Debug
 =====
-
 .. automodule:: rubato.utils.debug
     :undoc-members:
-
-.. _debugdef:
-
-.. _font:
 
 Font
 ====
 .. automodule:: rubato.utils.font
     :undoc-members:
 
-.. _radio:
-
 Radio
 =====
 .. automodule:: rubato.utils.radio
 
-.. _errors:
+Events
+------
+.. automodule:: rubato.utils.events
 
 Errors
 ======
