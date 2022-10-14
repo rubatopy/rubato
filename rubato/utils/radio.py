@@ -15,8 +15,9 @@ from contextlib import suppress
 import sdl2
 import cython
 
-from . import Input, Display, InitError, Events, EventResponse, ResizeResponse, KeyResponse, MouseButtonResponse, \
-    MouseWheelResponse, MouseMotionResponse, JoyAxisMotionResponse, JoyHatMotionResponse, JoyButtonResponse, Time
+from . import Input, Display, InitError, Time
+from .events import Events, KeyResponse, MouseButtonResponse, MouseMotionResponse, MouseWheelResponse, EventResponse, \
+    JoyAxisMotionResponse, JoyButtonResponse, JoyHatMotionResponse, ResizeResponse
 
 
 # THIS IS A STATIC CLASS
