@@ -71,9 +71,11 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
             uint8_t baseGreen = (base & gMask) >> 16;
             uint8_t baseBlue = (base & bMask) >> 8;
 
-            uint8_t newA = 255 - ((invAddedA * (255 - baseA)) / 255);
+            uint16_t inter = invAddedA * (255 - baseA);
+            uint8_t newA = 255 - ((inter + 1 + (inter >> 8)) >> 8);
 
-            uint8_t invMult = (invAddedA * baseA) / 255;
+            inter = invAddedA * baseA;
+            uint8_t invMult = (inter + 1 + (inter >> 8)) >> 8;
 
             uint8_t newRed = (addedRed * addedA + baseRed * invMult) / newA;
             uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
