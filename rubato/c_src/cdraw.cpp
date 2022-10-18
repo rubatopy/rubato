@@ -52,8 +52,9 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
         if (!blending) {
             pixels[off] = added;
         } else {
-            uint32_t rbMask = 0xFF00FF00;
+            uint32_t rMask = 0xFF000000;
             uint32_t gMask = 0x00FF0000;
+            uint32_t bMask = 0x0000FF00;
             uint32_t aMask = 0x000000FF;
 
             uint32_t base = pixels[off];
@@ -62,20 +63,23 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
             uint8_t addedA = added & aMask;
             uint8_t invAddedA = 255 - addedA;
 
-            uint32_t addedRedBlue = (added & rbMask) >> 8;
+            uint8_t addedRed = (added & rMask) >> 24;
             uint8_t addedGreen = (added & gMask) >> 16;
+            uint8_t addedBlue = (added & bMask) >> 8;
 
-            uint32_t baseRedBlue = (base & rbMask) >> 8;
+            uint8_t baseRed = (base & rMask) >> 24;
             uint8_t baseGreen = (base & gMask) >> 16;
+            uint8_t baseBlue = (base & bMask) >> 8;
 
             uint8_t newA = 255 - ((invAddedA * (255 - baseA)) / 255);
 
             uint8_t invMult = (invAddedA * baseA) / 255;
 
-            uint32_t newRedBlue = (addedRedBlue * addedA + baseRedBlue * invMult) / newA;
+            uint8_t newRed = (addedRed * addedA + baseRed * invMult) / newA;
             uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
+            uint8_t newBlue = (addedBlue * addedA + baseBlue * invMult) / newA;
 
-            pixels[off] = (newGreen << 16) | (newRedBlue << 8) | newA;
+            pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | newA;
         }
     }
 }
