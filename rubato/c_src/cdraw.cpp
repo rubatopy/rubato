@@ -441,8 +441,6 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
     }
 }
 
-
-
 /***********************************************************************************************************************
 
 POLYGON FUNCTIONS
