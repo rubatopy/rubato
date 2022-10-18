@@ -259,8 +259,8 @@ class Polygon(Hitbox):
         verts = [v + Vector(w // 2, h // 2) for v in self.verts]
 
         if self.color is not None:
-            self._image.draw_poly(verts, fill=self.color, aa=True)
-        self._debug_image.draw_poly(verts, Color.debug, 2)
+            self._image.draw_poly(verts, fill=self.color, aa=True, blending=False)
+        self._debug_image.draw_poly(verts, Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
@@ -516,7 +516,7 @@ class Rectangle(Hitbox):
 
         if self.color is not None:
             self._image.fill(self.color)
-        self._debug_image.draw_rect((0, 0), (w, h), Color.debug, 2)
+        self._debug_image.draw_rect((0, 0), (w, h), Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
@@ -623,8 +623,8 @@ class Circle(Hitbox):
             self._debug_image = Surface(size, size)
 
         if self.color is not None:
-            self._image.draw_circle(center, int_r, fill=self.color, aa=True)
-        self._debug_image.draw_circle(center, int_r, Color.debug, 2)
+            self._image.draw_circle(center, int_r, fill=self.color, aa=True, blending=False)
+        self._debug_image.draw_circle(center, int_r, Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         r = self.true_radius()
