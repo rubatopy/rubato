@@ -5,6 +5,11 @@
 #include <cstdlib>
 #include <iostream>
 
+#define RMASK 0xFF000000
+#define GMASK 0x00FF0000
+#define BMASK 0x0000FF00
+#define AMASK 0x000000FF
+
 /***********************************************************************************************************************
 
 BUFFER FUNCTIONS
@@ -46,34 +51,27 @@ PIXEL FUNCTIONS
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
         unsigned off = y * width + x;
-        uint32_t added = (uint32_t) color;
+        uint32_t added = (uint32_t) color, base;
         uint32_t* pixels = (uint32_t*) _pixels;
+        uint8_t baseA;
 
-        if (!blending) {
+        if (!blending || (baseA = (base = pixels[off]) & AMASK) == 0) {
             pixels[off] = added;
         } else {
-            uint32_t rMask = 0xFF000000;
-            uint32_t gMask = 0x00FF0000;
-            uint32_t bMask = 0x0000FF00;
-            uint32_t aMask = 0x000000FF;
+            uint8_t addedA = added & AMASK;
+            uint8_t invAddedA = 0xFF - addedA;
 
-            uint32_t base = pixels[off];
+            uint8_t addedRed = (added & RMASK) >> 24;
+            uint8_t addedGreen = (added & GMASK) >> 16;
+            uint8_t addedBlue = (added & BMASK) >> 8;
 
-            uint8_t baseA = base & aMask;
-            uint8_t addedA = added & aMask;
-            uint8_t invAddedA = 255U - addedA;
+            uint8_t baseRed = (base & RMASK) >> 24;
+            uint8_t baseGreen = (base & GMASK) >> 16;
+            uint8_t baseBlue = (base & BMASK) >> 8;
 
-            uint8_t addedRed = (added & rMask) >> 24;
-            uint8_t addedGreen = (added & gMask) >> 16;
-            uint8_t addedBlue = (added & bMask) >> 8;
+            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) / 0xFF);
 
-            uint8_t baseRed = (base & rMask) >> 24;
-            uint8_t baseGreen = (base & gMask) >> 16;
-            uint8_t baseBlue = (base & bMask) >> 8;
-
-            uint8_t newA = 255U - ((invAddedA * (255U - baseA)) / 255U);
-
-            uint8_t invMult = (invAddedA * baseA) / 255U;
+            uint8_t invMult = (invAddedA * baseA) / 0xFF;
 
             uint8_t newRed = (addedRed * addedA + baseRed * invMult) / newA;
             uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
