@@ -60,7 +60,7 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
 
             uint8_t baseA = base & aMask;
             uint8_t addedA = added & aMask;
-            uint8_t invAddedA = 0xFF - addedA;
+            uint8_t invAddedA = 255 - addedA;
 
             uint32_t addedRedBlue = (added & rbMask) >> 8;
             uint8_t addedGreen = (added & gMask) >> 16;
@@ -68,9 +68,9 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
             uint32_t baseRedBlue = (base & rbMask) >> 8;
             uint8_t baseGreen = (base & gMask) >> 16;
 
-            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
+            uint8_t newA = 255 - ((invAddedA * (255 - baseA)) / 255);
 
-            uint8_t invMult = (invAddedA * baseA) >> 8;
+            uint8_t invMult = (invAddedA * baseA) / 255;
 
             uint32_t newRedBlue = (addedRedBlue * addedA + baseRedBlue * invMult) / newA;
             uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
@@ -418,17 +418,20 @@ inline void _fillCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 // Circle function accessible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness) {
+    size_t color = borderColor;
+    bool blend = blending;
+
     if (fillColor != 0) {
         _fillCircle(_pixels, width, height, xc, yc, radius, fillColor, blending);
+
+        color = borderColor == 0 ? fillColor : borderColor;
+        blend = true;
     }
-    if (borderColor != 0) {
-        if (aa) {
-            _aaDrawCircle(_pixels, width, height, xc, yc, radius, borderColor, blending, thickness);
-        } else {
-            _drawCircle(_pixels, width, height, xc, yc, radius, borderColor, blending, thickness);
-        }
-    } else if (aa) {
-        _aaDrawCircle(_pixels, width, height, xc, yc, radius, fillColor, blending);
+
+    if (aa) {
+        _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blend, thickness);
+    } else {
+        _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
     }
 }
 
@@ -527,17 +530,20 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
 
 // Polygon function accessible from python.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness) {
+    size_t color = borderColor;
+    bool blend = blending;
+
     if (fillColor != 0) {
         _fillPolyConvex(_pixels, width, height, vx, vy, len, fillColor, blending);
+
+        color = borderColor == 0 ? fillColor : borderColor;
+        blend = true;
     }
-    if (borderColor != 0) {
-        if (aa) {
-            _aaDrawPoly(_pixels, width, height, vx, vy, len, borderColor, blending, thickness);
-        } else {
-            _drawPoly(_pixels, width, height, vx, vy, len, borderColor, blending, thickness);
-        }
-    } else if (aa) {
-        _aaDrawPoly(_pixels, width, height, vx, vy, len, fillColor, blending, 1);
+
+    if (aa) {
+        _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blend, thickness);
+    } else {
+        _drawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
     }
 }
 
