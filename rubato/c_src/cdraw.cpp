@@ -44,37 +44,36 @@ PIXEL FUNCTIONS
 
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
-    if (x < width && y < height && x >= 0 && y >= 0) {
-        int off = y * width + x;
-        uint_fast32_t added = (uint_fast32_t) color;
-        uint_fast32_t* pixels = (uint_fast32_t*) _pixels;
+    if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
+        unsigned off = y * width + x;
+        uint32_t added = (uint32_t) color;
+        uint32_t* pixels = (uint32_t*) _pixels;
 
         if (!blending) {
             pixels[off] = added;
         } else {
-            uint_fast32_t rbMask = 0xFF00FF00;
-            uint_fast32_t gMask = 0x00FF0000;
-            uint_fast32_t aMask = 0x000000FF;
+            uint32_t rbMask = 0xFF00FF00;
+            uint32_t gMask = 0x00FF0000;
+            uint32_t aMask = 0x000000FF;
 
-            uint_fast32_t base = pixels[off];
+            uint32_t base = pixels[off];
 
-            uint_fast8_t baseA = base & aMask;
-            uint_fast8_t addedA = added & aMask;
-            uint_fast8_t invAddedA = 0xFF - addedA;
+            uint8_t baseA = base & aMask;
+            uint8_t addedA = added & aMask;
+            uint8_t invAddedA = 0xFF - addedA;
 
-            uint_fast32_t addedRedBlue = (added & rbMask) >> 8;
-            uint_fast8_t addedGreen = (added & gMask) >> 16;
+            uint32_t addedRedBlue = (added & rbMask) >> 8;
+            uint8_t addedGreen = (added & gMask) >> 16;
 
-            uint_fast32_t baseRedBlue = (base & rbMask) >> 8;
-            uint_fast8_t baseGreen = (base & gMask) >> 16;
+            uint32_t baseRedBlue = (base & rbMask) >> 8;
+            uint8_t baseGreen = (base & gMask) >> 16;
 
-            uint_fast8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
+            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
 
-            uint_fast8_t invMult = (invAddedA * baseA) >> 8;
+            uint8_t invMult = (invAddedA * baseA) >> 8;
 
-            uint_fast32_t newRedBlue = (addedRedBlue * addedA / newA) + (baseRedBlue * invMult / newA);
-            uint_fast8_t newGreen = (addedGreen * addedA / newA) + (baseGreen * invMult / newA);
-
+            uint32_t newRedBlue = (addedRedBlue * addedA + baseRedBlue * invMult) / newA;
+            uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
 
             pixels[off] = (newGreen << 16) | (newRedBlue << 8) | newA;
         }
