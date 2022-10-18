@@ -32,9 +32,8 @@ inline void colorkeyCopy(size_t source, size_t destination, int width, int heigh
 }
 
 inline size_t clonePixelBuffer(size_t _source, int width, int height) {
-    void* newBuffer = malloc(width * height * sizeof(uint32_t));
-    memcpy(newBuffer, (void*) _source, width * height * sizeof(uint32_t));
-    return (size_t) newBuffer;
+    size_t size = width * height * sizeof(uint32_t);
+    return (size_t) memcpy(malloc(size), (void*) _source, size);
 }
 
 /***********************************************************************************************************************
