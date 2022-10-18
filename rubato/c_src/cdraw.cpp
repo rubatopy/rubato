@@ -12,7 +12,7 @@ BUFFER FUNCTIONS
 ***********************************************************************************************************************/
 
 inline size_t createPixelBuffer(int width, int height) {
-    return (size_t) new uint32_t[width * height]();
+    return (size_t) calloc(width * height, sizeof(uint32_t));
 }
 
 inline void freePixelBuffer(size_t buffer) {
@@ -32,8 +32,8 @@ inline void colorkeyCopy(size_t source, size_t destination, int width, int heigh
 }
 
 inline size_t clonePixelBuffer(size_t _source, int width, int height) {
-    uint32_t* newBuffer = new uint32_t[width * height];
-    memcpy((void*) newBuffer, (void*) _source, width * height * sizeof(uint32_t));
+    void* newBuffer = malloc(width * height * sizeof(uint32_t));
+    memcpy(newBuffer, (void*) _source, width * height * sizeof(uint32_t));
     return (size_t) newBuffer;
 }
 
@@ -47,39 +47,37 @@ PIXEL FUNCTIONS
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if (x < width && y < height && x >= 0 && y >= 0) {
         int off = y * width + x;
-        uint32_t added = (uint32_t) color;
-        uint32_t* pixels = (uint32_t*) _pixels;
+        uint_fast32_t added = (uint_fast32_t) color;
+        uint_fast32_t* pixels = (uint_fast32_t*) _pixels;
 
         if (!blending) {
             pixels[off] = added;
         } else {
-            uint32_t rMask = 0xFF000000;
-            uint32_t gMask = 0x00FF0000;
-            uint32_t bMask = 0x0000FF00;
-            uint32_t aMask = 0x000000FF;
+            uint_fast32_t rbMask = 0xFF00FF00;
+            uint_fast32_t gMask = 0x00FF0000;
+            uint_fast32_t aMask = 0x000000FF;
 
-            uint32_t base = pixels[off];
+            uint_fast32_t base = pixels[off];
 
-            uint8_t baseA = base & aMask;
-            uint8_t addedA = added & aMask;
-            uint8_t invAddedA = 0xFF - addedA;
+            uint_fast8_t baseA = base & aMask;
+            uint_fast8_t addedA = added & aMask;
+            uint_fast8_t invAddedA = 0xFF - addedA;
 
-            uint8_t addedRed = (added & rMask) >> 24;
-            uint8_t addedGreen = (added & gMask) >> 16;
-            uint8_t addedBlue = (added & bMask) >> 8;
+            uint_fast32_t addedRedBlue = (added & rbMask) >> 8;
+            uint_fast8_t addedGreen = (added & gMask) >> 16;
 
-            uint8_t baseRed = (base & rMask) >> 24;
-            uint8_t baseGreen = (base & gMask) >> 16;
-            uint8_t baseBlue = (base & bMask) >> 8;
+            uint_fast32_t baseRedBlue = (base & rbMask) >> 8;
+            uint_fast8_t baseGreen = (base & gMask) >> 16;
 
-            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
+            uint_fast8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
 
-            uint8_t newRed = (addedRed * addedA / newA) + (baseRed * ((baseA * invAddedA) >> 8) / newA);
-            uint8_t newGreen = (addedGreen * addedA / newA) + (baseGreen * ((baseA * invAddedA) >> 8) / newA);
-            uint8_t newBlue = (addedBlue * addedA / newA) + (baseBlue * ((baseA * invAddedA) >> 8) / newA);
+            uint_fast8_t invMult = (invAddedA * baseA) >> 8;
+
+            uint_fast32_t newRedBlue = (addedRedBlue * addedA / newA) + (baseRedBlue * invMult / newA);
+            uint_fast8_t newGreen = (addedGreen * addedA / newA) + (baseGreen * invMult / newA);
 
 
-            pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | newA;
+            pixels[off] = (newGreen << 16) | (newRedBlue << 8) | newA;
         }
     }
 }
@@ -93,7 +91,7 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
 }
 
 inline void clearPixels(size_t _pixels, int width, int height) {
-    memset((size_t*) _pixels, 0, width * height * 4);
+    memset((size_t*) _pixels, 0, width * height * sizeof(uint32_t));
 }
 
 inline void blit(size_t _source, size_t _destination, int sw, int sh, int dw, int dh, int srx, int sry, int srw, int srh, int drx, int dry, int drw, int drh) {
@@ -114,7 +112,6 @@ inline void switchColors(size_t _pixels, int width, int height, size_t color1, s
         }
     }
 }
-
 
 /***********************************************************************************************************************
 
@@ -341,7 +338,6 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 // Draws an anti-aliased circle with the specified color.
 inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color, bool blending) {
-
     uint32_t rgbMask = 0xFFFFFF00;
     auto _draw_point = [pixels, width, _height, xc, yc, color, rgbMask, blending](int x, int y, uint8_t alpha) {
         setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & rgbMask) | alpha), blending);
@@ -467,16 +463,15 @@ inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* v
 
 // Fill a polygon with the specified color.
 inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
+    int* v_x_min = (int*) malloc(height * sizeof(int));
+    int* v_x_max = (int*) malloc(height * sizeof(int));
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
-    int* v_x_min = new int[height];
-    int* v_x_max = new int[height];
 
     for (int i = 0; i < height; i++) {
         v_x_min[i] = width + 1;
         v_x_max[i] = -1;
     }
-
 
     // line algo
     for (int i = 0; i < len; i++) {
@@ -493,11 +488,13 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
         while (true) {
 
             // logic for min and max
-            if (0 <= y1 && y1 < height && x1 < v_x_min[y1]) {
-                v_x_min[y1] = x1;
-            }
-            if (0 <= y1 && y1 < height && x1 > v_x_max[y1]) {
-                v_x_max[y1] = x1;
+            if (0 <= y1 && y1 < height) {
+                if (x1 < v_x_min[y1]) {
+                    v_x_min[y1] = x1;
+                }
+                if (x1 > v_x_max[y1]) {
+                    v_x_max[y1] = x1;
+                }
             }
             // end
 
@@ -524,8 +521,9 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
         }
         _drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color, blending);
     }
-    delete[] v_x_min;
-    delete[] v_x_max;
+
+    free(v_x_min);
+    free(v_x_max);
 }
 
 
