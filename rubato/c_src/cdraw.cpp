@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 
+#define RGBMASK 0xFFFFFF00
 #define RMASK 0xFF000000
 #define GMASK 0x00FF0000
 #define BMASK 0x0000FF00
@@ -51,15 +52,21 @@ PIXEL FUNCTIONS
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
         unsigned off = y * width + x;
-        uint32_t added = (uint32_t) color, base;
+        uint32_t added = (uint32_t) color;
         uint32_t* pixels = (uint32_t*) _pixels;
-        uint8_t baseA;
 
-        if (!blending || (baseA = (base = pixels[off]) & AMASK) == 0) {
+        if (!blending) {
             pixels[off] = added;
         } else {
+            uint32_t base = pixels[off];
+            uint8_t baseA = base & AMASK;
+            if (baseA == 0) {
+                pixels[off] = added;
+                return;
+            }
+
             uint8_t addedA = added & AMASK;
-            uint8_t invAddedA = 0xFF - addedA;
+            uint8_t invAddedA = 255 - addedA;
 
             uint8_t addedRed = (added & RMASK) >> 24;
             uint8_t addedGreen = (added & GMASK) >> 16;
@@ -69,9 +76,9 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
             uint8_t baseGreen = (base & GMASK) >> 16;
             uint8_t baseBlue = (base & BMASK) >> 8;
 
-            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) / 0xFF);
+            uint8_t newA = 255 - ((invAddedA * (255 - baseA)) / 255);
 
-            uint8_t invMult = (invAddedA * baseA) / 0xFF;
+            uint8_t invMult = (invAddedA * baseA) / 255;
 
             uint8_t newRed = (addedRed * addedA + baseRed * invMult) / newA;
             uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
@@ -174,8 +181,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
     auto rfpart = [fpart](double x) { return 1 - fpart(x); };
 
     uint32_t color_u = (uint32_t) color;
-    uint32_t colorRGB = color_u & 0xFFFFFF00;
-    uint8_t colorA = color_u & 0x000000FF;
+    uint32_t colorRGB = color_u & RGBMASK;
+    uint8_t colorA = color_u & AMASK;
 
     bool steep = abs(y2 - y1) > abs(x2 - x1);
     if (steep) {
@@ -338,16 +345,15 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 // Draws an anti-aliased circle with the specified color.
 inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color, bool blending) {
-    uint32_t rgbMask = 0xFFFFFF00;
-    auto _draw_point = [pixels, width, _height, xc, yc, color, rgbMask, blending](int x, int y, uint8_t alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & rgbMask) | alpha), blending);
+    auto _draw_point = [pixels, width, _height, xc, yc, color, blending](int x, int y, uint8_t alpha) {
+        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & RGBMASK) | alpha), blending);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
@@ -362,7 +368,7 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
     uint8_t last_fade_amount = 0;
     uint8_t fade_amount = 0;
 
-    uint8_t MAX_OPAQUE = ((uint8_t) color) & 0x000000FF;
+    uint8_t MAX_OPAQUE = ((uint8_t) color) & AMASK;
 
     while (i < j) {
         height = sqrt(max(sq_r - i * i, 0));
