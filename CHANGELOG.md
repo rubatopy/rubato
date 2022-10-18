@@ -38,6 +38,7 @@
 -   All event listener callbacks now can take in an `EventResponse`.
 -   Made `Events` an enum for nicer documentation. Doesn't impact usage.
 -   Internal file structure. Shouldn't impact most users.
+-   Optimized some internal rendering algorithms
 
 ### Removed
 
