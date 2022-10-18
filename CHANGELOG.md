@@ -38,7 +38,7 @@
 -   All event listener callbacks now can take in an `EventResponse`.
 -   Made `Events` an enum for nicer documentation. Doesn't impact usage.
 -   Internal file structure. Shouldn't impact most users.
--   Optimized some internal rendering algorithms.
+-   Optimized and fixed some internal rendering algorithms.
 
 ### Removed
 
@@ -48,6 +48,9 @@
 ### Fixed
 
 -   Fixed border-thickness not being taken into account when making surfaces in `Draw` methods.
+-   Turning blending off in surface drawing methods affecting antialias border blending.
+-   Potential division by 0 error when drawing under certain conditions.
+-   Blending algorithm doing divisions by 256 when it should have been dividing by 255.
 
 ## [v0.3.4] - October 8, 2022
 
