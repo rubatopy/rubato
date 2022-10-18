@@ -432,10 +432,12 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
         blend = true;
     }
 
-    if (aa) {
-        _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blend, thickness);
-    } else {
-        _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
+    if (color != 0) {
+        if (aa) {
+            _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blend, thickness);
+        } else {
+            _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
+        }
     }
 }
 
@@ -544,10 +546,12 @@ inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, 
         blend = true;
     }
 
-    if (aa) {
-        _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blend, thickness);
-    } else {
-        _drawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
+    if (color != 0) {
+        if (aa) {
+            _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blend, thickness);
+        } else {
+            _drawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
+        }
     }
 }
 
