@@ -153,6 +153,10 @@ class Surface:
         """
         self.draw_rect((0, 0), (self._width, self._height), fill=color)
 
+    def _convert_to_surface_space(self, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+        """Simple function that converts cartesian coordinates to surface space."""
+        return (pos[0] + self._width / 2, -pos[1] + self._height / 2)
+
     def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
@@ -162,7 +166,8 @@ class Surface:
             color: The color of the point. Defaults to black.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = round(pos[0]), round(pos[1])
+        cart_pos = self._convert_to_surface_space(pos)
+        x, y = round(cart_pos[0]), round(cart_pos[1])
         c_draw.set_pixel(self._pixels, self._width, self._height, x, y, color.rgba32(), blending)
         self.uptodate = False
 
@@ -186,8 +191,11 @@ class Surface:
             thickness: The thickness of the line. Defaults to 1.
             blending: Whether to use blending. Defaults to False.
         """
-        sx, sy = round(start[0]), round(start[1])
-        ex, ey = round(end[0]), round(end[1])
+        start_pos = self._convert_to_surface_space(start)
+        end_pos = self._convert_to_surface_space(end)
+        print(start, end, start_pos, end_pos)
+        sx, sy = round(start_pos[0]), round(start_pos[1])
+        ex, ey = round(end_pos[0]), round(end_pos[1])
         c_draw.draw_line(
             self._pixels, self._width, self._height, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
         )
@@ -195,7 +203,7 @@ class Surface:
 
     def draw_rect(
         self,
-        top_left: Vector | tuple[float, float],
+        center: Vector | tuple[float, float],
         dims: Vector | tuple[float, float],
         border: Color | None = None,
         border_thickness: int = 1,
@@ -206,13 +214,14 @@ class Surface:
         Draws a rectangle on the surface.
 
         Args:
-            top_left: The top left corner of the rectangle.
+            center: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
             border: The border color of the rectangle. Defaults to None.
             border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
             blending: Whether to use blending. Defaults to False.
         """
+        top_left = Display._center_to_top_left(self._convert_to_surface_space(center), dims)
         x, y = round(top_left[0]), round(top_left[1])
         w, h = round(dims[0]), round(dims[1])
         c_draw.draw_rect(
@@ -252,7 +261,8 @@ class Surface:
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        x, y = round(center[0]), round(center[1])
+        center_pos = self._convert_to_surface_space(center)
+        x, y = round(center_pos[0]), round(center_pos[1])
         c_draw.draw_circle(
             self._pixels,
             self._width,
@@ -271,6 +281,7 @@ class Surface:
     def draw_poly(
         self,
         points: list[Vector] | list[tuple[float, float]],
+        center: Vector | tuple[float, float] = (0, 0),
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -282,14 +293,17 @@ class Surface:
 
         Args:
             points: The points of the polygon.
+            center: The center of the polygon.
             border: The border color of the polygon. Defaults to None.
             border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the polygon. Set to None for no fill. Defaults to None.
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
+        center_pos = self._convert_to_surface_space(center)
         c_draw.draw_poly(
             self._pixels,
+            center_pos,
             self._width,
             self._height,
             points,

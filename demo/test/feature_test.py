@@ -6,10 +6,10 @@ rb.init(res=(100, 100), window_size=(1000, 1000))
 rb.Game.show_fps = True
 
 
-def draw():
-    rb.Draw.rect((0, 0), 1, 1, rb.Color.black, 1, rb.Color.purple)
+def update():
+    print(rb.Input.get_mouse_pos())
 
 
-rb.Game.draw = draw
+rb.Game.update = update
 
 rb.begin()

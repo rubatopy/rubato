@@ -130,7 +130,7 @@ class Display(metaclass=_DisplayProperties):
         x_dim = round(width * abs(scale[0]))
         y_dim = round(height * abs(scale[1]))
 
-        final_pos = cls._center_to_top_left(cls._cartesian_to_sdl(pos), (x_dim, y_dim))
+        final_pos = cls._center_cart_to_tl_sdl(pos, (x_dim, y_dim))
 
         sdl2.SDL_RenderCopyEx(
             cls.renderer.sdlrenderer,
@@ -148,12 +148,28 @@ class Display(metaclass=_DisplayProperties):
         )
 
     @classmethod
+    def _tl_sdl_to_center_cart(
+        cls,
+        pos: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
+    ) -> tuple[float, float]:
+        return cls._top_left_to_center(cls._sdl_to_cartesian(pos), dims)
+
+    @classmethod
+    def _center_cart_to_tl_sdl(
+        cls,
+        pos: Vector | tuple[float, float],
+        dims: Vector | tuple[float, float],
+    ) -> tuple[float, float]:
+        return cls._center_to_top_left(cls._cartesian_to_sdl(pos), dims)
+
+    @classmethod
     def _cartesian_to_sdl(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
-        return (pos[0] + cls._half_res[0], cls.renderer.logical_size[1] - (pos[1] + cls._half_res[1]))
+        return (pos[0] + cls._half_res[0], -pos[1] + cls._half_res[1])
 
     @classmethod
     def _sdl_to_cartesian(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
-        return (pos[0] - cls._half_res[0], cls.renderer.logical_size[1] - (pos[1] + cls._half_res[1]))
+        return (pos[0] - cls._half_res[0], -pos[1] + cls._half_res[1])
 
     @classmethod
     def _center_to_top_left(

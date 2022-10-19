@@ -189,7 +189,9 @@ class Draw:
             pad = round(width)
             sizex, sizey = pad + abs(round(dims.x)), pad + abs(round(dims.y))
             surf = Surface(pad + sizex, pad + sizey)
-            surf.draw_line((pad, pad), (sizex, sizey), color, thickness=round(width))
+            surf.draw_line((pad - (sizex / 2), pad + (sizey / 2)), (sizex / 2, sizey / 2),
+                           color,
+                           thickness=round(width))
             Draw._line_surfs[hashing] = surf
 
         Draw.surface(surf, p1 + dims / 2, camera)
@@ -380,7 +382,7 @@ class Draw:
             off = Vector(min_x, min_y)
             pad = round(border_thickness) if border is not None else 0
             surf = Surface(pad * 2 + round(max_x - min_x + 2), pad * 2 + round(max_y - min_y + 2))
-            surf.draw_poly([p - off + pad + 1 for p in points], border, round(border_thickness), fill)
+            surf.draw_poly([p - off + pad + 1 for p in points], (0, 0), border, round(border_thickness), fill)
             cls._poly_surfs[hashing] = surf
 
         cls.surface(surf, center, camera)
