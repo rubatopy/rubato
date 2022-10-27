@@ -14,7 +14,7 @@ player. Add the following code after the animation code, but before the ``main.a
 
     # define the player rigidbody
     player_body = rb.RigidBody(
-        gravity=rb.Vector(y=rb.Display.res.y * 0.05),
+        gravity=rb.Vector(y=rb.Display.res.y * -0.05),
         pos_correction=1,
         friction=0.8,
     )
@@ -89,7 +89,7 @@ that is called when the "w" key is pressed.
     def handle_keydown(event):
         global jumps
         if event["key"] == "w" and jumps > 0:
-            player_body.velocity.y = -200
+            player_body.velocity.y = 200
             if jumps == 2:
                 p_animation.set_state("jump", freeze=2)
             elif jumps == 1:
@@ -160,7 +160,7 @@ In the next step, we'll be building the level for the player to explore.
 
         # define the player rigidbody
         player_body = rb.RigidBody(
-            gravity=rb.Vector(y=rb.Display.res.y * 0.05),
+            gravity=rb.Vector(y=rb.Display.res.y * -0.05),
             pos_correction=1,
             friction=0.8,
         )
@@ -200,7 +200,7 @@ In the next step, we'll be building the level for the player to explore.
         def handle_keydown(event):
             global jumps
             if event["key"] == "w" and jumps > 0:
-                player_body.velocity.y = -200
+                player_body.velocity.y = 200
                 if jumps == 2:
                     p_animation.set_state("jump", freeze=2)
                 elif jumps == 1:
