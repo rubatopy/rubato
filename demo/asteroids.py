@@ -17,7 +17,7 @@ main = Scene()
 stars = Surface(size, size)
 stars.fill(Color.black)
 for _ in range(200):
-    pos = random.randint(0, size), random.randint(0, size)
+    pos = random.randint(-size, size), random.randint(-size, size)
     stars.draw_point(pos, Color.white)
 
 
@@ -170,7 +170,7 @@ full = [
 right = [full[0], full[1], full[2]]
 left = [full[0], full[2], full[3]]
 player_spr = Raster(radius * 2, radius * 2)
-player_spr.draw_poly([v + radius for v in full], Color.debug, 2, aa=True)
+player_spr.draw_poly(full, (0, 0), Color.debug, 2, aa=True)
 
 main.add(
     wrap(

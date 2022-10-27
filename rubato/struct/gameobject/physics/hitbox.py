@@ -256,11 +256,9 @@ class Polygon(Hitbox):
             self._image = Surface(w, h)
             self._debug_image = Surface(w, h)
 
-        verts = [v + Vector(w // 2, h // 2) for v in self.verts]
-
         if self.color is not None:
-            self._image.draw_poly(verts, fill=self.color, aa=True)
-        self._debug_image.draw_poly(verts, Color.debug, 2)
+            self._image.draw_poly(self.verts, (0, 0), fill=self.color, aa=True)
+        self._debug_image.draw_poly(self.verts, (0, 0), Color.debug, 2)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
@@ -617,7 +615,6 @@ class Circle(Hitbox):
         super().redraw()
 
         int_r = round(self.radius * self.scale.max())
-        center = (int_r, int_r)
         size = int_r * 2 + 1
 
         if self._image.width != size:
@@ -625,8 +622,8 @@ class Circle(Hitbox):
             self._debug_image = Surface(size, size)
 
         if self.color is not None:
-            self._image.draw_circle(center, int_r, fill=self.color, aa=True)
-        self._debug_image.draw_circle(center, int_r, Color.debug, 2)
+            self._image.draw_circle((0, 0), int_r, fill=self.color, aa=True)
+        self._debug_image.draw_circle((0, 0), int_r, Color.debug, 2)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         r = self.true_radius()

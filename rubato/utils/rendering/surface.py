@@ -193,7 +193,6 @@ class Surface:
         """
         start_pos = self._convert_to_surface_space(start)
         end_pos = self._convert_to_surface_space(end)
-        print(start, end, start_pos, end_pos)
         sx, sy = round(start_pos[0]), round(start_pos[1])
         ex, ey = round(end_pos[0]), round(end_pos[1])
         c_draw.draw_line(
