@@ -188,6 +188,8 @@ H6
 
     Also upload the wheel to the github release.
 
+    **NOTE:** This needs to be done for every major python version we support
+
 6. Finally, add the following to the top of the changelog and push:
 
     ```markdown
