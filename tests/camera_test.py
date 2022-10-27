@@ -22,5 +22,5 @@ def test_transform(rub):
     assert c.transform(Vector(0, 0)) == Vector(0, 0)
     assert c.transform(Vector(100, 100)) == Vector(100, 100)
     c.zoom = 2
-    assert c.transform(Vector(0, 0)) == Vector(-200, -100)
-    assert c.transform(Vector(100, 100)) == Vector(0, 100)
+    assert c.transform(Vector(0, 0)) == Vector(0, 0)
+    assert c.transform(Vector(100, 100)) == Vector(200, 200)

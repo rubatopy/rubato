@@ -49,8 +49,8 @@ def test_sum(v1, v34):
 
 
 def test_angle(v1, v34):
-    assert v1.angle == 135
-    assert v34.angle == 143.13010235415598
+    assert v1.angle == 45
+    assert v34.angle == 36.86989764584402
 
 
 def test_rationalized_mag(v1, v34):
