@@ -10,7 +10,7 @@ rb.Game.show_fps = True
 
 def draw():
     rb.Draw.queue_point((-32, 16), camera=c)
-    rb.Draw.queue_line((-16, 32), (16, 0), camera=c)
+    rb.Draw.queue_line((16, 0), (-16, 32), camera=c)
     rb.Draw.queue_rect((32, 16), 32, 32, fill=rb.Color.red, camera=c)
     rb.Draw.queue_circle((-32, -16), 16, fill=rb.Color.red, camera=c)
     rb.Draw.queue_poly(rb.Vector.poly(5, 16), rb.Vector(0, -16), fill=rb.Color.red, camera=c)
