@@ -6,7 +6,6 @@ from rubato.utils.hardware.display import Display
 from rubato.utils.rendering.camera import Camera
 
 
-@pytest.mark.rub
 def test_init(rub):
     # pylint: disable=unused-argument
     c = Camera()
@@ -15,7 +14,6 @@ def test_init(rub):
     assert c.z_index == Math.INF
 
 
-@pytest.mark.rub
 def test_transform(rub):
     # pylint: disable=unused-argument
     c = Camera()

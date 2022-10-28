@@ -5,7 +5,6 @@ import pytest
 import rubato
 
 
-@pytest.mark.rub
 def test_state_controls(monkeypatch, rub):
     # pylint: disable=unused-argument
     assert rubato.Game.state == rubato.Game.STOPPED
@@ -22,7 +21,6 @@ def test_begin_uninit():
         rubato.begin()
 
 
-@pytest.mark.rub
 def test_begin_init(monkeypatch, rub):
     # pylint: disable=unused-argument
     assert rubato.Game.state == rubato.Game.STOPPED
@@ -33,7 +31,6 @@ def test_begin_init(monkeypatch, rub):
     loop.assert_called_once()  # This code is reachable because of the monkeypatch
 
 
-@pytest.mark.rub
 def test_init(monkeypatch):
     set_icon = Mock()
     monkeypatch.setattr(rubato.Display, "set_window_icon", set_icon)

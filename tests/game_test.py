@@ -26,7 +26,7 @@ def test_state():
     assert Game.state == Game.STOPPED
 
 
-def test_camera():
+def test_camera(rub):
     Scene()
     assert Game.camera == Game.current.camera  # type: ignore # pylint: disable=comparison-with-callable
 
@@ -36,13 +36,12 @@ def test_init():
         Game()
 
 
-def test__add():
+def test__add(rub):
     with pytest.raises(IdError):
         Scene()
         Scene(name="scene0")
 
 
-@pytest.mark.rub
 def test_quit(monkeypatch: pytest.MonkeyPatch, rub):
     mock = Mock()
     monkeypatch.setattr(rubato.sdl2, "SDL_Quit", mock)
@@ -75,7 +74,6 @@ def test_start(monkeypatch: pytest.MonkeyPatch):
     Game.state = Game.STOPPED
 
 
-@pytest.mark.rub
 def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     now = Mock(side_effect=[0] + [i * 1000 for i in range(20)])
     monkeypatch.setattr(Time, "now", now)
