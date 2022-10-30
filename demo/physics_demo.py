@@ -57,7 +57,10 @@ for _ in range(num_obj // 2):
     main_scene.add(
         rb.wrap(
             [
-                rb.Circle(radius=rb.Display.res.x // num_obj, color=rb.Color.random_default()),
+                rb.Circle(
+                    radius=rb.Display.res.x // num_obj,
+                    color=rb.Color.random_default(),
+                ),
                 rb.RigidBody(
                     mass=0.1,
                     bounciness=0.99,
@@ -76,7 +79,10 @@ for _ in range(num_obj // 2):
     main_scene.add(
         rb.wrap(
             [
-                rb.Polygon(rb.Vector.poly(randint(3, 9), rb.Display.res.x // num_obj), color=rb.Color.random_default()),
+                rb.Polygon(
+                    rb.Vector.poly(randint(3, 9), rb.Display.res.x // num_obj),
+                    color=rb.Color.random_default(),
+                ),
                 rb.RigidBody(
                     mass=0.1,
                     bounciness=0.99,
