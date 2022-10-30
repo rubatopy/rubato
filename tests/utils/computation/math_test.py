@@ -1,7 +1,14 @@
 """Test the Math class"""
+import math
 import pytest
 
 from rubato.utils.computation.rb_math import Math
+from rubato.utils.error import InitError
+
+
+def test_init():
+    with pytest.raises(InitError):
+        Math()
 
 
 def test_clamp():
@@ -65,9 +72,6 @@ def test_simplify():
     assert Math.simplify(1, 4) == (1, 4)
     assert Math.simplify(2, 4) == (1, 2)
 
-    with pytest.raises(TypeError):
-        Math.simplify(1, "4")  # type: ignore # We are testing the type error
-
 
 def test_gen_primes():
     gen = Math.gen_primes()
@@ -76,3 +80,15 @@ def test_gen_primes():
     assert next(gen) == 5
     assert next(gen) == 7
     assert next(gen) == 11
+
+
+def test_angle_converts():
+    assert Math.north_deg_to_rad(0) == math.pi / 2
+    assert Math.north_deg_to_rad(90) == 0
+    assert Math.north_deg_to_rad(135) == -math.pi / 4
+    assert Math.north_deg_to_rad(-45) == math.pi * 3 / 4
+
+    assert Math.rad_to_north_deg(math.pi / 2) == 0
+    assert Math.rad_to_north_deg(0) == 90
+    assert Math.rad_to_north_deg(-math.pi / 4) == 135
+    assert Math.rad_to_north_deg(math.pi * 3 / 4) == -45
