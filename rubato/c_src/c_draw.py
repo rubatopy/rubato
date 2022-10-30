@@ -126,7 +126,7 @@ def draw_poly(
     vxt = []
     vyt = []
     for v in points:
-        x, y = round(v[0] + center[0]), round(v[1] + center[1])
+        x, y = round(v[0] + center[0]), round(center[1] - v[1])
         vxt.append(x)
         vyt.append(y)
     vx: array.array = array.array("i", vxt)
