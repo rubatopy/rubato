@@ -369,5 +369,5 @@ def test_create():
     v = Vector.create((1, 2))
     assert v == Vector(1, 2)
 
-    with (pytest.raises(TypeError)):
+    with pytest.raises(TypeError):
         v = Vector.create((1, 2, 3))  # type:ignore # we are testing the typeerror
