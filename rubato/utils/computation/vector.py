@@ -535,7 +535,7 @@ class Vector:
     @staticmethod
     def up():
         """A Vector in the up direction"""
-        return Vector(0, -1)
+        return Vector(0, 1)
 
     @staticmethod
     def left():
@@ -545,7 +545,7 @@ class Vector:
     @staticmethod
     def down():
         """A Vector in the down direction"""
-        return Vector(0, 1)
+        return Vector(0, -1)
 
     @staticmethod
     def right():
