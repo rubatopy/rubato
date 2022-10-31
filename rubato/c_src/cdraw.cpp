@@ -60,14 +60,12 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
         uint32_t c = (uint32_t) color;
         uint32_t* pixels = (uint32_t*) _pixels;
 
-        if (!blending || (pixels[off] & AMASK) == 0) {
-            pixels[off] = c;
-        } else {
+        if (blending && pixels[off] & AMASK) {
             uint8_t a = (c & AMASK) >> 24, na = 255 - a;
             uint32_t rb = ((na * (pixels[off] & RBMSK)) + (a * (c & RBMSK))) >> 8;
             uint32_t ag = (na * ((pixels[off] & AGMSK) >> 8)) + (a * (AONE | ((c & GMASK) >> 8)));
             pixels[off] = (rb & RBMSK) | (ag & AGMSK);
-        }
+        } else pixels[off] = c;
     }
 }
 
@@ -478,22 +476,16 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
 
         int err = dx - dy;
         while (true) {
-
-            // logic for min and max
             if (0 <= y1 && y1 < height) {
-                if (x1 < v_x_min[y1]) {
+                if (x1 < v_x_min[y1])
                     v_x_min[y1] = x1;
-                }
-                if (x1 > v_x_max[y1]) {
+                if (x1 > v_x_max[y1])
                     v_x_max[y1] = x1;
-                }
             }
-            // end
 
-
-            if (x1 == x2 && y1 == y2) {
+            if (x1 == x2 && y1 == y2)
                 break;
-            }
+
             int e2 = 2 * err;
             if (e2 > -dy) {
                 err -= dy;
