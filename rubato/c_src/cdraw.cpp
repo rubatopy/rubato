@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 
-#define RGBMASK 0xFFFFFF00
+#define CMASK 0xFFFFFF00
 #define RMASK 0xFF000000
 #define GMASK 0x00FF0000
 #define BMASK 0x0000FF00
@@ -59,32 +59,17 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
             pixels[off] = added;
         } else {
             uint32_t base = pixels[off];
-            uint8_t baseA = base & AMASK;
-            if (baseA == 0) {
-                pixels[off] = added;
-                return;
-            }
 
-            uint8_t addedA = added & AMASK;
-            uint8_t invAddedA = 255 - addedA;
+            uint32_t p1 = (base & AMASK) << 24 | (base & CMASK) >> 8;
+            uint32_t p2 = (added & AMASK) << 24 | (added & CMASK) >> 8;
 
-            uint8_t addedRed = (added & RMASK) >> 24;
-            uint8_t addedGreen = (added & GMASK) >> 16;
-            uint8_t addedBlue = (added & BMASK) >> 8;
+            uint32_t a = (p2 & 0xFF000000) >> 24;
+            uint32_t na = 255 - a;
+            uint32_t rb = ((na * (p1 & 0x00FF00FF)) + (a * (p2 & 0x00FF00FF))) >> 8;
+            uint32_t ag = (na * ((p1 & 0xFF00FF00) >> 8)) + (a * (0x01000000 | ((p2 & 0x0000FF00) >> 8)));
+            uint32_t out = ((rb & 0x00FF00FF) | (ag & 0xFF00FF00));
 
-            uint8_t baseRed = (base & RMASK) >> 24;
-            uint8_t baseGreen = (base & GMASK) >> 16;
-            uint8_t baseBlue = (base & BMASK) >> 8;
-
-            uint8_t newA = 255 - ((invAddedA * (255 - baseA)) / 255);
-
-            uint8_t invMult = (invAddedA * baseA) / 255;
-
-            uint8_t newRed = (addedRed * addedA + baseRed * invMult) / newA;
-            uint8_t newGreen = (addedGreen * addedA + baseGreen * invMult) / newA;
-            uint8_t newBlue = (addedBlue * addedA + baseBlue * invMult) / newA;
-
-            pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | newA;
+            pixels[off] = (out & 0x00FFFFFF) << 8 | (out & 0xFF000000) >> 24;
         }
     }
 }
@@ -181,7 +166,7 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
     auto rfpart = [fpart](double x) { return 1 - fpart(x); };
 
     uint32_t color_u = (uint32_t) color;
-    uint32_t colorRGB = color_u & RGBMASK;
+    uint32_t colorRGB = color_u & CMASK;
     uint8_t colorA = color_u & AMASK;
 
     bool steep = abs(y2 - y1) > abs(x2 - x1);
@@ -346,14 +331,14 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 // Draws an anti-aliased circle with the specified color.
 inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color, bool blending) {
     auto _draw_point = [pixels, width, _height, xc, yc, color, blending](int x, int y, uint8_t alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & RGBMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & RGBMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & CMASK) | alpha), blending);
+        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & CMASK) | alpha), blending);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
