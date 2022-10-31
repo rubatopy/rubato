@@ -5,11 +5,11 @@
 #include <cstdlib>
 #include <iostream>
 
-#define CMASK 0xFFFFFF00
-#define RMASK 0xFF000000
-#define GMASK 0x00FF0000
-#define BMASK 0x0000FF00
-#define AMASK 0x000000FF
+#define CMASK 0x00FFFFFF
+#define RMASK 0x00FF0000
+#define GMASK 0x0000FF00
+#define BMASK 0x000000FF
+#define AMASK 0xFF000000
 
 /***********************************************************************************************************************
 
@@ -52,24 +52,18 @@ PIXEL FUNCTIONS
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
         unsigned off = y * width + x;
-        uint32_t added = (uint32_t) color;
+        uint32_t p2 = (uint32_t) color;
         uint32_t* pixels = (uint32_t*) _pixels;
 
         if (!blending) {
-            pixels[off] = added;
+            pixels[off] = p2;
         } else {
-            uint32_t base = pixels[off];
-
-            uint32_t p1 = (base & AMASK) << 24 | (base & CMASK) >> 8;
-            uint32_t p2 = (added & AMASK) << 24 | (added & CMASK) >> 8;
-
+            uint32_t p1 = pixels[off];
             uint32_t a = (p2 & 0xFF000000) >> 24;
             uint32_t na = 255 - a;
             uint32_t rb = ((na * (p1 & 0x00FF00FF)) + (a * (p2 & 0x00FF00FF))) >> 8;
             uint32_t ag = (na * ((p1 & 0xFF00FF00) >> 8)) + (a * (0x01000000 | ((p2 & 0x0000FF00) >> 8)));
-            uint32_t out = ((rb & 0x00FF00FF) | (ag & 0xFF00FF00));
-
-            pixels[off] = (out & 0x00FFFFFF) << 8 | (out & 0xFF000000) >> 24;
+            pixels[off] = ((rb & 0x00FF00FF) | (ag & 0xFF00FF00));
         }
     }
 }
@@ -167,7 +161,7 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
 
     uint32_t color_u = (uint32_t) color;
     uint32_t colorRGB = color_u & CMASK;
-    uint8_t colorA = color_u & AMASK;
+    uint8_t colorA = (color_u & AMASK) >> 24;
 
     bool steep = abs(y2 - y1) > abs(x2 - x1);
     if (steep) {
@@ -202,8 +196,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
         setPixel(_pixels, width, height, y2, x2, color, blending);
 
         for (int x = x1 + 1; x < x2; x++) {
-            setPixel(_pixels, width, height, (int) floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
-            setPixel(_pixels, width, height, (int) floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, (int) floor(intery), x, colorRGB | ((uint8_t) (rfpart(intery) * colorA)) << 24, blending);
+            setPixel(_pixels, width, height, (int) floor(intery) + 1, x, colorRGB | ((uint8_t) (fpart(intery) * colorA)) << 24, blending);
             intery += gradient;
         }
     } else {
@@ -211,8 +205,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
         setPixel(_pixels, width, height, x2, y2, color, blending);
 
         for (int x = x1 + 1; x < x2; x++) {
-            setPixel(_pixels, width, height, x, (int) floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
-            setPixel(_pixels, width, height, x, (int) floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, x, (int) floor(intery), colorRGB | ((uint8_t) (rfpart(intery) * colorA)) << 24, blending);
+            setPixel(_pixels, width, height, x, (int) floor(intery) + 1, colorRGB | ((uint8_t) (fpart(intery) * colorA)) << 24, blending);
             intery += gradient;
         }
     }
@@ -331,14 +325,15 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 // Draws an anti-aliased circle with the specified color.
 inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color, bool blending) {
     auto _draw_point = [pixels, width, _height, xc, yc, color, blending](int x, int y, uint8_t alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & CMASK) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & CMASK) | alpha), blending);
+        size_t c = (color & CMASK) | alpha << 24;
+        setPixel(pixels, width, _height, xc + x, yc + y, c, blending);
+        setPixel(pixels, width, _height, xc + x, yc - y, c, blending);
+        setPixel(pixels, width, _height, xc - x, yc + y, c, blending);
+        setPixel(pixels, width, _height, xc - x, yc - y, c, blending);
+        setPixel(pixels, width, _height, xc - y, yc - x, c, blending);
+        setPixel(pixels, width, _height, xc - y, yc + x, c, blending);
+        setPixel(pixels, width, _height, xc + y, yc - x, c, blending);
+        setPixel(pixels, width, _height, xc + y, yc + x, c, blending);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
@@ -353,11 +348,11 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
     uint8_t last_fade_amount = 0;
     uint8_t fade_amount = 0;
 
-    uint8_t MAX_OPAQUE = ((uint8_t) color) & AMASK;
+    uint8_t MAX_OPAQUE = (color & AMASK) >> 24;
 
     while (i < j) {
         height = sqrt(max(sq_r - i * i, 0));
-        fade_amount = (uint8_t) (MAX_OPAQUE * (ceil(height) - height));
+        fade_amount = MAX_OPAQUE * (ceil(height) - height);
 
         if (fade_amount < last_fade_amount) {
             // Opaqueness reset so drop down a row.

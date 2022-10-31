@@ -89,7 +89,7 @@ class Display(metaclass=_DisplayProperties):
 
     window: sdl2.ext.Window
     renderer: sdl2.ext.Renderer
-    pixel_format = sdl2.SDL_PIXELFORMAT_RGBA8888
+    pixel_format = sdl2.SDL_PIXELFORMAT_ARGB8888
     format = sdl2.SDL_CreateRGBSurfaceWithFormat(0, 1, 1, 32, pixel_format).contents.format.contents
     hidden: bool = True
 

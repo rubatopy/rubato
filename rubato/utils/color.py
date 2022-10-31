@@ -64,7 +64,7 @@ class Color:
         self.a: int = int(Math.clamp(a, 0, 255))
         """The alpha value."""
 
-    def rgba32(self) -> int:
+    def argb32(self) -> int:
         """The RGBA32 representation of the color."""
         return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
 
@@ -209,18 +209,18 @@ class Color:
         )
 
     @classmethod
-    def from_rgba32(cls, rgba32: int) -> Color:
+    def from_argb32(cls, argb32: int) -> Color:
         """
         Creates a Color object from an RGBA32 representation.
 
         Args:
-            rgba32: The RGBA32 representation as an int.
+            argb32: The RGBA32 representation as an int.
 
         Returns:
             The color object from the RGBA32.
         """
         r, g, b, a = ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0)
-        sdl2.SDL_GetRGBA(rgba32, Display.format, ctypes.byref(r), ctypes.byref(g), ctypes.byref(b), ctypes.byref(a))
+        sdl2.SDL_GetRGBA(argb32, Display.format, ctypes.byref(r), ctypes.byref(g), ctypes.byref(b), ctypes.byref(a))
         return cls(r.value, g.value, b.value, a.value)
 
     @classmethod

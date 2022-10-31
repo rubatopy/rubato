@@ -23,6 +23,7 @@
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
 -   Removed `Debug` class.
+-   Removed `Color.from_rgba32()` and `color.rgba32` and replaced them with `argb` variants.
 
 ### Added
 
@@ -39,6 +40,7 @@
 -   Made `Events` an enum for nicer documentation. Doesn't impact usage.
 -   Internal file structure. Shouldn't impact most users.
 -   Optimized and fixed some internal rendering algorithms.
+-   Colors are now internally represented as argb32 integers instead of rgba32 integers.
 
 ### Removed
 
