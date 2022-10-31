@@ -5,6 +5,17 @@
 #include <cstdlib>
 #include <iostream>
 
+#define CMASK 0x00FFFFFF
+
+#define RMASK 0x00FF0000
+#define GMASK 0x0000FF00
+#define BMASK 0x000000FF
+#define AMASK 0xFF000000
+
+#define RBMSK 0x00FF00FF
+#define AGMSK 0xFF00FF00
+#define AONE 0x01000000
+
 /***********************************************************************************************************************
 
 BUFFER FUNCTIONS
@@ -12,7 +23,7 @@ BUFFER FUNCTIONS
 ***********************************************************************************************************************/
 
 inline size_t createPixelBuffer(int width, int height) {
-    return (size_t) new uint32_t[width * height]();
+    return (size_t) calloc(width * height, sizeof(uint32_t));
 }
 
 inline void freePixelBuffer(size_t buffer) {
@@ -32,9 +43,8 @@ inline void colorkeyCopy(size_t source, size_t destination, int width, int heigh
 }
 
 inline size_t clonePixelBuffer(size_t _source, int width, int height) {
-    uint32_t* newBuffer = new uint32_t[width * height];
-    memcpy((void*) newBuffer, (void*) _source, width * height * sizeof(uint32_t));
-    return (size_t) newBuffer;
+    size_t size = width * height * sizeof(uint32_t);
+    return (size_t) memcpy(malloc(size), (void*) _source, size);
 }
 
 /***********************************************************************************************************************
@@ -45,42 +55,16 @@ PIXEL FUNCTIONS
 
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
-    if (x < width && y < height && x >= 0 && y >= 0) {
-        int off = y * width + x;
-        uint32_t added = (uint32_t) color;
-        uint32_t* pixels = (uint32_t*) _pixels;
+    if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
+        uint32_t c = (uint32_t) color, i = y * width + x;
+        uint32_t* p = (uint32_t*) _pixels;
 
-        if (!blending) {
-            pixels[off] = added;
-        } else {
-            uint32_t rMask = 0xFF000000;
-            uint32_t gMask = 0x00FF0000;
-            uint32_t bMask = 0x0000FF00;
-            uint32_t aMask = 0x000000FF;
-
-            uint32_t base = pixels[off];
-
-            uint8_t baseA = base & aMask;
-            uint8_t addedA = added & aMask;
-            uint8_t invAddedA = 0xFF - addedA;
-
-            uint8_t addedRed = (added & rMask) >> 24;
-            uint8_t addedGreen = (added & gMask) >> 16;
-            uint8_t addedBlue = (added & bMask) >> 8;
-
-            uint8_t baseRed = (base & rMask) >> 24;
-            uint8_t baseGreen = (base & gMask) >> 16;
-            uint8_t baseBlue = (base & bMask) >> 8;
-
-            uint8_t newA = 0xFF - ((invAddedA * (0xFF - baseA)) >> 8);
-
-            uint8_t newRed = (addedRed * addedA / newA) + (baseRed * ((baseA * invAddedA) >> 8) / newA);
-            uint8_t newGreen = (addedGreen * addedA / newA) + (baseGreen * ((baseA * invAddedA) >> 8) / newA);
-            uint8_t newBlue = (addedBlue * addedA / newA) + (baseBlue * ((baseA * invAddedA) >> 8) / newA);
-
-
-            pixels[off] = (newRed << 24) | (newGreen << 16) | (newBlue << 8) | newA;
-        }
+        if (blending && p[i] & AMASK) {
+            uint8_t a = c >> 24, na = ~a;
+            uint32_t rb = (na * (p[i] & RBMSK) + a * (c & RBMSK)) >> 8;
+            uint32_t ag = na * ((p[i] & AGMSK) >> 8) + a * (AONE | (c & GMASK) >> 8);
+            p[i] = (rb & RBMSK) | (ag & AGMSK);
+        } else p[i] = c;
     }
 }
 
@@ -93,7 +77,7 @@ inline int getPixel(size_t _pixels, int width, int height, int x, int y) {
 }
 
 inline void clearPixels(size_t _pixels, int width, int height) {
-    memset((size_t*) _pixels, 0, width * height * 4);
+    memset((size_t*) _pixels, 0, width * height * sizeof(uint32_t));
 }
 
 inline void blit(size_t _source, size_t _destination, int sw, int sh, int dw, int dh, int srx, int sry, int srw, int srh, int drx, int dry, int drw, int drh) {
@@ -114,7 +98,6 @@ inline void switchColors(size_t _pixels, int width, int height, size_t color1, s
         }
     }
 }
-
 
 /***********************************************************************************************************************
 
@@ -177,8 +160,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
     auto rfpart = [fpart](double x) { return 1 - fpart(x); };
 
     uint32_t color_u = (uint32_t) color;
-    uint32_t colorRGB = color_u & 0xFFFFFF00;
-    uint8_t colorA = color_u & 0x000000FF;
+    uint32_t colorRGB = color_u & CMASK;
+    uint8_t colorA = (color_u & AMASK) >> 24;
 
     bool steep = abs(y2 - y1) > abs(x2 - x1);
     if (steep) {
@@ -213,8 +196,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
         setPixel(_pixels, width, height, y2, x2, color, blending);
 
         for (int x = x1 + 1; x < x2; x++) {
-            setPixel(_pixels, width, height, (int) floor(intery), x, colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
-            setPixel(_pixels, width, height, (int) floor(intery) + 1, x, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, (int) floor(intery), x, colorRGB | ((uint8_t) (rfpart(intery) * colorA)) << 24, blending);
+            setPixel(_pixels, width, height, (int) floor(intery) + 1, x, colorRGB | ((uint8_t) (fpart(intery) * colorA)) << 24, blending);
             intery += gradient;
         }
     } else {
@@ -222,8 +205,8 @@ inline void _aaDrawLine(size_t _pixels, int width, int height, int x1, int y1, i
         setPixel(_pixels, width, height, x2, y2, color, blending);
 
         for (int x = x1 + 1; x < x2; x++) {
-            setPixel(_pixels, width, height, x, (int) floor(intery), colorRGB | (uint8_t) (rfpart(intery) * colorA), blending);
-            setPixel(_pixels, width, height, x, (int) floor(intery) + 1, colorRGB | (uint8_t) (fpart(intery) * colorA), blending);
+            setPixel(_pixels, width, height, x, (int) floor(intery), colorRGB | ((uint8_t) (rfpart(intery) * colorA)) << 24, blending);
+            setPixel(_pixels, width, height, x, (int) floor(intery) + 1, colorRGB | ((uint8_t) (fpart(intery) * colorA)) << 24, blending);
             intery += gradient;
         }
     }
@@ -341,17 +324,16 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 // Draws an anti-aliased circle with the specified color.
 inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc, int outer_radius, size_t color, bool blending) {
-
-    uint32_t rgbMask = 0xFFFFFF00;
-    auto _draw_point = [pixels, width, _height, xc, yc, color, rgbMask, blending](int x, int y, uint8_t alpha) {
-        setPixel(pixels, width, _height, xc + x, yc + y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc + x, yc - y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc + y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - x, yc - y, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc - x, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc - y, yc + x, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc - x, (size_t) ((color & rgbMask) | alpha), blending);
-        setPixel(pixels, width, _height, xc + y, yc + x, (size_t) ((color & rgbMask) | alpha), blending);
+    auto _draw_point = [pixels, width, _height, xc, yc, color, blending](int x, int y, uint8_t alpha) {
+        size_t c = (color & CMASK) | alpha << 24;
+        setPixel(pixels, width, _height, xc + x, yc + y, c, blending);
+        setPixel(pixels, width, _height, xc + x, yc - y, c, blending);
+        setPixel(pixels, width, _height, xc - x, yc + y, c, blending);
+        setPixel(pixels, width, _height, xc - x, yc - y, c, blending);
+        setPixel(pixels, width, _height, xc - y, yc - x, c, blending);
+        setPixel(pixels, width, _height, xc - y, yc + x, c, blending);
+        setPixel(pixels, width, _height, xc + y, yc - x, c, blending);
+        setPixel(pixels, width, _height, xc + y, yc + x, c, blending);
     };
     auto max = [](int a, int b) {
         return a > b ? a : b;
@@ -366,11 +348,11 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
     uint8_t last_fade_amount = 0;
     uint8_t fade_amount = 0;
 
-    uint8_t MAX_OPAQUE = ((uint8_t) color) & 0x000000FF;
+    uint8_t MAX_OPAQUE = (color & AMASK) >> 24;
 
     while (i < j) {
         height = sqrt(max(sq_r - i * i, 0));
-        fade_amount = (uint8_t) (MAX_OPAQUE * (ceil(height) - height));
+        fade_amount = MAX_OPAQUE * (ceil(height) - height);
 
         if (fade_amount < last_fade_amount) {
             // Opaqueness reset so drop down a row.
@@ -424,21 +406,24 @@ inline void _fillCircle(size_t _pixels, int width, int height, int xc, int yc, i
 
 // Circle function accessible from python.
 inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness) {
+    size_t color = borderColor;
+    bool blend = blending;
+
     if (fillColor != 0) {
         _fillCircle(_pixels, width, height, xc, yc, radius, fillColor, blending);
+
+        color = borderColor == 0 ? fillColor : borderColor;
+        blend = true;
     }
-    if (borderColor != 0) {
+
+    if (color != 0) {
         if (aa) {
-            _aaDrawCircle(_pixels, width, height, xc, yc, radius, borderColor, blending, thickness);
+            _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blend, thickness);
         } else {
-            _drawCircle(_pixels, width, height, xc, yc, radius, borderColor, blending, thickness);
+            _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
         }
-    } else if (aa) {
-        _aaDrawCircle(_pixels, width, height, xc, yc, radius, fillColor, blending);
     }
 }
-
-
 
 /***********************************************************************************************************************
 
@@ -467,16 +452,15 @@ inline void _aaDrawPoly(size_t _pixels, int width, int height, void* vx, void* v
 
 // Fill a polygon with the specified color.
 inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t color, bool blending) {
+    int* v_x_min = (int*) malloc(height * sizeof(int));
+    int* v_x_max = (int*) malloc(height * sizeof(int));
     int* v_x = (int*) vx;
     int* v_y = (int*) vy;
-    int* v_x_min = new int[height];
-    int* v_x_max = new int[height];
 
     for (int i = 0; i < height; i++) {
         v_x_min[i] = width + 1;
         v_x_max[i] = -1;
     }
-
 
     // line algo
     for (int i = 0; i < len; i++) {
@@ -491,20 +475,16 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
 
         int err = dx - dy;
         while (true) {
-
-            // logic for min and max
-            if (0 <= y1 && y1 < height && x1 < v_x_min[y1]) {
-                v_x_min[y1] = x1;
+            if (0 <= y1 && y1 < height) {
+                if (x1 < v_x_min[y1])
+                    v_x_min[y1] = x1;
+                if (x1 > v_x_max[y1])
+                    v_x_max[y1] = x1;
             }
-            if (0 <= y1 && y1 < height && x1 > v_x_max[y1]) {
-                v_x_max[y1] = x1;
-            }
-            // end
 
-
-            if (x1 == x2 && y1 == y2) {
+            if (x1 == x2 && y1 == y2)
                 break;
-            }
+
             int e2 = 2 * err;
             if (e2 > -dy) {
                 err -= dy;
@@ -524,24 +504,30 @@ inline void _fillPolyConvex(size_t _pixels, int width, int height, void* vx, voi
         }
         _drawLine(_pixels, width, height, v_x_min[i], i, v_x_max[i], i, color, blending);
     }
-    delete[] v_x_min;
-    delete[] v_x_max;
+
+    free(v_x_min);
+    free(v_x_max);
 }
 
 
 // Polygon function accessible from python.
 inline void drawPoly(size_t _pixels, int width, int height, void* vx, void* vy, int len, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness) {
+    size_t color = borderColor;
+    bool blend = blending;
+
     if (fillColor != 0) {
         _fillPolyConvex(_pixels, width, height, vx, vy, len, fillColor, blending);
+
+        color = borderColor == 0 ? fillColor : borderColor;
+        blend = true;
     }
-    if (borderColor != 0) {
+
+    if (color != 0) {
         if (aa) {
-            _aaDrawPoly(_pixels, width, height, vx, vy, len, borderColor, blending, thickness);
+            _aaDrawPoly(_pixels, width, height, vx, vy, len, color, blend, thickness);
         } else {
-            _drawPoly(_pixels, width, height, vx, vy, len, borderColor, blending, thickness);
+            _drawPoly(_pixels, width, height, vx, vy, len, color, blending, thickness);
         }
-    } else if (aa) {
-        _aaDrawPoly(_pixels, width, height, vx, vy, len, fillColor, blending, 1);
     }
 }
 

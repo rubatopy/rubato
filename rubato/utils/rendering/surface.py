@@ -168,7 +168,7 @@ class Surface:
         """
         cart_pos = self._convert_to_surface_space(pos)
         x, y = round(cart_pos[0]), round(cart_pos[1])
-        c_draw.set_pixel(self._pixels, self._width, self._height, x, y, color.rgba32(), blending)
+        c_draw.set_pixel(self._pixels, self._width, self._height, x, y, color.argb32(), blending)
         self.uptodate = False
 
     def draw_line(
@@ -196,7 +196,7 @@ class Surface:
         sx, sy = round(start_pos[0]), round(start_pos[1])
         ex, ey = round(end_pos[0]), round(end_pos[1])
         c_draw.draw_line(
-            self._pixels, self._width, self._height, sx, sy, ex, ey, color.rgba32(), aa, blending, thickness
+            self._pixels, self._width, self._height, sx, sy, ex, ey, color.argb32(), aa, blending, thickness
         )
         self.uptodate = False
 
@@ -231,8 +231,8 @@ class Surface:
             y,
             w,
             h,
-            border.rgba32() if border else 0,
-            fill.rgba32() if fill else 0,
+            border.argb32() if border else 0,
+            fill.argb32() if fill else 0,
             blending,
             border_thickness,
         )
@@ -269,8 +269,8 @@ class Surface:
             x,
             y,
             radius,
-            border.rgba32() if border else 0,
-            fill.rgba32() if fill else 0,
+            border.argb32() if border else 0,
+            fill.argb32() if fill else 0,
             aa,
             blending,
             border_thickness,
@@ -306,8 +306,8 @@ class Surface:
             self._width,
             self._height,
             points,
-            border.rgba32() if border else 0,
-            fill.rgba32() if fill else 0,
+            border.argb32() if border else 0,
+            fill.argb32() if fill else 0,
             aa,
             blending,
             border_thickness,
@@ -326,7 +326,7 @@ class Surface:
         """
         x, y = round(pos[0]), round(pos[1])
         if 0 <= x < self._width and 0 <= y < self._height:
-            return Color.from_rgba32(c_draw.get_pixel(self._pixels, self._width, self._height, x, y))
+            return Color.from_argb32(c_draw.get_pixel(self._pixels, self._width, self._height, x, y))
         else:
             raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
 
@@ -350,7 +350,7 @@ class Surface:
             color: The color to switch.
             new_color: The new color to switch to.
         """
-        c_draw.switch_colors(self._pixels, self._width, self._height, color.rgba32(), new_color.rgba32())
+        c_draw.switch_colors(self._pixels, self._width, self._height, color.argb32(), new_color.argb32())
         self.uptodate = False
 
     def set_colorkey(self, color: Color):
@@ -362,7 +362,7 @@ class Surface:
         """
         if self._pixels_colorkey == 0:
             self._pixels_colorkey = c_draw.create_pixel_buffer(self.width, self.height)
-        self._color_key = color.rgba32()
+        self._color_key = color.argb32()
         self.uptodate = False
 
     def remove_colorkey(self):

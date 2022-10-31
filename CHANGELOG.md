@@ -31,6 +31,7 @@
 -   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
 -   `EventResponse` and subclasses for individual rubato events
 -   `Animation` now has an alpha that can be set.
+-   `argb` variants of `Color.from_rgba32()` and `color.rgba32()`.
 -   Python 3.11 support.
 
 ### Changed
@@ -41,6 +42,8 @@
 -   All event listener callbacks now can take in an `EventResponse`.
 -   Made `Events` an enum for nicer documentation. Doesn't impact usage.
 -   Internal file structure. Shouldn't impact most users.
+-   Optimized and fixed some internal rendering algorithms.
+-   Colors are now internally represented as argb32 integers instead of rgba32 integers.
 
 ### Removed
 
@@ -50,6 +53,8 @@
 ### Fixed
 
 -   Fixed border-thickness not being taken into account when making surfaces in `Draw` methods.
+-   Turning blending off in surface drawing methods affecting antialias border blending.
+-   Potential division by 0 error when drawing under certain conditions.
 
 ## [v0.3.4] - October 8, 2022
 
