@@ -60,7 +60,7 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
         uint32_t* p = (uint32_t*) _pixels;
 
         if (blending && p[i] & AMASK) {
-            uint8_t a = (c & AMASK) >> 24, na = 255 - a;
+            uint8_t a = c >> 24, na = ~a;
             uint32_t rb = (na * (p[i] & RBMSK) + a * (c & RBMSK)) >> 8;
             uint32_t ag = na * ((p[i] & AGMSK) >> 8) + a * (AONE | (c & GMASK) >> 8);
             p[i] = (rb & RBMSK) | (ag & AGMSK);
