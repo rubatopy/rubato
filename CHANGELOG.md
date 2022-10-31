@@ -30,6 +30,7 @@
 -   `EventResponse` and subclasses for individual rubato events
 -   `Animation` now has an alpha that can be set.
 -   `argb` variants of `Color.from_rgba32()` and `color.rgba32()`
+-   Python 3.11 support.
 
 ### Changed
 
