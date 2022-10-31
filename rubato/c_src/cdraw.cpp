@@ -6,10 +6,15 @@
 #include <iostream>
 
 #define CMASK 0x00FFFFFF
+
 #define RMASK 0x00FF0000
 #define GMASK 0x0000FF00
 #define BMASK 0x000000FF
 #define AMASK 0xFF000000
+
+#define RBMSK 0x00FF00FF
+#define AGMSK 0xFF00FF00
+#define AONE 0x01000000
 
 /***********************************************************************************************************************
 
@@ -52,18 +57,17 @@ PIXEL FUNCTIONS
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
         unsigned off = y * width + x;
-        uint32_t p2 = (uint32_t) color;
+        uint32_t c = (uint32_t) color;
         uint32_t* pixels = (uint32_t*) _pixels;
 
-        if (!blending) {
-            pixels[off] = p2;
+        if (!blending || (pixels[off] & AMASK) == 0) {
+            pixels[off] = c;
         } else {
-            uint32_t p1 = pixels[off];
-            uint32_t a = (p2 & 0xFF000000) >> 24;
-            uint32_t na = 255 - a;
-            uint32_t rb = ((na * (p1 & 0x00FF00FF)) + (a * (p2 & 0x00FF00FF))) >> 8;
-            uint32_t ag = (na * ((p1 & 0xFF00FF00) >> 8)) + (a * (0x01000000 | ((p2 & 0x0000FF00) >> 8)));
-            pixels[off] = ((rb & 0x00FF00FF) | (ag & 0xFF00FF00));
+            uint8_t a = (c & AMASK) >> 24;
+            uint8_t na = 255 - a;
+            uint32_t rb = ((na * (pixels[off] & RBMSK)) + (a * (c & RBMSK))) >> 8;
+            uint32_t ag = (na * ((pixels[off] & AGMSK) >> 8)) + (a * (AONE | ((c & GMASK) >> 8)));
+            pixels[off] = ((rb & RBMSK) | (ag & AGMSK));
         }
     }
 }
