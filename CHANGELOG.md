@@ -29,7 +29,7 @@
 -   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
 -   `EventResponse` and subclasses for individual rubato events
 -   `Animation` now has an alpha that can be set.
--   `argb` variants of `Color.from_rgba32()` and `color.rgba32()`
+-   `argb` variants of `Color.from_rgba32()` and `color.rgba32()`.
 -   Python 3.11 support.
 
 ### Changed
@@ -53,7 +53,6 @@
 -   Fixed border-thickness not being taken into account when making surfaces in `Draw` methods.
 -   Turning blending off in surface drawing methods affecting antialias border blending.
 -   Potential division by 0 error when drawing under certain conditions.
--   Blending algorithm doing divisions by 256 when it should have been dividing by 255.
 
 ## [v0.3.4] - October 8, 2022
 
