@@ -63,11 +63,10 @@ inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t
         if (!blending || (pixels[off] & AMASK) == 0) {
             pixels[off] = c;
         } else {
-            uint8_t a = (c & AMASK) >> 24;
-            uint8_t na = 255 - a;
+            uint8_t a = (c & AMASK) >> 24, na = 255 - a;
             uint32_t rb = ((na * (pixels[off] & RBMSK)) + (a * (c & RBMSK))) >> 8;
             uint32_t ag = (na * ((pixels[off] & AGMSK) >> 8)) + (a * (AONE | ((c & GMASK) >> 8)));
-            pixels[off] = ((rb & RBMSK) | (ag & AGMSK));
+            pixels[off] = (rb & RBMSK) | (ag & AGMSK);
         }
     }
 }
