@@ -85,7 +85,7 @@ def make_asteroid():
             [
                 Polygon(
                     [
-                        Vector.from_radial(random.randint(int(radius * .7), int(radius * 0.95)), i * 360 / sides)
+                        Vector.from_radial(random.randint(int(radius * .7), int(radius * 0.95)), -i * 360 / sides)
                         for i in range(sides)
                     ],
                     debug=True,
@@ -128,13 +128,13 @@ class PlayerController(Component):
                             velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
                                 500,
                                 player_spr.gameobj.rotation,
-                            ).negate_y()
+                            )
                         ),
                         BoundsChecker(),
                         Timer(0.75),
                     ],
                     "bullet",
-                    player_spr.gameobj.pos + full[0].rotate(player_spr.gameobj.rotation).negate_y(),
+                    player_spr.gameobj.pos,
                     player_spr.gameobj.rotation,
                 )
             )

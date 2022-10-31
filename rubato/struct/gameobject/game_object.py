@@ -55,10 +55,8 @@ class GameObject:
 
         self._components: dict[type, list[Component]] = {}
         self._debug_cross: Surface = Surface(10, 10)
-        self._debug_cross.draw_line(Vector(4, 0), Vector(4, 9), Color.debug)
-        self._debug_cross.draw_line(Vector(5, 0), Vector(5, 9), Color.debug)
-        self._debug_cross.draw_line(Vector(0, 4), Vector(9, 4), Color.debug)
-        self._debug_cross.draw_line(Vector(0, 5), Vector(9, 5), Color.debug)
+        self._debug_cross.draw_line(Vector(0, 5), Vector(0, -5), Color.debug, thickness=2)  # vertical line
+        self._debug_cross.draw_line(Vector(-5, 0), Vector(5, 0), Color.debug, thickness=2)  # horizontal line
 
     def add(self, *components: Component) -> GameObject:
         """
