@@ -56,16 +56,15 @@ PIXEL FUNCTIONS
 // Sets the pixel at x, y to the color specified. Clips at the edges.
 inline void setPixel(size_t _pixels, int width, int height, int x, int y, size_t color, bool blending = false) {
     if ((unsigned) x < (unsigned) width && (unsigned) y < (unsigned) height) {
-        unsigned off = y * width + x;
-        uint32_t c = (uint32_t) color;
-        uint32_t* pixels = (uint32_t*) _pixels;
+        uint32_t c = (uint32_t) color, i = y * width + x;
+        uint32_t* p = (uint32_t*) _pixels;
 
-        if (blending && pixels[off] & AMASK) {
+        if (blending && p[i] & AMASK) {
             uint8_t a = (c & AMASK) >> 24, na = 255 - a;
-            uint32_t rb = ((na * (pixels[off] & RBMSK)) + (a * (c & RBMSK))) >> 8;
-            uint32_t ag = (na * ((pixels[off] & AGMSK) >> 8)) + (a * (AONE | ((c & GMASK) >> 8)));
-            pixels[off] = (rb & RBMSK) | (ag & AGMSK);
-        } else pixels[off] = c;
+            uint32_t rb = (na * (p[i] & RBMSK) + a * (c & RBMSK)) >> 8;
+            uint32_t ag = na * ((p[i] & AGMSK) >> 8) + a * (AONE | ((c & GMASK) >> 8));
+            p[i] = (rb & RBMSK) | (ag & AGMSK);
+        } else p[i] = c;
     }
 }
 
