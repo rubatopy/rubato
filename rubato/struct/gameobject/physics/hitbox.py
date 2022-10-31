@@ -105,9 +105,7 @@ class Hitbox(Component):
         return true_pos, true_pos
 
     def update(self):
-        reset = False
         if self.scale != self._old_scale:
-            reset = True
             self.uptodate = False
 
         if not self.uptodate or self.rot_offset != self._old_rot_offset or self.offset != self._old_offset:
@@ -121,8 +119,6 @@ class Hitbox(Component):
 
         if not self.uptodate:
             self.uptodate = True
-
-        if reset:
             self._old_scale = self.scale
 
     def draw(self, camera: Camera):
@@ -259,8 +255,8 @@ class Polygon(Hitbox):
         verts = [v + Vector(w // 2, h // 2) for v in self.verts]
 
         if self.color is not None:
-            self._image.draw_poly(verts, fill=self.color, aa=True)
-        self._debug_image.draw_poly(verts, Color.debug, 2)
+            self._image.draw_poly(verts, fill=self.color, aa=True, blending=False)
+        self._debug_image.draw_poly(verts, Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
@@ -506,7 +502,7 @@ class Rectangle(Hitbox):
         self._offset_verts = [(vert * self.scale).rotate(self.rot_offset) + self.offset for vert in self._verts]
 
     def redraw(self):
-        super().redraw()
+        self._debug_image.clear()
 
         w = round(self.width * self.scale.x)
         h = round(self.height * self.scale.y)
@@ -516,7 +512,7 @@ class Rectangle(Hitbox):
 
         if self.color is not None:
             self._image.fill(self.color)
-        self._debug_image.draw_rect((0, 0), (w, h), Color.debug, 2)
+        self._debug_image.draw_rect((0, 0), (w, h), Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
@@ -618,13 +614,13 @@ class Circle(Hitbox):
         center = (int_r, int_r)
         size = int_r * 2 + 1
 
-        if self._image.width != size:
+        if size != self._image.width:
             self._image = Surface(size, size)
             self._debug_image = Surface(size, size)
 
         if self.color is not None:
-            self._image.draw_circle(center, int_r, fill=self.color, aa=True)
-        self._debug_image.draw_circle(center, int_r, Color.debug, 2)
+            self._image.draw_circle(center, int_r, fill=self.color, aa=True, blending=False)
+        self._debug_image.draw_circle(center, int_r, Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         r = self.true_radius()

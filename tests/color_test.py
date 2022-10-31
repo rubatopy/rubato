@@ -46,6 +46,10 @@ def test_rgba32(color):
     assert color.rgba32() == 0x007FFFFF
 
 
+def test_argb32(color):
+    assert color.argb32() == 0xFF007FFF
+
+
 def test_darker(color):
     c = color.darker(20)
     assert c.r == 0
@@ -126,11 +130,13 @@ def test_random_defaults(monkeypatch):
         assert c.to_tuple()[:-1] in list(Color._color_defaults.values()) + list(Color._grayscale_defaults.values())
 
 
+def test_from_argb32(color):
+    assert Color.from_argb32(0xFF007FFF) == color
+    assert Color.from_argb32(0) == Color(0, 0, 0, 0)
+
+
 def test_from_rgba32(color):
     assert Color.from_rgba32(0x007FFFFF) == color
-
-
-def test_from_rgba32_0():
     assert Color.from_rgba32(0) == Color(0, 0, 0, 0)
 
 
