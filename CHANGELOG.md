@@ -23,13 +23,13 @@
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
 -   Removed `Debug` class.
--   Removed `Color.from_rgba32()` and `color.rgba32` and replaced them with `argb` variants.
 
 ### Added
 
 -   `rigidbody.stop()` method to quickly set the rigidbody velocity to 0.
 -   `EventResponse` and subclasses for individual rubato events
 -   `Animation` now has an alpha that can be set.
+-   `argb` variants of `Color.from_rgba32()` and `color.rgba32()`
 
 ### Changed
 

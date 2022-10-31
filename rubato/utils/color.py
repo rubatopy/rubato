@@ -65,8 +65,12 @@ class Color:
         """The alpha value."""
 
     def argb32(self) -> int:
+        """The ARGB32 representation of the color."""
+        return sdl2.SDL_MapRGBA(Display.argb_format, *self.to_tuple())
+
+    def rgba32(self) -> int:
         """The RGBA32 representation of the color."""
-        return sdl2.SDL_MapRGBA(Display.format, *self.to_tuple())
+        return sdl2.SDL_MapRGBA(Display.rgba_format, *self.to_tuple())
 
     def darker(self, amount: int = 20):
         """
@@ -211,16 +215,35 @@ class Color:
     @classmethod
     def from_argb32(cls, argb32: int) -> Color:
         """
+        Creates a Color object from an ARGB32 representation.
+
+        Args:
+            argb32: The ARGB32 representation as an int.
+
+        Returns:
+            The color object from the ARGB32.
+        """
+        r, g, b, a = ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0)
+        sdl2.SDL_GetRGBA(
+            argb32, Display.argb_format, ctypes.byref(r), ctypes.byref(g), ctypes.byref(b), ctypes.byref(a)
+        )
+        return cls(r.value, g.value, b.value, a.value)
+
+    @classmethod
+    def from_rgba32(cls, rgba32: int) -> Color:
+        """
         Creates a Color object from an RGBA32 representation.
 
         Args:
-            argb32: The RGBA32 representation as an int.
+            rgba32: The RGBA32 representation as an int.
 
         Returns:
             The color object from the RGBA32.
         """
         r, g, b, a = ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0), ctypes.c_ubyte(0)
-        sdl2.SDL_GetRGBA(argb32, Display.format, ctypes.byref(r), ctypes.byref(g), ctypes.byref(b), ctypes.byref(a))
+        sdl2.SDL_GetRGBA(
+            rgba32, Display.rgba_format, ctypes.byref(r), ctypes.byref(g), ctypes.byref(b), ctypes.byref(a)
+        )
         return cls(r.value, g.value, b.value, a.value)
 
     @classmethod
