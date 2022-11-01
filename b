@@ -75,7 +75,7 @@ build() {
             build
             ;;
         *)
-            TEST_MODE=1 python setup.py build_ext -j 6 --inplace --define CYTHON_TRACE
+            TEST_MODE=1 python setup.py build_ext --define CYTHON_TRACE
             exit_with="$(expr $?+$exit_with)"
             ;;
     esac
