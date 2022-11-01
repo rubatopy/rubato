@@ -67,7 +67,10 @@ jobs:
               shell: bash
 
             - name: Run Unit Tests
-              run: ./b test
+              run: |
+                ./b build
+                pip install .
+                ./b test
               shell: bash
 
     lint:
