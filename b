@@ -26,12 +26,7 @@ help_text() {
         echo "${tab}${tab}--live, -l: Start a local server hosting the documentation"
         echo "${tab}${tab}--clear, -c: Clear the documentation build directory"
         echo "${tab}lint, l: Run linting on rubato"
-        echo "${tab}test, t:"
-        echo "${tab}${tab}--test, -t: Run the rubato test suite (default)"
-        echo "${tab}${tab}--build, -b: Force build rubato for testing without running tests"
-        echo "${tab}${tab}--quick-build, -qb: Build rubato for testing without running tests"
-        echo "${tab}${tab}--quick, -q: Run the tests without forcing a rebuild"
-        echo "${tab}${tab}--no-build, -n: Run the tests without building"
+        echo "${tab}test, t: Run the rubato test suite. The next argument is a search term to grep the output with."
         echo "${tab}setup, s: Install all needed dependencies for developing rubato"
         echo "${tab}precommit, pre: Run the precommit script (run every common test)"
         echo "${tab}pypi: Build the project for pypi"
@@ -80,7 +75,7 @@ build() {
             build
             ;;
         *)
-            python setup.py build_ext --inplace
+            TEST_MODE=1 python setup.py build_ext -j 6 --inplace --define CYTHON_TRACE
             exit_with="$(expr $?+$exit_with)"
             ;;
     esac
@@ -132,34 +127,17 @@ doc() {
 
 tests() {
     case $1 in
-        --build|-b)
-            delete
-            CFLAGS=-DCYTHON_TRACE=1 TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
-            exit_with="$(expr $?+$exit_with)"
-            ;;
-        --quick-build|-qb)
-            TEST_MODE=1 python setup.py build_ext --inplace --define CYTHON_TRACE
-            exit_with="$(expr $?+$exit_with)"
-            ;;
-        --quick|-q)
-            tests -qb
-            tests -n
-            exit_with="$(expr $?+$exit_with)"
-            ;;
-        --no-build|-n)
-            pytest --cov=rubato tests
-            exit_with="$(expr $?+$exit_with)"
-            ;;
-        *|--test|-t)
-            tests -b -n
+        *)
+            build
+            if [ -z "$1" ]
+            then
+                pytest --cov=rubato tests
+            else
+                pytest --cov=rubato tests | grep "$1"
+            fi
             exit_with="$(expr $?+$exit_with)"
             ;;
     esac
-    shift
-    if [[ $# -gt 0 ]]
-    then
-        tests "$@"
-    fi
 }
 
 ogdir="$( pwd )"
@@ -223,6 +201,7 @@ case $1 in
         cd ..
         ;;
     pypi)
+        delete
         rm -rf dist
         python -m build
         exit_with="$(expr $?+$exit_with)"
@@ -240,6 +219,7 @@ case $1 in
         then
             BRANCH="$(git branch --show-current)"
             git checkout "$1"
+            delete
             echo "Building wheels..."
             python -m build
             echo "Uploading wheels..."
