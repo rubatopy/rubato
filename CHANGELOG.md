@@ -44,6 +44,7 @@
 -   Internal file structure. Shouldn't impact most users.
 -   Optimized and fixed some internal rendering algorithms.
 -   Colors are now internally represented as argb32 integers instead of rgba32 integers.
+-   `hitbox.get_aabb()` methods now return the aabb in the form of bottom-left, top-right coordinates instead of top-left, bottom-right.
 
 ### Removed
 
