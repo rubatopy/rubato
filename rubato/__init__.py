@@ -99,7 +99,7 @@ def init(
 
     Display.hidden = hidden
 
-    Game.debug_font = Font(size=22, font="Mozart", color=Color.cyan)
+    Game.debug_font = Font(size=22, font="Mozart", color=Color.debug)
 
 
 def begin():
