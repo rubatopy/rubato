@@ -54,14 +54,14 @@ jobs:
             - name: Upload Wheel as Artifact
               uses: actions/upload-artifact@v3
               with:
-                  name: ${{matrix.os}}-wheel
+                  name: dist
                   path: dist/*.whl
 
             - name: Upload zip as Artifact
               if: startsWith(matrix.os, 'windows')
               uses: actions/upload-artifact@v3
               with:
-                  name: zip
+                  name: dist
                   path: dist/*.zip
 
     releaser:
