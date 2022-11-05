@@ -1,5 +1,4 @@
-from rubato import init, begin, Draw, Surface, Game, Vector as V, Color as C
-from rubato.utils.hardware.display import Display
+from rubato import init, begin, Draw, Display, Surface, Game, Vector as V, Color as C
 
 width, height = 32, 32
 gridx, gridy = 4, 4

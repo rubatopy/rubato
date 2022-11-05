@@ -3,7 +3,6 @@ A physics demo for rubato
 """
 from random import randint
 import rubato as rb
-from rubato.utils.hardware.display import Display
 
 # Controls the number of objects in the simulation
 num_obj = 60
@@ -69,7 +68,7 @@ for _ in range(num_obj // 2):
                     velocity=(randint(-100, 100), randint(-100, 100)),
                 ),
             ],
-            pos=Display.top_left + (
+            pos=rb.Display.top_left + (
                 randint(int(rb.Display.res.x / 20), int(19 * rb.Display.res.x / 20)),
                 -randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
             ),
@@ -91,7 +90,7 @@ for _ in range(num_obj // 2):
                     velocity=(randint(-100, 100), randint(-100, 100)),
                 ),
             ],
-            pos=Display.top_left + (
+            pos=rb.Display.top_left + (
                 randint(int(rb.Display.res.x / 20), int(19 * rb.Display.res.x / 20)),
                 -randint(int(rb.Display.res.y / 20), int(19 * rb.Display.res.y / 20)),
             ),

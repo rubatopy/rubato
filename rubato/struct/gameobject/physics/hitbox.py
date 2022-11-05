@@ -130,7 +130,7 @@ class Hitbox(Component):
         if self.debug or Game.debug:
             self._debug_image.rotation = self.true_rotation()
 
-            Draw.queue_surface(self._debug_image, self.true_pos(), camera=camera)
+            Draw.queue_surface(self._debug_image, self.true_pos(), Math.INF, camera=camera)
 
 
 class Polygon(Hitbox):

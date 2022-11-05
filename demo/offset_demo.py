@@ -1,7 +1,6 @@
 """A place to test new WIP features"""
 import rubato as rb
 from rubato import Vector as V
-from rubato.utils.hardware.display import Display
 
 width, height = 256, 256
 speed = 2
@@ -37,7 +36,7 @@ def handler(m_event):
 
 rb.Radio.listen(rb.Events.MOUSEDOWN, handler)
 
-s.add(go, rb.wrap(text, pos=Display.top_left + (50, -20)))
+s.add(go, rb.wrap(text, pos=rb.Display.top_left + (50, -20)))
 s.fixed_update = update
 
 rb.begin()

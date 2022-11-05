@@ -17,7 +17,7 @@ main = Scene()
 stars = Surface(size, size)
 stars.fill(Color.black)
 for _ in range(200):
-    pos = random.randint(-size, size), random.randint(-size, size)
+    pos = random.randint(-half_size, half_size), random.randint(-half_size, half_size)
     stars.draw_point(pos, Color.white)
 
 

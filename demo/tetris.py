@@ -59,8 +59,11 @@ pos = V(1, 0)
 
 
 def draw_block(pos, color):
+    ctr = Display.top_left
+    ctr.x += (pos.x + 1) * block_size
+    ctr.y += (pos.y - 1) * block_size
     Draw.rect(
-        center=Display.top_left + ((pos * block_size) + (1 + block_size / 2, -1 - block_size / 2)),
+        center=ctr,
         width=block_size,
         height=block_size,
         border=None,
@@ -81,7 +84,7 @@ def draw_scene():
     for i in range(len(current)):
         for j in range(len(current[i])):
             if current[i][j]:
-                draw_block(pos + V(j, i), Color.red)
+                draw_block(pos + V(j, -i), Color.red)
 
 
 def moveDown():

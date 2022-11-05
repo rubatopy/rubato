@@ -31,7 +31,7 @@ for x in range(int(rb.Display.res.x)):
             noise = rb.Noise.noise2((x + offset.x) / scale, (y + offset.y) / scale)
         gray = (noise + 1) / 2 * 255  # Note simplex perlin noise ranges from -1 to 1 and is being scaled to 0-255
         color = rb.Color(gray, gray, gray)
-        surface.draw_point(rb.Vector(x, y), color)
+        surface.draw_point(rb.Vector(x - rb.Display.res.x / 2, rb.Display.res.y / 2 - y), color)
 
 
 def draw():

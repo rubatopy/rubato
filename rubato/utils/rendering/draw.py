@@ -255,8 +255,14 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
             camera: The camera to use. Defaults to None.
+
+        Raises:
+            ValueError: If the width and height are not positive.
         """
         hashing = width, height, border, border_thickness, fill
+
+        if width <= 0 or height <= 0:
+            raise ValueError("Width and height must be positive.")
 
         if (surf := cls._rect_surfs.get(hashing, None)) is None:
             pad = round(border_thickness) if border is not None else 0
@@ -314,8 +320,14 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             camera: The camera to use. Defaults to None.
+
+        Raises:
+            ValueError: If the radius is not positive.
         """
         hashing = radius, border, border_thickness, fill
+
+        if radius <= 0:
+            raise ValueError("Radius must be positive.")
 
         if (surf := cls._circle_surfs.get(hashing, None)) is None:
             pad = round(border_thickness) if border is not None else 0

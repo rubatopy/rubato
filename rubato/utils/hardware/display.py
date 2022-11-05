@@ -17,12 +17,6 @@ class _DisplayProperties(type):  # pylint: disable=missing-class-docstring
 
     @property
     def window_size(cls) -> Vector:
-        # Another way to do this.
-        # wp, hp = ctypes.c_int(), ctypes.c_int()
-        # if sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.pointer(wp), ctypes.pointer(hp)) != 0:
-        #     raise RuntimeError(f"Could not get renderer size: {sdl2.SDL_GetError()}")
-        # w, h = wp.value, hp.value
-
         return Vector(*cls.window.size)
 
     @window_size.setter
@@ -168,11 +162,11 @@ class Display(metaclass=_DisplayProperties):
 
     @classmethod
     def _cartesian_to_sdl(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
-        return (pos[0] + cls._half_res[0], -pos[1] + cls._half_res[1])
+        return pos[0] + cls._half_res[0], cls._half_res[1] - pos[1]
 
     @classmethod
     def _sdl_to_cartesian(cls, pos: Vector | tuple[float, float]) -> tuple[float, float]:
-        return (pos[0] - cls._half_res[0], -pos[1] + cls._half_res[1])
+        return pos[0] - cls._half_res[0], cls._half_res[1] - pos[1]
 
     @classmethod
     def _center_to_top_left(
