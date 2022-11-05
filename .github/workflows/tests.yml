@@ -62,7 +62,7 @@ jobs:
               run: |
                   python -m pip install --upgrade pip
                   pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
-                  python setup.py egg_info
+                  TEST_MODE=1 python setup.py egg_info
                   pip install `grep -v '^\[' *.egg-info/requires.txt`
                   ./b build
                   TEST_MODE=1 pip install -e .
