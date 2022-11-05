@@ -1,6 +1,7 @@
 <!-- DON'T TOUCH THESE -->
 
 [unreleased]: https://github.com/rubatopy/rubato/
+[v0.3.5]: https://github.com/rubatopy/rubato/tree/v0.3.5
 [v0.3.4]: https://github.com/rubatopy/rubato/tree/v0.3.4
 [v0.3.3]: https://github.com/rubatopy/rubato/tree/v0.3.3
 [v0.3.2]: https://github.com/rubatopy/rubato/tree/v0.3.2
@@ -14,7 +15,7 @@
 
 # Changelog
 
-## [Unreleased] - October 30, 2022 (Expected)
+## [v0.3.5] - November 5, 2022
 
 ### Breaking Changes
 
