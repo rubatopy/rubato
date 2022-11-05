@@ -186,7 +186,7 @@ case $1 in
         exit_with="$(expr $?+$exit_with)"
         build -f
         exit_with="$(expr $?+$exit_with)"
-        pip install -e .
+        TEST_MODE=1 pip install -e .
         exit_with="$(expr $?+$exit_with)"
         ;;
     precommit|pre)
