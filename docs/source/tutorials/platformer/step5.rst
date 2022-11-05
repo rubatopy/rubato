@@ -55,7 +55,7 @@ For this to work, you also need to update the event listner at the bottom to loo
         global jumps, grounded
         if event["key"] == "w" and jumps > 0:
             grounded = False
-            player_body.velocity.y = -800
+            player_body.velocity.y = 800
             if jumps == 2:
                 p_animation.set_state("jump", freeze=2)
             elif jumps == 1:
@@ -75,7 +75,7 @@ space there! Remember that we set our level to be 120% the width of the screen. 
     def fixed_update():
         # have the camera follow the player
         camera_ideal = rb.Math.clamp(
-            player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x / 2
+            player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x
         )
         rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
 
@@ -140,7 +140,7 @@ This was just the tip of the iceberg of what rubato can do.
 
         # define the player rigidbody
         player_body = rb.RigidBody(
-            gravity=rb.Vector(y=rb.Display.res.y * 1.5),
+            gravity=rb.Vector(y=rb.Display.res.y * -1.5),
             pos_correction=1,
             friction=0.8,
         )
@@ -173,14 +173,14 @@ This was just the tip of the iceberg of what rubato can do.
 
         # create platforms
         platforms = [
-            rb.GameObject(pos=rb.Vector(200, rb.Display.bottom - 140)
+            rb.GameObject(pos=rb.Vector(-760, rb.Display.bottom + 140)
                         ).add(rb.Rectangle(
                             width=90,
                             height=40,
                             tag="ground",
                             color=rb.Color.blue,
                         )),
-            rb.GameObject(pos=rb.Vector(400, rb.Display.bottom - 340)
+            rb.GameObject(pos=rb.Vector(-560, rb.Display.bottom + 340)
                         ).add(rb.Rectangle(
                             width=150,
                             height=40,
@@ -191,13 +191,13 @@ This was just the tip of the iceberg of what rubato can do.
 
         # create obstacles
         obstacles = [
-            rb.GameObject(pos=rb.Vector(700)).add(rb.Rectangle(
+            rb.GameObject(pos=rb.Vector(-260)).add(rb.Rectangle(
                 width=90,
                 height=500,
                 tag="ground",
                 color=rb.Color.purple,
             )),
-            rb.GameObject(pos=rb.Vector(1200)).add(rb.Rectangle(
+            rb.GameObject(pos=rb.Vector(240)).add(rb.Rectangle(
                 width=70,
                 height=450,
                 tag="ground",
@@ -206,7 +206,7 @@ This was just the tip of the iceberg of what rubato can do.
         ]
 
         for obstacle in obstacles:
-            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
+            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom + 30
 
         # Side boundary
         left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0))
@@ -230,15 +230,12 @@ This was just the tip of the iceberg of what rubato can do.
             else:
                 player_body.velocity.x = 0
 
-            if rb.Input.key_pressed("space"):
-                player_body.ang_vel += 10
-
 
         # define a custom fixed update function
         def fixed_update():
             # have the camera follow the player
             camera_ideal = rb.Math.clamp(
-                player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x / 2
+                player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x
             )
             rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
 
@@ -253,7 +250,7 @@ This was just the tip of the iceberg of what rubato can do.
             global jumps, grounded
             if event["key"] == "w" and jumps > 0:
                 grounded = False
-                player_body.velocity.y = -800
+                player_body.velocity.y = 800
                 if jumps == 2:
                     p_animation.set_state("jump", freeze=2)
                 elif jumps == 1:

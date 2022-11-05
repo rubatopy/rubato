@@ -12,7 +12,7 @@ rect = rb.Polygon(V.poly(5, width // 6), rb.Color.blue, offset=V(48, 0))
 go = rb.wrap(rect, pos=rb.Display.center, debug=True)
 
 dropper = rb.Rectangle(width=20, height=20, color=rb.Color.red, debug=True)
-rigidbody = rb.RigidBody(gravity=V(0, 100))
+rigidbody = rb.RigidBody(gravity=V(0, -100))
 extra = rb.wrap([dropper, rigidbody])
 
 font = rb.Font()
@@ -36,7 +36,7 @@ def handler(m_event):
 
 rb.Radio.listen(rb.Events.MOUSEDOWN, handler)
 
-s.add(go, rb.wrap(text, pos=V(50, 20)))
+s.add(go, rb.wrap(text, pos=rb.Display.top_left + (50, -20)))
 s.fixed_update = update
 
 rb.begin()

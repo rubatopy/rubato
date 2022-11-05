@@ -136,7 +136,7 @@ class Raster(Component):
 
     def draw_rect(
         self,
-        top_left: Vector | tuple[float, float],
+        center: Vector | tuple[float, float],
         dims: Vector | tuple[float, float],
         border: Color = Color.black,
         border_thickness: int = 1,
@@ -147,14 +147,14 @@ class Raster(Component):
         Draws a rectangle on the surface.
 
         Args:
-            top_left: The top left corner of the rectangle.
+            center: The top left corner of the rectangle.
             dims: The dimensions of the rectangle.
             border: The border color of the rectangle. Defaults to black.
             border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the rectangle. Set to None for no fill. Defaults to None.
             blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_rect(top_left, dims, border, border_thickness, fill, blending)
+        self.surf.draw_rect(center, dims, border, border_thickness, fill, blending)
 
     def draw_circle(
         self,
@@ -183,6 +183,7 @@ class Raster(Component):
     def draw_poly(
         self,
         points: list[Vector] | list[tuple[float, float]],
+        center: Vector | tuple[float, float] = (0, 0),
         border: Color | None = None,
         border_thickness: int = 1,
         fill: Color | None = None,
@@ -194,13 +195,14 @@ class Raster(Component):
 
         Args:
             points: The points of the polygon.
+            center: The center of the polygon.
             border: The border color of the polygon. Defaults to None.
             border_thickness: The thickness of the border. Defaults to 1.
             fill: The fill color of the polygon. Set to None for no fill. Defaults to None.
             aa: Whether to use anti-aliasing. Defaults to False.
             blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_poly(points, border, border_thickness, fill, aa, blending)
+        self.surf.draw_poly(points, center, border, border_thickness, fill, aa, blending)
 
     def get_size(self) -> Vector:
         """

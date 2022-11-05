@@ -84,6 +84,7 @@ def init(
         flags=(sdl2.SDL_RENDERER_ACCELERATED | sdl2.SDL_RENDERER_TARGETTEXTURE),
         logical_size=(int(res[0]), int(res[1]))
     )
+    Display._half_res = (res[0] / 2, res[1] / 2)
 
     if change_pos:
         Display.window_pos += Vector(0, Display.get_window_border_size()[0])
@@ -98,7 +99,7 @@ def init(
 
     Display.hidden = hidden
 
-    Game.debug_font = Font(size=22, font="Mozart", color=Color.cyan)
+    Game.debug_font = Font(size=22, font="Mozart", color=Color.debug)
 
 
 def begin():

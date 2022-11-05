@@ -23,7 +23,7 @@ def update():
         print(main.camera.z_index)
 
 
-def mouse_down(_):
+def mouse_down():
     main.camera.pos += Vector(5, -10)
     main.add(GameObject(pos=world_mouse(), z_index=-1).add(Circle(radius=10, color=Color.blue)))
     print(main.camera.zoom)

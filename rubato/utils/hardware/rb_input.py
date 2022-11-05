@@ -384,7 +384,7 @@ class Input:
         Returns:
             A Vector representing position.
         """
-        return Vector.create(cls._display_to_screen(*cls.get_mouse_abs_pos()))
+        return Vector.create(Display._sdl_to_cartesian(cls._display_to_screen(*cls.get_mouse_abs_pos())))
 
     @staticmethod
     def get_mouse_abs_pos() -> Vector:

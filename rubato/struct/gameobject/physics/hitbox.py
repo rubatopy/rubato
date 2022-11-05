@@ -94,12 +94,12 @@ class Hitbox(Component):
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         """
-        Gets top left and bottom right corners of the axis-aligned bounding box of the hitbox in world coordinates.
+        Gets bottom left and top right corners of the axis-aligned bounding box of the hitbox in world coordinates.
 
         Returns:
             tuple[Vector, Vector]:
-                The top left and bottom right corners of the bounding box as Vectors as a tuple.
-                (top left, bottom right)
+                The bottom left and top right right corners of the bounding box as Vectors as a tuple.
+                (bottom left, top right)
         """
         true_pos = self.true_pos()
         return true_pos, true_pos
@@ -130,7 +130,7 @@ class Hitbox(Component):
         if self.debug or Game.debug:
             self._debug_image.rotation = self.true_rotation()
 
-            Draw.queue_surface(self._debug_image, self.true_pos(), camera=camera)
+            Draw.queue_surface(self._debug_image, self.true_pos(), Math.INF, camera=camera)
 
 
 class Polygon(Hitbox):
@@ -216,19 +216,19 @@ class Polygon(Hitbox):
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.true_verts()
-        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+        bottom, top, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
         for vert in verts:
-            if vert.y > bottom:
-                bottom = vert.y
-            elif vert.y < top:
+            if vert.y > top:
                 top = vert.y
+            elif vert.y < bottom:
+                bottom = vert.y
             if vert.x > right:
                 right = vert.x
             elif vert.x < left:
                 left = vert.x
 
-        return Vector(left, top), Vector(right, bottom)
+        return Vector(left, bottom), Vector(right, top)
 
     def offset_verts(self) -> list[Vector]:
         """The list of polygon vertices offset by the Polygon's offsets."""
@@ -252,11 +252,9 @@ class Polygon(Hitbox):
             self._image = Surface(w, h)
             self._debug_image = Surface(w, h)
 
-        verts = [v + Vector(w // 2, h // 2) for v in self.verts]
-
         if self.color is not None:
-            self._image.draw_poly(verts, fill=self.color, aa=True, blending=False)
-        self._debug_image.draw_poly(verts, Color.debug, 2, blending=False)
+            self._image.draw_poly(self.verts, (0, 0), fill=self.color, aa=True, blending=False)
+        self._debug_image.draw_poly(self.verts, (0, 0), Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         return Input.pt_in_poly(pt, self.true_verts())
@@ -375,11 +373,13 @@ class Rectangle(Hitbox):
         The top left corner of the AABB surrounding the rectangle.
         Setting to this value changes the gameobject's position, not the hitbox offset.
         """
-        return self.get_aabb()[0]
+        aabb = self.get_aabb()
+        return Vector(aabb[0].x, aabb[1].y)
 
     @top_left.setter
     def top_left(self, new: Vector):
-        self.gameobj.pos += new - self.get_aabb()[0]
+        self.top = new.y
+        self.left = new.x
 
     @property
     def bottom_left(self):
@@ -387,13 +387,12 @@ class Rectangle(Hitbox):
         The bottom left corner of the AABB surrounding the rectangle.
         Setting to this value changes the gameobject's position, not the hitbox offset.
         """
-        aabb = self.get_aabb()
-        return Vector(aabb[0].x, aabb[1].y)
+        return self.get_aabb()[0]
 
     @bottom_left.setter
     def bottom_left(self, new: Vector):
-        aabb = self.get_aabb()
-        self.gameobj.pos += new - Vector(aabb[0].x, aabb[1].y)
+        self.bottom = new.y
+        self.left = new.x
 
     @property
     def top_right(self):
@@ -401,13 +400,12 @@ class Rectangle(Hitbox):
         The top right corner of the AABB surrounding the rectangle.
         Setting to this value changes the gameobject's position, not the hitbox offset.
         """
-        aabb = self.get_aabb()
-        return Vector(aabb[1].x, aabb[0].y)
+        return self.get_aabb()[1]
 
     @top_right.setter
     def top_right(self, new: Vector):
-        aabb = self.get_aabb()
-        self.gameobj.pos += new - Vector(aabb[1].x, aabb[0].y)
+        self.top = new.y
+        self.right = new.x
 
     @property
     def bottom_right(self):
@@ -415,11 +413,13 @@ class Rectangle(Hitbox):
         The bottom right corner of the AABB surrounding the rectangle.
         Setting to this value changes the gameobject's position, not the hitbox offset.
         """
-        return self.get_aabb()[1]
+        aabb = self.get_aabb()
+        return Vector(aabb[1].x, aabb[0].y)
 
     @bottom_right.setter
     def bottom_right(self, new: Vector):
-        self.gameobj.pos += new - self.get_aabb()[1]
+        self.bottom = new.y
+        self.right = new.x
 
     @property
     def top(self):
@@ -427,11 +427,11 @@ class Rectangle(Hitbox):
         The y value of the top side of the AABB surrounding the rectangle.
         Setting to this value changes the gameobject's position, not the hitbox offset.
         """
-        return self.get_aabb()[0].y
+        return self.get_aabb()[1].y
 
     @top.setter
     def top(self, new: float):
-        self.gameobj.pos.y += new - self.get_aabb()[0].y
+        self.gameobj.pos.y += new - self.get_aabb()[1].y
 
     @property
     def left(self):
@@ -451,11 +451,11 @@ class Rectangle(Hitbox):
         The y value of the bottom side of the AABB surrounding the rectangle.
         Setting to this value changes the gameobject's position, not the hitbox offset.
         """
-        return self.get_aabb()[1].y
+        return self.get_aabb()[0].y
 
     @bottom.setter
     def bottom(self, new: float):
-        self.gameobj.pos.y += new - self.get_aabb()[1].y
+        self.gameobj.pos.y += new - self.get_aabb()[0].y
 
     @property
     def right(self):
@@ -471,19 +471,19 @@ class Rectangle(Hitbox):
 
     def get_aabb(self) -> tuple[Vector, Vector]:
         verts = self.true_verts()
-        top, bottom, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
+        bottom, top, left, right = Math.INF, -Math.INF, Math.INF, -Math.INF
 
         for vert in verts:
-            if vert.y > bottom:
-                bottom = vert.y
-            elif vert.y < top:
+            if vert.y > top:
                 top = vert.y
+            elif vert.y < bottom:
+                bottom = vert.y
             if vert.x > right:
                 right = vert.x
             elif vert.x < left:
                 left = vert.x
 
-        return Vector(left, top), Vector(right, bottom)
+        return Vector(left, bottom), Vector(right, top)
 
     def offset_verts(self) -> list[Vector]:
         """The list of rectangle vertices offset by the Rectangles's offsets."""
@@ -611,7 +611,6 @@ class Circle(Hitbox):
         super().redraw()
 
         int_r = round(self.radius * self.scale.max())
-        center = (int_r, int_r)
         size = int_r * 2 + 1
 
         if size != self._image.width:
@@ -619,8 +618,8 @@ class Circle(Hitbox):
             self._debug_image = Surface(size, size)
 
         if self.color is not None:
-            self._image.draw_circle(center, int_r, fill=self.color, aa=True, blending=False)
-        self._debug_image.draw_circle(center, int_r, Color.debug, 2, blending=False)
+            self._image.draw_circle((0, 0), int_r, fill=self.color, aa=True, blending=False)
+        self._debug_image.draw_circle((0, 0), int_r, Color.debug, 2, blending=False)
 
     def contains_pt(self, pt: Vector | tuple[float, float]) -> bool:
         r = self.true_radius()

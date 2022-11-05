@@ -73,7 +73,5 @@ class PlayerController(rb.Component):
 player = rb.GameObject(name="Bob", pos=rb.Display.center)
 player.add(PlayerController())
 
-
-
-main_scene.add(player, rb.wrap(rb.Text("psst... press shift.", anchor=(1,1))))
+main_scene.add(player, rb.wrap(rb.Text("psst... press shift.", anchor=(1, -1)), pos=rb.Display.top_left))
 rb.begin()

@@ -53,7 +53,7 @@ class Draw:
         Draw.text(
             str(Time.smooth_fps),
             font=font,
-            pos=(pad, pad),
+            pos=Display.top_left + (pad, -pad),
             align=Vector(1, 1),
             justify="center",
             scale=(scale, scale),
@@ -187,12 +187,18 @@ class Draw:
 
         if (surf := Draw._line_surfs.get(hashing, None)) is None:
             pad = round(width)
-            sizex, sizey = pad + abs(round(dims.x)), pad + abs(round(dims.y))
-            surf = Surface(pad + sizex, pad + sizey)
-            surf.draw_line((pad, pad), (sizex, sizey), color, thickness=round(width))
+            sizex, sizey = abs(round(dims.x)), abs(round(dims.y))
+            halfx, halfy = sizex / 2, sizey / 2
+            surf = Surface(sizex + (2 * pad), sizey + (2 * pad))
+            surf.draw_line(
+                (halfx * Math.sign(-dims.x), halfy * Math.sign(-dims.y)),
+                (halfx * Math.sign(dims.x), halfy * Math.sign(dims.y)),
+                color,
+                thickness=round(width),
+            )
             Draw._line_surfs[hashing] = surf
 
-        Draw.surface(surf, p1 + dims / 2, camera)
+        Draw.surface(surf, p1 + dims / 2 + round(width), camera)
 
     @classmethod
     def queue_rect(
@@ -249,13 +255,19 @@ class Draw:
             fill: The fill color. Defaults to None.
             angle: The angle in degrees. Defaults to 0.
             camera: The camera to use. Defaults to None.
+
+        Raises:
+            ValueError: If the width and height are not positive.
         """
         hashing = width, height, border, border_thickness, fill
+
+        if width <= 0 or height <= 0:
+            raise ValueError("Width and height must be positive.")
 
         if (surf := cls._rect_surfs.get(hashing, None)) is None:
             pad = round(border_thickness) if border is not None else 0
             surf = Surface(pad + round(width), pad + round(height))
-            surf.draw_rect((pad / 2, pad / 2), (width, height), border, pad, fill)
+            surf.draw_rect((0, 0), (width, height), border, pad, fill)
             cls._rect_surfs[hashing] = surf
 
         surf.rotation = angle
@@ -308,13 +320,19 @@ class Draw:
             border_thickness: The border thickness. Defaults to 1.
             fill: The fill color. Defaults to None.
             camera: The camera to use. Defaults to None.
+
+        Raises:
+            ValueError: If the radius is not positive.
         """
         hashing = radius, border, border_thickness, fill
+
+        if radius <= 0:
+            raise ValueError("Radius must be positive.")
 
         if (surf := cls._circle_surfs.get(hashing, None)) is None:
             pad = round(border_thickness) if border is not None else 0
             surf = Surface(pad * 2 + round(radius * 2) + 1, pad * 2 + round(radius * 2) + 1)
-            surf.draw_circle((radius + pad, radius + pad), round(radius), border, round(border_thickness), fill)
+            surf.draw_circle((0, 0), round(radius), border, round(border_thickness), fill)
             cls._circle_surfs[hashing] = surf
 
         cls.surface(surf, center, camera)
@@ -377,10 +395,9 @@ class Draw:
                 min_y = min(min_y, point[1])
                 max_x = max(max_x, point[0])
                 max_y = max(max_y, point[1])
-            off = Vector(min_x, min_y)
             pad = round(border_thickness) if border is not None else 0
             surf = Surface(pad * 2 + round(max_x - min_x + 2), pad * 2 + round(max_y - min_y + 2))
-            surf.draw_poly([p - off + pad + 1 for p in points], border, round(border_thickness), fill)
+            surf.draw_poly(points, (0, 0), border, round(border_thickness), fill)
             cls._poly_surfs[hashing] = surf
 
         cls.surface(surf, center, camera)
@@ -406,7 +423,7 @@ class Draw:
         Args:
             text: The text to draw.
             font: The Font object to use.
-            pos: The position of the text. Defaults to (0, 0).
+            pos: The top left corner of the text. Defaults to (0, 0).
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
@@ -440,7 +457,7 @@ class Draw:
         Args:
             text: The text to draw.
             font: The Font object to use.
-            pos: The position of the text. Defaults to (0, 0).
+            pos: The top left corner of the text. Defaults to (0, 0).
             justify: The justification of the text. (left, center, right). Defaults to "left".
             align: The alignment of the text. Defaults to (0, 0).
             width: The maximum width of the text. Will automatically wrap the text. Defaults to -1.
@@ -477,7 +494,7 @@ class Draw:
         size = final_tx.get_size()
         center = (
             pos[0] + (align[0] * size[0]) / 2,
-            pos[1] + (align[1] * size[1]) / 2,
+            pos[1] - (align[1] * size[1]) / 2,
         )
         cls.surface(final_tx, center, camera)
 

@@ -1,4 +1,4 @@
-from rubato import init, begin, Draw, Surface, Game, Vector as V, Color as C
+from rubato import init, begin, Draw, Display, Surface, Game, Vector as V, Color as C
 
 width, height = 32, 32
 gridx, gridy = 4, 4
@@ -14,7 +14,7 @@ for shape in shapes:
 
 col = 0
 
-line_p = (V(4, 6), V(width - 8, height - 12))
+line_p = (V(-12, 9), V(12, -9))
 
 shapes[col].draw_line(*line_p, main_c)
 shapes[gridx + col].draw_line(*line_p, main_c, True)
@@ -23,7 +23,7 @@ shapes[3 * gridx + col].draw_line(*line_p, main_c, True, 2, True)
 
 col += 1
 
-rect_d = (V(4, 4), V(width - 8, height - 8))
+rect_d = (V(0, 0), V(width - 8, height - 8))
 
 shapes[col].draw_rect(*rect_d, main_c)
 shapes[gridx + col].draw_rect(*rect_d, main_c)
@@ -32,7 +32,7 @@ shapes[3 * gridx + col].draw_rect(*rect_d, main_c, 2, second_c, True)
 
 col += 1
 
-circle_d = (V(width / 2, height / 2), (width // 2) - 2)
+circle_d = (V(0, 0), (width // 2) - 2)
 
 shapes[col].draw_circle(*circle_d, main_c)
 shapes[gridx + col].draw_circle(*circle_d, main_c, aa=True)
@@ -41,17 +41,19 @@ shapes[3 * gridx + col].draw_circle(*circle_d, main_c, 2, second_c, True)
 
 col += 1
 
-points = [v + V(width / 2, height / 2) for v in V.poly(6, (width / 2) - 2)]
+points = ([v for v in V.poly(6, (width / 2) - 2)], (0, 0))
 
-shapes[col].draw_poly(points, main_c)
-shapes[gridx + col].draw_poly(points, main_c, aa=True)
-shapes[2 * gridx + col].draw_poly(points, main_c, 3, second_c)
-shapes[3 * gridx + col].draw_poly(points, main_c, 2, second_c, True)
+shapes[col].draw_poly(*points, main_c)
+shapes[gridx + col].draw_poly(*points, main_c, aa=True)
+shapes[2 * gridx + col].draw_poly(*points, main_c, 3, second_c)
+shapes[3 * gridx + col].draw_poly(*points, main_c, 2, second_c, True)
 
 
 def update():
     for i in range(len(shapes)):
-        Draw.queue_surface(shapes[i], V((i % gridx) * width + (width / 2), (i // gridx) * height + (height / 2)))
+        Draw.queue_surface(
+            shapes[i], Display.top_left + ((i % gridx) * width + (width / 2), -(i // gridx) * height - (height / 2))
+        )
 
 
 Game.update = update

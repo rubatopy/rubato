@@ -49,8 +49,8 @@ def test_sum(v1, v34):
 
 
 def test_angle(v1, v34):
-    assert v1.angle == 135
-    assert v34.angle == 143.13010235415598
+    assert v1.angle == 45
+    assert v34.angle == 36.86989764584402
 
 
 def test_rationalized_mag(v1, v34):
@@ -98,8 +98,8 @@ def test_clamp(v1, v34):
 
 
 def test_rotate(v1):
-    assert v1.rotate(90) == Vector(-1, 1)
-    assert v1.rotate(45) == Vector(0, 1.4142135624)
+    assert v1.rotate(90) == Vector(1, -1)
+    assert v1.rotate(45) == Vector(1.4142135624, 0)
 
 
 def test_clone(v1, v34):
@@ -151,11 +151,11 @@ def test_dist_to(v1, v34):
 
 
 def test_from_radial():
-    assert Vector.from_radial(1, 0) == Vector(0, -1)
+    assert Vector.from_radial(1, 0) == Vector(0, 1)
     assert Vector.from_radial(1, 90) == Vector(1, 0)
-    assert Vector.from_radial(1, 180) == Vector(0, 1)
+    assert Vector.from_radial(1, 180) == Vector(0, -1)
     assert Vector.from_radial(1, 270) == Vector(-1, 0)
-    assert Vector.from_radial(1, 360) == Vector(0, -1)
+    assert Vector.from_radial(1, 360) == Vector(0, 1)
 
 
 def test_clamp_mag(v34):
@@ -172,15 +172,15 @@ def test_random(monkeypatch):
     monkeypatch.setattr("rubato.utils.vector.random", random)
     v = Vector.rand_unit_vector()
     assert v.x == pytest.approx(0.7474634342)
-    assert v.y == pytest.approx(-0.6643029539)
+    assert v.y == pytest.approx(0.6643029539)
 
 
 def test_quick_vectors():
     # pylint: disable=comparison-with-callable
     assert Vector.zero() == Vector()
     assert Vector.one() == Vector(1, 1)
-    assert Vector.up() == Vector(0, -1)
-    assert Vector.down() == Vector(0, 1)
+    assert Vector.up() == Vector(0, 1)
+    assert Vector.down() == Vector(0, -1)
     assert Vector.left() == Vector(-1, 0)
     assert Vector.right() == Vector(1, 0)
     assert Vector.infinity() == Vector(Math.INF, Math.INF)

@@ -49,7 +49,7 @@ class Vector:
     @property
     def angle(self) -> float:
         """The angle of the vector degrees (readonly)."""
-        return -math.degrees(math.atan2(-self.y, self.x) - Math.PI_HALF)
+        return -math.degrees(math.atan2(self.y, self.x) - Math.PI_HALF)
 
     @property
     def rationalized_mag(self) -> str:
@@ -159,6 +159,44 @@ class Vector:
         # note using matrix determinant
         return self.x * other.y - self.y * other.x
 
+    def negate_x(self, out: Vector | None = None) -> Vector:
+        """
+        Negates the x value of the vector.
+
+        Args:
+            out: The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
+        Returns:
+            The vector output of the operation.
+        """
+        if out is None:
+            out = Vector()
+
+        out.x = -self.x
+        out.y = self.y
+
+        return out
+
+    def negate_y(self, out: Vector | None = None) -> Vector:
+        """
+        Negates the y value of the vector.
+
+        Args:
+            out: The output vector to set to. Defaults to a new vector.
+                If you want the function to act on itself, set this value to the reference of the vector.
+
+        Returns:
+            The vector output of the operation.
+        """
+        if out is None:
+            out = Vector()
+
+        out.x = self.x
+        out.y = -self.y
+
+        return out
+
     def perpendicular(self, scalar: float | int = 1, out: Vector | None = None) -> Vector:
         """
         Computes a scaled 90 degree clockwise rotation on a given vector.
@@ -230,7 +268,7 @@ class Vector:
         if out is None:
             out = Vector()
 
-        radians = math.radians(angle)
+        radians = math.radians(-angle)
         c, s = math.cos(radians), math.sin(radians)
         out.x, out.y = round(self.x * c - self.y * s, 10), round(self.x * s + self.y * c, 10)
 
@@ -453,20 +491,20 @@ class Vector:
         Returns a list of vectors representing a polygon with the given number of sides and radius.
 
         Args:
-            num_sides (int): The number of sides of the polygon.
-            radius (float | int, optional): The radius of the polygon. Defaults to 1.
+            num_sides: The number of sides of the polygon.
+            radius: The radius of the polygon. Defaults to 1.
 
         Raises:
             SideError: If num_sides is less than 3.
 
         Returns:
-            list[Vector]: The list of vectors representing the polygon.
+            The list of vectors representing the polygon.
         """
         if num_sides < 3:
             raise SideError("Can't create a polygon with less than three sides.")
 
         rotangle = 360 / num_sides
-        return [Vector.from_radial(radius, i * rotangle) for i in range(num_sides)]
+        return [Vector.from_radial(radius, -i * rotangle) for i in range(num_sides)]
 
     @classmethod
     def rect(cls, width: float | int, height: float | int) -> list[Vector]:
@@ -497,7 +535,7 @@ class Vector:
     @staticmethod
     def up():
         """A Vector in the up direction"""
-        return Vector(0, -1)
+        return Vector(0, 1)
 
     @staticmethod
     def left():
@@ -507,7 +545,7 @@ class Vector:
     @staticmethod
     def down():
         """A Vector in the down direction"""
-        return Vector(0, 1)
+        return Vector(0, -1)
 
     @staticmethod
     def right():

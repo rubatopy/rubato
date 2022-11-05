@@ -31,7 +31,7 @@ Place this before ``main.add`` and update that call to add the ground as well:
 
     main.add(player, ground)
 
-You can also change the player gravity to ``1.5 * rb.Display.res.y``, which will make the game more realistic. It should look like this
+You can also change the player gravity to ``-1.5 * rb.Display.res.y``, which will make the game more realistic. It should look like this
 now:
 
 .. image:: /_static/tutorials_static/platformer/step4/1.png
@@ -57,14 +57,14 @@ Below is a very basic example that we will be using for the rest of the tutorial
 
         # create platforms
         platforms = [
-            rb.GameObject(pos=rb.Vector(200, rb.Display.bottom - 140)
+            rb.GameObject(pos=rb.Vector(-760, rb.Display.bottom + 140)
                         ).add(rb.Rectangle(
                             width=90,
                             height=40,
                             tag="ground",
                             color=rb.Color.blue,
                         )),
-            rb.GameObject(pos=rb.Vector(400, rb.Display.bottom - 340)
+            rb.GameObject(pos=rb.Vector(-560, rb.Display.bottom + 340)
                         ).add(rb.Rectangle(
                             width=150,
                             height=40,
@@ -75,13 +75,13 @@ Below is a very basic example that we will be using for the rest of the tutorial
 
         # create obstacles
         obstacles = [
-            rb.GameObject(pos=rb.Vector(700)).add(rb.Rectangle(
+            rb.GameObject(pos=rb.Vector(-260)).add(rb.Rectangle(
                 width=90,
                 height=500,
                 tag="ground",
                 color=rb.Color.purple,
             )),
-            rb.GameObject(pos=rb.Vector(1200)).add(rb.Rectangle(
+            rb.GameObject(pos=rb.Vector(240)).add(rb.Rectangle(
                 width=70,
                 height=450,
                 tag="ground",
@@ -90,7 +90,7 @@ Below is a very basic example that we will be using for the rest of the tutorial
         ]
 
         for obstacle in obstacles:
-            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
+            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom + 30
 
         # add them all to the scene
         main.add(player, ground, *platforms, *obstacles)
@@ -161,7 +161,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         # define the player rigidbody
         player_body = rb.RigidBody(
-            gravity=rb.Vector(y=rb.Display.res.y * 1.5),
+            gravity=rb.Vector(y=rb.Display.res.y * -1.5),
             pos_correction=1,
             friction=0.8,
         )
@@ -181,14 +181,14 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         # create platforms
         platforms = [
-            rb.GameObject(pos=rb.Vector(200, rb.Display.bottom - 140)
+            rb.GameObject(pos=rb.Vector(-760, rb.Display.bottom + 140)
                         ).add(rb.Rectangle(
                             width=90,
                             height=40,
                             tag="ground",
                             color=rb.Color.blue,
                         )),
-            rb.GameObject(pos=rb.Vector(400, rb.Display.bottom - 340)
+            rb.GameObject(pos=rb.Vector(-560, rb.Display.bottom + 340)
                         ).add(rb.Rectangle(
                             width=150,
                             height=40,
@@ -199,13 +199,13 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         # create obstacles
         obstacles = [
-            rb.GameObject(pos=rb.Vector(700)).add(rb.Rectangle(
+            rb.GameObject(pos=rb.Vector(-260)).add(rb.Rectangle(
                 width=90,
                 height=500,
                 tag="ground",
                 color=rb.Color.purple,
             )),
-            rb.GameObject(pos=rb.Vector(1200)).add(rb.Rectangle(
+            rb.GameObject(pos=rb.Vector(240)).add(rb.Rectangle(
                 width=70,
                 height=450,
                 tag="ground",
@@ -214,7 +214,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
         ]
 
         for obstacle in obstacles:
-            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom - 30
+            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom + 30
 
         # Side boundary
         left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0))
@@ -248,7 +248,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
         def handle_keydown(event):
             global jumps
             if event["key"] == "w" and jumps > 0:
-                player_body.velocity.y = -200
+                player_body.velocity.y = 200
                 if jumps == 2:
                     p_animation.set_state("jump", freeze=2)
                 elif jumps == 1:

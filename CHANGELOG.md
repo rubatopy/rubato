@@ -23,6 +23,8 @@
 -   Reordered the arguments of `RecurrentTask`, `FramesTask`, and `DelayedTask` to be more intuitive.
 -   Removed `is_stopped` from the init arguments of above task constructors to simplify them.
 -   Removed `Debug` class.
+-   Switch from the SDL coordinate system to the cartesian coordinate system.
+-   Centered drawing to `Surface`s and made them cartesian.
 
 ### Added
 
@@ -42,6 +44,7 @@
 -   Internal file structure. Shouldn't impact most users.
 -   Optimized and fixed some internal rendering algorithms.
 -   Colors are now internally represented as argb32 integers instead of rgba32 integers.
+-   `hitbox.get_aabb()` methods now return the aabb in the form of bottom-left, top-right coordinates instead of top-left, bottom-right.
 
 ### Removed
 

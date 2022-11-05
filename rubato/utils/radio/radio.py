@@ -98,8 +98,8 @@ class Radio:
                         MouseButtonResponse(
                             event.button.timestamp,
                             event.button.button,
-                            event.button.x,
-                            event.button.y,
+                            event.button.x - Display._half_res[0],
+                            Display._half_res[1] - event.button.y,
                             event.button.clicks,
                             event.button.which,
                         )
@@ -111,7 +111,7 @@ class Radio:
                         MouseWheelResponse(
                             event.wheel.timestamp,
                             event.wheel.preciseX,
-                            event.wheel.preciseY,
+                            -event.wheel.preciseY,
                             event.wheel.which,
                         )
                     )
@@ -121,10 +121,10 @@ class Radio:
                         Events.MOUSEMOTION,
                         MouseMotionResponse(
                             event.motion.timestamp,
-                            event.motion.x,
-                            event.motion.y,
+                            event.motion.x - Display._half_res[0],
+                            Display._half_res[1] - event.motion.y,
                             event.motion.xrel,
-                            event.motion.yrel,
+                            -event.motion.yrel,
                             event.motion.which,
                         )
                     )

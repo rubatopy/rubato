@@ -7,10 +7,10 @@ rb.Game.show_fps = True
 s = rb.Scene()
 
 surf = rb.Surface(scale=(1 / 16, 1 / 16))
-surf.draw_circle((16, 16), 16, fill=rb.Color.turquoize)
+surf.draw_circle((0, 0), 16, fill=rb.Color.turquoize)
 
 surf2 = rb.Surface(scale=(1 / 16, 1 / 16))
-surf2.draw_circle((16, 16), 16, fill=rb.Color.purple)
+surf2.draw_circle((0, 0), 16, fill=rb.Color.purple)
 
 surf3 = rb.Surface(scale=(1 / 16, 1 / 16))
 surf3.fill(rb.Color.green)
@@ -23,7 +23,7 @@ def movement(p: rb.Particle, dt: float):
 
 particleSytem = rb.ParticleSystem(
     new_particle=rb.ParticleSystem.particle_gen(
-        surf, movement, acceleration=(0, -75), start_speed=12, lifespan=0.4, z_index=1
+        surf, movement, acceleration=(0, 75), start_speed=12, lifespan=0.4, z_index=1
     ),
     loop=True,
     duration=0.3,
