@@ -188,9 +188,15 @@ H6
 
     Also upload the wheel to the github release.
 
-    **NOTE:** This needs to be done for every major python version we support
+    **NOTE:** This needs to only be done for python 3.10
 
-6. Finally, add the following to the top of the changelog and push:
+6. Run the following command to update include the new version in the documentation:
+
+    ```shell
+    cd docs && python ghapi_cacher.py
+    ```
+
+7. Finally, add the following to the top of the changelog and push:
 
     ```markdown
     ## [Unreleased] - October 30, 2022 (Expected)
@@ -206,4 +212,4 @@ H6
     ### Fixed
     ```
 
-7. Close the relevent milestones and issues
+8. Close the relevent milestones and issues

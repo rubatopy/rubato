@@ -15,6 +15,18 @@
 
 # Changelog
 
+## [Unreleased] - November 20, 2022 (Expected)
+
+### Breaking Changes
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## [v0.3.5] - November 5, 2022
 
 ### Breaking Changes
