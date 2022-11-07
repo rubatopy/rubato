@@ -75,7 +75,7 @@ build() {
             build
             ;;
         *)
-            TEST_MODE=1 python setup.py build_ext -j 6 --inplace --define CYTHON_TRACE
+            python setup.py build_ext -j 6 --inplace --define CYTHON_TRACE
             exit_with="$(expr $?+$exit_with)"
             ;;
     esac
@@ -186,7 +186,7 @@ case $1 in
         exit_with="$(expr $?+$exit_with)"
         build -f
         exit_with="$(expr $?+$exit_with)"
-        TEST_MODE=1 pip install -e .
+        pip install -e .
         exit_with="$(expr $?+$exit_with)"
         ;;
     precommit|pre)
