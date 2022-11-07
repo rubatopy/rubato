@@ -28,7 +28,6 @@ setup(
                 extra_compile_args=["-std=c++14"],
                 language="c++",
             ),
-            nthreads=6,
         ),
         *cythonize(
             "rubato/**/*.py",
@@ -39,7 +38,6 @@ setup(
                 "linetrace": linetrace,
                 "emit_code_comments": True,
             },
-            nthreads=6,
         ),
     ]
 )
