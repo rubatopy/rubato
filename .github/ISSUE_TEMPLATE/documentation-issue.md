@@ -1,7 +1,6 @@
 ---
 name: Documentation issue
 about: Report an issue to the documentation
-title: 'DOCUMENTATION:'
 labels: documentation
 assignees: ''
 
