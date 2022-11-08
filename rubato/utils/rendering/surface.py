@@ -78,7 +78,7 @@ class Surface:
         sdl2.SDL_SetTextureBlendMode(self._tx, sdl2.SDL_BLENDMODE_BLEND)
         self.uptodate = False
 
-    def get_size(self) -> Vector:
+    def size_scaled(self) -> Vector:
         """
         Gets the current size of the Surface. (Scaled)
 
@@ -87,7 +87,7 @@ class Surface:
         """
         return Vector(self._width * self.scale.x, self._height * self.scale.y)
 
-    def get_size_raw(self) -> Vector:
+    def size(self) -> Vector:
         """
         Gets the current size of the Surface. (Unscaled)
 
@@ -127,7 +127,7 @@ class Surface:
         )
         self.uptodate = False
 
-    def regen(self):
+    def _regen(self):
         """Updates the texture."""
         if self._color_key is not None:
             c_draw.colokey_copy(self._pixels, self._pixels_colorkey, self._width, self._height, self._color_key)

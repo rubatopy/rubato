@@ -120,7 +120,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls) -> None:
+    def _start(cls) -> None:
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -161,7 +161,7 @@ class Game:
         Input.update_controllers()
 
         # process delayed calls
-        Time.process_calls()
+        Time._process_calls()
 
         cls.update()
 
@@ -187,7 +187,7 @@ class Game:
 
         cls.draw()
 
-        Draw.dump()
+        Draw._dump()
 
         if cls.show_fps:
             Draw._draw_fps(cls.debug_font)

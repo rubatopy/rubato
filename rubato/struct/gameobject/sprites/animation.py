@@ -109,7 +109,7 @@ class Animation(Component):
 
         surface.scale = calculated_scale
         if not surface.uptodate:
-            surface.regen()
+            surface._regen()
         return surface
 
     def set_state(self, new_state: str, loop: bool = False, freeze: int = -1):

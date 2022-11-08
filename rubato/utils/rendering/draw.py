@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @cython.cclass
-class DrawTask:
+class _DrawTask:
     priority: int = cython.declare(int, visibility="public")  # type: ignore
     func: Callable = cython.declare(object, visibility="public")  # type: ignore
 
@@ -25,7 +25,7 @@ class DrawTask:
 # THIS IS A STATIC CLASS
 class Draw:
     """A static class allowing drawing items to the window."""
-    _queue: list[DrawTask] = []
+    _queue: list[_DrawTask] = []
 
     _pt_surfs: dict[Color, Surface] = {}
     _line_surfs: dict[tuple, Surface] = {}
@@ -64,7 +64,7 @@ class Draw:
     @classmethod
     def clear(cls, background_color: Color = Color.white, border_color: Color = Color.black):
         """
-        Clears the renderer and draws the background of the frame.
+        Clears the screen and draws a background.
 
         Args:
             background_color: The background color. Defaults to white.
@@ -78,7 +78,7 @@ class Draw:
         )
 
     @classmethod
-    def push(cls, z_index: int, callback: Callable):
+    def _push(cls, z_index: int, callback: Callable):
         """
         Add a custom draw function to the frame queue.
 
@@ -86,10 +86,10 @@ class Draw:
             z_index: The z_index to call at (lower z_indexes get called first).
             callback: The function to call.
         """
-        cls._queue.append(DrawTask(z_index, callback))
+        cls._queue.append(_DrawTask(z_index, callback))
 
     @classmethod
-    def dump(cls):
+    def _dump(cls):
         """Draws all queued items. Is called automatically at the end of every frame."""
         if not cls._queue:
             return
@@ -120,7 +120,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.point(pos, color, camera))
+        cls._push(z_index, lambda: cls.point(pos, color, camera))
 
     @classmethod
     def point(cls, pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
@@ -162,7 +162,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.line(p1, p2, color, width, camera))
+        cls._push(z_index, lambda: cls.line(p1, p2, color, width, camera))
 
     @staticmethod
     def line(
@@ -229,7 +229,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
+        cls._push(z_index, lambda: cls.rect(center, width, height, border, border_thickness, fill, angle, camera))
 
     @classmethod
     def rect(
@@ -298,7 +298,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
+        cls._push(z_index, lambda: cls.circle(center, radius, border, border_thickness, fill, camera))
 
     @classmethod
     def circle(
@@ -362,7 +362,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.poly(points, center, border, border_thickness, fill, camera))
+        cls._push(z_index, lambda: cls.poly(points, center, border, border_thickness, fill, camera))
 
     @classmethod
     def poly(
@@ -435,7 +435,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera))
+        cls._push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera))
 
     @classmethod
     def text(
@@ -473,7 +473,7 @@ class Draw:
             scale = camera.zoom * scale[0], camera.zoom * scale[1]
             shadow_pad = camera.zoom * shadow_pad
 
-        surf = font.generate_surface(text, justify, width)
+        surf = font._generate(text, justify, width)
         tx = Surface._from_surf(surf, scale=scale)
         sdl2.SDL_FreeSurface(surf)
 
@@ -491,7 +491,7 @@ class Draw:
         else:
             final_tx = tx
 
-        size = final_tx.get_size()
+        size = final_tx.size_scaled()
         center = (
             pos[0] + (align[0] * size[0]) / 2,
             pos[1] - (align[1] * size[1]) / 2,
@@ -517,7 +517,7 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls.push(z_index, lambda: cls.surface(surface, pos, camera))
+        cls._push(z_index, lambda: cls.surface(surface, pos, camera))
 
     @classmethod
     def surface(cls, surface: Surface, pos: Vector | tuple[float, float] = (0, 0), camera: Camera | None = None):
@@ -530,7 +530,7 @@ class Draw:
             camera: The camera to use. Defaults to None.
         """
         if not surface.uptodate:
-            surface.regen()
+            surface._regen()
 
         if camera is not None:
             pos = camera.transform(pos)
@@ -543,9 +543,11 @@ class Draw:
     @classmethod
     def clear_cache(cls):
         """
-        Clears the cache of surfaces.
-        Use this if you are drawing things without using Surfaces and need to free memory.
-        Note that if you need this method, it is probably just smarter to use Surfaces yourself instead.
+        Clears the draw cache.
+
+        Generally, you shouldn't need to call this method, but it can help free up memory if you're running low;
+        the true best way to avoid this though is to rely on surfaces for shapes that change/recolor often,
+        and call the draw surface method directly instead of the draw shape methods.
         """
         cls._pt_surfs.clear()
         cls._line_surfs.clear()

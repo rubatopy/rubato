@@ -32,10 +32,10 @@ class Spritesheet:
         self._sprites: list[list[Surface]] = []
 
         if not grid_size:
-            self._grid: tuple[int, int] = (self._sheet.get_size() / self._sprite_size).tuple_int()
+            self._grid: tuple[int, int] = (self._sheet.size_scaled() / self._sprite_size).tuple_int()
         else:
             self._grid: tuple[int, int] = (int(grid_size[0]), int(grid_size[1]))
-            if Vector(*self._sprite_size) * self._grid != self._sheet.get_size():
+            if Vector(*self._sprite_size) * self._grid != self._sheet.size_scaled():
                 raise IndexError("Sprite and grid size do not match given spritesheet size.")
 
         for y in range(0, self._grid[1] * self._sprite_size[1], self._sprite_size[1]):

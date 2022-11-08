@@ -20,6 +20,7 @@
 ### Breaking Changes
 
 -   Hidden a LOT of methods that weren't meant to be touched by users.
+-   Renamed `surface.get_size()` to `surface.size_scaled()` and `surface.get_size_raw()` to `surface.size()`.
 
 ### Added
 

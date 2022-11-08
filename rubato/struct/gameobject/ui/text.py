@@ -136,7 +136,7 @@ class Text(Component):
 
     def _regen(self):
         """(Re)generates the surface of the text."""
-        surf = self.font_object.generate_surface(
+        surf = self.font_object._generate(
             self._text,
             self._justify,
             self._width,
@@ -148,7 +148,7 @@ class Text(Component):
         self._surf.rotation = self.true_rotation()
         Draw.queue_surface(
             self._surf,
-            self.true_pos() + self.anchor * self._surf.get_size() / 2,
+            self.true_pos() + self.anchor * self._surf.size_scaled() / 2,
             self.true_z(),
             camera,
         )

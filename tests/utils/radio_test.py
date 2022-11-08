@@ -14,10 +14,10 @@ def test_listener_ping():
     callback = mock.Mock()
     l = Listener("test", callback)
 
-    l.ping({})
+    l._ping({})
     callback.assert_called_with({})
 
-    l.ping({"test": "test"})
+    l._ping({"test": "test"})
     callback.assert_called_with({"test": "test"})
 
     def example_cb():
@@ -25,7 +25,7 @@ def test_listener_ping():
 
     callback = mock.create_autospec(example_cb)
     l = Listener("test", callback)
-    l.ping({})
+    l._ping({})
     callback.assert_called_once()
 
 

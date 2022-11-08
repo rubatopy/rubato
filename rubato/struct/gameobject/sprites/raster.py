@@ -211,7 +211,7 @@ class Raster(Component):
         Returns:
             The size of the surface
         """
-        return self.surf.get_size()
+        return self.surf.size_scaled()
 
     def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """

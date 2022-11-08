@@ -36,7 +36,7 @@ class Camera:
 
     def transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
-        World space coordinates to Screen space coordinates.
+        World space coordinates to camera coordinates.
 
         Args:
             point: The point to transform (world space).
@@ -49,7 +49,7 @@ class Camera:
 
     def i_transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
-        Inverts the transform process, screen space coordinates to world space coordinates.
+        Inverts the transform process, camera coordinates to world space coordinates.
 
         Args:
             point: The point to transform (screen space).

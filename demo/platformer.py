@@ -166,8 +166,8 @@ portal.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
-        width=portal_animation.anim_frame().get_size().x,
-        height=portal_animation.anim_frame().get_size().y,
+        width=portal_animation.anim_frame().size_scaled().x,
+        height=portal_animation.anim_frame().size_scaled().y,
     )
 )
 

@@ -55,19 +55,19 @@ def test_start(monkeypatch: pytest.MonkeyPatch):
     quit_mock = Mock()
     monkeypatch.setattr(Game, "quit", quit_mock)
     monkeypatch.setattr(Game, "_tick", loop)
-    Game.start()
+    Game._start()
     quit_mock.assert_called_once()
 
     loop = Mock(side_effect=PrintError)
     monkeypatch.setattr(Game, "_tick", loop)
     with pytest.raises(PrintError):
-        Game.start()
+        Game._start()
     loop.assert_called_once()
 
     loop = Mock(side_effect=Error)
     monkeypatch.setattr(Game, "_tick", loop)
     with pytest.raises(Error):
-        Game.start()
+        Game._start()
     loop.assert_called_once()
 
     assert Game.state == Game.RUNNING
@@ -90,7 +90,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     update_controller = Mock()
     monkeypatch.setattr(Input, "update_controllers", update_controller)
     process = Mock()
-    monkeypatch.setattr(Time, "process_calls", process)
+    monkeypatch.setattr(Time, "_process_calls", process)
 
     draw_mock = Mock()
 
@@ -120,7 +120,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     clear = Mock()
     monkeypatch.setattr(Draw, "clear", clear)
     dump = Mock()
-    monkeypatch.setattr(Draw, "dump", dump)
+    monkeypatch.setattr(Draw, "_dump", dump)
     draw = Mock()
     monkeypatch.setattr(Draw, "_draw_fps", draw)
 
@@ -136,7 +136,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     monkeypatch.setattr(Time, "_end_frame", end_frame)
 
     with pytest.raises(Error):
-        Game.start()
+        Game._start()
 
     start_frame.assert_called()
     assert start_frame.call_count == 5
