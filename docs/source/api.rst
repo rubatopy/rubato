@@ -120,22 +120,8 @@ RigidBody
 ---------
 .. automodule:: rubato.struct.gameobject.physics.rigidbody
 
-*******
-Physics
-*******
-
-The Engine and Manifold classes comprise rubato's collision engine. Collision and overlap tests inside groups are
-automatically handled by rubato, so these classes are here mainly for reference.
-
-In general, it is recommended that you define callback functions for Hitbox objects instead of calling Engine
-functions yourself.
-
-Engine
-=======
-.. autoclass:: rubato.struct.gameobject.physics.engine.Engine
-
 Manifold
-==========
+--------
 .. autoclass:: rubato.struct.gameobject.physics.engine.Manifold
 
 ********************

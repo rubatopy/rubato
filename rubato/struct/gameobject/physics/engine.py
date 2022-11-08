@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 # THIS IS A STATIC CLASS
-class Engine:
+class _Engine:
     """
     rubato's physics engine.
     Handles overlap tests for Hitboxes and resolves Rigidbody collisions.
@@ -116,15 +116,15 @@ class Engine:
 
         if isinstance(hitbox_a, Circle):
             if isinstance(hitbox_b, Circle):
-                return Engine._circle_circle_test(hitbox_a, hitbox_b)
+                return _Engine._circle_circle_test(hitbox_a, hitbox_b)
 
-            return Engine._circle_polygon_test(hitbox_a, hitbox_b)
+            return _Engine._circle_polygon_test(hitbox_a, hitbox_b)
 
         if isinstance(hitbox_b, Circle):
-            r = Engine._circle_polygon_test(hitbox_b, hitbox_a)
+            r = _Engine._circle_polygon_test(hitbox_b, hitbox_a)
             return None if r is None else r._flip()
 
-        return Engine._polygon_polygon_test(hitbox_a, hitbox_b)
+        return _Engine._polygon_polygon_test(hitbox_a, hitbox_b)
 
     @staticmethod
     def collide(hitbox_a: Hitbox, hitbox_b: Hitbox) -> Optional[Manifold]:
@@ -140,7 +140,7 @@ class Engine:
         Returns:
             Returns a collision info object if a collision is detected or None if no collision is detected.
         """
-        col = Engine.overlap(hitbox_a, hitbox_b)
+        col = _Engine.overlap(hitbox_a, hitbox_b)
         if col is None:
             if hitbox_b in hitbox_a.colliding:
                 mani = Manifold(hitbox_a, hitbox_b)
@@ -158,7 +158,7 @@ class Engine:
         hitbox_b.colliding.add(hitbox_a)
 
         if not (hitbox_a.trigger or hitbox_b.trigger):
-            Engine.resolve(col)
+            _Engine.resolve(col)
 
         hitbox_a.on_collide(col)
         hitbox_b.on_collide(col._flip())
@@ -203,7 +203,7 @@ class Engine:
         face_normal = 0
 
         for i in range(len(verts)):
-            s = Engine._get_normal(verts, i).dot(center - verts[i])
+            s = _Engine._get_normal(verts, i).dot(center - verts[i])
 
             if s > circle_rad:
                 return
@@ -213,7 +213,7 @@ class Engine:
                 face_normal = i
 
         if separation <= 0:
-            norm = Engine._get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
+            norm = _Engine._get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
             return Manifold(circle, polygon, circle_rad, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
@@ -235,7 +235,7 @@ class Engine:
 
             return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
         else:
-            norm = Engine._get_normal(verts, face_normal)
+            norm = _Engine._get_normal(verts, face_normal)
             if norm.dot(center - v1) > circle_rad:
                 return
 
@@ -247,11 +247,11 @@ class Engine:
         a_verts = shape_a.offset_verts()
         b_verts = shape_b.offset_verts()
 
-        pen_a, face_a = Engine._axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
+        pen_a, face_a = _Engine._axis_least_penetration(shape_a, shape_b, a_verts, b_verts)
         if pen_a is None or face_a is None:
             return
 
-        pen_b, face_b = Engine._axis_least_penetration(shape_b, shape_a, b_verts, a_verts)
+        pen_b, face_b = _Engine._axis_least_penetration(shape_b, shape_a, b_verts, a_verts)
         if pen_b is None or face_b is None:
             return
 
@@ -283,8 +283,8 @@ class Engine:
         best_ind = 0
 
         for i in range(len(a_verts)):
-            n = Engine._get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
-            s = Engine._get_support(b_verts, -n)
+            n = _Engine._get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
+            s = _Engine._get_support(b_verts, -n)
             v = (a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos - b.gameobj.pos).rotate(-b.gameobj.rotation)
             d = n.dot(s - v)
 
