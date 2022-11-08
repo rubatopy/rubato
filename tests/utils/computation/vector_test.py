@@ -370,9 +370,3 @@ def test_create():
 
     with pytest.raises(TypeError):
         v = Vector.create((1, 2, 3))  # type:ignore # we are testing the typeerror
-
-
-def test_negate():
-    v = Vector(1, 2)
-    assert v.negate_x() == Vector(-1, 2)
-    assert v.negate_y() == Vector(1, -2)

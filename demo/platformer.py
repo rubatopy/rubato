@@ -166,8 +166,8 @@ portal.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
-        width=portal_animation.anim_frame().get_size().x,
-        height=portal_animation.anim_frame().get_size().y,
+        width=portal_animation.anim_frame().size_scaled().x,
+        height=portal_animation.anim_frame().size_scaled().y,
     )
 )
 
@@ -222,7 +222,9 @@ def fixed_update():
     camera_ideal = rb.Math.clamp(
         player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x
     )
-    rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
+    rb.Game.current().camera.pos.x = rb.Math.lerp(
+        rb.Game.current().camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4
+    )
 
 
 # set the scene's update function
@@ -242,11 +244,11 @@ def handle_keydown(event):
             p_animation.set_state("somer", True)
         jumps -= 1
     if event["key"] == "1":
-        rb.Game.camera.zoom = 1
+        rb.Game.current().camera.zoom = 1
     if event["key"] == "2":
-        rb.Game.camera.zoom = 2
+        rb.Game.current().camera.zoom = 2
     if event["key"] == "3":
-        rb.Game.camera.zoom = .5
+        rb.Game.current().camera.zoom = .5
 
 
 # define a custom controller listener

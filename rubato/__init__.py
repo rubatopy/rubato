@@ -113,7 +113,7 @@ def begin():
     if Game._initialized:
         if not Display.hidden:
             Display.show_window()
-        Game.start()
+        Game._start()
     else:
         raise RuntimeError(
             "You have not initialized rubato. Make sure to run rubato.init() right after importing the library"

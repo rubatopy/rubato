@@ -18,10 +18,8 @@ def test_world_mouse(monkeypatch: MonkeyPatch):
     mouse = Mock(return_value=Vector(0, 0))
     monkeypatch.setattr(Input, "get_mouse_pos", mouse)
     assert Vector(0, 0) == world_mouse()
-    Scene()
-    monkeypatch.setattr(Game, "camera", None)
-    assert Vector(0, 0) == world_mouse()
-    monkeypatch.setattr(Game, "camera", Camera(Vector(2, 2), 2))
+    s = Scene()
+    monkeypatch.setattr(s, "camera", Camera(Vector(2, 2), 2))
     monkeypatch.setattr(Display, "center", Vector(1, 1))
     assert Vector(1.5, 1.5) == world_mouse()
 

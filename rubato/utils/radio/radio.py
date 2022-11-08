@@ -182,7 +182,7 @@ class Radio:
         """
         # pylint: disable=isinstance-second-argument-not-valid-type
         for listener in cls.listeners.get(event.value if isinstance(event, Events) else event, []):
-            listener.ping(params or EventResponse(Time.now()))
+            listener._ping(params or EventResponse(Time.now()))
 
     @classmethod
     def listen(cls, event: str | Events, func: Callable[[], None] | Callable[[Any], None]):
@@ -240,7 +240,7 @@ class Listener:
         self.callback = callback
         self.registered = False
 
-    def ping(self, params: Any):
+    def _ping(self, params: Any):
         """
         Calls the callback of this listener.
 

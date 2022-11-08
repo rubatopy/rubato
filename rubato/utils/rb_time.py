@@ -249,7 +249,7 @@ class Time:
         return int(sec * 1000)
 
     @classmethod
-    def process_calls(cls):
+    def _process_calls(cls):
         """Processes the delayed function call as needed"""
         cls.frames += 1
         cls.fps = 1 / cls.delta_time

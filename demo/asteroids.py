@@ -36,7 +36,7 @@ class Timer(Component):
 
 # explosion particle
 expl = Surface(radius // 2, radius // 2)
-expl.draw_rect((0, 0), expl.get_size_raw(), Color.debug, 3)
+expl.draw_rect((0, 0), expl.size(), Color.debug, 3)
 
 
 def make_part(angle: float):

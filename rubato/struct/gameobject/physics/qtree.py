@@ -4,12 +4,12 @@ Do not use this in your own projects as it is tailored only to this use case.
 """
 import Cython
 
-from . import Hitbox, Engine
+from . import Hitbox, _Engine
 from .... import Vector
 
 
 @Cython.cclass
-class QTree:
+class _QTree:
     """The Quadtree itself."""
 
     def __init__(self, hbs: list[list[Hitbox]]):
@@ -68,7 +68,7 @@ class QTree:
         for hb in hbs:
             for li in self.stack:
                 for item in li:
-                    Engine.collide(hb, item)
+                    _Engine.collide(hb, item)
 
         self.northeast.collide(hbs, bb)
         self.northwest.collide(hbs, bb)
@@ -141,7 +141,7 @@ class STree:
         for hb in hbs:
             for current in self.stack:
                 for item in current:
-                    Engine.collide(hb, item)
+                    _Engine.collide(hb, item)
 
         if self.has_children:
             self.northeast.collide(hbs, bb)

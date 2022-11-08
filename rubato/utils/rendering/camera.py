@@ -3,7 +3,7 @@ The Camera module handles where things are drawn.
 A camera can zoom, pan, and travel along the z-index.
 GameObjects only render if their z-index is not more than that of the camera's.
 
-The current scene's camera can be accessed through :code:`Game.camera`.
+The current scene's camera can be accessed through :code:`Game.current().camera`.
 """
 from .. import Vector, Display, Math
 
@@ -36,7 +36,7 @@ class Camera:
 
     def transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
-        World space coordinates to Screen space coordinates.
+        World space coordinates to camera coordinates.
 
         Args:
             point: The point to transform (world space).
@@ -49,7 +49,7 @@ class Camera:
 
     def i_transform(self, point: Vector | tuple[float, float]) -> Vector:
         """
-        Inverts the transform process, screen space coordinates to world space coordinates.
+        Inverts the transform process, camera coordinates to world space coordinates.
 
         Args:
             point: The point to transform (screen space).

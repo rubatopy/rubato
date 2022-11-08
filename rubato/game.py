@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Radio, Events, Font, PrintError, Camera, IdError, Draw, InitError, Input
+from . import Time, Display, Radio, Events, Font, PrintError, IdError, Draw, InitError, Input
 
 if TYPE_CHECKING:
     from . import Scene
@@ -47,13 +47,12 @@ class Game:
         raise InitError(self)
 
     @classmethod
-    @property
     def current(cls) -> Scene:
         """
-        The current scene. (get-only)
+        The current scene of the game.
 
         Returns:
-            The current scene.
+            The current Scene.
         """
         scene = cls._scenes.get(cls._current)
         if scene:
@@ -97,19 +96,6 @@ class Game:
         return name
 
     @classmethod
-    @property
-    def camera(cls) -> Camera:  # test: skip
-        """
-        A shortcut getter allowing easy access to the current camera. (get-only)
-
-        Note:
-            Returns a pointer to the current camera object.
-            This is so you can access/change the current camera properties faster, but you'd still need to
-            use :func:`Game.current.camera <rubato.struct.scene.Scene.camera>` to access the camera directly.
-        """
-        return cls.current.camera
-
-    @classmethod
     def quit(cls):
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
@@ -120,7 +106,7 @@ class Game:
         sys.exit(0)
 
     @classmethod
-    def start(cls) -> None:
+    def _start(cls) -> None:
         """
         Starts the main game loop. Called automatically by :meth:`rubato.begin`.
         """
@@ -161,7 +147,7 @@ class Game:
         Input.update_controllers()
 
         # process delayed calls
-        Time.process_calls()
+        Time._process_calls()
 
         cls.update()
 
@@ -187,7 +173,7 @@ class Game:
 
         cls.draw()
 
-        Draw.dump()
+        Draw._dump()
 
         if cls.show_fps:
             Draw._draw_fps(cls.debug_font)

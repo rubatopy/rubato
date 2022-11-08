@@ -17,9 +17,9 @@ def group():
 @pytest.fixture()
 def go():
     g = GameObject()
-    g.update = Mock()
-    g.fixed_update = Mock()
-    g.draw = Mock()
+    g._update = Mock()
+    g._fixed_update = Mock()
+    g._draw = Mock()
     return g
 
 
@@ -51,12 +51,12 @@ def test_pass_on_funcs(group, go):
     g = Group()
     group.add(g)
 
-    group.update()
+    group._update()
     c = Camera()
-    group.draw(c)
+    group._draw(c)
 
-    go.update.assert_called_once()
-    go.draw.assert_called_once_with(c)
+    go._update.assert_called_once()
+    go._draw.assert_called_once_with(c)
 
 
 def test_fixed_update(monkeypatch, group, go):
@@ -69,13 +69,13 @@ def test_fixed_update(monkeypatch, group, go):
 
     collide = Mock()
     calc_bb = Mock()
-    monkeypatch.setattr("rubato.struct.qtree.QTree.collide", collide)
-    monkeypatch.setattr("rubato.struct.qtree.QTree.calc_bb", calc_bb)
+    monkeypatch.setattr("rubato.struct.qtree._QTree.collide", collide)
+    monkeypatch.setattr("rubato.struct.qtree._QTree.calc_bb", calc_bb)
 
-    group.fixed_update()
+    group._fixed_update()
 
-    go.fixed_update.assert_called()
-    assert go.fixed_update.call_count == 2
+    go._fixed_update.assert_called()
+    assert go._fixed_update.call_count == 2
 
     assert collide.call_count == 5
     assert calc_bb.call_count == 2
