@@ -2,18 +2,7 @@
 import pytest
 
 import rubato
-import sdl2, sdl2.sdlttf
-
 from rubato.utils.computation.vector import Vector
-
-
-@pytest.fixture(scope="module")
-def sdl():
-    """Initialize SDL2"""
-    sdl2.SDL_ClearError()
-    ret = sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO | sdl2.SDL_INIT_TIMER)
-    assert sdl2.SDL_GetError() == b""
-    assert ret == 0
 
 
 @pytest.fixture()
@@ -28,3 +17,5 @@ def rub():
     )
     yield
     rubato.Game._initialized = False
+    rubato.Radio.broadcast(rubato.Events.EXIT)
+    rubato.Game.state = rubato.Game.STOPPED

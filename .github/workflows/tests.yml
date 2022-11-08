@@ -64,10 +64,13 @@ jobs:
                   pip install Cython==3.0.0a11 --install-option="--no-cython-compile"
                   python setup.py egg_info
                   pip install `grep -v '^\[' *.egg-info/requires.txt`
+                  ./b build
+                  pip install -e .
               shell: bash
 
             - name: Run Unit Tests
-              run: ./b test
+              run: |
+                  ./b test
               shell: bash
 
     lint:

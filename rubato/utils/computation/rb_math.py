@@ -176,8 +176,6 @@ class Math:
         Returns:
             The simplified fraction, (numerator, denominator).
         """
-        if not isinstance(a, int) or not isinstance(b, int):
-            raise TypeError("a and b must be integers.")
         div = math.gcd(a, b)
 
         return a // div, b // div

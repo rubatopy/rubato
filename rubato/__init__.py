@@ -22,6 +22,7 @@ simplefilter("ignore", UserWarning)
 import sdl2, sdl2.sdlttf, sdl2.ext
 
 simplefilter("default", UserWarning)
+simplefilter("default", DeprecationWarning)
 
 from .utils import *
 from .game import Game

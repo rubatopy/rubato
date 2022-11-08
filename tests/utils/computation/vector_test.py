@@ -4,6 +4,7 @@ import pytest
 from rubato.utils.computation.rb_math import Math
 
 from rubato.utils.computation.vector import Vector
+from rubato.utils.error import SideError
 # pylint: disable=redefined-outer-name
 
 
@@ -150,6 +151,11 @@ def test_dist_to(v1, v34):
     assert v34.dist_to(v1) == 3.605551275463989
 
 
+def test_within(v1, v34):
+    assert not v34.within(v1, 2)
+    assert v34.within(v1, 4)
+
+
 def test_from_radial():
     assert Vector.from_radial(1, 0) == Vector(0, 1)
     assert Vector.from_radial(1, 90) == Vector(1, 0)
@@ -175,8 +181,18 @@ def test_random(monkeypatch):
     assert v.y == pytest.approx(0.6643029539)
 
 
+def test_shapes():
+    poly = Vector.poly(4, 1)
+    assert all(v in poly for v in [Vector(1, 0), Vector(0, 1), Vector(-1, 0), Vector(0, -1)])
+
+    rect = Vector.rect(2, 2)
+    assert all(v in rect for v in [Vector(1, 1), Vector(-1, 1), Vector(-1, -1), Vector(1, -1)])
+
+    with pytest.raises(SideError):
+        Vector.poly(2, 1)
+
+
 def test_quick_vectors():
-    # pylint: disable=comparison-with-callable
     assert Vector.zero() == Vector()
     assert Vector.one() == Vector(1, 1)
     assert Vector.up() == Vector(0, 1)
@@ -218,75 +234,108 @@ def test_math(v1, v34):
     vc = v34.clone()
     vc **= 3
     assert vc == Vector(27, 64)
+    vc **= v34
+    assert vc == Vector(19683, 16777216)
     assert v34**2 == Vector(9, 16)
     assert v34**v34 == Vector(27, 256)
     with pytest.raises(TypeError):
-        v1**set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1**set()
+    with pytest.raises(TypeError):
+        vc **= set()
 
     vc = v34.clone()
     vc *= 4
     assert vc == Vector(12, 16)
+    vc *= v34
+    assert vc == Vector(36, 64)
     assert v1 * 2 == Vector(2, 2)
     assert 2 * v1 == Vector(2, 2)
     assert v34 * v1 == Vector(3, 4)
+    assert (3, 4) * v1 == Vector(3, 4)
     with pytest.raises(TypeError):
-        v1 * set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1 * set()
+    with pytest.raises(TypeError):
+        _ = set() * v1
+    with pytest.raises(TypeError):
+        vc *= set()
 
     vc = v34.clone()
     vc /= 2
     assert vc == Vector(1.5, 2)
+    vc /= (0.5, 2)
+    assert vc == Vector(3, 1)
     assert v1 / 2 == Vector(0.5, 0.5)
     assert 2 / v1 == Vector(2, 2)
     assert v1 / v34 == Vector(1 / 3, 1 / 4)
     assert (2, 3) / v1 == Vector(2, 3)
     with pytest.raises(TypeError):
-        v1 / set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1 / set()
     with pytest.raises(TypeError):
-        set() / v1  # type: ignore # pylint: disable=expression-not-assigned
+        _ = set() / v1
+    with pytest.raises(TypeError):
+        vc /= set()
 
     vc = v34.clone()
     vc //= 2
     assert vc == Vector(1, 2)
+    vc //= (0.5, 2)
+    assert vc == Vector(2, 1)
     assert v1 // 2 == Vector(0, 0)
     assert 2 // v1 == Vector(2, 2)
     assert v1 // v34 == Vector(0, 0)
     assert (2, 3) // v1 == Vector(2, 3)
     with pytest.raises(TypeError):
-        v1 // set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1 // set()
     with pytest.raises(TypeError):
-        set() // v1  # type: ignore # pylint: disable=expression-not-assigned
+        _ = set() // v1
+    with pytest.raises(TypeError):
+        vc //= set()
 
     vc = v34.clone()
     vc += v1
     assert vc == Vector(4, 5)
     assert v1 + v34 == Vector(4, 5)
+    assert (2, 3) + v1 == Vector(3, 4)
     assert v1 + 2 == Vector(3, 3)
     assert 2 + v1 == Vector(3, 3)
     with pytest.raises(TypeError):
-        v1 + set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1 + set()
+    with pytest.raises(TypeError):
+        _ = set() + v1
+    with pytest.raises(TypeError):
+        vc += set()
 
     vc = v34.clone()
     vc -= v1
     assert vc == Vector(2, 3)
+    vc -= 1
+    assert vc == Vector(1, 2)
     assert v1 - v34 == Vector(-2, -3)
     assert 2 - v1 == Vector(1, 1)
     assert v1 - 2 == Vector(-1, -1)
     assert (0, 1) - v1 == Vector(-1, 0)
     with pytest.raises(TypeError):
-        v1 - set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1 - set()
     with pytest.raises(TypeError):
-        set() - v1  # type: ignore # pylint: disable=expression-not-assigned
+        _ = set() - v1
+    with pytest.raises(TypeError):
+        vc -= set()
 
     vc = v34.clone()
+    vc %= 3
+    assert vc == Vector(0, 1)
     vc %= v1
     assert vc == Vector(0, 0)
     assert v34 % 2 == Vector(1, 0)
+    assert v34 % (2, 3) == Vector(1, 1)
     assert 5 % v34 == Vector(2, 1)
     assert (5, 6) % v34 == Vector(2, 2)
     with pytest.raises(TypeError):
-        v1 % set()  # type: ignore # pylint: disable=expression-not-assigned
+        _ = v1 % set()
     with pytest.raises(TypeError):
-        set() % v1  # type: ignore # pylint: disable=expression-not-assigned
+        _ = set() % v1
+    with pytest.raises(TypeError):
+        vc %= set()
 
     assert -v1 == Vector(-1, -1)
 
@@ -308,3 +357,22 @@ def test_iter():
         x[2] = 3
 
     assert list(x) == [1, 2]
+
+
+def test_min_max(v34):
+    assert v34.max() == 4
+    assert v34.min() == 3
+
+
+def test_create():
+    v = Vector.create((1, 2))
+    assert v == Vector(1, 2)
+
+    with pytest.raises(TypeError):
+        v = Vector.create((1, 2, 3))  # type:ignore # we are testing the typeerror
+
+
+def test_negate():
+    v = Vector(1, 2)
+    assert v.negate_x() == Vector(-1, 2)
+    assert v.negate_y() == Vector(1, -2)

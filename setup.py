@@ -3,11 +3,6 @@ from setuptools import Extension, setup
 from Cython.Build import cythonize
 import os
 
-if "TEST_MODE" in os.environ:
-    linetrace = os.environ["TEST_MODE"] == "1"
-else:
-    linetrace = False
-
 
 def package_files(directory):
     paths = []
@@ -35,7 +30,7 @@ setup(
             compiler_directives={
                 "embedsignature": True,
                 "language_level": 3,
-                "linetrace": linetrace,
+                "linetrace": True,
                 "emit_code_comments": True,
             },
         ),
