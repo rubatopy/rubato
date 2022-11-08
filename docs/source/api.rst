@@ -116,13 +116,13 @@ Circle
 __________
 .. autoclass:: rubato.struct.gameobject.physics.hitbox.Circle
 
+Manifold
+________
+.. autoclass:: rubato.struct.gameobject.physics.engine.Manifold
+
 RigidBody
 ---------
 .. automodule:: rubato.struct.gameobject.physics.rigidbody
-
-Manifold
---------
-.. autoclass:: rubato.struct.gameobject.physics.engine.Manifold
 
 ********************
 Hardware Interaction
