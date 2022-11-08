@@ -76,8 +76,8 @@ portal.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
-        width=portal_animation.anim_frame().get_size().x,
-        height=portal_animation.anim_frame().get_size().y,
+        width=portal_animation.anim_frame().size_scaled().x,
+        height=portal_animation.anim_frame().size_scaled().y,
         on_collide=lambda col_info: print("You win!") if col_info.shape_b.tag == "player" else None,
     )
 )
@@ -93,7 +93,9 @@ def fixed_update():
     camera_ideal = rb.Math.clamp(
         player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, current_scene.level_size - rb.Display.res.x
     )
-    rb.Game.current.camera.pos.x = rb.Math.lerp(rb.Game.current.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
+    rb.Game.current().camera.pos.x = rb.Math.lerp(
+        rb.Game.current().camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4
+    )
 
 
 # set the scene's update function
