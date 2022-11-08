@@ -19,6 +19,8 @@
 
 ### Breaking Changes
 
+-   Hidden a LOT of methods that weren't meant to be touched by users.
+
 ### Added
 
 ### Changed

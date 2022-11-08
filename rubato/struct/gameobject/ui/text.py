@@ -61,7 +61,7 @@ class Text(Component):
         if not self.font_object:
             self.font_object = Font()
 
-        self.generate_surface()
+        self._regen()
 
     @property
     def text(self) -> str:
@@ -71,7 +71,7 @@ class Text(Component):
     @text.setter
     def text(self, new: str):
         self._text = new
-        self.generate_surface()
+        self._regen()
 
     @property
     def justify(self) -> Literal["left", "center", "right"]:
@@ -87,7 +87,7 @@ class Text(Component):
         if new not in ["left", "center", "right"]:
             raise ValueError(f"Justification {new} is not left, center or right.")
         self._justify = new
-        self.generate_surface()
+        self._regen()
 
     @property
     def width(self) -> int:
@@ -97,7 +97,7 @@ class Text(Component):
     @width.setter
     def width(self, new: int):
         self._width = new
-        self.generate_surface()
+        self._regen()
 
     @property
     def font_size(self) -> int:
@@ -112,7 +112,7 @@ class Text(Component):
     @font_size.setter
     def font_size(self, size: int):
         self.font_object.size = size
-        self.generate_surface()
+        self._regen()
 
     @property
     def font_color(self) -> Color:
@@ -122,19 +122,19 @@ class Text(Component):
     @font_color.setter
     def font_color(self, color: Color):
         self.font_object.color = color
-        self.generate_surface()
+        self._regen()
 
     def add_style(self, style: str):
         """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
         self.font_object.add_style(style)
-        self.generate_surface()
+        self._regen()
 
     def remove_style(self, style: str):
         """Remove a style from a font."""
         self.font_object.remove_style(style)
-        self.generate_surface()
+        self._regen()
 
-    def generate_surface(self):
+    def _regen(self):
         """(Re)generates the surface of the text."""
         surf = self.font_object.generate_surface(
             self._text,

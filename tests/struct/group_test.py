@@ -17,9 +17,9 @@ def group():
 @pytest.fixture()
 def go():
     g = GameObject()
-    g.update = Mock()
-    g.fixed_update = Mock()
-    g.draw = Mock()
+    g._update = Mock()
+    g._fixed_update = Mock()
+    g._draw = Mock()
     return g
 
 
@@ -69,8 +69,8 @@ def test_fixed_update(monkeypatch, group, go):
 
     collide = Mock()
     calc_bb = Mock()
-    monkeypatch.setattr("rubato.struct.qtree.QTree.collide", collide)
-    monkeypatch.setattr("rubato.struct.qtree.QTree.calc_bb", calc_bb)
+    monkeypatch.setattr("rubato.struct.qtree._QTree.collide", collide)
+    monkeypatch.setattr("rubato.struct.qtree._QTree.calc_bb", calc_bb)
 
     group.fixed_update()
 

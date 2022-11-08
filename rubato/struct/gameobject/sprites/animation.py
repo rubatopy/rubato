@@ -229,27 +229,24 @@ class Animation(Component):
 
         self.add(state_name, state)
 
-    def draw(self, camera: Camera):
-        """Draws the animation frame and steps the animation forward."""
-
+    def update(self):
+        """Steps the animation forwards."""
         self._time_count += Time.delta_time
 
         while self._time_count > self._time_step:
-            self.anim_tick()
+            if self.current_frame != self._freeze:
+                if self.animation_frames_left > 0:
+                    self.current_frame += 1
+                elif self.loop:
+                    self.reset()
+                else:
+                    self.set_state(self.default_state, True)
+
             self._time_count -= self._time_step
 
+    def draw(self, camera: Camera):
+        """Draws the animation frame."""
         Draw.queue_surface(self.anim_frame(), self.true_pos(), self.true_z(), camera)
-
-    def anim_tick(self):
-        """An animation processing tick."""
-        if self.current_frame != self._freeze:
-            if self.animation_frames_left > 0:
-                # still frames left
-                self.current_frame += 1
-            elif self.loop:  # we reached the end of our state
-                self.reset()
-            else:
-                self.set_state(self.default_state, True)
 
     def clone(self) -> Animation:
         """Clones the animation."""

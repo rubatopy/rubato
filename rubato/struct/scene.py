@@ -109,8 +109,8 @@ class Scene:
             self._setup()
 
         self.update()
-        self.root.update()
-        self.ui.update()
+        self.root._update()
+        self.ui._update()
 
     def _paused_update(self):
         if not self.started:
@@ -120,14 +120,14 @@ class Scene:
 
     def _fixed_update(self):
         self.fixed_update()
-        self.root.fixed_update()
-        self.ui.fixed_update()
+        self.root._fixed_update()
+        self.ui._fixed_update()
 
     def _draw(self):
         Draw.clear(self.background_color, self.border_color)
         self.draw()
-        self.root.draw(self.camera)
-        self.ui.draw(self._ui_cam)
+        self.root._draw(self.camera)
+        self.ui._draw(self._ui_cam)
 
     def setup(self):
         """

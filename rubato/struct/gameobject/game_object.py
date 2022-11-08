@@ -196,7 +196,7 @@ class GameObject:
                 fin.extend(val)
         return fin
 
-    def draw(self, camera: Camera):
+    def _draw(self, camera: Camera):
         if self.hidden or not self.active:
             return
 
@@ -211,7 +211,7 @@ class GameObject:
             # Done like this because we don't want the crosshair to be affected by the camera's zoom
             Draw.queue_surface(self._debug_cross, camera.transform(self.pos))
 
-    def update(self):
+    def _update(self):
         if not self.active:
             return
 
@@ -220,7 +220,7 @@ class GameObject:
             for comp in comps:
                 comp._update()
 
-    def fixed_update(self):
+    def _fixed_update(self):
         if not self.active:
             return
 

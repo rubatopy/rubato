@@ -9,7 +9,7 @@ from .... import Vector
 
 
 @Cython.cclass
-class QTree:
+class _QTree:
     """The Quadtree itself."""
 
     def __init__(self, hbs: list[list[Hitbox]]):
