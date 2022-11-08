@@ -54,17 +54,20 @@ class Button(Component):
 
     def update(self):
         """The update function for buttons."""
-        if not self.hover and Input.mouse_in(self.true_pos(), self.dims, self.true_rotation()):
+        inside = Input.mouse_in(self.true_pos(), self.dims, self.true_rotation())
+        mouse_down = Input.mouse_state()[0]
+
+        if not self.hover and inside:
             self.hover = True
             self.onhover()
-        elif self.hover and not Input.mouse_in(self.true_pos(), self.dims, self.true_rotation()):
+        elif self.hover and not inside:
             self.hover = False
             self.onexit()
 
-        if (not self.pressed) and Input.mouse_state()[0] and self.hover:
+        if not self.pressed and mouse_down and inside:
             self.pressed = True
             self.onclick()
-        elif self.pressed and (not Input.mouse_state()[0] or not self.hover):
+        elif self.pressed and not mouse_down:
             self.pressed = False
             self.onrelease()
 
