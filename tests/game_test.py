@@ -10,7 +10,7 @@ from rubato.utils.hardware.rb_input import Input
 from rubato.utils.radio import Radio
 from rubato.utils.rb_time import Time
 from rubato.utils.rendering.draw import Draw
-# pylint: disable=redefined-outer-name, unused-argument, protected-access
+# pylint: disable=redefined-outer-name, unused-argument
 
 
 @pytest.fixture

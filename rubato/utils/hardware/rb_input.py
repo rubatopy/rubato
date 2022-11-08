@@ -17,6 +17,10 @@ class Input:
 
     Go :doc:`here <key-names>` for a list of all the available keys.
     """
+
+    def __init__(self) -> None:
+        raise InitError(self)
+
     # CONTROLLER METHODS
 
     _controllers: list[sdl2.SDL_Joystick] = []
@@ -32,7 +36,7 @@ class Input:
         This number index is passed to events that are propagated when controllers are inputted to.
 
         Returns:
-            int: The total number of controllers.
+            The total number of controllers.
         """
         return len(cls._controllers)
 
@@ -46,7 +50,6 @@ class Input:
 
         if conts == length:
             return
-
         elif conts > length:
             if length == 0:
                 sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
@@ -56,6 +59,7 @@ class Input:
 
         for i in range(length):
             sdl2.SDL_JoystickClose(cls._controllers[i])
+
         cls._controllers = []
         if conts > 0:
             for i in range(conts):
@@ -69,14 +73,13 @@ class Input:
         Get the name of the controller at the given index.
 
         Args:
-            index (int): The index of the controller to get the name of.
+            index: The index of the controller to get the name of.
 
         Raises:
-            IndexError: If the index is out of range.
-                Note that no error is thrown if controller is negative.
+            IndexError: If the index is out of range. Note that no error is thrown if controller is negative.
 
         Returns:
-            str: The name of the controller. If controller is less than 0, returns an empty string.
+            The name of the controller. If controller is less than 0, returns an empty string.
         """
         if controller < 0:
             return ""
@@ -125,15 +128,15 @@ class Input:
         Get whether a given button on a controller is pressed.
 
         Args:
-            controller (int): The index of the controller.
-            button (int): The index of the button.
+            controller: The index of the controller.
+            button: The index of the button.
 
         Raises:
             IndexError: The given controller index is out of range.
                 Note that no error is thrown if controller is negative.
 
         Returns:
-            bool: Whether the button is pressed. If controller is less than 0, returns False.
+            Whether the button is pressed. If controller is less than 0, returns False.
         """
         if controller < 0:
             return False
@@ -147,8 +150,8 @@ class Input:
         Get the value of a given hat on a controller.
 
         Args:
-            controller (int): The index of the controller.
-            hat (int): The index of the hat.
+            controller: The index of the controller.
+            hat: The index of the hat.
 
         Raises:
             IndexError: The given controller index is out of range.
@@ -170,28 +173,28 @@ class Input:
         Translate a hat value to a string.
 
         Args:
-            val (int): The hat value.
+            val: The hat value.
 
         Returns:
             str: The string representation of the hat value.
         """
-        if val & sdl2.SDL_HAT_CENTERED:
+        if val == sdl2.SDL_HAT_CENTERED:
             return "center"
-        elif val & sdl2.SDL_HAT_UP:
+        elif val == sdl2.SDL_HAT_UP:
             return "up"
-        elif val & sdl2.SDL_HAT_RIGHT:
+        elif val == sdl2.SDL_HAT_RIGHT:
             return "right"
-        elif val & sdl2.SDL_HAT_DOWN:
+        elif val == sdl2.SDL_HAT_DOWN:
             return "down"
-        elif val & sdl2.SDL_HAT_LEFT:
+        elif val == sdl2.SDL_HAT_LEFT:
             return "left"
-        elif val & sdl2.SDL_HAT_RIGHTUP:
+        elif val == sdl2.SDL_HAT_RIGHTUP:
             return "right up"
-        elif val & sdl2.SDL_HAT_RIGHTDOWN:
+        elif val == sdl2.SDL_HAT_RIGHTDOWN:
             return "right down"
-        elif val & sdl2.SDL_HAT_LEFTUP:
+        elif val == sdl2.SDL_HAT_LEFTUP:
             return "left up"
-        elif val & sdl2.SDL_HAT_LEFTDOWN:
+        elif val == sdl2.SDL_HAT_LEFTDOWN:
             return "left down"
         return "unknown"
 
@@ -214,9 +217,6 @@ class Input:
         "caps lock": sdl2.KMOD_CAPS,
         "altgr": sdl2.KMOD_MODE,
     }
-
-    def __init__(self) -> None:
-        raise InitError(self)
 
     @classmethod
     def key_pressed(cls, *keys: str) -> bool:

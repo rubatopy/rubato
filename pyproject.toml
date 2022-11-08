@@ -3,9 +3,7 @@
 requires = ["setuptools ~= 63.2", "wheel ~= 0.37", "Cython ~= 3.0.0a11"]
 build-backend = "setuptools.build_meta"
 
-[build_ext]
-inplace=1
-j=6
+
 
 [tool.yapf]
 based_on_style = "google"
@@ -18,7 +16,7 @@ JOIN_MULTIPLE_LINES = true
 plugins = ["Cython.Coverage"]
 
 [tool.coverage.report]
-fail_under = 40
+fail_under = 50
 skip_covered = true
 skip_empty = true
 show_missing = true
