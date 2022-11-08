@@ -1,6 +1,7 @@
 """
 Miscellaneous helper functions for rubato developers.
 """
+from typing import Sequence
 from . import Vector, GameObject, Component, Game, Input
 
 
@@ -17,7 +18,7 @@ def world_mouse() -> Vector:
 
 
 def wrap(
-    comp: Component | list[Component],
+    comp: Component | Sequence[Component],
     name: str = "",
     pos: Vector | tuple[float, float] = (0, 0),
     rotation: float = 0,  # test: skip

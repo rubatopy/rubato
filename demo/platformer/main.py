@@ -18,6 +18,7 @@ import level1
 # Change the global debug level
 # rb.Game.debug = True
 # rb.Game.show_fps = True
+# rb.Game.current().camera.zoom = 1
 
 current_scene = level1
 
@@ -25,7 +26,7 @@ current_scene = level1
 
 # Create the player and set its starting position
 player = rb.GameObject(
-    pos=rb.Display.center_left + rb.Vector(50, 0),
+    pos=rb.Display.bottom_left + rb.Vector(50, 50),
     z_index=1,
 )
 
@@ -65,11 +66,11 @@ all_portal_images = rb.Spritesheet(
     grid_size=rb.Vector(8, 1),
 )
 
-portal_animation = rb.Animation(scale=rb.Vector(4, 4), fps=2)
+portal_animation = rb.Animation(scale=rb.Vector(4, 4), fps=10)
 portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_images.end)
 
 # create the end portal
-portal = rb.GameObject(pos=rb.Display.bottom_left + rb.Vector(current_scene.level_size - 50, 100))
+portal = rb.GameObject(pos=current_scene.portal_location)
 portal.add(portal_animation)
 
 portal.add(
