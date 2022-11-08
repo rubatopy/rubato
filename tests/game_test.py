@@ -26,11 +26,6 @@ def test_state():
     assert Game.state == Game.STOPPED
 
 
-def test_camera(rub):
-    Scene()
-    assert Game.camera == Game.current.camera  # type: ignore # pylint: disable=comparison-with-callable
-
-
 def test_init():
     with pytest.raises(InitError):
         Game()
@@ -99,7 +94,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     Game._scenes = {}
 
     with pytest.raises(ValueError):
-        Game.current  # pylint: disable=pointless-statement
+        Game.current()
 
     def update_override():
         nonlocal run_count

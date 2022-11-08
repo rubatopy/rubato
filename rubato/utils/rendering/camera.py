@@ -3,7 +3,7 @@ The Camera module handles where things are drawn.
 A camera can zoom, pan, and travel along the z-index.
 GameObjects only render if their z-index is not more than that of the camera's.
 
-The current scene's camera can be accessed through :code:`Game.camera`.
+The current scene's camera can be accessed through :code:`Game.current().camera`.
 """
 from .. import Vector, Display, Math
 

@@ -68,7 +68,7 @@ main_scene.add(player, rb.wrap(rb.Rectangle(20, 20, rb.Color.red), pos=rb.Displa
 
 def camera_follow():
     target = player.pos.clamp(rb.Display.center, rb.Display.res * 1.2 - rb.Display.center)
-    rb.Game.camera.pos = rb.Game.camera.pos.lerp(target, .35)
+    rb.Game.current().camera.pos = rb.Game.current().camera.pos.lerp(target, .35)
 
 
 main_scene.update = camera_follow
