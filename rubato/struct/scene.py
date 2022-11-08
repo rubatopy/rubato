@@ -139,14 +139,14 @@ class Scene:
     def update(self):
         """
         The update loop for this scene. It is run once every frame, before :meth:`draw`.
-        Is empty by default an can be overridden.
+        Is empty by default and can be overridden.
         """
         pass
 
     def fixed_update(self):
         """
         The fixed update loop for this scene. It is run (potentially) many times a frame.
-        Is empty by default an can be overridden.
+        Is empty by default and can be overridden.
 
         Note:
             You should define fixed_update only for high priority calculations that need to match the physics fps.
@@ -156,14 +156,14 @@ class Scene:
     def paused_update(self):
         """
         The paused update loop for this scene. It is run once a frame when the game is paused.
-        Is empty by default an can be overridden.
+        Is empty by default and can be overridden.
         """
         pass
 
     def draw(self):
         """
         The draw loop for this scene. It is run once every frame.
-        Is empty by default an can beoverridden.
+        Is empty by default and can beoverridden.
         """
         pass
 

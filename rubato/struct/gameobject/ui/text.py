@@ -51,9 +51,6 @@ class Text(Component):
         Example:
             An anchor of ``Vector(0, 0)`` will center the text on the game object. An anchor of ``Vector(1, 1)`` will
             move the text so that it's top left corner is at the game object's center.
-
-        Warning:
-            Previously was called align.
         """
         self._justify: Literal["left", "center", "right"] = justify
         self._width: int = width
@@ -61,7 +58,7 @@ class Text(Component):
         if not self.font_object:
             self.font_object = Font()
 
-        self._regen()
+        self._uptodate = False
 
     @property
     def text(self) -> str:
@@ -71,7 +68,7 @@ class Text(Component):
     @text.setter
     def text(self, new: str):
         self._text = new
-        self._regen()
+        self._uptodate = False
 
     @property
     def justify(self) -> Literal["left", "center", "right"]:
@@ -87,7 +84,7 @@ class Text(Component):
         if new not in ["left", "center", "right"]:
             raise ValueError(f"Justification {new} is not left, center or right.")
         self._justify = new
-        self._regen()
+        self._uptodate = False
 
     @property
     def width(self) -> int:
@@ -97,7 +94,7 @@ class Text(Component):
     @width.setter
     def width(self, new: int):
         self._width = new
-        self._regen()
+        self._uptodate = False
 
     @property
     def font_size(self) -> int:
@@ -112,7 +109,7 @@ class Text(Component):
     @font_size.setter
     def font_size(self, size: int):
         self.font_object.size = size
-        self._regen()
+        self._uptodate = False
 
     @property
     def font_color(self) -> Color:
@@ -122,17 +119,17 @@ class Text(Component):
     @font_color.setter
     def font_color(self, color: Color):
         self.font_object.color = color
-        self._regen()
+        self._uptodate = False
 
     def add_style(self, style: str):
         """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
         self.font_object.add_style(style)
-        self._regen()
+        self._uptodate = False
 
     def remove_style(self, style: str):
         """Remove a style from a font."""
         self.font_object.remove_style(style)
-        self._regen()
+        self._uptodate = False
 
     def _regen(self):
         """(Re)generates the surface of the text."""
@@ -143,6 +140,11 @@ class Text(Component):
         )
         self._surf = Surface._from_surf(surf)
         sdl2.SDL_FreeSurface(surf)
+
+    def update(self):
+        if not self._uptodate:
+            self._regen()
+            self._uptodate = True
 
     def draw(self, camera: Camera):
         self._surf.rotation = self.true_rotation()
