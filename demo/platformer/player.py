@@ -44,7 +44,7 @@ class Player(Component):
             self.handle_key_down(KeyResponse(event.timestamp, "w", "", 0, 0))
 
     def update(self):
-        move_axis = Input.controller_axis(Input.controllers - 1, 0)
+        move_axis = Input.controller_axis(0, 0) if Input.controllers() else 0
         centered = Input.axis_centered(move_axis)
         # check for user directional input
         if Input.key_pressed("a") or (move_axis < 0 and not centered):
@@ -71,7 +71,7 @@ class Player(Component):
                 else:
                     self.animation.set_state("idle", True)
 
-        if Input.key_pressed("r") or Input.controller_button(Input.controllers - 1, 6):
+        if Input.key_pressed("r") or (Input.controller_button(0, 6) if Input.controllers() else False):
             self.gameobj.pos = self.initial_pos.clone()
             self.rigid.stop()
             self.grounded = False
