@@ -154,14 +154,21 @@ class _Engine:
 
             return
 
-        hitbox_a.colliding.add(hitbox_b)
-        hitbox_b.colliding.add(hitbox_a)
+        loc = col._flip()
+
+        if hitbox_b not in hitbox_a.colliding:
+            hitbox_a.colliding.add(hitbox_b)
+            hitbox_a.on_enter(col)
+
+        if hitbox_a not in hitbox_b.colliding:
+            hitbox_b.colliding.add(hitbox_a)
+            hitbox_b.on_enter(loc)
 
         if not (hitbox_a.trigger or hitbox_b.trigger):
             _Engine.resolve(col)
 
         hitbox_a.on_collide(col)
-        hitbox_b.on_collide(col._flip())
+        hitbox_b.on_collide(loc)
 
     @staticmethod
     def _circle_circle_test(circle_a: Circle, circle_b: Circle) -> Optional[Manifold]:
@@ -357,8 +364,6 @@ class Manifold:
         Flips the reference shape in a collision manifold and inverts the normal vector.
 
         Returns:
-            A reference to self.
+            The new manifold
         """
-        self.shape_a, self.shape_b = self.shape_b, self.shape_a
-        self.normal *= -1
-        return self
+        return Manifold(self.shape_b, self.shape_a, self.penetration, -self.normal)
