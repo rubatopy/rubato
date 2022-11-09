@@ -88,10 +88,11 @@ class Game:
         if name in cls._scenes:
             raise IdError(f"A scene with name '{name}' has already been added.")
 
-        if not cls._scenes:
+        cls._scenes[name] = scene
+
+        if cls._scene_id == 0:
             cls.set_scene(name)
 
-        cls._scenes[name] = scene
         cls._scene_id += 1
 
         return name
