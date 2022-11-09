@@ -90,7 +90,7 @@ class Game:
 
         cls._scenes[name] = scene
 
-        if cls._scene_id == 0:
+        if len(cls._scenes) == 1:
             cls.set_scene(name)
 
         cls._scene_id += 1
