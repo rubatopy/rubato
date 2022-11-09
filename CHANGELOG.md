@@ -37,6 +37,8 @@
 
 ### Fixed
 
+-   Adding groups and gameobjects adds them at the end of a frame instead of in the middle of one.
+
 ## [v0.3.5] - November 5, 2022
 
 ### Breaking Changes

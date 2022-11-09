@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from . import GameObject, Hitbox
 from .gameobject.physics.qtree import _QTree
-from .. import Error, Camera
+from .. import Error, Camera, Game
 
 
 class Group:
@@ -31,6 +31,7 @@ class Group:
         """A list of game objects that are children of this group."""
         self.hidden: bool = hidden
         """Whether to hide (not draw) this group's contents."""
+        self._add_queue: list[GameObject | Group] = []
 
     def add(self, *items: GameObject | Group):
         """
@@ -47,16 +48,37 @@ class Group:
             Group: This group.
         """
         for item in items:
+            if not isinstance(item, GameObject | Group):
+                raise ValueError(f"The group {self.name} can only hold game objects/groups.")
             if self.contains(item):
                 raise Error(f"The group {self.name} already contains {item.name}.")
+
+        if Game.state == Game.STOPPED:
+            self._force_add(*items)
+        else:
+            self._add_queue.extend(items)
+
+        return self
+
+    def _dump(self):
+        """
+        Add the add queue.
+        """
+        self._force_add(*self._add_queue)
+        self._add_queue.clear()
+
+        for group in self.groups:
+            group._dump()
+
+    def _force_add(self, *items: GameObject | Group):
+        """
+        Adds the groups/gameobjects without checking the game state.
+        """
+        for item in items:
             if isinstance(item, GameObject):
                 self.add_game_obj(item)
             elif isinstance(item, Group):
                 self.add_group(item)
-            else:
-                raise ValueError(f"The group {self.name} can only hold game objects/groups.")
-
-        return self
 
     def add_group(self, g: Group):
         """Add a group to the group."""
