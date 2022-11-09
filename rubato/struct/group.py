@@ -68,8 +68,9 @@ class Group:
         """
         Add the add queue.
         """
-        self._force_add(*self._add_queue)
-        self._add_queue.clear()
+        if self._add_queue:
+            self._force_add(*self._add_queue)
+            self._add_queue.clear()
 
         for group in self.groups:
             group._dump()
