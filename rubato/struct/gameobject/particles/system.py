@@ -12,9 +12,7 @@ from .... import Vector, Camera, Time, Math, Color, Draw, Surface
 
 @unique
 class ParticleSystemMode(IntEnum):
-    """
-    The mode of the particle system.
-    """
+    """The mode of the particle system."""
     RANDOM = 0
     """The particles are generated randomly."""
     LOOP = 1
