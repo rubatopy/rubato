@@ -36,6 +36,8 @@ class Group:
     def add(self, *items: GameObject | Group):
         """
         Adds an item to the group.
+        Keep in mind that if this is called after the game has begun,
+        the items wont be added until the end of the frame.
 
         Args:
             items: The item(s) you wish to add to the group
