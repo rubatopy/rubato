@@ -48,10 +48,10 @@ portal_animation = rb.Animation(scale=rb.Vector(4, 4), fps=10)
 portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_images.end)
 
 # create the end portal
-portal = rb.GameObject()
-portal.add(portal_animation)
+end = rb.GameObject()
+end.add(portal_animation)
 
-portal.add(
+end.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
@@ -63,3 +63,8 @@ portal.add(
 ##### SIDE BOUDARIES #####
 left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
 right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
+
+##### LEVEL WIN TEXT #####
+win_font = rb.Font(size=128, color=rb.Color.green.darker(75), styles=["bold"])
+win_text = rb.GameObject(z_index=2).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
+win_sub_text = rb.GameObject(pos=(0, -100), z_index=2).add(rb.Text("Click anywhere to move on", black_32))
