@@ -21,6 +21,7 @@ class Text(Component):
         width: The width of the text. Defaults to 0.
         offset: The offset of the text from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the text from the game object. Defaults to 0.
+        af: Whether to use anisotropic filtering. Defaults to True.
         z_index: The z index of the text. Defaults to 0.
         hidden: Whether the text is hidden. Defaults to False.
     """
@@ -34,6 +35,7 @@ class Text(Component):
         width: int = 0,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
+        af: bool = True,
         z_index: int = 0,
         hidden: bool = False,
     ):
@@ -54,10 +56,21 @@ class Text(Component):
         """
         self._justify: Literal["left", "center", "right"] = justify
         self._width: int = width
+        self._af = af
 
         if not self.font_object:
             self.font_object = Font()
 
+        self._uptodate = False
+
+    @property
+    def af(self) -> bool:
+        """Whether to use anisotropic filtering."""
+        return self._af
+
+    @af.setter
+    def af(self, new: bool):
+        self._af = new
         self._uptodate = False
 
     @property
@@ -138,7 +151,7 @@ class Text(Component):
             self._justify,
             self._width,
         )
-        self._surf = Surface._from_surf(surf, af=True)
+        self._surf = Surface._from_surf(surf, af=self._af)
         sdl2.SDL_FreeSurface(surf)
 
     def update(self):
