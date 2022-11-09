@@ -28,6 +28,7 @@
 ### Added
 
 -   Added `Events.JOYSTICKCONNECT` and `Events.JOYSTICKDISCONNECT` events, and appropriate response objects.
+-   Added `scene.on_switch()` overridable method that is called automatically when the scene is switched to.
 
 ### Changed
 
