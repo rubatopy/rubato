@@ -167,6 +167,8 @@ class Game:
                     Time._physics_counter -= Time.fixed_delta
 
             curr._draw()
+
+            curr._dump()
         else:
             Draw.clear()
 

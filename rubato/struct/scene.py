@@ -100,6 +100,10 @@ class Scene:
         """
         return self.ui.remove(item)
 
+    def _dump(self):
+        self.root._dump()
+        self.ui._dump()
+
     def _setup(self):
         self.started = True
         self.setup()
