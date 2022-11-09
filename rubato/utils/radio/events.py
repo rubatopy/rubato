@@ -196,7 +196,7 @@ class JoystickConnectResponse(EventResponse):
 class JoystickDisconnectResponse(EventResponse):
     """A response to a joystick disconnection event"""
     id: int
-    """The id of the joystick that was connected"""
+    """The id of the joystick that was disconnected"""
 
 
 @dataclass(frozen=True)
