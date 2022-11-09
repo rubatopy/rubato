@@ -145,7 +145,9 @@ class PlayerController(Component):
 
     def fixed_update(self):
         c_axis_0 = Input.controller_axis(0, 0) if Input.controllers() else 0
-        c_axis_1 = Input.controller_axis(0, 1) if Input.controllers() else 0
+        c_axis_1 = -Input.controller_axis(0, 1) if Input.controllers() else 0
+        c_axis_0 = 0 if Input.axis_centered(c_axis_0) else c_axis_0
+        c_axis_1 = 0 if Input.axis_centered(c_axis_1) else c_axis_1
         dx = c_axis_0 or \
             (-1 if Input.key_pressed("a") or Input.key_pressed("left") else (1 if Input.key_pressed("d") or Input.key_pressed("right") else 0))
         dy = c_axis_1 or \
