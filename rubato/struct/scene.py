@@ -163,7 +163,13 @@ class Scene:
     def draw(self):
         """
         The draw loop for this scene. It is run once every frame.
-        Is empty by default and can beoverridden.
+        Is empty by default and can be overridden.
+        """
+        pass
+
+    def on_switch(self):
+        """
+        An overridable method that is called whenever this scene is switched to.
         """
         pass
 
