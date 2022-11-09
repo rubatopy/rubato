@@ -13,14 +13,17 @@ rb.init(
 )
 
 from player import Player
+import main_menu
 import level1
+import level2
 
 # Change the global debug level
 # rb.Game.debug = True
 # rb.Game.show_fps = True
 # rb.Game.current().camera.zoom = 1
 
-current_scene = level1
+current_scene = main_menu
+rb.Game.set_scene("main_menu")
 
 ##### PLAYER #####
 
@@ -57,7 +60,7 @@ player.add(
     Player(),
 )
 
-##### PORTAL #####
+##### SHARED LEVEL ITEMS #####
 
 # Create animation for portal
 all_portal_images = rb.Spritesheet(
@@ -79,13 +82,39 @@ portal.add(
         tag="portal",
         width=portal_animation.anim_frame().size_scaled().x,
         height=portal_animation.anim_frame().size_scaled().y,
-        on_collide=lambda col_info: print("You win!") if col_info.shape_b.tag == "player" else None,
+        on_collide=lambda col_info: current_scene.won() if col_info.shape_b.tag == "player" else None,
     )
 )
 
+# Side boundary
+left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
+right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
+
 ##### SCENE SETUP #####
 
-level1.scene.add(player, portal)
+level1.scene.add(left, right, player, portal)
+
+
+def level_switch():
+    right.pos = rb.Display.center_left + rb.Vector(current_scene.level_size + 25, 0)
+    portal.pos = current_scene.portal_location
+
+
+def switch_to_level1():
+    global current_scene
+    current_scene = level1
+    rb.Game.set_scene("level1")
+    level_switch()
+
+
+def switch_to_level2():
+    global current_scene
+    current_scene = level2
+    rb.Game.set_scene("level2")
+    level_switch()
+
+
+main_menu.play_button.get(rb.Button).onclick = switch_to_level1
 
 
 # define a custom fixed update function
