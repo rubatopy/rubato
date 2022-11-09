@@ -23,8 +23,11 @@
 -   Renamed `surface.get_size()` to `surface.size_scaled()` and `surface.get_size_raw()` to `surface.size()`.
 -   Removed `Game.camera`. Good code should use the scene's camera directly or `Game.current().camera`.
 -   Made `Game.current()` a classmethod instead of a property. This is to make it more obvious that it is read-only.
+-   Restructured the Joystick input system to make it easier to work with in more complex settings.
 
 ### Added
+
+-   Added `Events.JOYSTICKCONNECT` and `Events.JOYSTICKDISCONNECT` events, and appropriate response objects.
 
 ### Changed
 

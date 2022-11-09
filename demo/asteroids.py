@@ -115,7 +115,8 @@ class PlayerController(Component):
         self.gameobj.add(BoundsChecker())
 
     def update(self):
-        if Input.controller_button(Input.controllers - 1, 0) or Input.key_pressed("j") or Input.key_pressed("space"):
+        controller_pressed = Input.controllers() and Input.controller_button(0, 0)
+        if controller_pressed or Input.key_pressed("j") or Input.key_pressed("space"):
             self.shoot()
 
     def shoot(self):
@@ -143,9 +144,11 @@ class PlayerController(Component):
             # ^ could also use a class function
 
     def fixed_update(self):
-        dx = Input.controller_axis(Input.controllers - 1, 0) or \
+        c_axis_0 = Input.controller_axis(0, 0) if Input.controllers() else 0
+        c_axis_1 = Input.controller_axis(0, 1) if Input.controllers() else 0
+        dx = c_axis_0 or \
             (-1 if Input.key_pressed("a") or Input.key_pressed("left") else (1 if Input.key_pressed("d") or Input.key_pressed("right") else 0))
-        dy = Input.controller_axis(Input.controllers - 1, 1) or \
+        dy = c_axis_1 or \
             (1 if Input.key_pressed("w") or Input.key_pressed("up") else (-1 if Input.key_pressed("s") or Input.key_pressed("down") else 0))
         target = Vector(dx, dy)
 

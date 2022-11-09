@@ -16,66 +16,15 @@ def test_init():
 @pytest.fixture
 def controller():
     c = Mock(sdl2.SDL_Joystick)
-    Input._controllers.append(c)
+    Input._controllers[0] = c
     yield c
     try:
-        Input._controllers.remove(c)
+        Input._controllers[0] = c
     except ValueError:
         pass
 
 
-def test_update_controllers(controller, monkeypatch: pytest.MonkeyPatch):
-    assert Input.controllers == 1
-
-    # detected controllers is the same as the number of known controllers
-    numjoys = Mock(return_value=1)
-    monkeypatch.setattr(sdl2, "SDL_NumJoysticks", numjoys)
-    Input.update_controllers()
-    numjoys.assert_called_once()
-
-    # detected controllers is greater than the number of known controllers
-    numjoys.reset_mock()
-    joystate = Mock()
-    monkeypatch.setattr(sdl2, "SDL_JoystickEventState", joystate)
-    joyopen = Mock(return_value=controller)
-    monkeypatch.setattr(sdl2, "SDL_JoystickOpen", joyopen)
-    Input._controllers.remove(controller)
-    Input.update_controllers()
-    numjoys.assert_called_once()
-    joystate.assert_called_once_with(sdl2.SDL_ENABLE)
-    joyopen.assert_called_once_with(0)
-    assert Input.controllers == 1
-
-    # detected controllers is less than the number of known controllers
-    numjoys.reset_mock()
-    joyopen.reset_mock()
-    joyclose = Mock()
-    monkeypatch.setattr(sdl2, "SDL_JoystickClose", joyclose)
-    Input._controllers.append(controller)
-    Input.update_controllers()
-    numjoys.assert_called_once()
-    assert joyclose.call_count == 2
-    joyclose.assert_called_with(controller)
-    joyopen.assert_called_once_with(0)
-    assert Input.controllers == 1
-
-    # detected controllers is 0
-    numjoys.reset_mock()
-    numjoys.return_value = 0
-    joyclose.reset_mock()
-    joystate.reset_mock()
-    Input.update_controllers()
-    numjoys.assert_called_once()
-    joyclose.assert_called_once_with(controller)
-    joystate.assert_called_once_with(sdl2.SDL_DISABLE)
-
-
 def test_controller_info(controller, monkeypatch: pytest.MonkeyPatch):
-    assert Input.controller_name(-1) == ""
-    assert Input.controller_axis(-1, 0) == 0
-    assert not Input.controller_button(-1, 0)
-    assert Input.controller_hat(-1, 0) == 0
-
     with pytest.raises(IndexError):
         Input.controller_name(1)
     with pytest.raises(IndexError):

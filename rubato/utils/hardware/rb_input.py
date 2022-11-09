@@ -23,49 +23,21 @@ class Input:
 
     # CONTROLLER METHODS
 
-    _controllers: list[sdl2.SDL_Joystick] = []
+    _controllers: dict[int, sdl2.SDL_Joystick] = {}
     _joystick_max: int = 32768
 
     @classmethod
-    @property
-    def controllers(cls) -> int:
+    def controllers(cls) -> list[int]:
         """
-        The number of controllers currently registered. (get-only)
+        A list of the controllers currently registered.
 
         If non-zero, the controllers are registered from 0 to n-1 where n is the number of controllers.
         This number index is passed to events that are propagated when controllers are inputted to.
 
         Returns:
-            The total number of controllers.
+            A list of the integer indexes of the controllers currently registered.
         """
-        return len(cls._controllers)
-
-    @classmethod
-    def update_controllers(cls) -> None:
-        """
-        Register or deregister controllers as needed. Called automatically.
-        """
-        conts = sdl2.SDL_NumJoysticks()
-        length = len(cls._controllers)
-
-        if conts == length:
-            return
-        elif conts > length:
-            if length == 0:
-                sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
-            for i in range(length, conts):
-                cls._controllers.append(sdl2.SDL_JoystickOpen(i))
-            return
-
-        for i in range(length):
-            sdl2.SDL_JoystickClose(cls._controllers[i])
-
-        cls._controllers = []
-        if conts > 0:
-            for i in range(conts):
-                cls._controllers.append(sdl2.SDL_JoystickOpen(i))
-        else:
-            sdl2.SDL_JoystickEventState(sdl2.SDL_DISABLE)
+        return list(cls._controllers.keys())
 
     @classmethod
     def controller_name(cls, controller: int) -> str:
@@ -76,15 +48,13 @@ class Input:
             index: The index of the controller to get the name of.
 
         Raises:
-            IndexError: If the index is out of range. Note that no error is thrown if controller is negative.
+            IndexError: The controller for the given index is not registered.
 
         Returns:
-            The name of the controller. If controller is less than 0, returns an empty string.
+            The name of the controller.
         """
-        if controller < 0:
-            return ""
-        if controller >= len(cls._controllers):
-            raise IndexError(f"Index {controller} out of range.")
+        if controller not in cls._controllers:
+            raise IndexError(f"Controller {controller} is not registered.")
         return sdl2.SDL_JoystickNameForIndex(controller)
 
     @classmethod
@@ -97,16 +67,13 @@ class Input:
             axis: The index of the joystick axis.
 
         Raises:
-            IndexError: The given controller index is out of range.
-                Note that no error is thrown if controller is negative.
+            IndexError: The controller for the given index is not registered.
 
         Returns:
-            The value of the axis. If controller is less than 0, returns 0.
+            The value of the axis.
         """
-        if controller < 0:
-            return 0
-        if controller >= len(cls._controllers):
-            raise IndexError(f"Index {controller} out of range.")
+        if controller not in cls._controllers:
+            raise IndexError(f"Controller {controller} is not registered.")
         return sdl2.SDL_JoystickGetAxis(cls._controllers[controller], axis) / cls._joystick_max
 
     @classmethod
@@ -125,23 +92,20 @@ class Input:
     @classmethod
     def controller_button(cls, controller: int, button: int) -> bool:
         """
-        Get whether a given button on a controller is pressed.
+        Check whether a given button on a controller is pressed.
 
         Args:
             controller: The index of the controller.
             button: The index of the button.
 
         Raises:
-            IndexError: The given controller index is out of range.
-                Note that no error is thrown if controller is negative.
+            IndexError: The controller for the given index is not registered.
 
         Returns:
-            Whether the button is pressed. If controller is less than 0, returns False.
+            Whether the button is pressed.
         """
-        if controller < 0:
-            return False
-        if controller >= len(cls._controllers):
-            raise IndexError(f"Index {controller} out of range.")
+        if controller not in cls._controllers:
+            raise IndexError(f"Controller {controller} is not registered.")
         return sdl2.SDL_JoystickGetButton(cls._controllers[controller], button) == 1
 
     @classmethod
@@ -154,17 +118,13 @@ class Input:
             hat: The index of the hat.
 
         Raises:
-            IndexError: The given controller index is out of range.
-                Note that no error is thrown if controller is negative.
+            IndexError: The controller for the given index is not registered.
 
         Returns:
             int: The value of the hat, which you can translate with `translate_hat()`.
-                If controller is less than 0, returns 0.
         """
-        if controller < 0:
-            return 0
-        if controller >= len(cls._controllers):
-            raise IndexError(f"Index {controller} out of range.")
+        if controller not in cls._controllers:
+            raise IndexError(f"Controller {controller} is not registered.")
         return sdl2.SDL_JoystickGetHat(cls._controllers[controller], hat)
 
     @classmethod
