@@ -15,13 +15,13 @@
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/2048px-LinkedIn_icon_circle.svg.png" alt="Linkedin Page" width="25"/>](https://www.linkedin.com/company/rubatopy/)
 &nbsp;
 
+### Get started [here](https://rubato.app/).
+
 rubato is a modern 2D engine for game developement in python. Dynamic physics simulations, robust scene management, event listener system and more all come prepackaged. Built in Cython using SDL2, rubato offers great performance without compromising on the intuitive nature of python code. It is currently in the final stages of beta, and a first stable release is planned for Q4 2022.
 
 As of release 0.3.0, the transition to SDL2 and Cython was completed. DLLs and wheels for the household-name platforms come prebundled, making rubato plug-and-play on most machines. This transition has enabled more complex functionality such as antialiasing and hardware acceleration, as well as a backend of C classes to reduce overhead. Older versions of rubato, such as PyGame-based 0.1.2, are now completely deprecated and it is highly recommended for users of those versions to upgrade. If you would like to read more about PySDL2 or need to utilize its underlying functionality in your project, you can read the python wrapper documentation [here](https://pysdl2.readthedocs.io/en/latest/) and the base C++ SDL wiki [here](https://wiki.libsdl.org).
 
 _Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
-
-### Get started [here](https://rubato.app/).
 
 A big thank you to all of our [contributors](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTORS.md) who help make this project possible.
 
