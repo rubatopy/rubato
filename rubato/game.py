@@ -57,7 +57,7 @@ class Game:
         scene = cls._scenes.get(cls._current)
         if scene:
             return scene
-        raise ValueError("The current scene is not set. Make sure to create a scene or switch to it.")
+        raise ValueError("The current scene is invalid or not set. Make sure to create a scene or switch to it.")
 
     @classmethod
     def set_scene(cls, scene_id: str):
@@ -68,6 +68,7 @@ class Game:
             scene_id: The id of the new scene.
         """
         cls._current = scene_id
+        cls.current().on_switch()
 
     @classmethod
     def _add(cls, scene: Scene, name: str | None) -> str:  # test: skip
