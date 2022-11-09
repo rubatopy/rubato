@@ -138,7 +138,7 @@ class Text(Component):
             self._justify,
             self._width,
         )
-        self._surf = Surface._from_surf(surf)
+        self._surf = Surface._from_surf(surf, af=True)
         sdl2.SDL_FreeSurface(surf)
 
     def update(self):

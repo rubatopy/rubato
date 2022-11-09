@@ -59,6 +59,7 @@ class Draw:
             scale=(scale, scale),
             shadow=True,
             shadow_pad=(pad, pad),
+            af=False
         )
 
     @classmethod
@@ -414,6 +415,7 @@ class Draw:
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
         shadow_pad: Vector | tuple[float, float] = (0, 0),
+        af: bool = True,
         z_index: int = 0,
         camera: Camera | None = None
     ):
@@ -430,12 +432,15 @@ class Draw:
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             shadow_pad: What padding to use for the shadow. Defaults to (0, 0).
+            af: Whether to use anisotropic filtering. Defaults to True.
             z_index: Where to draw it in the drawing order. Defaults to 0.
             camera: The camera to use. Defaults to None.
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls._push(z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, camera))
+        cls._push(
+            z_index, lambda: cls.text(text, font, pos, justify, align, width, scale, shadow, shadow_pad, af, camera)
+        )
 
     @classmethod
     def text(
@@ -449,6 +454,7 @@ class Draw:
         scale: Vector | tuple[float, float] = (1, 1),
         shadow: bool = False,
         shadow_pad: Vector | tuple[float, float] = (0, 0),
+        af: bool = True,
         camera: Camera | None = None
     ):
         """
@@ -464,6 +470,7 @@ class Draw:
             scale: The scale of the text. Defaults to (1, 1).
             shadow: Whether to draw a basic shadow box behind the text. Defaults to False.
             shadow_pad: What padding to use for the shadow. Defaults to (0, 0).
+            af: Whether to use anisotropic filtering. Defaults to True.
             camera: The camera to use. Defaults to None.
         """
         shadow_pad = Vector.create(shadow_pad)
@@ -474,7 +481,7 @@ class Draw:
             shadow_pad = camera.zoom * shadow_pad
 
         surf = font._generate(text, justify, width)
-        tx = Surface._from_surf(surf, scale=scale)
+        tx = Surface._from_surf(surf, scale=scale, af=af)
         sdl2.SDL_FreeSurface(surf)
 
         pad_x, pad_y = (shadow_pad / scale).tuple_int()

@@ -30,6 +30,7 @@
 -   Added `Events.JOYSTICKCONNECT` and `Events.JOYSTICKDISCONNECT` events, and appropriate response objects.
 -   Added `scene.on_switch()` overridable method that is called automatically when the scene is switched to.
 -   Added `hitbox.on_enter` callback method for when overlap beings with another hitbox.
+-   Added anisotropic filtering option to `Text` component as well as text drawing methods.
 
 ### Changed
 
