@@ -102,6 +102,8 @@ def init(
 
     Game.debug_font = Font(size=22, font="Mozart", color=Color.debug)
 
+    sdl2.SDL_JoystickEventState(sdl2.SDL_ENABLE)
+
 
 def begin():
     """

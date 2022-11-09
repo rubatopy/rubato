@@ -78,10 +78,6 @@ Button
 ---------
 .. automodule:: rubato.struct.gameobject.ui.button
 
-Slider
----------
-.. automodule:: rubato.struct.gameobject.ui.slider
-
 Animation
 ---------
 .. automodule:: rubato.struct.gameobject.sprites.animation

@@ -180,7 +180,7 @@ main.add(player, ground, left, right, portal, *platforms, *obstacles, *triggers)
 def update():
     global grounded
 
-    move_axis = rb.Input.controller_axis(rb.Input.controllers - 1, 0)
+    move_axis = rb.Input.controller_axis(0, 0) if rb.Input.controllers() else 0
     centered = rb.Input.axis_centered(move_axis)
     # check for user directional input
     if rb.Input.key_pressed("a") or (move_axis < 0 and not centered):
@@ -207,7 +207,7 @@ def update():
             else:
                 p_animation.set_state("idle", True)
 
-    if rb.Input.key_pressed("r") or rb.Input.controller_button(rb.Input.controllers - 1, 6):
+    if rb.Input.key_pressed("r") or (rb.Input.controller_button(0, 6) if rb.Input.controllers() else False):
         player.pos = rb.Display.center_left + rb.Vector(50, 0)
         player.get(rb.RigidBody).stop()
         grounded = False

@@ -59,6 +59,16 @@ class Events(Enum):
     Fired when the mouse is moved.
     Responds with a :func:`MouseMotionResponse <rubato.utils.events.MouseMotionResponse>` object.
     """
+    JOYSTICKCONNECT = "JOYSTICKCONNECT"
+    """
+    Fired when a controller joystick is connected.
+    Responds with a :func:`JoystickConnectResponse <rubato.utils.events.JoystickConnectResponse>` object.
+    """
+    JOYSTICKDISCONNECT = "JOYSTICKDISCONNECT"
+    """
+    Fired when a controller joystick is disconnected.
+    Responds with a :func:`JoystickDisconnectResponse <rubato.utils.events.JoystickDisconnectResponse>` object.
+    """
     JOYAXISMOTION = "JOYAXISMOTION"
     """
     Fired when a controller joystick axis is moved.
@@ -173,6 +183,20 @@ class MouseMotionResponse(EventResponse):
     """The change in y position of the mouse"""
     which: int
     """The mouse that was used"""
+
+
+@dataclass(frozen=True)
+class JoystickConnectResponse(EventResponse):
+    """A response to a joystick connection event"""
+    id: int
+    """The id of the joystick that was connected"""
+
+
+@dataclass(frozen=True)
+class JoystickDisconnectResponse(EventResponse):
+    """A response to a joystick disconnection event"""
+    id: int
+    """The id of the joystick that was disconnected"""
 
 
 @dataclass(frozen=True)

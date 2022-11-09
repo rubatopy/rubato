@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Radio, Events, Font, PrintError, IdError, Draw, InitError, Input
+from . import Time, Display, Radio, Events, Font, PrintError, IdError, Draw, InitError
 
 if TYPE_CHECKING:
     from . import Scene
@@ -142,9 +142,6 @@ class Game:
         # Event handling
         if Radio._handle():
             cls.quit()
-
-        # Register controllers
-        Input.update_controllers()
 
         # process delayed calls
         Time._process_calls()

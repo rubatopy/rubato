@@ -17,7 +17,8 @@ import cython
 
 from .. import Input, Display, InitError, Time
 from .events import Events, KeyResponse, MouseButtonResponse, MouseMotionResponse, MouseWheelResponse, EventResponse, \
-    JoyAxisMotionResponse, JoyButtonResponse, JoyHatMotionResponse, ResizeResponse
+    JoyAxisMotionResponse, JoyButtonResponse, JoyHatMotionResponse, ResizeResponse, JoystickConnectResponse, \
+        JoystickDisconnectResponse
 
 
 # THIS IS A STATIC CLASS
@@ -127,6 +128,21 @@ class Radio:
                             -event.motion.yrel,
                             event.motion.which,
                         )
+                    )
+            elif event.type == sdl2.SDL_JOYDEVICEADDED:
+                Input._controllers[event.jdevice.which] = sdl2.SDL_JoystickOpen(event.jdevice.which)
+                if Events.JOYSTICKCONNECT.value in cls.listeners:
+                    cls.broadcast(
+                        Events.JOYSTICKCONNECT,
+                        JoystickConnectResponse(event.jdevice.timestamp, event.jdevice.which),
+                    )
+            elif event.type == sdl2.SDL_JOYDEVICEREMOVED:
+                sdl2.SDL_JoystickClose(Input._controllers[event.jdevice.which])
+                del Input._controllers[event.jdevice.which]
+                if Events.JOYSTICKDISCONNECT.value in cls.listeners:
+                    cls.broadcast(
+                        Events.JOYSTICKDISCONNECT,
+                        JoystickDisconnectResponse(event.jdevice.timestamp, event.jdevice.which),
                     )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
                 mag: float = event.jaxis.value / Input._joystick_max

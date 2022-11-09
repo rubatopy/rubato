@@ -6,7 +6,6 @@ from rubato.game import Game
 from rubato.struct.scene import Scene
 from rubato.utils.error import Error, InitError, IdError, PrintError
 from rubato.utils.hardware.display import Display
-from rubato.utils.hardware.rb_input import Input
 from rubato.utils.radio import Radio
 from rubato.utils.rb_time import Time
 from rubato.utils.rendering.draw import Draw
@@ -82,8 +81,6 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     monkeypatch.setattr(Radio, "_handle", handle)
     quit_func = Mock()
     monkeypatch.setattr(Game, "quit", quit_func)
-    update_controller = Mock()
-    monkeypatch.setattr(Input, "update_controllers", update_controller)
     process = Mock()
     monkeypatch.setattr(Time, "_process_calls", process)
 
@@ -141,8 +138,6 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     handle.assert_called()
     assert handle.call_count == 4
     quit_func.assert_called_once()
-    update_controller.assert_called()
-    assert update_controller.call_count == 4
     process.assert_called()
     assert process.call_count == 4
     assert run_count == 4
