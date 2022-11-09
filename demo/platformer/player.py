@@ -1,6 +1,6 @@
 from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, JoyButtonResponse \
     , Input, Math, Display, Game, Time
-
+from moving_platform import MovingPlatform
 from data_scene import DataScene
 
 
@@ -26,18 +26,26 @@ class Player(Component):
         Radio.listen(Events.JOYBUTTONDOWN, self.handle_controller_button)
 
     def ground_detect(self, col_info: Manifold):
-        if col_info.shape_b.tag == "ground" and not self.grounded and self.rigid.velocity.y >= 0:
-            self.grounded = True
-            self.jumps = 2
-            self.animation.set_state("idle", True)
+        if "ground" in col_info.shape_b.tag and self.rigid.velocity.y >= 0:
+            if not self.grounded:
+                self.grounded = True
+                self.jumps = 2
+                self.animation.set_state("idle", True)
+            if col_info.shape_b.tag == "moving_ground":
+                mpc = col_info.shape_b.gameobj.get(MovingPlatform)
+                cur_vel = self.gameobj.get(RigidBody).velocity
+                new_vel = mpc.direction_vect * mpc.speed
+                if mpc.pause_counter <= 0:
+                    self.gameobj.get(RigidBody).velocity = new_vel
 
     def handle_key_down(self, event: KeyResponse):
         if event.key == "w" and self.jumps > 0:
             self.grounded = False
-            self.rigid.velocity.y = 800
             if self.jumps == 2:
+                self.rigid.velocity.y += 800
                 self.animation.set_state("jump", freeze=2)
             elif self.jumps == 1:
+                self.rigid.velocity.y = 800
                 self.animation.set_state("somer", True)
             self.jumps -= 1
 
@@ -66,9 +74,11 @@ class Player(Component):
                 else:
                     self.animation.set_state("run", True)
         else:
-            self.rigid.velocity.x = 0
+            self.rigid.friction = 0
             if self.grounded:
+                self.rigid.friction = 1
                 if Input.key_pressed("shift") or Input.key_pressed("s"):
+                    self.rigid.velocity.x = 0
                     self.animation.set_state("crouch", True)
                 else:
                     self.animation.set_state("idle", True)
