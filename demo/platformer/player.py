@@ -1,5 +1,7 @@
 from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, JoyButtonResponse \
-    , Input
+    , Input, Math, Display, Game, Time
+
+from data_scene import DataScene
 
 
 class Player(Component):
@@ -15,7 +17,7 @@ class Player(Component):
 
         rects = self.gameobj.get_all(Rectangle)
         self.ground_detector: Rectangle = [r for r in rects if r.tag == "player_ground_detector"][0]
-        self.ground_detector.on_collide = self.ground_dectect
+        self.ground_detector.on_collide = self.ground_detect
 
         self.grounded = False  # tracks the ground state
         self.jumps = 0  # tracks the number of jumps the player has left
@@ -23,7 +25,7 @@ class Player(Component):
         Radio.listen(Events.KEYDOWN, self.handle_key_down)
         Radio.listen(Events.JOYBUTTONDOWN, self.handle_controller_button)
 
-    def ground_dectect(self, col_info: Manifold):
+    def ground_detect(self, col_info: Manifold):
         if col_info.shape_b.tag == "ground" and not self.grounded and self.rigid.velocity.y >= 0:
             self.grounded = True
             self.jumps = 2
@@ -75,3 +77,13 @@ class Player(Component):
             self.gameobj.pos = self.initial_pos.clone()
             self.rigid.stop()
             self.grounded = False
+
+    # define a custom fixed update function
+    def fixed_update(self):
+        # have the camera follow the player
+        current_scene = Game.current()
+        if isinstance(current_scene, DataScene):
+            camera_ideal = Math.clamp(
+                self.gameobj.pos.x + Display.res.x / 4, Display.center.x, current_scene.level_size - Display.res.x
+            )
+            current_scene.camera.pos.x = Math.lerp(current_scene.camera.pos.x, camera_ideal, Time.fixed_delta / 0.4)

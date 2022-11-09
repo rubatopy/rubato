@@ -1,9 +1,5 @@
-from rubato import Scene, Color, Text, wrap, Font, GameObject, Button, Raster, Time, RecurrentTask, Vector
+from rubato import Scene, Color, Text, wrap, Font, GameObject, Button, Raster, Time, RecurrentTask, Vector, Game
 import shared
-
-portal_location = Vector(0, 0)
-level_size = 0
-won = lambda: None
 
 scene = Scene("main_menu", background_color=Color.white)
 
@@ -47,6 +43,7 @@ play_button = GameObject(pos=(0, -75)).add(
         100,
         onhover=lambda: Time.recurrent_call(increase_font_size, 3),
         onexit=lambda: Time.recurrent_call(decrease_font_size, 3),
+        onclick=lambda: Game.set_scene("level1"),
     ),
     Raster(300, 100),
     Text("PLAY", shared.black_32),
