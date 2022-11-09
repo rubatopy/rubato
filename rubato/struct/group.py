@@ -52,6 +52,8 @@ class Group:
         for item in items:
             if not isinstance(item, GameObject | Group):
                 raise ValueError(f"The group {self.name} can only hold game objects/groups.")
+            if self == item:
+                raise Error("Cannot add a group to itself.")
             if self.contains(item):
                 raise Error(f"The group {self.name} already contains {item.name}.")
 
@@ -78,23 +80,13 @@ class Group:
         """
         for item in items:
             if isinstance(item, GameObject):
-                self.add_game_obj(item)
+                if item.name == "":
+                    item.name = f"Game Object {len(self.game_objects)}"
+                self.game_objects.append(item)
             elif isinstance(item, Group):
-                self.add_group(item)
-
-    def add_group(self, g: Group):
-        """Add a group to the group."""
-        if self == g:
-            raise Error("Cannot add a group to itself.")
-        if g.name == "":
-            g.name = f"Group {len(self.groups)}"
-        self.groups.append(g)
-
-    def add_game_obj(self, g: GameObject):
-        """Add a game object to the group"""
-        if g.name == "":
-            g.name = f"Game Object {len(self.game_objects)}"
-        self.game_objects.append(g)
+                if item.name == "":
+                    item.name = f"Group {len(self.groups)}"
+                self.groups.append(item)
 
     def remove(self, item: GameObject | Group) -> bool:
         """

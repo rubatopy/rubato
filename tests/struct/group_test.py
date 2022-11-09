@@ -33,10 +33,12 @@ def test_init(group):
 def test_add(monkeypatch, group, go):
     monkeypatch.setattr("rubato.game.Game.state", 1)
     group.add(go)
+    group._dump()
     assert go in group.game_objects
 
     g = Group()
     group.add(g)
+    group._dump()
     assert g in group.groups
 
     with pytest.raises(Error):

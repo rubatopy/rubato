@@ -24,6 +24,7 @@
 -   Removed `Game.camera`. Good code should use the scene's camera directly or `Game.current().camera`.
 -   Made `Game.current()` a classmethod instead of a property. This is to make it more obvious that it is read-only.
 -   Restructured the Joystick input system to make it easier to work with in more complex settings.
+-   Removed `group.add_gameobject()` and `group.add_group()`. Use `group.add()` instead.
 
 ### Added
 
