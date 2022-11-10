@@ -4,7 +4,7 @@ from moving_platform import MovingPlatform
 from data_scene import DataScene
 
 
-class Player(Component):
+class PlayerController(Component):
 
     def __init__(self):
         super().__init__()
@@ -18,6 +18,7 @@ class Player(Component):
         rects = self.gameobj.get_all(Rectangle)
         self.ground_detector: Rectangle = [r for r in rects if r.tag == "player_ground_detector"][0]
         self.ground_detector.on_collide = self.ground_detect
+        self.ground_detector.on_exit = self.ground_exit
 
         self.grounded = False  # tracks the ground state
         self.jumps = 0  # tracks the number of jumps the player has left
@@ -36,6 +37,11 @@ class Player(Component):
                 new_vel = mpc.direction_vect * mpc.speed
                 if mpc.pause_counter <= 0:
                     self.gameobj.get(RigidBody).velocity = new_vel
+
+    def ground_exit(self, col_info: Manifold):
+        if "ground" in col_info.shape_b.tag:
+            self.grounded = False
+            self.jumps = 1
 
     def handle_key_down(self, event: KeyResponse):
         if event.key == "w" and self.jumps > 0:
