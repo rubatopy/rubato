@@ -1,5 +1,5 @@
 import rubato as rb
-from player import Player
+from player_controller import PlayerController
 
 black_32 = rb.Font(size=32)
 
@@ -32,7 +32,7 @@ player.add(
     # add a rigidbody to the player
     rb.RigidBody(gravity=rb.Vector(y=rb.Display.res.y * -1.5), pos_correction=1, friction=1),
     # add custom player component
-    player_comp := Player(),
+    player_comp := PlayerController(),
 )
 
 ##### PORTAL #####
