@@ -33,7 +33,6 @@ class Player(Component):
                 self.animation.set_state("idle", True)
             if col_info.shape_b.tag == "moving_ground":
                 mpc = col_info.shape_b.gameobj.get(MovingPlatform)
-                cur_vel = self.gameobj.get(RigidBody).velocity
                 new_vel = mpc.direction_vect * mpc.speed
                 if mpc.pause_counter <= 0:
                     self.gameobj.get(RigidBody).velocity = new_vel
@@ -74,14 +73,14 @@ class Player(Component):
                 else:
                     self.animation.set_state("run", True)
         else:
-            self.rigid.friction = 0
             if self.grounded:
-                self.rigid.friction = 1
                 if Input.key_pressed("shift") or Input.key_pressed("s"):
                     self.rigid.velocity.x = 0
                     self.animation.set_state("crouch", True)
                 else:
                     self.animation.set_state("idle", True)
+            else:
+                self.rigid.velocity.x = 0
 
         if Input.key_pressed("r") or (Input.controller_button(0, 6) if Input.controllers() else False):
             self.gameobj.pos = self.initial_pos.clone()
