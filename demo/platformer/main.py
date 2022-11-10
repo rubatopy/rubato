@@ -21,7 +21,7 @@ import level2
 # rb.Game.show_fps = True
 # rb.Game.current().camera.zoom = 1
 
-rb.Game.set_scene("level2")
+rb.Game.set_scene("main_menu")
 
 ##### SCENE SETUP #####
 
