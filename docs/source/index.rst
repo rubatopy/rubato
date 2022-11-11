@@ -20,3 +20,4 @@
 
     tutorials/platformer/index
     tutorials/advanced/*
+    tutorials/usage_guidelines
