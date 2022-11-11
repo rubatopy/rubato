@@ -82,20 +82,3 @@ rb.begin()
 # python, rubato
 # list of enemy game objects
 # enemies = [generate_enemy() for _ in range(10)]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
