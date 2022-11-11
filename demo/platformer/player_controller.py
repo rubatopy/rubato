@@ -81,7 +81,6 @@ class PlayerController(Component):
         else:
             if self.grounded:
                 if Input.key_pressed("shift") or Input.key_pressed("s"):
-                    self.rigid.velocity.x = 0
                     self.animation.set_state("crouch", True)
                 else:
                     self.animation.set_state("idle", True)

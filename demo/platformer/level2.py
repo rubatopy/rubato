@@ -1,4 +1,4 @@
-from rubato import Display, Vector, Color, Rectangle, wrap, GameObject, Radio, Events, Game
+from rubato import Display, Vector, Color, Rectangle, wrap, GameObject, Radio, Events, Game, Raster
 from data_scene import DataScene
 from moving_platform import MovingPlatform
 import shared
@@ -25,6 +25,8 @@ for p in platforms:
         p.get(Rectangle).tag = "ground"
     p.get(Rectangle).color = Color.blue.darker(20)
 
+shared.cloud_generator(scene, 20)
+
 has_won = False
 
 
@@ -37,7 +39,7 @@ def won():
 
 
 def go_to_next():
-    # Game.set_scene("end") # TODO add end scene
+    Game.set_scene("end")
     click_listener.remove()
 
 

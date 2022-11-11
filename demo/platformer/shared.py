@@ -1,5 +1,7 @@
 import rubato as rb
+from data_scene import DataScene
 from player_controller import PlayerController
+from random import randint
 
 black_32 = rb.Font(size=32)
 
@@ -68,3 +70,27 @@ right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 win_font = rb.Font(size=128, color=rb.Color.green.darker(75), styles=["bold"])
 win_text = rb.GameObject(z_index=2).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
 win_sub_text = rb.GameObject(pos=(0, -100), z_index=2).add(rb.Text("Click anywhere to move on", black_32))
+
+##### CLOUD #####
+cloud_template = rb.GameObject().add(cloud_r := rb.Raster(300, 200))
+cloud_r.draw_circle((-75, -25), 49, fill=rb.Color.white)
+cloud_r.draw_circle((0, -25), 49, fill=rb.Color.white)
+cloud_r.draw_circle((75, -25), 49, fill=rb.Color.white)
+cloud_r.draw_circle((-37, 25), 49, fill=rb.Color.white)
+cloud_r.draw_circle((37, 25), 49, fill=rb.Color.white)
+
+
+def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
+    half_width = int(rb.Display.res.x / 2)
+    half_height = int(rb.Display.res.y / 2)
+
+    for _ in range(num_clouds):
+        rand_pos = rb.Vector(
+            randint(-half_width, scene.level_size - half_width),
+            randint(0 if top_only else -half_height, half_height),
+        )
+
+        cloud = cloud_template.clone()
+        cloud.pos = rand_pos
+
+        scene.add(cloud)

@@ -78,4 +78,7 @@ def switch():
 
 
 scene.on_switch = switch
+
+shared.cloud_generator(scene, 10, True)
+
 scene.add(ground, wrap(platforms), *pillars, shared.player, shared.left, shared.right, shared.end)
