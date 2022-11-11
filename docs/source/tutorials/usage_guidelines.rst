@@ -9,6 +9,6 @@ Rubato was designed for a very specific flow, we recommend you follow it to get 
 
 How to make a custom component:
 link to custom component tutorial
-:ref:`Go here <key-names.rst>`
+:doc:`Go here <../key-names>`
 
 
