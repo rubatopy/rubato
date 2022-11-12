@@ -13,8 +13,9 @@ platforms = [
     GameObject(pos=Vector(-735, -50)).add(Rectangle(150, 40), MovingPlatform(100, "r", 400, 2)),
     GameObject(pos=Vector(-185, -450)).add(Rectangle(150, 40), MovingPlatform(150, "u", 980, 0)),
     GameObject(pos=Vector(0, 300)).add(Rectangle(150, 40), MovingPlatform(200, "r", 500, 0)),
-    GameObject(pos=Vector(800, 0)).add(Rectangle(150, 40), MovingPlatform(100, "r", 500, 1)),
+    GameObject(pos=Vector(1300, 0)).add(Rectangle(150, 40), MovingPlatform(100, "l", 500, 1)),
     GameObject(pos=Vector(1700, -400)).add(Rectangle(150, 40), MovingPlatform(1000, "u", 400, 0)),
+    GameObject(pos=Vector(2215, 100)).add(Rectangle(150, 40)),
     GameObject(pos=Vector(2730, -84)).add(Rectangle(300, 40)),
 ]
 
@@ -34,12 +35,12 @@ def won():
     global click_listener, has_won
     if not has_won:
         has_won = True
-        click_listener = Radio.listen(Events.MOUSEDOWN, go_to_next)
+        click_listener = Radio.listen(Events.MOUSEUP, go_to_next)
         scene.add_ui(shared.win_text, shared.win_sub_text)
 
 
 def go_to_next():
-    Game.set_scene("end")
+    Game.set_scene("end_menu")
     click_listener.remove()
 
 

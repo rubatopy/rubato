@@ -15,7 +15,7 @@ rb.init(
 import main_menu
 import level1
 import level2
-import end
+import end_menu
 
 # Change the global debug level
 # rb.Game.debug = True

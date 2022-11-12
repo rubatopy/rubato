@@ -76,29 +76,29 @@ class Scene:
         """
         self.ui.add(*items)
 
-    def remove(self, item: GameObject | Group) -> bool:
+    def remove(self, *items: GameObject | Group) -> bool:
         """
         Removes an item from the root group.
 
         Args:
-            item: The item to remove.
+            items: The items to remove.
 
         Returns:
             Whether it was removed successfully.
         """
-        return self.root.remove(item)
+        return self.root.remove(*items)
 
-    def remove_ui(self, item: GameObject) -> bool:
+    def remove_ui(self, *items: GameObject) -> bool:
         """
         Removes an item from the ui group.
 
         Args:
-            item: The item to remove.
+            items: The items to remove.
 
         Returns:
             Whether it was removed successfully.
         """
-        return self.ui.remove(item)
+        return self.ui.remove(*items)
 
     def _dump(self):
         self.root._dump()

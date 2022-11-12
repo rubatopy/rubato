@@ -1,4 +1,4 @@
-from rubato import Component, Time, Vector
+from rubato import Component, Time, Vector, Rectangle, Manifold
 
 
 class MovingPlatform(Component):
@@ -21,6 +21,12 @@ class MovingPlatform(Component):
 
     def setup(self):
         self.initial_pos = self.gameobj.pos.clone()
+        self.hitbox = self.gameobj.get(Rectangle)
+        self.hitbox.on_collide = self.collision_detect
+
+    def collision_detect(self, col_info: Manifold):
+        if col_info.shape_b.tag == "player" and self.pause_counter <= 0:
+            col_info.shape_b.gameobj.pos.x += self.direction_vect.x * self.speed * Time.fixed_delta
 
     def fixed_update(self):
         if self.pause_counter > 0:

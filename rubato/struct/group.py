@@ -89,24 +89,25 @@ class Group:
                     item.name = f"Group {len(self.groups)}"
                 self.groups.append(item)
 
-    def remove(self, item: GameObject | Group) -> bool:
+    def remove(self, *items: GameObject | Group) -> bool:
         """
         Remove an item shallowly from the group.
 
         Args:
-            item: The group or gameobject to remove.
+            items: The groups or gameobjects to remove.
 
         Returns:
             Whether it was removed successfully.
         """
         success = True
-        try:
-            if isinstance(item, GameObject):
-                self.game_objects.remove(item)
-            elif isinstance(item, Group):
-                self.groups.remove(item)
-        except ValueError:
-            success = False
+        for item in items:
+            try:
+                if isinstance(item, GameObject):
+                    self.game_objects.remove(item)
+                elif isinstance(item, Group):
+                    self.groups.remove(item)
+            except ValueError:
+                success = False
         return success
 
     def _update(self):

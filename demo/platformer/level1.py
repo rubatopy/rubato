@@ -60,7 +60,7 @@ def won():
     global click_listener, has_won
     if not has_won:
         has_won = True
-        click_listener = Radio.listen(Events.MOUSEDOWN, go_to_next)
+        click_listener = Radio.listen(Events.MOUSEUP, go_to_next)
         scene.add_ui(shared.win_text, shared.win_sub_text)
 
 
@@ -75,6 +75,8 @@ def switch():
     shared.right.pos = Display.center_left + Vector(scene.level_size + 25, 0)
     shared.end.pos = end_location
     shared.end.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
+    scene.remove_ui(shared.win_text, shared.win_sub_text)
+    shared.start_time = Time.now()
 
 
 scene.on_switch = switch

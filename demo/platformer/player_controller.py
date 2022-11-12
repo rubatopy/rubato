@@ -1,13 +1,9 @@
 from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, JoyButtonResponse \
-    , Input, Math, Display, Game, Time
-from moving_platform import MovingPlatform
+    , Input, Math, Display, Game, Time, Vector
 from data_scene import DataScene
 
 
 class PlayerController(Component):
-
-    def __init__(self):
-        super().__init__()
 
     def setup(self):
         self.initial_pos = self.gameobj.pos.clone()
@@ -32,22 +28,15 @@ class PlayerController(Component):
                 self.grounded = True
                 self.jumps = 2
                 self.animation.set_state("idle", True)
-            if col_info.shape_b.tag == "moving_ground":
-                mpc = col_info.shape_b.gameobj.get(MovingPlatform)
-                new_vel = mpc.direction_vect * mpc.speed
-                if mpc.pause_counter <= 0:
-                    self.gameobj.get(RigidBody).velocity = new_vel
 
     def ground_exit(self, col_info: Manifold):
         if "ground" in col_info.shape_b.tag:
             self.grounded = False
-            self.jumps = 1
 
     def handle_key_down(self, event: KeyResponse):
         if event.key == "w" and self.jumps > 0:
-            self.grounded = False
             if self.jumps == 2:
-                self.rigid.velocity.y += 800
+                self.rigid.velocity.y = 800
                 self.animation.set_state("jump", freeze=2)
             elif self.jumps == 1:
                 self.rigid.velocity.y = 800

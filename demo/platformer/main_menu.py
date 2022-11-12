@@ -37,17 +37,13 @@ def decrease_font_size(task: RecurrentTask):
         font_changing = task
 
 
-play_button = GameObject(pos=(0, -75)).add(
-    Button(
-        300,
-        100,
-        onhover=lambda: Time.recurrent_call(increase_font_size, 3),
-        onexit=lambda: Time.recurrent_call(decrease_font_size, 3),
-        onclick=lambda: Game.set_scene("level1"),
-    ),
-    Raster(300, 100),
-    Text("PLAY", shared.black_32),
+play_button = shared.smooth_button_generator(
+    (0, -75),
+    300,
+    100,
+    "PLAY",
+    lambda: Game.set_scene("end_menu"),
+    Color.gray.lighter(100),
 )
-play_button.get(Raster).fill(Color.gray.lighter(100))
 
 scene.add_ui(wrap(title, pos=(0, 75)), play_button)

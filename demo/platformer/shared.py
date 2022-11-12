@@ -4,6 +4,7 @@ from player_controller import PlayerController
 from random import randint
 
 black_32 = rb.Font(size=32)
+start_time = 0
 
 ##### PLAYER #####
 
@@ -94,3 +95,46 @@ def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
         cloud.pos = rand_pos
 
         scene.add(cloud)
+
+
+##### NICE BUTTON #####
+def smooth_button_generator(pos, w, h, text, onrelease, color):
+    t = rb.Text(text, black_32.clone())
+    r = rb.Raster(w, h, z_index=-1)
+    r.fill(color)
+
+    b = rb.Button(
+        w,
+        h,
+        onhover=lambda: rb.Time.recurrent_call(increase_font_size, 3),
+        onexit=lambda: rb.Time.recurrent_call(decrease_font_size, 3),
+        onrelease=onrelease,
+    )
+
+    font_changing: rb.RecurrentTask | None = None
+
+    def increase_font_size(task: rb.RecurrentTask):
+        nonlocal font_changing
+        if font_changing is not None and font_changing != task:
+            font_changing.stop()
+        t.font_size += 1
+        if t.font_size >= 64:
+            task.stop()
+            font_changing = None
+            t.font_size = 64
+        else:
+            font_changing = task
+
+    def decrease_font_size(task: rb.RecurrentTask):
+        nonlocal font_changing
+        if font_changing is not None and font_changing != task:
+            font_changing.stop()
+        t.font_size -= 1
+        if t.font_size <= 32:
+            task.stop()
+            font_changing = None
+            t.font_size = 32
+        else:
+            font_changing = task
+
+    return rb.GameObject(pos=pos).add(b, t, r)

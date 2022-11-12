@@ -319,7 +319,7 @@ class Display(metaclass=_DisplayProperties):
             raise ValueError("Invalid extension. Only png, jpg, bmp are supported.")
 
         render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
-            0, cls.window_size.x, cls.window_size.y, 32, sdl2.SDL_PIXELFORMAT_ARGB8888
+            0, round(cls.window_size.x), round(cls.window_size.y), 32, sdl2.SDL_PIXELFORMAT_ARGB8888
         )
         if not render_surface:
             raise RuntimeError(f"Could not create surface: {sdl2.SDL_GetError()}")
