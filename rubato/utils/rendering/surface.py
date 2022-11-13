@@ -1,7 +1,8 @@
 """An abstraction for a grid of pixels that can be drawn onto."""
 from __future__ import annotations
 from typing import Optional
-import sdl2, sdl2.ext, ctypes
+import sdl2, sdl2.ext, sdl2.sdlimage, ctypes
+import os
 
 from ...c_src import c_draw
 from .. import Vector, Color, Display, get_path
@@ -130,7 +131,7 @@ class Surface:
     def _regen(self):
         """Updates the texture."""
         if self._color_key is not None:
-            c_draw.colokey_copy(self._pixels, self._pixels_colorkey, self._width, self._height, self._color_key)
+            c_draw.colorkey_copy(self._pixels, self._pixels_colorkey, self._width, self._height, self._color_key)
 
         sdl2.SDL_UpdateTexture(
             self._tx, None, self._pixels if self._color_key is None else self._pixels_colorkey, self.width * 4
@@ -410,6 +411,71 @@ class Surface:
         y = ctypes.c_uint8()
         sdl2.SDL_GetTextureAlphaMod(self._tx, ctypes.byref(y))
         return y.value
+
+    def save_as(
+        self,
+        filename: str,
+        path: str = "./",
+        extension: str = "png",
+        save_to_temp_path: bool = False,
+        quality: int = 100,
+    ) -> bool:
+        """
+        Save the surface to a file.
+
+        Args:
+            filename: The name of the file to save to.
+            path: Path to output folder.
+            extension: The extension to save the file as. (png, jpg, bmp supported)
+            save_to_temp_path: Whether to save the file to a temporary path (i.e. MEIPASS used in exe).
+            quality: The quality of the jpg 0-100 (only used for jpgs).
+
+        Returns:
+            If save was successful.
+        """
+        if extension not in ["png", "jpg", "bmp"]:
+            raise ValueError("Invalid extension. Only png, jpg, bmp are supported.")
+
+        render_surface = self._as_surf()
+
+        path_bytes: bytes = path.encode("utf-8")
+        if save_to_temp_path:
+            path_bytes = bytes(get_path(os.path.join(path, filename, filename + "." + extension)), "utf-8")
+        else:
+            path_bytes = bytes(os.path.join(path, filename + "." + extension), "utf-8")
+
+        succeeded = False
+        if extension == "png":
+            succeeded = sdl2.sdlimage.IMG_SavePNG(render_surface, path_bytes) == 0
+        elif extension == "jpg":
+            succeeded = sdl2.sdlimage.IMG_SaveJPG(render_surface, path_bytes, quality) == 0
+        else:
+            succeeded = sdl2.SDL_SaveBMP(render_surface, path_bytes) == 0
+
+        sdl2.SDL_FreeSurface(render_surface)
+        return succeeded
+
+    def _as_surf(self) -> sdl2.SDL_Surface:
+        """
+        Converts the underlying texture to a SDL_Surface.
+
+        Returns:
+            The SDL_Surface.
+        """
+        if not self.uptodate:
+            self._regen()
+
+        surf = sdl2.SDL_CreateRGBSurfaceWithFormatFrom(
+            self._pixels if self._pixels_colorkey == 0 else self._pixels_colorkey,
+            self._width,
+            self._height,
+            32,
+            self._width * 4,
+            Display.pixel_format,
+        )
+        sdl2.SDL_SetSurfaceAlphaMod(surf, self.get_alpha())
+
+        return surf
 
     @classmethod
     def from_file(

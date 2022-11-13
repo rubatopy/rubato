@@ -32,6 +32,8 @@ def handler(m_event):
         e = extra.clone()
         e.pos = V(m_event["x"], m_event["y"])
         s.add(e)
+    elif m_event["button"] == 3:
+        rect._image.save_as("save_test", "test", "jpg", quality=90)
 
 
 rb.Radio.listen(rb.Events.MOUSEDOWN, handler)

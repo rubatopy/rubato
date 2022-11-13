@@ -20,7 +20,7 @@ def free_pixel_buffer(buffer: int):
     cdraw.freePixelBuffer(buffer)
 
 
-def colokey_copy(src: int, dst: int, width: int, height: int, colorkey: int):
+def colorkey_copy(src: int, dst: int, width: int, height: int, colorkey: int):
     cdraw.colorkeyCopy(src, dst, width, height, colorkey)
 
 

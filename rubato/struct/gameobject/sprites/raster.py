@@ -270,6 +270,29 @@ class Raster(Component):
         """
         return self.surf.get_alpha()
 
+    def save_as(
+        self,
+        filename: str,
+        path: str = "./",
+        extension: str = "png",
+        save_to_temp_path: bool = False,
+        quality: int = 100,
+    ) -> bool:
+        """
+        Save the raster to a file.
+
+        Args:
+            filename: The name of the file to save to.
+            path: Path to output folder.
+            extension: The extension to save the file as. (png, jpg, bmp supported)
+            save_to_temp_path: Whether to save the file to a temporary path (i.e. MEIPASS used in exe).
+            quality: The quality of the jpg 0-100 (only used for jpgs).
+
+        Returns:
+            If save was successful.
+        """
+        return self.surf.save_as(filename, path, extension, save_to_temp_path, quality)
+
     def clone(self) -> Raster:
         """
         Clones the current raster.

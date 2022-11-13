@@ -28,6 +28,7 @@
 ### Added
 
 -   Added `Events.JOYSTICKCONNECT` and `Events.JOYSTICKDISCONNECT` events, and appropriate response objects.
+-   Added `surface.save_as()` and `raster.save_as()` methods to save a surface or raster to a file.
 
 ### Changed
 
