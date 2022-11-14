@@ -41,25 +41,25 @@ player.add(
 ##### PORTAL #####
 
 # Create animation for portal
-all_portal_images = rb.Spritesheet(
-    path="files/portals/portal1_spritesheet.png",
+flag_sheet = rb.Spritesheet(
+    path="files/flag.png",
     sprite_size=rb.Vector(32, 32),
-    grid_size=rb.Vector(8, 1),
+    grid_size=rb.Vector(6, 1),
 )
 
-portal_animation = rb.Animation(scale=rb.Vector(4, 4), fps=10)
-portal_animation.add_spritesheet("", all_portal_images, to_coord=all_portal_images.end)
+flag_animation = rb.Animation(scale=rb.Vector(4, 4), fps=6)
+flag_animation.add_spritesheet("", flag_sheet, to_coord=flag_sheet.end)
 
 # create the end portal
-end = rb.GameObject()
-end.add(portal_animation)
+flag = rb.GameObject()
+flag.add(flag_animation)
 
-end.add(
+flag.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
-        width=portal_animation.anim_frame().size_scaled().x,
-        height=portal_animation.anim_frame().size_scaled().y,
+        width=flag_animation.anim_frame().size_scaled().x,
+        height=flag_animation.anim_frame().size_scaled().y,
     )
 )
 

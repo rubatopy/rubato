@@ -74,8 +74,8 @@ def switch():
     shared.player.pos = Display.bottom_left + Vector(50, 50)
     shared.player_comp.initial_pos = shared.player.pos.clone()
     shared.right.pos = Display.center_left + Vector(scene.level_size + 25, 0)
-    shared.end.pos = end_location
-    shared.end.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
+    shared.flag.pos = end_location
+    shared.flag.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
     scene.remove_ui(shared.win_text, shared.win_sub_text)
     has_won = False
     shared.start_time = Time.now()
@@ -85,4 +85,4 @@ scene.on_switch = switch
 
 shared.cloud_generator(scene, 10, True)
 
-scene.add(ground, wrap(platforms), *pillars, shared.player, shared.left, shared.right, shared.end)
+scene.add(ground, wrap(platforms), *pillars, shared.player, shared.left, shared.right, shared.flag)
