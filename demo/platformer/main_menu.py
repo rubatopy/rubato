@@ -42,7 +42,7 @@ play_button = shared.smooth_button_generator(
     300,
     100,
     "PLAY",
-    lambda: Game.set_scene("end_menu"),
+    lambda: Game.set_scene("level1"),
     Color.gray.lighter(100),
 )
 

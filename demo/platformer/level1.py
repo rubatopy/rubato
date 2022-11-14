@@ -70,12 +70,14 @@ def go_to_next():
 
 
 def switch():
+    global has_won
     shared.player.pos = Display.bottom_left + Vector(50, 50)
     shared.player_comp.initial_pos = shared.player.pos.clone()
     shared.right.pos = Display.center_left + Vector(scene.level_size + 25, 0)
     shared.end.pos = end_location
     shared.end.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
     scene.remove_ui(shared.win_text, shared.win_sub_text)
+    has_won = False
     shared.start_time = Time.now()
 
 
