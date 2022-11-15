@@ -94,6 +94,6 @@ def moveDown():
 
 Game.draw = draw_scene
 
-Time.schedule(RecurrentTask(moveDown, 1000, 1000))
+Time.schedule(RecurrentTask(moveDown, 1, 1))
 
 begin()

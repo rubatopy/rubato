@@ -18,6 +18,6 @@ def draw():
 
 rb.Game.draw = draw
 
-rb.Time.recurrent_call(lambda: print(rb.Draw._cache_size()), 1000)
+rb.Time.recurrent_call(lambda: print(rb.Draw._cache_size()), 1)
 
 rb.begin()

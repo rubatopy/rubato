@@ -31,7 +31,7 @@ class Timer(Component):
         main.remove(self.gameobj)
 
     def setup(self):
-        Time.delayed_call(self.remove, Time.sec_to_milli(self.secs))
+        Time.delayed_call(self.remove, self.secs)
 
 
 # explosion particle
@@ -100,7 +100,7 @@ def make_asteroid():
     )
 
 
-Time.schedule(RecurrentTask(make_asteroid, 1000, 1000))
+Time.schedule(RecurrentTask(make_asteroid, 1, 1))
 
 
 class PlayerController(Component):
@@ -110,7 +110,7 @@ class PlayerController(Component):
         self.steer = 25
 
         self.velocity = Vector()
-        self.interval = 200
+        self.interval = .2
         self.allowed_to_shoot = True
         self.gameobj.add(BoundsChecker())
 

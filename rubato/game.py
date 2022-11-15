@@ -158,11 +158,11 @@ class Game:
                 curr._update()
 
                 # fixed update
-                Time.physics_counter += Time.delta_time
+                Time._physics_counter += Time.delta_time
 
-                while Time.physics_counter >= Time.fixed_delta:
+                while Time._physics_counter >= Time.fixed_delta:
                     curr._fixed_update()
-                    Time.physics_counter -= Time.fixed_delta
+                    Time._physics_counter -= Time.fixed_delta
 
             curr._draw()
         else:

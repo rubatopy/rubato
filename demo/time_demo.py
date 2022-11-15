@@ -11,7 +11,7 @@ main = Scene()
 go = wrap(Rectangle(width=100, height=100, color=Color.red), pos=Display.center_left + Vector(50, 0))
 main.add(go)
 
-interval = 1000
+interval = 1
 
 
 def task():

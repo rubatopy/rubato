@@ -121,7 +121,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     present = Mock()
     monkeypatch.setattr(Display.renderer, "present", present)
 
-    Time.capped = True
+    Time._capped = True
     Time._normal_delta = 50
 
     end_frame = Mock()
