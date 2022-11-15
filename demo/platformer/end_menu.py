@@ -26,7 +26,7 @@ time_text = GameObject(pos=(0, 100)).add(Text("", shared.white_32))
 
 def on_switch():
     final_time = Time.now() - shared.start_time
-    time_text.get(Text).text = f"Final time: {round(final_time/1000, 2)} seconds"
+    time_text.get(Text).text = f"Final time: {round(final_time, 2)} seconds"
 
 
 scene.on_switch = on_switch

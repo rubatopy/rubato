@@ -35,6 +35,7 @@ class PlayerController(Component):
 
     def handle_key_down(self, event: KeyResponse):
         if event.key == "w" and self.jumps > 0:
+            self.grounded = False
             if self.jumps == 2:
                 self.rigid.velocity.y = 800
                 self.animation.set_state("jump", freeze=2)
@@ -50,33 +51,34 @@ class PlayerController(Component):
     def update(self):
         move_axis = Input.controller_axis(0, 0) if Input.controllers() else 0
         centered = Input.axis_centered(move_axis)
-        # check for user directional input
+        # Movement
         if Input.key_pressed("a") or (move_axis < 0 and not centered):
             self.rigid.velocity.x = -300
             self.animation.flipx = True
-            if self.grounded:
-                if Input.key_pressed("shift") or Input.key_pressed("s"):
-                    self.animation.set_state("sneak", True)
-                else:
-                    self.animation.set_state("run", True)
         elif Input.key_pressed("d") or (move_axis > 0 and not centered):
             self.rigid.velocity.x = 300
             self.animation.flipx = False
-            if self.grounded:
+        else:
+            if not self.grounded:
+                self.rigid.velocity.x = 0
+
+        # Running animation states
+        if self.grounded:
+            if self.rigid.velocity.x in (-300, 300):
                 if Input.key_pressed("shift") or Input.key_pressed("s"):
                     self.animation.set_state("sneak", True)
                 else:
                     self.animation.set_state("run", True)
-        else:
-            if self.grounded:
+            else:
                 if Input.key_pressed("shift") or Input.key_pressed("s"):
                     self.animation.set_state("crouch", True)
                 else:
                     self.animation.set_state("idle", True)
-            else:
-                self.rigid.velocity.x = 0
 
-        if Input.key_pressed("r") or (Input.controller_button(0, 6) if Input.controllers() else False):
+        # Reset
+        if Input.key_pressed("r") or (
+            Input.controller_button(0, 6) if Input.controllers() else False
+        ) or self.gameobj.pos.y < -550:
             self.gameobj.pos = self.initial_pos.clone()
             self.rigid.stop()
             self.grounded = False

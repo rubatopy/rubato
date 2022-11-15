@@ -24,7 +24,5 @@ import end_menu
 
 rb.Game.set_scene("main_menu")
 
-##### SCENE SETUP #####
-
 # begin the game
 rb.begin()
