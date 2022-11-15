@@ -12,7 +12,7 @@ start_time = 0
 dirt_color = rb.Color.from_hex("#e58e26")
 platform_color = rb.Color.from_hex("#e58e26")
 wood_color = rb.Color.from_hex("#e58e26")
-background_color = rb.Color.from_hex("2e2e2eFF")
+background_color = rb.Color.from_hex("#0c2461")
 
 
 ##### FOG EFFECT #####
@@ -137,8 +137,8 @@ def smooth_button_generator(pos, w, h, text, onrelease, color):
     b = rb.Button(
         w,
         h,
-        onhover=lambda: rb.Time.recurrent_call(increase_font_size, 3),
-        onexit=lambda: rb.Time.recurrent_call(decrease_font_size, 3),
+        onhover=lambda: rb.Time.recurrent_call(increase_font_size, 0.003),
+        onexit=lambda: rb.Time.recurrent_call(decrease_font_size, 0.003),
         onrelease=onrelease,
     )
 
