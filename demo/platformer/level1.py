@@ -79,6 +79,7 @@ def switch():
     scene.remove_ui(shared.win_text, shared.win_sub_text)
     has_won = False
     shared.start_time = Time.now()
+    scene.camera.pos = Vector(0, 0)
 
 
 scene.on_switch = switch

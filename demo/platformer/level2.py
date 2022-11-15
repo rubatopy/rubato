@@ -53,6 +53,7 @@ def switch():
     shared.flag.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
     scene.remove_ui(shared.win_text, shared.win_sub_text)
     has_won = False
+    scene.camera.pos = Vector(0, 0)
 
 
 scene.on_switch = switch
