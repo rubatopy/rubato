@@ -3,7 +3,7 @@ from data_scene import DataScene
 from moving_platform import MovingPlatform
 import shared
 
-scene = DataScene("level2", background_color=Color.cyan.lighter())
+scene = DataScene("level2", background_color=shared.background_color)
 scene.level_size = int(Display.res.x * 2)
 
 end_location = Vector(Display.left + scene.level_size - 128, 0)
@@ -24,7 +24,7 @@ for p in platforms:
         p.get(Rectangle).tag = "moving_ground"
     else:
         p.get(Rectangle).tag = "ground"
-    p.get(Rectangle).color = Color.blue.darker(20)
+    p.get(Rectangle).color = shared.platform_color
 
 shared.cloud_generator(scene, 20)
 
@@ -56,4 +56,4 @@ def switch():
 
 
 scene.on_switch = switch
-scene.add(*platforms, shared.player, shared.left, shared.right, shared.flag)
+scene.add(*platforms, shared.player, shared.left, shared.right, shared.flag, shared.vignette)

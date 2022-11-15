@@ -4,7 +4,25 @@ from player_controller import PlayerController
 from random import randint
 
 black_32 = rb.Font(size=32)
+white_32 = rb.Font(size=32, color=rb.Color.white)
 start_time = 0
+
+##### COLORS #####
+
+dirt_color = rb.Color.from_hex("#e58e26")
+platform_color = rb.Color.from_hex("#e58e26")
+wood_color = rb.Color.from_hex("#e58e26")
+background_color = rb.Color.from_hex("2e2e2eFF")
+
+
+##### FOG EFFECT #####
+class VignetteScroll(rb.Component):
+
+    def update(self):
+        self.gameobj.pos = player.pos
+
+
+vignette = rb.GameObject(z_index=1000).add(rb.Image("files/vignette/vignette.png"), VignetteScroll())
 
 ##### PLAYER #####
 
@@ -69,16 +87,29 @@ right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
 ##### LEVEL WIN TEXT #####
 win_font = rb.Font(size=128, color=rb.Color.green.darker(75), styles=["bold"])
-win_text = rb.GameObject(z_index=2).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
-win_sub_text = rb.GameObject(pos=(0, -100), z_index=2).add(rb.Text("Click anywhere to move on", black_32))
+win_text = rb.GameObject(z_index=10000).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
+win_sub_text = rb.GameObject(pos=(0, -100), z_index=10000).add(rb.Text("Click anywhere to move on", white_32))
+
 
 ##### CLOUD #####
-cloud_template = rb.GameObject().add(cloud_r := rb.Raster(300, 200))
-cloud_r.draw_circle((-75, -25), 49, fill=rb.Color.white)
-cloud_r.draw_circle((0, -25), 49, fill=rb.Color.white)
-cloud_r.draw_circle((75, -25), 49, fill=rb.Color.white)
-cloud_r.draw_circle((-37, 25), 49, fill=rb.Color.white)
-cloud_r.draw_circle((37, 25), 49, fill=rb.Color.white)
+class CloudMover(rb.Component):
+
+    def __init__(self):
+        super().__init__()
+        self.speed = randint(10, 50)
+
+    def update(self):
+        if isinstance(scene := rb.Game.current(), DataScene):
+            if self.gameobj.pos.x < -1100:
+                self.gameobj.pos.x = scene.level_size - 860  # -960 + 100
+
+        self.gameobj.pos += rb.Vector(-self.speed, 0) * rb.Time.delta_time
+
+    def clone(self):
+        return CloudMover()
+
+
+cloud_template = rb.GameObject().add(rb.Image("files/cloud.png", scale=rb.Vector(2, 2)), CloudMover())
 
 
 def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
@@ -99,7 +130,7 @@ def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
 
 ##### NICE BUTTON #####
 def smooth_button_generator(pos, w, h, text, onrelease, color):
-    t = rb.Text(text, black_32.clone())
+    t = rb.Text(text, white_32.clone())
     r = rb.Raster(w, h, z_index=-1)
     r.fill(color)
 

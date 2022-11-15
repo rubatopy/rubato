@@ -338,7 +338,10 @@ class Image(Raster):
         hidden: bool = False,
     ):
         super().__init__(offset=offset, rot_offset=rot_offset, z_index=z_index, hidden=hidden)
-        self.surf = Surface.from_file(path, scale, rot_offset, af)
+        if path == "":
+            self.surf = Surface(1, 1)
+        else:
+            self.surf = Surface.from_file(path, scale, rot_offset, af)
 
     def clone(self) -> Image:
         img = Image("", self.scale, self.offset.clone(), self.rot_offset, self.af, self.z_index)

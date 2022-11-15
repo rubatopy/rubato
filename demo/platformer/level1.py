@@ -2,13 +2,13 @@ from rubato import Scene, Color, Display, GameObject, Vector, Rectangle, wrap, F
 import shared
 from data_scene import DataScene
 
-scene = DataScene("level1", background_color=Color.cyan.lighter())
+scene = DataScene("level1", background_color=shared.background_color)
 scene.level_size = int(Display.res.x * 1.2)
 
 end_location = Vector(Display.left + scene.level_size - 128, 450)
 
 # create the ground
-ground = GameObject().add(ground_rect := Rectangle(width=1270, height=50, color=Color.green.darker(40), tag="ground"))
+ground = GameObject().add(ground_rect := Rectangle(width=1270, height=50, color=shared.dirt_color, tag="ground"))
 ground_rect.bottom_left = Display.bottom_left
 
 # create platforms
@@ -33,7 +33,7 @@ platforms = [
 
 for p in platforms:
     p.tag = "ground"
-    p.color = Color.blue.darker(20)
+    p.color = shared.platform_color
 
 # create pillars
 pillars = [
@@ -51,7 +51,7 @@ for pillar in pillars:
     r = pillar.get(Rectangle)
     r.bottom = Display.bottom + 50
     r.tag = "ground"
-    r.color = Color.purple
+    r.color = shared.wood_color
 
 has_won = False
 
@@ -71,7 +71,7 @@ def go_to_next():
 
 def switch():
     global has_won
-    shared.player.pos = Display.bottom_left + Vector(50, 50)
+    shared.player.pos = Display.bottom_left + Vector(50, 80)
     shared.player_comp.initial_pos = shared.player.pos.clone()
     shared.right.pos = Display.center_left + Vector(scene.level_size + 25, 0)
     shared.flag.pos = end_location
@@ -85,4 +85,4 @@ scene.on_switch = switch
 
 shared.cloud_generator(scene, 10, True)
 
-scene.add(ground, wrap(platforms), *pillars, shared.player, shared.left, shared.right, shared.flag)
+scene.add(ground, wrap(platforms), *pillars, shared.player, shared.left, shared.right, shared.flag, shared.vignette)

@@ -80,6 +80,7 @@ class PlayerController(Component):
             self.gameobj.pos = self.initial_pos.clone()
             self.rigid.stop()
             self.grounded = False
+            Game.current().camera.pos = Vector(0, 0)
 
     # define a custom fixed update function
     def fixed_update(self):

@@ -1,7 +1,7 @@
 from rubato import Scene, Color, Game, Display, Time, Text, GameObject
 import shared, time
 
-scene = Scene("end_menu", background_color=Color.white)
+scene = Scene("end_menu", background_color=Color.black)
 
 restart_button = shared.smooth_button_generator(
     (0, -75),
@@ -9,7 +9,7 @@ restart_button = shared.smooth_button_generator(
     100,
     "RESTART",
     lambda: Game.set_scene("main_menu"),
-    Color.gray.lighter(100),
+    Color.gray.darker(100),
 )
 
 screenshot_button = shared.smooth_button_generator(
@@ -18,10 +18,10 @@ screenshot_button = shared.smooth_button_generator(
     100,
     "SAVE SCREENSHOT",
     lambda: Display.save_screenshot((f"platformer time {time.asctime()}").replace(" ", "-")),
-    Color.gray.lighter(100),
+    Color.gray.darker(100),
 )
 
-time_text = GameObject(pos=(0, 100)).add(Text("", shared.black_32.clone()))
+time_text = GameObject(pos=(0, 100)).add(Text("", shared.white_32))
 
 
 def on_switch():

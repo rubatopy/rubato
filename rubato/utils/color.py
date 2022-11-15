@@ -257,11 +257,14 @@ class Color:
         Returns:
             Color: The Color object.
         """
-        lv = len(h)
-        if lv < 8:
+        h_parsed = h
+        if h[0] == "#":
+            h_parsed = h[1:]
+        lv = len(h_parsed)
+        if lv not in (6, 8):
             raise ValueError(f"Invalid hex string: {h}")
         try:
-            return cls(*(int(h[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)))
+            return cls(*(int(h_parsed[i:i + lv // 3], 16) for i in range(0, lv, lv // 3)))
         except ValueError:
             raise ValueError(f"Invalid hex string: {h}") from ValueError
 
