@@ -108,9 +108,8 @@ class Time:
     _past_fps = [0] * 120
     _fps_index: int = 0
 
-    _target_fps = 0
+    target_fps = 0
     """The fps that the game should try to run at. 0 means that the game's fps will not be capped. Defaults to 0."""
-    _capped: bool = False
 
     _physics_fps = 0
     """The fps that the physics should run at."""
@@ -147,7 +146,7 @@ class Time:
 
     @classmethod
     def _end_frame(cls):
-        if cls._capped:
+        if Time.target_fps != 0:
             delay = cls._normal_delta - cls.delta_time
             if delay > 0:
                 sdl2.SDL_Delay(int(1000 * delay))

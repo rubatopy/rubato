@@ -48,8 +48,7 @@ def test_init(monkeypatch):
     assert rubato.Game._initialized is True
     assert rubato.Game.state == rubato.Game.STOPPED
 
-    assert rubato.Time._target_fps == 60
-    assert rubato.Time._capped
+    assert rubato.Time.target_fps == 60
     assert rubato.Time._normal_delta == 1 / 60
     assert rubato.Time._physics_fps == 30
 
