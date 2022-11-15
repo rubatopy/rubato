@@ -38,7 +38,7 @@ def init(
     icon: str = "",
     fullscreen: Literal["off", "desktop", "exclusive"] = "off",
     target_fps: int = 0,
-    physics_fps: int = Time._physics_fps,
+    physics_fps: int = 50,
     hidden: bool = False  # test: skip
 ):
     """
@@ -55,7 +55,7 @@ def init(
         fullscreen: Whether the game should be fullscreen. Can be one of "off", "desktop", or "exclusive".
             Defaults to "off".
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
-        physics_fps: The physics simulation's frames per second. Defaults to 60.
+        physics_fps: The physics simulation's frames per second. Defaults to 50.
         hidden: Whether the window should be hidden. Defaults to False.
     """
     sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
