@@ -25,6 +25,8 @@ def controller():
 
 
 def test_controller_info(controller, monkeypatch: pytest.MonkeyPatch):
+    assert Input.controllers() == [0]
+
     with pytest.raises(IndexError):
         Input.controller_name(1)
     with pytest.raises(IndexError):

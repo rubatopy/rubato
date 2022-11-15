@@ -51,7 +51,7 @@ class Draw:
         scale = height / font.size
 
         Draw.text(
-            str(Time.smooth_fps),
+            str(Time.smooth_fps()),
             font=font,
             pos=Display.top_left + (pad, -pad),
             align=Vector(1, 1),

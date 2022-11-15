@@ -55,7 +55,7 @@ class Radio:
                         cls.broadcast(
                             Events.RESIZE,
                             ResizeResponse(
-                                event.window.timestamp,
+                                event.window.timestamp / 1000,
                                 event.window.data1,
                                 event.window.data2,
                                 Display.window_size.x,  # type: ignore
@@ -80,7 +80,7 @@ class Radio:
                     cls.broadcast(
                         event_name,
                         KeyResponse(
-                            event.key.timestamp,
+                            event.key.timestamp / 1000,
                             Input.get_name(key_info.sym),
                             unicode,
                             int(key_info.sym),
@@ -97,7 +97,7 @@ class Radio:
                     cls.broadcast(
                         event_name,
                         MouseButtonResponse(
-                            event.button.timestamp,
+                            event.button.timestamp / 1000,
                             event.button.button,
                             event.button.x - Display._half_res[0],
                             Display._half_res[1] - event.button.y,
@@ -110,7 +110,7 @@ class Radio:
                     cls.broadcast(
                         Events.MOUSEWHEEL,
                         MouseWheelResponse(
-                            event.wheel.timestamp,
+                            event.wheel.timestamp / 1000,
                             event.wheel.preciseX,
                             -event.wheel.preciseY,
                             event.wheel.which,
@@ -121,7 +121,7 @@ class Radio:
                     cls.broadcast(
                         Events.MOUSEMOTION,
                         MouseMotionResponse(
-                            event.motion.timestamp,
+                            event.motion.timestamp / 1000,
                             event.motion.x - Display._half_res[0],
                             Display._half_res[1] - event.motion.y,
                             event.motion.xrel,
@@ -134,7 +134,7 @@ class Radio:
                 if Events.JOYSTICKCONNECT.value in cls.listeners:
                     cls.broadcast(
                         Events.JOYSTICKCONNECT,
-                        JoystickConnectResponse(event.jdevice.timestamp, event.jdevice.which),
+                        JoystickConnectResponse(event.jdevice.timestamp / 1000, event.jdevice.which),
                     )
             elif event.type == sdl2.SDL_JOYDEVICEREMOVED:
                 sdl2.SDL_JoystickClose(Input._controllers[event.jdevice.which])
@@ -142,7 +142,7 @@ class Radio:
                 if Events.JOYSTICKDISCONNECT.value in cls.listeners:
                     cls.broadcast(
                         Events.JOYSTICKDISCONNECT,
-                        JoystickDisconnectResponse(event.jdevice.timestamp, event.jdevice.which),
+                        JoystickDisconnectResponse(event.jdevice.timestamp / 1000, event.jdevice.which),
                     )
             elif event.type == sdl2.SDL_JOYAXISMOTION:
                 mag: float = event.jaxis.value / Input._joystick_max
@@ -150,7 +150,7 @@ class Radio:
                     cls.broadcast(
                         Events.JOYAXISMOTION,
                         JoyAxisMotionResponse(
-                            event.jaxis.timestamp,
+                            event.jaxis.timestamp / 1000,
                             event.jaxis.which,
                             event.jaxis.axis,
                             mag,
@@ -167,7 +167,7 @@ class Radio:
                     cls.broadcast(
                         event_name,
                         JoyButtonResponse(
-                            event.jbutton.timestamp,
+                            event.jbutton.timestamp / 1000,
                             event.jbutton.which,
                             event.jbutton.button,
                         )
@@ -177,7 +177,7 @@ class Radio:
                     cls.broadcast(
                         Events.JOYHATMOTION,
                         JoyHatMotionResponse(
-                            event.jhat.timestamp,
+                            event.jhat.timestamp / 1000,
                             event.jhat.which,
                             event.jhat.hat,
                             event.jhat.value,

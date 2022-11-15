@@ -11,20 +11,20 @@ from . import InitError
 @dataclass(order=True)
 class DelayedTask:
     """
-    A task that is run after a specified number of milliseconds.
+    A task that is run after a specified number of seconds.
 
     Args:
         task: The task to invoke.
-        delay: The number of milliseconds to wait before invoking the task.
+        delay: The number of seconds to wait before invoking the task.
     """
     task: Callable[[], None] = field(compare=False)
     """The task to run."""
-    delay: int
-    """The delay until the task is run, in milliseconds."""
+    delay: float
+    """The delay until the task is run, in seconds."""
     is_stopped: bool = field(init=False, default=False, compare=False)
     """Whether the DelayedTask is stopped."""
-    next_run: int = field(init=False, compare=False)
-    """The time at which the task will be run next, in milliseconds."""
+    next_run: float = field(init=False, compare=False)
+    """The time at which the task will be run next, in seconds."""
 
     def stop(self):
         """Stop the DelayedTask from invoking."""
@@ -57,23 +57,23 @@ class FramesTask:
 @dataclass(order=True)
 class RecurrentTask:
     """
-    A task that is run every specified number of milliseconds.
+    A task that is run every specified number of seconds.
 
     Args:
         task: The task to invoke.
-        interval: The number of milliseconds between task invocations.
-        delay: The number of milliseconds to wait before starting the invocations.
+        interval: The number of seconds between task invocations.
+        delay: The number of seconds to wait before starting the invocations.
     """
     task: Callable[[], None] | Callable[["RecurrentTask"], None] = field(compare=False)
     """The task to run."""
-    interval: int = field(compare=False)
-    """The interval between task invocations, in milliseconds."""
-    delay: int = field(default=0)
-    """The initial delay until the task is run, in milliseconds."""
+    interval: float = field(compare=False)
+    """The interval between task invocations, in seconds."""
+    delay: float = field(default=0)
+    """The initial delay until the task is run, in seconds."""
     is_stopped: bool = field(init=False, default=False, compare=False)
     """Whether the RecurrentTask is stopped."""
-    next_run: int = field(init=False, compare=False)
-    """The time at which the task will be run next, in milliseconds."""
+    next_run: float = field(init=False, compare=False)
+    """The time at which the task will be run next, in seconds."""
 
     def stop(self):
         """Stop the RecurrentTask from invoking."""
@@ -88,6 +88,10 @@ class Time:
 
     frames: int = 0
     """The total number of elapsed frames since the start of the game."""
+    fixed_delta: float = 0.1
+    """The number of seconds since the last fixed update."""
+    fps = 60
+    """The fps estimate using the last frame."""
 
     _frame_queue: list[FramesTask] = []
     _task_queue: list[DelayedTask] = []
@@ -96,25 +100,19 @@ class Time:
     _next_queue: list[Callable] = []
 
     _delta_time: float = 0.001
-    fixed_delta: float = 0.1
-    """The number of seconds since the last fixed update."""
     _normal_delta: float = 0
-    fps = 60
-    """The fps estimate using the last frame."""
-    _frame_start: int = 0
+    _frame_start: float = 0
 
-    physics_counter: float = 0
+    _physics_counter: float = 0
 
-    _fps_history: int = 120
-    _past_fps = [0] * _fps_history
+    _past_fps = [0] * 120
     _fps_index: int = 0
 
-    target_fps = 0  # this means no cap
+    target_fps = 0
     """The fps that the game should try to run at. 0 means that the game's fps will not be capped. Defaults to 0."""
-    capped: bool = False
 
-    physics_fps = 60
-    """The fps that the physics should run at. Defaults to 60."""
+    _physics_fps = 0
+    """The fps that the physics should run at."""
 
     def __init__(self) -> None:
         raise InitError(self)
@@ -122,27 +120,25 @@ class Time:
     @classmethod
     @property
     def delta_time(cls) -> float:
-        """The number of seconds between the last frame and the current frame."""
+        """The number of seconds between the last frame and the current frame (get-only)."""
         return cls._delta_time
 
     @classmethod
-    @property
     def smooth_fps(cls) -> int:
-        """The average fps over the past 120 frames. (get-only)."""
-        return int(sum(cls._past_fps) / cls._fps_history)
+        """The average fps over the past 120 frames."""
+        return int(sum(cls._past_fps) / len(cls._past_fps))
 
     @classmethod
-    def now(cls) -> int:
-        """The time since the start of the game, in milliseconds."""
-        return sdl2.SDL_GetTicks64()
-
-    @classmethod
-    @property
-    def frame_start(cls) -> int:
+    def frame_start(cls) -> float:
         """
-        Time from the start of the game to the start of the current frame, in milliseconds. (get-only)
+        Time from the start of the game to the start of the current frame, in seconds.
         """
         return cls._frame_start
+
+    @classmethod
+    def now(cls) -> float:
+        """The time since the start of the game, in seconds."""
+        return sdl2.SDL_GetTicks64() / 1000
 
     @classmethod
     def _start_frame(cls):
@@ -150,7 +146,7 @@ class Time:
 
     @classmethod
     def _end_frame(cls):
-        if cls.capped:
+        if Time.target_fps != 0:
             delay = cls._normal_delta - cls.delta_time
             if delay > 0:
                 sdl2.SDL_Delay(int(1000 * delay))
@@ -158,7 +154,7 @@ class Time:
         while cls.now() == cls._frame_start:
             sdl2.SDL_Delay(1)
 
-        cls._delta_time = (cls.now() - cls._frame_start) / 1000
+        cls._delta_time = cls.now() - cls._frame_start
 
     @classmethod
     def next_frame(cls, func: Callable[[], None]):
@@ -183,27 +179,29 @@ class Time:
         cls.schedule(FramesTask(task, delay))
 
     @classmethod
-    def delayed_call(cls, task: Callable[[], None], delay: int):
+    def delayed_call(cls, task: Callable[[], None], delay: float):
         """
         Calls the function func to be called at a later time.
 
         Args:
             task: The function to call.
-            delay: The time from now (in milliseconds) to run the function at.
+            delay: The time from now (in seconds) to run the function at.
         """
 
         cls.schedule(DelayedTask(task, delay))
 
     @classmethod
-    def recurrent_call(cls, task: Callable[[], None] | Callable[[RecurrentTask], None], interval: int, delay: int = 0):
+    def recurrent_call(
+        cls, task: Callable[[], None] | Callable[[RecurrentTask], None], interval: float, delay: float = 0
+    ):
         """
         Schedules the function func to be repeatedly called every interval.
 
         Args:
             task: The function to call.
                 This method may take a RecurrentTask as an argument, which will be passed to it when it is invoked.
-            interval: The interval (in milliseconds) to run the function at.
-            delay: The delay (in milliseconds) to wait before starting the task.
+            interval: The interval (in seconds) to run the function at.
+            delay: The delay (in seconds) to wait before starting the task.
         """
 
         cls.schedule(RecurrentTask(task, interval, delay))
@@ -255,7 +253,7 @@ class Time:
         cls.fps = 1 / cls.delta_time
 
         cls._past_fps[cls._fps_index] = int(cls.fps)
-        cls._fps_index = (cls._fps_index + 1) % cls._fps_history
+        cls._fps_index = (cls._fps_index + 1) % len(cls._past_fps)
 
         if cls._next_queue:
             for func in cls._next_queue:

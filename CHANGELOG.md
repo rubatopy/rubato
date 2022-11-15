@@ -24,6 +24,7 @@
 -   Removed `Game.camera`. Good code should use the scene's camera directly or `Game.current().camera`.
 -   Made `Game.current()` a classmethod instead of a property. This is to make it more obvious that it is read-only.
 -   Restructured the Joystick input system to make it easier to work with in more complex settings.
+-   Changed external `Time` methods and attributes to use seconds instead of milliseconds where applicable.
 
 ### Added
 
@@ -31,6 +32,8 @@
 -   Added `surface.save_as()` and `raster.save_as()` methods to save a surface or raster to a file.
 
 ### Changed
+
+-   Default physics fps to 50 to be consistent with Unity.
 
 ### Removed
 
