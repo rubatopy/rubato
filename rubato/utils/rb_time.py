@@ -88,6 +88,10 @@ class Time:
 
     frames: int = 0
     """The total number of elapsed frames since the start of the game."""
+    fixed_delta: float = 0.1
+    """The number of seconds since the last fixed update."""
+    fps = 60
+    """The fps estimate using the last frame."""
 
     _frame_queue: list[FramesTask] = []
     _task_queue: list[DelayedTask] = []
@@ -97,7 +101,7 @@ class Time:
 
     _delta_time: float = 0.001
     _normal_delta: float = 0
-    _frame_start: int = 0
+    _frame_start: float = 0
 
     _physics_counter: float = 0
 
@@ -110,11 +114,6 @@ class Time:
 
     _physics_fps = 50
     """The fps that the physics should run at. Defaults to 50."""
-
-    fixed_delta: float = 0.1
-    """The number of seconds since the last fixed update."""
-    fps = 60
-    """The fps estimate using the last frame."""
 
     def __init__(self) -> None:
         raise InitError(self)
@@ -131,16 +130,16 @@ class Time:
         return int(sum(cls._past_fps) / len(cls._past_fps))
 
     @classmethod
-    def frame_start(cls) -> int:
+    def frame_start(cls) -> float:
         """
-        Time from the start of the game to the start of the current frame, in milliseconds.
+        Time from the start of the game to the start of the current frame, in seconds.
         """
         return cls._frame_start
 
     @classmethod
-    def now(cls) -> int:
-        """The time since the start of the game, in milliseconds."""
-        return sdl2.SDL_GetTicks64()
+    def now(cls) -> float:
+        """The time since the start of the game, in seconds."""
+        return sdl2.SDL_GetTicks64() / 1000
 
     @classmethod
     def _start_frame(cls):
@@ -156,7 +155,7 @@ class Time:
         while cls.now() == cls._frame_start:
             sdl2.SDL_Delay(1)
 
-        cls._delta_time = (cls.now() - cls._frame_start) / 1000
+        cls._delta_time = cls.now() - cls._frame_start
 
     @classmethod
     def next_frame(cls, func: Callable[[], None]):
@@ -217,13 +216,13 @@ class Time:
             task: The task to queue.
         """
         if isinstance(task, DelayedTask):
-            task.next_run = cls.now() / 1000 + task.delay
+            task.next_run = cls.now() + task.delay
             heapq.heappush(cls._task_queue, task)
         elif isinstance(task, FramesTask):
             task.next_run = cls.frames + task.delay
             heapq.heappush(cls._frame_queue, task)
         elif isinstance(task, RecurrentTask):
-            task.next_run = cls.now() / 1000 + task.delay
+            task.next_run = cls.now() + task.delay
             heapq.heappush(cls._recurrent_queue, task)
         else:
             raise TypeError("Task argument must of of type DelayedTask, FramesTask or RecurrentTask.")
@@ -271,7 +270,7 @@ class Time:
                 break
 
         while cls._task_queue:
-            if cls._task_queue[0].next_run <= cls.now() / 1000:
+            if cls._task_queue[0].next_run <= cls.now():
                 delayed_task: DelayedTask = heapq.heappop(cls._task_queue)
                 if not delayed_task.is_stopped:
                     delayed_task.task()
@@ -279,7 +278,7 @@ class Time:
                 break
 
         while cls._recurrent_queue:
-            if cls._recurrent_queue[0].next_run <= cls.now() / 1000:
+            if cls._recurrent_queue[0].next_run <= cls.now():
                 recurrent_task: RecurrentTask = heapq.heappop(cls._recurrent_queue)
 
                 if not recurrent_task.is_stopped:

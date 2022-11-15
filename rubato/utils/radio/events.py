@@ -106,7 +106,7 @@ if not cython.compiled:
 @dataclass(frozen=True)
 class EventResponse:
     """A response to an event. This class behaves like a dict, but is immutable."""
-    timestamp: int
+    timestamp: float
     """The timestamp of the event in seconds."""
 
     def __getitem__(self, item):
