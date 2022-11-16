@@ -20,7 +20,6 @@ class PlayerController(Component):
         self.jumps = 0  # tracks the number of jumps the player has left
 
         Radio.listen(Events.KEYDOWN, self.handle_key_down)
-        Radio.listen(Events.JOYBUTTONDOWN, self.handle_controller_button)
 
     def ground_detect(self, col_info: Manifold):
         if "ground" in col_info.shape_b.tag and self.rigid.velocity.y >= 0:
@@ -44,18 +43,12 @@ class PlayerController(Component):
                 self.animation.set_state("somer", True)
             self.jumps -= 1
 
-    def handle_controller_button(self, event: JoyButtonResponse):
-        if event.button == 0:  # xbox a button / sony x button
-            self.handle_key_down(KeyResponse(event.timestamp, "w", "", 0, 0))
-
     def update(self):
-        move_axis = Input.controller_axis(0, 0) if Input.controllers() else 0
-        centered = Input.axis_centered(move_axis)
         # Movement
-        if Input.key_pressed("a") or (move_axis < 0 and not centered):
+        if Input.key_pressed("a"):
             self.rigid.velocity.x = -300
             self.animation.flipx = True
-        elif Input.key_pressed("d") or (move_axis > 0 and not centered):
+        elif Input.key_pressed("d"):
             self.rigid.velocity.x = 300
             self.animation.flipx = False
         else:
@@ -79,9 +72,7 @@ class PlayerController(Component):
                     self.animation.set_state("idle", True)
 
         # Reset
-        if Input.key_pressed("r") or (
-            Input.controller_button(0, 6) if Input.controllers() else False
-        ) or self.gameobj.pos.y < -550:
+        if Input.key_pressed("r") or self.gameobj.pos.y < -550:
             self.gameobj.pos = self.initial_pos.clone()
             self.rigid.stop()
             self.grounded = False
