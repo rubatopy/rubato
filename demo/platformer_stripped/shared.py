@@ -72,9 +72,11 @@ flag.add(
 )
 
 ##### SIDE BOUDARIES #####
+
 left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
 right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
 ##### LEVEL WIN TEXT #####
+
 win_font = rb.Font(size=128, color=win_color, styles=["bold"])
 win_text = rb.GameObject(z_index=10000).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
