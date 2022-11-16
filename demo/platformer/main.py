@@ -9,7 +9,7 @@ import rubato as rb
 rb.init(
     name="Platformer Demo",  # Set a name
     res=(1920, 1080),  # Increase the window resolution
-    window_size=(2880, 1620),  # Set the window size
+    fullscreen="desktop",  # Set the window to fullscreen
 )
 
 import main_menu
