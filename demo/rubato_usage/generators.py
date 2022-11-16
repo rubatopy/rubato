@@ -68,17 +68,3 @@ scene.add_ui(play_button)
 
 
 rb.begin()
-
-
-# class enemy controller (Component)
-# hp, mana, attack, defense, speed, etc
-
-# enemy generator brings back go with image of enemy and enemy controller
-
-
-# java
-# list of enemies Enemy[] enemies = new Enemy[10];
-
-# python, rubato
-# list of enemy game objects
-# enemies = [generate_enemy() for _ in range(10)]

@@ -17,20 +17,23 @@ Each Scene is comprised of Game Objects.
 And to give these Game Objects functionality you need Components.
 
 About components:
-They should never add another component to the game object.
-They should never remove another component from the game object.
-The only thing that components do is add new behavior to the game object.
+ * They should never add another component to the game object.
+ * They should never remove another component from the game object.
+ * The only thing that components do is add new behavior to the game object.
 
-The way you can have components talk to each other is by using the ``get_component`` method.
-Or by passing in a reference to the component.
-Or the preferred way is to use generators:
+The way you can have components talk to each other is by:
+ * Using the ``get_component`` / ``get_components`` methods.
+ * By passing in a reference to the component.
+ * Use generators when making the GO anyways. (preferred)
 
 How to generate specific Game Objects:
+**********************
+
 In games you will often want to spawn in a bunch of enemies. In java one might make a list of
 enemies and then loop through it to spawn them.
 In rubato you can use a `generator` function to do this.
 This function would work much like the init function of said enemies. But it would return a
-gameobject with a component adding enemy behaviour instead.
+game object with a component adding enemy behaviour instead.
 
 
 .. code-block:: python
