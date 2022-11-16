@@ -22,11 +22,11 @@ About components:
  * The only thing that components do is add new behavior to the game object.
 
 The way you can have components talk to each other is by:
- * Using the ``get_component`` / ``get_components`` methods.
+ * Using the ``get`` / ``get_all`` methods.
  * By passing in a reference to the component.
- * Use generators when making the GO anyways. (preferred)
+ * Use generators to make a game object. (preferred)
 
-How to generate specific Game Objects:
+How to generate multiple Game Objects
 **********************
 
 In games you will often want to spawn in a bunch of enemies. In java one might make a list of
@@ -51,4 +51,4 @@ game object with a component adding enemy behaviour instead.
             enemy_list.append(generate_enemy(i*30, 0))
 
 
-For an in depth generator example see the generator `tutorial <https://github.com/rubatopy/rubato/tree/main/demo/custom_components.py>`__.
+For an in depth generator example see the generator `demo <https://github.com/rubatopy/rubato/tree/main/demo/custom_components.py>`__.
