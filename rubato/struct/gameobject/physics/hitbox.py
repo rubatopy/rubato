@@ -329,6 +329,9 @@ class Rectangle(Hitbox):
             z_index=z_index,
             hidden=hidden,
         )
+        if width <= 0 or height <= 0:
+            raise ValueError("Width and height must be greater than 0")
+
         self._width: int | float = width
         self._height: int | float = height
         self._verts: list[Vector] = []

@@ -66,7 +66,7 @@ flag_sheet = rb.Spritesheet(
     grid_size=rb.Vector(6, 1),
 )
 
-flag_animation = rb.Animation(scale=rb.Vector(4, 4), fps=6)
+flag_animation = rb.Animation(scale=rb.Vector(4, 4), fps=6, flipx=True)
 flag_animation.add_spritesheet("", flag_sheet, to_coord=flag_sheet.end)
 
 # create the end portal
@@ -77,7 +77,7 @@ flag.add(
     rb.Rectangle(
         trigger=True,
         tag="portal",
-        width=flag_animation.anim_frame().size_scaled().x,
+        width=-flag_animation.anim_frame().size_scaled().x,
         height=flag_animation.anim_frame().size_scaled().y,
     )
 )

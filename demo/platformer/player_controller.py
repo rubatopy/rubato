@@ -61,6 +61,9 @@ class PlayerController(Component):
         else:
             if not self.grounded:
                 self.rigid.velocity.x = 0
+                self.rigid.friction = 0
+            else:
+                self.rigid.friction = 1
 
         # Running animation states
         if self.grounded:
