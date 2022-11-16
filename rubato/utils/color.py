@@ -252,7 +252,7 @@ class Color:
         Creates a Color object from a hex string.
 
         Args:
-            h: The hexadecimal value in the format "RRGGBBAA".
+            h: The hexadecimal value in any of the following formats: "#rrggbb", "#rrggbbaa", "rrggbb", or "rrggbbaa".
 
         Returns:
             Color: The Color object.
