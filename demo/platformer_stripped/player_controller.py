@@ -1,6 +1,6 @@
 from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, JoyButtonResponse \
     , Input, Math, Display, Game, Time, Vector
-from shared import DataScene
+import shared
 
 
 class PlayerController(Component):
@@ -91,8 +91,7 @@ class PlayerController(Component):
     def fixed_update(self):
         # have the camera follow the player
         current_scene = Game.current()
-        if isinstance(current_scene, DataScene):
-            camera_ideal = Math.clamp(
-                self.gameobj.pos.x + Display.res.x / 4, Display.center.x, current_scene.level_size - Display.res.x
-            )
-            current_scene.camera.pos.x = Math.lerp(current_scene.camera.pos.x, camera_ideal, Time.fixed_delta / 0.4)
+        camera_ideal = Math.clamp(
+            self.gameobj.pos.x + Display.res.x / 4, Display.center.x, shared.level1_size - Display.res.x
+        )
+        current_scene.camera.pos.x = Math.lerp(current_scene.camera.pos.x, camera_ideal, Time.fixed_delta / 0.4)

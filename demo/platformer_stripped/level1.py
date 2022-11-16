@@ -1,10 +1,9 @@
 from rubato import Scene, Color, Display, GameObject, Vector, Rectangle, wrap, Radio, Events, Game, Time
 import shared
 
-scene = shared.DataScene("level1", background_color=shared.background_color)
-scene.level_size = int(Display.res.x * 1.2)
+scene = Scene("level1", background_color=shared.background_color)
 
-end_location = Vector(Display.left + scene.level_size - 128, 450)
+end_location = Vector(Display.left + shared.level1_size - 128, 450)
 
 # create the ground
 ground = GameObject().add(ground_rect := Rectangle(width=1270, height=50, color=shared.platform_color, tag="ground"))
@@ -66,12 +65,17 @@ def switch():
     global has_won
     shared.player.pos = Display.bottom_left + Vector(50, 80)
     shared.player_comp.initial_pos = shared.player.pos.clone()
-    shared.right.pos = Display.center_left + Vector(scene.level_size + 25, 0)
+
+    shared.right.pos = Display.center_left + Vector(shared.level1_size + 25, 0)
+
     shared.flag.pos = end_location
     shared.flag.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
+
     scene.remove_ui(shared.win_text)
+
     has_won = False
     shared.start_time = Time.now()
+
     scene.camera.pos = Vector(0, 0)
 
 

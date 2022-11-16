@@ -8,7 +8,7 @@ title = Text("PLATFORMER DEMO!", title_font)
 
 play_button = GameObject(pos=(0, -75)).add(
     Button(300, 100, onrelease=lambda: Game.set_scene("level1")),
-    Text("PlAY", shared.white_32.clone()),
+    Text("PLAY", shared.white_32.clone()),
     r := Raster(300, 100, z_index=-1),
 )
 r.fill(Color.gray.darker(100))

@@ -1,21 +1,12 @@
 import rubato as rb
-from random import randint
-
-
-##### DATA SCENE #####
-class DataScene(rb.Scene):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.level_size = 0
-
-
-from player_controller import PlayerController
 
 ##### MISC #####
 
 white_32 = rb.Font(size=32, color=rb.Color.white)
 start_time = 0
+level1_size = int(rb.Display.res.x * 1.2)
+
+from player_controller import PlayerController
 
 ##### COLORS #####
 
@@ -23,7 +14,7 @@ platform_color = rb.Color.from_hex("#b8e994")
 background_color = rb.Color.from_hex("#82ccdd")
 win_color = rb.Color.green.darker(75)
 
-##### PLAYER #####
+##### PLAYER PREFAB #####
 
 # Create the player
 player = rb.GameObject(z_index=1)
@@ -55,7 +46,7 @@ player.add(
     player_comp := PlayerController(),
 )
 
-##### Flag #####
+##### FLAG PREFAB #####
 
 # Create animation for flag
 flag_sheet = rb.Spritesheet(
