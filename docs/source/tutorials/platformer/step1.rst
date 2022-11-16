@@ -44,9 +44,8 @@ Replace the previous :code:`rb.init()` call with this:
     # initialize a new game
     rb.init(
         name="Platformer Demo",  # Set a name
-        res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
+        res=(1920, 1080),  # Increase the window resolution
+        fullscreen="desktop",  # Set the window to fullscreen
     )
 
 
@@ -57,6 +56,7 @@ A Vector can represent a point, dimensions, a mathematical vector, or anything e
 parameters. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
 many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a
 deeper look at what that means in a bit.
+Note: we use cartesian coordinates, so the x-axis is horizontal and the y-axis is vertical.
 
 At this point, running the game should look like this:
 
