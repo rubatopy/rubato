@@ -28,18 +28,26 @@
 
 ### Added
 
--   Added `Events.JOYSTICKCONNECT` and `Events.JOYSTICKDISCONNECT` events, and appropriate response objects.
--   Added `scene.on_switch()` overridable method that is called automatically when the scene is switched to.
+-   `Events.JOYSTICKCONNECT` and `Events.JOYSTICKDISCONNECT` events, and appropriate response objects.
+-   `surface.save_as()` and `raster.save_as()` methods to save a surface or raster to a file.
+-   `scene.on_switch()` overridable method that is called automatically when the scene is switched to.
+-   `hitbox.on_enter()` overridable method that is called automatically when a hitbox enters a collision.
+-   `Text` support for anisotropic filtering
 
 ### Changed
 
 -   Default physics fps to 50 to be consistent with Unity.
+-   `Color.from_hex()` now supports many different hex formats.
+-   `Image` can now be created with an empty string. This is needed when cloning.
+-   `Scene` and `Group` remove functions can now take in multiple items like the add functions.
 
 ### Removed
 
 ### Fixed
 
 -   Adding groups and gameobjects adds them at the end of a frame instead of in the middle of one.
+-   `Rectangle` and `Circle` now raise errors when provided with incorrect parameters.
+-   `Display.save_screenshot()` wasn't working correctly on MacOS
 
 ## [v0.3.5] - November 5, 2022
 
