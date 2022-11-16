@@ -1,8 +1,7 @@
 from rubato import Scene, Color, Display, GameObject, Vector, Rectangle, wrap, Font, Text, Radio, Events, Game, Time
 import shared
-from data_scene import DataScene
 
-scene = DataScene("level1", background_color=shared.background_color)
+scene = shared.DataScene("level1", background_color=shared.background_color)
 scene.level_size = int(Display.res.x * 1.2)
 
 end_location = Vector(Display.left + scene.level_size - 128, 450)
