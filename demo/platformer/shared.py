@@ -101,8 +101,8 @@ class CloudMover(rb.Component):
 
     def update(self):
         if isinstance(scene := rb.Game.current(), DataScene):
-            if self.gameobj.pos.x < -1100:
-                self.gameobj.pos.x = scene.level_size - 860  # -960 + 100
+            if self.gameobj.pos.x < -1210:  # -960 - 250
+                self.gameobj.pos.x = scene.level_size - 710  # -960 + 250
 
         self.gameobj.pos += rb.Vector(-self.speed, 0) * rb.Time.delta_time
 
