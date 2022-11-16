@@ -367,6 +367,13 @@ class Display(metaclass=_DisplayProperties):
         cls.window.hide()
 
     @classmethod
+    def maximize_window(cls):
+        """
+        Maximize the window.
+        """
+        sdl2.SDL_MaximizeWindow(cls.window.window)
+
+    @classmethod
     @property
     def center(cls) -> Vector:
         """The position of the center of the window."""
