@@ -110,7 +110,7 @@ class CloudMover(rb.Component):
         return CloudMover()
 
 
-cloud_template = rb.GameObject().add(rb.Image("files/cloud.png", scale=rb.Vector(2, 2)), CloudMover())
+cloud_template = rb.GameObject().add(rb.Image("files/cloud.png", scale=rb.Vector(5, 5)), CloudMover())
 
 
 def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
