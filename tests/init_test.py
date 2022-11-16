@@ -62,6 +62,6 @@ def test_init(monkeypatch):
         physics_fps=30,
         icon=str(files("rubato.static.png").joinpath("logo_filled.ico")),
         hidden=True,
-        fullscreen="desktop",
+        fullscreen=True,
     )
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.ico")))
