@@ -1,20 +1,16 @@
 """A place to test new WIP features"""
 import rubato as rb
 
+rb.init(res=(1080, 1080), window_size=(2000, 2000))
 
-class A:
-
-    def replacement(self):
-        """wow"""
-        pass
+main = rb.Scene()
+main.add(rb.wrap(rb.Rectangle(200, 200)))
 
 
-@rb.deprecated("1.0.0", "2.0.0", A.replacement)
-def test():
-    """wow"""
-    pass
+def a():
+    rb.Display.save_screenshot("wow")
 
 
-print(test.__doc__)
-test()
-print("next thing")
+rb.Radio.listen(rb.Events.KEYDOWN, a)
+
+rb.begin()

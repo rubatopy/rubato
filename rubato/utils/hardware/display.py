@@ -318,15 +318,18 @@ class Display(metaclass=_DisplayProperties):
         if extension not in ["png", "jpg", "bmp"]:
             raise ValueError("Invalid extension. Only png, jpg, bmp are supported.")
 
-        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(
-            0, cls.window_size.x, cls.window_size.y, 32, sdl2.SDL_PIXELFORMAT_ARGB8888
-        )
+        w, h = ctypes.c_int(0), ctypes.c_int(0)
+
+        sdl2.SDL_GetRendererOutputSize(cls.renderer.sdlrenderer, ctypes.byref(w), ctypes.byref(h))
+
+        render_surface = sdl2.SDL_CreateRGBSurfaceWithFormat(0, w.value, h.value, 32, sdl2.SDL_PIXELFORMAT_ARGB8888)
+
         if not render_surface:
             raise RuntimeError(f"Could not create surface: {sdl2.SDL_GetError()}")
         try:
             if sdl2.SDL_RenderReadPixels(
-                cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, round(cls.window_size.x), round(cls.window_size.y)),
-                sdl2.SDL_PIXELFORMAT_ARGB8888, render_surface.contents.pixels, render_surface.contents.pitch
+                cls.renderer.sdlrenderer, sdl2.SDL_Rect(0, 0, w.value, h.value), sdl2.SDL_PIXELFORMAT_ARGB8888,
+                render_surface.contents.pixels, render_surface.contents.pitch
             ) != 0:
                 raise RuntimeError(f"Could not read screenshot: {sdl2.SDL_GetError()}")
 

@@ -151,7 +151,7 @@ def test_from_hex_wrong_length():
 
 def test_from_hex_wrong_format():
     with pytest.raises(ValueError):
-        Color.from_hex("#007fffff")
+        Color.from_hex("#007fffhh")
 
 
 def test_from_hsv(color):

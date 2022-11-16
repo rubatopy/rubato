@@ -14,7 +14,7 @@ from rubato.utils.rendering.camera import Camera
 
 def test_world_mouse(monkeypatch: MonkeyPatch):
     Game._scenes.clear()
-    Game.set_scene("")
+    Game._current = ""
     mouse = Mock(return_value=Vector(0, 0))
     monkeypatch.setattr(Input, "get_mouse_pos", mouse)
     assert Vector(0, 0) == world_mouse()

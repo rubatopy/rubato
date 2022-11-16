@@ -57,7 +57,7 @@ class Game:
         scene = cls._scenes.get(cls._current)
         if scene:
             return scene
-        raise ValueError("The current scene is not set. Make sure to create a scene or switch to it.")
+        raise ValueError("The current scene is invalid or not set. Make sure to create a scene or switch to it.")
 
     @classmethod
     def set_scene(cls, scene_id: str):
@@ -68,6 +68,7 @@ class Game:
             scene_id: The id of the new scene.
         """
         cls._current = scene_id
+        cls.current().on_switch()
 
     @classmethod
     def _add(cls, scene: Scene, name: str | None) -> str:  # test: skip
@@ -87,10 +88,11 @@ class Game:
         if name in cls._scenes:
             raise IdError(f"A scene with name '{name}' has already been added.")
 
-        if not cls._scenes:
+        cls._scenes[name] = scene
+
+        if len(cls._scenes) == 1:
             cls.set_scene(name)
 
-        cls._scenes[name] = scene
         cls._scene_id += 1
 
         return name
@@ -165,6 +167,8 @@ class Game:
                     Time._physics_counter -= Time.fixed_delta
 
             curr._draw()
+
+            curr._dump()
         else:
             Draw.clear()
 

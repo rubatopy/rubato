@@ -18,6 +18,7 @@ class Hitbox(Component):
         trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to (1, 1).
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_enter: A function to call when the hitbox enters another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
@@ -33,6 +34,7 @@ class Hitbox(Component):
         trigger: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
         on_collide: Callable | None = None,
+        on_enter: Callable | None = None,
         on_exit: Callable | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
@@ -48,6 +50,8 @@ class Hitbox(Component):
         """The scale of the hitbox."""
         self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
         """The on_collide function to call when a collision happens with this hitbox."""
+        self.on_enter: Callable = on_enter if on_enter else lambda manifold: None
+        """The on_enter function to call when collision begins with this hitbox."""
         self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
         """The on_exit function to call when a collision ends with this hitbox."""
         self.singular: bool = False
@@ -325,6 +329,9 @@ class Rectangle(Hitbox):
             z_index=z_index,
             hidden=hidden,
         )
+        if width < 0 or height < 0:
+            raise ValueError("Width and height cannot be negative")
+
         self._width: int | float = width
         self._height: int | float = height
         self._verts: list[Vector] = []
@@ -581,6 +588,8 @@ class Circle(Hitbox):
             z_index=z_index,
             hidden=hidden,
         )
+        if radius < 0:
+            raise ValueError("Radius cannot be negative")
         self._radius = radius
 
     @property
