@@ -329,8 +329,8 @@ class Rectangle(Hitbox):
             z_index=z_index,
             hidden=hidden,
         )
-        if width <= 0 or height <= 0:
-            raise ValueError("Width and height must be greater than 0")
+        if width < 0 or height < 0:
+            raise ValueError("Width and height cannot be negative")
 
         self._width: int | float = width
         self._height: int | float = height
@@ -588,6 +588,8 @@ class Circle(Hitbox):
             z_index=z_index,
             hidden=hidden,
         )
+        if radius < 0:
+            raise ValueError("Radius cannot be negative")
         self._radius = radius
 
     @property
