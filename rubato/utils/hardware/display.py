@@ -374,6 +374,20 @@ class Display(metaclass=_DisplayProperties):
         sdl2.SDL_MaximizeWindow(cls.window.window)
 
     @classmethod
+    def minmize_window(cls):
+        """
+        Minimize the window.
+        """
+        sdl2.SDL_MinimizeWindow(cls.window.window)
+
+    @classmethod
+    def restore_window(cls):
+        """
+        Restore the window.
+        """
+        sdl2.SDL_RestoreWindow(cls.window.window)
+
+    @classmethod
     @property
     def center(cls) -> Vector:
         """The position of the center of the window."""

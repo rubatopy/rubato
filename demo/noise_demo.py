@@ -13,6 +13,9 @@ rb.init(
     window_size=rb.Vector(960, 540),
 )
 
+rb.Display.minmize_window()
+rb.Display.restore_window()  # checking you can minimize and restore
+
 main_scene = rb.Scene()
 
 scale = 100
