@@ -9,10 +9,11 @@ start_time = 0
 
 ##### COLORS #####
 
-dirt_color = rb.Color.from_hex("#e58e26")
-platform_color = rb.Color.from_hex("#e58e26")
-wood_color = rb.Color.from_hex("#e58e26")
-background_color = rb.Color.from_hex("#0c2461")
+dirt_color = rb.Color.from_hex("#2c3e50")
+platform_color = rb.Color.from_hex("#2c3e50")
+wood_color = rb.Color.from_hex("#2c3e50")
+background_color = rb.Color.from_hex("#130f40")
+win_color = rb.Color.green.darker(75)
 
 
 ##### FOG EFFECT #####
@@ -86,7 +87,7 @@ left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Recta
 right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
 ##### LEVEL WIN TEXT #####
-win_font = rb.Font(size=128, color=rb.Color.green.darker(75), styles=["bold"])
+win_font = rb.Font(size=128, color=win_color, styles=["bold"])
 win_text = rb.GameObject(z_index=10000).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
 win_sub_text = rb.GameObject(pos=(0, -100), z_index=10000).add(rb.Text("Click anywhere to move on", white_32))
 
@@ -123,6 +124,7 @@ def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
         )
 
         cloud = cloud_template.clone()
+        cloud.get(rb.Image).set_alpha(180)
         cloud.pos = rand_pos
 
         scene.add(cloud)
