@@ -1,7 +1,5 @@
 """
 The platformer example tutorial
-
-Requires rubato 2.1.0 or later.
 """
 import rubato as rb
 
