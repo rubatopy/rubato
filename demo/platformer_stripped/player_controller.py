@@ -1,5 +1,5 @@
-from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, JoyButtonResponse \
-    , Input, Math, Display, Game, Time, Vector
+from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, \
+    Input, Math, Display, Game, Time, Vector
 import shared
 
 
@@ -44,6 +44,7 @@ class PlayerController(Component):
             self.jumps -= 1
 
     def update(self):
+        # Runs once every frame.
         # Movement
         if Input.key_pressed("a"):
             self.rigid.velocity.x = -300

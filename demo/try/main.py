@@ -11,6 +11,7 @@ rb.init(
 )
 
 import shared
+import player_controller
 
 # Add the player to the scene
 main.add(shared.player)
