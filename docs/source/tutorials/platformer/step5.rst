@@ -363,6 +363,10 @@ Sneak Peak:
 
 .. dropdown:: Here is what that code looks like:
 
+    This code has new
+    `files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer/files.zip>`_.
+
+
     .. literalinclude:: ../../../../demo/platformer/main.py
         :language: python
         :lines: 6-

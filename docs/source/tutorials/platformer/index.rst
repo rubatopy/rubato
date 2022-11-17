@@ -12,7 +12,7 @@ This tutorial teaches the fundamentals of working with rubato.
 By the end of this process, you should have the tools you need to make your own games and simulations!
 
 This tutorial is split up into the following steps. To follow along, you will need these
-`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/files/files.zip>`_.
+`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_stripped/files.zip>`_
 
 .. toctree::
     :glob:
