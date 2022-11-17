@@ -44,7 +44,7 @@ def balloon_gen():
     rast.draw_circle((radius, radius), radius, fill=rb.Color.random())
     offset = V.down() * (radius + height / 2) + V.right() * radius
     for i in range(height):
-        rast.draw_point(offset + V(i % 3, i), rb.Color.black)
+        rast.set_pixel(offset + V(i % 3, i), rb.Color.black)
     rast.scale = V.one() * (random.random() * 2 + 1)
     bday.add(go)
 

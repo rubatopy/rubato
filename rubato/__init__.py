@@ -36,7 +36,8 @@ def init(
     window_size: Vector | tuple[float, float] | None = None,
     window_pos: Vector | tuple[float, float] | None = None,
     icon: str = "",
-    fullscreen: Literal["off", "desktop", "exclusive"] = "off",
+    fullscreen: bool = False,
+    maximize: bool = False,
     target_fps: int = 0,
     physics_fps: int = 50,
     hidden: bool = False  # test: skip
@@ -52,8 +53,9 @@ def init(
         window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
             Defaults to None.
         icon: The path to the icon that will appear in the window. Defaults to "" (the rubato logo).
-        fullscreen: Whether the game should be fullscreen. Can be one of "off", "desktop", or "exclusive".
-            Defaults to "off".
+        fullscreen: Whether the game should be fullscreen. Defaults to False.
+        maximize: Whether the game should be maximized. If fullscreen is set to True, that will take priority.
+            Defaults to False.
         target_fps: The target frames per second. If set to 0, the target fps will be uncapped. Defaults to 0.
         physics_fps: The physics simulation's frames per second. Defaults to 50.
         hidden: Whether the window should be hidden. Defaults to False.
@@ -94,8 +96,10 @@ def init(
     else:
         Display.set_window_icon(str(files("rubato.static.png").joinpath("logo_filled.png")))
 
-    if fullscreen != "off":
-        Display.set_fullscreen(True, fullscreen)
+    Display.set_fullscreen(fullscreen)
+
+    if maximize and not fullscreen:
+        Display.maximize_window()
 
     Display.hidden = hidden
 

@@ -4,7 +4,6 @@ Static class that allows for intuitive window management.
 from __future__ import annotations
 
 import ctypes
-from typing import Literal
 
 import sdl2, sdl2.ext, sdl2.sdlimage
 import os
@@ -253,24 +252,18 @@ class Display(metaclass=_DisplayProperties):
         )
 
     @classmethod
-    def set_fullscreen(cls, on: bool = True, mode: Literal["desktop", "exclusive"] = "desktop"):
+    def set_fullscreen(cls, on: bool = True):
         """
         Set the window to fullscreen.
 
         Args:
             on: Whether to set the window to fullscreen.
-            mode: The type of fullscreen to use. Can be either "desktop" or "exclusive".
         """
         if on:
             if cls._saved_window_pos is None and cls._saved_window_size is None:
                 cls._saved_window_size = cls.window_size.clone()
                 cls._saved_window_pos = cls.window_pos.clone()
-            if mode == "desktop":
-                sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN_DESKTOP)
-            elif mode == "exclusive":
-                sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN)
-            else:
-                raise ValueError(f"Invalid fullscreen type: {mode}")
+            sdl2.SDL_SetWindowFullscreen(cls.window.window, sdl2.SDL_WINDOW_FULLSCREEN_DESKTOP)
         else:
             if cls._saved_window_size is not None and cls._saved_window_pos is not None:
                 cls.window_size = cls._saved_window_size

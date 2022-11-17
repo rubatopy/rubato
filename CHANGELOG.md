@@ -25,6 +25,11 @@
 -   Made `Game.current()` a classmethod instead of a property. This is to make it more obvious that it is read-only.
 -   Restructured the Joystick input system to make it easier to work with in more complex settings.
 -   Changed external `Time` methods and attributes to use seconds instead of milliseconds where applicable.
+-   Fullscreen option in `init()` is now a boolean.
+-   Added maximize option to `init()`.
+-   Renamed `Surface` and `Raster` `draw_point()` functions to `set_pixel()`.
+-   Removed `get_pixel_tuple()` because you can just do `get_pixel().to_tuple()`.
+-   Renamed `Draw.point()` and `Draw.queue_point()` to `Draw.pixel()` and `Draw.queue_pixel()`
 
 ### Added
 
@@ -49,6 +54,7 @@
 -   Adding groups and gameobjects adds them at the end of a frame instead of in the middle of one.
 -   `Rectangle` and `Circle` now raise errors when provided with incorrect parameters.
 -   `Display.save_screenshot()` wasn't working correctly on MacOS
+-   `Surface` cloning now clones the alpha and color mod correctly.
 
 ## [v0.3.5] - November 5, 2022
 
