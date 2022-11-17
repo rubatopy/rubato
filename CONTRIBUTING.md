@@ -73,6 +73,8 @@ pip install -e .[docs] # install requirements for docs
 ./b docs -l # start doc server
 ```
 
+Tutorial on how to write documentation in rst format: [here](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html)
+
 ### Docstring Guide
 
 This project uses a modified version of the Google Docstring Format.
