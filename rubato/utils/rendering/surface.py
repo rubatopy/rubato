@@ -391,6 +391,9 @@ class Surface:
             af=self.af,
         )
         new.blit(self)
+        new._pixels_colorkey = self._pixels_colorkey
+        new._color_key = self._color_key
+        new.set_alpha(self.get_alpha())
 
         return new
 

@@ -51,6 +51,7 @@
 -   Adding groups and gameobjects adds them at the end of a frame instead of in the middle of one.
 -   `Rectangle` and `Circle` now raise errors when provided with incorrect parameters.
 -   `Display.save_screenshot()` wasn't working correctly on MacOS
+-   `Surface` cloning now clones the alpha and color mod correctly.
 
 ## [v0.3.5] - November 5, 2022
 
