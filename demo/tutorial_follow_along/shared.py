@@ -35,15 +35,25 @@ player_body = rb.RigidBody(
     pos_correction=1,
     friction=0.8,
 )
-player.add(player_body)
 
-# add a hitbox to the player with the collider
-player.add(rb.Rectangle(
-    width=64,
-    height=64,
-    tag="player",
-))
-player.add(player_comp := PlayerController())
+
+player.add(
+    # add a hitbox to the player with the collider
+    rb.Rectangle(width=40, height=64, tag="player"),
+    # add a ground detector
+    rb.Rectangle(
+        width=34,
+        height=2,
+        offset=rb.Vector(0, -32),
+        trigger=True,
+        tag="player_ground_detector",
+    ),
+    # add a rigidbody to the player
+    rb.RigidBody(gravity=rb.Vector(y=rb.Display.res.y * -1.5), pos_correction=1, friction=1),
+    # add custom player component
+    player_comp := PlayerController(),
+)
+
 rb.Game.debug = True
 
 ##### SIDE BOUDARIES #####

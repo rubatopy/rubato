@@ -34,7 +34,6 @@ class PlayerController(Component):
 
     def handle_key_down(self, event: KeyResponse):
         if event.key == "w" and self.jumps > 0:
-            self.grounded = False
             if self.jumps == 2:
                 self.rigid.velocity.y = 800
                 self.animation.set_state("jump", freeze=2)

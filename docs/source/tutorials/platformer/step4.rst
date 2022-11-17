@@ -64,7 +64,9 @@ In the :code:`level1.py` file, add the following code:
 You can also change the player gravity to ``-1.5 * rb.Display.res.y``, which will make the game more realistic. It should look like this
 now:
 
-PLEASE UPDATE THIS IMAGE!!
+PLEASE UPDATE THIS AND FOLLOWING IMAGES!!
+
+
 .. image:: /_static/tutorials_static/platformer/step4/1.png
     :align: center
     :width: 75%
@@ -164,6 +166,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 .. dropdown:: Our game file is now getting pretty big! It should currently look like this (with your own level of course!)
 
     :code:`main.py`
+
     .. code-block:: python
 
         import rubato as rb
@@ -183,6 +186,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
         rb.begin()
 
     :code:`shared.py`
+
     .. code-block:: python
 
         import rubato as rb
@@ -239,6 +243,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
         right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
     :code:`player_controller.py`
+
     .. code-block:: python
 
         from rubato import Component, Input, Animation, RigidBody, KeyResponse, Events, Radio
@@ -281,6 +286,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
 
     :code:`level1.py`
+
     .. code-block:: python
 
         import shared

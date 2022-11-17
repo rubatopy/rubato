@@ -24,43 +24,59 @@ When this happens, we use the provided collision :func:`Manifold <rubato.struct.
 make sure the other collider is a ground hitbox, that we are not already grounded, and that we are indeed falling towards the ground.
 That code looks like this:
 
-.. code-block:: python
-
-    grounded = False # This line should be under the jump counter variable
-
-    def player_collide(col_info: rb.Manifold):
-        global jumps, grounded
-        if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
-            grounded = True
-            jumps = 2
-            p_animation.set_state("idle", True)
-
-    # add a hitbox to the player with the collider
-    player.add(rb.Rectangle(width=64, height=64, tag="player")) # This line should already be in your code
-    # add a ground detector
-    player.add(rb.Rectangle(
-        width=10,
-        height=2,
-        offset=rb.Vector(0, 32),
-        trigger=True,
-        on_collide=player_collide,
-    ))
-
-For this to work, you also need to update the event listner at the bottom to look like this:
+In :code:`shared.py` add the following code, deleting our sporadic adds, and adding a ground detector to the player:
 
 .. code-block:: python
 
-    # define a custom input listener
-    def handle_keydown(event):
-        global jumps, grounded
-        if event["key"] == "w" and jumps > 0:
-            grounded = False
-            player_body.velocity.y = 800
-            if jumps == 2:
-                p_animation.set_state("jump", freeze=2)
-            elif jumps == 1:
-                p_animation.set_state("somer", True)
-            jumps -= 1
+
+    player.add(
+        # add a hitbox to the player with the collider
+        rb.Rectangle(width=40, height=64, tag="player"),
+        # add a ground detector
+        rb.Rectangle(
+            width=34,
+            height=2,
+            offset=rb.Vector(0, -32),
+            trigger=True,
+            tag="player_ground_detector",
+        ),
+        # add a rigidbody to the player
+        rb.RigidBody(gravity=rb.Vector(y=rb.Display.res.y * -1.5), pos_correction=1, friction=1),
+        # add custom player component
+        player_comp := PlayerController(),
+    )
+
+In :code:`player_controller.py` we get our ground detector and set its on_collide and on_exit callbacks:
+
+.. code-block:: python
+
+        def setup(self):
+            self.initial_pos = self.gameobj.pos.clone()
+
+            self.animation: Animation = self.gameobj.get(Animation)
+            self.rigid: RigidBody = self.gameobj.get(RigidBody)
+
+            rects = self.gameobj.get_all(Rectangle)
+            self.ground_detector: Rectangle = [r for r in rects if r.tag == "player_ground_detector"][0]
+            self.ground_detector.on_collide = self.ground_detect
+            self.ground_detector.on_exit = self.ground_exit
+
+            self.grounded = False  # tracks the ground state
+            self.jumps = 0  # tracks the number of jumps the player has left
+
+            Radio.listen(Events.KEYDOWN, self.handle_key_down)
+
+        def ground_detect(self, col_info: Manifold):
+            if "ground" in col_info.shape_b.tag and self.rigid.velocity.y >= 0:
+                if not self.grounded:
+                    self.grounded = True
+                    self.jumps = 2
+                    self.animation.set_state("idle", True)
+
+        def ground_exit(self, col_info: Manifold):
+            if "ground" in col_info.shape_b.tag:
+                self.grounded = False
+
 
 *************
 Camera Scroll
@@ -72,17 +88,13 @@ space there! Remember that we set our level to be 120% the width of the screen. 
 .. code-block:: python
 
     # define a custom fixed update function
-    def fixed_update():
+        def fixed_update(self):
         # have the camera follow the player
-        camera_ideal = rb.Math.clamp(
-            player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x
+        current_scene = Game.current()
+        camera_ideal = Math.clamp(
+            self.gameobj.pos.x + Display.res.x / 4, Display.center.x, shared.level1_size - Display.res.x
         )
-        rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
-
-
-    # set the scene's update function
-    main.update = update # This line should already exist in your code
-    main.fixed_update = fixed_update
+        current_scene.camera.pos.x = Math.lerp(current_scene.camera.pos.x, camera_ideal, Time.fixed_delta / 0.4)
 
 ``lerp`` and ``clamp`` are both built-in methods to the :func:`rb.Math <rubato.utils.rb_math.Math>` class.
 Note that we've used :func:`rb.Time.fixed_delta <rubato.utils.rb_time.Time.fixed_delta>`, which represents the
@@ -99,28 +111,44 @@ This was just the tip of the iceberg of what rubato can do.
 
 .. dropdown:: If you got lost, here's the full code, just for kicks:
 
+    :code:`main.py`
+
     .. code-block:: python
 
         import rubato as rb
 
         # initialize a new game
+
         rb.init(
             name="Platformer Demo",  # Set a name
             res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-                # note that since we didn't also specify a window size,
-                # the window will be automatically resized to half of the resolution.
+            # note that since we didn't also specify a window size,
+            # the window will be automatically resized to half of the resolution.
         )
 
-        rb.Game.debug = True
+        import level1
 
-        grounded = False
-        # Tracks the number of jumps the player has left
-        jumps = 2
-        # size of level
-        level_size = int(rb.Display.res.x * 1.2)
+        # begin the game
+        rb.begin()
 
-        # Create a scene
-        main = rb.Scene(background_color=rb.Color.cyan.lighter())
+    :code:`shared.py`
+
+    .. code-block:: python
+
+        import rubato as rb
+        from player_controller import PlayerController
+
+        ##### MISC #####
+
+        level1_size = int(rb.Display.res.x * 1.2)
+
+        ##### COLORS #####
+
+        platform_color = rb.Color.from_hex("#b8e994")
+        background_color = rb.Color.from_hex("#82ccdd")
+        win_color = rb.Color.green.darker(75)
+
+        ##### PLAYER PREFAB #####
 
         # Create the player and set its starting position
         player = rb.GameObject(
@@ -140,138 +168,238 @@ This was just the tip of the iceberg of what rubato can do.
 
         # define the player rigidbody
         player_body = rb.RigidBody(
-            gravity=rb.Vector(y=rb.Display.res.y * -1.5),
+            gravity=rb.Vector(y=rb.Display.res.y * -1.5),  # changed to be stronger
             pos_correction=1,
             friction=0.8,
         )
-        player.add(player_body)
 
 
-        def player_collide(col_info: rb.Manifold):
-            global jumps, grounded
-            if col_info.shape_b.tag == "ground" and not grounded and player_body.velocity.y >= 0:
-                grounded = True
-                jumps = 2
-                p_animation.set_state("idle", True)
+        player.add(
+            # add a hitbox to the player with the collider
+            rb.Rectangle(width=40, height=64, tag="player"),
+            # add a ground detector
+            rb.Rectangle(
+                width=34,
+                height=2,
+                offset=rb.Vector(0, -32),
+                trigger=True,
+                tag="player_ground_detector",
+            ),
+            # add a rigidbody to the player
+            rb.RigidBody(gravity=rb.Vector(y=rb.Display.res.y * -1.5), pos_correction=1, friction=1),
+            # add custom player component
+            player_comp := PlayerController(),
+        )
+
+        rb.Game.debug = True
+
+        ##### SIDE BOUDARIES #####
+
+        left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
+        right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
 
-        # add a hitbox to the player with the collider
-        player.add(rb.Rectangle(width=64, height=64, tag="player"))  # This line should already be in your code
-        # add a ground detector
-        player.add(rb.Rectangle(
-            width=10,
-            height=2,
-            offset=rb.Vector(0, 32),
-            trigger=True,
-            on_collide=player_collide,
-        ))
+    :code:`player_controller.py`
 
-        # create the ground
-        ground = rb.GameObject()
-        ground.add(rb.Rectangle(width=level_size, height=50, color=rb.Color.green, tag="ground"))
-        ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
+    .. code-block:: python
+
+        from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, \
+            Input, Math, Display, Game, Time, Vector
+        import shared
+
+
+        class PlayerController(Component):
+
+            def setup(self):
+                self.initial_pos = self.gameobj.pos.clone()
+
+                self.animation: Animation = self.gameobj.get(Animation)
+                self.rigid: RigidBody = self.gameobj.get(RigidBody)
+
+                rects = self.gameobj.get_all(Rectangle)
+                self.ground_detector: Rectangle = [r for r in rects if r.tag == "player_ground_detector"][0]
+                self.ground_detector.on_collide = self.ground_detect
+                self.ground_detector.on_exit = self.ground_exit
+
+                self.grounded = False  # tracks the ground state
+                self.jumps = 0  # tracks the number of jumps the player has left
+
+                Radio.listen(Events.KEYDOWN, self.handle_key_down)
+
+            def ground_detect(self, col_info: Manifold):
+                if "ground" in col_info.shape_b.tag and self.rigid.velocity.y >= 0:
+                    if not self.grounded:
+                        self.grounded = True
+                        self.jumps = 2
+                        self.animation.set_state("idle", True)
+
+            def ground_exit(self, col_info: Manifold):
+                if "ground" in col_info.shape_b.tag:
+                    self.grounded = False
+
+            def handle_key_down(self, event: KeyResponse):
+                if event.key == "w" and self.jumps > 0:
+                    if self.jumps == 2:
+                        self.rigid.velocity.y = 800
+                        self.animation.set_state("jump", freeze=2)
+                    elif self.jumps == 1:
+                        self.rigid.velocity.y = 800
+                        self.animation.set_state("somer", True)
+                    self.jumps -= 1
+
+            def update(self):
+                # Runs once every frame.
+                # Movement
+                if Input.key_pressed("a"):
+                    self.rigid.velocity.x = -300
+                    self.animation.flipx = True
+                elif Input.key_pressed("d"):
+                    self.rigid.velocity.x = 300
+                    self.animation.flipx = False
+                else:
+                    if not self.grounded:
+                        self.rigid.velocity.x = 0
+                        self.rigid.friction = 0
+                    else:
+                        self.rigid.friction = 1
+
+                # Running animation states
+                if self.grounded:
+                    if self.rigid.velocity.x in (-300, 300):
+                        if Input.key_pressed("shift") or Input.key_pressed("s"):
+                            self.animation.set_state("sneak", True)
+                        else:
+                            self.animation.set_state("run", True)
+                    else:
+                        if Input.key_pressed("shift") or Input.key_pressed("s"):
+                            self.animation.set_state("crouch", True)
+                        else:
+                            self.animation.set_state("idle", True)
+
+                # Reset
+                if Input.key_pressed("r") or self.gameobj.pos.y < -550:
+                    self.gameobj.pos = self.initial_pos.clone()
+                    self.rigid.stop()
+                    self.grounded = False
+                    Game.current().camera.pos = Vector(0, 0)
+
+            # define a custom fixed update function
+            def fixed_update(self):
+                # have the camera follow the player
+                current_scene = Game.current()
+                camera_ideal = Math.clamp(
+                    self.gameobj.pos.x + Display.res.x / 4, Display.center.x, shared.level1_size - Display.res.x
+                )
+                current_scene.camera.pos.x = Math.lerp(current_scene.camera.pos.x, camera_ideal, Time.fixed_delta / 0.4)
+
+
+
+    :code:`level1.py`
+
+    .. code-block:: python
+
+        import shared
+        from rubato import GameObject, Rectangle, Display, Scene, Vector, wrap
+
+        scene = Scene("level1", background_color=shared.background_color)
+
+
+        ground = GameObject().add(ground_rect := Rectangle(width=1270, height=50, color=shared.platform_color, tag="ground"))
+        ground_rect.bottom_left = Display.bottom_left
+
+        end_location = Vector(Display.left + shared.level1_size - 128, 450)
 
         # create platforms
         platforms = [
-            rb.GameObject(pos=rb.Vector(-760, rb.Display.bottom + 140)
-                        ).add(rb.Rectangle(
-                            width=90,
-                            height=40,
-                            tag="ground",
-                            color=rb.Color.blue,
-                        )),
-            rb.GameObject(pos=rb.Vector(-560, rb.Display.bottom + 340)
-                        ).add(rb.Rectangle(
-                            width=150,
-                            height=40,
-                            tag="ground",
-                            color=rb.Color.blue,
-                        )),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(-650, -200),
+            ),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(500, 40),
+            ),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(800, 200),
+            ),
+            Rectangle(256, 40, offset=end_location - (0, 64 + 20))
         ]
 
-        # create obstacles
-        obstacles = [
-            rb.GameObject(pos=rb.Vector(-260)).add(rb.Rectangle(
-                width=90,
-                height=500,
-                tag="ground",
-                color=rb.Color.purple,
+        for p in platforms:
+            p.tag = "ground"
+            p.color = shared.platform_color
+
+        # create pillars, learn to do it with Game Objects too
+        pillars = [
+            GameObject(pos=Vector(-260)).add(Rectangle(
+                width=100,
+                height=650,
             )),
-            rb.GameObject(pos=rb.Vector(240)).add(rb.Rectangle(
-                width=70,
-                height=450,
-                tag="ground",
-                color=rb.Color.purple,
+            GameObject(pos=Vector(260)).add(Rectangle(
+                width=100,
+                height=400,
             )),
         ]
 
-        for obstacle in obstacles:
-            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom + 30
+        for pillar in pillars:
+            r = pillar.get(Rectangle)
+            r.bottom = Display.bottom + 50
+            r.tag = "ground"
+            r.color = shared.platform_color
 
-        # Side boundary
-        left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0))
-        left.add(rb.Rectangle(width=50, height=rb.Display.res.y))
-        right = rb.GameObject(pos=rb.Display.center_left + rb.Vector(level_size + 25, 0))
-        right.add(rb.Rectangle(width=50, height=rb.Display.res.y))
-
-        # add them all to the scene
-        main.add(player, ground, left, right, *platforms, *obstacles)
+        shared.right.pos = Display.center_left + Vector(shared.level1_size + 25, 0)
 
 
-        # define a custom update function
-        # this function is run every frame
-        def update():
-            if rb.Input.key_pressed("a"):
-                player_body.velocity.x = -300
-                p_animation.flipx = True
-            elif rb.Input.key_pressed("d"):
-                player_body.velocity.x = 300
-                p_animation.flipx = False
-            else:
-                player_body.velocity.x = 0
-
-
-        # define a custom fixed update function
-        def fixed_update():
-            # have the camera follow the player
-            camera_ideal = rb.Math.clamp(
-                player.pos.x + rb.Display.res.x / 4, rb.Display.center.x, level_size - rb.Display.res.x
-            )
-            rb.Game.camera.pos.x = rb.Math.lerp(rb.Game.camera.pos.x, camera_ideal, rb.Time.fixed_delta / 0.4)
-
-
-        # set the scene's update function
-        main.update = update
-        main.fixed_update = fixed_update
-
-
-        # define a custom input listener
-        def handle_keydown(event):
-            global jumps, grounded
-            if event["key"] == "w" and jumps > 0:
-                grounded = False
-                player_body.velocity.y = 800
-                if jumps == 2:
-                    p_animation.set_state("jump", freeze=2)
-                elif jumps == 1:
-                    p_animation.set_state("somer", True)
-                jumps -= 1
-
-
-        rb.Radio.listen("KEYDOWN", handle_keydown)
-
-        # begin the game
-        rb.begin()
+        scene.add(shared.player, ground, wrap(platforms), *pillars, shared.left, shared.right)
 
 We're also including a version with some more in-depth features that weren't covered in this tutorial, including
 win detection, advanced animation switching, and a respawn system.
 
 .. dropdown:: Here is what that code looks like:
 
-    .. literalinclude:: ../../../../demo/platformer.py
+    .. literalinclude:: ../../../../demo/platformer/main.py
         :language: python
         :lines: 6-
-        :caption: platformer.py
+        :caption: main.py
+
+    .. literalinclude:: ../../../../demo/platformer/level1.py
+        :language: python
+        :lines: 6-
+        :caption: level1.py
+
+    .. literalinclude:: ../../../../demo/platformer/level2.py
+        :language: python
+        :lines: 6-
+        :caption: level2.py
+
+    .. literalinclude:: ../../../../demo/platformer/main_menu.py
+        :language: python
+        :lines: 6-
+        :caption: main_menu.py
+
+    .. literalinclude:: ../../../../demo/platformer/end_menu.py
+        :language: python
+        :lines: 6-
+        :caption: end_menu.py
+
+    .. literalinclude:: ../../../../demo/platformer/shared.py
+        :language: python
+        :lines: 6-
+        :caption: shared.py
+
+    .. literalinclude:: ../../../../demo/platformer/player_controller.py
+        :language: python
+        :lines: 6-
+        :caption: player_controller.py
+
+    .. literalinclude:: ../../../../demo/platformer/moving_platform.py
+        :language: python
+        :lines: 6-
+        :caption: moving_platform.py
 
 We hope this tutorial gave enough detail as to the basics of rubato to let you make your own games and simulations!
 If you have questions or feedback, please feel free to contact us on our `Discord server <https://discord.gg/rdce5GXRrC>`_ or by `sending us an email <mailto:info@rubato.app>`_!
