@@ -33,6 +33,7 @@
 -   `scene.on_switch()` overridable method that is called automatically when the scene is switched to.
 -   `hitbox.on_enter()` overridable method that is called automatically when a hitbox enters a collision.
 -   `Text` support for anisotropic filtering
+-   `Display` Maximize, Minimize, and Restore methods.
 
 ### Changed
 
