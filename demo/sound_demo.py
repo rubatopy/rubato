@@ -27,9 +27,10 @@ rb.Sound.import_sound_folder("sounds/player2", True)
 player1_intro = rb.Sound.get_sound("sounds/player1/intro")
 player1_intro.play()
 
+rb.Time.delayed_call(rb.Sound.get_sound("sounds/player2/intro").play, 0.5)
+
 
 def update():
-    # print(f"click: {bin(click.channels)}   music: {bin(music.channels)}")  # Prints the active channels
     if rb.Input.key_pressed("space"):
         click.play(0)
 
