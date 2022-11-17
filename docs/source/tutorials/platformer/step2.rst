@@ -44,7 +44,7 @@ well as several methods to mix and manipulate them. In the code above, we use :f
 to lighten the shade a little.
 
 Next, we need to create a player and add it to the scene.
-Remember to insert the following code before the ``begin()`` call but after creating the scene.
+Now we should create a new file called :code:`shared.py` and add the following code:
 
 .. code-block:: python
 
@@ -54,9 +54,15 @@ Remember to insert the following code before the ``begin()`` call but after crea
         z_index=1,
     )
 
+And now in the main file we need to import shared and add him to the scene (above the begin):
+Note: you need to import the shared file after having initialized rubato, so that you can use rubato functions in shared.
+
+.. code-block:: python
+
+    import shared
+
     # Add the player to the scene
     main.add(player)
-
 
 :func:`rb.Display.center_left <rubato.utils.display.Display.center_left>` is just the Vector position for the center of the
 left side of the screen.
@@ -78,6 +84,8 @@ state names are the names of the files. Some states we have in our example are i
 
 We also should specify the default state. This is the state that the animation will start at and the one that it will
 return to when other states finish. In our case, this will be the idle state.
+
+Also in the :code:`shared.py` file, add the following code:
 
 .. code-block:: python
 
@@ -101,20 +109,35 @@ Adorable :)
 
 Here is what you should have so far if you've been following along:
 
+In main.py:
+
 .. code-block:: python
 
     import rubato as rb
 
     # initialize a new game
+    main = rb.Scene(background_color=rb.Color.cyan.lighter())
+
     rb.init(
         name="Platformer Demo",  # Set a name
         res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
+        # note that since we didn't also specify a window size,
+        # the window will be automatically resized to half of the resolution.
     )
 
-    # Create a scene
-    main = rb.Scene(background_color=rb.Color.cyan.lighter())
+    import shared
+
+    # Add the player to the scene
+    main.add(shared.player)
+    # begin the game
+    rb.begin()
+
+
+AND in shared.py:
+
+.. code-block:: python
+
+    import rubato as rb
 
     # Create the player and set its starting position
     player = rb.GameObject(
@@ -129,11 +152,5 @@ Here is what you should have so far if you've been following along:
         default_state="idle",
     )
     p_animation.scale = rb.Vector(4, 4)
-    p_animation.fps = 10 # The frames will change 10 times a second
-    player.add(p_animation) # Add the animation component to the player
-
-    # Add the player to the scene
-    main.add(player)
-
-    # begin the game
-    rb.begin()
+    p_animation.fps = 10  # The frames will change 10 times a second
+    player.add(p_animation)  # Add the animation component to the player
