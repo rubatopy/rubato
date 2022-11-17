@@ -61,6 +61,8 @@ Note: you need to import the shared file after having initialized rubato, so tha
 
     import shared
 
+    # below
+
     # Add the player to the scene
     main.add(player)
 

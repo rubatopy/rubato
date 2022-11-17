@@ -56,7 +56,9 @@ A Vector can represent a point, dimensions, a mathematical vector, or anything e
 parameters. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
 many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a
 deeper look at what that means in a bit.
-Note: we use cartesian coordinates, so the x-axis is horizontal and the y-axis is vertical.
+
+.. note::
+    We use cartesian coordinates, so the x-axis is horizontal and the y-axis is vertical.
 
 At this point, running the game should look like this:
 

@@ -6,10 +6,11 @@ We need to add Player Behaviour all game object behaviour in rubato is done thro
 
 Make a new file called :code:`player_controller.py`
 
-Make a custom component by inheriting from rubato's `:func:`Component <rubato.struct.gameobject.component.Component>`.
+Make a custom component by inheriting from rubato's :func:`Component <rubato.struct.gameobject.component.Component>`.
 Then add the components we added by reference from the game object.
 
 .. code-block:: python
+
     from rubato import Component
 
     class PlayerController(Component):
@@ -21,38 +22,41 @@ Then add the components we added by reference from the game object.
 
             self.animation: Animation = self.gameobj.get(Animation)
             self.rigid: RigidBody = self.gameobj.get(RigidBody)
-            pass
+
 
 Let's add movement. Since we need to check player input every frame, lets create a custom update function.
 This function runs once every frame.
-.. admonition:: Remember!
-    :class: tip
-        import Input from rubato and all others.
-        :code:`from rubato import Component, Input, Animation, RigidBody`
 
 .. code-block:: python
 
         def update(self):
-        # Runs once every frame.
-        # Movement
-        if Input.key_pressed("a"):
-            self.rigid.velocity.x = -300
-            self.animation.flipx = True
-        elif Input.key_pressed("d"):
-            self.rigid.velocity.x = 300
-            self.animation.flipx = False
+            # Runs once every frame.
+            # Movement
+            if Input.key_pressed("a"):
+                self.rigid.velocity.x = -300
+                self.animation.flipx = True
+            elif Input.key_pressed("d"):
+                self.rigid.velocity.x = 300
+                self.animation.flipx = False
 
+.. admonition:: Remember!
+    :class: tip
 
-Finally import the player controller in shared and add it to the player
+    import Input from rubato and all others.
+    :code:`from rubato import Component, Input, Animation, RigidBody`
+
+Finally import the player controller in :code:`shared.py` and add it to the player
 
 .. code-block:: python
-    # above
+
+    # at top
     from player_controller import PlayerController
 
-    # below
+    # at bottom
     player.add(player_comp := PlayerController())
 
------------------------------------------------------------------------------------------------------------------------------------- READY UP TO HERE.
+----------------------------------------------------------------------------------- READY UP TO HERE.
+
 Here we check for player input using :func:`key_pressed() <rubato.utils.rb_input.Input.key_pressed>`. We then update the player's horizontal velocity
 in the corresponding direction. We also flip the player's animation depending on the direction we want to face. Now, when you press "a" or "d" you
 should be able to move the player left and right.
