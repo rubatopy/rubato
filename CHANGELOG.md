@@ -27,6 +27,7 @@
 -   Changed external `Time` methods and attributes to use seconds instead of milliseconds where applicable.
 -   Fullscreen option in `init()` is now a boolean.
 -   Added maximize option to `init()`.
+-   Renamed `Surface` and `Raster` `draw_point()` functions to `set_pixel()`.
 
 ### Added
 
