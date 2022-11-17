@@ -109,7 +109,7 @@ Adorable :)
 
 Here is what you should have so far if you've been following along:
 
-In main.py:
+In :code:`main.py`:
 
 .. code-block:: python
 
@@ -133,7 +133,7 @@ In main.py:
     rb.begin()
 
 
-AND in shared.py:
+AND in :code:`shared.py`:
 
 .. code-block:: python
 
