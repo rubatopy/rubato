@@ -101,7 +101,31 @@ class Raster(Component):
         """
         self.surf.fill(color)
 
-    def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
+    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
+        """
+        Gets the color of a pixel on the surface.
+
+        Args:
+            pos: The position of the pixel.
+
+        Returns:
+            The color of the pixel.
+        """
+        return self.surf.get_pixel(pos)
+
+    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
+        """
+        Gets the color of a pixel on the surface.
+
+        Args:
+            pos: The position of the pixel.
+
+        Returns:
+            The color of the pixel.
+        """
+        return self.surf.get_pixel_tuple(pos)
+
+    def set_pixel(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
 
@@ -110,7 +134,7 @@ class Raster(Component):
             color: The color of the point. Defaults to black.
             blending: Whether to use blending. Defaults to False.
         """
-        self.surf.draw_point(pos, color, blending)
+        self.surf.set_pixel(pos, color, blending)
 
     def draw_line(
         self,
@@ -212,30 +236,6 @@ class Raster(Component):
             The size of the surface
         """
         return self.surf.size_scaled()
-
-    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
-        """
-        Gets the color of a pixel on the surface.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            The color of the pixel.
-        """
-        return self.surf.get_pixel(pos)
-
-    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
-        """
-        Gets the color of a pixel on the surface.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            The color of the pixel.
-        """
-        return self.surf.get_pixel_tuple(pos)
 
     def switch_color(self, color: Color, new_color: Color):
         """

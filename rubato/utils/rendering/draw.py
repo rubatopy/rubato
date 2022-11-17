@@ -135,7 +135,7 @@ class Draw:
         """
         if (surf := cls._pt_surfs.get(color, None)) is None:
             surf = Surface(1, 1)
-            surf.draw_point((0, 0), color)
+            surf.set_pixel((0, 0), color)
             cls._pt_surfs[color] = surf
 
         cls.surface(surf, pos, camera)

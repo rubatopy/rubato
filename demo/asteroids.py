@@ -18,7 +18,7 @@ stars = Surface(size, size)
 stars.fill(Color.black)
 for _ in range(200):
     pos = random.randint(-half_size, half_size), random.randint(-half_size, half_size)
-    stars.draw_point(pos, Color.white)
+    stars.set_pixel(pos, Color.white)
 
 
 class Timer(Component):
