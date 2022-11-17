@@ -122,6 +122,7 @@ class CloudMover(rb.Component):
 
 
 cloud_template = rb.GameObject().add(rb.Image("files/cloud.png", scale=rb.Vector(5, 5)), CloudMover())
+cloud_template.get(rb.Image).set_alpha(180)
 
 
 def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
@@ -135,7 +136,6 @@ def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):
         )
 
         cloud = cloud_template.clone()
-        cloud.get(rb.Image).set_alpha(180)
         cloud.pos = rand_pos
 
         scene.add(cloud)

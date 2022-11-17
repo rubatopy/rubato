@@ -103,7 +103,7 @@ class Draw:
         cls._queue.clear()
 
     @classmethod
-    def queue_point(
+    def queue_pixel(
         cls,
         pos: Vector | tuple[float, float],
         color: Color = Color.cyan,
@@ -121,10 +121,10 @@ class Draw:
         """
         if camera is not None and camera.z_index < z_index:
             return
-        cls._push(z_index, lambda: cls.point(pos, color, camera))
+        cls._push(z_index, lambda: cls.pixel(pos, color, camera))
 
     @classmethod
-    def point(cls, pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
+    def pixel(cls, pos: Vector | tuple[float, float], color: Color = Color.cyan, camera: Camera | None = None):
         """
         Draw a point onto the renderer immediately.
 
@@ -135,7 +135,7 @@ class Draw:
         """
         if (surf := cls._pt_surfs.get(color, None)) is None:
             surf = Surface(1, 1)
-            surf.draw_point((0, 0), color)
+            surf.set_pixel((0, 0), color)
             cls._pt_surfs[color] = surf
 
         cls.surface(surf, pos, camera)

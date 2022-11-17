@@ -158,7 +158,23 @@ class Surface:
         """Simple function that converts cartesian coordinates to surface space."""
         return (pos[0] + self._width / 2, -pos[1] + self._height / 2)
 
-    def draw_point(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
+    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
+        """
+        Gets the color of a pixel on the surface.
+
+        Args:
+            pos: The position of the pixel.
+
+        Returns:
+            The color of the pixel.
+        """
+        x, y = round(pos[0]), round(pos[1])
+        if 0 <= x < self._width and 0 <= y < self._height:
+            return Color.from_argb32(c_draw.get_pixel(self._pixels, self._width, self._height, x, y))
+        else:
+            raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
+
+    def set_pixel(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.
 
@@ -315,34 +331,6 @@ class Surface:
         )
         self.uptodate = False
 
-    def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
-        """
-        Gets the color of a pixel on the surface.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            The color of the pixel.
-        """
-        x, y = round(pos[0]), round(pos[1])
-        if 0 <= x < self._width and 0 <= y < self._height:
-            return Color.from_argb32(c_draw.get_pixel(self._pixels, self._width, self._height, x, y))
-        else:
-            raise ValueError(f"Position is outside of the ${self.__class__.__name__}.")
-
-    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
-        """
-        Gets the color of a pixel on the surface.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            The color of the pixel.
-        """
-        return self.get_pixel(pos).to_tuple()
-
     def switch_color(self, color: Color, new_color: Color):
         """
         Switches a color in the surface.
@@ -391,6 +379,9 @@ class Surface:
             af=self.af,
         )
         new.blit(self)
+        new._pixels_colorkey = self._pixels_colorkey
+        new._color_key = self._color_key
+        new.set_alpha(self.get_alpha())
 
         return new
 

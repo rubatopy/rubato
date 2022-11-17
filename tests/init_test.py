@@ -44,6 +44,7 @@ def test_init(monkeypatch):
         physics_fps=30,
         icon="",
         hidden=False,
+        fullscreen=True,
     )
     assert rubato.Game._initialized is True
     assert rubato.Game.state == rubato.Game.STOPPED
@@ -62,6 +63,6 @@ def test_init(monkeypatch):
         physics_fps=30,
         icon=str(files("rubato.static.png").joinpath("logo_filled.ico")),
         hidden=True,
-        fullscreen="desktop",
+        maximize=True,
     )
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.ico")))
