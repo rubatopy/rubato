@@ -8,7 +8,7 @@ scene = Scene("menu", background_color=Color.white)
 black_32 = Font(size=32)
 
 
-def smooth_button_generator(onclick: Callable, _text: str, go: GameObject, offset: Vector = Vector(0, 0)):
+def smooth_button_generator(onclick: Callable, text: str, go: GameObject, offset: Vector = Vector(0, 0)):
     # generate the components
     button = Button(
         300,
@@ -17,9 +17,9 @@ def smooth_button_generator(onclick: Callable, _text: str, go: GameObject, offse
         offset=offset,
         z_index=-1,
     )
-    text = Text(_text, font=black_32, offset=offset)
+    text_cmp = Text(text, font=black_32, offset=offset)
     # add the components to the game object
-    go.add(button, text)
+    go.add(button, text_cmp)
 
     # link their behaviours
     button.onhover = lambda: Time.recurrent_call(increase_font_size, 3)
@@ -30,11 +30,11 @@ def smooth_button_generator(onclick: Callable, _text: str, go: GameObject, offse
         nonlocal font_changing
         if font_changing is not None and font_changing != task:
             font_changing.stop()
-        text.font_size += 1
-        if text.font_size >= 64:
+        text_cmp.font_size += 1
+        if text_cmp.font_size >= 64:
             task.stop()
             font_changing = None
-            text.font_size = 64
+            text_cmp.font_size = 64
         else:
             font_changing = task
 
@@ -42,11 +42,11 @@ def smooth_button_generator(onclick: Callable, _text: str, go: GameObject, offse
         nonlocal font_changing
         if font_changing is not None and font_changing != task:
             font_changing.stop()
-        text.font_size -= 1
-        if text.font_size <= 32:
+        text_cmp.font_size -= 1
+        if text_cmp.font_size <= 32:
             task.stop()
             font_changing = None
-            text.font_size = 32
+            text_cmp.font_size = 32
         else:
             font_changing = task
 
