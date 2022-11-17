@@ -5,7 +5,7 @@ rb.init(
     res=(1080, 1080),
     window_size=(2000, 2000),
     fullscreen=True,
-    maximized=True,
+    maximize=True,
 )
 
 main = rb.Scene()
