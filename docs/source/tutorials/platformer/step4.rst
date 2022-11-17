@@ -9,31 +9,62 @@ We will build our level out of basic rectangle hitboxes. We can also pass in a C
 First let's set a variable for the level size. This will be the width of the level. Let's set it to be 120% the resolution of the screen.
 Note that it needs to be an integer, because it represents the width of the level in pixels.
 
+save it in :code:`shared.py`
+
 .. code-block:: python
 
     # size of level
-    level_size = int(rb.Display.res.x * 1.2)
+    level1_size = int(rb.Display.res.x * 1.2)
 
-This should be added right after the init call. Next, we will create our floor. We do this by creating a GameObject and adding a Rectangle hitbox to it.
+Along with that lets add some colors to our :code:`shared.py` file.
+
+.. code-block:: python
+
+    ##### COLORS #####
+
+    platform_color = rb.Color.from_hex("#b8e994")
+    background_color = rb.Color.from_hex("#82ccdd")
+    win_color = rb.Color.green.darker(75)
+
+The color darker function allows us to darken a color py an amount. Subtracting this from all values.
+
+.. important::
+    Next we will create a new file :code:`level1.py` in it we will define all the elements unique to our level.
+
+The level1 represents a scene with our level in it. All the work we did up until now should have really been put in :code:`level1.py`.
+So lets make a scene in level1.py and add all our things there. Deleting our player from main, as well as the main scene.
+Finally import :code:`levele1.py` from :code:`main.py` and check that it works.
+
+.. code-block:: python
+
+    import shared
+    from rubato import GameObject, Rectangle, Display, Scene
+
+    scene = Scene("level1", background_color=shared.background_color)
+
+    # Add the player to the scene
+    scene.add(shared.player)
+
+We will create our floor. We do this by creating a GameObject and adding a Rectangle hitbox to it.
 In the following code we also use the Rectangle's bottom_left property to place the floor correctly. We also give a "ground" tag to our floor. This will be
 used later to determine if the player is on the ground.
+
+In the :code:`level1.py` file, add the following code:
 
 .. code-block:: python
 
     # create the ground
-    ground = rb.GameObject()
-    ground.add(rb.Rectangle(width=level_size, height=50, color=rb.Color.green, tag="ground"))
-    ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
+    ground = GameObject().add(ground_rect := Rectangle(width=1270, height=50, color=shared.platform_color, tag="ground"))
+    ground_rect.bottom_left = Display.bottom_left
 
-Place this before ``main.add`` and update that call to add the ground as well:
+    # at the bottom
+    scene.add(shared.player, ground)
 
-.. code-block:: python
-
-    main.add(player, ground)
 
 You can also change the player gravity to ``-1.5 * rb.Display.res.y``, which will make the game more realistic. It should look like this
 now:
 
+PLEASE UPDATE THIS IMAGE!!
 .. image:: /_static/tutorials_static/platformer/step4/1.png
     :align: center
     :width: 75%
@@ -55,57 +86,68 @@ Below is a very basic example that we will be using for the rest of the tutorial
 
     .. code-block:: python
 
+        end_location = Vector(Display.left + shared.level1_size - 128, 450)
+
         # create platforms
         platforms = [
-            rb.GameObject(pos=rb.Vector(-760, rb.Display.bottom + 140)
-                        ).add(rb.Rectangle(
-                            width=90,
-                            height=40,
-                            tag="ground",
-                            color=rb.Color.blue,
-                        )),
-            rb.GameObject(pos=rb.Vector(-560, rb.Display.bottom + 340)
-                        ).add(rb.Rectangle(
-                            width=150,
-                            height=40,
-                            tag="ground",
-                            color=rb.Color.blue,
-                        )),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(-650, -200),
+            ),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(500, 40),
+            ),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(800, 200),
+            ),
+            Rectangle(256, 40, offset=end_location - (0, 64 + 20))
         ]
 
-        # create obstacles
-        obstacles = [
-            rb.GameObject(pos=rb.Vector(-260)).add(rb.Rectangle(
-                width=90,
-                height=500,
-                tag="ground",
-                color=rb.Color.purple,
+        for p in platforms:
+            p.tag = "ground"
+            p.color = shared.platform_color
+
+        # create pillars
+        pillars = [
+            GameObject(pos=Vector(-260)).add(Rectangle(
+                width=100,
+                height=650,
             )),
-            rb.GameObject(pos=rb.Vector(240)).add(rb.Rectangle(
-                width=70,
-                height=450,
-                tag="ground",
-                color=rb.Color.purple,
+            GameObject(pos=Vector(260)).add(Rectangle(
+                width=100,
+                height=400,
             )),
         ]
 
-        for obstacle in obstacles:
-            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom + 30
+        for pillar in pillars:
+            r = pillar.get(Rectangle)
+            r.bottom = Display.bottom + 50
+            r.tag = "ground"
+            r.color = shared.platform_color
 
         # add them all to the scene
-        main.add(player, ground, *platforms, *obstacles)
-
+        scene.add(shared.player, ground, wrap(platforms), *pillars)
 
 Now that you have a level built, we need to move around it. You may notice that you are currently able to fall off the world. This is because nothing
 is stopping you from doing so. Let's fix this by adding a clear hitbox on either side of the play area.
 
-.. code-block:: python
+Add this in the :code:`shared.py` and :code:`level1.py` files.
 
-    # Side boundary
-    left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0))
-    left.add(rb.Rectangle(width=50, height=rb.Display.res.y))
-    right = rb.GameObject(pos=rb.Display.center_left + rb.Vector(level_size + 25, 0))
-    right.add(rb.Rectangle(width=50, height=rb.Display.res.y))
+.. code-block:: python
+    # in shared.py
+    ##### SIDE BOUDARIES #####
+
+    left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
+    right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
+
+    # in level1.py
+    # need to be able to set the right side's position especially for each level
+    shared.right.pos = Display.center_left + Vector(shared.level1_size + 25, 0)
 
     # add them all to the scene
     main.add(player, ground, left, right, *platforms, *obstacles)
@@ -121,27 +163,42 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
 .. dropdown:: Our game file is now getting pretty big! It should currently look like this (with your own level of course!)
 
+    :code:`main.py`
     .. code-block:: python
 
         import rubato as rb
 
         # initialize a new game
+
         rb.init(
             name="Platformer Demo",  # Set a name
             res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-                # note that since we didn't also specify a window size,
-                # the window will be automatically resized to half of the resolution.
+            # note that since we didn't also specify a window size,
+            # the window will be automatically resized to half of the resolution.
         )
 
-        rb.Game.debug = True
+        import level1
 
-        # Tracks the number of jumps the player has left
-        jumps = 2
-        # size of level
-        level_size = int(rb.Display.res.x * 1.2)
+        # begin the game
+        rb.begin()
 
-        # Create a scene
-        main = rb.Scene(background_color=rb.Color.cyan.lighter())
+    :code:`shared.py`
+    .. code-block:: python
+
+        import rubato as rb
+        from player_controller import PlayerController
+
+        ##### MISC #####
+
+        level1_size = int(rb.Display.res.x * 1.2)
+
+        ##### COLORS #####
+
+        platform_color = rb.Color.from_hex("#b8e994")
+        background_color = rb.Color.from_hex("#82ccdd")
+        win_color = rb.Color.green.darker(75)
+
+        ##### PLAYER PREFAB #####
 
         # Create the player and set its starting position
         player = rb.GameObject(
@@ -161,7 +218,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         # define the player rigidbody
         player_body = rb.RigidBody(
-            gravity=rb.Vector(y=rb.Display.res.y * -1.5),
+            gravity=rb.Vector(y=rb.Display.res.y * -1.5),  # changed to be stronger
             pos_correction=1,
             friction=0.8,
         )
@@ -173,90 +230,113 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
             height=64,
             tag="player",
         ))
+        player.add(player_comp := PlayerController())
+        rb.Game.debug = True
 
-        # create the ground
-        ground = rb.GameObject()
-        ground.add(rb.Rectangle(width=level_size, height=50, color=rb.Color.green, tag="ground"))
-        ground.get(rb.Rectangle).bottom_left = rb.Display.bottom_left
+        ##### SIDE BOUDARIES #####
+
+        left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
+        right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
+
+    :code:`player_controller.py`
+    .. code-block:: python
+
+        from rubato import Component, Input, Animation, RigidBody, KeyResponse, Events, Radio
+
+
+        class PlayerController(Component):
+
+            def setup(self):
+                # Like the init function of regular classes. Called when added to Game Object.
+                # Specifics can be found in the Custom Components tutorial.
+                self.initial_pos = self.gameobj.pos.clone()
+
+                self.animation: Animation = self.gameobj.get(Animation)
+                self.rigid: RigidBody = self.gameobj.get(RigidBody)
+
+                # Tracks the number of jumps the player has left
+                self.jumps = 2
+
+                Radio.listen(Events.KEYDOWN, self.handle_key_down)
+
+            def update(self):
+                # Runs once every frame.
+                # Movement
+                if Input.key_pressed("a"):
+                    self.rigid.velocity.x = -300
+                    self.animation.flipx = True
+                elif Input.key_pressed("d"):
+                    self.rigid.velocity.x = 300
+                    self.animation.flipx = False
+
+            def handle_key_down(self, event: KeyResponse):
+                if event.key == "w" and self.jumps > 0:
+                    if self.jumps == 2:
+                        self.rigid.velocity.y = 800
+                        self.animation.set_state("jump", freeze=2)
+                    elif self.jumps == 1:
+                        self.rigid.velocity.y = 800
+                        self.animation.set_state("somer", True)
+                    self.jumps -= 1
+
+
+    :code:`level1.py`
+    .. code-block:: python
+
+        import shared
+        from rubato import GameObject, Rectangle, Display, Scene, Vector, wrap
+
+        scene = Scene("level1", background_color=shared.background_color)
+
+
+        ground = GameObject().add(ground_rect := Rectangle(width=1270, height=50, color=shared.platform_color, tag="ground"))
+        ground_rect.bottom_left = Display.bottom_left
+
+        end_location = Vector(Display.left + shared.level1_size - 128, 450)
 
         # create platforms
         platforms = [
-            rb.GameObject(pos=rb.Vector(-760, rb.Display.bottom + 140)
-                        ).add(rb.Rectangle(
-                            width=90,
-                            height=40,
-                            tag="ground",
-                            color=rb.Color.blue,
-                        )),
-            rb.GameObject(pos=rb.Vector(-560, rb.Display.bottom + 340)
-                        ).add(rb.Rectangle(
-                            width=150,
-                            height=40,
-                            tag="ground",
-                            color=rb.Color.blue,
-                        )),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(-650, -200),
+            ),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(500, 40),
+            ),
+            Rectangle(
+                150,
+                40,
+                offset=Vector(800, 200),
+            ),
+            Rectangle(256, 40, offset=end_location - (0, 64 + 20))
         ]
 
-        # create obstacles
-        obstacles = [
-            rb.GameObject(pos=rb.Vector(-260)).add(rb.Rectangle(
-                width=90,
-                height=500,
-                tag="ground",
-                color=rb.Color.purple,
+        for p in platforms:
+            p.tag = "ground"
+            p.color = shared.platform_color
+
+        # create pillars, learn to do it with Game Objects too
+        pillars = [
+            GameObject(pos=Vector(-260)).add(Rectangle(
+                width=100,
+                height=650,
             )),
-            rb.GameObject(pos=rb.Vector(240)).add(rb.Rectangle(
-                width=70,
-                height=450,
-                tag="ground",
-                color=rb.Color.purple,
+            GameObject(pos=Vector(260)).add(Rectangle(
+                width=100,
+                height=400,
             )),
         ]
 
-        for obstacle in obstacles:
-            obstacle.get(rb.Rectangle).bottom = rb.Display.bottom + 30
+        for pillar in pillars:
+            r = pillar.get(Rectangle)
+            r.bottom = Display.bottom + 50
+            r.tag = "ground"
+            r.color = shared.platform_color
 
-        # Side boundary
-        left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0))
-        left.add(rb.Rectangle(width=50, height=rb.Display.res.y))
-        right = rb.GameObject(pos=rb.Display.center_left + rb.Vector(level_size + 25, 0))
-        right.add(rb.Rectangle(width=50, height=rb.Display.res.y))
-
-        # add them all to the scene
-        main.add(player, ground, left, right, *platforms, *obstacles)
-
-        # define a custom update function
-        # this function is run every frame
-        def update():
-            if rb.Input.key_pressed("a"):
-                player_body.velocity.x = -300
-                p_animation.flipx = True
-            elif rb.Input.key_pressed("d"):
-                player_body.velocity.x = 300
-                p_animation.flipx = False
-            else:
-                player_body.velocity.x = 0
-
-            if rb.Input.key_pressed("space"):
-                player_body.ang_vel += 10
+        shared.right.pos = Display.center_left + Vector(shared.level1_size + 25, 0)
 
 
-        main.update = update
-
-
-        # define a custom input listener
-        def handle_keydown(event):
-            global jumps
-            if event["key"] == "w" and jumps > 0:
-                player_body.velocity.y = 200
-                if jumps == 2:
-                    p_animation.set_state("jump", freeze=2)
-                elif jumps == 1:
-                    p_animation.set_state("somer", True)
-                jumps -= 1
-
-
-        rb.Radio.listen("KEYDOWN", handle_keydown)
-
-        # begin the game
-        rb.begin()
+        scene.add(shared.player, ground, wrap(platforms), *pillars, shared.left, shared.right)

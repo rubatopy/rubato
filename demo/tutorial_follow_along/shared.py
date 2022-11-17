@@ -1,6 +1,18 @@
 import rubato as rb
 from player_controller import PlayerController
 
+##### MISC #####
+
+level1_size = int(rb.Display.res.x * 1.2)
+
+##### COLORS #####
+
+platform_color = rb.Color.from_hex("#b8e994")
+background_color = rb.Color.from_hex("#82ccdd")
+win_color = rb.Color.green.darker(75)
+
+##### PLAYER PREFAB #####
+
 # Create the player and set its starting position
 player = rb.GameObject(
     pos=rb.Display.center_left + rb.Vector(50, 0),
@@ -33,3 +45,8 @@ player.add(rb.Rectangle(
 ))
 player.add(player_comp := PlayerController())
 rb.Game.debug = True
+
+##### SIDE BOUDARIES #####
+
+left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
+right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))

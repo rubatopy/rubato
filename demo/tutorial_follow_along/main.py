@@ -1,7 +1,6 @@
 import rubato as rb
 
 # initialize a new game
-main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
 rb.init(
     name="Platformer Demo",  # Set a name
@@ -10,9 +9,7 @@ rb.init(
     # the window will be automatically resized to half of the resolution.
 )
 
-import shared
+import level1
 
-# Add the player to the scene
-main.add(shared.player)
 # begin the game
 rb.begin()

@@ -59,7 +59,6 @@ Next, import the player controller in :code:`shared.py` and add it to the player
     # at bottom
     player.add(player_comp := PlayerController())
 
------------------------------------------------------------------------------------ READY UP TO HERE.
 
 
 Finally, let's add a jump behavior. Unlike moving left and right, we don't want the user to be able to move up forever if they keep holding the jump
