@@ -1,3 +1,4 @@
+from typing import Callable
 from rubato import Scene, Color, Text, Font, GameObject, Button, Raster, Time, RecurrentTask, Vector, Game
 import rubato as rb
 
@@ -7,7 +8,7 @@ scene = Scene("menu", background_color=Color.white)
 black_32 = Font(size=32)
 
 
-def smooth_button_generator(onclick: callable, text: str, go: GameObject, offset: Vector = Vector(0, 0)):
+def smooth_button_generator(onclick: Callable, _text: str, go: GameObject, offset: Vector = Vector(0, 0)):
     # generate the components
     button = Button(
         300,
@@ -16,7 +17,7 @@ def smooth_button_generator(onclick: callable, text: str, go: GameObject, offset
         offset=offset,
         z_index=-1,
     )
-    text = Text(text, font=black_32, offset=offset)
+    text = Text(_text, font=black_32, offset=offset)
     # add the components to the game object
     go.add(button, text)
 
@@ -63,8 +64,6 @@ for rast in play_button.get_all(Raster):
 smooth_button_generator(lambda: Game.set_scene("level1"), "level 1", play_button, offset=offset)
 smooth_button_generator(lambda: Game.set_scene("level2"), "level 2", play_button)
 
-
 scene.add_ui(play_button)
-
 
 rb.begin()

@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock
 import rubato
 from rubato.game import Game
-from rubato.struct.scene import Scene
+from rubato.structure.scene import Scene
 from rubato.utils.error import Error, InitError, IdError, PrintError
 from rubato.utils.hardware.display import Display
 from rubato.utils.radio import Radio

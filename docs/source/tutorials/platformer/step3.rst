@@ -7,7 +7,7 @@ In this step, we will be adding player behavior to our character.
 We want our dinosaur to be able to move left, right and jump.
 We also want to apply physics laws to him, such as gravity and collisions with future obstacles.
 
-First, let's add physics to our player. To do this, we will add a :func:`RigidBody <rubato.struct.gameobject.physics.rigidbody.RigidBody>` component to our
+First, let's add physics to our player. To do this, we will add a :func:`RigidBody <rubato.structure.gameobject.physics.rigidbody.RigidBody>` component to our
 player. Add the following code after the animation code, but before the ``main.add`` call.
 
 In :code:`shared.py`:

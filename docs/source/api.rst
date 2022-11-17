@@ -21,17 +21,17 @@ Game
 Scenes and Their Management
 ***************************
 
-:func:`Scenes <rubato.struct.scene.Scene>` holds two Groups. It also manages a
+:func:`Scenes <rubato.structure.scene.Scene>` holds two Groups. It also manages a
 :func:`Camera <rubato.utils.rendering.camera.Camera>`. Scenes are used to compartmentalize code. For example,
 you could have each level of your game on a different scene. Then to switch levels you would switch scenes.
 
-:func:`Groups <rubato.struct.group.Group>` hold a collection of Game Objects and/or other Groups. Their main purpose is to
+:func:`Groups <rubato.structure.group.Group>` hold a collection of Game Objects and/or other Groups. Their main purpose is to
 further compartmentalize items. For example, items in 2 different groups won't collide with each other. In this tutorial,
 we won't be using Groups as we don't need this functionality here.
 
 Scene
 =====
-.. automodule:: rubato.struct.scene
+.. automodule:: rubato.structure.scene
 
 Camera
 ------
@@ -39,86 +39,86 @@ Camera
 
 Group
 =====
-.. automodule:: rubato.struct.group
+.. automodule:: rubato.structure.group
 
 **************************
 Game Object and Components
 **************************
 
-:func:`Game Objects <rubato.struct.gameobject.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
+:func:`Game Objects <rubato.structure.gameobject.game_object.GameObject>` are the main item in a game. They hold Components, have a position, and
 have a z-index. By themselves, they have very little functionality.
 
-:func:`Components <rubato.struct.gameobject.component.Component>` are how Game Objects get their functionality. Each component adds or
+:func:`Components <rubato.structure.gameobject.component.Component>` are how Game Objects get their functionality. Each component adds or
 changes something about the Game Object. For example, an Image component draws an image from your filesystem to the game at the
 Game Object's position.
 
 Game Object
 ============
-.. automodule:: rubato.struct.gameobject.game_object
+.. automodule:: rubato.structure.gameobject.game_object
 
 Components
 ==========
 The default Component class.
 
-.. automodule:: rubato.struct.gameobject.component
+.. automodule:: rubato.structure.gameobject.component
 
 Raster
 ---------
-.. autoclass:: rubato.struct.gameobject.sprites.raster.Raster
+.. autoclass:: rubato.structure.gameobject.sprites.raster.Raster
 
 Image
 ---------
-.. autoclass:: rubato.struct.gameobject.sprites.raster.Image
+.. autoclass:: rubato.structure.gameobject.sprites.raster.Image
 
 Text
 ---------
-.. automodule:: rubato.struct.gameobject.ui.text
+.. automodule:: rubato.structure.gameobject.ui.text
 
 Button
 ---------
-.. automodule:: rubato.struct.gameobject.ui.button
+.. automodule:: rubato.structure.gameobject.ui.button
 
 Animation
 ---------
-.. automodule:: rubato.struct.gameobject.sprites.animation
+.. automodule:: rubato.structure.gameobject.sprites.animation
 
 Spritesheet
 ___________
-.. automodule:: rubato.struct.gameobject.sprites.spritesheet
+.. automodule:: rubato.structure.gameobject.sprites.spritesheet
 
 Particle Sytem
 --------------
-.. automodule:: rubato.struct.gameobject.particles.system
+.. automodule:: rubato.structure.gameobject.particles.system
 
 Particle
 ________
-.. automodule:: rubato.struct.gameobject.particles.particle
+.. automodule:: rubato.structure.gameobject.particles.particle
 
 Hitbox
 -------
 Various hitbox components that enable collisions
 
-.. autoclass:: rubato.struct.gameobject.physics.hitbox.Hitbox
+.. autoclass:: rubato.structure.gameobject.physics.hitbox.Hitbox
 
 Rectangle
 __________
-.. autoclass:: rubato.struct.gameobject.physics.hitbox.Rectangle
+.. autoclass:: rubato.structure.gameobject.physics.hitbox.Rectangle
 
 Polygon
 __________
-.. autoclass:: rubato.struct.gameobject.physics.hitbox.Polygon
+.. autoclass:: rubato.structure.gameobject.physics.hitbox.Polygon
 
 Circle
 __________
-.. autoclass:: rubato.struct.gameobject.physics.hitbox.Circle
+.. autoclass:: rubato.structure.gameobject.physics.hitbox.Circle
 
 Manifold
 ________
-.. autoclass:: rubato.struct.gameobject.physics.engine.Manifold
+.. autoclass:: rubato.structure.gameobject.physics.engine.Manifold
 
 RigidBody
 ---------
-.. automodule:: rubato.struct.gameobject.physics.rigidbody
+.. automodule:: rubato.structure.gameobject.physics.rigidbody
 
 ********************
 Hardware Interaction

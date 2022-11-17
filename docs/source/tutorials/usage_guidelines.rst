@@ -27,7 +27,7 @@ The way you can have components talk to each other is by:
  * Use generators to make a game object. (preferred)
 
 How to generate multiple Game Objects
-**********************
+*************************************
 
 In games you will often want to spawn in a bunch of enemies. In java one might make a list of
 enemies and then loop through it to spawn them.

@@ -145,6 +145,7 @@ is stopping you from doing so. Let's fix this by adding a clear hitbox on either
 Add this in the :code:`shared.py` and :code:`level1.py` files.
 
 .. code-block:: python
+
     # in shared.py
     ##### SIDE BOUDARIES #####
 

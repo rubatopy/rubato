@@ -1,12 +1,12 @@
-##########################
+###################################
 Step 3b - Creating Player Behaviour
-##########################
+###################################
 
 We need to add Player Behaviour all game object behaviour in rubato is done through components.
 
 Make a new file called :code:`player_controller.py`
 
-Make a custom component by inheriting from rubato's :func:`Component <rubato.struct.gameobject.component.Component>`.
+Make a custom component by inheriting from rubato's :func:`Component <rubato.structure.gameobject.component.Component>`.
 Then add the components we added by reference from the game object.
 
 .. code-block:: python

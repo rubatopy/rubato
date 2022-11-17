@@ -20,7 +20,7 @@ this, we will add a ground detection hitbox to the player, making sure to set th
 
 Making a hitbox a "trigger" prevents the hitbox from colliding. It will still detect collisions and call the relevant callbacks.
 We will define a player_collide callback that will be called when the player's ground detector collides.
-When this happens, we use the provided collision :func:`Manifold <rubato.struct.gameobject.physics.engine.Manifold>` to
+When this happens, we use the provided collision :func:`Manifold <rubato.structure.gameobject.physics.engine.Manifold>` to
 make sure the other collider is a ground hitbox, that we are not already grounded, and that we are indeed falling towards the ground.
 That code looks like this:
 
@@ -98,8 +98,8 @@ In :code:`player_controller.py` add the following code:
         )
         current_scene.camera.pos.x = Math.lerp(current_scene.camera.pos.x, camera_ideal, Time.fixed_delta / 0.4)
 
-``lerp`` and ``clamp`` are both built-in methods to the :func:`rb.Math <rubato.utils.rb_math.Math>` class.
-Note that we've used :func:`rb.Time.fixed_delta <rubato.utils.rb_time.Time.fixed_delta>`, which represents the
+``lerp`` and ``clamp`` are both built-in methods to the :func:`Math <rubato.utils.computation.rb_math.Math>` class.
+Note that we've used :func:`Time.fixed_delta <rubato.utils.rb_time.Time.fixed_delta>`, which represents the
 time elapsed since the last update to the physics engine, in seconds. This is to make our camera follow the player more smoothly,
 in line with the fps.
 
@@ -369,42 +369,34 @@ Sneak Peak:
 
     .. literalinclude:: ../../../../demo/platformer/main.py
         :language: python
-        :lines: 6-
         :caption: main.py
 
     .. literalinclude:: ../../../../demo/platformer/level1.py
         :language: python
-        :lines: 6-
         :caption: level1.py
 
     .. literalinclude:: ../../../../demo/platformer/level2.py
         :language: python
-        :lines: 6-
         :caption: level2.py
 
     .. literalinclude:: ../../../../demo/platformer/main_menu.py
         :language: python
-        :lines: 6-
         :caption: main_menu.py
 
     .. literalinclude:: ../../../../demo/platformer/end_menu.py
         :language: python
-        :lines: 6-
         :caption: end_menu.py
 
     .. literalinclude:: ../../../../demo/platformer/shared.py
         :language: python
-        :lines: 6-
         :caption: shared.py
 
     .. literalinclude:: ../../../../demo/platformer/player_controller.py
         :language: python
-        :lines: 6-
         :caption: player_controller.py
 
     .. literalinclude:: ../../../../demo/platformer/moving_platform.py
         :language: python
-        :lines: 6-
         :caption: moving_platform.py
 
 We hope this tutorial gave enough detail as to the basics of rubato to let you make your own games and simulations!
