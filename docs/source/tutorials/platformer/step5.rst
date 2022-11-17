@@ -85,10 +85,12 @@ Camera Scroll
 In your testing, you may have also noticed that you are able to walk past the right side of your screen. This is because there is actually more level
 space there! Remember that we set our level to be 120% the width of the screen. Lets use rubato's built-in lerp function to make our camera follow the player.
 
+In :code:`player_controller.py` add the following code:
+
 .. code-block:: python
 
     # define a custom fixed update function
-        def fixed_update(self):
+    def fixed_update(self):
         # have the camera follow the player
         current_scene = Game.current()
         camera_ideal = Math.clamp(
@@ -117,13 +119,10 @@ This was just the tip of the iceberg of what rubato can do.
 
         import rubato as rb
 
-        # initialize a new game
-
         rb.init(
             name="Platformer Demo",  # Set a name
             res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
+            fullscreen="desktop",  # Set the window to be fullscreen
         )
 
         import level1
@@ -191,13 +190,10 @@ This was just the tip of the iceberg of what rubato can do.
             player_comp := PlayerController(),
         )
 
-        rb.Game.debug = True
-
         ##### SIDE BOUDARIES #####
 
         left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
         right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
-
 
     :code:`player_controller.py`
 
@@ -357,7 +353,13 @@ This was just the tip of the iceberg of what rubato can do.
         scene.add(shared.player, ground, wrap(platforms), *pillars, shared.left, shared.right)
 
 We're also including a version with some more in-depth features that weren't covered in this tutorial, including
-win detection, advanced animation switching, and a respawn system.
+win detection, advanced animation switching, and a respawn system. Also new scenes, with multiple levels. It's the real deal.
+
+Sneak Peak:
+
+.. image:: /_static/tutorials_static/platformer/step5/1.png
+    :align: center
+    :width: 75%
 
 .. dropdown:: Here is what that code looks like:
 

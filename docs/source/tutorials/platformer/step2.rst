@@ -48,6 +48,8 @@ Now we should create a new file called :code:`shared.py` and add the following c
 
 .. code-block:: python
 
+    import rubato as rb
+
     # Create the player and set its starting position
     player = rb.GameObject(
         pos=rb.Display.center_left + rb.Vector(50, 0),
@@ -64,7 +66,7 @@ Note: you need to import the shared file after having initialized rubato, so tha
     # below
 
     # Add the player to the scene
-    main.add(player)
+    main.add(shared.player)
 
 :func:`rb.Display.center_left <rubato.utils.display.Display.center_left>` is just the Vector position for the center of the
 left side of the screen.
@@ -123,8 +125,7 @@ In :code:`main.py`:
     rb.init(
         name="Platformer Demo",  # Set a name
         res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-        # note that since we didn't also specify a window size,
-        # the window will be automatically resized to half of the resolution.
+        fullscreen="desktop",  # Set the window to be fullscreen
     )
 
     import shared

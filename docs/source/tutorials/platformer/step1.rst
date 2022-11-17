@@ -7,7 +7,7 @@ Before we can design our game, we need to do a few things to set rubato up.
 First, follow the :doc:`setup guide <../../intro>`, naming your file ``main.py``.
 
 Then, download and extract these
-`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/files/files.zip>`_
+`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_stripped/files.zip>`_
 into the same directory as your ``main.py`` file (so you have ``main.py`` and the ``files`` folder in the same directory.)
 
 At this point, your ``main.py`` file should look like this:
@@ -60,7 +60,8 @@ deeper look at what that means in a bit.
 .. note::
     We use cartesian coordinates, so the x-axis is horizontal and the y-axis is vertical.
 
-At this point, running the game should look like this:
+At this point, running the game should look like this (Full screened and white):
+You will have to alt-tab and quit (like normal games) to close the window.
 
 .. image:: /_static/tutorials_static/platformer/step1/2.png
     :width: 75%
@@ -75,12 +76,10 @@ Here is what your main.py should look like:
     # initialize a new game
     rb.init(
         name="Platformer Demo",  # Set a name
-        res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
+        res=(1920, 1080),  # Increase the window resolution
+        fullscreen="desktop",  # Set the window to fullscreen
     )
 
-    # begin the game
     rb.begin()
 
 

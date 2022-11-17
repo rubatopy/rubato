@@ -33,7 +33,6 @@ The color darker function allows us to darken a color py an amount. Subtracting 
 
 The level1 represents a scene with our level in it. All the work we did up until now should have really been put in :code:`level1.py`.
 So lets make a scene in level1.py and add all our things there. Deleting our player from main, as well as the main scene.
-Finally import :code:`levele1.py` from :code:`main.py` and check that it works.
 
 .. code-block:: python
 
@@ -44,6 +43,11 @@ Finally import :code:`levele1.py` from :code:`main.py` and check that it works.
 
     # Add the player to the scene
     scene.add(shared.player)
+
+
+.. important::
+    Finally import :code:`level1.py` from :code:`main.py` instead of :code:`shared.py` and check that it works.
+
 
 We will create our floor. We do this by creating a GameObject and adding a Rectangle hitbox to it.
 In the following code we also use the Rectangle's bottom_left property to place the floor correctly. We also give a "ground" tag to our floor. This will be
@@ -61,10 +65,8 @@ In the :code:`level1.py` file, add the following code:
     scene.add(shared.player, ground)
 
 
-You can also change the player gravity to ``-1.5 * rb.Display.res.y``, which will make the game more realistic. It should look like this
+You can also change the player gravity to ``rb.Vector(y=rb.Display.res.y * -1.5)``, which will make the game more realistic. It should look like this
 now:
-
-PLEASE UPDATE THIS AND FOLLOWING IMAGES!!
 
 
 .. image:: /_static/tutorials_static/platformer/step4/1.png
@@ -133,6 +135,8 @@ Below is a very basic example that we will be using for the rest of the tutorial
             r.color = shared.platform_color
 
         # add them all to the scene
+        # note wrap is a rubato function that allows us to get a game object with a component or components added to it.
+        # you will need to import this.
         scene.add(shared.player, ground, wrap(platforms), *pillars)
 
 Now that you have a level built, we need to move around it. You may notice that you are currently able to fall off the world. This is because nothing
@@ -171,13 +175,10 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
 
         import rubato as rb
 
-        # initialize a new game
-
         rb.init(
             name="Platformer Demo",  # Set a name
             res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
+            fullscreen="desktop",  # Set the window to be fullscreen
         )
 
         import level1
@@ -238,6 +239,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
         rb.Game.debug = True
 
         ##### SIDE BOUDARIES #####
+        # we added side boundaries to the game as well, so you won't fall off the world. The right needs to be programmed in the level.
 
         left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Rectangle(width=50, height=rb.Display.res.y))
         right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
@@ -342,6 +344,7 @@ There's one big issue, however. Jumps don't come back, even once you hit the gro
             r.tag = "ground"
             r.color = shared.platform_color
 
+        # program the right boundary
         shared.right.pos = Display.center_left + Vector(shared.level1_size + 25, 0)
 
 

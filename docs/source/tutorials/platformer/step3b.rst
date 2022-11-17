@@ -45,10 +45,6 @@ This function runs once every frame.
     import Input from rubato and all others.
     :code:`from rubato import Component, Input, Animation, RigidBody`
 
-Here we check for player input using :func:`key_pressed() <rubato.utils.rb_input.Input.key_pressed>`. We then update the player's horizontal velocity
-in the corresponding direction. We also flip the player's animation depending on the direction we want to face. Now, when you press "a" or "d" you
-should be able to move the player left and right.
-
 Next, import the player controller in :code:`shared.py` and add it to the player
 
 .. code-block:: python
@@ -60,6 +56,15 @@ Next, import the player controller in :code:`shared.py` and add it to the player
     player.add(player_comp := PlayerController())
 
 
+Here we check for player input using :func:`key_pressed() <rubato.utils.rb_input.Input.key_pressed>`. We then update the player's horizontal velocity
+in the corresponding direction. We also flip the player's animation depending on the direction we want to face. Now, when you press "a" or "d" you
+should be able to move the player left and right.
+
+.. admonition:: Cool!
+    :class: tip
+
+    The :code:`:=` operator is called the walrus operator. It assigns the value to the variable on the left and returns the value.
+    It is equivalent to :code:`player_comp = PlayerController()`. And then passing it to :code:`player.add()`.
 
 Finally, let's add a jump behavior. Unlike moving left and right, we don't want the user to be able to move up forever if they keep holding the jump
 key. We also want to limit the number of jumps the player gets. We will do this by creating a jump counter and process the jump through an event
@@ -82,9 +87,6 @@ that is called when the "w" key is pressed.
             self.jumps -= 1
 
 Also in the setup function, to add the jump variable and subscribe our new keydown handling function to the keydown event add the following:
-.. Note::
-
-    Don't forget to import Event and Radio from rubato.
 
 .. code-block:: python
 
@@ -92,6 +94,10 @@ Also in the setup function, to add the jump variable and subscribe our new keydo
     self.jumps = 2
 
     Radio.listen(Events.KEYDOWN, self.handle_key_down)
+
+.. Note::
+
+    Don't forget to import Event and Radio from rubato.
 
 Let's break this down.
 
@@ -122,8 +128,7 @@ In :code:`main.py`:
     rb.init(
         name="Platformer Demo",  # Set a name
         res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-        # note that since we didn't also specify a window size,
-        # the window will be automatically resized to half of the resolution.
+        fullscreen="desktop",  # Set the window to be fullscreen
     )
 
     import shared
@@ -159,7 +164,7 @@ AND in :code:`shared.py`:
 
     # define the player rigidbody
     player_body = rb.RigidBody(
-        gravity=rb.Vector(y=rb.Display.res.y * -1.5),  # changed to be stronger
+        gravity=rb.Vector(y=rb.Display.res.y * -0.5),
         pos_correction=1,
         friction=0.8,
     )
