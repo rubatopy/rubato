@@ -16,7 +16,7 @@ In :code:`shared.py`:
 
     # define the player rigidbody
     player_body = rb.RigidBody(
-        gravity=rb.Vector(y=rb.Display.res.y * -0.05),
+        gravity=rb.Vector(y=rb.Display.res.y * -0.5),  # gravity is 1/2 the screen height per second/second.
         pos_correction=1,
         friction=0.8,
     )

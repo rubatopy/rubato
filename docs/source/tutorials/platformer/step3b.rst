@@ -45,7 +45,11 @@ This function runs once every frame.
     import Input from rubato and all others.
     :code:`from rubato import Component, Input, Animation, RigidBody`
 
-Finally import the player controller in :code:`shared.py` and add it to the player
+Here we check for player input using :func:`key_pressed() <rubato.utils.rb_input.Input.key_pressed>`. We then update the player's horizontal velocity
+in the corresponding direction. We also flip the player's animation depending on the direction we want to face. Now, when you press "a" or "d" you
+should be able to move the player left and right.
+
+Next, import the player controller in :code:`shared.py` and add it to the player
 
 .. code-block:: python
 
@@ -57,9 +61,6 @@ Finally import the player controller in :code:`shared.py` and add it to the play
 
 ----------------------------------------------------------------------------------- READY UP TO HERE.
 
-Here we check for player input using :func:`key_pressed() <rubato.utils.rb_input.Input.key_pressed>`. We then update the player's horizontal velocity
-in the corresponding direction. We also flip the player's animation depending on the direction we want to face. Now, when you press "a" or "d" you
-should be able to move the player left and right.
 
 Finally, let's add a jump behavior. Unlike moving left and right, we don't want the user to be able to move up forever if they keep holding the jump
 key. We also want to limit the number of jumps the player gets. We will do this by creating a jump counter and process the jump through an event
@@ -70,36 +71,38 @@ that is called when the "w" key is pressed.
 
 .. code-block:: python
 
-    # define a custom input listener
-    def handle_keydown(event):
-        global jumps
-        if event["key"] == "w" and jumps > 0:
-            player_body.velocity.y = 200
-            if jumps == 2:
-                p_animation.set_state("jump", freeze=2)
-            elif jumps == 1:
-                p_animation.set_state("somer", True)
-            jumps -= 1
+    # don't forget to import KeyResponse from rubato.
+    def handle_key_down(self, event: KeyResponse):
+        if event.key == "w" and self.jumps > 0:
+            if self.jumps == 2:
+                self.rigid.velocity.y = 800
+                self.animation.set_state("jump", freeze=2)
+            elif self.jumps == 1:
+                self.rigid.velocity.y = 800
+                self.animation.set_state("somer", True)
+            self.jumps -= 1
 
-    rb.Radio.listen("KEYDOWN", handle_keydown)
+Also in the setup function, to add the jump variable and subscribe our new keydown handling function to the keydown event add the following:
+.. Note::
 
-Also at the top of your file, under the debug line, add the following:
+    Don't forget to import Event and Radio from rubato.
 
 .. code-block:: python
 
     # Tracks the number of jumps the player has left
-    jumps = 2
+    self.jumps = 2
+
+    Radio.listen(Events.KEYDOWN, self.handle_key_down)
 
 Let's break this down.
 
-First, we use the ``global`` keyword to declare that we are changing the global jumps variable.
-This variable will be used later when dealing with ground contact. Next, we check if the keydown event's key is "w" and if you still
-have jumps remaining. If so, we set your upwards velocity to 800 (remember that negative y values represent up on the screen).
+We check if the keydown event's key is "w" and if you still
+have jumps remaining. If so, we set your upwards velocity to 800 (remember that we are in a cartesian system).
 We also want to vary the jump animation on your last jump. The first is a regular jump and the second is a somersault.
 Finally, we decrement the number of jumps you have left, so you can't jump infinitely.
 
-The :code:`rb.Radio.listen("KEYDOWN", handle_keydown)` line is where we tell rubato to listen for a keydown event and run the ``handle_keydown`` function
-whenever that event is broadcast. Note that you can also replace ``"KEYDOWN"`` with ``rb.Events.KEYDOWN`` and get the same functionality.
+The :code:`Radio.listen(Events.KEYDOWN, self.handle_keydown)` line is where we tell rubato to listen for a keydown event and run the ``handle_keydown`` function
+whenever that event is broadcast. Note that you can also replace ``rb.Events.KEYDOWN`` with ``"KEYDOWN"`` and get the same functionality.
 :func:`Events <rubato.utils.radio.Events>` have all other rubato-triggered events that you can listen for.
 
 Running the script at this point should show a falling dinosaur, and let you dump twice and move a little left and right before falling to your doom.
@@ -137,6 +140,7 @@ AND in :code:`shared.py`:
 .. code-block:: python
 
     import rubato as rb
+    from player_controller import PlayerController
 
     # Create the player and set its starting position
     player = rb.GameObject(
@@ -153,3 +157,62 @@ AND in :code:`shared.py`:
     p_animation.scale = rb.Vector(4, 4)
     p_animation.fps = 10  # The frames will change 10 times a second
     player.add(p_animation)  # Add the animation component to the player
+
+    # define the player rigidbody
+    player_body = rb.RigidBody(
+        gravity=rb.Vector(y=rb.Display.res.y * -1.5),  # changed to be stronger
+        pos_correction=1,
+        friction=0.8,
+    )
+    player.add(player_body)
+
+    # add a hitbox to the player with the collider
+    player.add(rb.Rectangle(
+        width=64,
+        height=64,
+        tag="player",
+    ))
+    player.add(player_comp := PlayerController())
+    rb.Game.debug = True
+
+AND in :code:`player_controller.py`:
+
+.. code-block:: python
+
+    from rubato import Component, Input, Animation, RigidBody, KeyResponse, Events, Radio
+
+
+    class PlayerController(Component):
+
+        def setup(self):
+            # Like the init function of regular classes. Called when added to Game Object.
+            # Specifics can be found in the Custom Components tutorial.
+            self.initial_pos = self.gameobj.pos.clone()
+
+            self.animation: Animation = self.gameobj.get(Animation)
+            self.rigid: RigidBody = self.gameobj.get(RigidBody)
+
+            # Tracks the number of jumps the player has left
+            self.jumps = 2
+
+            Radio.listen(Events.KEYDOWN, self.handle_key_down)
+
+        def update(self):
+            # Runs once every frame.
+            # Movement
+            if Input.key_pressed("a"):
+                self.rigid.velocity.x = -300
+                self.animation.flipx = True
+            elif Input.key_pressed("d"):
+                self.rigid.velocity.x = 300
+                self.animation.flipx = False
+
+        def handle_key_down(self, event: KeyResponse):
+            if event.key == "w" and self.jumps > 0:
+                if self.jumps == 2:
+                    self.rigid.velocity.y = 800
+                    self.animation.set_state("jump", freeze=2)
+                elif self.jumps == 1:
+                    self.rigid.velocity.y = 800
+                    self.animation.set_state("somer", True)
+                self.jumps -= 1

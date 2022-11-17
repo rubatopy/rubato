@@ -1,5 +1,6 @@
 import rubato as rb
 from player_controller import PlayerController
+
 # Create the player and set its starting position
 player = rb.GameObject(
     pos=rb.Display.center_left + rb.Vector(50, 0),
@@ -18,7 +19,7 @@ player.add(p_animation)  # Add the animation component to the player
 
 # define the player rigidbody
 player_body = rb.RigidBody(
-    gravity=rb.Vector(y=rb.Display.res.y * -0.05),
+    gravity=rb.Vector(y=rb.Display.res.y * -1.5),  # changed to be stronger
     pos_correction=1,
     friction=0.8,
 )

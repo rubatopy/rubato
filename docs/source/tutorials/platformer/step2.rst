@@ -109,7 +109,7 @@ Now you should have a cute dinosaur bobbing up and down on the left side of the 
 
 Adorable :)
 
-Here is what you should have so far if you've been following along:
+Here is what you should have so far if you've been following along (cleaned up a bit):
 
 In :code:`main.py`:
 
