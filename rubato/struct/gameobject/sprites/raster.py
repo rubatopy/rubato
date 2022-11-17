@@ -113,18 +113,6 @@ class Raster(Component):
         """
         return self.surf.get_pixel(pos)
 
-    def get_pixel_tuple(self, pos: Vector | tuple[float, float]) -> tuple[int, int, int, int]:
-        """
-        Gets the color of a pixel on the surface.
-
-        Args:
-            pos: The position of the pixel.
-
-        Returns:
-            The color of the pixel.
-        """
-        return self.surf.get_pixel_tuple(pos)
-
     def set_pixel(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True):
         """
         Draws a point on the surface.

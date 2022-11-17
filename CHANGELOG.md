@@ -28,6 +28,8 @@
 -   Fullscreen option in `init()` is now a boolean.
 -   Added maximize option to `init()`.
 -   Renamed `Surface` and `Raster` `draw_point()` functions to `set_pixel()`.
+-   Removed `get_pixel_tuple()` because you can just do `get_pixel().to_tuple()`.
+-   Renamed `Draw.point()` and `Draw.queue_point()` to `Draw.pixel()` and `Draw.queue_pixel()`
 
 ### Added
 
