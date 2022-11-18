@@ -76,7 +76,7 @@ Below is what this PlayerController component might look like.
             """
             print(f"Hello! My name is {self.gameobj.name}.")
 
-Next we will break down each section of the PlayerController component.
+We'll break this example down section by section.
 
 .. code-block:: python
 
@@ -109,11 +109,12 @@ Custom components are created by inheriting from the Component class.
         self.nametag: rb.Text = rb.Text(" ", font=rb.Font(color=rb.Color.blue, size=20))
         self.nametag.offset = rb.Vector(0, -self.hitbox.radius - self.nametag.font_size / 2)
 
-In the initalizer for your component, you must first call the ``super().__init__()`` function. This will setup the structure
-for the component and allow it to work with the rest of the rubato. This also give you access to the attributes in Components
-such as offset. The ``__init__()`` function is where you should set up all the attributes you need for your component. Keep in mind
-however, that at this point the ``gameobj`` attribute is not yet set. In our example, we initialize a hitbox attribute to None and we
-will get it from the GameObject later.
+In the initalizer for your component, you must first call ``super().__init__()``. This will initialize the fundamental attributes of
+the component that rubato needs. Calling it gives you access to Component attributes such as offset.
+
+The initializer is where you should define all the attributes you need for your component. Keep in mind
+however, that the ``gameobj`` attribute is not yet set, because the component hasn't actually been added to
+a GameObjectat that point.
 
 |
 
@@ -152,9 +153,11 @@ components to the game object.
         else:
             self.nametag.hidden = True
 
-As you should know, components have a couple functions that can be overriden:
-``setup``, ``update``, ``fixed_update``, ``draw``, ``delete`` and ``clone``. In these, you have access to every attribute
-you've set (including the GameObject). In our example, we are overriding the update function to change the color of the
+Components have a several vital functions that can be overriden:
+``setup``, ``update``, ``fixed_update``, and ``draw``. These methods are called automatically by rubato,
+and they let you define functionality that occurs at specific moments throughout the game loop.
+
+In our example, we are overriding the update function to change the color of the
 hitbox and move the player whenever the mouse is pressed.
 
 |
@@ -169,12 +172,10 @@ hitbox and move the player whenever the mouse is pressed.
 
 The last thing to know about custom components is that you can define any functions you want. In our example, we are defining
 a speak function that prints a message to the console. This speak function can be called from inside the component, but it
-can also be called anywhere else in the engine. This is a great way to add behavior to your component.
+can also be called anywhere else, too. This is a great way to add modular behavior to your component.
 
 |
 |
-
-In this tutorial, we went over the creation process of custom components and explained how to use them.
 
 The source code for an example is available
 `here <https://github.com/rubatopy/rubato/tree/main/demo/custom_components.py>`__.
