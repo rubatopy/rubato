@@ -111,3 +111,4 @@ Here is what you should have so far if you've been following along (cleaned up a
 .. literalinclude:: step2_shared.py
     :caption: shared.py
     :linenos:
+    :emphasize-lines: 1-

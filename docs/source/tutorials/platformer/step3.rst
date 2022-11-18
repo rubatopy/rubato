@@ -130,3 +130,4 @@ Here is what you should have so far if you've been following along:
 .. literalinclude:: step3_player_controller.py
     :caption: player_controller.py
     :linenos:
+    :emphasize-lines: 1-

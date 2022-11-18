@@ -74,6 +74,7 @@ Here is what your main.py should look like:
 .. literalinclude:: step1_main.py
     :caption: main.py
     :linenos:
+    :emphasize-lines: 1-
 
 If you made it here, great! We're ready to build the platformer.
 Next, we'll create a player and add him to the game.

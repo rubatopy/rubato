@@ -152,3 +152,4 @@ Your code should currently look like this (with your own level of course!):
 .. literalinclude:: step4_level1.py
     :caption: level1.py
     :linenos:
+    :emphasize-lines: 1-
