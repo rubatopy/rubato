@@ -31,12 +31,14 @@ into the built-in physics engine. A :func:`Hitbox <rubato.structure.gameobject.p
 a Game Object shape and enables collision.
 
 If this explanation was confusing, it'll hopefully make more sense seeing the system in action.
-Let's create a scene right after :code:`rb.init()` but before :code:`rb.begin()`.
+Let's create a scene. They automatically get registered so there's no need to do anything special.
 
-.. code-block:: python
+.. literalinclude:: step2_main.py
+    :caption: main.py
+    :lines: 3-9,12,16-18
+    :emphasize-lines: 8
+    :lineno-start: 3
 
-    # Create a scene
-    main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
 Here we introduce the :func:`Color <rubato.utils.color.Color>` class. Colors
 are stored in RGBA format but can be loaded from HSV and HEX. The class comes
@@ -47,27 +49,22 @@ to lighten the shade a little.
 Next, we need to create a player and add it to the scene. Create a new file called :code:`shared.py`
 and add the following code:
 
-.. code-block:: python
-
-    import rubato as rb
-
-    # Create the player and set its starting position
-    player = rb.GameObject(
-        pos=rb.Display.center_left + rb.Vector(50, 0),
-        z_index=1,
-    )
+.. literalinclude:: step2_shared.py
+    :caption: shared.py
+    :lines: 1-7
+    :linenos:
 
 And now in the main file we need to import shared and add it to the scene (above the begin):
-Note: you need to import the shared file after having initialized rubato, so that you can use rubato functions in shared.
 
-.. code-block:: python
+.. note::
 
-    import shared
+    You need to import the shared file after having initialized rubato, so that you can use rubato functions in shared.
 
-    # below
-
-    # Add the player to the scene
-    main.add(shared.player)
+.. literalinclude:: step2_main.py
+    :caption: main.py
+    :lines: 10-15
+    :lineno-start: 10
+    :emphasize-lines: 1,5,6
 
 :func:`rb.Display.center_left <rubato.utils.hardware.display.Display.center_left>` is just the Vector position for the center of the
 left side of the screen.
@@ -90,19 +87,11 @@ state names are the names of the files. Some states we have in our example are i
 We also should specify the default state. This is the state that the animation will start at and the one that it will
 return to when other states finish. In our case, this will be the idle state.
 
-Also in the :code:`shared.py` file, add the following code:
-
-.. code-block:: python
-
-    # Create animation and initialize states
-    p_animation = rb.Spritesheet.from_folder(
-        path="files/dino",
-        sprite_size=rb.Vector(24, 24),
-        default_state="idle",
-    )
-    p_animation.scale = rb.Vector(4, 4)
-    p_animation.fps = 10 # The frames will change 10 times a second
-    player.add(p_animation) # Add the animation component to the player
+.. literalinclude:: step2_shared.py
+    :caption: shared.py
+    :lines: 3-
+    :lineno-start: 3
+    :emphasize-lines: 7-
 
 Now you should have a cute dinosaur bobbing up and down on the left side of the screen:
 
@@ -114,47 +103,11 @@ Adorable :)
 
 Here is what you should have so far if you've been following along (cleaned up a bit):
 
-In :code:`main.py`:
+.. literalinclude:: step2_main.py
+    :caption: main.py
+    :linenos:
+    :emphasize-lines: 3, 12-15
 
-.. code-block:: python
-
-    import rubato as rb
-
-    # initialize a new game
-    main = rb.Scene(background_color=rb.Color.cyan.lighter())
-
-    rb.init(
-        name="Platformer Demo",  # Set a name
-        res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-        fullscreen="desktop",  # Set the window to be fullscreen
-    )
-
-    import shared
-
-    # Add the player to the scene
-    main.add(shared.player)
-    # begin the game
-    rb.begin()
-
-
-AND in :code:`shared.py`:
-
-.. code-block:: python
-
-    import rubato as rb
-
-    # Create the player and set its starting position
-    player = rb.GameObject(
-        pos=rb.Display.center_left + rb.Vector(50, 0),
-        z_index=1,
-    )
-
-    # Create animation and initialize states
-    p_animation = rb.Spritesheet.from_folder(
-        path="files/dino",
-        sprite_size=rb.Vector(24, 24),
-        default_state="idle",
-    )
-    p_animation.scale = rb.Vector(4, 4)
-    p_animation.fps = 10  # The frames will change 10 times a second
-    player.add(p_animation)  # Add the animation component to the player
+.. literalinclude:: step2_shared.py
+    :caption: shared.py
+    :linenos:

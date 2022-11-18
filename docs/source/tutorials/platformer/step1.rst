@@ -13,11 +13,15 @@ into the same directory as your ``main.py`` file (so you have ``main.py`` and th
 At this point, your ``main.py`` file should look like this:
 
 .. code-block:: python
+    :caption: main.py
+    :linenos:
 
     import rubato as rb
 
+    # initialize a new game
     rb.init()
 
+    # begin the game
     rb.begin()
 
 Running ``main.py`` using ``python main.py`` should result in a window similar to this appearing:
@@ -40,14 +44,11 @@ To customize your game window, you can pass in a few parameters. For now, let's:
 
 Replace the previous :func:`rb.init() <rubato.init>` call with this:
 
-.. code-block:: python
-
-    # initialize a new game
-    rb.init(
-        name="Platformer Demo",  # Set a name
-        res=(1920, 1080),  # Increase the window resolution
-        fullscreen=True,  # Set the window to fullscreen
-    )
+.. literalinclude:: step1_main.py
+    :caption: main.py
+    :lineno-start: 3
+    :lines: 3-8
+    :emphasize-lines: 3-5
 
 
 Here we're introducing a new class: :func:`rb.Vector <rubato.utils.computation.vector.Vector>`.
@@ -70,19 +71,9 @@ other program or press ``Ctrl+C`` in the terminal.
 
 Here is what your main.py should look like:
 
-.. code-block:: python
-
-    import rubato as rb
-
-    # initialize a new game
-    rb.init(
-        name="Platformer Demo",  # Set a name
-        res=(1920, 1080),  # Increase the window resolution
-        fullscreen=True,  # Set the window to fullscreen
-    )
-
-    rb.begin()
-
+.. literalinclude:: step1_main.py
+    :caption: main.py
+    :linenos:
 
 If you made it here, great! We're ready to build the platformer.
 Next, we'll create a player and add him to the game.
