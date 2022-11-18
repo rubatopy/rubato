@@ -1,16 +1,29 @@
-from rubato import Scene, Color, Text, wrap, Font, Game, Text, Raster, Button, GameObject
-import shared
+import rubato as rb
 
-scene = Scene("main_menu", background_color=Color.black)
+scene = rb.Scene("main_menu", background_color=rb.Color.black)  # make a new scene
 
-title_font = Font(size=64, styles=["bold"], color=Color.white)
-title = Text("PLATFORMER DEMO!", title_font)
+title_font = rb.Font(size=64, styles=["bold"], color=rb.Color.white)
+title = rb.Text(text="PLATFORMER DEMO!", font=title_font)
 
-play_button = GameObject(pos=(0, -75)).add(
-    Button(300, 100, onrelease=lambda: Game.set_scene("level1")),
-    Text("PLAY", shared.white_32),
-    r := Raster(300, 100, z_index=-1),
+play_button = rb.GameObject(pos=(0, -75)).add(
+    rb.Button(
+        width=300,
+        height=100,
+        onrelease=lambda: rb.Game.set_scene("level1"),
+    ),
+    rb.Text(
+        "PLAY",
+        rb.Font(size=32, color=rb.Color.white),
+    ),
+    r := rb.Raster(
+        width=300,
+        height=100,
+        z_index=-1,
+    ),
 )
-r.fill(Color.gray.darker(100))
+r.fill(color=rb.Color.gray.darker(100))
 
-scene.add_ui(wrap(title, pos=(0, 75)), play_button)
+scene.add_ui(
+    rb.wrap(title, pos=(0, 75)),
+    play_button,
+)
