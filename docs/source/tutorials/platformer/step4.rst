@@ -4,9 +4,9 @@ Step 4 - Creating a Level
 
 In this step, we will be creating a small level for our player to run in.
 
-We will build our level out of basic rectangle hitboxes. We can also pass in a Color to these hitboxes in order for them to draw.
+We will build our level out of basic rectangle hitboxes. To get them to draw, we'll specify a fill color in their constructor.
 
-First let's set a variable for the level size. This will be the width of the level. Let's set it to be 120% the resolution of the screen.
+First let's set a variable for the level size. This will be the width of the level; 120% the resolution of the screen in this case.
 Note that it needs to be an integer, because it represents the width of the level in pixels.
 
 .. literalinclude:: step4_shared.py
@@ -25,13 +25,13 @@ Along with that lets add some nice colors to our :code:`shared.py` file.
     :emphasize-lines: 8-
 
 
-The :func:`darker() <rubato.utils.color.Color.darker>` function allows us to darken a color by an amount. Subtracting this from all values.
+The :func:`darker() <rubato.utils.color.Color.darker>` function allows us to darken a color by an amount.
+It simply subtracts that amount from each of the red, green, and blue color channels.
 
-.. important::
-    Next we will create a new file :code:`level1.py` in it we will define all the elements unique to our level.
+Next, we'll create a new file :code:`level1.py` to house the elements unique to our level.
 
 :code:`level1.py` holds a scene with our level in it. All the scene work we did up until now should have really been put in :code:`level1.py`.
-So lets make a scene in level1.py and move our scene code there (deleting it from :code:`main.py`).
+So lets make a scene in level1.py and move our scene code there (deleting it from :code:`main.py`):
 
 .. code-block:: python
     :caption: level1.py
@@ -46,20 +46,20 @@ So lets make a scene in level1.py and move our scene code there (deleting it fro
     scene.add(shared.player)
 
 
-.. important::
-    Finally import :code:`level1.py` from :code:`main.py` instead of :code:`shared.py` and check that it works.
+Since we just added a new file, we'll need to import it.
+Since :code:`main.py` doesn't need :code:`shared.py` anymore, simply replace the :code:`import shared` line in :code:`main.py` with :code:`import level1`
 
 
-We will create our floor. We do this by creating a GameObject and adding a Rectangle hitbox to it.
-In the following code we also use the :func:`Rectangle.bottom_left <rubato.structure.gameobject.physics.hitbox.Rectangle.bottom_left>`
-property to place the floor correctly. We also give a "ground" tag to our floor. This will be
-used later to determine if the player is on the ground.
+Now onto the floor. We create the ground by initializing a GameObject and adding a Rectangle hitbox to it.
 
 .. literalinclude:: step4_level1.py
     :caption: level1.py
     :lines: 4-14
     :lineno-start: 4
     :emphasize-lines: 3-
+
+Notice how we used the :func:`Rectangle.bottom_left <rubato.structure.gameobject.physics.hitbox.Rectangle.bottom_left>`
+property to place the floor correctly. We also give a tag to our floor, to help us identify it later when the player collides with it.
 
 Also update the :code:`scene.add` line to add the floor to the scene.
 
@@ -76,11 +76,10 @@ now:
     :align: center
     :width: 75%
 
-The process for adding all of the remaining platforms is the same as what we've done to add the floor. To have cleaner code, we actually create some
-lists to store all of our Game Objects. At this point, you should have fun with it! Create a level of your choice!
-You can even add images to the gameobjects instead of giving the hitboxes color, to give the game a much more polished feel.
+The process for adding the remaining platforms is the same as what we've just done. Easy!
+This is a great place to unleash your creativity and make a better level than we did.
 
-Below is a very basic example that we will be using for the rest of the tutorial.
+Below is a very basic example for the rest of the tutorial.
 
 .. image:: /_static/tutorials_static/platformer/step4/2.png
     :align: center
@@ -101,7 +100,7 @@ Below is a very basic example that we will be using for the rest of the tutorial
 
     .. tip::
 
-        :func:`wrap() <rubato.misc.wrap>` is a rubato function that allows us to get a GameObject with Components added to it.
+        :func:`wrap() <rubato.misc.wrap>` is a rubato helper function that lets us make GameObjects and automatically add components to them in fewer lines of code.
 
     .. code-block:: python
         :lineno-start: 59
@@ -109,8 +108,8 @@ Below is a very basic example that we will be using for the rest of the tutorial
 
         scene.add(shared.player, ground, wrap(platforms), *pillars)
 
-Now that you have a level built, you may notice that you are currently able to fall off the world. This is because nothing
-is stopping you from doing so. Let's fix this by adding a clear hitbox on either side of the play area.
+Now that you have a level built, you may notice that you are currently able to walk or jump out of the frame of the window.
+Let's fix this by adding an invisible hitbox on either side of the play area.
 
 .. literalinclude:: step4_shared.py
     :caption: shared.py
@@ -130,7 +129,7 @@ is stopping you from doing so. Let's fix this by adding a clear hitbox on either
 
     To not have the hitbox render, don't pass a color to the hitbox! All other functionality will remain untouched.
 
-You'll now notice that the player is unable to fall off the world. This is because the hitbox is blocking it's path.
+You'll now notice that the player is unable to fall off the world. This is because the hitbox is blocking its path.
 
 There's one big issue, however. Jumps don't come back, even once you hit the ground. Not to worry. We will implement this in :doc:`step5`.
 
