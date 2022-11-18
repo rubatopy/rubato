@@ -2,7 +2,7 @@
 Step 5 - Finishing Touches
 ###############################
 
-This is the final step! We'll be making small quality-of-life changes to the game to make it play more like a real platformer.
+This is the final step! We'll be making quality-of-life changes to the game to make it play more like a real platformer.
 
 .. important::
 
@@ -14,8 +14,8 @@ This is the final step! We'll be making small quality-of-life changes to the gam
 Main Menu
 *********
 
-Every good game needs a menu screen. In rubato, it's recommended to create a new scene for menus. We'll do this in a new
-file named :code:`main_menu.py`. Here is the code needed for it.
+Every good game needs a menu screen. For our platformer, we'll make a new scene for the main menu. Create a new file
+named :code:`main_menu.py`. Here's the code needed for implementing the basic menu.
 
 .. literalinclude:: ../../../../demo/platformer_stripped/main_menu.py
     :caption: main_menu.py
@@ -35,7 +35,8 @@ In the menu, we use 4 new classes:
 :func:`Text <rubato.structure.gameobject.ui.text.Text>`,
 :func:`Button <rubato.structure.gameobject.ui.button.Button>`, and
 :func:`Raster <rubato.structure.gameobject.sprites.raster.Raster>`.
-The behaviors Font, Text, and Button are self explanatory. Raster is a component that allows you to draw anything you want.
+The behaviors of Font, Text, and Button are fairly trivial.
+Raster is a special component in rubato that you can draw custom art to.
 In this case, we're using it to draw a background for our button.
 
 **********
@@ -44,15 +45,15 @@ Jump Limit
 
 Right now, when you move around, you'll find that you quickly run out of jumps. This is because we implemented a 2 jump limit. However,
 once you run out of jumps, you can't do anything to reset your jump counter. We want this counter to be reset whenever you land on the ground. To do
-this, we will add a ground detection hitbox to the player, making sure to set the ``trigger`` parameter to true.
+that, we will add a ground detection hitbox to the player, making sure to set the ``trigger`` parameter to true.
 
-Making a hitbox a "trigger" prevents the hitbox from colliding. It will still detect collisions and call the relevant callbacks.
-We will define a player_collide callback that will be called when the player's ground detector collides.
+Making a hitbox a ``trigger`` prevents the hitbox from resolving collisions in the rubato physics engine. It will still detect overlap
+and call the relevant callbacks. We will define a player_collide callback that will be called when the player's ground detector collides.
 When this happens, we use the provided collision :func:`Manifold <rubato.structure.gameobject.physics.engine.Manifold>` to
 make sure the other collider is a ground hitbox, that we are not already grounded, and that we are indeed falling towards the ground.
 That code looks like this:
 
-In :code:`shared.py` add the following code, deleting our sporadic adds, and adding a ground detector to the player:
+In :code:`shared.py`, add the following code:
 
 .. literalinclude:: ../../../../demo/platformer_stripped/shared.py
     :caption: shared.py
@@ -98,8 +99,8 @@ We currently only change the animation when the player jumps. Lets add some more
     :lineno-start: 38
     :emphasize-lines: 11-
 
-Let's also reset functionality to the player. If the player falls off the level or presses the reset key ("r" in this case),
-we want to reset them to the start of the level.
+Let's also add a reset function. If the player falls off the level or presses the reset key ("r" in this case),
+we want to place them back at the start of the level.
 
 .. literalinclude:: ../../../../demo/platformer_stripped/player_controller.py
     :caption: player_controller.py
@@ -107,7 +108,7 @@ we want to reset them to the start of the level.
     :lineno-start: 54
     :emphasize-lines: 14-
 
-Finally, let's add a little bit of polish to the player. We'll add a little bit of friction to the player's movement.
+Finally, let's add a little bit of polish to the player movement in the form of friction.
 This will make the player feel a little more grounded.
 
 .. literalinclude:: ../../../../demo/platformer_stripped/player_controller.py
@@ -152,7 +153,7 @@ This was just the tip of the iceberg of what rubato can do.
         :emphasize-lines: 1-
 
 We're also including a version with some more in-depth features that weren't covered in this tutorial, including
-win detection, advanced animation switching, and a respawn system. Also new scenes, with multiple levels. It's the real deal.
+win detection, advanced animation switching, and a respawn system. Also new scenes, with multiple levels. Noice.
 
 Sneak Peak:
 
