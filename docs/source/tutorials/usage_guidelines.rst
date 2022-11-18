@@ -24,6 +24,7 @@ As a consequence of these guidelines, the design pattern for creating GameObject
 by factory / generator methods that create gameobjects and configure them with components as necessary.
 We'll explain that in depth now.
 
+*************************************
 How to generate multiple Game Objects
 *************************************
 
