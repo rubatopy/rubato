@@ -50,18 +50,6 @@ Replace the previous :func:`rb.init() <rubato.init>` call with this:
     :lines: 3-8
     :emphasize-lines: 3-5
 
-
-Here we're introducing a new class: :func:`rb.Vector <rubato.utils.computation.vector.Vector>`.
-
-A rubato :func:`Vector <rubato.utils.computation.vector.Vector>` is an object that contains two numbers, x and y.
-A Vector can represent a point, dimensions, a mathematical vector, or anything else that has x and y
-parameters. The :func:`Vector <rubato.utils.computation.vector.Vector>` class comes loaded with
-many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a
-deeper look at what that means in a bit.
-
-.. note::
-    rubato uses a cartesian coordinate system, where the origin is in the center of the screen.
-
 At this point, running the game should look like this (full screen and white). To quit the game either quit like any
 other program or press ``Ctrl+C`` in the terminal.
 
