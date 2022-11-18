@@ -12,12 +12,12 @@ The rubato structure is purposefully similar to Unity. In general:
 
 About components:
  * Although they can, it isn't good design to have Components create new Components
-    and add them to the parent GameObject. Component behavior should be transparent:
-    each added Component should result in exactly one Component being added to the GameObject.
+   and add them to the parent GameObject. Component behavior should be transparent:
+   each added Component should result in exactly one Component being added to the GameObject.
  * Components should not remove other Components from the GameObject.
 
 The way you can have components talk to each other is by:
- * Using the ``get()`` and ``get_all()`` GameObject methods.
+ * Using the :func:`get() <rubato.structure.gameobject.game_object.GameObject.get>` and :func:`get_all() <rubato.structure.gameobject.game_object.GameObject.get_all>` GameObject methods.
  * Storing a reference to the component directly.
 
 As a consequence of these guidelines, the design pattern for creating GameObjects in rubato is best handled
