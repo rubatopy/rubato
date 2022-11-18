@@ -7,17 +7,21 @@ Before we can design our game, we need to do a few things to set rubato up.
 First, follow the :doc:`setup guide <../../intro>`, naming your file ``main.py``.
 
 Then, download and extract these
-`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/files/files.zip>`_
+`files <https://raw.githubusercontent.com/rubatopy/rubato/main/demo/platformer_stripped/files.zip>`_
 into the same directory as your ``main.py`` file (so you have ``main.py`` and the ``files`` folder in the same directory.)
 
 At this point, your ``main.py`` file should look like this:
 
 .. code-block:: python
+    :caption: main.py
+    :linenos:
 
     import rubato as rb
 
+    # initialize a new game
     rb.init()
 
+    # begin the game
     rb.begin()
 
 Running ``main.py`` using ``python main.py`` should result in a window similar to this appearing:
@@ -26,39 +30,28 @@ Running ``main.py`` using ``python main.py`` should result in a window similar t
     :width: 25%
     :align: center
 
-:code:`rb.init()` is the initializer function for the library.
+:func:`rb.init() <rubato.init>` is the initializer function for the library.
 It will ensure that rubato can communicate with the computer hardware and
 set up a window for you.
 
-:code:`rb.begin()` actually runs the game loop. The loop will
+:func:`rb.begin() <rubato.begin>` actually runs the game loop. The loop will
 handle all of the rendering, player logic, etc. Without calling it, nothing happens.
 
 To customize your game window, you can pass in a few parameters. For now, let's:
     * Give our window a name
     * Change its resolution
+    * Make it fullscreen
 
-Replace the previous :code:`rb.init()` call with this:
+Replace the previous :func:`rb.init() <rubato.init>` call with this:
 
-.. code-block:: python
+.. literalinclude:: step1_main.py
+    :caption: main.py
+    :lineno-start: 3
+    :lines: 3-8
+    :emphasize-lines: 3-5
 
-    # initialize a new game
-    rb.init(
-        name="Platformer Demo",  # Set a name
-        res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
-    )
-
-
-Here we're introducing a new class: :func:`rb.Vector <rubato.utils.vector.Vector>`.
-
-A rubato :func:`Vector <rubato.utils.vector.Vector>` is an object that contains two numbers, x and y.
-A Vector can represent a point, dimensions, a mathematical vector, or anything else that has x and y
-parameters. The :func:`Vector <rubato.utils.vector.Vector>` class comes loaded with
-many useful transformation functions and also allows super intuitive math using operator overloading. We'll take a
-deeper look at what that means in a bit.
-
-At this point, running the game should look like this:
+At this point, running the game should look like this (full screen and white). To quit the game either quit like any
+other program or press ``Ctrl+C`` in the terminal.
 
 .. image:: /_static/tutorials_static/platformer/step1/2.png
     :width: 75%
@@ -66,21 +59,10 @@ At this point, running the game should look like this:
 
 Here is what your main.py should look like:
 
-.. code-block:: python
-
-    import rubato as rb
-
-    # initialize a new game
-    rb.init(
-        name="Platformer Demo",  # Set a name
-        res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
-    )
-
-    # begin the game
-    rb.begin()
-
+.. literalinclude:: step1_main.py
+    :caption: main.py
+    :linenos:
+    :emphasize-lines: 1-
 
 If you made it here, great! We're ready to build the platformer.
 Next, we'll create a player and add him to the game.

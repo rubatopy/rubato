@@ -1,9 +1,9 @@
 """Test the Group class."""
 from unittest.mock import Mock
 import pytest
-from rubato.struct.gameobject.physics.hitbox import Hitbox
-from rubato.struct.gameobject.game_object import GameObject
-from rubato.struct.group import Group
+from rubato.structure.gameobject.physics.hitbox import Hitbox
+from rubato.structure.gameobject.game_object import GameObject
+from rubato.structure.group import Group
 from rubato.utils.error import Error
 from rubato.utils.rendering.camera import Camera
 # pylint: disable=redefined-outer-name
@@ -71,8 +71,8 @@ def test_fixed_update(monkeypatch, group, go):
 
     collide = Mock()
     calc_bb = Mock()
-    monkeypatch.setattr("rubato.struct.qtree._QTree.collide", collide)
-    monkeypatch.setattr("rubato.struct.qtree._QTree.calc_bb", calc_bb)
+    monkeypatch.setattr("rubato.structure.qtree._QTree.collide", collide)
+    monkeypatch.setattr("rubato.structure.qtree._QTree.calc_bb", calc_bb)
 
     group._fixed_update()
 

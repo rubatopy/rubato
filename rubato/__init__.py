@@ -26,7 +26,7 @@ simplefilter("default", DeprecationWarning)
 
 from .utils import *
 from .game import Game
-from .struct import *
+from .structure import *
 from .misc import world_mouse, wrap
 
 

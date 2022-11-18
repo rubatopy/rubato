@@ -7,35 +7,38 @@ animated character.
 
 At this point, you should have a white window with a resolution of 1920 by 1080 pixels.
 
-First, we need to understand the rubato heirarchy (we'll explain it first, then walk you
+Before we continue, we first need to understand the rubato heirarchy (we'll explain it first, then walk you
 through it). rubato has 4 levels of structure, in order: Scenes, Groups, Game Objects, and Components.
 
-:func:`Scenes <rubato.struct.scene.Scene>` hold 2 Groups. One for menu items (the UI) and
-one for the main Game Objects. It also manages a :func:`Camera <rubato.utils.camera.Camera>`.
+:func:`Scenes <rubato.structure.scene.Scene>` hold two premade Groups. One for menu items (the UI) and
+one for the main Game Objects. It also manages a :func:`Camera <rubato.utils.rendering.camera.Camera>`.
 Scenes are used to separate different sections of a game. For example, you could have each game
-level in a different scene. Then to move between levels, you would simply switch scenes, and rubato will
-automatically change which scene is updated and drawn to the window.
+level in a different scene. To move between levels, you would simply switch scenes.
 
-:func:`Groups <rubato.struct.group.Group>` are the next layer down. They can hold either Game Objects or other Groups.
+:func:`Groups <rubato.structure.group.Group>` are the next layer down. They can hold either Game Objects or other Groups.
 Their main purpose is divide different "groups" of items (hence the name!). For example,
-items in 2 different groups won't automatically collide with each other, but items sharing a Group will (even if the group is a shared ancestor of both!).
-We won't explicitly use Groups in this tutorial as because their functionality isn't necessary for the platformer.
+items in two different groups won't automatically collide with each other, but items sharing a Group will.
+We won't be making any new Groups in this tutorial because their functionality isn't necessary for the platformer.
 
-:func:`Game Objects <rubato.struct.gameobject.game_object.GameObject>` are the main objects in a game.
-They have a position and z-index, and represent a "thing", such as a player, or an enemy, or a platform. Their behavior is almost entirely
+:func:`Game Objects <rubato.structure.gameobject.game_object.GameObject>` are the main objects in a game.
+They have a position and z-index, and represent a "thing", such as a player, an enemy, or a platform. Their behavior is almost entirely
 determined by the Components that are assigned to them.
 
-:func:`Components <rubato.struct.gameobject.component.Component>` are lightweight "modules" that add to the behavior of a Game Object.
-For example, an Image component draws an image from your filesystem at the Game Object's position. A RigidBody
-component registers the Game Object into the built-in physics engine. A Hitbox component gives a Game Object shape.
+:func:`Components <rubato.structure.gameobject.component.Component>` are lightweight "modules" that add to the behavior of a Game Object.
+For example, an :func:`Image <rubato.structure.gameobject.sprites.raster.Image>` component draws an image from your
+filesystem at the Game Object's position. A :func:`RigidBody <rubato.structure.gameobject.physics.rigidbody.RigidBody>` component registers the Game Object
+into the built-in physics engine. A :func:`Hitbox <rubato.structure.gameobject.physics.hitbox.Hitbox>` component gives
+a Game Object shape and enables collision.
 
-If this explanation was confusing, it'll hopefully make more sense seeing the system in action.
-Let's create a scene right after :code:`rb.init()` but before :code:`rb.begin()`.
+If this explanation was confusing, hopefully it'll make more sense seeing the system in action.
+We'll start by making a scene:
 
-.. code-block:: python
+.. literalinclude:: step2_main.py
+    :caption: main.py
+    :lines: 3-9,12,16-18
+    :emphasize-lines: 8
+    :lineno-start: 3
 
-    # Create a scene
-    main = rb.Scene(background_color=rb.Color.cyan.lighter())
 
 Here we introduce the :func:`Color <rubato.utils.color.Color>` class. Colors
 are stored in RGBA format but can be loaded from HSV and HEX. The class comes
@@ -43,32 +46,52 @@ preloaded with pastel-inspired :func:`default colors <rubato.utils.color.Color.r
 well as several methods to mix and manipulate them. In the code above, we use :func:`lighter() <rubato.utils.color.Color.lighter>`
 to lighten the shade a little.
 
-Next, we need to create a player and add it to the scene.
-Remember to insert the following code before the ``begin()`` call but after creating the scene.
+Note that we did not have to actually add our scene to the game after creating it.
+That's because it happens automatically every time a scene is initialized!
 
-.. code-block:: python
+Next, we need to create a player and add it to the scene. Create a new file next to :code:`main.py` called :code:`shared.py`
+and add the following code:
 
-    # Create the player and set its starting position
-    player = rb.GameObject(
-        pos=rb.Display.center_left + rb.Vector(50, 0),
-        z_index=1,
-    )
-
-    # Add the player to the scene
-    main.add(player)
+.. literalinclude:: step2_shared.py
+    :caption: shared.py
+    :lines: 1-7
+    :linenos:
 
 
-:func:`rb.Display.center_left <rubato.utils.display.Display.center_left>` is just the Vector position for the center of the
-left side of the screen.
+Here we're introducing a new class: :func:`rb.Vector <rubato.utils.computation.vector.Vector>`.
 
-If we ran this now, we won't see our player because Game Objects don't draw anything by themselves. Let's change that
-by adding a simple Animation to the player.
+A rubato :func:`Vector <rubato.utils.computation.vector.Vector>` is an object that contains two numbers, x and y.
+A Vector can represent a point, dimensions, a mathematical vector, or anything else that has x and y
+parameters. The :func:`Vector <rubato.utils.computation.vector.Vector>` class comes loaded with
+many useful transformation functions and lets you utilize intuitive operators like :code:`+` as shown above to do quick vector math.
+
+.. note::
+    rubato uses the cartesian coordinate system, where the origin is in the center of the screen and positive y is up.
+
+:func:`rb.Display.center_left <rubato.utils.hardware.display.Display.center_left>` is just the Vector position for the center of the
+left side of the screen (i.e. y = 0, x = -screen resolution / 2).
+
+Now in the main file we need to import :code:`shared.py` and add it to the scene (above the call to begin()):
+
+.. note::
+
+    You need to import the shared file **after** having called the rubato init method, so that you can use rubato functions in shared.
+
+.. literalinclude:: step2_main.py
+    :caption: main.py
+    :lines: 10-15
+    :lineno-start: 10
+    :emphasize-lines: 1,5,6
+
+
+If we ran this now, we won't see our player. That's because Game Objects don't draw anything by themselves.
+Let's change that by adding a simple Animation to the player.
 
 You will see a few image files inside the ``files/dino`` directory. Each of these image
 files is a spritesheet for a single animation. Instead of loading each frame and image ourselves, we can use
-:func:`rb.Spritesheet.from_folder() <rubato.struct.gameobject.sprites.spritesheet.Spritesheet.from_folder>` to load them
+:func:`rb.Spritesheet.from_folder() <rubato.structure.gameobject.sprites.spritesheet.Spritesheet.from_folder>` to load them
 all at once. This function takes the path to a folder and returns an
-:func:`Animation <rubato.struct.gameobject.sprites.animation.Animation>` component that can then be added to a GameObject.
+:func:`Animation <rubato.structure.gameobject.sprites.animation.Animation>` component that can then be added to a GameObject.
 
 Our spritesheets have a couple of frames. Each frame is 24 pixels by 24 pixels. Be sure to specify the sprite size
 when you load them. This will let rubato correctly subdivide the spritesheet into frames.
@@ -79,17 +102,11 @@ state names are the names of the files. Some states we have in our example are i
 We also should specify the default state. This is the state that the animation will start at and the one that it will
 return to when other states finish. In our case, this will be the idle state.
 
-.. code-block:: python
-
-    # Create animation and initialize states
-    p_animation = rb.Spritesheet.from_folder(
-        path="files/dino",
-        sprite_size=rb.Vector(24, 24),
-        default_state="idle",
-    )
-    p_animation.scale = rb.Vector(4, 4)
-    p_animation.fps = 10 # The frames will change 10 times a second
-    player.add(p_animation) # Add the animation component to the player
+.. literalinclude:: step2_shared.py
+    :caption: shared.py
+    :lines: 3-
+    :lineno-start: 3
+    :emphasize-lines: 7-
 
 Now you should have a cute dinosaur bobbing up and down on the left side of the screen:
 
@@ -99,41 +116,14 @@ Now you should have a cute dinosaur bobbing up and down on the left side of the 
 
 Adorable :)
 
-Here is what you should have so far if you've been following along:
+Here is what you should have so far if you've been following along (cleaned up a bit):
 
-.. code-block:: python
+.. literalinclude:: step2_main.py
+    :caption: main.py
+    :linenos:
+    :emphasize-lines: 3, 12-15
 
-    import rubato as rb
-
-    # initialize a new game
-    rb.init(
-        name="Platformer Demo",  # Set a name
-        res=rb.Vector(1920, 1080),  # Set the window resolution (pixel length and height).
-            # note that since we didn't also specify a window size,
-            # the window will be automatically resized to half of the resolution.
-    )
-
-    # Create a scene
-    main = rb.Scene(background_color=rb.Color.cyan.lighter())
-
-    # Create the player and set its starting position
-    player = rb.GameObject(
-        pos=rb.Display.center_left + rb.Vector(50, 0),
-        z_index=1,
-    )
-
-    # Create animation and initialize states
-    p_animation = rb.Spritesheet.from_folder(
-        path="files/dino",
-        sprite_size=rb.Vector(24, 24),
-        default_state="idle",
-    )
-    p_animation.scale = rb.Vector(4, 4)
-    p_animation.fps = 10 # The frames will change 10 times a second
-    player.add(p_animation) # Add the animation component to the player
-
-    # Add the player to the scene
-    main.add(player)
-
-    # begin the game
-    rb.begin()
+.. literalinclude:: step2_shared.py
+    :caption: shared.py
+    :linenos:
+    :emphasize-lines: 1-

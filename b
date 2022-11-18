@@ -96,7 +96,7 @@ doc() {
             ./b del -b
             ./b doc -c
             cd docs
-            sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../rubato
+            sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../
             cd ..
             if [[ -d build ]]
             then

@@ -32,6 +32,9 @@ omit=[
     "rubato/__pyinstaller/*",
 ]
 
+[tool.pyright]
+ignore=["docs/source/tutorials/**/*"]
+
 [tool.pytest.ini_options]
 markers = [
     "sdl: mark tests that require SDL",

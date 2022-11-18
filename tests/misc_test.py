@@ -3,9 +3,9 @@ from unittest.mock import Mock
 from pytest import MonkeyPatch, raises
 from rubato.game import Game
 from rubato.misc import world_mouse, wrap
-from rubato.struct.gameobject.component import Component
-from rubato.struct.gameobject.game_object import GameObject
-from rubato.struct.scene import Scene
+from rubato.structure.gameobject.component import Component
+from rubato.structure.gameobject.game_object import GameObject
+from rubato.structure.scene import Scene
 from rubato.utils.computation.vector import Vector
 from rubato.utils.hardware.display import Display
 from rubato.utils.hardware.rb_input import Input

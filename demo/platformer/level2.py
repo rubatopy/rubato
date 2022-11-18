@@ -1,9 +1,8 @@
 from rubato import Display, Vector, Color, Rectangle, wrap, GameObject, Radio, Events, Game, Raster
-from data_scene import DataScene
 from moving_platform import MovingPlatform
 import shared
 
-scene = DataScene("level2", background_color=shared.background_color)
+scene = shared.DataScene("level2", background_color=shared.background_color)
 scene.level_size = int(Display.res.x * 2)
 
 end_location = Vector(Display.left + scene.level_size - 128, 0)

@@ -27,7 +27,7 @@ To create a new blank project, simply create a new python file (such as ``main.p
     rb.init()
 
 :func:`rb.init() <rubato.init>` initializes rubato.
-An optional dictionary argument passed into :func:`rb.init() <rubato.init>` can specify such things as window name and size, resolution, and more.
+:func:`rb.init() <rubato.init>` takes in multiple optional arguements to specify things such as window name and size, resolution, and more.
 
 .. note::
 
@@ -53,5 +53,5 @@ You're officially up and running with rubato.
 
 .. note::
     Code not working? It's possible something went wrong during the dependency installation process.
-    Check your terminal log for errors and reinstall rubato and the SDL dlls if necessary.
-    You can also file a bug report `here <https://github.com/rubatopy/rubato/issues>`_ if something went wrong on our end.
+    Check your terminal log for errors and try reinstalling rubato.
+    You can also file a bug report `here <https://github.com/rubatopy/rubato/issues>`_ or reach out on our `discord <https://discord.gg/rdce5GXRrC>`_ if something went wrong on our end.

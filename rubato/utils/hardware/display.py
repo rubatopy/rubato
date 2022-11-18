@@ -75,7 +75,7 @@ class Display(metaclass=_DisplayProperties):
                 While this value can be changed, it is recommended that you do not
                 alter it after initialization as it will scale your entire project in unexpected ways.
                 If you wish to achieve scaling across an entire scene, simply utilize the
-                :func:`camera zoom <rubato.struct.camera.Camera.zoom>` property in your scene's camera.
+                :func:`camera zoom <rubato.structure.camera.Camera.zoom>` property in your scene's camera.
         window_pos (Vector): The current position of the window in terms of screen pixels.
         window_name (str): The name of the window.
         hidden (bool): Whether the window is currently hidden.

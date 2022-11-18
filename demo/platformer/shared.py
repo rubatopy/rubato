@@ -1,7 +1,18 @@
 import rubato as rb
-from data_scene import DataScene
-from player_controller import PlayerController
 from random import randint
+
+
+##### DATA SCENE #####
+class DataScene(rb.Scene):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.level_size = 0
+
+
+from player_controller import PlayerController
+
+##### MISC #####
 
 black_32 = rb.Font(size=32)
 white_32 = rb.Font(size=32, color=rb.Color.white)
@@ -57,9 +68,9 @@ player.add(
     player_comp := PlayerController(),
 )
 
-##### PORTAL #####
+##### Flag #####
 
-# Create animation for portal
+# Create animation for flag
 flag_sheet = rb.Spritesheet(
     path="files/flag.png",
     sprite_size=rb.Vector(32, 32),
@@ -69,14 +80,14 @@ flag_sheet = rb.Spritesheet(
 flag_animation = rb.Animation(scale=rb.Vector(4, 4), fps=6, flipx=True)
 flag_animation.add_spritesheet("", flag_sheet, to_coord=flag_sheet.end)
 
-# create the end portal
+# create the end flag
 flag = rb.GameObject()
 flag.add(flag_animation)
 
 flag.add(
     rb.Rectangle(
         trigger=True,
-        tag="portal",
+        tag="flag",
         width=-flag_animation.anim_frame().size_scaled().x,
         height=flag_animation.anim_frame().size_scaled().y,
     )

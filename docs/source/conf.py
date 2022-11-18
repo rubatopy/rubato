@@ -167,5 +167,5 @@ napoleon_use_rtype = True
 napoleon_preprocess_types = False
 napoleon_attr_annotations = True
 napoleon_type_aliases = {
-    "Scene": "rubato.struct.scene.Scene",
+    "Scene": "rubato.structure.scene.Scene",
 }

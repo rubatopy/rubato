@@ -1,6 +1,6 @@
 from rubato import Component, Animation, RigidBody, Rectangle, Manifold, Radio, Events, KeyResponse, JoyButtonResponse \
     , Input, Math, Display, Game, Time, Vector
-from data_scene import DataScene
+from shared import DataScene
 
 
 class PlayerController(Component):
