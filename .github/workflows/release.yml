@@ -40,10 +40,17 @@ jobs:
               shell: bash
 
             - name: Linux Build
-              if: ${{ startsWith(matrix.os, 'ubuntu') }}
+              if: ${{ startsWith(matrix.os, 'ubuntu') && startsWith(matrix.python-version, '3.10') }}
               uses: RalfG/python-wheels-manylinux-build@v0.5.0-manylinux_2_28_x86_64
               with:
-                  python-versions: "cp310-cp311"
+                  python-versions: "cp310-cp310"
+                  build-requirements: "Cython~=3.0.0a11"
+
+            - name: Linux Build
+              if: ${{ startsWith(matrix.os, 'ubuntu') && startsWith(matrix.python-version, '3.11') }}
+              uses: RalfG/python-wheels-manylinux-build@v0.5.0-manylinux_2_28_x86_64
+              with:
+                  python-versions: "cp311-cp311"
                   build-requirements: "Cython~=3.0.0a11"
 
             - name: Purge Bad Wheels
