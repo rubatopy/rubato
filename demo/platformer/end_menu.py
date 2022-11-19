@@ -17,7 +17,7 @@ screenshot_button = shared.smooth_button_generator(
     600,
     100,
     "SAVE SCREENSHOT",
-    lambda: Display.save_screenshot((f"platformer time {time.asctime()}").replace(" ", "-")),
+    lambda: Display.save_screenshot((f"platformer time {time.asctime()}").replace(" ", "-").replace(":", "-")),
     Color.gray.darker(100),
 )
 
