@@ -1,6 +1,7 @@
 <!-- DON'T TOUCH THESE -->
 
 [unreleased]: https://github.com/rubatopy/rubato/
+[v0.4.0]: https://github.com/rubatopy/rubato/tree/v0.4.0
 [v0.3.5]: https://github.com/rubatopy/rubato/tree/v0.3.5
 [v0.3.4]: https://github.com/rubatopy/rubato/tree/v0.3.4
 [v0.3.3]: https://github.com/rubatopy/rubato/tree/v0.3.3
@@ -15,7 +16,7 @@
 
 # Changelog
 
-## [Unreleased] - November 20, 2022 (Expected)
+## [v0.4.0] - November 18, 2022
 
 ### Breaking Changes
 
@@ -46,8 +47,6 @@
 -   `Color.from_hex()` now supports many different hex formats.
 -   `Image` can now be created with an empty string. This is needed when cloning.
 -   `Scene` and `Group` remove functions can now take in multiple items like the add functions.
-
-### Removed
 
 ### Fixed
 
