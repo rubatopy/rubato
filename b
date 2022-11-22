@@ -71,7 +71,7 @@ clean() {
 build() {
     case $1 in
         --force|-f)
-            delete
+            clean
             build
             ;;
         *)
@@ -201,7 +201,7 @@ case $1 in
         cd ..
         ;;
     pypi)
-        delete
+        clean
         rm -rf dist
         python -m build
         exit_with="$(expr $?+$exit_with)"
@@ -219,7 +219,7 @@ case $1 in
         then
             BRANCH="$(git branch --show-current)"
             git checkout "$1"
-            delete
+            clean
             echo "Building wheels..."
             python -m build
             echo "Uploading wheels..."
