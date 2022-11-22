@@ -30,4 +30,4 @@ def on_switch():
 
 
 scene.on_switch = on_switch
-scene.add_ui(restart_button, screenshot_button, time_text)
+scene.add(restart_button, screenshot_button, time_text)

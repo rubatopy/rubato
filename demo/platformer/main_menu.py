@@ -15,4 +15,4 @@ play_button = shared.smooth_button_generator(
     Color.gray.darker(100),
 )
 
-scene.add_ui(wrap(title, pos=(0, 75)), play_button)
+scene.add(wrap(title, pos=(0, 75)), play_button)

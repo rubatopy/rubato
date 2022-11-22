@@ -35,7 +35,7 @@ def won():
     if not has_won:
         has_won = True
         click_listener = Radio.listen(Events.MOUSEUP, go_to_next)
-        scene.add_ui(shared.win_text, shared.win_sub_text)
+        scene.add(shared.win_text, shared.win_sub_text)
 
 
 def go_to_next():
@@ -50,7 +50,7 @@ def switch():
     shared.right.pos = Display.center_left + Vector(scene.level_size + 25, 0)
     shared.flag.pos = end_location
     shared.flag.get(Rectangle).on_enter = lambda col_info: won() if col_info.shape_b.tag == "player" else None
-    scene.remove_ui(shared.win_text, shared.win_sub_text)
+    scene.remove(shared.win_text, shared.win_sub_text)
     has_won = False
     scene.camera.pos = Vector(0, 0)
 

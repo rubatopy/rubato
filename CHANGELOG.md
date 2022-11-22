@@ -20,6 +20,9 @@
 
 ### Breaking Changes
 
+-   Entirely removed the `Group` class. This means code utilizing groups will need to be significantly refactored.
+-   Refactored `Scene`s as a consequence of the removal of groups. See documentation for more information.
+
 ### Added
 
 ### Changed

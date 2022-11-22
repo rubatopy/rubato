@@ -64,6 +64,6 @@ for rast in play_button.get_all(Raster):
 smooth_button_generator(lambda: Game.set_scene("level1"), "level 1", play_button, offset=offset)
 smooth_button_generator(lambda: Game.set_scene("level2"), "level 2", play_button)
 
-scene.add_ui(play_button)
+scene.add(play_button)
 
 rb.begin()
