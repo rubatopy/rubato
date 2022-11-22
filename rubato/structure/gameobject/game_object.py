@@ -21,6 +21,7 @@ class GameObject:
         pos: The position of the game object. Defaults to (0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
+        ignore_cam: Whether the game object ignores the scene's camera when drawing or not. Defaults to False.
         debug: Whether to draw the center of the game object. Defaults to False.
         active: Whether the game object is active or not. Defaults to True.
         hidden: Whether the game object is hidden or not. Defaults to False.
@@ -32,6 +33,7 @@ class GameObject:
         pos: Vector | tuple[float, float] = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
+        ignore_cam: bool = False,
         debug: bool = False,
         active: bool = True,
         hidden: bool = False,
@@ -42,6 +44,8 @@ class GameObject:
         """
         self.pos: Vector = Vector.create(pos)
         """The current position of the game object."""
+        self.ignore_cam: bool = ignore_cam
+        """Whether the game object ignores the scene's camera when drawing or not."""
         self.debug: bool = debug
         """Whether to draw a debug crosshair for the game object."""
         self.z_index: int = z_index
@@ -200,15 +204,17 @@ class GameObject:
         if self.hidden or not self.active:
             return
 
+        cam = Game._zero_cam if self.ignore_cam else camera
+
         for comps in self._components.values():
             for comp in comps:
                 if not comp.hidden:
-                    comp.draw(camera)
+                    comp.draw(cam)
 
         if self.debug or Game.debug:
             self._debug_cross.rotation = self.rotation
 
-            Draw.queue_surface(self._debug_cross, self.pos, Math.INF, camera)
+            Draw.queue_surface(self._debug_cross, self.pos, Math.INF, cam)
 
     def _update(self):
         if not self.active:
@@ -236,6 +242,7 @@ class GameObject:
             pos=self.pos.clone(),
             rotation=self.rotation,
             z_index=self.z_index,
+            ignore_cam=self.ignore_cam,
             debug=self.debug,
             active=self.active,
             hidden=self.hidden,
