@@ -16,7 +16,7 @@ help_text() {
         echo "${tab}build, b: Cythonize and build rubato"
         echo "${tab}${tab}--force, -f: Force rubato to rebuild"
         echo "${tab}demo, dem: Run the demos in quick succession"
-        echo "${tab}delete, del:"
+        echo "${tab}clean, c:"
         echo "${tab}${tab}--all, -a: Delete all rubato build files (default)"
         echo "${tab}${tab}--dir, -d: Delete only the build directory"
         echo "${tab}${tab}--bin, -b: Delete only the binary files"
@@ -34,7 +34,7 @@ help_text() {
     fi
 }
 
-delete() {
+clean() {
     case $1 in
         --bin|-b)
             echo "Deleting binary files..."
@@ -58,13 +58,13 @@ delete() {
             exit_with="$(expr $?+$exit_with)"
             ;;
         *|--all|-a)
-            delete --dir --bin --cython
+            clean --dir --bin --cython
             ;;
     esac
     shift
     if [[ $# -gt 0 ]]
     then
-        delete "$@"
+        clean "$@"
     fi
 }
 
@@ -155,9 +155,9 @@ case $1 in
         cd demo
         ./_run_all.sh
         ;;
-    delete|del)
+    clean|c)
         shift
-        delete "$@"
+        clean "$@"
         ;;
     docs|doc)
         shift
