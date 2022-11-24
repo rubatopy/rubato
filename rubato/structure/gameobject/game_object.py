@@ -99,7 +99,7 @@ class GameObject:
 
     def remove(self, comp_type: Type[Component]):
         """
-        Removes the first instance of a component from the game object.
+        Removes the first instance of a type of component from the game object.
 
         Args:
             comp_type: The type of the component to remove.
@@ -127,8 +127,9 @@ class GameObject:
         """
         for key, val in self._components.items():
             if issubclass(key, type(component)):
-                val.remove(component)
-                return True
+                if component in val:
+                    val.remove(component)
+                    return True
         return False
 
     def remove_all(self, comp_type: Type[Component]):
