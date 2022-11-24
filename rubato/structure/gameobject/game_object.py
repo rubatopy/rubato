@@ -107,7 +107,13 @@ class GameObject:
         Raises:
             IndexError: The component was not in the game object and nothing was removed.
         """
-        self.remove_ind(comp_type, 0)
+        for key, val in self._components.items():
+            if issubclass(key, comp_type):
+                del val[0]
+                if not val:
+                    del self._components[key]
+                return
+        raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 
     def remove_by_ref(self, component: Component) -> bool:
         """
@@ -124,28 +130,6 @@ class GameObject:
                 val.remove(component)
                 return True
         return False
-
-    def remove_ind(self, comp_type: Type[Component], ind: int):
-        """
-        Removes a component from the game object.
-
-        Args:
-            comp_type: The Type of component to remove
-            ind: The index of the component to remove.
-
-        Raises:
-            IndexError: The component was not in the game object and nothing was removed or the index was out of bounds.
-        """
-        for key, val in self._components.items():
-            if issubclass(key, comp_type):
-                if ind < len(val):
-                    del val[ind]
-                    return
-                else:
-                    ind -= len(val)
-        raise IndexError(
-            f"There are no components of type '{comp_type}' in game object '{self.name}' or the index is out of bounds."
-        )
 
     def remove_all(self, comp_type: Type[Component]):
         """
