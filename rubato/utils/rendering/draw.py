@@ -492,8 +492,7 @@ class Draw:
             final_tx.fill(Color(a=200))
             final_tx.blit(
                 tx,
-                (0, (tx.height - font.size) // 2, tx.width, font.size),
-                (pad_x, pad_y, tx.width, font.size),
+                (0, 0, tx.width, font.size),
             )
         else:
             final_tx = tx
