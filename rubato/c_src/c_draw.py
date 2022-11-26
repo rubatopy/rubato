@@ -63,6 +63,18 @@ def switch_colors(pixels: int, width: int, height: int, color1: int, color2: int
     cdraw.switchColors(pixels, width, height, color1, color2)
 
 
+def flip_x(pixels: int, width: int, height: int):
+    cdraw.flipX(pixels, width, height)
+
+
+def flip_y(pixels: int, width: int, height: int):
+    cdraw.flipY(pixels, width, height)
+
+
+def flip_anti_diagonal(pixels: int, width: int, height: int):
+    cdraw.flipAntiDiagonal(pixels, width, height)
+
+
 def draw_line(
     pixels: int,
     width: int,

@@ -165,6 +165,21 @@ class Surface:
         )
         self.uptodate = False
 
+    def flip_x(self):
+        """Flips the surface horizontally."""
+        c_draw.flip_x(self._pixels, self.width, self.height)
+        self.uptodate = False
+
+    def flip_y(self):
+        """Flips the surface vertically."""
+        c_draw.flip_y(self._pixels, self.width, self.height)
+        self.uptodate = False
+
+    def flip_anti_diagonal(self):
+        """Flips the surface along the anti diagonal."""
+        c_draw.flip_anti_diagonal(self._pixels, self.width, self.height)
+        self.uptodate = False
+
     def _regen(self):
         """Updates the texture."""
         if self._color_key is not None:
@@ -194,6 +209,10 @@ class Surface:
     def _convert_to_surface_space(self, pos: Vector | tuple[float, float]) -> tuple[float, float]:
         """Simple function that converts cartesian coordinates to surface space."""
         return (pos[0] + self._width / 2, -pos[1] + self._height / 2)
+
+    def _convert_to_cartesian_space(self, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+        """Simple function that converts surface space to cartesian coordinates."""
+        return (pos[0] - self._width / 2, -pos[1] + self._height / 2)
 
     def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """

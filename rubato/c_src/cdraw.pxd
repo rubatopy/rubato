@@ -12,6 +12,9 @@ cdef extern from "cdraw.cpp":
     void clearPixels(size_t _pixels, int width, int height)
     void blit(size_t _source, size_t _destination, int sw, int sh, int dw, int dh, int srx, int sry, int srw, int srh, int drx, int dry, int drw, int drh)
     void switchColors(size_t _pixels, int width, int height, size_t color1, size_t color2)
+    void flipX(size_t _pixels, int width, int height)
+    void flipY(size_t _pixels, int width, int height)
+    void flipAntiDiagonal(size_t _pixels, int width, int height)
 
     void drawLine(size_t _pixels, int width, int height, int x1, int y1, int x2, int y2, size_t color, bool aa, bool blending, int thickness)
     void drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t borderColor, size_t fillColor, bool aa, bool blending, int thickness)

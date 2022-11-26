@@ -81,6 +81,24 @@ class Raster(Component):
         """
         self.surf.blit(other.surf, src_rect, dst)
 
+    def flip_x(self):
+        """
+        Flips the raster along the x-axis.
+        """
+        self.surf.flip_x()
+
+    def flip_y(self):
+        """
+        Flips the raster along the y-axis.
+        """
+        self.surf.flip_y()
+
+    def flip_anti_diagonal(self):
+        """
+        Flips the surface along the anti-diagonal.
+        """
+        self.surf.flip_anti_diagonal()
+
     def draw(self, camera: Camera):
         self.surf.rotation = self.true_rotation()
         Draw.queue_surface(self.surf, self.true_pos(), self.true_z(), camera)
