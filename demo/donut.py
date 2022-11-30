@@ -17,11 +17,11 @@ def draw():
     z, b = [0.0] * di_sq, [-1] * di_sq
     e, g = math.sin(A), math.cos(A)
     n, m = math.sin(B), math.cos(B)
-    for j in range(200):
-        f, d = math.sin(j), math.cos(j)
+    for j in range(0, 628, 7):
+        f, d = math.sin(j / 100), math.cos(j / 100)
         h = d + 2
-        for i in range(340):
-            c, l = math.sin(i), math.cos(i)
+        for i in range(0, 628, 2):
+            c, l = math.sin(i / 100), math.cos(i / 100)
             D = 1 / (c * h * e + f * g + 5)
             t = c * h * g - f * e
             x = int(hdi + 30 * D * (l * h * m - t * n))
