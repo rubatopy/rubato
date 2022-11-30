@@ -32,7 +32,7 @@ def update():
             N = int(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n))
             if 22 > y and y > 0 and x > 0 and 80 > x and D > z[o]:
                 z[o] = D
-                b[o] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12][N if N > 0 else 0]
+                b[o] = (N + 1) if N > 0 else 0
 
 
 def draw():
@@ -42,7 +42,7 @@ def draw():
 
     for k in range(1760):
         if b[k] != -1:
-            color = rb.Color.black.lighter(int(rb.Math.lerp(0, 255, b[k] / 12)))
+            color = rb.Color.mix(rb.Color.blue, rb.Color.red, b[k] / 12, "linear")
             pos = rb.Vector(k % 80, k // 80)
             pos -= rb.Vector(40, 12)
             s.set_pixel(pos, color, False)
