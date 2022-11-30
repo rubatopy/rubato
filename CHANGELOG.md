@@ -24,6 +24,8 @@
 
 ### Changed
 
+-   The default window size now matches the resolution instead of being half it to be more intuitive.
+
 ### Removed
 
 ### Fixed

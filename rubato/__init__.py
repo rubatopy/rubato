@@ -77,7 +77,7 @@ def init(
 
     window_pos, change_pos = ((int(window_pos[0]), int(window_pos[1])), True) if window_pos else (None, False)
 
-    size = (res[0] // 2, res[1] // 2) if not window_size else window_size
+    size = res if not window_size else window_size
 
     Display.window = sdl2.ext.Window(name, (int(size[0]), int(size[1])), window_pos, flags)
 
