@@ -1,7 +1,7 @@
 from rubato import Scene, Color, Game, Display, Time, Text, GameObject
 import shared, time
 
-scene = Scene("end_menu", background_color=Color.black)
+scene = Scene("end_menu", background_color=shared.background_color)
 
 restart_button = shared.smooth_button_generator(
     (0, -75),

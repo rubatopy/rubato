@@ -14,8 +14,9 @@ from player_controller import PlayerController
 
 ##### MISC #####
 
-black_32 = rb.Font(size=32)
-white_32 = rb.Font(size=32, color=rb.Color.white)
+font_name = "Mozart"
+black_32 = rb.Font(font=font_name, size=32)
+white_32 = rb.Font(font=font_name, size=32, color=rb.Color.white)
 start_time = 0
 
 ##### COLORS #####
@@ -98,8 +99,8 @@ left = rb.GameObject(pos=rb.Display.center_left - rb.Vector(25, 0)).add(rb.Recta
 right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
 ##### LEVEL WIN TEXT #####
-win_font = rb.Font(size=128, color=win_color, styles=["bold"])
-win_text = rb.GameObject(z_index=10000).add(rb.Text("YOU WIN!", win_font, anchor=(0, 0.5)))
+win_font = rb.Font(font=font_name, size=96, color=win_color)
+win_text = rb.GameObject(z_index=10000).add(rb.Text("Level Complete!", win_font, anchor=(0, 0.5)))
 win_sub_text = rb.GameObject(pos=(0, -100), z_index=10000).add(rb.Text("Click anywhere to move on", white_32))
 
 
@@ -121,8 +122,8 @@ class CloudMover(rb.Component):
         return CloudMover()
 
 
-cloud_template = rb.GameObject(z_index=-1).add(rb.Image("files/cloud.png", scale=rb.Vector(5, 5)), CloudMover())
-cloud_template.get(rb.Image).set_alpha(180)
+cloud_template = rb.GameObject(z_index=-1).add(rb.Image("files/cloud.png", scale=rb.Vector(10, 10)), CloudMover())
+cloud_template.get(rb.Image).set_alpha(170)
 
 
 def cloud_generator(scene: DataScene, num_clouds: int, top_only: bool = False):

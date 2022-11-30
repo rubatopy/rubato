@@ -38,7 +38,7 @@ for p in platforms:
             r.tag = "ground"
     p.add(platform.clone())
 
-shared.cloud_generator(scene, 20)
+shared.cloud_generator(scene, 10)
 
 has_won = False
 

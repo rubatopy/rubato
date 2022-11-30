@@ -15,11 +15,6 @@ import level1
 import level2
 import end_menu
 
-# Change the global debug level
-# rb.Game.debug = True
-# rb.Game.show_fps = True
-# rb.Game.current().camera.zoom = 1
-
 rb.Game.set_scene("main_menu")
 
 # begin the game

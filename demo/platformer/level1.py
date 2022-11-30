@@ -38,6 +38,6 @@ def switch():
 
 scene.on_switch = switch
 
-shared.cloud_generator(scene, 10, True)
+shared.cloud_generator(scene, 4, True)
 
-scene.add(wrap(tilemap, pos=(192, 0)), shared.player, shared.left, shared.right, shared.flag)  #, shared.vignette)
+scene.add(wrap(tilemap, pos=(192, 0)), shared.player, shared.left, shared.right, shared.flag)
