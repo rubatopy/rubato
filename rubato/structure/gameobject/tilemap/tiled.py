@@ -8,11 +8,17 @@ from pathlib import Path
 class Tilemap(Component):
 
     def __init__(
-        self, map_path: str, scale: Vector | tuple[float, float] = (1, 1), z_index: int = 0, hidden: bool = False
+        self,
+        map_path: str,
+        scale: Vector | tuple[float, float] = (1, 1),
+        collider_tag: str = "",
+        z_index: int = 0,
+        hidden: bool = False
     ):
         super().__init__((0, 0), 0, z_index, hidden)
 
         self._scale = scale
+        self._collider_tag = collider_tag
         self._rects = []
         m = parse.parse_map(Path(get_path(map_path)))
 
@@ -138,6 +144,7 @@ class Tilemap(Component):
                         round(obj.size.width * self._scale[0]),
                         round(obj.size.height * self._scale[1]),
                         offset=p,
+                        tag=self._collider_tag,
                     )
                 )
             elif isinstance(obj, parse_obj.Polygon):
@@ -150,10 +157,14 @@ class Tilemap(Component):
                 p = self._out._convert_to_cartesian_space(p)
                 p = (p[0] * self._scale[0], p[1] * self._scale[1])
                 self._rects.append(
-                    Polygon([(
-                        x * self._scale[0],
-                        -y * self._scale[1],
-                    ) for x, y in obj.points], offset=p),
+                    Polygon(
+                        [(
+                            x * self._scale[0],
+                            -y * self._scale[1],
+                        ) for x, y in obj.points],
+                        offset=p,
+                        tag=self._collider_tag,
+                    ),
                 )
 
     def setup(self):

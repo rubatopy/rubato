@@ -23,7 +23,7 @@ start_time = 0
 dirt_color = rb.Color.from_hex("#2c3e50")
 platform_color = rb.Color.from_hex("#2c3e50")
 wood_color = rb.Color.from_hex("#2c3e50")
-background_color = rb.Color.from_hex("#130f40")
+background_color = rb.Color.from_hex("#21263f")
 win_color = rb.Color.green.darker(75)
 
 
@@ -121,7 +121,7 @@ class CloudMover(rb.Component):
         return CloudMover()
 
 
-cloud_template = rb.GameObject().add(rb.Image("files/cloud.png", scale=rb.Vector(5, 5)), CloudMover())
+cloud_template = rb.GameObject(z_index=-1).add(rb.Image("files/cloud.png", scale=rb.Vector(5, 5)), CloudMover())
 cloud_template.get(rb.Image).set_alpha(180)
 
 
