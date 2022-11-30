@@ -9,7 +9,7 @@ half_size = size // 2
 radius = size // 40
 level = 0
 
-init(name="asteroids", res=(size, size))
+init(name="asteroids", res=(size, size), window_size=(size // 2, size // 2))
 
 main = Scene()
 
