@@ -1,16 +1,12 @@
 import math, rubato as rb
 
+A, B = 0, 0
 di, sc = 54, 3
 hdi, di_sq = di // 2, di * di
+res = rb.Vector(di * sc, di * sc)
 
-rb.init(
-    "donut demo",
-    (di * sc, di * sc),
-    (di * sc * 3, di * sc * 3),
-)
-main = rb.Scene("main", rb.Color.night)
+rb.init("donut demo", res, res * 3)
 
-A, B = 0, 0
 s = rb.Surface(di, di, (sc, sc))
 
 
@@ -38,7 +34,7 @@ def draw():
                 z[o] = D
                 b[o] = (N + 1) if N > 0 else 0
 
-    s.clear()
+    s.fill(rb.Color.night)
     for k in range(di_sq):
         if b[k] != -1:
             color = rb.Color.mix(rb.Color.yellow, rb.Color.red, b[k] / 12, "linear")
@@ -46,6 +42,5 @@ def draw():
     rb.Draw.surface(s)
 
 
-main.draw = draw
-
+rb.Game.draw = draw
 rb.begin()
