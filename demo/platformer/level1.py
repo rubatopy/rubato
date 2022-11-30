@@ -1,11 +1,11 @@
-from rubato import Tilemap, Display, Vector, Rectangle, wrap, Font, Text, Radio, Events, Game, Time
+from rubato import Tilemap, Display, Vector, Rectangle, wrap, Radio, Events, Game, Time
 import shared
 
 scene = shared.DataScene("level1", background_color=shared.background_color)
 scene.level_size = int(Display.res.x * 1.2)
 
-end_location = Vector(Display.left + scene.level_size - 128, 450)
-Game.debug = True
+end_location = Vector(Display.left + scene.level_size - 128, -416)
+
 tilemap = Tilemap("files/level1.tmx", (8, 8), "ground")
 has_won = False
 

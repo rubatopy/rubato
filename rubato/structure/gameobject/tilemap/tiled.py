@@ -148,7 +148,6 @@ class Tilemap(Component):
                     )
                 )
             elif isinstance(obj, parse_obj.Polygon):
-                print(obj)
                 p = (
                     extra_offset[0] + obj.coordinates.x + layer.offset.x + layer.coordinates.x,
                     extra_offset[1] + obj.coordinates.y + layer.offset.y + layer.coordinates.y,
