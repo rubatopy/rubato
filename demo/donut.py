@@ -8,12 +8,11 @@ z, b = [], []
 s = rb.Surface(80, 80, (3, 3))
 
 
-def update():
+def draw():
     global A, B, z, b
 
     z = [0.0] * 1760
     b = [-1] * 1760
-
     for j in range(0, 628, 7):
         for i in range(0, 628, 2):
             c = math.sin(i)
@@ -35,17 +34,11 @@ def update():
                 z[o] = D
                 b[o] = (N + 1) if N > 0 else 0
 
-
-def draw():
-    global A, B
-
     s.clear()
-
     for k in range(1760):
         if b[k] != -1:
             color = rb.Color.mix(rb.Color.yellow, rb.Color.red, b[k] / 12, "linear")
-            pos = rb.Vector(k % 80, k // 80)
-            pos -= rb.Vector(40, 12)
+            pos = rb.Vector(k % 80 - 40, k // 80 - 12)
             s.set_pixel(pos, color, False)
 
     A += 0.0704
@@ -54,7 +47,6 @@ def draw():
     rb.Draw.surface(s)
 
 
-main.update = update
 main.draw = draw
 
 rb.begin()
