@@ -3,7 +3,11 @@ import math, rubato as rb
 di, sc = 54, 3
 hdi, di_sq = di // 2, di * di
 
-rb.init("donut demo", (di * sc, di * sc))
+rb.init(
+    "donut demo",
+    (di * sc, di * sc),
+    (di * sc * 3, di * sc * 3),
+)
 main = rb.Scene("main", rb.Color.night)
 
 A, B = 0, 0
@@ -21,11 +25,11 @@ def draw():
     g = math.cos(A)
     n = math.sin(B)
     m = math.cos(B)
-    for j in range(0, 628, 7):
+    for j in range(200):
         f = math.sin(j)
         d = math.cos(j)
         h = d + 2
-        for i in range(0, 628, 2):
+        for i in range(340):
             c = math.sin(i)
             l = math.cos(i)
             D = 1 / (c * h * e + f * g + 5)
