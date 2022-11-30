@@ -1,6 +1,7 @@
 import math, rubato as rb
 
-rb.init(res=(150, 150), maximize=True)
+rb.init(res=(150, 150), window_size=(450, 450))
+main = rb.Scene("main", rb.Color.night)
 
 A, B = 0, 0
 z, b = [], []
@@ -42,18 +43,18 @@ def draw():
 
     for k in range(1760):
         if b[k] != -1:
-            color = rb.Color.mix(rb.Color.blue, rb.Color.red, b[k] / 12, "linear")
+            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, b[k] / 12, "linear")
             pos = rb.Vector(k % 80, k // 80)
             pos -= rb.Vector(40, 12)
             s.set_pixel(pos, color, False)
 
-        A += 0.00004
-        B += 0.00002
+    A += 0.0704
+    B += 0.0352
 
     rb.Draw.surface(s)
 
 
-rb.Game.update = update
-rb.Game.draw = draw
+main.update = update
+main.draw = draw
 
 rb.begin()
