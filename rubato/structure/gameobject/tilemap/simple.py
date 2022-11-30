@@ -2,6 +2,7 @@
 A simple tilemap doesn't need to use the Tiled editor. It uses an array of
 numbers to keep track of tile types.
 """
+from __future__ import annotations
 from .. import Component, Rectangle
 from .... import Vector, Surface, Draw
 
@@ -105,3 +106,19 @@ class SimpleTilemap(Component):
         self._result.scale = self.scale
         self._result.rotation = self.true_rotation()
         Draw.queue_surface(self._result, self.true_pos(), self.true_z(), camera)
+
+    def clone(self) -> SimpleTilemap:
+        s = SimpleTilemap(
+            self._map,
+            self._tiles,
+            self._tile_size.clone(),
+            self._collision,
+            self._collider_tag,
+            self.scale.clone(),
+            self.offset.clone(),
+            self.rot_offset,
+            self.z_index,
+            self.hidden,
+        )
+        s._result = self._result.clone()
+        return s
