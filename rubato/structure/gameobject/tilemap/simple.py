@@ -8,6 +8,23 @@ from .... import Vector, Surface, Draw
 
 
 class SimpleTilemap(Component):
+    """
+    A simple tilemap doesn't need to use the Tiled editor. It uses an array of numbers to keep track of tile types.
+
+    Args:
+        tilemap: A 2D array of integers representing the tilemap.
+        tiles: A list of surfaces representing the tiles. The index of the surface in the list is the number used in the
+            tilemap array.
+        tile_size: The size of each tile in the tilemap.
+        collision: A list of integers representing the tiles that should have collision.
+        collider_tag: A list of strings representing the tags of the colliders. The index of the tag in the list is the
+            number used in the tilemap array.
+        scale: The scale of the tilemap.
+        offset: The offset of the tilemap.
+        rot_offset: The rotation offset of the tilemap.
+        z_index: The z-index of the tilemap.
+        hidden: Whether the tilemap is hidden.
+    """
 
     def __init__(
         self,
@@ -30,12 +47,17 @@ class SimpleTilemap(Component):
         self._collision = collision
         self._collider_tag = collider_tag
         self.scale = Vector.create(scale)
+        """The scale of the tilemap."""
         self._result = Surface(1, 1, scale)
 
         self.uptodate = False
+        """Whether the tilemap is up to date."""
 
     @property
     def tilemap(self) -> list[list[int]]:
+        """
+        The tilemap array. If you change this, you must either set the array or set the uptodate property to False.
+        """
         return self._map
 
     @tilemap.setter
@@ -45,6 +67,9 @@ class SimpleTilemap(Component):
 
     @property
     def tiles(self) -> list[Surface]:
+        """
+        The tiles array. If you change this, you must either set the array or set the uptodate property to False.
+        """
         return self._tiles
 
     @tiles.setter
@@ -54,6 +79,10 @@ class SimpleTilemap(Component):
 
     @property
     def tile_size(self) -> Vector:
+        """
+        The size of each tile in the tilemap. If you change this, you must either set the array or set the uptodate
+        property to False.
+        """
         return self._tile_size
 
     @tile_size.setter
@@ -63,6 +92,10 @@ class SimpleTilemap(Component):
 
     @property
     def collision(self) -> list[int]:
+        """
+        The list of integers representing the tiles that should have collision. If you change this, you must either set
+        the array or set the uptodate property to False.
+        """
         return self._collision
 
     @collision.setter
@@ -72,6 +105,10 @@ class SimpleTilemap(Component):
 
     @property
     def collider_tag(self) -> list[str]:
+        """
+        The list of strings representing the tags of the colliders. If you change this, you must either set the array or
+        set the uptodate property to False.
+        """
         return self._collider_tag
 
     @collider_tag.setter

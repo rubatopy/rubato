@@ -1,3 +1,4 @@
+"""A Tiled tilemap."""
 from .. import Component, Spritesheet, Rectangle, Polygon
 from .... import Vector, get_path, Surface, Color, Draw, Display
 import pytiled_parser as parse
@@ -6,6 +7,32 @@ from pathlib import Path
 
 
 class Tilemap(Component):
+    """
+    A tilemap that is loaded from a Tiled map file. Once a tilemap component is created, it won't stay updated with the
+    map file. To automatically add hitboxes to the gameobject, use Tiled Objects. We support Rectangles and Polygons in
+    layers or on the individual tiles.
+
+    We do not support all of Tiled's features, but we do support the most common ones. Here is a list of major features
+    that we DO NOT support:
+
+    * Infinite maps
+    * Non-orthogonal maps
+    * Non-rectangular tiles
+    * Animated tiles
+    * Multiple tilesets per map
+    * Image layers
+    * Tile and layer opacity
+    * Parallax scrolling
+    * Worlds
+    * Terrain
+
+    Args:
+        map_path: The path to the map file.
+        scale: The scale of the tilemap.
+        collider_tag: The tag of the colliders.
+        z_index: The z index of the tilemap.
+        hidden: Whether the tilemap is hidden.
+    """
 
     def __init__(
         self,
