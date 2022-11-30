@@ -21,17 +21,13 @@ def draw():
 
     z = [0.0] * di_sq
     b = [-1] * di_sq
-    e = math.sin(A)
-    g = math.cos(A)
-    n = math.sin(B)
-    m = math.cos(B)
+    e, g = math.sin(A), math.cos(A)
+    n, m = math.sin(B), math.cos(B)
     for j in range(200):
-        f = math.sin(j)
-        d = math.cos(j)
+        f, d = math.sin(j), math.cos(j)
         h = d + 2
         for i in range(340):
-            c = math.sin(i)
-            l = math.cos(i)
+            c, l = math.sin(i), math.cos(i)
             D = 1 / (c * h * e + f * g + 5)
             t = c * h * g - f * e
             x = int(hdi + 30 * D * (l * h * m - t * n))
@@ -46,8 +42,7 @@ def draw():
     for k in range(di_sq):
         if b[k] != -1:
             color = rb.Color.mix(rb.Color.yellow, rb.Color.red, b[k] / 12, "linear")
-            pos = rb.Vector(k % di - hdi, k // di - hdi)
-            s.set_pixel(pos, color, False)
+            s.set_pixel((k % di - hdi, k // di - hdi), color, False)
     rb.Draw.surface(s)
 
 
