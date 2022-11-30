@@ -6,7 +6,6 @@ hdi, di_sq = di // 2, di * di
 res = rb.Vector(di * sc, di * sc)
 
 rb.init("donut demo", res, res * 3)
-
 s = rb.Surface(di, di, (sc, sc))
 
 
@@ -15,8 +14,7 @@ def draw():
     A += 0.0704
     B += 0.0352
 
-    z = [0.0] * di_sq
-    b = [-1] * di_sq
+    z, b = [0.0] * di_sq, [-1] * di_sq
     e, g = math.sin(A), math.cos(A)
     n, m = math.sin(B), math.cos(B)
     for j in range(200):
