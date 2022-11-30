@@ -1,4 +1,4 @@
-from .. import Component, Spritesheet, Rectangle, Circle, Polygon
+from .. import Component, Spritesheet, Rectangle, Polygon
 from .... import Vector, get_path, Surface, Color, Draw, Display
 import pytiled_parser as parse
 import pytiled_parser.tiled_object as parse_obj
@@ -11,6 +11,7 @@ class Tilemap(Component):
         self, map_path: str, scale: Vector | tuple[float, float] = (1, 1), z_index: int = 0, hidden: bool = False
     ):
         super().__init__((0, 0), 0, z_index, hidden)
+
         self._scale = scale
         self._rects = []
         m = parse.parse_map(Path(get_path(map_path)))
