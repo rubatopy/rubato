@@ -1,4 +1,5 @@
 """A Tiled tilemap."""
+from __future__ import annotations
 from .. import Component, Spritesheet, Rectangle, Polygon
 from .... import Vector, get_path, Surface, Color, Draw, Display
 import pytiled_parser as parse
@@ -43,6 +44,8 @@ class Tilemap(Component):
         hidden: bool = False
     ):
         super().__init__((0, 0), 0, z_index, hidden)
+        if map_path == "":
+            return  # This is a hack to allow us to clone the component quickly
 
         self._scale = scale
         self._collider_tag = collider_tag
@@ -198,3 +201,15 @@ class Tilemap(Component):
 
     def draw(self, camera):
         Draw.queue_surface(self._out, self.true_pos(), self.true_z(), camera)
+
+    def clone(self) -> Tilemap:
+        t = Tilemap("")
+        t._out = self._out.clone()
+        t.offset = self.offset.clone()
+        t._scale = self._scale
+        t.z_index = self.z_index
+        t._collider_tag = self._collider_tag
+        t._rects = self._rects
+        t.rot_offset = self.rot_offset
+        t.hidden = self.hidden
+        return t
