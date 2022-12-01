@@ -99,6 +99,40 @@ inline void switchColors(size_t _pixels, int width, int height, size_t color1, s
     }
 }
 
+inline void flipX(size_t _pixels, int width, int height) {
+    uint32_t* pixels = (uint32_t*) _pixels;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width / 2; x++) {
+            uint32_t temp = pixels[y * width + x];
+            pixels[y * width + x] = pixels[y * width + width - x - 1];
+            pixels[y * width + width - x - 1] = temp;
+        }
+    }
+}
+
+inline void flipY(size_t _pixels, int width, int height) {
+    uint32_t* pixels = (uint32_t*) _pixels;
+    for (int y = 0; y < height / 2; y++) {
+        for (int x = 0; x < width; x++) {
+            uint32_t temp = pixels[y * width + x];
+            pixels[y * width + x] = pixels[(height - y - 1) * width + x];
+            pixels[(height - y - 1) * width + x] = temp;
+        }
+    }
+}
+
+inline void flipAntiDiagonal(size_t _pixels, int width, int height) {
+    uint32_t* pixels = (uint32_t*) _pixels;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            if (x < y) {
+                uint32_t temp = pixels[y * width + x];
+                pixels[y * width + x] = pixels[x * width + y];
+                pixels[x * width + y] = temp;
+            }
+        }
+    }
+}
 /***********************************************************************************************************************
 
 LINE FUNCTIONS

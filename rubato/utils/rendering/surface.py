@@ -97,14 +97,15 @@ class Surface:
         """
         return Vector(self._width, self._height)
 
-    def blit(
+    def _blit(
         self,
         other: Surface,
         src_rect: tuple[int, int, int, int] | None = None,
         dst_rect: tuple[int, int, int, int] | None = None,
     ):
         """
-        Blits (merges / copies) another Surface onto this one.
+        This function uses the SDL coordinate system and should only be used internally. This is mainly kept for
+        Spritesheet. Blits (merges / copies) another Surface onto this one.
 
         Args:
             other: The Surface to blit onto this one.
@@ -112,7 +113,6 @@ class Surface:
                 Defaults to the whole surface.
             dst_rect: The area (x, y, width, height) to blit to in the destination surface (self).
                 Defaults to the whole surface.
-
         Note:
             Will not stretch the other surface to fit the destination rectangle.
         """
@@ -126,6 +126,58 @@ class Surface:
             *(src_rect or (0, 0, other.width, other.height)),
             *(dst_rect or (0, 0, self.width, self.height)),
         )
+        self.uptodate = False
+
+    def blit(
+        self,
+        other: Surface,
+        src_rect: tuple[int, int, int, int] | None = None,
+        dst: Vector | tuple[int, int] = (0, 0),
+    ):
+        """
+        Blits (merges / copies) another Surface onto this one.
+
+        Args:
+            other: The Surface to blit onto this one.
+            src_rect: The area (center_x, center_y, width, height) to crop from the source surface (other).
+                Defaults to the whole surface.
+            dst: The position to place the other surface. Defaults to (0, 0).
+
+        Note:
+            Will not stretch the other surface to fit the destination rectangle.
+        """
+        src_rect = src_rect or (0, 0, int(other.width), int(other.height))
+        src_top_left = Display._center_to_top_left(other._convert_to_surface_space((0, 0)), src_rect[2:4])
+        dst_final = Display._center_to_top_left(self._convert_to_surface_space((*dst,)), src_rect[2:4])
+        c_draw.blit(
+            other._pixels,
+            self._pixels,
+            other.width,
+            other.height,
+            self.width,
+            self.height,
+            int(src_top_left[0]),
+            int(src_top_left[1]),
+            *src_rect[2:4],
+            int(dst_final[0]),
+            int(dst_final[1]),
+            *src_rect[2:4],
+        )
+        self.uptodate = False
+
+    def flip_x(self):
+        """Flips the surface horizontally."""
+        c_draw.flip_x(self._pixels, self.width, self.height)
+        self.uptodate = False
+
+    def flip_y(self):
+        """Flips the surface vertically."""
+        c_draw.flip_y(self._pixels, self.width, self.height)
+        self.uptodate = False
+
+    def flip_anti_diagonal(self):
+        """Flips the surface along the anti diagonal."""
+        c_draw.flip_anti_diagonal(self._pixels, self.width, self.height)
         self.uptodate = False
 
     def _regen(self):
@@ -158,6 +210,10 @@ class Surface:
         """Simple function that converts cartesian coordinates to surface space."""
         return (pos[0] + self._width / 2, -pos[1] + self._height / 2)
 
+    def _convert_to_cartesian_space(self, pos: Vector | tuple[float, float]) -> tuple[float, float]:
+        """Simple function that converts surface space to cartesian coordinates."""
+        return (pos[0] - self._width / 2, -pos[1] + self._height / 2)
+
     def get_pixel(self, pos: Vector | tuple[float, float]) -> Color:
         """
         Gets the color of a pixel on the surface.
@@ -168,7 +224,8 @@ class Surface:
         Returns:
             The color of the pixel.
         """
-        x, y = round(pos[0]), round(pos[1])
+        cart_pos = self._convert_to_surface_space(pos)
+        x, y = round(cart_pos[0]), round(cart_pos[1])
         if 0 <= x < self._width and 0 <= y < self._height:
             return Color.from_argb32(c_draw.get_pixel(self._pixels, self._width, self._height, x, y))
         else:

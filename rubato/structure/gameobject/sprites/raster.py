@@ -65,22 +65,39 @@ class Raster(Component):
         self,
         other: Raster,
         src_rect: tuple[int, int, int, int] | None = None,
-        dst_rect: tuple[int, int, int, int] | None = None,
+        dst: Vector | tuple[int, int] = (0, 0),
     ):
         """
-        Blits (merges / copies) another Raster onto this one.
+        Blits (merges / copies) another Surface onto this one.
 
         Args:
-            other: The Raster to blit onto this one.
-            src_rect: The area (x, y, width, height) to blit from in the source raster (other).
+            other: The Surface to blit onto this one.
+            src_rect: The area (center_x, center_y, width, height) to crop from the source surface (other).
                 Defaults to the whole surface.
-            dst_rect: The area (x, y, width, height) to blit to in the destination raster (self).
-                Defaults to the whole surface.
+            dst: The position to place the other surface. Defaults to (0, 0).
 
         Note:
-            Will not stretch the other raster to fit the destination rectangle.
+            Will not stretch the other surface to fit the destination rectangle.
         """
-        self.surf.blit(other.surf, src_rect, dst_rect)
+        self.surf.blit(other.surf, src_rect, dst)
+
+    def flip_x(self):
+        """
+        Flips the raster along the x-axis.
+        """
+        self.surf.flip_x()
+
+    def flip_y(self):
+        """
+        Flips the raster along the y-axis.
+        """
+        self.surf.flip_y()
+
+    def flip_anti_diagonal(self):
+        """
+        Flips the surface along the anti-diagonal.
+        """
+        self.surf.flip_anti_diagonal()
 
     def draw(self, camera: Camera):
         self.surf.rotation = self.true_rotation()

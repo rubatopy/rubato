@@ -13,6 +13,7 @@ class Font:
 
     Args:
         font: The font to use. Can also be a path to a font file. Defaults to Roboto.
+            Included fonts are "Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "Mozart"
         size: The size of the font in pixels. Defaults to 16.
         styles: The styles to apply to the font. Defaults to [].
             Fill with only the following: bold, italic, underline, strikethrough.

@@ -94,6 +94,14 @@ Particle
 ________
 .. automodule:: rubato.structure.gameobject.particles.particle
 
+Tilemap
+-------
+.. automodule:: rubato.structure.gameobject.tilemap.tiled
+
+Simple Tilemap
+--------------
+.. automodule:: rubato.structure.gameobject.tilemap.simple
+
 Hitbox
 -------
 Various hitbox components that enable collisions
