@@ -26,6 +26,8 @@
 
 ### Added
 
+-   `Tilemap` and `SimpleTilemap` components
+
 ### Changed
 
 -   The default window size now matches the resolution instead of being half it to be more intuitive.
@@ -33,6 +35,8 @@
 ### Removed
 
 ### Fixed
+
+-   `surface.blit()` now uses cartesian coordinates like the rest of rubato.
 
 ## [v0.4.0] - November 18, 2022
 

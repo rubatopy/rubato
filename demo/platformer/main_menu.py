@@ -1,10 +1,10 @@
 from rubato import Scene, Color, Text, wrap, Font, Game
 import shared
 
-scene = Scene("main_menu", background_color=Color.black)
+scene = Scene("main_menu", background_color=shared.background_color)
 
-title_font = Font(size=64, styles=["bold"], color=Color.white)
-title = Text("PLATFORMER DEMO!", title_font)
+title_font = Font(font=shared.font_name, size=58, color=Color.white)
+title = Text("Rubato Platformer Demo", title_font)
 
 play_button = shared.smooth_button_generator(
     (0, -75),

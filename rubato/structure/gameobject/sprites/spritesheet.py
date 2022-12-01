@@ -42,7 +42,7 @@ class Spritesheet:
             self._sprites.append([])
             for x in range(0, self._grid[0] * self._sprite_size[0], self._sprite_size[0]):
                 surface = Surface(*self._sprite_size)
-                surface.blit(
+                surface._blit(
                     self._sheet,
                     (x, y, self._sprite_size[0], self._sprite_size[1]),
                 )
