@@ -298,7 +298,7 @@ inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, i
     }
 }
 
-inline void _drawCircle(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool blending, int thickness) {
+inline void _drawCircleThick(size_t _pixels, int width, int height, int xc, int yc, int radius, size_t color, bool blending, int thickness) {
     if (thickness == 1) {
         _drawCircle(_pixels, width, height, xc, yc, radius, color, blending);
         return;
@@ -392,7 +392,7 @@ inline void _aaDrawCircle(size_t pixels, int width, int _height, int xc, int yc,
     }
 }
 
-inline void _aaDrawCircle(size_t _pixels, int width, int height, int xc, int yc, int outer_radius, size_t color, bool blending, int thickness) {
+inline void _aaDrawCircleThick(size_t _pixels, int width, int height, int xc, int yc, int outer_radius, size_t color, bool blending, int thickness) {
     if (thickness == 1) {
         _aaDrawCircle(_pixels, width, height, xc, yc, outer_radius, color, blending);
         return;
@@ -405,7 +405,7 @@ inline void _aaDrawCircle(size_t _pixels, int width, int height, int xc, int yc,
         outer = outer_radius + (thickness / 2);
         inner = outer_radius - (thickness / 2);
     }
-    _drawCircle(_pixels, width, height, xc, yc, outer_radius, color, blending, thickness);
+    _drawCircleThick(_pixels, width, height, xc, yc, outer_radius, color, blending, thickness);
     _aaDrawCircle(_pixels, width, height, xc, yc, inner, color, blending);
     _aaDrawCircle(_pixels, width, height, xc, yc, outer, color, blending);
 }
@@ -440,9 +440,9 @@ inline void drawCircle(size_t _pixels, int width, int height, int xc, int yc, in
 
     if (color != 0) {
         if (aa) {
-            _aaDrawCircle(_pixels, width, height, xc, yc, radius, color, blend, thickness);
+            _aaDrawCircleThick(_pixels, width, height, xc, yc, radius, color, blend, thickness);
         } else {
-            _drawCircle(_pixels, width, height, xc, yc, radius, color, blending, thickness);
+            _drawCircleThick(_pixels, width, height, xc, yc, radius, color, blending, thickness);
         }
     }
 }
