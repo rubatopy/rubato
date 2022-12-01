@@ -563,7 +563,7 @@ inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w
     }
 }
 
-inline void _drawRect(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending, int thickness) {
+inline void _drawRectThick(size_t _pixels, int width, int height, int x, int y, int w, int h, size_t color, bool blending, int thickness) {
     if (thickness == 1) {
         _drawRect(_pixels, width, height, x, y, w, h, color, blending);
     } else {
@@ -586,6 +586,6 @@ inline void drawRect(size_t _pixels, int width, int height, int x, int y, int w,
         _fillRect(_pixels, width, height, x, y, w, h, fillColor, blending);
     }
     if (borderColor != 0) {
-        _drawRect(_pixels, width, height, x, y, w, h, borderColor, blending, thickness);
+        _drawRectThick(_pixels, width, height, x, y, w, h, borderColor, blending, thickness);
     }
 }
