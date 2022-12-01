@@ -111,7 +111,7 @@ class GameObject:
             if issubclass(key, comp_type):
                 del val[0]
                 if not val:
-                    del self._components[key]
+                    del val
                 return
         raise IndexError(f"There are no components of type '{comp_type}' in game object '{self.name}'.")
 

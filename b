@@ -93,7 +93,7 @@ doc() {
             cd ..
             ;;
         --live|-l)
-            ./b del -b
+            ./b clean -b
             ./b doc -c
             cd docs
             sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../
@@ -105,7 +105,7 @@ doc() {
             fi
             ;;
         *|--save|-s)
-            ./b del -b
+            ./b clean -b
             ./b doc -c
             cd docs
             python -m $SPHINXBUILD -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
@@ -164,7 +164,7 @@ case $1 in
         doc "$@"
         ;;
     lint|l)
-        ./b del -b
+        ./b clean -b
         echo "Linting Code..."
         pylint rubato
         exit_with="$(expr $?+$exit_with)"
@@ -190,7 +190,7 @@ case $1 in
         exit_with="$(expr $?+$exit_with)"
         ;;
     precommit|pre)
-        ./b del
+        ./b clean
         ./b doc
         ./b l
         echo "Building rubato..."
