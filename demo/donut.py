@@ -8,6 +8,7 @@ res = rb.Vector(di * sc, di * sc)
 rb.init("donut demo", res, res * 3)
 s = rb.Surface(di, di, (sc, sc))
 
+rb.Game.show_fps = True
 
 def draw():
     global A, B
