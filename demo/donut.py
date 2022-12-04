@@ -22,10 +22,10 @@ def draw():
         h = d + 1.5
         for i in range(0, 628, 2):
             c, l = math.sin(i / 100), math.cos(i / 100)
-            D = 2 / (c * h * e + f * g + 5)
+            D = 3 / (c * h * e + f * g + 5)
             t = c * h * g - f * e
-            x = int(hdi + 15 * D * (l * h * m - t * n))
-            y = int(hdi + 15 * D * (l * h * n + t * m))
+            x = int(hdi + 10 * D * (l * h * m - t * n))
+            y = int(hdi + 10 * D * (l * h * n + t * m))
             o = int(x + di * y)
             if o < di_sq and D > z[o]:
                 z[o] = D
