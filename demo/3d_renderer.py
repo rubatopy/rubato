@@ -5,23 +5,19 @@ rb.init(res=(500,) * 2, maximize=True)
 rb.Game.show_fps = True
 
 
-def get_xyz(x, y, z, roll, pitch, yaw):
-    cospitch, sinpitch = math.cos(pitch), math.sin(pitch)
-    cosyaw, sinyaw = math.cos(yaw), math.sin(yaw)
-    cosroll, sinroll = math.cos(roll), math.sin(roll)
+def rotate_pt(x, y, z, roll, pitch, yaw):
+    cosp, sinp = math.cos(pitch), math.sin(pitch)
+    cosy, siny = math.cos(yaw), math.sin(yaw)
+    cosr, sinr = math.cos(roll), math.sin(roll)
 
-    rx = cospitch * cosyaw * x + (-sinpitch * cosroll + cospitch * sinyaw *
-                                  sinroll) * y + (-sinpitch * -sinroll + cospitch * sinyaw * cosroll) * z
-
-    ry = sinpitch * cosyaw * x + (cospitch * cosroll + sinpitch * sinyaw *
-                                  sinroll) * y + (cospitch * -sinroll + sinpitch * sinyaw * cosroll) * z
-
-    rz = -sinyaw * x + (cosyaw * sinroll) * y + (cosyaw * cosroll) * z
+    rx = cosp * cosy * x + (cosp * siny * sinr - sinp * cosr) * y + (sinp * sinr + cosp * siny * cosr) * z
+    ry = sinp * cosy * x + (cosp * cosr + sinp * siny * sinr) * y + (sinp * siny * cosr - cosp * sinr) * z
+    rz = (cosy * sinr) * y + (cosy * cosr) * z - siny * x
 
     return int(rx), int(ry), int(rz)
 
 
-roll = math.pi / 5  # spin around x-axis counter-clockwise (on screen its another up-down motion)
+roll = 0  # spin around x-axis counter-clockwise (on screen its another up-down motion)
 pitch = 0  # spin around z-axis
 yaw = 0  # spin around y-axis counter-clockwise rotation (on screen it looks like ur just moving up)
 
@@ -52,7 +48,7 @@ def custom_draw():
     surf.fill(rb.Color.night)
 
     for point in shape:
-        x, y, z = get_xyz(*point, roll, pitch, yaw)
+        x, y, z = rotate_pt(*point, roll, pitch, yaw)
         if z_buffer[x + (a + c) * 2 * y] < z:
             z_buffer[x + (a + c) * 2 * y] = z
             color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(z, -a - c, a + c, 0, 1), "linear")
