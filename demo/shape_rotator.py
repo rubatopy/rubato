@@ -1,54 +1,44 @@
 import rubato as rb
-from rubato import Vector
-from rubato import Color
-
 
 # rotation
 from math import cos, sin, pi
 
 
-def get_x(x, y, z, roll, pitch, yaw):
-    return cos(pitch) * cos(yaw) * x  +  (-sin(pitch) * cos(roll) + cos(pitch) * sin(yaw) * sin(roll)) * y  +  (-sin(pitch) * -sin(roll) + cos(pitch) * sin(yaw) * cos(roll)) * z
-def get_y(x, y, z, roll, pitch, yaw):
-    return sin(pitch) * cos(yaw) * x  +  (cos(pitch) * cos(roll) + sin(pitch) * sin(yaw) * sin(roll)) * y  +  (cos(pitch) * -sin(roll) + sin(pitch) * sin(yaw) * cos(roll)) * z
-def get_z(x, y, z, roll, pitch, yaw):
-    return -sin(yaw) * x  +  (cos(yaw) * sin(roll)) * y  +  (cos(yaw) * cos(roll)) * z
-
 def get_xyz(x, y, z, roll, pitch, yaw):
-    return get_x(x, y, z, roll, pitch, yaw), get_y(x, y, z, roll, pitch, yaw), get_z(x, y, z, roll, pitch, yaw)
+    cospitch = cos(pitch)
+    sinpitch = sin(pitch)
+    cosyaw = cos(yaw)
+    sinyaw = sin(yaw)
+    cosroll = cos(roll)
+    sinroll = sin(roll)
+
+    _x = cospitch * cosyaw * x + (-sinpitch * cosroll + cospitch * sinyaw *
+                                  sinroll) * y + (-sinpitch * -sinroll + cospitch * sinyaw * cosroll) * z
+
+    _y = sinpitch * cosyaw * x + (cospitch * cosroll + sinpitch * sinyaw *
+                                  sinroll) * y + (cospitch * -sinroll + sinpitch * sinyaw * cosroll) * z
+
+    _z = -sinyaw * x + (cosyaw * sinroll) * y + (cosyaw * cosroll) * z
+
+    return _x, _y, _z
+
+
 # rotation
 
 # target 54 * 54
-a = 10 # a is the radius of the tube
-c = 15 # c is the radius of the torus
+a = 10  # a is the radius of the tube
+c = 15  # c is the radius of the torus
 
-rb.init(res=[(a+c)*2*10]*2, maximize=True)
+rb.init(res=((a + c) * 2 * 10,) * 2, maximize=True)
 
-
-
-class SurfaceZ(rb.Surface):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.reset_zbuffer()
-
-    def reset_zbuffer(self):
-        self.zbuffer = [[-rb.Math.INF for _ in range(self.width)] for _ in range(self.height)]
-
-    def set_pixel(self, pos: Vector | tuple[float, float], color: Color = Color.black, blending: bool = True, z: float = 0):
-
-        if self.zbuffer[int(pos[1])][int(pos[0])] < z:
-            self.zbuffer[int(pos[1])][int(pos[0])] = z
-            super().set_pixel(pos, color, blending)
-
-
-roll = pi/5 # spin around x-axis counter-clockwise (on screen its another up-down motion)
-pitch = 0 # spin around z-axis
-yaw = 0 # spin around y-axis counter-clockwise rotation (on screen it looks like ur just moving up)
-
+roll = pi / 5  # spin around x-axis counter-clockwise (on screen its another up-down motion)
+pitch = 0  # spin around z-axis
+yaw = 0  # spin around y-axis counter-clockwise rotation (on screen it looks like ur just moving up)
 
 # define rotation functions
 
-half_torus = []
+half_torus: list[tuple[float, float, float]] = []
+
 
 def gen_torus():
     for v in range(0, 360, 4):  # goes around the tube interval of 3 if you want it to be w/out holes
@@ -59,29 +49,31 @@ def gen_torus():
             y = (c + a * cos(v_)) * sin(u_)
             z = a * sin(v_)
             half_torus.append((x, y, z))
+
+
 gen_torus()
 
-surf = SurfaceZ((a + c) * 2, (a + c) * 2, (10, 10))
+surf = rb.Surface((a + c) * 2, (a + c) * 2, (10, 10))
+
 
 def custom_draw():
     global roll, pitch, yaw
     roll += 0.0704
     pitch += 0.0352
-    surf.reset_zbuffer()
+    z_buffer = [-float("inf")] * (a + c) * 2 * (a + c) * 2
     surf.fill(rb.Color.night)
 
     for point in half_torus:
         x, y, z = get_xyz(*point, roll, pitch, yaw)
-        _x, _y, _z = int(x), int(y), int(z)
-        color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(_z, -a-c, a+c, 0, 1), "linear")
-        surf.set_pixel((_x, _y), color, z=_z, blending=False)
-
-        _x, _y, _z = -int(x), -int(y), -int(z)
-        color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(_z, -a-c, a+c, 0, 1), "linear")
-        surf.set_pixel((_x, _y), color, z=_z, blending=False)
-
+        for orient in (1, -1):
+            _x, _y, _z = int(x) * orient, int(y) * orient, int(z) * orient
+            if z_buffer[_x + (a + c) * 2 * _y] < _z:
+                z_buffer[_x + (a + c) * 2 * _y] = _z
+                color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(_z, -a - c, a + c, 0, 1), "linear")
+                surf.set_pixel((_x, _y), color, blending=False)
 
     rb.Draw.surface(surf)
+
 
 rb.Game.show_fps = True
 
@@ -100,7 +92,6 @@ rb.Game.show_fps = True
 #         yaw += 0.01
 #     if rb.Input.key_pressed("e"):
 #         yaw -= 0.01
-
 
 rb.Game.draw = custom_draw
 
