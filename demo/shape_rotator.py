@@ -42,7 +42,7 @@ half_torus: list[tuple[float, float, float]] = []
 
 def gen_torus():
     for v in range(0, 360, 4):  # goes around the tube interval of 3 if you want it to be w/out holes
-        for u in range(0, 180, 2):  # goes around the torus
+        for u in range(0, 360, 2):  # goes around the torus
             v_ = v * pi / 180
             u_ = u * pi / 180
             x = (c + a * cos(v_)) * cos(u_)
@@ -65,12 +65,11 @@ def custom_draw():
 
     for point in half_torus:
         x, y, z = get_xyz(*point, roll, pitch, yaw)
-        for orient in (1, -1):
-            _x, _y, _z = int(x) * orient, int(y) * orient, int(z) * orient
-            if z_buffer[_x + (a + c) * 2 * _y] < _z:
-                z_buffer[_x + (a + c) * 2 * _y] = _z
-                color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(_z, -a - c, a + c, 0, 1), "linear")
-                surf.set_pixel((_x, _y), color, blending=False)
+        _x, _y, _z = int(x), int(y), int(z)
+        if z_buffer[_x + (a + c) * 2 * _y] < _z:
+            z_buffer[_x + (a + c) * 2 * _y] = _z
+            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(_z, -a - c, a + c, 0, 1), "linear")
+            surf.set_pixel((_x, _y), color, blending=False)
 
     rb.Draw.surface(surf)
 
