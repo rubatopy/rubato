@@ -14,7 +14,7 @@ def draw():
     A += 0.0704
     B += 0.0352
 
-    z, b = [0.0] * di_sq, [-1] * di_sq
+    z= [0.0] * di_sq
     e, g = math.sin(A), math.cos(A)
     n, m = math.sin(B), math.cos(B)
     for j in range(0, 628, 7):
@@ -30,12 +30,11 @@ def draw():
             N = int(8 * ((f * e - c * d * g) * m - c * d * e - f * g - l * d * n))
             if di > y and y > 0 and x > 0 and di > x and D > z[o]:
                 z[o] = D
-                b[o] = (N + 1) if N > 0 else 0
 
     s.fill(rb.Color.night)
     for k in range(di_sq):
-        if b[k] != -1:
-            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, b[k] / 12, "linear")
+        if z[k] != 0:
+            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, z[k] * 2, "linear")
             s.set_pixel((k % di - hdi, k // di - hdi), color, False)
     rb.Draw.surface(s)
 
