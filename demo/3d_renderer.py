@@ -1,6 +1,8 @@
 import rubato as rb
 import math
 
+CONTROL_YOURSELF = True
+
 rb.init(res=(500,) * 2, maximize=True)
 rb.Game.show_fps = True
 
@@ -42,8 +44,9 @@ surf = rb.Surface((a + c) * 2, (a + c) * 2, (10, 10))
 
 def custom_draw():
     global roll, pitch, yaw
-    roll += 0.0704
-    pitch += 0.0352
+    if not CONTROL_YOURSELF:
+        roll += 0.0704
+        pitch += 0.0352
     z_buffer = [-float("inf")] * ((a + c) * 2)**2
     surf.fill(rb.Color.night)
 
@@ -56,6 +59,25 @@ def custom_draw():
 
     rb.Draw.surface(surf)
 
+
+if CONTROL_YOURSELF:
+
+    def custom_update():
+        global roll, pitch, yaw
+        if rb.Input.key_pressed("a"):
+            pitch += 0.1
+        if rb.Input.key_pressed("d"):
+            pitch -= 0.1
+        if rb.Input.key_pressed("w"):
+            roll -= 0.1
+        if rb.Input.key_pressed("s"):
+            roll += 0.1
+        if rb.Input.key_pressed("q"):
+            yaw += 0.1
+        if rb.Input.key_pressed("e"):
+            yaw -= 0.1
+
+    rb.Game.update = custom_update
 
 rb.Game.draw = custom_draw
 rb.begin()
