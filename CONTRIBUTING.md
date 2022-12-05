@@ -6,9 +6,9 @@ email, or any other method with the owners of this repository before making a ch
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
 ## First things
-As a new contributor you will need to fork the repository to implement your changes. Please look at our [issues](https://github.com/rubatopy/rubato/issues) for something to start off with. Once you are happy with your changes open up a pull request and our devs will review and give comments before a merge occurs. While you are working don't forget to keep up to date with the project. 
+If you are new to contributing please follow this [guide](https://github.com/firstcontributions/first-contributions#first-contributions)
 
-![image](https://user-images.githubusercontent.com/6147215/205528219-fed9e178-b4f8-44da-852e-a7711803ddb1.png)
+Our reviewers are always online and will swiftly review any of your PRs.
 
 After having contributed to the project you will be put on the CONTRIBUTORS.md document. Thank you for your help!
 
