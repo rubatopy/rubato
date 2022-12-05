@@ -14,9 +14,11 @@ After having contributed to the project you will be put on the CONTRIBUTORS.md d
 
 ## Setting up dev environment
 
-Note we are a 3.10 python library, you will need this installed.
-We recommend using visual studios and installing all of our extensions, this will commit your code with the correct formatting and type checking.
+Notes:
+* we are a 3.10 python library, you will need this installed.
+* We recommend using visual studios and installing all of our extensions, this will commit your code with the correct formatting and type checking.
 
+C Compilers:
 -   **Linux:** The GNU C Compiler (gcc) is usually present, or easily available through the package system. On Ubuntu or Debian, for instance, it is part of the `build-essential` package. Next to a C compiler, Cython requires the Python header files. On Ubuntu or Debian, the command `sudo apt-get install build-essential python3-dev` will fetch everything you need.
 -   **Mac OS X:** To clang, install the XCode CLI with `xcode-select –install`.
 -   **Windows:** Get the Microsoft Build Tools [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/). You need the **MSVC** compiler, and the SDK for your Windows version. To download make using Chocolatey, go [here](https://stackoverflow.com/a/57042516).
