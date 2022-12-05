@@ -5,8 +5,21 @@ email, or any other method with the owners of this repository before making a ch
 
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
+## First things
+If you are new to contributing please follow this [guide](https://github.com/firstcontributions/first-contributions#first-contributions).
+
+We recommend you choose a [good first issue](https://github.com/rubatopy/rubato/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22); these issues have been identified as requiring a less in depth understanding of rubato to close.
+We tend to review PRs within a day or two, but feel free to ping us on our [discord](https://discord.gg/rueSETyRKx).
+
+After having contributed to the project you will be put on the CONTRIBUTORS.md document. Thank you for your help!
+
 ## Setting up dev environment
 
+Notes:
+* We are a 3.10+ python library, you will need a CPython distribution of at least that version installed.
+* We recommend using [Visual Studio Code](https://code.visualstudio.com/) and installing all of our recommended extensions (you'll get a prompt automatically!). This will commit your code with the correct formatting and type checking.
+
+C Compilers:
 -   **Linux:** The GNU C Compiler (gcc) is usually present, or easily available through the package system. On Ubuntu or Debian, for instance, it is part of the `build-essential` package. Next to a C compiler, Cython requires the Python header files. On Ubuntu or Debian, the command `sudo apt-get install build-essential python3-dev` will fetch everything you need.
 -   **Mac OS X:** To clang, install the XCode CLI with `xcode-select –install`.
 -   **Windows:** Get the Microsoft Build Tools [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/). You need the **MSVC** compiler, and the SDK for your Windows version. To download make using Chocolatey, go [here](https://stackoverflow.com/a/57042516).
