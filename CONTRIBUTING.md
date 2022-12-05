@@ -16,7 +16,7 @@ After having contributed to the project you will be put on the CONTRIBUTORS.md d
 ## Setting up dev environment
 
 Notes:
-* we are a 3.10 python library, you will need this installed.
+* We are a 3.10+ python library, you will need a CPython distribution of at least that version installed.
 * We recommend using [Visual Studio Code](https://code.visualstudio.com/) and installing all of our recommended extensions (you'll get a prompt automatically!). This will commit your code with the correct formatting and type checking.
 
 C Compilers:
