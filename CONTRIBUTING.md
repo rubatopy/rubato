@@ -8,7 +8,8 @@ Please note we have a code of conduct, please follow it in all your interactions
 ## First things
 If you are new to contributing please follow this [guide](https://github.com/firstcontributions/first-contributions#first-contributions).
 
-We recommend you choose a [good first issue](https://github.com/rubatopy/rubato/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+We recommend you choose a [good first issue](https://github.com/rubatopy/rubato/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22); these issues have been identified as requiring a less in depth understanding of rubato to close.
+We tend to review PRs within a day or two, but feel free to ping us on our [discord](https://discord.gg/rueSETyRKx).
 
 After having contributed to the project you will be put on the CONTRIBUTORS.md document. Thank you for your help!
 
