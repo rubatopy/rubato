@@ -6,9 +6,9 @@ email, or any other method with the owners of this repository before making a ch
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
 ## First things
-If you are new to contributing please follow this [guide](https://github.com/firstcontributions/first-contributions#first-contributions)
+If you are new to contributing please follow this [guide](https://github.com/firstcontributions/first-contributions#first-contributions).
 
-Our reviewers are always online and will swiftly review any of your PRs.
+We recommend you choose a [good first issue](https://github.com/rubatopy/rubato/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and we will swiftly review any of your PRs.
 
 After having contributed to the project you will be put on the CONTRIBUTORS.md document. Thank you for your help!
 
