@@ -99,7 +99,7 @@ class Time:
 
     _next_queue: list[Callable] = []
 
-    _delta_time: int = 100
+    _delta_time: int = 1
     _normal_delta: int = 0
     _frame_start: int = 0
 
