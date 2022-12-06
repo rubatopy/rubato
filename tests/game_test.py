@@ -107,7 +107,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     Game.update = update_override
 
     Time.fixed_delta = 1
-    Time._delta_time = 1.1
+    Time._delta_time = 1100
 
     clear = Mock()
     monkeypatch.setattr(Draw, "clear", clear)
@@ -121,7 +121,7 @@ def test_loop(monkeypatch: pytest.MonkeyPatch, rub):
     present = Mock()
     monkeypatch.setattr(Display.renderer, "present", present)
 
-    Time._normal_delta = 50
+    Time._normal_delta = 50000
 
     end_frame = Mock()
     monkeypatch.setattr(Time, "_end_frame", end_frame)
