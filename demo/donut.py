@@ -6,7 +6,7 @@ shape: list[tuple[float, float, float]] = []  # list of the points on the shape
 roll, pitch, yaw = 0, 0, 0  # x, z, and y rotation, respectively
 surf_dim = 50  # diameter of the surface holding the shape
 
-rb.init(res=(surf_dim, surf_dim), window_size=(500, 500), target_fps=60)
+rb.init("Donut Demo", res=(surf_dim, surf_dim), window_size=(500, 500), target_fps=60)
 surf = rb.Surface(surf_dim, surf_dim)
 
 # creates a donut and populates the shape list
