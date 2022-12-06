@@ -30,6 +30,8 @@
 
 ### Removed
 
+-   `Time.milli_to_sec()` and `Time.sec_to_milli()` because they were unused.
+
 ### Fixed
 
 -   `surface.blit()` now uses cartesian coordinates like the rest of rubato.

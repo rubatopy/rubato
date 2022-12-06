@@ -65,7 +65,7 @@ def init(
 
     Time.target_fps = target_fps
     if Time.target_fps != 0:
-        Time._normal_delta = 1 / target_fps
+        Time._normal_delta = int(1000 / target_fps)
     Time._physics_fps = physics_fps
     Time.fixed_delta = 1 / physics_fps
 

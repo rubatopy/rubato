@@ -50,7 +50,7 @@ def test_init(monkeypatch):
     assert rubato.Game.state == rubato.Game.STOPPED
 
     assert rubato.Time.target_fps == 60
-    assert rubato.Time._normal_delta == 1 / 60
+    assert rubato.Time._normal_delta == 1000 / 60
     assert rubato.Time._physics_fps == 30
 
     set_icon.assert_called_once_with(str(files("rubato.static.png").joinpath("logo_filled.png")))
