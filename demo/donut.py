@@ -6,12 +6,12 @@ shape: list[tuple[float, float, float]] = []  # list of the points on the shape
 roll, pitch, yaw = 0, 0, 0  # x, z, and y rotation, respectively
 surf_dim = 50  # diameter of the surface holding the shape
 
-rb.init(res=(surf_dim, surf_dim), maximize=True, target_fps=60)
+rb.init(res=(surf_dim, surf_dim), window_size=(500, 500), target_fps=60)
 surf = rb.Surface(surf_dim, surf_dim)
-rb.Game.show_fps = True
 
 # creates a donut and populates the shape list
 rad, thick = 12, 7  # radius and thickness of the donut
+mag = rad + thick  # maximum distance of any pt to the origin
 for i in range(0, 360, 4):  # revolve around a circle
     for j in range(0, 360, 2):  # revolve the circle around the tube
         v, u = math.radians(i), math.radians(j)
@@ -44,9 +44,7 @@ def draw():
         x, y, z = rotate_pt(*point, roll, pitch, yaw)
         if z_buffer[x + surf_dim * y] < z:
             z_buffer[x + surf_dim * y] = z
-            color = rb.Color.mix(
-                rb.Color.yellow, rb.Color.red, rb.Math.map(z, -surf_dim / 2, surf_dim / 2, 0, 1), "linear"
-            )
+            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(z, -mag, mag, 0, 1), "linear")
             surf.set_pixel((x, y), color, False)
     rb.Draw.surface(surf)
 
