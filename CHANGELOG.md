@@ -33,6 +33,7 @@
 ### Fixed
 
 -   `surface.blit()` now uses cartesian coordinates like the rest of rubato.
+-   `Time.target_fps` now caps the fps as the correct value.
 
 ## [v0.4.0] - November 18, 2022
 

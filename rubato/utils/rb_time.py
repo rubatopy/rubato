@@ -147,7 +147,7 @@ class Time:
     @classmethod
     def _end_frame(cls):
         if Time.target_fps != 0:
-            delay = cls._normal_delta - cls.delta_time
+            delay = cls._normal_delta - cls.now() + cls._frame_start
             if delay > 0:
                 sdl2.SDL_Delay(int(1000 * delay))
 
