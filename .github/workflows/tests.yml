@@ -2,10 +2,6 @@ name: Test Suite
 
 on: [push]
 
-concurrency:
-    group: tests-${{ github.ref || github.ref_name }}
-    cancel-in-progress: true
-
 jobs:
     demo:
         name: Test Demo Files
