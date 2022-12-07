@@ -165,7 +165,7 @@ def smooth_button_generator(pos, w, h, text, onrelease, color):
         t.font_object.size += 1
         t.font_object.color.r = int(rb.Math.clamp(t.font_object.color.r - 10, 0, 255))
         t._uptodate = False
-        print(t.font_object.color)
+        print(t.font_object.color)  # REVERT THIS TESTING
         if t.font_object.size >= 64:
             task.stop()
             font_changing = None
