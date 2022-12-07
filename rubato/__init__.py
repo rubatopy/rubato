@@ -31,7 +31,7 @@ from .misc import world_mouse, wrap
 
 def init(
     name: str = "Untitled Rubato App",
-    res: Vector | tuple[float, float] = (1080, 1080),
+    res: Vector | tuple[float, float] = (500, 500),
     window_size: Vector | tuple[float, float] | None = None,
     window_pos: Vector | tuple[float, float] | None = None,
     icon: str = "",
@@ -46,7 +46,7 @@ def init(
 
     Args:
         name: The title that appears at the top of the window. Defaults to "Untitled Rubato App".
-        res: The pixel resolution of the game, cast to int Vector. Defaults to (1080, 1080).
+        res: The pixel resolution of the game, cast to int Vector. Defaults to (500, 500).
         window_size: The size of the window, cast to int Vector. When not set, defaults to half the resolution.
             This is usually the sweet spot between performance and image quality.
         window_pos: The position of the window, cast to int Vector. Set to None to let the computer decide.
