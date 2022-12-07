@@ -1,4 +1,6 @@
-"""Prototype mathematics in rubato"""
+"""
+Prototype mathematics in rubato
+"""
 import rubato as rb
 import math
 
@@ -6,7 +8,12 @@ shape: list[tuple[float, float, float]] = []  # list of the points on the shape
 roll, pitch, yaw = 0, 0, 0  # x, z, and y counter-clockwise rotation, respectively
 surf_dim = 50  # diameter of the surface holding the shape
 
-rb.init("Donut Demo", res=(surf_dim, surf_dim), window_size=(500, 500), target_fps=60)
+rb.init(
+    "Donut Demo",
+    res=(surf_dim, surf_dim),
+    window_size=(500, 500),
+    target_fps=60,
+)
 surf = rb.Surface(surf_dim, surf_dim)
 
 # creates a donut and populates the shape list
@@ -46,7 +53,12 @@ def draw():
         x, y, z = rotate_pt(*point, roll, pitch, yaw)
         if z_buffer[x + surf_dim * y] < z:
             z_buffer[x + surf_dim * y] = z
-            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(z, -mag, mag, 0, 1), "linear")
+            color = rb.Color.mix(
+                rb.Color.yellow,
+                rb.Color.red,
+                rb.Math.map(z, -mag, mag, 0, 1),
+                "linear",
+            )
             surf.set_pixel((x, y), color, False)
     rb.Draw.surface(surf)
 

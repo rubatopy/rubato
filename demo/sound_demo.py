@@ -1,7 +1,5 @@
 """
 A sound demo for rubato
-
-Requires rubato 2.1.0 or later.
 """
 import rubato as rb
 
@@ -13,21 +11,20 @@ rb.init(
 
 main_scene = rb.Scene()
 
-rb.Sound.import_sound_folder("sounds", recursive=False)  # Import the sound folder shallowly
+# Import the sound folder shallowly
+rb.Sound.import_sound_folder("sounds", recursive=False)
 
 click = rb.Sound.get_sound("click")  # Get sound instance
 music = rb.Sound.get_sound("music")
 
-sound = rb.Sound("sounds/bark.wav", "barkyboi")
-
-# player 1 and 2 have duplicate file names so we must use the absolute path as a key
+# player 1 and 2 have duplicate file names so the absolute path is used as a key
 rb.Sound.import_sound_folder("sounds/player1", True)
 rb.Sound.import_sound_folder("sounds/player2", True)
 
 player1_intro = rb.Sound.get_sound("sounds/player1/intro")
 player1_intro.play()
 
-rb.Time.delayed_call(rb.Sound.get_sound("sounds/player2/intro").play, 0.5)
+rb.Time.delayed_call(rb.Sound.get_sound("sounds/player2/intro").play, 0.65)
 
 
 def update():
