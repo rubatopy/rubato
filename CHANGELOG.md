@@ -27,12 +27,16 @@
 ### Changed
 
 -   The default window size now matches the resolution instead of being half it to be more intuitive.
+-   Changed default resolution to (500, 500).
 
 ### Removed
+
+-   `Time.milli_to_sec()` and `Time.sec_to_milli()` because they were unused.
 
 ### Fixed
 
 -   `surface.blit()` now uses cartesian coordinates like the rest of rubato.
+-   `Time.target_fps` now caps the fps as the correct value.
 
 ## [v0.4.0] - November 18, 2022
 

@@ -99,9 +99,9 @@ class Time:
 
     _next_queue: list[Callable] = []
 
-    _delta_time: float = 0.001
-    _normal_delta: float = 0
-    _frame_start: float = 0
+    _delta_time: int = 1
+    _normal_delta: int = 0
+    _frame_start: int = 0
 
     _physics_counter: float = 0
 
@@ -121,7 +121,7 @@ class Time:
     @property
     def delta_time(cls) -> float:
         """The number of seconds between the last frame and the current frame (get-only)."""
-        return cls._delta_time
+        return cls._delta_time / 1000
 
     @classmethod
     def smooth_fps(cls) -> int:
@@ -133,7 +133,12 @@ class Time:
         """
         Time from the start of the game to the start of the current frame, in seconds.
         """
-        return cls._frame_start
+        return cls._frame_start * 1000
+
+    @classmethod
+    def _now(cls) -> int:
+        """The time since the start of the game, in milliseconds."""
+        return sdl2.SDL_GetTicks64()
 
     @classmethod
     def now(cls) -> float:
@@ -142,19 +147,19 @@ class Time:
 
     @classmethod
     def _start_frame(cls):
-        cls._frame_start = cls.now()
+        cls._frame_start = cls._now()
 
     @classmethod
     def _end_frame(cls):
         if Time.target_fps != 0:
-            delay = cls._normal_delta - cls.delta_time
+            delay = cls._normal_delta + cls._frame_start - cls._now()
             if delay > 0:
-                sdl2.SDL_Delay(int(1000 * delay))
+                sdl2.SDL_Delay(delay)
 
-        while cls.now() == cls._frame_start:
+        while cls._now() == cls._frame_start:
             sdl2.SDL_Delay(1)
 
-        cls._delta_time = cls.now() - cls._frame_start
+        cls._delta_time = cls._now() - cls._frame_start
 
     @classmethod
     def next_frame(cls, func: Callable[[], None]):
@@ -225,26 +230,6 @@ class Time:
             heapq.heappush(cls._recurrent_queue, task)
         else:
             raise TypeError("Task argument must of of type DelayedTask, FramesTask or RecurrentTask.")
-
-    @classmethod
-    def milli_to_sec(cls, milli: float | int) -> float | int:
-        """
-        Converts milliseconds to seconds.
-
-        Returns:
-            The converted number in seconds.
-        """
-        return milli / 1000
-
-    @classmethod
-    def sec_to_milli(cls, sec: float | int) -> int:
-        """
-        Converts seconds to milliseconds.
-
-        Returns:
-            The converted number in milliseconds.
-        """
-        return int(sec * 1000)
 
     @classmethod
     def _process_calls(cls):

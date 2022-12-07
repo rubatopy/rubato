@@ -117,5 +117,8 @@
     "explorer.fileNesting.expand": false,
     "explorer.fileNesting.patterns": {
         "*.py": "${capture}.c,${capture}.*.so,${capture}.cpp"
-    }
+    },
+    "prettier.quoteProps": "consistent",
+    "prettier.tabWidth": 4,
+    "prettier.printWidth": 120
 }
