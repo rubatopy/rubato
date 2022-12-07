@@ -1,17 +1,24 @@
-"""
-Prototype mathematics in rubato
-"""
-
+"""Prototype mathematics in rubato"""
 import rubato as rb
 import math
 
-thickness = 10  # a is the thickness of the donut
-radius = 15  # c is the radius of the donut
-angle_of_tube = 360  # How much of the tube is visible (in degrees)
-angle_of_donut = 360  # How much of the donut is visible (in degrees)
+shape: list[tuple[float, float, float]] = []  # list of the points on the shape
+roll, pitch, yaw = 0, 0, 0  # x, z, and y counter-clockwise rotation, respectively
+surf_dim = 50  # diameter of the surface holding the shape
 
-rb.init(res=(500, 500), maximize=True, target_fps=60)
-rb.Game.show_fps = True
+rb.init("Donut Demo", res=(surf_dim, surf_dim), window_size=(500, 500), target_fps=60)
+surf = rb.Surface(surf_dim, surf_dim)
+
+# creates a donut and populates the shape list
+rad, thick = 12, 7  # radius and thickness of the donut
+mag = rad + thick  # maximum distance of any pt to the origin
+for i in range(0, 360, 4):  # revolve around a circle
+    for j in range(0, 360, 2):  # revolve the circle around the tube
+        v, u = math.radians(i), math.radians(j)
+        x = (rad + thick * math.cos(v)) * math.cos(u)
+        y = (rad + thick * math.cos(v)) * math.sin(u)
+        z = thick * math.sin(v)
+        shape.append((x, y, z))
 
 
 def rotate_pt(x, y, z, roll, pitch, yaw):
@@ -19,58 +26,31 @@ def rotate_pt(x, y, z, roll, pitch, yaw):
     cosy, siny = math.cos(yaw), math.sin(yaw)
     cosr, sinr = math.cos(roll), math.sin(roll)
 
-    rx = cosp * cosy * x + (cosp * siny * sinr - sinp * cosr) * y + (sinp * sinr + cosp * siny * cosr) * z
-    ry = sinp * cosy * x + (cosp * cosr + sinp * siny * sinr) * y + (sinp * siny * cosr - cosp * sinr) * z
+    rx = (cosp * siny * sinr - sinp * cosr) * y + (sinp * sinr + cosp * siny * cosr) * z + cosp * cosy * x
+    ry = (cosp * cosr + sinp * siny * sinr) * y + (sinp * siny * cosr - cosp * sinr) * z + sinp * cosy * x
     rz = (cosy * sinr) * y + (cosy * cosr) * z - siny * x
 
     return int(rx), int(ry), int(rz)
 
 
-roll = 0  # spin around x-axis counter-clockwise (on screen its another up-down motion)
-pitch = 0  # spin around z-axis
-yaw = 0  # spin around y-axis counter-clockwise rotation (on screen it looks like ur just moving up)
-
-deg_to_rad = math.pi / 180
-
-shape: list[tuple[float, float, float]] = []
-
-# calculates the points on a donut with no rotation centered on the origin
-for v in range(0, angle_of_tube, 4):  # goes around the tube interval of 3 if you want it to be w/out holes
-    for u in range(0, angle_of_donut, 2):  # goes around the torus
-        v_ = v * deg_to_rad
-        u_ = u * deg_to_rad
-        x = (radius + thickness * math.cos(v_)) * math.cos(u_)
-        y = (radius + thickness * math.cos(v_)) * math.sin(u_)
-        z = thickness * math.sin(v_)
-        shape.append((x, y, z))
-
-surf = rb.Surface((thickness + radius) * 2, (thickness + radius) * 2, (10, 10))
-
-
-def custom_update():
+def update():
     global roll, pitch, yaw
     roll += 0.0704
     pitch += 0.0352
-    # Updates the roll and yaw in radians
 
 
-def custom_draw():
-    z_buffer = [-float("inf")] * ((thickness + radius) * 2)**2
+def draw():
+    z_buffer = [-float("inf")] * (surf_dim**2)
     surf.fill(rb.Color.night)
-
-    # rotates the points centered on the origin, then draws them
     for point in shape:
         x, y, z = rotate_pt(*point, roll, pitch, yaw)
-        if z_buffer[x + (thickness + radius) * 2 * y] < z:
-            z_buffer[x + (thickness + radius) * 2 * y] = z
-            color = rb.Color.mix(
-                rb.Color.yellow, rb.Color.red, rb.Math.map(z, -thickness - radius, thickness + radius, 0, 1), "linear"
-            )
+        if z_buffer[x + surf_dim * y] < z:
+            z_buffer[x + surf_dim * y] = z
+            color = rb.Color.mix(rb.Color.yellow, rb.Color.red, rb.Math.map(z, -mag, mag, 0, 1), "linear")
             surf.set_pixel((x, y), color, False)
+    rb.Draw.surface(surf)
 
-    rb.Draw.queue_surface(surf)
 
-
-rb.Game.update = custom_update
-rb.Game.draw = custom_draw
+rb.Game.update = update
+rb.Game.draw = draw
 rb.begin()
