@@ -20,6 +20,8 @@
 
 ### Breaking Changes
 
+-   Text no longer can affect Fonts directly.
+
 ### Added
 
 -   `Tilemap` and `SimpleTilemap` components
@@ -28,7 +30,6 @@
 
 -   The default window size now matches the resolution instead of being half it to be more intuitive.
 -   Changed default resolution to (500, 500).
--   Text no longer can affect Fonts directly.
 
 ### Removed
 
