@@ -157,13 +157,18 @@ def smooth_button_generator(pos, w, h, text, onrelease, color):
     )
 
     font_changing: rb.RecurrentTask | None = None
+    first = True
 
     def increase_font_size(task: rb.RecurrentTask):
-        nonlocal font_changing
+        nonlocal font_changing, first
         if font_changing is not None and font_changing != task:
             font_changing.stop()
         t.font_object.size += 1
-        t.font_object.color.r = int(rb.Math.clamp(t.font_object.color.r - 10, 0, 255))
+        t.font_object.color = rb.Color.random()
+        if first:
+            t.font_object.add_style("bold")
+            first = False
+
         t._uptodate = False
         print(t.font_object.color)  # REVERT THIS TESTING
         if t.font_object.size >= 64:
