@@ -11,6 +11,7 @@
 
     intro
     api
+    demos/demos
 
 .. toctree::
     :caption: Tutorials

@@ -17,7 +17,10 @@ main = Scene()
 stars = Surface(size, size)
 stars.fill(Color.black)
 for _ in range(200):
-    pos = random.randint(-half_size, half_size), random.randint(-half_size, half_size)
+    pos = (
+        random.randint(-half_size, half_size),
+        random.randint(-half_size, half_size),
+    )
     stars.set_pixel(pos, Color.white)
 
 
@@ -49,7 +52,10 @@ def make_part(angle: float):
 
 
 # explosion system
-expl_sys = wrap([ParticleSystem(new_particle=make_part, mode=ParticleSystemMode.BURST), Timer(5)])
+expl_sys = wrap([
+    ParticleSystem(new_particle=make_part, mode=ParticleSystemMode.BURST),
+    Timer(5),
+])
 
 
 # component to move things that are out of bounds
@@ -85,12 +91,20 @@ def make_asteroid():
             [
                 Polygon(
                     [
-                        Vector.from_radial(random.randint(int(radius * .7), int(radius * 0.95)), -i * 360 / sides)
-                        for i in range(sides)
+                        Vector.from_radial(
+                            random.randint(
+                                int(radius * .7),
+                                int(radius * 0.95),
+                            ),
+                            -i * 360 / sides,
+                        ) for i in range(sides)
                     ],
                     debug=True,
                 ),
-                RigidBody(velocity=direction * 100, ang_vel=random.randint(-30, 30)),
+                RigidBody(
+                    velocity=direction * 100,
+                    ang_vel=random.randint(-30, 30),
+                ),
                 BoundsChecker(),
             ],
             "asteroid",
@@ -124,24 +138,32 @@ class PlayerController(Component):
             main.add(
                 wrap(
                     [
-                        Circle(radius // 5, Color.debug, trigger=True, on_collide=bullet_collide),
+                        Circle(
+                            radius // 5,
+                            Color.debug,
+                            trigger=True,
+                            on_collide=bullet_collide,
+                        ),
                         RigidBody(
-                            velocity=player_spr.gameobj.get(PlayerController).velocity + Vector.from_radial(
-                                500,
-                                player_spr.gameobj.rotation,
-                            )
+                            velocity=self.gameobj.get(PlayerController).velocity \
+                                + Vector.from_radial(
+                                    500,
+                                    self.gameobj.rotation,
+                                )
                         ),
                         BoundsChecker(),
                         Timer(0.75),
                     ],
                     "bullet",
-                    player_spr.gameobj.pos,
-                    player_spr.gameobj.rotation,
+                    self.gameobj.pos,
+                    self.gameobj.rotation,
                 )
             )
             self.allowed_to_shoot = False
-            Time.delayed_call(lambda: setattr(self, "allowed_to_shoot", True), self.interval)
-            # ^ could also use a class function
+            Time.delayed_call(
+                lambda: setattr(self, "allowed_to_shoot", True),
+                self.interval,
+            )
 
     def fixed_update(self):
         c_axis_0 = Input.controller_axis(0, 0) if Input.controllers() else 0

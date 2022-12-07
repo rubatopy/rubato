@@ -1,4 +1,6 @@
-"""A place to test new WIP features"""
+"""
+A demo to demonstrate how offset and rotation play together.
+"""
 import rubato as rb
 from rubato import Vector as V
 
