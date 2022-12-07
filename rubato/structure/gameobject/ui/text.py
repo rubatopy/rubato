@@ -2,6 +2,7 @@
 from __future__ import annotations
 from typing import Literal
 import sdl2, sdl2.ext
+from copy import copy
 
 from .. import Component
 from .... import Vector, Font, Draw, Camera, Surface
@@ -65,8 +66,8 @@ class Text(Component):
 
         self._font = self.font_object._font
         self._size = self.font_object._size
-        self._color = self.font_object._color
-        self._styles = self.font_object._styles
+        self._color = self.font_object._color.clone()
+        self._styles = copy(self.font_object._styles)
 
     @property
     def af(self) -> bool:
@@ -125,7 +126,8 @@ class Text(Component):
         sdl2.SDL_FreeSurface(surf)
 
     def update(self):
-        if self._font != self.font_object._font or self._size != self.font_object._size or self._color != self.font_object._color or self._styles != self.font_object._styles:
+        if self._font != self.font_object._font or self._size != self.font_object._size or self._color != self.font_object._color or \
+         self._styles != self.font_object._styles:
             self._font = self.font_object._font
             self._size = self.font_object._size
             self._color = self.font_object._color
