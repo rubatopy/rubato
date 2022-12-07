@@ -162,11 +162,11 @@ def smooth_button_generator(pos, w, h, text, onrelease, color):
         nonlocal font_changing
         if font_changing is not None and font_changing != task:
             font_changing.stop()
-        t.font_size += 1
-        if t.font_size >= 64:
+        t.font_object.size += 1
+        if t.font_object.size >= 64:
             task.stop()
             font_changing = None
-            t.font_size = 64
+            t.font_object.size = 64
         else:
             font_changing = task
 
@@ -174,11 +174,11 @@ def smooth_button_generator(pos, w, h, text, onrelease, color):
         nonlocal font_changing
         if font_changing is not None and font_changing != task:
             font_changing.stop()
-        t.font_size -= 1
-        if t.font_size <= 32:
+        t.font_object.size -= 1
+        if t.font_object.size <= 32:
             task.stop()
             font_changing = None
-            t.font_size = 32
+            t.font_object.size = 32
         else:
             font_changing = task
 

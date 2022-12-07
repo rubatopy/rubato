@@ -10,7 +10,6 @@ from .... import Vector, Font, Draw, Camera, Surface
 class Text(Component):
     """
     A text component. Add this to game objects or UI elements to give them text. Takes a font object to render the text.
-    Any change to the characters of the text need to be done directly to the font object.
 
     Args:
         text: The text to display. Defaults to "".
@@ -63,6 +62,11 @@ class Text(Component):
             self.font_object = Font()
 
         self._uptodate = False
+
+        self._font = self.font_object._font
+        self._size = self.font_object._size
+        self._color = self.font_object._color
+        self._styles = self.font_object._styles
 
     @property
     def af(self) -> bool:
@@ -121,6 +125,12 @@ class Text(Component):
         sdl2.SDL_FreeSurface(surf)
 
     def update(self):
+        if self._font != self.font_object._font or self._size != self.font_object._size or self._color != self.font_object._color or self._styles != self.font_object._styles:
+            self._font = self.font_object._font
+            self._size = self.font_object._size
+            self._color = self.font_object._color
+            self._styles = self.font_object._styles
+            self._uptodate = False
         if not self._uptodate:
             self._regen()
             self._uptodate = True
