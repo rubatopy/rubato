@@ -4,13 +4,12 @@ from typing import Literal
 import sdl2, sdl2.ext
 
 from .. import Component
-from .... import Vector, Font, Draw, Camera, Surface
+from .... import Vector, Color, Font, Draw, Camera, Surface
 
 
 class Text(Component):
     """
-    A text component. Add this to game objects or UI elements to give them text. Takes a font object to render the text.
-    Any change to the characters of the text need to be done directly to the font object.
+    A text component. Add this to game objects or UI elements to give them text.
 
     Args:
         text: The text to display. Defaults to "".
@@ -108,6 +107,41 @@ class Text(Component):
     @width.setter
     def width(self, new: int):
         self._width = new
+        self._uptodate = False
+
+    @property
+    def font_size(self) -> int:
+        """
+        The font size.
+
+        Warning:
+            Don't set this too high or font smoothing may misbehave on some systems.
+        """
+        return self.font_object.size
+
+    @font_size.setter
+    def font_size(self, size: int):
+        self.font_object.size = size
+        self._uptodate = False
+
+    @property
+    def font_color(self) -> Color:
+        """The font color."""
+        return self.font_object.color
+
+    @font_color.setter
+    def font_color(self, color: Color):
+        self.font_object.color = color
+        self._uptodate = False
+
+    def add_style(self, style: str):
+        """Add a style to the font (bold, italic, underline, strikethrough, normal)."""
+        self.font_object.add_style(style)
+        self._uptodate = False
+
+    def remove_style(self, style: str):
+        """Remove a style from a font."""
+        self.font_object.remove_style(style)
         self._uptodate = False
 
     def _regen(self):
