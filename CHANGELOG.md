@@ -20,7 +20,7 @@
 
 ### Breaking Changes
 
--   Text no longer can affect Fonts directly.
+-   `Text` no longer can affect `Font`s directly.
 
 ### Added
 
