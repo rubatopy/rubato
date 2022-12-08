@@ -116,34 +116,36 @@ class Font:
         sdl2.sdlttf.TTF_SizeText(self._font.get_ttf_font(), text.encode(), ctypes.byref(text_w), ctypes.byref(text_h))
         return (text_w.value, text_h.value)
 
-    def add_style(self, style: int):
+    def add_style(self, *styles: int):
         """
         Adds a style to the font.
 
         Args:
-            style: The style to add. You can add multiple styles by | them together.
+            style: The style to add. You can add multiple styles. Or | them together.
             Can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
         """
         # For developer: now that style is an bit map, 0000, each bit represents a style
-        if 0 <= style <= 15:
-            self._styles |= style
-            self.apply_styles()
-        else:
-            raise ValueError("Style is not valid.")
+        for style in styles:
+            if 0 <= style <= 15:
+                self._styles |= style
+                self.apply_styles()
+            else:
+                raise ValueError("Style is not valid.")
 
-    def remove_style(self, style: int):
+    def remove_style(self, *styles: int):
         """
         Removes a style from the font.
 
         Args:
-            style: The style to remove.
+            style: The style to remove. You can add multiple styles. Or | them together.
             Can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
         """
-        if 0 <= style <= 15:
-            self._styles &= ~style
-            self.apply_styles()
-        else:
-            raise ValueError("Style is not valid.")
+        for style in styles:
+            if 0 <= style <= 15:
+                self._styles &= ~style
+                self.apply_styles()
+            else:
+                raise ValueError("Style is not valid.")
 
     def apply_styles(self):
         """Applies the styles to the font."""
