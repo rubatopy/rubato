@@ -5,8 +5,6 @@ scene = Scene("main_menu", background_color=shared.background_color)
 
 title_font = Font(font=shared.font_name, size=58, color=Color.white)
 title = Text("Rubato Platformer Demo", title_font)
-title_font2 = Font(font=shared.font_name, size=58, color=Color.white, styles=Font.ITALIC | Font.UNDERLINE)
-title2 = Text("Rubato Platformer Demo", title_font2)
 
 play_button = shared.smooth_button_generator(
     (0, -75),
@@ -17,4 +15,4 @@ play_button = shared.smooth_button_generator(
     Color.gray.darker(100),
 )
 
-scene.add_ui(wrap(title, pos=(0, 75)), wrap(title2, pos=(0, 130)), play_button)
+scene.add_ui(wrap(title, pos=(0, 75)), play_button)
