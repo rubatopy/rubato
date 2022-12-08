@@ -2,7 +2,7 @@ import rubato as rb
 
 scene = rb.Scene("main_menu", background_color=rb.Color.black)  # make a new scene
 
-title_font = rb.Font(size=64, styles=["bold"], color=rb.Color.white)
+title_font = rb.Font(size=64, styles=rb.Font.BOLD, color=rb.Color.white)
 title = rb.Text(text="PLATFORMER DEMO!", font=title_font)
 
 play_button = rb.GameObject(pos=(0, -75)).add(
