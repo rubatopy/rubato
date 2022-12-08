@@ -1,10 +1,13 @@
-from rubato import init, begin, Draw, Display, Surface, Game, Vector as V, Color as C
+"""
+Demonstrating how to use surfaces in rubato.
+"""
+from rubato import init, begin, Draw, Display, Surface, Game, Vector as V, Color
 
 width, height = 32, 32
 gridx, gridy = 4, 4
-main_c = C.red
-second_c = C.green
-bg_c = C.blue
+main_c = Color.red
+second_c = Color.green
+bg_c = Color.blue
 init("Surface Demo", V(width * gridx, height * gridy), V(640, 640))
 
 shapes = [Surface(width, height) for _ in range(gridx * gridy)]
@@ -52,7 +55,11 @@ shapes[3 * gridx + col].draw_poly(*points, main_c, 2, second_c, True)
 def update():
     for i in range(len(shapes)):
         Draw.queue_surface(
-            shapes[i], Display.top_left + ((i % gridx) * width + (width / 2), -(i // gridx) * height - (height / 2))
+            shapes[i],
+            Display.top_left + (
+                (i % gridx) * width + (width / 2),
+                -(i // gridx) * height - (height / 2),
+            ),
         )
 
 

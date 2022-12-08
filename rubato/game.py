@@ -104,7 +104,6 @@ class Game:
         """Quit the game and close the python process."""
         Radio.broadcast(Events.EXIT)
         cls.state = cls.STOPPED
-        sys.stdout.flush()
         sdl2.sdlttf.TTF_Quit()
         sdl2.SDL_Quit()
         sys.exit(0)

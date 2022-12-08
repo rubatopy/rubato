@@ -6,6 +6,10 @@ This project was created and is maintained by:
 -   [Tomer Sedan](https://github.com/tsedan)
 -   [Yamm Elnekave](https://github.com/mrElnekave)
 
+Thank you to all of these wonderful people who have contributed to rubato!
+
+-   [Shai Elnekave](https://github.com/shaielnekave)
+
 # External resources
 
 Many external projects have indirectly aided in the development of rubato.
