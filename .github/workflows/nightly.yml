@@ -37,8 +37,6 @@ jobs:
             - name: Prep files for transfer
               run: |
                   cp -r docs/build/html nightly
-                  cp docs/index.html index.html
-                  cp docs/404.html 404.html
                   cp docs/sitemap_gen.py sitemap_gen.py
 
             - name: Prep Git
@@ -50,7 +48,7 @@ jobs:
               run: |
                   rm -rf target
                   git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/rubato.app.git target
-                  cp index.html 404.html sitemap_gen.py target
+                  cp sitemap_gen.py target
                   cd target
                   git add .
                   git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
