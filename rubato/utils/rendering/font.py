@@ -15,8 +15,8 @@ class Font:
         font: The font to use. Can also be a path to a font file. Defaults to Roboto.
             Included fonts are "Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "Mozart"
         size: The size of the font in pixels. Defaults to 16.
-        styles: The styles to apply to the font. Defaults to [].
-            Fill with only the following: bold, italic, underline, strikethrough.
+        styles: The styles to apply to the font. Set multiple styles by | them together. Defaults to 0.
+            These are the values you can use: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
         color: The color of the font. Defaults to Color(0, 0, 0).
     """
 
@@ -29,18 +29,16 @@ class Font:
         "Mozart": "Mozart-Regular.ttf",
     }
 
-    _text_styles = {
-        "bold": sdl2.sdlttf.TTF_STYLE_BOLD,
-        "italic": sdl2.sdlttf.TTF_STYLE_ITALIC,
-        "underline": sdl2.sdlttf.TTF_STYLE_UNDERLINE,
-        "strikethrough": sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH,
-    }
+    BOLD = sdl2.sdlttf.TTF_STYLE_BOLD
+    ITALIC = sdl2.sdlttf.TTF_STYLE_ITALIC
+    UNDERLINE = sdl2.sdlttf.TTF_STYLE_UNDERLINE
+    STRIKETHROUGH = sdl2.sdlttf.TTF_STYLE_STRIKETHROUGH
 
     def __init__(
         self,
         font: str | Literal["Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "Mozart"] = "Roboto",
         size: int = 16,
-        styles: list[str] = [],
+        styles: int = 0,
         color: Color = Color(0, 0, 0),
     ):
         self._size = size
@@ -78,6 +76,7 @@ class Font:
     def color(self, new: Color):
         self._color = new
         self._font = sdl2.ext.FontTTF(self._font_path, self._size, self._color.to_tuple())
+        self.apply_styles()
 
     def _generate(self, text: str, align: str, width: int | float = 0) -> sdl2.SDL_Surface:
         """
@@ -117,39 +116,41 @@ class Font:
         sdl2.sdlttf.TTF_SizeText(self._font.get_ttf_font(), text.encode(), ctypes.byref(text_w), ctypes.byref(text_h))
         return (text_w.value, text_h.value)
 
-    def add_style(self, style: str):
+    def add_style(self, *styles: int):
         """
         Adds a style to the font.
+        Style can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
+
 
         Args:
-            style: The style to add. Can be one of the following: bold, italic, underline, strikethrough.
+            style: The style to add.
         """
-        if style in Font._text_styles and style not in self._styles:
-            self._styles.append(style)
-            self.apply_styles()
-        else:
-            raise ValueError(f"Style {style} is not valid or is already applied.")
+        # For developer: now that style is an bit map, 0000, each bit represents a style
+        for style in styles:
+            if 0 <= style <= 15:
+                self._styles |= style
+                self.apply_styles()
+            else:
+                raise ValueError("Style is not valid.")
 
-    def remove_style(self, style: str):
+    def remove_style(self, *styles: int):
         """
         Removes a style from the font.
+        Style can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
 
         Args:
-            style: The style to remove. Can be one of the following: bold, italic, underline, strikethrough.
+            style: The style to remove.
         """
-        if style in self._styles:
-            self._styles.remove(style)
-            self.apply_styles()
-        else:
-            raise ValueError(f"Style {style} is not currently applied.")
+        for style in styles:
+            if 0 <= style <= 15:
+                self._styles &= ~style
+                self.apply_styles()
+            else:
+                raise ValueError("Style is not valid.")
 
     def apply_styles(self):
         """Applies the styles to the font."""
-        s = 0x00
-        for style in self._styles:
-            s |= Font._text_styles[style]
-
-        sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), s)
+        sdl2.sdlttf.TTF_SetFontStyle(self._font.get_ttf_font(), self._styles)
 
     def clone(self):
         """

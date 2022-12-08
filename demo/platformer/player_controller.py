@@ -82,6 +82,7 @@ class PlayerController(Component):
         if Input.key_pressed("r") or (
             Input.controller_button(0, 6) if Input.controllers() else False
         ) or self.gameobj.pos.y < -550:
+            self.animation.set_state("idle", True)
             self.gameobj.pos = self.initial_pos.clone()
             self.rigid.stop()
             self.grounded = False
