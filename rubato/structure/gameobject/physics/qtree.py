@@ -49,10 +49,10 @@ class _QTree:
 
         center: Vector = (tl + br) / 2
 
-        self.northeast: STree = STree(Vector(center.x, tl.y), Vector(br.x, center.y))
-        self.northwest: STree = STree(tl, center)
-        self.southeast: STree = STree(center, br)
-        self.southwest: STree = STree(Vector(tl.x, center.y), Vector(center.x, br.y))
+        self.northeast: _STree = _STree(Vector(center.x, tl.y), Vector(br.x, center.y))
+        self.northwest: _STree = _STree(tl, center)
+        self.southeast: _STree = _STree(center, br)
+        self.southwest: _STree = _STree(Vector(tl.x, center.y), Vector(center.x, br.y))
 
         for i in range(len(hbs)):
             bb: tuple[Vector, Vector] = self.bbs[i]
@@ -94,7 +94,7 @@ class _QTree:
 
 
 @Cython.cclass
-class STree:
+class _STree:
     """A Subtree."""
 
     def __init__(self, top_left: Vector, bottom_right: Vector):
@@ -105,10 +105,10 @@ class STree:
 
         self.has_children: bool = False
 
-        self.northeast: STree
-        self.northwest: STree
-        self.southeast: STree
-        self.southwest: STree
+        self.northeast: _STree
+        self.northwest: _STree
+        self.southeast: _STree
+        self.southwest: _STree
 
     def insert(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]) -> bool:
         if (bb[0].x < self.top_left.x) or (bb[0].y < self.top_left.y) \
@@ -122,10 +122,10 @@ class STree:
         if not self.has_children:
             self.has_children = True
             center: Vector = (self.top_left + self.bottom_right) / 2
-            self.northeast = STree(Vector(center.x, self.top_left.y), Vector(self.bottom_right.x, center.y))
-            self.northwest = STree(self.top_left, center)
-            self.southeast = STree(center, self.bottom_right)
-            self.southwest = STree(Vector(self.top_left.x, center.y), Vector(center.x, self.bottom_right.y))
+            self.northeast = _STree(Vector(center.x, self.top_left.y), Vector(self.bottom_right.x, center.y))
+            self.northwest = _STree(self.top_left, center)
+            self.southeast = _STree(center, self.bottom_right)
+            self.southwest = _STree(Vector(self.top_left.x, center.y), Vector(center.x, self.bottom_right.y))
 
         if not self.northeast.insert(hbs, bb) and not self.northwest.insert(hbs, bb) \
             and not self.southeast.insert(hbs, bb) and not self.southwest.insert(hbs, bb):

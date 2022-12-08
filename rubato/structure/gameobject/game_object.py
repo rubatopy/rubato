@@ -17,10 +17,10 @@ class GameObject:
     An element describing a set of functionality grouped as a "thing", such as a player or a wall.
 
     Args:
-        name: The name of the game object. Defaults to "".
         pos: The position of the game object. Defaults to (0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
+        name: The name of the game object. Defaults to "".
         debug: Whether to draw the center of the game object. Defaults to False.
         active: Whether the game object is active or not. Defaults to True.
         hidden: Whether the game object is hidden or not. Defaults to False.
@@ -28,10 +28,10 @@ class GameObject:
 
     def __init__(
         self,
-        name: str = "",
         pos: Vector | tuple[float, float] = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
+        name: str = "",
         debug: bool = False,
         active: bool = True,
         hidden: bool = False,
