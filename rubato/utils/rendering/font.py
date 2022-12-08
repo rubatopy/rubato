@@ -15,7 +15,7 @@ class Font:
         font: The font to use. Can also be a path to a font file. Defaults to Roboto.
             Included fonts are "Comfortaa", "Fredoka", "Merriweather", "Roboto", "SourceCodePro", "Mozart"
         size: The size of the font in pixels. Defaults to 16.
-        styles: The styles to apply to the font. Defaults to 0. You can add multiple styles by | them together.
+        styles: The styles to apply to the font. Set multiple styles by adding them together. Defaults to 0.
             These are the values you can use: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
         color: The color of the font. Defaults to Color(0, 0, 0).
     """
