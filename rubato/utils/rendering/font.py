@@ -119,10 +119,11 @@ class Font:
     def add_style(self, *styles: int):
         """
         Adds a style to the font.
+        Style can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
+
 
         Args:
             style: The style to add. You can add multiple styles. Or | them together.
-            Can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
         """
         # For developer: now that style is an bit map, 0000, each bit represents a style
         for style in styles:
@@ -135,10 +136,10 @@ class Font:
     def remove_style(self, *styles: int):
         """
         Removes a style from the font.
+        Style can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
 
         Args:
             style: The style to remove. You can add multiple styles. Or | them together.
-            Can be one of the following: Font.BOLD, Font.ITALIC, Font.UNDERLINE, Font.STRIKETHROUGH.
         """
         for style in styles:
             if 0 <= style <= 15:
