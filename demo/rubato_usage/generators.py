@@ -30,11 +30,11 @@ def smooth_button_generator(onclick: Callable, text: str, go: GameObject, offset
         nonlocal font_changing
         if font_changing is not None and font_changing != task:
             font_changing.stop()
-        text_cmp.font_size += 1
-        if text_cmp.font_size >= 64:
+        text_cmp.font_object.size += 1
+        if text_cmp.font_object.size >= 64:
             task.stop()
             font_changing = None
-            text_cmp.font_size = 64
+            text_cmp.font_object.size = 64
         else:
             font_changing = task
 
@@ -42,11 +42,11 @@ def smooth_button_generator(onclick: Callable, text: str, go: GameObject, offset
         nonlocal font_changing
         if font_changing is not None and font_changing != task:
             font_changing.stop()
-        text_cmp.font_size -= 1
-        if text_cmp.font_size <= 32:
+        text_cmp.font_object.size -= 1
+        if text_cmp.font_object.size <= 32:
             task.stop()
             font_changing = None
-            text_cmp.font_size = 32
+            text_cmp.font_object.size = 32
         else:
             font_changing = task
 

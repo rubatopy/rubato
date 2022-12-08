@@ -20,6 +20,8 @@
 
 ### Breaking Changes
 
+-   `Text` no longer can affect `Font`s directly.
+
 ### Added
 
 -   `Tilemap` and `SimpleTilemap` components
@@ -28,6 +30,8 @@
 
 -   The default window size now matches the resolution instead of being half it to be more intuitive.
 -   Changed default resolution to (500, 500).
+-   `font.add_style` and `font.remove_style` no longer look if the thing you are removing or adding exists.
+-   `Font` styles are integers you | together.
 
 ### Removed
 
