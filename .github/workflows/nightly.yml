@@ -44,16 +44,6 @@ jobs:
                   git config --global user.email "martin.chapino@gmail.com"
                   git config --global user.name "Martin Chaperot (Bot)"
 
-            - name: Transfer to rubato.app
-              run: |
-                  rm -rf target
-                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/rubato.app.git target
-                  cp sitemap_gen.py target
-                  cd target
-                  git add .
-                  git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
-                  git push origin main
-
             - name: Transfer to docs.rubato.app
               run: |
                   rm -rf target
