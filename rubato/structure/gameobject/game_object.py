@@ -237,6 +237,22 @@ class GameObject:
                 fin.extend(val)
         return fin
 
+    def _deep_get_all(self, comp_type: Type[T]) -> list[T]:
+        """
+        Gets all the components of a type from the game object and its children.
+
+        Args:
+            comp_type: The type of component to search for.
+
+        Returns:
+            A list containing all the components of that type. If no components were found, the
+                list is empty.
+        """
+        fin = self.get_all(comp_type)
+        for child in self._children:
+            fin.extend(child._deep_get_all(comp_type))
+        return fin
+
     def _draw(self, camera: Camera):
         if self.hidden or not self.active:
             return

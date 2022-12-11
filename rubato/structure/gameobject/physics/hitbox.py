@@ -242,7 +242,7 @@ class Polygon(Hitbox):
         """
         Returns a list of the Polygon's vertices in world coordinates. Accounts for gameobject position and rotation.
         """
-        return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
+        return [v.rotate(self.gameobj.true_rotation()) + self.gameobj.true_pos() for v in self.offset_verts()]
 
     def regen(self):
         self._offset_verts = [(vert * self.scale).rotate(self.rot_offset) + self.offset for vert in self.verts]
@@ -500,7 +500,7 @@ class Rectangle(Hitbox):
         """
         Returns a list of the Rectangle's vertices in world coordinates. Accounts for gameobject position and rotation.
         """
-        return [v.rotate(self.gameobj.rotation) + self.gameobj.pos for v in self.offset_verts()]
+        return [v.rotate(self.gameobj.true_rotation()) + self.gameobj.true_pos() for v in self.offset_verts()]
 
     def regen(self):
         w = self.width / 2

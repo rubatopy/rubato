@@ -113,7 +113,7 @@ class Scene:
         all_hts = []
         for go in self._root:
             go._fixed_update()
-            hts = go.get_all(Hitbox)
+            hts = go._deep_get_all(Hitbox)
             if hts:
                 all_hts.append(hts)
 

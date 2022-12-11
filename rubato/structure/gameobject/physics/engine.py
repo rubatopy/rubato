@@ -204,7 +204,7 @@ class _Engine:
         circle_pos = circle.true_pos()
         poly_pos = polygon.true_pos()
 
-        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)
+        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.true_rotation())
 
         separation = -Math.INF
         face_normal = 0
@@ -220,7 +220,7 @@ class _Engine:
                 face_normal = i
 
         if separation <= 0:
-            norm = _Engine._get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
+            norm = _Engine._get_normal(verts, face_normal).rotate(polygon.gameobj.true_rotation())
             return Manifold(circle, polygon, circle_rad, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
@@ -234,19 +234,19 @@ class _Engine:
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.true_rotation()).normalized())
         elif dot_2 <= 0:
             offs = center - v2
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
+            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.true_rotation()).normalized())
         else:
             norm = _Engine._get_normal(verts, face_normal)
             if norm.dot(center - v1) > circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
+            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.true_rotation()))
 
     @staticmethod
     def _polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
@@ -265,16 +265,18 @@ class _Engine:
         if pen_b < pen_a:
             man = Manifold(shape_a, shape_b, abs(pen_a))
 
-            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
-            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v1 = a_verts[face_a].rotate(shape_a.gameobj.true_rotation()) + shape_a.gameobj.true_pos()
+            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.true_rotation()
+                                                            ) + shape_a.gameobj.true_pos()
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
             man = Manifold(shape_a, shape_b, abs(pen_b))
 
-            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
-            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v1 = b_verts[face_b].rotate(shape_b.gameobj.true_rotation()) + shape_b.gameobj.true_pos()
+            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.true_rotation()
+                                                            ) + shape_b.gameobj.true_pos()
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -290,9 +292,10 @@ class _Engine:
         best_ind = 0
 
         for i in range(len(a_verts)):
-            n = _Engine._get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
+            n = _Engine._get_normal(a_verts, i).rotate(a.gameobj.true_rotation()).rotate(-b.gameobj.true_rotation())
             s = _Engine._get_support(b_verts, -n)
-            v = (a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos - b.gameobj.pos).rotate(-b.gameobj.rotation)
+            v = (a_verts[i].rotate(a.gameobj.true_rotation()) + a.gameobj.true_pos() -
+                 b.gameobj.true_pos()).rotate(-b.gameobj.true_rotation())
             d = n.dot(s - v)
 
             if d > best_dist:

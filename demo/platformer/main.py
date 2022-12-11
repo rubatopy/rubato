@@ -9,7 +9,7 @@ rb.init(
     res=(1920, 1080),  # Increase the window resolution
     fullscreen=True,  # Set the window to fullscreen
 )
-
+rb.Game.debug = True  # Enable debug mode
 import main_menu
 import level1
 import level2
