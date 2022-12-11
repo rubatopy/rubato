@@ -107,6 +107,7 @@ win_sub_text = rb.GameObject(
     ignore_cam=True,
 ).add(rb.Text("Click anywhere to move on", white_32))
 
+
 ##### CLOUD #####
 class CloudMover(rb.Component):
 
