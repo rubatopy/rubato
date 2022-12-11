@@ -43,7 +43,7 @@ class GameObject:
     ):
         self.name: str = name
         """
-        The name of the game object. Will default to: "Game Object {number in group}"
+        The name of the game object. Will default to: ""
         """
         self.pos: Vector = Vector.create(pos)
         """The current position of the game object."""
@@ -61,7 +61,7 @@ class GameObject:
         """Whether the game object should update and draw."""
 
         self._parent: GameObject | None = None
-        self.set_parent(parent)
+        self.parent = parent
         self._children: list[GameObject] = []
         self._components: dict[type, list[Component]] = {}
         self._debug_cross: Surface = Surface(10, 10)
@@ -73,7 +73,8 @@ class GameObject:
         """The parent of the game object."""
         return self._parent
 
-    def set_parent(self, parent: GameObject | None):
+    @parent.setter
+    def parent(self, parent: GameObject | None):
         """Sets the parent of the game object."""
         if self._parent:
             self._parent._children.remove(self)
@@ -315,7 +316,7 @@ class GameObject:
                 new_obj.add(comp.clone())
 
         for child in self._children:
-            child.clone().set_parent(new_obj)
+            child.clone().parent = new_obj
 
         return new_obj
 

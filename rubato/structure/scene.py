@@ -68,10 +68,10 @@ class Scene:
         but it will guarantee that all the gameobjects are removed.
 
         Args:
-            items: The items to remove.
+            *gos: The gameobjects to remove.
 
         Returns:
-            True if all items were present in the scene, False otherwise.
+            True if all gameobjects were present in the scene, False otherwise.
         """
         success: bool = True
         for go in gos:

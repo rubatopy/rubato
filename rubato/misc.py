@@ -19,11 +19,12 @@ def world_mouse() -> Vector:
 
 def wrap(
     comp: Component | Sequence[Component],
-    name: str = "",
     pos: Vector | tuple[float, float] = (0, 0),
     rotation: float = 0,  # test: skip
     z_index: int = 0,
     ignore_cam: bool = False,
+    parent: GameObject | None = None,
+    name: str = "",
     debug: bool = False,
     active: bool = True,
     hidden: bool = False,
@@ -33,11 +34,12 @@ def wrap(
 
     Args:
         comp: The component or list of components to wrap.
-        name: The name of the GameObject. Defaults to "".
         pos: The position of the GameObject. Defaults to (0, 0).
         rotation: The rotation of the GameObject. Defaults to 0.
         z_index: The z_index of the GameObject. Defaults to 0.
         ignore_cam: Whether the GameObject ignores the scene's camera when drawing or not. Defaults to False.
+        parent: The parent GameObject of the GameObject. Defaults to None.
+        name: The name of the GameObject. Defaults to "".
         debug: Whether the GameObject is in debug mode. Defaults to False.
         active: Whether the GameObject is active. Defaults to True.
         hidden: Whether the GameObject is hidden. Defaults to False.
@@ -49,11 +51,12 @@ def wrap(
         The wrapped GameObject.
     """
     go = GameObject(
-        name=name,
         pos=Vector.create(pos),
         rotation=rotation,
         z_index=z_index,
         ignore_cam=ignore_cam,
+        parent=parent,
+        name=name,
         debug=debug,
         active=active,
         hidden=hidden

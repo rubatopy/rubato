@@ -196,9 +196,8 @@ class Tilemap(Component):
                     ),
                 )
 
-    def update(self):
-        if self._rects.parent != self.gameobj:
-            self._rects.set_parent(self.gameobj)
+    def setup(self):
+        self._rects.parent = self.gameobj
 
     def draw(self, camera):
         Draw.queue_surface(self._out, self.true_pos(), self.true_z(), camera)

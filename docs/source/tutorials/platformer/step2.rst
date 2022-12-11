@@ -8,17 +8,11 @@ animated character.
 At this point, you should have a white window with a resolution of 1920 by 1080 pixels.
 
 Before we continue, we first need to understand the rubato heirarchy (we'll explain it first, then walk you
-through it). rubato has 4 levels of structure, in order: Scenes, Groups, Game Objects, and Components.
+through it). rubato has 3 levels of structure, in order: Scenes, Game Objects, and Components.
 
-:func:`Scenes <rubato.structure.scene.Scene>` hold two premade Groups. One for menu items (the UI) and
-one for the main Game Objects. It also manages a :func:`Camera <rubato.utils.rendering.camera.Camera>`.
+:func:`Scenes <rubato.structure.scene.Scene>` hold a set of Game Objects. It also manages a :func:`Camera <rubato.utils.rendering.camera.Camera>`.
 Scenes are used to separate different sections of a game. For example, you could have each game
 level in a different scene. To move between levels, you would simply switch scenes.
-
-:func:`Groups <rubato.structure.group.Group>` are the next layer down. They can hold either Game Objects or other Groups.
-Their main purpose is divide different "groups" of items (hence the name!). For example,
-items in two different groups won't automatically collide with each other, but items sharing a Group will.
-We won't be making any new Groups in this tutorial because their functionality isn't necessary for the platformer.
 
 :func:`Game Objects <rubato.structure.gameobject.game_object.GameObject>` are the main objects in a game.
 They have a position and z-index, and represent a "thing", such as a player, an enemy, or a platform. Their behavior is almost entirely

@@ -37,6 +37,7 @@
 -   `font.add_style` and `font.remove_style` no longer look if the thing you are removing or adding exists.
 -   `Font` styles are integers you | together.
 -   Exe files will not crash on closing in Windows.
+-   `GameObject`s no longer have a default name. Instead it is now "".
 
 ### Removed
 
