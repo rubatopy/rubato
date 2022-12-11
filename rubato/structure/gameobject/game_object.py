@@ -17,11 +17,13 @@ class GameObject:
     An element describing a set of functionality grouped as a "thing", such as a player or a wall.
 
     Args:
-        name: The name of the game object. Defaults to "".
         pos: The position of the game object. Defaults to (0, 0).
         rotation: The rotation of the game object. Defaults to 0.
         z_index: The z-index of the game object. Defaults to 0.
-        ignore_cam: Whether the game object ignores the scene's camera when drawing or not. Defaults to False.
+        ignore_cam: Whether the game object ignores the scene's camera when drawing or not. If set, all children will
+            ignore the scene's camera. Defaults to False.
+        parent: The parent of the game object. Defaults to None.
+        name: The name of the game object. Defaults to "".
         debug: Whether to draw the center of the game object. Defaults to False.
         active: Whether the game object is active or not. Defaults to True.
         hidden: Whether the game object is hidden or not. Defaults to False.
@@ -29,11 +31,12 @@ class GameObject:
 
     def __init__(
         self,
-        name: str = "",
         pos: Vector | tuple[float, float] = (0, 0),
         rotation: float = 0,
         z_index: int = 0,
         ignore_cam: bool = False,
+        parent: GameObject | None = None,
+        name: str = "",
         debug: bool = False,
         active: bool = True,
         hidden: bool = False,
@@ -57,10 +60,59 @@ class GameObject:
         self.active: bool = active
         """Whether the game object should update and draw."""
 
+        self._parent: GameObject | None = None
+        self.set_parent(parent)
+        self._children: list[GameObject] = []
         self._components: dict[type, list[Component]] = {}
         self._debug_cross: Surface = Surface(10, 10)
         self._debug_cross.draw_line(Vector(0, 5), Vector(0, -5), Color.debug, thickness=2)  # vertical line
         self._debug_cross.draw_line(Vector(-5, 0), Vector(5, 0), Color.debug, thickness=2)  # horizontal line
+
+    @property
+    def parent(self) -> GameObject | None:
+        """The parent of the game object."""
+        return self._parent
+
+    def set_parent(self, parent: GameObject | None):
+        """Sets the parent of the game object."""
+        if self._parent:
+            self._parent._children.remove(self)
+        self._parent = parent
+        if self._parent:
+            self._parent._children.append(self)
+
+    def true_z(self) -> int:
+        """
+        The true z-index of the game object.
+
+        Returns:
+            int: The true z-index of the game object.
+        """
+        if self.parent:
+            return self.z_index + self.parent.true_z()
+        return self.z_index
+
+    def true_pos(self) -> Vector:
+        """
+        The position of the game object relative to the scene.
+
+        Returns:
+            Vector: The true position of the game object.
+        """
+        if self.parent:
+            return self.pos.rotate(self.parent.true_rotation()) + self.parent.true_pos()
+        return self.pos
+
+    def true_rotation(self) -> float:
+        """
+        The rotation of the game object relative to the scene.
+
+        Returns:
+            float: The true rotation of the game object.
+        """
+        if self.parent:
+            return self.rotation + self.parent.true_rotation()
+        return self.rotation
 
     def add(self, *components: Component) -> GameObject:
         """
@@ -196,10 +248,13 @@ class GameObject:
                 if not comp.hidden:
                     comp.draw(cam)
 
-        if self.debug or Game.debug:
-            self._debug_cross.rotation = self.rotation
+        for child in self._children:
+            child._draw(cam)
 
-            Draw.queue_surface(self._debug_cross, self.pos, Math.INF, cam)
+        if self.debug or Game.debug:
+            self._debug_cross.rotation = self.true_rotation()
+
+            Draw.queue_surface(self._debug_cross, self.true_pos(), Math.INF, cam)
 
     def _update(self):
         if not self.active:
@@ -210,6 +265,9 @@ class GameObject:
             for comp in comps:
                 comp._update()
 
+        for child in self._children:
+            child._update()
+
     def _fixed_update(self):
         if not self.active:
             return
@@ -218,16 +276,20 @@ class GameObject:
             for comp in comps:
                 comp.fixed_update()
 
+        for child in self._children:
+            child._fixed_update()
+
     def clone(self) -> GameObject:
         """
         Clones the game object.
         """
         new_obj = GameObject(
-            name=f"{self.name} (clone)",
             pos=self.pos.clone(),
             rotation=self.rotation,
             z_index=self.z_index,
             ignore_cam=self.ignore_cam,
+            parent=self.parent,
+            name=f"{self.name} (clone)",
             debug=self.debug,
             active=self.active,
             hidden=self.hidden,
@@ -235,6 +297,9 @@ class GameObject:
         for component in self._components.values():
             for comp in component:
                 new_obj.add(comp.clone())
+
+        for child in self._children:
+            child.clone().set_parent(new_obj)
 
         return new_obj
 
@@ -246,9 +311,13 @@ class GameObject:
 
     def __repr__(self):
         return (
-            f"GameObject(name='{self.name}', pos={self.pos}, rotation={self.rotation}, z_index={self.z_index}, "
-            f"debug={self.debug}, active={self.active}, hidden={self.hidden})"
+            f"GameObject(pos={self.pos}, rotation={self.rotation}, z_index={self.z_index}, ignore_cam={self.ignore_cam}"
+            f", parent={self.parent}, name='{self.name}', debug={self.debug}, active={self.active}, "
+            f"hidden={self.hidden})"
         )
 
     def __str__(self):
-        return f"<GameObject '{self.name}', with {len(self.get_all(Component))} components at {hex(id(self))}>"
+        return (
+            f"<GameObject '{self.name}', with {len(self.get_all(Component))} components and {len(self._children)} "
+            f"children at {hex(id(self))}>"
+        )

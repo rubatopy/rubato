@@ -21,15 +21,9 @@ class Camera:
     def __init__(self, pos: Vector | tuple[float, float] = (0, 0), zoom: float = 1, z_index: int = Math.INF):
         self.pos: Vector = Vector.create(pos)
         """The current position of the camera. Center based i.e. where the camera is looking at."""
-        self._last: Vector = self.pos.clone()
-        """Position of the camera at the update step of the last frame."""
         self._zoom = zoom
         self.z_index: int = z_index
         """The current z_index of the camera."""
-
-    def _update(self):
-        self._last.x = self.pos.x
-        self._last.y = self.pos.y
 
     @property
     def zoom(self) -> float:

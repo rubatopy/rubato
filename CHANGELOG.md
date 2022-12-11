@@ -20,14 +20,15 @@
 
 ### Breaking Changes
 
+-   `Text` no longer can affect `Font`s directly.
 -   Entirely removed the `Group` class. This means code utilizing groups will need to be significantly refactored.
 -   Refactored `Scene`s as a consequence of the removal of groups. See documentation for more information.
--   Added `ignore_cam` option to `GameObject`s. This decides whether the gameobject respects the scene's camera when it draws.
--   `Text` no longer can affect `Font`s directly.
+-   Added `ignore_cam` option to `GameObject`s. This decides whether the gameobject respects the scene's camera when it draws. Replaces the previous UI group behavior.
 
 ### Added
 
 -   `Tilemap` and `SimpleTilemap` components
+-   `GameObject` now have children whose positions, rotations and z_index are relative to their parents. Use `gameobject.set_parent()` to set a parent.
 
 ### Changed
 

@@ -64,8 +64,7 @@ class Scene:
 
     def remove(self, *gos: GameObject) -> bool:
         """
-        Removes gameobject(s) from the scene.
-        This will return false if any of the gameobjects are not in the scene,
+        Removes gameobject(s) from the scene. This will return false if any of the gameobjects are not in the scene,
         but it will guarantee that all the gameobjects are removed.
 
         Args:
@@ -97,7 +96,6 @@ class Scene:
         if not self.started:
             self._setup()
 
-        self.camera._update()
         self.update()
 
         for go in self._root:
