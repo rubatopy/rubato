@@ -37,24 +37,12 @@ jobs:
             - name: Prep files for transfer
               run: |
                   cp -r docs/build/html nightly
-                  cp docs/index.html index.html
-                  cp docs/404.html 404.html
                   cp docs/sitemap_gen.py sitemap_gen.py
 
             - name: Prep Git
               run: |
                   git config --global user.email "martin.chapino@gmail.com"
                   git config --global user.name "Martin Chaperot (Bot)"
-
-            - name: Transfer to rubato.app
-              run: |
-                  rm -rf target
-                  git clone https://.:${{ secrets.MY_GITHUB_TOKEN }}@github.com/rubatopy/rubato.app.git target
-                  cp index.html 404.html sitemap_gen.py target
-                  cd target
-                  git add .
-                  git diff-index --quiet HEAD || git commit -m "Update from ${{ github.sha }}"
-                  git push origin main
 
             - name: Transfer to docs.rubato.app
               run: |

@@ -118,16 +118,12 @@ class Game:
         except KeyboardInterrupt:
             cls.quit()
         except PrintError as e:
-            sys.stdout.flush()
             raise e
         except (Exception,) as e:
-            sys.stdout.flush()
             raise type(e)(
                 str(e) + "\nRubato Error-ed. Was it our fault? Issue tracker: "
                 "https://github.com/rubatopy/rubato/issues"
             ).with_traceback(sys.exc_info()[2])
-        finally:
-            sys.stdout.flush()
 
     @classmethod
     def _tick(cls):
