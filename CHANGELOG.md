@@ -25,6 +25,7 @@
 ### Added
 
 -   `Tilemap` and `SimpleTilemap` components
+-   `hitbox.should_collide()` which can be overriden to determine whether a hitbox should collide with another.
 
 ### Changed
 
