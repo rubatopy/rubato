@@ -115,6 +115,15 @@ class GameObject:
             return self.rotation + self.parent.true_rotation()
         return self.rotation
 
+    def children(self) -> tuple[GameObject]:
+        """
+        The children of the game object. Note that this is an immutable tuple.
+
+        Returns:
+            The children of the game object.
+        """
+        return tuple(self._children)
+
     def add(self, *components: Component) -> GameObject:
         """
         Add a component to the game object.
