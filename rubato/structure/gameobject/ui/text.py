@@ -19,9 +19,9 @@ class Text(Component):
             none, or right (-1, 0, 1). y component is whether to shift top, none, or bottom (-1, 0, 1).
             Defaults to Vector(0, 0).
         width: The width of the text. Defaults to 0.
+        af: Whether to use anisotropic filtering. Defaults to True.
         offset: The offset of the text from the game object. Defaults to Vector(0, 0).
         rot_offset: The rotation offset of the text from the game object. Defaults to 0.
-        af: Whether to use anisotropic filtering. Defaults to True.
         z_index: The z index of the text. Defaults to 0.
         hidden: Whether the text is hidden. Defaults to False.
     """
@@ -33,9 +33,9 @@ class Text(Component):
         justify: Literal["left", "center", "right"] = "left",
         anchor: Vector | tuple[float, float] = (0, 0),
         width: int = 0,
+        af: bool = True,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        af: bool = True,
         z_index: int = 0,
         hidden: bool = False,
     ):

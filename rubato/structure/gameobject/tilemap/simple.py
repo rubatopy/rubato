@@ -85,7 +85,7 @@ class SimpleTilemap(Component):
     def clone(self) -> SimpleTilemap:
         s = SimpleTilemap(
             deepcopy(self._map),
-            deepcopy(self._tiles),
+            [surf.clone() for surf in self._tiles],
             self._tile_size.clone(),
             deepcopy(self._collision),
             deepcopy(self._collider_tag),
