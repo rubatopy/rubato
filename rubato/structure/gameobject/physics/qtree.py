@@ -7,6 +7,7 @@ from . import Hitbox, _Engine
 from .... import Vector
 
 
+# _QTree acts like a function, but keep it as a class for future optimization as well as Cython.cclass optimization.
 @Cython.cclass
 class _QTree:
     """The Quadtree itself."""
