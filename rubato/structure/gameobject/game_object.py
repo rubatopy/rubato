@@ -263,25 +263,6 @@ class GameObject:
             fin.extend(child._deep_get_all(comp_type))
         return fin
 
-    def _draw(self, camera: Camera):
-        if self.hidden or not self.active:
-            return
-
-        cam = Game._zero_cam if self.ignore_cam else camera
-
-        for comps in self._components.values():
-            for comp in comps:
-                if not comp.hidden:
-                    comp.draw(cam)
-
-        for child in self._children:
-            child._draw(cam)
-
-        if self.debug or Game.debug:
-            self._debug_cross.rotation = self.true_rotation()
-
-            Draw.queue_surface(self._debug_cross, self.true_pos(), Math.INF, cam)
-
     def _update(self):
         if not self.active:
             return
@@ -300,10 +281,29 @@ class GameObject:
 
         for comps in self._components.values():
             for comp in comps:
-                comp.fixed_update()
+                comp._fixed_update()
 
         for child in self._children:
             child._fixed_update()
+
+    def _draw(self, camera: Camera):
+        if self.hidden or not self.active:
+            return
+
+        cam = Game._zero_cam if self.ignore_cam else camera
+
+        for comps in self._components.values():
+            for comp in comps:
+                if not comp.hidden:
+                    comp._draw(cam)
+
+        for child in self._children:
+            child._draw(cam)
+
+        if self.debug or Game.debug:
+            self._debug_cross.rotation = self.true_rotation()
+
+            Draw.queue_surface(self._debug_cross, self.true_pos(), Math.INF, cam)
 
     def clone(self) -> GameObject:
         """

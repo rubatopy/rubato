@@ -28,8 +28,6 @@ class Scene:
     ):
         self._root: list[GameObject] = []
         """The list of gameobjects in this scene."""
-        self._add_queue: list[GameObject] = []
-        """A buffer for gameobjects that will be added on the next frame."""
         self.camera = Camera()
         """The camera of this scene."""
         self.started = False
@@ -60,7 +58,7 @@ class Scene:
         Args:
             *gos: The gameobjects to add to the scene.
         """
-        self._add_queue.extend(gos)
+        self._root.extend(gos)
 
     def remove(self, *gos: GameObject) -> bool:
         """
@@ -75,18 +73,14 @@ class Scene:
         """
         success: bool = True
         for go in gos:
-            if go in self._add_queue:
-                self._add_queue.remove(go)
+            if go in self._root:
+                self._root.remove(go)
             else:
                 try:
                     self._root.remove(go)
                 except ValueError:
                     success = False
         return success
-
-    def _dump(self):
-        self._root.extend(self._add_queue)
-        self._add_queue.clear()
 
     def _setup(self):
         self.started = True
@@ -182,7 +176,6 @@ class Scene:
             name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
         )
         new_scene._root = [go.clone() for go in self._root]
-        new_scene._add_queue = [go.clone() for go in self._add_queue]
 
         return new_scene
 
@@ -193,4 +186,4 @@ class Scene:
         Args:
             go: The gameobject to check for.
         """
-        return go in self._root or go in self._add_queue
+        return go in self._root

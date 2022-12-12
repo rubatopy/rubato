@@ -69,6 +69,18 @@ class Component:
 
         self.update()
 
+    def _fixed_update(self):
+        if not self.__started:
+            self._setup()
+
+        self.fixed_update()
+
+    def _draw(self, camera: Camera):
+        if not self.__started:
+            self._setup()
+
+        self.draw(camera)
+
     def setup(self):
         """The setup function for a component."""
         pass
