@@ -1,9 +1,12 @@
 """Primitive shapes integrated into the physics engine."""
 from __future__ import annotations
-from typing import Callable
+from typing import Callable, TYPE_CHECKING
 
 from .. import Component
 from .... import Vector, Color, Game, Draw, Math, Camera, Input, Surface
+
+if TYPE_CHECKING:
+    from . import Manifold
 
 
 class Hitbox(Component):
@@ -17,6 +20,8 @@ class Hitbox(Component):
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to (1, 1).
+        should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
+            Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
         on_enter: A function to call when the hitbox enters another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
@@ -33,9 +38,10 @@ class Hitbox(Component):
         debug: bool = False,
         trigger: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
-        on_collide: Callable | None = None,
-        on_enter: Callable | None = None,
-        on_exit: Callable | None = None,
+        should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
+        on_collide: Callable[[Manifold], None] | None = None,
+        on_enter: Callable[[Manifold], None] | None = None,
+        on_exit: Callable[[Manifold], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -48,11 +54,14 @@ class Hitbox(Component):
         """Whether this hitbox is just a trigger or not."""
         self.scale: Vector = Vector.create(scale)
         """The scale of the hitbox."""
-        self.on_collide: Callable = on_collide if on_collide else lambda manifold: None
+        self.should_collide: Callable[[Hitbox, Hitbox],
+                                      bool] = should_collide if should_collide else lambda self, other: True
+        """The should_collide function to call to determine whether two hitboxes should collide."""
+        self.on_collide: Callable[[Manifold], None] = on_collide if on_collide else lambda manifold: None
         """The on_collide function to call when a collision happens with this hitbox."""
-        self.on_enter: Callable = on_enter if on_enter else lambda manifold: None
+        self.on_enter: Callable[[Manifold], None] = on_enter if on_enter else lambda manifold: None
         """The on_enter function to call when collision begins with this hitbox."""
-        self.on_exit: Callable = on_exit if on_exit else lambda manifold: None
+        self.on_exit: Callable[[Manifold], None] = on_exit if on_exit else lambda manifold: None
         """The on_exit function to call when a collision ends with this hitbox."""
         self.singular: bool = False
         """Whether this hitbox is singular or not."""
@@ -157,7 +166,10 @@ class Polygon(Hitbox):
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to (1, 1).
+        should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
+            Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_enter: A function to call when the hitbox enters another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
@@ -173,8 +185,10 @@ class Polygon(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
-        on_collide: Callable | None = None,
-        on_exit: Callable | None = None,
+        should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
+        on_collide: Callable[[Manifold], None] | None = None,
+        on_enter: Callable[[Manifold], None] | None = None,
+        on_exit: Callable[[Manifold], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -186,7 +200,9 @@ class Polygon(Hitbox):
             debug=debug,
             trigger=trigger,
             scale=scale,
+            should_collide=should_collide,
             on_collide=on_collide,
+            on_enter=on_enter,
             on_exit=on_exit,
             color=color,
             tag=tag,
@@ -272,7 +288,9 @@ class Polygon(Hitbox):
             debug=self.debug,
             trigger=self.trigger,
             scale=self.scale,
+            should_collide=self.should_collide,
             on_collide=self.on_collide,
+            on_enter=self.on_enter,
             on_exit=self.on_exit,
             offset=self.offset.clone(),
             rot_offset=self.rot_offset,
@@ -292,7 +310,10 @@ class Rectangle(Hitbox):
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Defaults to (1, 1).
+        should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
+            Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_enter: A function to call when the hitbox enters another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
@@ -309,8 +330,10 @@ class Rectangle(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
-        on_collide: Callable | None = None,
-        on_exit: Callable | None = None,
+        should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
+        on_collide: Callable[[Manifold], None] | None = None,
+        on_enter: Callable[[Manifold], None] | None = None,
+        on_exit: Callable[[Manifold], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -322,7 +345,9 @@ class Rectangle(Hitbox):
             debug=debug,
             trigger=trigger,
             scale=scale,
+            should_collide=should_collide,
             on_collide=on_collide,
+            on_enter=on_enter,
             on_exit=on_exit,
             color=color,
             tag=tag,
@@ -531,7 +556,9 @@ class Rectangle(Hitbox):
             debug=self.debug,
             trigger=self.trigger,
             scale=self.scale,
+            should_collide=self.should_collide,
             on_collide=self.on_collide,
+            on_enter=self.on_enter,
             on_exit=self.on_exit,
             color=self.color.clone() if self.color is not None else None,
             tag=self.tag,
@@ -552,7 +579,10 @@ class Circle(Hitbox):
         debug: Whether to draw the hitbox. Defaults to False.
         trigger: Whether the hitbox is a trigger. Defaults to False.
         scale: The scale of the hitbox. Note that only the largest value will determine the scale. Defaults to (1, 1).
+        should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
+            Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
+        on_enter: A function to call when the hitbox enters another hitbox. Defaults to lambda manifold: None.
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
@@ -568,8 +598,10 @@ class Circle(Hitbox):
         debug: bool = False,
         trigger: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
-        on_collide: Callable | None = None,
-        on_exit: Callable | None = None,
+        should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
+        on_collide: Callable[[Manifold], None] | None = None,
+        on_enter: Callable[[Manifold], None] | None = None,
+        on_exit: Callable[[Manifold], None] | None = None,
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -581,7 +613,9 @@ class Circle(Hitbox):
             debug=debug,
             trigger=trigger,
             scale=scale,
+            should_collide=should_collide,
             on_collide=on_collide,
+            on_enter=on_enter,
             on_exit=on_exit,
             color=color,
             tag=tag,
@@ -641,7 +675,9 @@ class Circle(Hitbox):
             debug=self.debug,
             trigger=self.trigger,
             scale=self.scale,
+            should_collide=self.should_collide,
             on_collide=self.on_collide,
+            on_enter=self.on_enter,
             on_exit=self.on_exit,
             color=self.color.clone() if self.color is not None else None,
             tag=self.tag,

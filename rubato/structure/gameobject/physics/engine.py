@@ -140,6 +140,9 @@ class _Engine:
         Returns:
             Returns a collision info object if a collision is detected or None if no collision is detected.
         """
+        if not hitbox_a.should_collide(hitbox_a, hitbox_b) or not hitbox_b.should_collide(hitbox_b, hitbox_a):
+            return
+
         col = _Engine.overlap(hitbox_a, hitbox_b)
         if col is None:
             if hitbox_b in hitbox_a.colliding:

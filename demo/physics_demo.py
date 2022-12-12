@@ -51,6 +51,11 @@ right = rb.GameObject(pos=rb.Display.center_right + rb.Vector(60, 0)).add(
 # Add the walls to the scene
 main_scene.add(top, bottom, left, right)
 
+
+def should_collide(a, b):
+    return a.tag == "" or b.tag == "" or a.tag == b.tag
+
+
 # Create and add all our objects
 for _ in range(num_obj // 2):
     main_scene.add(
@@ -59,6 +64,8 @@ for _ in range(num_obj // 2):
                 rb.Circle(
                     radius=rb.Display.res.x // num_obj,
                     color=rb.Color.random_default(),
+                    tag="circle",
+                    should_collide=should_collide,
                 ),
                 rb.RigidBody(
                     mass=0.1,
@@ -81,6 +88,8 @@ for _ in range(num_obj // 2):
                 rb.Polygon(
                     rb.Vector.poly(randint(3, 9), rb.Display.res.x // num_obj),
                     color=rb.Color.random_default(),
+                    tag="not_circle",
+                    should_collide=should_collide,
                 ),
                 rb.RigidBody(
                     mass=0.1,
