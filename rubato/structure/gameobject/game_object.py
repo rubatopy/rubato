@@ -315,7 +315,7 @@ class GameObject:
             z_index=self.z_index,
             ignore_cam=self.ignore_cam,
             parent=self.parent,
-            name=f"{self.name} (clone)",
+            name=f"{self.name}",
             debug=self.debug,
             active=self.active,
             hidden=self.hidden,
