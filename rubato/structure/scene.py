@@ -73,13 +73,10 @@ class Scene:
         """
         success: bool = True
         for go in gos:
-            if go in self._root:
+            try:
                 self._root.remove(go)
-            else:
-                try:
-                    self._root.remove(go)
-                except ValueError:
-                    success = False
+            except ValueError:
+                success = False
         return success
 
     def _setup(self):
