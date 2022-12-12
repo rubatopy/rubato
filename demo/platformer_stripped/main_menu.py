@@ -23,7 +23,7 @@ play_button = rb.GameObject(pos=(0, -75)).add(
 )
 r.fill(color=rb.Color.gray.darker(100))
 
-scene.add_ui(
+scene.add(
     rb.wrap(title, pos=(0, 75)),
     play_button,
 )

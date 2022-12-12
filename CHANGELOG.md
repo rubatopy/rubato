@@ -21,10 +21,15 @@
 ### Breaking Changes
 
 -   `Text` no longer can affect `Font`s directly.
+-   Entirely removed the `Group` class. This means code utilizing groups will need to be significantly refactored.
+-   Refactored `Scene`s as a consequence of the removal of groups. See documentation for more information.
+-   Added `ignore_cam` option to `GameObject`s. This decides whether the gameobject respects the scene's camera when it draws. Replaces the previous UI group behavior.
+-   Reordered some function arguments for many functions and constructors to prioritize more used arguments.
 
 ### Added
 
 -   `Tilemap` and `SimpleTilemap` components
+-   `GameObject` now have children whose positions, rotations and z_index are relative to their parents. Use `gameobject.set_parent()` to set a parent.
 -   `hitbox.should_collide()` which can be overriden to determine whether a hitbox should collide with another.
 
 ### Changed
@@ -34,6 +39,7 @@
 -   `font.add_style` and `font.remove_style` no longer look if the thing you are removing or adding exists.
 -   `Font` styles are integers you | together.
 -   Exe files will not crash on closing in Windows.
+-   `GameObject`s no longer have a default name. Instead it is now "".
 
 ### Removed
 

@@ -16,7 +16,7 @@ help_text() {
         echo "${tab}build, b: Cythonize and build rubato"
         echo "${tab}${tab}--force, -f: Force rubato to rebuild"
         echo "${tab}demo, dem: Run the demos in quick succession"
-        echo "${tab}delete, del:"
+        echo "${tab}clean, c:"
         echo "${tab}${tab}--all, -a: Delete all rubato build files (default)"
         echo "${tab}${tab}--dir, -d: Delete only the build directory"
         echo "${tab}${tab}--bin, -b: Delete only the binary files"
@@ -34,7 +34,7 @@ help_text() {
     fi
 }
 
-delete() {
+clean() {
     case $1 in
         --bin|-b)
             echo "Deleting binary files..."
@@ -58,20 +58,20 @@ delete() {
             exit_with="$(expr $?+$exit_with)"
             ;;
         *|--all|-a)
-            delete --dir --bin --cython
+            clean --dir --bin --cython
             ;;
     esac
     shift
     if [[ $# -gt 0 ]]
     then
-        delete "$@"
+        clean "$@"
     fi
 }
 
 build() {
     case $1 in
         --force|-f)
-            delete
+            clean
             build
             ;;
         *)
@@ -93,7 +93,7 @@ doc() {
             cd ..
             ;;
         --live|-l)
-            ./b del -b
+            ./b clean -b
             ./b doc -c
             cd docs
             sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../
@@ -105,7 +105,7 @@ doc() {
             fi
             ;;
         *|--save|-s)
-            ./b del -b
+            ./b clean -b
             ./b doc -c
             cd docs
             python -m $SPHINXBUILD -T -b $BUILDER "$SOURCEDIR" "$BUILDDIR"
@@ -155,16 +155,16 @@ case $1 in
         cd demo
         ./_run_all.sh
         ;;
-    delete|del)
+    clean|c)
         shift
-        delete "$@"
+        clean "$@"
         ;;
     docs|doc)
         shift
         doc "$@"
         ;;
     lint|l)
-        ./b del -b
+        ./b clean -b
         echo "Linting Code..."
         pylint rubato
         exit_with="$(expr $?+$exit_with)"
@@ -190,7 +190,7 @@ case $1 in
         exit_with="$(expr $?+$exit_with)"
         ;;
     precommit|pre)
-        ./b del
+        ./b clean
         ./b doc
         ./b l
         echo "Building rubato..."
@@ -201,7 +201,7 @@ case $1 in
         cd ..
         ;;
     pypi)
-        delete
+        clean
         rm -rf dist
         python -m build
         exit_with="$(expr $?+$exit_with)"
@@ -219,7 +219,7 @@ case $1 in
         then
             BRANCH="$(git branch --show-current)"
             git checkout "$1"
-            delete
+            clean
             echo "Building wheels..."
             python -m build
             echo "Uploading wheels..."

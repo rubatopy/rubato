@@ -21,13 +21,9 @@ Game
 Scenes and Their Management
 ***************************
 
-:func:`Scenes <rubato.structure.scene.Scene>` holds two Groups. It also manages a
+:func:`Scenes <rubato.structure.scene.Scene>` manages a set of :func:`GameObjects <rubato.structure.gameobject.game_object.GameObject>` and a
 :func:`Camera <rubato.utils.rendering.camera.Camera>`. Scenes are used to compartmentalize code. For example,
 you could have each level of your game on a different scene. Then to switch levels you would switch scenes.
-
-:func:`Groups <rubato.structure.group.Group>` hold a collection of Game Objects and/or other Groups. Their main purpose is to
-further compartmentalize items. For example, items in 2 different groups won't collide with each other. In this tutorial,
-we won't be using Groups as we don't need this functionality here.
 
 Scene
 =====
@@ -36,10 +32,6 @@ Scene
 Camera
 ------
 .. automodule:: rubato.utils.rendering.camera
-
-Group
-=====
-.. automodule:: rubato.structure.group
 
 **************************
 Game Object and Components
