@@ -30,6 +30,7 @@
 
 -   `Tilemap` and `SimpleTilemap` components
 -   `GameObject` now have children whose positions, rotations and z_index are relative to their parents. Use `gameobject.set_parent()` to set a parent.
+-   `hitbox.should_collide()` which can be overriden to determine whether a hitbox should collide with another.
 
 ### Changed
 
