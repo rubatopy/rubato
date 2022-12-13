@@ -18,7 +18,6 @@ class Hitbox(Component):
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to (1, 1).
         should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
             Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
@@ -27,6 +26,7 @@ class Hitbox(Component):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        scale: The scale of the hitbox. Defaults to (1, 1).
         debug: Whether to draw the hitbox. Defaults to False.
         hidden: Whether the hitbox is hidden. Defaults to False.
     """
@@ -36,7 +36,6 @@ class Hitbox(Component):
         color: Color | None = None,
         tag: str = "",
         trigger: bool = False,
-        scale: Vector | tuple[float, float] = (1, 1),
         should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
         on_collide: Callable[[Manifold], None] | None = None,
         on_enter: Callable[[Manifold], None] | None = None,
@@ -44,6 +43,7 @@ class Hitbox(Component):
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
         debug: bool = False,
         hidden: bool = False,
     ):
@@ -164,7 +164,6 @@ class Polygon(Hitbox):
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to (1, 1).
         should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
             Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
@@ -173,6 +172,7 @@ class Polygon(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        scale: The scale of the hitbox. Defaults to (1, 1).
         debug: Whether to draw the hitbox. Defaults to False.
         hidden: Whether the hitbox is hidden. Defaults to False.
     """
@@ -183,7 +183,6 @@ class Polygon(Hitbox):
         color: Color | None = None,
         tag: str = "",
         trigger: bool = False,
-        scale: Vector | tuple[float, float] = (1, 1),
         should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
         on_collide: Callable[[Manifold], None] | None = None,
         on_enter: Callable[[Manifold], None] | None = None,
@@ -191,6 +190,7 @@ class Polygon(Hitbox):
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
         debug: bool = False,
         hidden: bool = False,
     ):
@@ -308,7 +308,6 @@ class Rectangle(Hitbox):
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Defaults to (1, 1).
         should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
             Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
@@ -316,6 +315,7 @@ class Rectangle(Hitbox):
         on_exit: A function to call when the hitbox exits another hitbox. Defaults to lambda manifold: None.
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
+        scale: The scale of the hitbox. Defaults to (1, 1).
         debug: Whether to draw the hitbox. Defaults to False.
         z_index: The z-index of the hitbox. Defaults to 0.
         hidden: Whether the hitbox is hidden. Defaults to False.
@@ -328,7 +328,6 @@ class Rectangle(Hitbox):
         color: Color | None = None,
         tag: str = "",
         trigger: bool = False,
-        scale: Vector | tuple[float, float] = (1, 1),
         should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
         on_collide: Callable[[Manifold], None] | None = None,
         on_enter: Callable[[Manifold], None] | None = None,
@@ -336,6 +335,7 @@ class Rectangle(Hitbox):
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
         debug: bool = False,
         hidden: bool = False
     ):
@@ -577,7 +577,6 @@ class Circle(Hitbox):
         color: The color of the hitbox. Set to None to not show the hitbox. Defaults to None.
         tag: A string to tag the hitbox. Defaults to "".
         trigger: Whether the hitbox is a trigger. Defaults to False.
-        scale: The scale of the hitbox. Note that only the largest value will determine the scale. Defaults to (1, 1).
         should_collide: A function to call to determine whether the hitbox should collide with another hitbox.
             Defaults to lambda self, other: True.
         on_collide: A function to call when the hitbox collides with another hitbox. Defaults to lambda manifold: None.
@@ -586,6 +585,7 @@ class Circle(Hitbox):
         offset: The offset of the hitbox from the gameobject. Defaults to (0, 0).
         rot_offset: The rotation offset of the hitbox. Defaults to 0.
         z_index: The z-index of the hitbox. Defaults to 0.
+        scale: The scale of the hitbox. Note that only the largest value will determine the scale. Defaults to (1, 1).
         debug: Whether to draw the hitbox. Defaults to False.
         hidden: Whether the hitbox is hidden. Defaults to False.
     """
@@ -596,7 +596,6 @@ class Circle(Hitbox):
         color: Color | None = None,
         tag: str = "",
         trigger: bool = False,
-        scale: Vector | tuple[float, float] = (1, 1),
         should_collide: Callable[[Hitbox, Hitbox], bool] | None = None,
         on_collide: Callable[[Manifold], None] | None = None,
         on_enter: Callable[[Manifold], None] | None = None,
@@ -604,6 +603,7 @@ class Circle(Hitbox):
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
+        scale: Vector | tuple[float, float] = (1, 1),
         debug: bool = False,
         hidden: bool = False,
     ):

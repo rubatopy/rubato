@@ -4,7 +4,6 @@ This is the animation component module for game objects.
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from os import path as os_path, walk
-from copy import deepcopy
 
 from .. import Component
 from .... import Vector, Time, get_path, Draw, Camera, Surface
@@ -262,7 +261,10 @@ class Animation(Component):
             z_index=self.z_index,
         )
 
-        new._states = deepcopy(self._states)
+        new_states = {}
+        for state, frames in self._states.items():
+            new_states[state] = [frame.clone() for frame in frames]
+        new._states = new_states
         new.default_state = self.default_state
         new.current_state = self.current_state
         new.loop = self.loop

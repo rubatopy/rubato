@@ -29,10 +29,10 @@ class Tilemap(Component):
 
     Args:
         map_path: The path to the map file.
-        scale: The scale of the tilemap.
-        collider_tag: The tag of the colliders.
-        z_index: The z index of the tilemap.
-        hidden: Whether the tilemap is hidden.
+        scale: The scale of the tilemap. Defaults to (1, 1).
+        collider_tag: The tag of the colliders. Defaults to "".
+        z_index: The z index of the tilemap. Defaults to 0.
+        hidden: Whether the tilemap is hidden. Defaults to False.
     """
 
     def __init__(
@@ -47,7 +47,7 @@ class Tilemap(Component):
         if map_path == "":
             return  # This is a hack to allow us to clone the component quickly
 
-        self._scale = Vector.create(scale)
+        self._scale = (*scale,)
         self._collider_tag = collider_tag
         self._polygons = GameObject()
         m = parse.parse_map(Path(get_path(map_path)))
@@ -206,7 +206,7 @@ class Tilemap(Component):
         t = Tilemap("")
         t._out = self._out.clone()
         t.offset = self.offset.clone()
-        t._scale = self._scale.clone()
+        t._scale = (*self._scale,)
         t.z_index = self.z_index
         t._collider_tag = self._collider_tag
         t._polygons = self._polygons.clone()

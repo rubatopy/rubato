@@ -30,12 +30,12 @@ from .misc import world_mouse, wrap
 
 
 def init(
-    name: str = "Untitled Rubato App",
     res: Vector | tuple[float, float] = (500, 500),
     window_size: Vector | tuple[float, float] | None = None,
     window_pos: Vector | tuple[float, float] | None = None,
-    icon: str = "",
     fullscreen: bool = False,
+    name: str = "Untitled Rubato App",
+    icon: str = "",
     maximize: bool = False,
     target_fps: int = 0,
     physics_fps: int = 50,

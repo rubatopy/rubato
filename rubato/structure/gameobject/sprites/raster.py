@@ -11,8 +11,8 @@ class Raster(Component):
     Args:
         width: The width of the Raster. Defaults to 32.
         height: The height of the Raster. Defaults to 32.
-        scale: The scale of the Raster. Defaults to (1, 1).
         af: Whether to use anisotropic filtering. Defaults to False.
+        scale: The scale of the Raster. Defaults to (1, 1).
         offset: The offset of the Raster. Defaults to (0, 0).
         rot_offset: The rotation offset of the Raster. Defaults to 0.
         z_index: The z-index of the Raster. Defaults to 0.
@@ -23,8 +23,8 @@ class Raster(Component):
         self,
         width: int = 32,
         height: int = 32,
-        scale: Vector | tuple[float, float] = (1, 1),
         af: bool = False,
+        scale: Vector | tuple[float, float] = (1, 1),
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
@@ -324,8 +324,8 @@ class Image(Raster):
 
     Args:
         path: The path to the file.
-        scale: The scale of the Raster. Defaults to (1, 1).
         af: Whether to use anisotropic filtering. Defaults to False.
+        scale: The scale of the Raster. Defaults to (1, 1).
         offset: The offset of the Raster. Defaults to (0, 0).
         rot_offset: The rotation offset of the Raster. Defaults to 0.
         z_index: The z-index of the Raster. Defaults to 0.
@@ -335,8 +335,8 @@ class Image(Raster):
     def __init__(
         self,
         path: str,
-        scale: Vector | tuple[float, float] = (1, 1),
         af: bool = False,
+        scale: Vector | tuple[float, float] = (1, 1),
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
         z_index: int = 0,
