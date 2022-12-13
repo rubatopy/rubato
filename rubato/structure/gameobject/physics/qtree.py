@@ -1,6 +1,5 @@
 """
 QuadTree implementation to optimize collision detection as part of the physics engine.
-Do not use this in your own projects as it is tailored only to this use case.
 """
 import Cython
 
@@ -8,6 +7,7 @@ from . import Hitbox, _Engine
 from .... import Vector
 
 
+# _QTree acts like a function, but keep it as a class for future optimization as well as Cython.cclass optimization.
 @Cython.cclass
 class _QTree:
     """The Quadtree itself."""
@@ -58,39 +58,19 @@ class _QTree:
             bb: tuple[Vector, Vector] = self.bbs[i]
             hbg: list[Hitbox] = hbs[i]
 
-            self.collide(hbg, bb)
+            for hb in hbg:
+                for li in self.stack:
+                    for item in li:
+                        _Engine.collide(hb, item)
+
+            self.northeast.collide(hbg, bb)
+            self.northwest.collide(hbg, bb)
+            self.southeast.collide(hbg, bb)
+            self.southwest.collide(hbg, bb)
 
             if not self.northeast.insert(hbg, bb) and not self.northwest.insert(hbg, bb) \
                 and not self.southeast.insert(hbg, bb) and not self.southwest.insert(hbg, bb):
                 self.stack.append(hbg)
-
-    def collide(self, hbs: list[Hitbox], bb: tuple[Vector, Vector]):
-        for hb in hbs:
-            for li in self.stack:
-                for item in li:
-                    _Engine.collide(hb, item)
-
-        self.northeast.collide(hbs, bb)
-        self.northwest.collide(hbs, bb)
-        self.southeast.collide(hbs, bb)
-        self.southwest.collide(hbs, bb)
-
-    def calc_bb(self, hbs: list[Hitbox]) -> tuple[Vector, Vector]:
-        tl: Vector = Vector.infinity()
-        br: Vector = -1 * Vector.infinity()
-        for hb in hbs:
-            aabb: tuple[Vector, Vector] = hb.get_aabb()
-
-            if aabb[0].x < tl.x:
-                tl.x = aabb[0].x
-            if aabb[0].y < tl.y:
-                tl.y = aabb[0].y
-            if aabb[1].x > br.x:
-                br.x = aabb[1].x
-            if aabb[1].y > br.y:
-                br.y = aabb[1].y
-
-        return tl, br
 
 
 @Cython.cclass

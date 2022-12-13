@@ -140,6 +140,9 @@ class _Engine:
         Returns:
             Returns a collision info object if a collision is detected or None if no collision is detected.
         """
+        if not hitbox_a.should_collide(hitbox_a, hitbox_b) or not hitbox_b.should_collide(hitbox_b, hitbox_a):
+            return
+
         col = _Engine.overlap(hitbox_a, hitbox_b)
         if col is None:
             if hitbox_b in hitbox_a.colliding:
@@ -203,8 +206,9 @@ class _Engine:
         circle_rad = circle.true_radius()
         circle_pos = circle.true_pos()
         poly_pos = polygon.true_pos()
+        poly_rot = polygon.gameobj.true_rotation()
 
-        center = (circle_pos - poly_pos).rotate(-polygon.gameobj.rotation)
+        center = (circle_pos - poly_pos).rotate(-poly_rot)
 
         separation = -Math.INF
         face_normal = 0
@@ -220,7 +224,7 @@ class _Engine:
                 face_normal = i
 
         if separation <= 0:
-            norm = _Engine._get_normal(verts, face_normal).rotate(polygon.gameobj.rotation)
+            norm = _Engine._get_normal(verts, face_normal).rotate(poly_rot)
             return Manifold(circle, polygon, circle_rad, norm)
 
         v1, v2 = verts[face_normal], verts[(face_normal + 1) % len(verts)]
@@ -234,19 +238,19 @@ class _Engine:
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
+            return Manifold(circle, polygon, pen, offs.rotate(poly_rot).normalized())
         elif dot_2 <= 0:
             offs = center - v2
             if offs.mag_sq > circle_rad * circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, offs.rotate(polygon.gameobj.rotation).normalized())
+            return Manifold(circle, polygon, pen, offs.rotate(poly_rot).normalized())
         else:
             norm = _Engine._get_normal(verts, face_normal)
             if norm.dot(center - v1) > circle_rad:
                 return
 
-            return Manifold(circle, polygon, pen, norm.rotate(polygon.gameobj.rotation))
+            return Manifold(circle, polygon, pen, norm.rotate(poly_rot))
 
     @staticmethod
     def _polygon_polygon_test(shape_a: Polygon | Rectangle, shape_b: Polygon | Rectangle) -> Optional[Manifold]:
@@ -264,17 +268,21 @@ class _Engine:
 
         if pen_b < pen_a:
             man = Manifold(shape_a, shape_b, abs(pen_a))
+            rot = shape_a.gameobj.true_rotation()
+            pos = shape_a.gameobj.true_pos()
 
-            v1 = a_verts[face_a].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
-            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(shape_a.gameobj.rotation) + shape_a.gameobj.pos
+            v1 = a_verts[face_a].rotate(rot) + pos
+            v2 = a_verts[(face_a + 1) % len(a_verts)].rotate(rot) + pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * Math.sign(pen_a)
         else:
             man = Manifold(shape_a, shape_b, abs(pen_b))
+            rot = shape_b.gameobj.true_rotation()
+            pos = shape_b.gameobj.true_pos()
 
-            v1 = b_verts[face_b].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
-            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(shape_b.gameobj.rotation) + shape_b.gameobj.pos
+            v1 = b_verts[face_b].rotate(rot) + pos
+            v2 = b_verts[(face_b + 1) % len(b_verts)].rotate(rot) + pos
 
             side_plane_normal = (v2 - v1).normalized()
             man.normal = side_plane_normal.perpendicular() * -Math.sign(pen_b)
@@ -288,11 +296,13 @@ class _Engine:
         """Finds the axis of least penetration between two possibly colliding polygons."""
         best_dist = -Math.INF
         best_ind = 0
+        a_rot = a.gameobj.true_rotation()
+        b_rot = b.gameobj.true_rotation()
 
         for i in range(len(a_verts)):
-            n = _Engine._get_normal(a_verts, i).rotate(a.gameobj.rotation).rotate(-b.gameobj.rotation)
+            n = _Engine._get_normal(a_verts, i).rotate(a_rot).rotate(-b_rot)
             s = _Engine._get_support(b_verts, -n)
-            v = (a_verts[i].rotate(a.gameobj.rotation) + a.gameobj.pos - b.gameobj.pos).rotate(-b.gameobj.rotation)
+            v = (a_verts[i].rotate(a_rot) + a.gameobj.true_pos() - b.gameobj.true_pos()).rotate(-b_rot)
             d = n.dot(s - v)
 
             if d > best_dist:

@@ -107,8 +107,8 @@ def make_asteroid():
                 ),
                 BoundsChecker(),
             ],
-            pos,
-            random.randint(0, 360),
+            pos=pos,
+            rotation=random.randint(0, 360),
             name="asteroid",
         )
     )
@@ -154,8 +154,8 @@ class PlayerController(Component):
                         BoundsChecker(),
                         Timer(0.75),
                     ],
-                    self.gameobj.pos,
-                    self.gameobj.rotation,
+                    pos=self.gameobj.pos,
+                    rotation=self.gameobj.rotation,
                     name="bullet",
                 )
             )
@@ -207,8 +207,10 @@ main.add(
             Polygon(left, trigger=True),
             player_spr,
         ],
-        Display.center,
+        pos=Display.center,
         name="player",
+        name="player",
+        pos=Display.center,
     )
 )
 

@@ -100,8 +100,12 @@ right = rb.GameObject().add(rb.Rectangle(width=50, height=rb.Display.res.y))
 
 ##### LEVEL WIN TEXT #####
 win_font = rb.Font(font=font_name, size=96, color=win_color)
-win_text = rb.GameObject(z_index=10000).add(rb.Text("Level Complete!", win_font, anchor=(0, 0.5)))
-win_sub_text = rb.GameObject(pos=(0, -100), z_index=10000).add(rb.Text("Click anywhere to move on", white_32))
+win_text = rb.GameObject(z_index=10000, ignore_cam=True).add(rb.Text("Level Complete!", win_font, anchor=(0, 0.5)))
+win_sub_text = rb.GameObject(
+    pos=(0, -100),
+    z_index=10000,
+    ignore_cam=True,
+).add(rb.Text("Click anywhere to move on", white_32))
 
 
 ##### CLOUD #####

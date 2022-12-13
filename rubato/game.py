@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import sdl2, sdl2.sdlttf
 import sys
 
-from . import Time, Display, Radio, Events, Font, PrintError, IdError, Draw, InitError
+from . import Time, Display, Radio, Events, Font, PrintError, IdError, Draw, InitError, Camera
 
 if TYPE_CHECKING:
     from . import Scene
@@ -42,6 +42,8 @@ class Game:
     _scenes: dict[str, Scene] = {}
     _scene_id: int = 0
     _current: str = ""
+
+    _zero_cam: Camera = Camera()
 
     def __init__(self) -> None:
         raise InitError(self)
@@ -162,8 +164,6 @@ class Game:
                     Time._physics_counter -= Time.fixed_delta
 
             curr._draw()
-
-            curr._dump()
         else:
             Draw.clear()
 

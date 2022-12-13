@@ -3,7 +3,8 @@ An abstraction for a "level", or scene, in rubato.
 """
 from __future__ import annotations
 
-from . import Group, GameObject
+from . import GameObject, Hitbox
+from .gameobject.physics.qtree import _QTree
 from .. import Game, Color, Draw, Camera
 
 
@@ -25,16 +26,10 @@ class Scene:
         background_color: Color = Color.white,
         border_color: Color = Color.black,
     ):
-        self.root: Group = Group(name="root")
-        """The base group of game objects in the scene."""
-        self.ui: Group = Group(name="ui")
-        """
-        The ui elements of this scene. These are drawn on top of everything else and do not interact with the other
-        game objects.
-        """
+        self._root: list[GameObject] = []
+        """The list of gameobjects in this scene."""
         self.camera = Camera()
         """The camera of this scene."""
-        self._ui_cam = Camera()
         self.started = False
         self.border_color = border_color
         """The color of the border of the window."""
@@ -56,53 +51,33 @@ class Scene:
         """
         Game.set_scene(self.name)
 
-    def add(self, *items: GameObject | Group):
+    def add(self, *gos: GameObject):
         """
-        Adds an item to the root group.
+        Adds gameobject(s) to the scene.
 
         Args:
-            *items: The items to add to the scene.
+            *gos: The gameobjects to add to the scene.
         """
-        self.root.add(*items)
+        self._root.extend(gos)
 
-    def add_ui(self, *items: GameObject):
+    def remove(self, *gos: GameObject) -> bool:
         """
-        Adds Game Objects as UI to the scene. When a game object is added as a UI, they draw as they normally would, but
-        they don't collide with other game objects, they draw on top of everything else, and they are unaffected by the
-        camera.
-
-        Args:
-            *items: The items to add to the scene.
-        """
-        self.ui.add(*items)
-
-    def remove(self, *items: GameObject | Group) -> bool:
-        """
-        Removes an item from the root group.
+        Removes gameobject(s) from the scene. This will return false if any of the gameobjects are not in the scene,
+        but it will guarantee that all the gameobjects are removed.
 
         Args:
-            items: The items to remove.
+            *gos: The gameobjects to remove.
 
         Returns:
-            Whether it was removed successfully.
+            True if all gameobjects were present in the scene, False otherwise.
         """
-        return self.root.remove(*items)
-
-    def remove_ui(self, *items: GameObject) -> bool:
-        """
-        Removes an item from the ui group.
-
-        Args:
-            items: The items to remove.
-
-        Returns:
-            Whether it was removed successfully.
-        """
-        return self.ui.remove(*items)
-
-    def _dump(self):
-        self.root._dump()
-        self.ui._dump()
+        success: bool = True
+        for go in gos:
+            try:
+                self._root.remove(go)
+            except ValueError:
+                success = False
+        return success
 
     def _setup(self):
         self.started = True
@@ -113,8 +88,9 @@ class Scene:
             self._setup()
 
         self.update()
-        self.root._update()
-        self.ui._update()
+
+        for go in self._root:
+            go._update()
 
     def _paused_update(self):
         if not self.started:
@@ -124,14 +100,23 @@ class Scene:
 
     def _fixed_update(self):
         self.fixed_update()
-        self.root._fixed_update()
-        self.ui._fixed_update()
+
+        all_hts = []
+        for go in self._root:
+            go._fixed_update()
+            hts = go._deep_get_all(Hitbox)
+            if hts:
+                all_hts.append(hts)
+
+        _QTree(all_hts)
 
     def _draw(self):
         Draw.clear(self.background_color, self.border_color)
         self.draw()
-        self.root._draw(self.camera)
-        self.ui._draw(self._ui_cam)
+
+        for go in self._root:
+            if go.z_index <= self.camera.z_index:
+                go._draw(self.camera)
 
     def setup(self):
         """
@@ -182,12 +167,20 @@ class Scene:
         Clones this scene.
 
         Warning:
-            This is a relatively expensive operation as it clones every group in the scene.
+            This is a relatively expensive operation as it clones every gameobject in the scene.
         """
         new_scene = Scene(
             name=f"{self.name} (clone)", background_color=self.background_color, border_color=self.border_color
         )
-        new_scene.root = self.root.clone()
-        new_scene.ui = self.ui.clone()
+        new_scene._root = [go.clone() for go in self._root]
 
         return new_scene
+
+    def contains(self, go: GameObject) -> bool:
+        """
+        Checks if the scene contains a gameobject.
+
+        Args:
+            go: The gameobject to check for.
+        """
+        return go in self._root

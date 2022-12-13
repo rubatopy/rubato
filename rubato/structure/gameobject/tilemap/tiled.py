@@ -1,6 +1,6 @@
 """A Tiled tilemap."""
 from __future__ import annotations
-from .. import Component, Spritesheet, Rectangle, Polygon
+from .. import Component, Spritesheet, Rectangle, Polygon, GameObject
 from .... import Vector, get_path, Surface, Color, Draw, Display
 import pytiled_parser as parse
 import pytiled_parser.tiled_object as parse_obj
@@ -49,7 +49,7 @@ class Tilemap(Component):
 
         self._scale = Vector.create(scale)
         self._collider_tag = collider_tag
-        self._polygons: list[Polygon] = []
+        self._rects = GameObject()
         m = parse.parse_map(Path(get_path(map_path)))
 
         self._tileset = m.tilesets[1]
@@ -169,7 +169,7 @@ class Tilemap(Component):
                 p = Display._top_left_to_center(p, (obj.size.width, obj.size.height))
                 p = self._out._convert_to_cartesian_space(p)
                 p = (p[0] * self._scale[0], p[1] * self._scale[1])
-                self._polygons.append(
+                self._rects.add(
                     Rectangle(
                         round(obj.size.width * self._scale[0]),
                         round(obj.size.height * self._scale[1]),
@@ -186,6 +186,7 @@ class Tilemap(Component):
                 p = self._out._convert_to_cartesian_space(p)
                 p = (p[0] * self._scale[0], p[1] * self._scale[1])
                 self._polygons.append(
+                self._rects.add(
                     Polygon(
                         [(
                             x * self._scale[0],
@@ -197,7 +198,7 @@ class Tilemap(Component):
                 )
 
     def setup(self):
-        self.gameobj.add(*self._polygons)
+        self._rects.parent = self.gameobj
 
     def draw(self, camera):
         Draw.queue_surface(self._out, self.true_pos(), self.true_z(), camera)

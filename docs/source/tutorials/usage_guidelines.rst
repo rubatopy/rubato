@@ -7,7 +7,7 @@ On this page you can find generic design guidelines and examples for building ce
 
 The rubato structure is purposefully similar to Unity. In general:
  * Sections of a game are split into Scenes.
- * Each Scene is comprised of Group(s) of Game Objects.
+ * Each Scene is comprised of Game Objects.
  * Game Objects' behavior should be defined solely by the Components they house.
 
 About components:
