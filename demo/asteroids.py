@@ -209,8 +209,6 @@ main.add(
         ],
         pos=Display.center,
         name="player",
-        name="player",
-        pos=Display.center,
     )
 )
 
