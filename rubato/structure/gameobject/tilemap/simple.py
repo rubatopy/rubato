@@ -5,6 +5,7 @@ numbers to keep track of tile types.
 from __future__ import annotations
 from .. import Component, Rectangle
 from .... import Vector, Surface, Draw
+from copy import deepcopy
 
 
 class SimpleTilemap(Component):
@@ -15,15 +16,15 @@ class SimpleTilemap(Component):
         tilemap: A 2D array of integers representing the tilemap.
         tiles: A list of surfaces representing the tiles. The index of the surface in the list is the number used in the
             tilemap array.
-        tile_size: The size of each tile in the tilemap.
-        collision: A list of integers representing the tiles that should have collision.
+        tile_size: The size of each tile in the tilemap. Defaults to (32, 32).
+        collision: A list of integers representing the tiles that should have collision. Defaults to [].
         collider_tag: A list of strings representing the tags of the colliders. The index of the tag in the list is the
-            number used in the tilemap array.
-        scale: The scale of the tilemap.
-        offset: The offset of the tilemap.
-        rot_offset: The rotation offset of the tilemap.
-        z_index: The z-index of the tilemap.
-        hidden: Whether the tilemap is hidden.
+            number used in the tilemap array. Defaults to [].
+        scale: The scale of the tilemap. Defaults to (1, 1).
+        offset: The offset of the tilemap. Defaults to (0, 0).
+        rot_offset: The rotation offset of the tilemap. Defaults to 0.
+        z_index: The z-index of the tilemap. Defaults to 0.
+        hidden: Whether the tilemap is hidden. Defaults to False.
     """
 
     def __init__(
@@ -31,8 +32,8 @@ class SimpleTilemap(Component):
         tilemap: list[list[int]],
         tiles: list[Surface],
         tile_size: Vector | tuple[int, int] = (32, 32),
-        collision: list[int] = [],
-        collider_tag: list[str] = [],
+        collision: list[int] | None = None,
+        collider_tag: list[str] | None = None,
         scale: Vector | tuple[float, float] = (1, 1),
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
@@ -44,8 +45,8 @@ class SimpleTilemap(Component):
         self._map = tilemap
         self._tiles = tiles
         self._tile_size = Vector.create(tile_size)
-        self._collision = collision
-        self._collider_tag = collider_tag
+        self._collision = [] if collision is None else collision
+        self._collider_tag = [] if collider_tag is None else collider_tag
         self.scale = Vector.create(scale)
         """The scale of the tilemap."""
         self._result = Surface(1, 1, scale)
@@ -83,11 +84,11 @@ class SimpleTilemap(Component):
 
     def clone(self) -> SimpleTilemap:
         s = SimpleTilemap(
-            self._map,
-            self._tiles,
+            deepcopy(self._map),
+            [surf.clone() for surf in self._tiles],
             self._tile_size.clone(),
-            self._collision,
-            self._collider_tag,
+            deepcopy(self._collision),
+            deepcopy(self._collider_tag),
             self.scale.clone(),
             self.offset.clone(),
             self.rot_offset,

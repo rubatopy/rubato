@@ -8,7 +8,7 @@ gridx, gridy = 4, 4
 main_c = Color.red
 second_c = Color.green
 bg_c = Color.blue
-init("Surface Demo", V(width * gridx, height * gridy), V(640, 640))
+init(V(width * gridx, height * gridy), V(640, 640), name="Surface Demo")
 
 shapes = [Surface(width, height) for _ in range(gridx * gridy)]
 

@@ -29,10 +29,10 @@ class Tilemap(Component):
 
     Args:
         map_path: The path to the map file.
-        scale: The scale of the tilemap.
-        collider_tag: The tag of the colliders.
-        z_index: The z index of the tilemap.
-        hidden: Whether the tilemap is hidden.
+        scale: The scale of the tilemap. Defaults to (1, 1).
+        collider_tag: The tag of the colliders. Defaults to "".
+        z_index: The z index of the tilemap. Defaults to 0.
+        hidden: Whether the tilemap is hidden. Defaults to False.
     """
 
     def __init__(
@@ -47,9 +47,9 @@ class Tilemap(Component):
         if map_path == "":
             return  # This is a hack to allow us to clone the component quickly
 
-        self._scale = scale
+        self._scale = (*scale,)
         self._collider_tag = collider_tag
-        self._rects = GameObject()
+        self._polygons = GameObject()
         m = parse.parse_map(Path(get_path(map_path)))
 
         self._tileset = m.tilesets[1]
@@ -169,7 +169,7 @@ class Tilemap(Component):
                 p = Display._top_left_to_center(p, (obj.size.width, obj.size.height))
                 p = self._out._convert_to_cartesian_space(p)
                 p = (p[0] * self._scale[0], p[1] * self._scale[1])
-                self._rects.add(
+                self._polygons.add(
                     Rectangle(
                         round(obj.size.width * self._scale[0]),
                         round(obj.size.height * self._scale[1]),
@@ -185,7 +185,7 @@ class Tilemap(Component):
                 p = Display._top_left_to_center(p, (obj.size.width, obj.size.height))
                 p = self._out._convert_to_cartesian_space(p)
                 p = (p[0] * self._scale[0], p[1] * self._scale[1])
-                self._rects.add(
+                self._polygons.add(
                     Polygon(
                         [(
                             x * self._scale[0],
@@ -197,7 +197,7 @@ class Tilemap(Component):
                 )
 
     def setup(self):
-        self._rects.parent = self.gameobj
+        self._polygons.parent = self.gameobj
 
     def draw(self, camera):
         Draw.queue_surface(self._out, self.true_pos(), self.true_z(), camera)
@@ -206,10 +206,10 @@ class Tilemap(Component):
         t = Tilemap("")
         t._out = self._out.clone()
         t.offset = self.offset.clone()
-        t._scale = self._scale
+        t._scale = (*self._scale,)
         t.z_index = self.z_index
         t._collider_tag = self._collider_tag
-        t._rects = self._rects
+        t._polygons = self._polygons.clone()
         t.rot_offset = self.rot_offset
         t.hidden = self.hidden
         return t

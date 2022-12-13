@@ -11,10 +11,10 @@ class Raster(Component):
     Args:
         width: The width of the Raster. Defaults to 32.
         height: The height of the Raster. Defaults to 32.
+        af: Whether to use anisotropic filtering. Defaults to False.
         scale: The scale of the Raster. Defaults to (1, 1).
         offset: The offset of the Raster. Defaults to (0, 0).
         rot_offset: The rotation offset of the Raster. Defaults to 0.
-        af: Whether to use anisotropic filtering. Defaults to False.
         z_index: The z-index of the Raster. Defaults to 0.
         hidden: Whether to hide the Raster. Defaults to False.
     """
@@ -23,10 +23,10 @@ class Raster(Component):
         self,
         width: int = 32,
         height: int = 32,
+        af: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        af: bool = False,
         z_index: int = 0,
         hidden: bool = False,
     ):
@@ -306,13 +306,13 @@ class Raster(Component):
             The cloned raster.
         """
         r = Raster(
-            self.surf.width,
-            self.surf.height,
-            self.scale,
-            self.offset.clone(),
-            self.rot_offset,
-            self.af,
-            self.z_index,
+            width=self.surf.width,
+            height=self.surf.height,
+            scale=self.scale,
+            af=self.af,
+            offset=self.offset.clone(),
+            rot_offset=self.rot_offset,
+            z_index=self.z_index,
         )
         r.surf = self.surf.clone()
         return r
@@ -324,10 +324,10 @@ class Image(Raster):
 
     Args:
         path: The path to the file.
+        af: Whether to use anisotropic filtering. Defaults to False.
         scale: The scale of the Raster. Defaults to (1, 1).
         offset: The offset of the Raster. Defaults to (0, 0).
         rot_offset: The rotation offset of the Raster. Defaults to 0.
-        af: Whether to use anisotropic filtering. Defaults to False.
         z_index: The z-index of the Raster. Defaults to 0.
         hidden: Whether to hide the Raster. Defaults to False.
     """
@@ -335,10 +335,10 @@ class Image(Raster):
     def __init__(
         self,
         path: str,
+        af: bool = False,
         scale: Vector | tuple[float, float] = (1, 1),
         offset: Vector | tuple[float, float] = (0, 0),
         rot_offset: float = 0,
-        af: bool = False,
         z_index: int = 0,
         hidden: bool = False,
     ):
@@ -349,6 +349,13 @@ class Image(Raster):
             self.surf = Surface.from_file(path, scale, rot_offset, af)
 
     def clone(self) -> Image:
-        img = Image("", self.scale, self.offset.clone(), self.rot_offset, self.af, self.z_index)
+        img = Image(
+            path="",
+            scale=self.scale,
+            offset=self.offset.clone(),
+            rot_offset=self.rot_offset,
+            af=self.af,
+            z_index=self.z_index
+        )
         img.surf = self.surf.clone()
         return img

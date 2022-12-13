@@ -51,7 +51,7 @@ def wrap(
         The wrapped GameObject.
     """
     go = GameObject(
-        pos=Vector.create(pos),
+        pos=pos,
         rotation=rotation,
         z_index=z_index,
         ignore_cam=ignore_cam,

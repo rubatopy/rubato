@@ -261,7 +261,10 @@ class Animation(Component):
             z_index=self.z_index,
         )
 
-        new._states = self._states
+        new_states = {}
+        for state, frames in self._states.items():
+            new_states[state] = [frame.clone() for frame in frames]
+        new._states = new_states
         new.default_state = self.default_state
         new.current_state = self.current_state
         new.loop = self.loop

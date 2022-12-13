@@ -9,9 +9,9 @@ roll, pitch, yaw = 0, 0, 0  # x, z, and y counter-clockwise rotation, respective
 surf_dim = 50  # diameter of the surface holding the shape
 
 rb.init(
-    "Donut Demo",
-    res=(surf_dim, surf_dim),
-    window_size=(500, 500),
+    (surf_dim, surf_dim),
+    (500, 500),
+    name="Donut Demo",
     target_fps=60,
 )
 surf = rb.Surface(surf_dim, surf_dim)
