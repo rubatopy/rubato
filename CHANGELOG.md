@@ -16,7 +16,7 @@
 
 # Changelog
 
-## [Unreleased] - December 4, 2022 (Expected)
+## [Unreleased] - December 31, 2022 (Expected)
 
 ### Breaking Changes
 
