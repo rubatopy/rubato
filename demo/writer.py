@@ -38,7 +38,6 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     with open(filename, "r") as f:
         lines = f.readlines()
-        print("READ FILE")
 
     # move into writing position
     pyautogui.moveTo(x=777, y=270)
