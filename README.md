@@ -4,9 +4,8 @@
 [![PyPI](https://img.shields.io/pypi/v/rubato?style=flat-square)](https://pypi.org/project/rubato/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/rubato?style=flat-square)](https://pypi.org/project/rubato/)
 [![GitHub Release Date](https://img.shields.io/github/release-date/rubatopy/rubato?style=flat-square)](https://github.com/rubatopy/rubato/releases)
-[![GitHub Build Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Build?style=flat-square)](https://github.com/rubatopy/rubato/actions/workflows/build.yml)
-[![GitHub Docs Status](https://img.shields.io/github/workflow/status/rubatopy/rubato/Docs?label=docs&style=flat-square)](https://rubatopy.github.io/)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square)](https://github.com/pre-commit/pre-commit)
+[![GitHub Build Status](https://img.shields.io/github/actions/workflow/status/rubatopy/rubato/tests.yml?branch=main&style=flat-square)](https://github.com/rubatopy/rubato/actions/workflows/tests.yml)
+[![GitHub Docs Status](https://img.shields.io/github/actions/workflow/status/rubatopy/rubato/nightly.yml?branch=main&label=docs&style=flat-square)](https://rubatopy.github.io/)
 
 [<img src="https://logodownload.org/wp-content/uploads/2017/11/discord-logo-4-1.png" alt="Discord Server" width="25" />](https://discord.gg/rdce5GXRrC)
 &nbsp;
