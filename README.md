@@ -32,7 +32,7 @@ Here are some features we're especially proud of:
 -   User Interface Elements
 -   And more!
 
-1.0 the latest API-stable release as of Dec. 31 2022, and we plan to maintain backwards compatibility in future releases. Please note that the alpha versions (0.x.x) are now deprecated and it is strongly recommended to update in order to get the latest features and optimizations.
+1.0 is the latest API-stable release as of Dec. 31 2022, and we plan to maintain backwards compatibility in future releases. Please note that the alpha versions (0.x.x) are now deprecated and it is strongly recommended to update in order to get the latest features and optimizations.
 
 _Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
 <br>
