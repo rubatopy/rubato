@@ -14,10 +14,11 @@
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/2048px-LinkedIn_icon_circle.svg.png" alt="Linkedin Page" width="25"/>](https://www.linkedin.com/company/rubatopy/)
 &nbsp;
 
-### Get started [here](https://rubato.app/).
+## Get started [here](https://rubato.app/).
 
-rubato is a modern 2D engine for game developement in python built in Cython using SDL2. With hardware acceleration, rigidbody support, easy tile map and animations and more, rubato finally gives you the fast development and performance you needed of your python games and prototypes. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
+### rubato is a modern 2D engine for game developement in python built in Cython using SDL2. With hardware acceleration, rigidbody support, easy tile map and animations and more, rubato finally gives you the fast development and performance you needed of your python games and prototypes. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
 
+<br>
 Check out how easy it is to start a project in rubato with 3 simple lines of code:
 
 ```python
@@ -26,7 +27,7 @@ import rubato as rb
 # initialize rubato
 rb.init()
 
-# begin
+# launch the window
 rb.begin()
 ```
 
