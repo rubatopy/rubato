@@ -1,7 +1,7 @@
 <div class="sidebar-tree">
     <p class="caption" role="heading"><span class="caption-text">Versions</span></p>
     <ul id="versions"></ul>
-    <script>
+    <script async>
         // Add any branches to appear in the side pane here, tags will be added below
         let versions = ["nightly"];
         let dirs = new Set();
@@ -140,7 +140,7 @@
 
             try {
                 reader.send();
-            } catch (e) {}
+            } catch (e) { }
         }
 
         function setName(vTag, a) {
