@@ -18,8 +18,6 @@
 
 rubato is a modern 2D engine for game developement in python built in Cython using SDL2. With hardware acceleration, rigidbody support, easy tile map and animations and more, rubato finally gives you the fast development and performance you needed of your python games and prototypes. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
 
-As of release 1.0.0, we have a final ordering and functionality of all our main functoins. We no longer rely on sdlgfx using our own optimized rendering. Rubato also fully supports Tiled map files that can be directly placed into your game. Also check out the new Particles system for special effects.
-
 Check out how easy it is to start a project in rubato with 3 simple lines of code:
 
 ```python
@@ -33,6 +31,8 @@ rb.begin()
 ```
 
 Check out the rubato website for [Installation instructions](https://docs.rubato.app/latest/intro/) and a [Basic tutorial](https://docs.rubato.app/latest/tutorials/platformer/) to get you started.
+
+As of release 1.0.0, we have a final ordering and functionality of all our main functions. We no longer rely on sdlgfx using our own optimized rendering. Rubato also fully supports Tiled map files that can be directly placed into your game. Also check out the new Particles system for special effects.
 
 If you really want to use the underlying parts of the rubato project read more about PySDL2 [here](https://pysdl2.readthedocs.io/en/latest/), or the C++ SDL library it is wrapping [here](https://wiki.libsdl.org).
 
