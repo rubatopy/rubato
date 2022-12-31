@@ -20,7 +20,7 @@ rubato is a modern 2D engine for game developement in python built in Cython usi
 
 Here are some features we're especially proud of:
 
--   Customizable Rigidbody Physics
+-   Powerful Rigidbody Physics
 -   Event Subscription/Listener System
 -   Spritesheets and Animations
 -   Particle Systems
