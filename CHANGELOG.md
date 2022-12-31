@@ -1,6 +1,7 @@
 <!-- DON'T TOUCH THESE -->
 
 [unreleased]: https://github.com/rubatopy/rubato/
+[v1.0.0]: https://github.com/rubatopy/rubato/tree/v1.0.0
 [v0.4.0]: https://github.com/rubatopy/rubato/tree/v0.4.0
 [v0.3.5]: https://github.com/rubatopy/rubato/tree/v0.3.5
 [v0.3.4]: https://github.com/rubatopy/rubato/tree/v0.3.4
@@ -16,20 +17,22 @@
 
 # Changelog
 
-## [Unreleased] - December 31, 2022 (Expected)
+## [v1.0.0] - December 31, 2022 (Expected)
 
 ### Breaking Changes
 
 -   `Text` no longer can affect `Font`s directly.
 -   Entirely removed the `Group` class. This means code utilizing groups will need to be significantly refactored.
 -   Refactored `Scene`s as a consequence of the removal of groups. See documentation for more information.
--   Added `ignore_cam` option to `GameObject`s. This decides whether the gameobject respects the scene's camera when it draws. Replaces the previous UI group behavior.
+-   Added `ignore_cam` option to `GameObject`s. This decides whether the gameobject respects the scene's camera when it
+    draws. Replaces the previous UI group behavior.
 -   Reordered some function arguments for many functions and constructors to prioritize more used arguments.
 
 ### Added
 
 -   `Tilemap` and `SimpleTilemap` components
--   `GameObject` now have children whose positions, rotations and z_index are relative to their parents. Use `gameobject.set_parent()` to set a parent.
+-   `GameObject` now have children whose positions, rotations and z_index are relative to their parents. Use
+    `gameobject.set_parent()` to set a parent.
 -   `hitbox.should_collide()` which can be overriden to determine whether a hitbox should collide with another.
 
 ### Changed
@@ -111,15 +114,18 @@
 
 ### Changed
 
--   `RecurrentTask` task callback can now be made to take in a task argument. This allows you to stop the task when you want.
+-   `RecurrentTask` task callback can now be made to take in a task argument. This allows you to stop the task when you
+    want.
 -   `delay` argument in Frame, Delayed, and Recurrent tasks now only controls the delay.
--   Frame, Delayed, and Recurrent tasks no longer modify `delay`, and instead determine the next time to run the task using `next_run`.
+-   Frame, Delayed, and Recurrent tasks no longer modify `delay`, and instead determine the next time to run the task
+    using `next_run`.
 -   All event listener callbacks now can take in an `EventResponse`.
 -   Made `Events` an enum for nicer documentation. Doesn't impact usage.
 -   Internal file structure. Shouldn't impact most users.
 -   Optimized and fixed some internal rendering algorithms.
 -   Colors are now internally represented as argb32 integers instead of rgba32 integers.
--   `hitbox.get_aabb()` methods now return the aabb in the form of bottom-left, top-right coordinates instead of top-left, bottom-right.
+-   `hitbox.get_aabb()` methods now return the aabb in the form of bottom-left, top-right coordinates instead of
+    top-left, bottom-right.
 
 ### Removed
 
@@ -136,9 +142,11 @@
 
 ### Breaking Changes
 
--   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and consistency.
+-   Changed the type of some scale parameters from a scalar value to a Vector/tuple for more customization and
+    consistency.
 -   `shadow_pad` parameter in `Draw.text()` is now a vector to allow for different padding in the x and y directions.
--   Renamed `surface.merge()` and `raster.merge()` to `surface.blit()` and `raster.blit()`, respectively, to be more consistent with Unity's API.
+-   Renamed `surface.merge()` and `raster.merge()` to `surface.blit()` and `raster.blit()`, respectively, to be more
+    consistent with Unity's API.
 
 ### Added
 
@@ -166,8 +174,8 @@
 ### Breaking Changes
 
 -   Renamed `Draw.surf()` and `Draw.queue_surf()` to `Draw.surface()` and `Draw.queue_surface()`.
--   Removed all `delete()` functions because they did nothing that was useful for memory management,
-    which was their purpose.
+-   Removed all `delete()` functions because they did nothing that was useful for memory management, which was their
+    purpose.
 -   Removed `Sprite`, because `Surface` does the same thing.
 -   `Display.update()` and `Draw.text()` now use center position like the rest of rubato.
 -   Removed `PressStart2P` font and replaced it with `Mozart`.
@@ -206,15 +214,16 @@
 
 ### Breaking Changes
 
--   `Polygon`s MUST take in a list of vectors in clockwise order instead of counter-clockwise as was before. Generator methods
-    automatically reflect this change but if you are passing in your own lists, make sure to reflect this change.
+-   `Polygon`s MUST take in a list of vectors in clockwise order instead of counter-clockwise as was before. Generator
+    methods automatically reflect this change but if you are passing in your own lists, make sure to reflect this
+    change.
 -   `component.true_z()` is now a function instead of a property method. This is to match with our new property method
     convention.
 
 ### Added
 
--   `gameobject.remove_ind()` method to remove an individual component from a game object with a given index.
-    Use this to remove components from a game object which holds multiple instances of the same type of component.
+-   `gameobject.remove_ind()` method to remove an individual component from a game object with a given index. Use this
+    to remove components from a game object which holds multiple instances of the same type of component.
 -   `component.true_pos()` and `component.true_rotation()` methods to get the position and rotation of a component in
     world space. These functions correctly apply the gameobjects position and rotation to the component while respecting
     offsets.
@@ -231,8 +240,8 @@
 
 ### Changed
 
--   Modified the internal workings of `gameobject`s components data structure to more flexibly handle inputs.
-    (Can now handle getting components by a parent type (such as Hitbox or Component or even object)).
+-   Modified the internal workings of `gameobject`s components data structure to more flexibly handle inputs. (Can now
+    handle getting components by a parent type (such as Hitbox or Component or even object)).
 -   Renamed `vector.distance_between()` to `vector.dist_to()`.
 -   Renamed `polygon.translated_verts()` to `polygon.offset_verts()`.
 -   Renamed `polygon.real_verts()` to `polygon.true_verts()` to maintain naming consistency.
@@ -251,8 +260,8 @@
 
 ### Fixed
 
--   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects.
-    You can still replicate this functionality by passing `Hitbox` into the component getter.
+-   Getting `Rectangle`, `Polygon`, or `Circle` components from a gameobject returning all `Hitbox` type objects. You
+    can still replicate this functionality by passing `Hitbox` into the component getter.
 -   Offsets (including rotational) not working properly. Physics has also been refactored to handle scaling properly.
 -   `Rectangle` side getters and setters, which were not utilizing offsets properly. They now work with the AABB of the
     rectangle.
@@ -272,16 +281,17 @@
 
 ### Breaking Changes
 
--   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected cases.
-    Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are implicitly cast to floats
-    when used in Vector.
+-   As `Vector` is now a C class, it only holds floats and is therefore subject to floating point errors in unexpected
+    cases. Be careful in accuracy-dependent calculations to handle deviation properly. Note that Python ints are
+    implicitly cast to floats when used in Vector.
 -   `Color.rgba32` is no longer a property is a method instead.
 -   `Vector.one` and other similar class properties changed to classmethods, i.e. `Vector.one()`
 
 ### Added
 
 -   `Group.all_gameobjects()` to get, recursively, all the game objects belonging to a group and its children.
--   Multiple `Event` types for controller events. Controllers are registered automatically by Rubato for event listening.
+-   Multiple `Event` types for controller events. Controllers are registered automatically by Rubato for event
+    listening.
 -   Assorted `Input` methods for querying the state of a controller.
 -   `Raster` renamed to `Surface`.
 -   `Raster` is now a component that holds a surface. It is analogous to `Image` for `Sprite`s.
@@ -293,7 +303,8 @@
 -   Made `QTree` a C class. This is an internally used class and should not affect normal library usage.
 -   Default drawing/debug colors from green to cyan.
 -   Made rendering of images faster
--   `Polygon.generate_polygon` to `Vector.poly`. `generate_polygon` is deprecated and will be removed in a future update.
+-   `Polygon.generate_polygon` to `Vector.poly`. `generate_polygon` is deprecated and will be removed in a future
+    update.
 
 ### Removed
 
@@ -334,11 +345,12 @@
 -   `Sprite` class to draw images that are not linked to Game Objects
 -   `wrap()` function can create and populate a GameObject with component(s) automatically.
 -   `world_mouse()` function to easily get the mouse position translated into world-coordinates
--   Support for operations with Vectors using tuples and lists, meaning less objects need to be created.
-    (note that no length checking occurs, so make sure your tuples and lists are of length 2).
+-   Support for operations with Vectors using tuples and lists, meaning less objects need to be created. (note that no
+    length checking occurs, so make sure your tuples and lists are of length 2).
 -   `raise_operator_error()` function to raise an error about an operator in a Pythonic style.
 -   `Scene.switch()` instance method that allows users to switch to a scene without calling `Game.set_scene(scene_id)`
--   `Game.draw` and `Game.update` functions, both of which are overrideable, to give user-defineable functionality not reliant on scenes.
+-   `Game.draw` and `Game.update` functions, both of which are overrideable, to give user-defineable functionality not
+    reliant on scenes.
 -   `Group.contains()` method for checking whether a group or gameobject has already been added to it.
 -   `Hitbox.contains_pt` method for checking whether a point is inside a hitbox (useful in buttons and the like)
 
@@ -347,11 +359,12 @@
 -   Made `Time.now()` a function instead of a property.
 -   Refactored collision detection code to not report contact points, since we don't need them anymore.
 -   Added `hidden` attribute to all components and removed `visible` attribute from `Animation`, `Image`, and `Raster`
--   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the whole game.
+-   Moved `border_color` and `background_color` to individual `Scene` objects instead of a single attribute for the
+    whole game.
 -   Restructured the internal file heirarchy. Should not affect normal library useage at all.
 -   Default border color in draw functions from `Color.green` to `Color.clear`
--   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index.
-    (replace {thing} with the draw function of your choice)
+-   Use `Draw.{thing}` to draw immediately and `Draw.queue_{thing}` to draw with a specific z_index. (replace {thing}
+    with the draw function of your choice)
 -   Switching scenes now only takes effect on the next frame.
 -   Reordered `Draw.clear` params to be more intuitive.
 -   Renderer is automatically cleared if no scene exists.
@@ -375,7 +388,8 @@
 
 ### Breaking Changes
 
--   Removed all of the defaults dictionaries. Instead we are switching to a pythonic way of doing things. The key names, types, and defaults are still the same so its just a matter of adding \*\* to the beginning of the dictionary.
+-   Removed all of the defaults dictionaries. Instead we are switching to a pythonic way of doing things. The key names,
+    types, and defaults are still the same so its just a matter of adding \*\* to the beginning of the dictionary.
 -   `Vector.angle` now returns the angle in degrees, starting from the top and going clockwise.
 -   `Vector.from_radial` now matches the angle format described above and takes in an angle in degrees
 -   `Vector.angle_between` now returns the angle in degrees.
@@ -399,7 +413,8 @@
 -   `Math.sign()` now returns 0 for 0.
 -   `time` module renamed to `rb_time` to not conflict with the Python time module.
 -   `Draw` now has a default color of green.
--   `os.walk` Each function with os.walk has a recursive option now. To allow you to choose between recursive and shallow.
+-   `os.walk` Each function with os.walk has a recursive option now. To allow you to choose between recursive and
+    shallow.
 -   `window_pos` setting window_pos in init() now takes into account the border, so you set the topleft of the border.
 
 ### Fixed
@@ -440,7 +455,8 @@
 -   `Component` can now take in a dictionary of parameters.
 -   Moved collision test code and impulse resolution to `Engine` class.
 -   Changed default physics fps to 30.
--   `Polygon.generate_polygon()` can now takes an optional `options` parameter. When set, it returns a `Polygon` instead of a list of vertices.
+-   `Polygon.generate_polygon()` can now takes an optional `options` parameter. When set, it returns a `Polygon` instead
+    of a list of vertices.
 -   Move basic draw functions from `Display` to `Draw`.
 -   `Text.align` renamed to `Text.anchor` and is now properly documented.
 -   `input` module renamed to `rb_input` to not override the built-in function.
