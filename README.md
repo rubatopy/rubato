@@ -57,7 +57,7 @@ rb.init()
 rb.begin()
 ```
 
-[Click here](https://docs.rubato.app/latest/tutorials/platformer/) to learn more about what you can do with rubato.
+Check out our [tutorial](https://docs.rubato.app/latest/tutorials/platformer/) to learn more about what you can do with rubato.
 
 #### Changelog
 
