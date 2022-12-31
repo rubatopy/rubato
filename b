@@ -96,6 +96,10 @@ doc() {
             ./b clean -b
             ./b doc -c
             cd docs
+            if command -v http-server
+            then
+                http-server -p 8001 --cors &
+            fi
             sphinx-autobuild "$SOURCEDIR" "$BUILDDIR" -b $BUILDER $O --watch ../
             cd ..
             if [[ -d build ]]

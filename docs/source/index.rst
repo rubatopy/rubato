@@ -21,4 +21,4 @@
 
     tutorials/platformer/index
     tutorials/usage_guidelines
-    tutorials/advanced/*
+    tutorials/pyinstaller

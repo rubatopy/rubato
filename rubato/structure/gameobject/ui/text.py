@@ -139,13 +139,14 @@ class Text(Component):
             self._uptodate = True
 
     def draw(self, camera: Camera):
-        self._surf.rotation = self.true_rotation()
-        Draw.queue_surface(
-            self._surf,
-            self.true_pos() + self.anchor * self._surf.size_scaled() / 2,
-            self.true_z(),
-            camera,
-        )
+        if hasattr(self, "_surf"):
+            self._surf.rotation = self.true_rotation()
+            Draw.queue_surface(
+                self._surf,
+                self.true_pos() + self.anchor * self._surf.size_scaled() / 2,
+                self.true_z(),
+                camera,
+            )
 
     def clone(self) -> Text:
         """Clones the text component."""
