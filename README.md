@@ -14,11 +14,19 @@
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/2048px-LinkedIn_icon_circle.svg.png" alt="Linkedin Page" width="25"/>](https://www.linkedin.com/company/rubatopy/)
 &nbsp;
 
-## Get started [here](https://rubato.app/).
+<!-- If you update this README again update the GitHub profile of rubatopy README -->
 
-### rubato is a modern 2D engine for game developement in python built in Cython using SDL2. With hardware acceleration, rigidbody support, easy tile map and animations and more, rubato finally gives you the fast development and performance you needed of your python games and prototypes. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
+### Get started [here](https://rubato.app/).
 
+### About rubato
+
+rubato is a modern 2D engine for game developement in python built in Cython using SDL2. With hardware acceleration, rigidbody support, easy tile map and animations and more, rubato finally gives you the fast development and performance you needed of your python games and prototypes. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
+
+_Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
 <br>
+
+## Help
+
 Check out how easy it is to start a project in rubato with 3 simple lines of code:
 
 ```python
@@ -31,15 +39,25 @@ rb.init()
 rb.begin()
 ```
 
-Check out the rubato website for [Installation instructions](https://docs.rubato.app/latest/intro/) and a [Basic tutorial](https://docs.rubato.app/latest/tutorials/platformer/) to get you started.
+Check out the rubato website for [Installation instructions](https://docs.rubato.app/latest/intro/) and a [Basic tutorial](https://docs.rubato.app/latest/tutorials/platformer/) to get you going.
+
+### backend
 
 As of release 1.0.0, we have a final ordering and functionality of all our main functions. We no longer rely on sdlgfx using our own optimized rendering. Rubato also fully supports Tiled map files that can be directly placed into your game. Also check out the new Particles system for special effects.
 
 If you really want to use the underlying parts of the rubato project read more about PySDL2 [here](https://pysdl2.readthedocs.io/en/latest/), or the C++ SDL library it is wrapping [here](https://wiki.libsdl.org).
 
-_Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
-
 A big thank you to all of our [contributors](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTORS.md) who help make this project possible.
+
+### Dependencies
+
+rubato is build on SDL2 and python as well as some other simpler things, here is a comprehensive list:
+
+-   CPython >= 3.10
+-   PySDL2 == 0.9.\*
+-   Cython == 3.0.0a11
+-   pysdl2-dll == 2.24.\*
+-   pytiled-parser == 2.2.\*
 
 #### Changelog
 
