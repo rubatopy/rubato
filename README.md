@@ -16,9 +16,27 @@
 
 ### Get started [here](https://rubato.app/).
 
-rubato is a modern 2D engine for game developement in python. Dynamic physics simulations, robust scene management, event listener system and more all come prepackaged. Built in Cython using SDL2, rubato offers great performance without compromising on the intuitive nature of python code. It is currently in the final stages of beta, and a first stable release is planned for December 31st, 2022.
+rubato is a modern 2D engine for game developement in python. Dynamic physics simulations, robust scene management, event listener system and more all come prepackaged. Built in Cython using SDL2, rubato offers great performance without compromising on the intuitive nature of python code. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
 
-As of release 0.3.0, the transition to SDL2 and Cython was completed. DLLs and wheels for the household-name platforms come prebundled, making rubato plug-and-play on most machines. This transition has enabled more complex functionality such as antialiasing and hardware acceleration, as well as a backend of C classes to reduce overhead. Older versions of rubato, such as PyGame-based 0.1.2, are now completely deprecated and it is highly recommended for users of those versions to upgrade. If you would like to read more about PySDL2 or need to utilize its underlying functionality in your project, you can read the python wrapper documentation [here](https://pysdl2.readthedocs.io/en/latest/) and the base C++ SDL wiki [here](https://wiki.libsdl.org).
+As of release 1.0.0, we have a final ordering and functionality of all our main functoins. We no longer rely on sdlgfx using our own optimized rendering. Rubato also fully supports Tiled map files that can be directly placed into your game. Also check out the new Particles system for special effects.
+
+Check out how easy it is to start a project in rubato with 3 simple lines of code:
+
+[Installation instructions](https://docs.rubato.app/latest/intro/)
+
+```python
+import rubato as rb
+
+# initialize rubato
+rb.init()
+
+# begin
+rb.begin()
+```
+
+[Basic rutorial](https://docs.rubato.app/latest/tutorials/platformer/)
+
+If you really want to use the underlying parts of the rubato project read more about PySDL2 [here](https://pysdl2.readthedocs.io/en/latest/), or the C++ SDL library it is wrapping [here](https://wiki.libsdl.org).
 
 _Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
 
