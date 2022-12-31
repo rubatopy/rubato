@@ -16,20 +16,36 @@
 
 <!-- If you update this README update the GitHub profile of rubatopy README -->
 
-rubato is a modern 2D engine for game developement in python built in Cython using SDL2. With hardware acceleration, rigidbody support, easy tile map and animations and more, rubato finally gives you the fast development and performance you needed of your python games and prototypes. Moving past 1.0, we plan to maintain complete backwards compatibility with other post-1.0 versions.
+rubato is a modern 2D engine for game developement in python built in Cython using SDL2. It is aimed to aid in rapid prototyping and educational development of games as a stepping stone towards AAA tools such as Unity. rubato is more robust than its competitors, with a more intuitive syntax, high customizability, and zippy performance.
+
+Here are some features we're especially proud of:
+
+-   Customizable Rigidbody Physics
+-   Event Subscription/Listener System
+-   Spritesheets and Animations
+-   Particle Systems
+-   Tiled / Tilemap Support
+-   Multichannel Sound System
+-   Antialiasing + Anisotropic Filtering
+-   Collision Optimization with Quadtrees
+-   Texture-based Hardware Acceleration
+-   User Interface Elements
+-   And more!
+
+1.0 the latest API-stable release as of Dec. 31 2022, and we plan to maintain backwards compatibility in future releases. Please note that the alpha versions (0.x.x) are now deprecated and it is strongly recommended to update in order to get the latest features and optimizations.
 
 _Wondering about the name? rubato is a music term that indicates a phrase that should be performed expressively and freely. We aim to harness that same freedom, bringing a fresh, modern take on game developement in python to a variety of users regardless of their coding background._
 <br>
 
 ## Getting Started
 
-Using rubato is super easy. First, install rubato through pip:
+Using rubato is super easy. Just install rubato through pip in a terminal:
 
 ```bash
 pip install rubato
 ```
 
-After that, getting a screen up only takes 3 lines of code!
+After that, getting a window up takes only 3 lines of code!
 
 ```python
 import rubato as rb
@@ -41,13 +57,13 @@ rb.init()
 rb.begin()
 ```
 
-Next up, check out the rubato website for a [basic tutorial](https://docs.rubato.app/latest/tutorials/platformer/) to get you going.
+[Click here](https://docs.rubato.app/latest/tutorials/platformer/) to learn more about what you can do with rubato.
 
 #### Changelog
 
 See [CHANGELOG.md](https://github.com/rubatopy/rubato/blob/main/CHANGELOG.md)
 
-#### Looking to contribute to Rubato?
+#### Looking to contribute to rubato?
 
 See [CONTRIBUTING.md](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTING.md). And join our [discord](https://discord.gg/rdce5GXRrC)!
 
