@@ -34,4 +34,4 @@ See [CONTRIBUTING.md](https://github.com/rubatopy/rubato/blob/main/CONTRIBUTING.
 
 #### Code of Conduct
 
-See [CODE_OF_CONDUCT.md](https://github.com/rubatopy/rubato/blob/main/CODE_OF_CONDUCT.md).
+See [CODE_OF_CONDUCT.md](https://github.com/rubatopy/.github/blob/main/CODE_OF_CONDUCT.md).
