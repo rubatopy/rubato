@@ -59,7 +59,8 @@ def init(
         physics_fps: The physics simulation's frames per second. Defaults to 50.
         hidden: Whether the window should be hidden. Defaults to False.
     """
-    sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING)
+    if sdl2.SDL_Init(sdl2.SDL_INIT_EVERYTHING) != 0:
+        raise (Exception("SDL2 failed in initialization: " + sdl2.error.SDL_GetError().decode("ascii")))
 
     Game._initialized = True
 
